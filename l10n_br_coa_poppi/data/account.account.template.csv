@@ -1,0 +1,409 @@
+id,code,name,note,account_type,reconcile,chart_template_id:id
+account_template_poppi_111_01_01,111.01.01,CAIXA - MATRIZ,,asset_cash,1,l10n_br_coa_poppi_chart_template
+account_template_poppi_111_02_01,111.02.01,BCO 01,,asset_cash,1,l10n_br_coa_poppi_chart_template
+account_template_poppi_111_03_01,111.03.01,APLICACOES FINANCEIRAS,,asset_cash,1,l10n_br_coa_poppi_chart_template
+account_template_poppi_111_04_01,111.04.01,TRANSFERENCIA DE LIQUIDEZ,,asset_cash,1,l10n_br_coa_poppi_chart_template
+account_template_poppi_112_01_01,112.01.01,CLIENTES E DUPLICATAS A RECEBER,,asset_receivable,1,l10n_br_coa_poppi_chart_template
+account_template_poppi_112_02_01,112.02.01,VALORES A RECEBER - EXPORTACAO,,asset_receivable,1,l10n_br_coa_poppi_chart_template
+account_template_poppi_112_04_01,112.04.01,(-) DUPLICATAS DESCONTADAS,,asset_current,,l10n_br_coa_poppi_chart_template
+account_template_poppi_112_06_01,112.06.01,ENDOSSO DE TERCEIROS,,asset_current,,l10n_br_coa_poppi_chart_template
+account_template_poppi_112_07_01,112.07.01,ICMS A RECUPERAR,,asset_current,,l10n_br_coa_poppi_chart_template
+account_template_poppi_112_07_02,112.07.02,IPI A RECUPERAR,,asset_current,,l10n_br_coa_poppi_chart_template
+account_template_poppi_112_07_03,112.07.03,ICM - CREDITO ACUMULADO,,liability_non_current,,l10n_br_coa_poppi_chart_template
+account_template_poppi_112_07_04,112.07.04,CONTRIBUICAO SOCIAL A RECUPERAR,,liability_non_current,,l10n_br_coa_poppi_chart_template
+account_template_poppi_112_07_05,112.07.05,IMPOSTO RENDA S/LUCRO A RECUPERAR,,liability_non_current,,l10n_br_coa_poppi_chart_template
+account_template_poppi_112_07_06,112.07.06,PIS A RECUPERAR,,liability_non_current,,l10n_br_coa_poppi_chart_template
+account_template_poppi_112_07_07,112.07.07,COFINS PIS CSLL A RECUP S/M OBRA,,liability_non_current,,l10n_br_coa_poppi_chart_template
+account_template_poppi_112_07_08,112.07.08,COFINS A RECUPERAR,,liability_non_current,,l10n_br_coa_poppi_chart_template
+account_template_poppi_112_07_09,112.07.09,IPI A COMPENSAR (PER/DECOMP),,liability_non_current,,l10n_br_coa_poppi_chart_template
+account_template_poppi_112_07_10,112.07.10,IRRF A RECUPERAR - MATRIZ,,liability_non_current,,l10n_br_coa_poppi_chart_template
+account_template_poppi_112_07_11,112.07.11,IPI RESSARCIMENTO,,liability_non_current,,l10n_br_coa_poppi_chart_template
+account_template_poppi_112_07_12,112.07.12,TRIBUTOS A RECUPERAR - CREDITOS REINTEGRA,,liability_non_current,,l10n_br_coa_poppi_chart_template
+account_template_poppi_112_07_13,112.07.13,SDO NEGAT I.RENDA C.SOCIAL PERDCOMP,,liability_non_current,,l10n_br_coa_poppi_chart_template
+account_template_poppi_112_09_01,112.09.01,IR FONTE,,asset_current,,l10n_br_coa_poppi_chart_template
+account_template_poppi_112_10_01,112.10.01,IPI/ICM,,asset_current,,l10n_br_coa_poppi_chart_template
+account_template_poppi_112_12_01,112.12.01,IPI/ICM,,asset_current,,l10n_br_coa_poppi_chart_template
+account_template_poppi_112_15_01,112.15.01,ADIANTAMENTO COMISSAO,,asset_current,,l10n_br_coa_poppi_chart_template
+account_template_poppi_112_15_02,112.15.02,ADIANTAMENTO 1o PARC. 13o SAL.,,asset_prepayments,,l10n_br_coa_poppi_chart_template
+account_template_poppi_112_15_03,112.15.03,ADIANTAMENTO,,asset_prepayments,,l10n_br_coa_poppi_chart_template
+account_template_poppi_112_16_01,112.16.01,ADIANTAMENTO A IMPORTACAO,,asset_prepayments,,l10n_br_coa_poppi_chart_template
+account_template_poppi_112_17_01,112.17.01,ADIANTAMENTOS A FORNECEDORES,,asset_prepayments,,l10n_br_coa_poppi_chart_template
+account_template_poppi_112_18_01,112.18.01,ADIANTAMENTO DE VIAGEM,,asset_prepayments,,l10n_br_coa_poppi_chart_template
+account_template_poppi_113_01_01,113.01.01,MATERIA PRIMA,,asset_current,,l10n_br_coa_poppi_chart_template
+account_template_poppi_113_01_02,113.01.02,PRODUTOS EM ELABORACAO,,asset_current,,l10n_br_coa_poppi_chart_template
+account_template_poppi_113_01_03,113.01.03,PRODUTOS ACABADOS,,asset_current,,l10n_br_coa_poppi_chart_template
+account_template_poppi_113_01_04,113.01.04,MERCADORIAS,,asset_current,,l10n_br_coa_poppi_chart_template
+account_template_poppi_113_01_05,113.01.05,MAQUINAS (USADAS),,asset_current,,l10n_br_coa_poppi_chart_template
+account_template_poppi_113_01_06,113.01.06,MERCADORIAS IMPORTADAS (MAQUINAS),,asset_current,,l10n_br_coa_poppi_chart_template
+account_template_poppi_113_01_07,113.01.07,GASTOS COM DESENVOLVIMENTO DE PRODUTOS,,asset_current,,l10n_br_coa_poppi_chart_template
+account_template_poppi_114_01_01,114.01.01,DESPESAS FINANCEIRAS,,asset_current,,l10n_br_coa_poppi_chart_template
+account_template_poppi_114_01_02,114.01.02,PREMIOS DE SEGUROS A APROPRIAR,,asset_current,,l10n_br_coa_poppi_chart_template
+account_template_poppi_114_01_03,114.01.03,DESPESAS COM MANUTENCAO,,asset_current,,l10n_br_coa_poppi_chart_template
+account_template_poppi_115_01_01,115.01.01,APURACAO DA CORRECAO MONETARIA,,asset_current,,l10n_br_coa_poppi_chart_template
+account_template_poppi_115_01_02,115.01.02,PENDENTE TRANSITORIO,,asset_current,,l10n_br_coa_poppi_chart_template
+account_template_poppi_121_01_01,121.01.01,COMPULSORIO - ELETROBRAS,,asset_non_current,,l10n_br_coa_poppi_chart_template
+account_template_poppi_121_02_01,121.02.01,OUTROS CREDITOS,,asset_non_current,,l10n_br_coa_poppi_chart_template
+account_template_poppi_121_03_01,121.03.01,ANTECIPACAO P/DISTRIB. DE LUCROS,,asset_non_current,,l10n_br_coa_poppi_chart_template
+account_template_poppi_121_04_01,121.04.01,OPERACOES A PRAZO FIXO,,asset_non_current,,l10n_br_coa_poppi_chart_template
+account_template_poppi_121_05_01,121.05.01,DEPOSITO JUDICIAL,,asset_non_current,,l10n_br_coa_poppi_chart_template
+account_template_poppi_121_05_02,121.05.02,DEPOSITO JUDICIAL (DELMO POPPI),,asset_non_current,,l10n_br_coa_poppi_chart_template
+account_template_poppi_121_05_03,121.05.03,BCO BRASIL - BLOQUEIO JUDICIAL,,asset_non_current,,l10n_br_coa_poppi_chart_template
+account_template_poppi_121_05_04,121.05.04,BCO BRADESCO - BLOQUEIO JUDICIAL,,asset_non_current,,l10n_br_coa_poppi_chart_template
+account_template_poppi_121_05_05,121.05.05,BCO ITAU - BLOQUEIO JUDICIAL,,asset_non_current,,l10n_br_coa_poppi_chart_template
+account_template_poppi_121_05_06,121.05.06,BCO SANTANDER - BLOQUEIO JUDICIAL,,asset_non_current,,l10n_br_coa_poppi_chart_template
+account_template_poppi_131_01_01,131.01.01,INVESTIMENTOS INCENTIVADOS,,asset_fixed,,l10n_br_coa_poppi_chart_template
+account_template_poppi_131_02_01,131.02.01,INVESTIMENTOS INCENT. - IPC-90,,asset_fixed,,l10n_br_coa_poppi_chart_template
+account_template_poppi_131_03_01,131.03.01,PARTICIPACOES OUTRAS EMPRESAS,,asset_fixed,,l10n_br_coa_poppi_chart_template
+account_template_poppi_131_04_01,131.04.01,PARTICIP OUTRAS EMPRESAS IPC90,,asset_fixed,,l10n_br_coa_poppi_chart_template
+account_template_poppi_132_01_01,132.01.01,BIBLIOTECA,,asset_fixed,,l10n_br_coa_poppi_chart_template
+account_template_poppi_132_01_02,132.01.02,CONSTRUCAO ANDAMENTO,,asset_fixed,,l10n_br_coa_poppi_chart_template
+account_template_poppi_132_01_03,132.01.03,CONSTRUCAO ANDAMENTO BARRACAO,,asset_fixed,,l10n_br_coa_poppi_chart_template
+account_template_poppi_132_01_04,132.01.04,MATERIAIS P/SEGURANCA,,asset_fixed,,l10n_br_coa_poppi_chart_template
+account_template_poppi_132_01_05,132.01.05,CONSTRUCAO ANDAMENTO VESTIARIO,,asset_fixed,,l10n_br_coa_poppi_chart_template
+account_template_poppi_132_01_06,132.01.06,MOVEIS E UTENSILIOS,,asset_fixed,,l10n_br_coa_poppi_chart_template
+account_template_poppi_132_01_07,132.01.07,FERRAMENTAS,,asset_fixed,,l10n_br_coa_poppi_chart_template
+account_template_poppi_132_01_08,132.01.08,IMOVEIS,,asset_fixed,,l10n_br_coa_poppi_chart_template
+account_template_poppi_132_01_09,132.01.09,VEICULOS,,asset_fixed,,l10n_br_coa_poppi_chart_template
+account_template_poppi_132_01_10,132.01.10,INSTALACOES,,asset_fixed,,l10n_br_coa_poppi_chart_template
+account_template_poppi_132_01_11,132.01.11,MAQUINAS E MOTORES,,asset_fixed,,l10n_br_coa_poppi_chart_template
+account_template_poppi_132_01_12,132.01.12,MODELOS,,asset_fixed,,l10n_br_coa_poppi_chart_template
+account_template_poppi_132_01_13,132.01.13,MODELOS IMPORTADOS,,asset_fixed,,l10n_br_coa_poppi_chart_template
+account_template_poppi_132_01_14,132.01.14,COTAS CONSORCIO DE VEICULOS,,asset_fixed,,l10n_br_coa_poppi_chart_template
+account_template_poppi_132_01_15,132.01.15,TERRENOS,,asset_fixed,,l10n_br_coa_poppi_chart_template
+account_template_poppi_132_01_16,132.01.16,COMPUTADORES E PERIFERICOS,,asset_fixed,,l10n_br_coa_poppi_chart_template
+account_template_poppi_132_02_01,132.02.01,DEPRECIACOES COMPUTADORES E PERIFERICOS,,asset_fixed,,l10n_br_coa_poppi_chart_template
+account_template_poppi_132_02_02,132.02.02,DEPRECIACOES FERRAMENTAS,,asset_fixed,,l10n_br_coa_poppi_chart_template
+account_template_poppi_132_02_03,132.02.03,DEPRECIACOES INSTALACOES,,asset_fixed,,l10n_br_coa_poppi_chart_template
+account_template_poppi_132_02_04,132.02.04,DEPRECIACOES MODELOS,,asset_fixed,,l10n_br_coa_poppi_chart_template
+account_template_poppi_132_02_05,132.02.05,DEPRECIACOES MOVEIS UTENSILIOS,,asset_fixed,,l10n_br_coa_poppi_chart_template
+account_template_poppi_132_02_06,132.02.06,DEPRECIACOES VEICULOS,,asset_fixed,,l10n_br_coa_poppi_chart_template
+account_template_poppi_132_02_07,132.02.07,DEPRECIACOES BIBLIOTECA,,asset_fixed,,l10n_br_coa_poppi_chart_template
+account_template_poppi_132_02_08,132.02.08,DEPRECIACOES MAQS E MOTORES,,asset_fixed,,l10n_br_coa_poppi_chart_template
+account_template_poppi_132_02_09,132.02.09,DEPRECIACOES MODELOS IMPORT.,,asset_fixed,,l10n_br_coa_poppi_chart_template
+account_template_poppi_132_02_10,132.02.10,DEPRECIACOES IMOVEIS,,asset_fixed,,l10n_br_coa_poppi_chart_template
+account_template_poppi_132_03_01,132.03.01,BIBLIOTECA,,asset_fixed,,l10n_br_coa_poppi_chart_template
+account_template_poppi_132_03_02,132.03.02,CONSTRUCAO ANDAMENTO,,asset_fixed,,l10n_br_coa_poppi_chart_template
+account_template_poppi_132_03_03,132.03.03,CONSTRUCAO ANDAMENTO BARRACAO,,asset_fixed,,l10n_br_coa_poppi_chart_template
+account_template_poppi_132_03_04,132.03.04,CONSTRUCAO ANDAMENTO GALPAO,,asset_fixed,,l10n_br_coa_poppi_chart_template
+account_template_poppi_132_03_05,132.03.05,CONSTRUCAO ANDAMENTO VESTIARIO,,asset_fixed,,l10n_br_coa_poppi_chart_template
+account_template_poppi_132_03_06,132.03.06,MOVEIS E UTENSILIOS,,asset_fixed,,l10n_br_coa_poppi_chart_template
+account_template_poppi_132_03_07,132.03.07,FERRAMENTAS,,asset_fixed,,l10n_br_coa_poppi_chart_template
+account_template_poppi_132_03_08,132.03.08,IMOVEIS,,asset_fixed,,l10n_br_coa_poppi_chart_template
+account_template_poppi_132_03_09,132.03.09,VEICULOS,,asset_fixed,,l10n_br_coa_poppi_chart_template
+account_template_poppi_132_03_10,132.03.10,INSTALACOES,,asset_fixed,,l10n_br_coa_poppi_chart_template
+account_template_poppi_132_03_11,132.03.11,MAQUINAS E MOTORES,,asset_fixed,,l10n_br_coa_poppi_chart_template
+account_template_poppi_132_03_12,132.03.12,MODELOS,,asset_fixed,,l10n_br_coa_poppi_chart_template
+account_template_poppi_132_03_13,132.03.13,MODELOS IMPORTADOS,,asset_fixed,,l10n_br_coa_poppi_chart_template
+account_template_poppi_132_03_14,132.03.14,COTAS CONSORCIO DE VEICULOS,,asset_fixed,,l10n_br_coa_poppi_chart_template
+account_template_poppi_132_03_15,132.03.15,TERRENOS,,asset_fixed,,l10n_br_coa_poppi_chart_template
+account_template_poppi_132_04_01,132.04.01,DEPRECIACOES FERRAMENTAS,,asset_fixed,,l10n_br_coa_poppi_chart_template
+account_template_poppi_132_04_02,132.04.02,DEPRECIACOES INSTALACOES,,asset_fixed,,l10n_br_coa_poppi_chart_template
+account_template_poppi_132_04_03,132.04.03,DEPRECIACOES MODELOS,,asset_fixed,,l10n_br_coa_poppi_chart_template
+account_template_poppi_132_04_04,132.04.04,DEPRECIACOES MOVEIS UTENSILIOS,,asset_fixed,,l10n_br_coa_poppi_chart_template
+account_template_poppi_132_04_05,132.04.05,DEPRECIACOES VEICULOS,,asset_fixed,,l10n_br_coa_poppi_chart_template
+account_template_poppi_132_04_06,132.04.06,DEPRECIACOES BIBLIOTECA,,asset_fixed,,l10n_br_coa_poppi_chart_template
+account_template_poppi_132_04_07,132.04.07,DEPRECIACOES MAQS E MOTORES,,asset_fixed,,l10n_br_coa_poppi_chart_template
+account_template_poppi_132_04_08,132.04.08,DEPRECIACOES MODELOS IMPORT.,,asset_fixed,,l10n_br_coa_poppi_chart_template
+account_template_poppi_132_04_09,132.04.09,DEPRECIACOES IMOVEIS,,asset_fixed,,l10n_br_coa_poppi_chart_template
+account_template_poppi_133_01_01,133.01.01,INSTALACOES,,asset_fixed,,l10n_br_coa_poppi_chart_template
+account_template_poppi_133_01_02,133.01.02,FERRAMENTAS,,asset_fixed,,l10n_br_coa_poppi_chart_template
+account_template_poppi_133_01_03,133.01.03,MOVEIS E UTENSILIOS,,asset_fixed,,l10n_br_coa_poppi_chart_template
+account_template_poppi_133_01_04,133.01.04,MAQUINAS E MOTORES,,asset_fixed,,l10n_br_coa_poppi_chart_template
+account_template_poppi_133_01_05,133.01.05,VEICULOS,,asset_fixed,,l10n_br_coa_poppi_chart_template
+account_template_poppi_133_02_01,133.02.01,DEPRECIACOES FERRAMENTAS,,asset_fixed,,l10n_br_coa_poppi_chart_template
+account_template_poppi_133_02_02,133.02.02,DEPRECIACOES INSTALACOES,,asset_fixed,,l10n_br_coa_poppi_chart_template
+account_template_poppi_133_02_03,133.02.03,DEPRECIACOES MOVEIS E UTENS,,asset_fixed,,l10n_br_coa_poppi_chart_template
+account_template_poppi_133_03_01,133.03.01,INSTALACOES,,asset_fixed,,l10n_br_coa_poppi_chart_template
+account_template_poppi_133_03_02,133.03.02,FERRAMENTAS,,asset_fixed,,l10n_br_coa_poppi_chart_template
+account_template_poppi_133_03_03,133.03.03,MOVEIS E UTENSILIOS,,asset_fixed,,l10n_br_coa_poppi_chart_template
+account_template_poppi_133_03_04,133.03.04,MAQUINAS E MOTORES,,asset_fixed,,l10n_br_coa_poppi_chart_template
+account_template_poppi_133_04_01,133.04.01,DEPRECIACOES FERRAMENTAS,,asset_fixed,,l10n_br_coa_poppi_chart_template
+account_template_poppi_133_04_02,133.04.02,DEPRECIACOES INSTALACOES,,asset_fixed,,l10n_br_coa_poppi_chart_template
+account_template_poppi_133_04_03,133.04.03,DEPRECIACOES MOVEIS E UTENS.,,asset_fixed,,l10n_br_coa_poppi_chart_template
+account_template_poppi_134_01_01,134.01.01,GASTO COM DESENVOLVIMENTO DE PRODUTOS,,asset_fixed,,l10n_br_coa_poppi_chart_template
+account_template_poppi_141_01_01,141.01.01,IMOBILIZADO EM ANDAMENTO (RESIDUAL),,off_balance,,l10n_br_coa_poppi_chart_template
+account_template_poppi_141_07_01,141.07.01,SIMPLES REMESSA P/INDUSTRIALIZACAO,,off_balance,,l10n_br_coa_poppi_chart_template
+account_template_poppi_141_07_02,141.07.02,SIMPLES REMESSA REP GARANTIA E TESTE,,off_balance,,l10n_br_coa_poppi_chart_template
+account_template_poppi_141_07_03,141.07.03,SIMPLES REMESSA EXPOSICAO FEIRAS,,off_balance,,l10n_br_coa_poppi_chart_template
+account_template_poppi_141_07_04,141.07.04,DEMONSTRACAO,,off_balance,,l10n_br_coa_poppi_chart_template
+account_template_poppi_141_07_05,141.07.05,SIMPLES REMESSA P/CONSERTO,,off_balance,,l10n_br_coa_poppi_chart_template
+account_template_poppi_141_07_06,141.07.06,DEM SINDICATO INTERMUNICIPAL I CALC N SERRANA,,off_balance,,l10n_br_coa_poppi_chart_template
+account_template_poppi_211_01_01,211.01.01,FORNECEDORES,,liability_payable,1,l10n_br_coa_poppi_chart_template
+account_template_poppi_211_05_01,211.05.01,INSS - RECEITA BRUTA,,liability_current,,l10n_br_coa_poppi_chart_template
+account_template_poppi_211_05_02,211.05.02,IMPOSTOS S/ IMPORTACAO A RECOLHER,,liability_current,,l10n_br_coa_poppi_chart_template
+account_template_poppi_211_05_03,211.05.03,IRRF,,liability_current,,l10n_br_coa_poppi_chart_template
+account_template_poppi_211_05_04,211.05.04,PROV PIS/COFINS/C.SOCIAL LEI 10833,,liability_current,,l10n_br_coa_poppi_chart_template
+account_template_poppi_211_05_05,211.05.05,IRRF S/SALARIOS E ORDENADOS,,liability_current,,l10n_br_coa_poppi_chart_template
+account_template_poppi_211_05_06,211.05.06,ISSQN S/SERVICOS TOMADOS,,liability_current,,l10n_br_coa_poppi_chart_template
+account_template_poppi_211_05_07,211.05.07,IPI A RECOLHER,,liability_current,,l10n_br_coa_poppi_chart_template
+account_template_poppi_211_05_08,211.05.08,ORDENADOS A PAGAR,,liability_current,,l10n_br_coa_poppi_chart_template
+account_template_poppi_211_05_09,211.05.09,ICMS A RECOLHER,,liability_current,,l10n_br_coa_poppi_chart_template
+account_template_poppi_211_05_10,211.05.10,PROVISAO P/ FERIAS,,liability_current,,l10n_br_coa_poppi_chart_template
+account_template_poppi_211_05_11,211.05.11,FGTS A RECOLHER,,liability_current,,l10n_br_coa_poppi_chart_template
+account_template_poppi_211_05_12,211.05.12,INSS A RECOLHER,,liability_current,,l10n_br_coa_poppi_chart_template
+account_template_poppi_211_05_13,211.05.13,PROVISAO P/ 13 SALARIO,,liability_current,,l10n_br_coa_poppi_chart_template
+account_template_poppi_211_05_14,211.05.14,ISSQN S/SERVICOS PRESTADOS,,liability_current,,l10n_br_coa_poppi_chart_template
+account_template_poppi_211_05_15,211.05.15,PROVISAO P/CONTR SOCIAL,,liability_current,,l10n_br_coa_poppi_chart_template
+account_template_poppi_211_05_16,211.05.16,GRRF A RECOLHER,,liability_current,,l10n_br_coa_poppi_chart_template
+account_template_poppi_211_05_17,211.05.17,ICMS - PARCELAMENTO,,liability_current,,l10n_br_coa_poppi_chart_template
+account_template_poppi_211_05_18,211.05.18,INSS - RETIDO S/ PREST SERVICO TRIB P/ ISSQN,,liability_current,,l10n_br_coa_poppi_chart_template
+account_template_poppi_211_05_19,211.05.19,CONTRIBUICAO SIND. A RECOLHER,,liability_current,,l10n_br_coa_poppi_chart_template
+account_template_poppi_211_05_20,211.05.20,PENSAO ALIMENTICIA A PAGAR,,liability_current,,l10n_br_coa_poppi_chart_template
+account_template_poppi_211_05_21,211.05.21,CONTRIBUICAO CONFEDERATIVA,,liability_current,,l10n_br_coa_poppi_chart_template
+account_template_poppi_211_05_22,211.05.22,PGTO PIS FUNCIONARIOS,,liability_current,,l10n_br_coa_poppi_chart_template
+account_template_poppi_211_05_23,211.05.23,PIS - FATURAMENTO,,liability_current,,l10n_br_coa_poppi_chart_template
+account_template_poppi_211_05_24,211.05.24,COFINS,,liability_current,,l10n_br_coa_poppi_chart_template
+account_template_poppi_211_05_25,211.05.25,PROVISAO IMPOSTO RENDA S/LUCRO,,liability_current,,l10n_br_coa_poppi_chart_template
+account_template_poppi_211_05_26,211.05.26,IBAMA A RECOLHER,,liability_current,,l10n_br_coa_poppi_chart_template
+account_template_poppi_211_05_27,211.05.27,IPTU IMPOSTO PREDIAL TERRIT URBANO,,liability_current,,l10n_br_coa_poppi_chart_template
+account_template_poppi_211_08_01,211.08.01,IPI/ICMS,,liability_current,,l10n_br_coa_poppi_chart_template
+account_template_poppi_211_09_01,211.09.01,ADIANTAMENTO DE CAMBIO,,liability_current,,l10n_br_coa_poppi_chart_template
+account_template_poppi_211_10_01,211.10.01,IPI/ICMS,,liability_current,,l10n_br_coa_poppi_chart_template
+account_template_poppi_211_11_01,211.11.01,EMPRESTIMOS CONTRAIDOS NO PAIS,,liability_current,,l10n_br_coa_poppi_chart_template
+account_template_poppi_211_12_01,211.12.01,ADIANT DE CLIENTES(M.INTERNO),,liability_current,,l10n_br_coa_poppi_chart_template
+account_template_poppi_211_13_01,211.13.01,ADIANT DE CLIENTES(M.EXTERNO),,liability_current,,l10n_br_coa_poppi_chart_template
+account_template_poppi_211_14_01,211.14.01,PREMIO DE SEGURO,,liability_current,,l10n_br_coa_poppi_chart_template
+account_template_poppi_211_15_01,211.15.01,BANCOS (CHEQUES NAO COMPENSADOS),,liability_current,,l10n_br_coa_poppi_chart_template
+account_template_poppi_221_01_01,221.01.01,PARC - INSS - GPS,,liability_non_current,,l10n_br_coa_poppi_chart_template
+account_template_poppi_221_01_02,221.01.02,PARC - PGE - ICMS,,liability_non_current,,l10n_br_coa_poppi_chart_template
+account_template_poppi_221_01_03,221.01.03,PARC - PGRF - INSS S/ FATURAMENTO,,liability_non_current,,l10n_br_coa_poppi_chart_template
+account_template_poppi_221_01_04,221.01.04,PARC - FGTS,,liability_non_current,,l10n_br_coa_poppi_chart_template
+account_template_poppi_221_01_05,221.01.05,PARC - IBAMA,,liability_non_current,,l10n_br_coa_poppi_chart_template
+account_template_poppi_221_01_06,221.01.06,PARC - PGRF - GERAL,,liability_non_current,,l10n_br_coa_poppi_chart_template
+account_template_poppi_221_02_01,221.02.01,MECSUL MAQUINAS EQUIPTOS LTDA,,liability_non_current,,l10n_br_coa_poppi_chart_template
+account_template_poppi_221_02_02,221.02.02,APOL COM TEC PART ADMINIST LDA,,liability_non_current,,l10n_br_coa_poppi_chart_template
+account_template_poppi_221_02_03,221.02.03,NOTEX COM E REPRES LTDA,,liability_non_current,,l10n_br_coa_poppi_chart_template
+account_template_poppi_221_02_04,221.02.04,MODERNU'S CALC IND COM EXP LTA,,liability_non_current,,l10n_br_coa_poppi_chart_template
+account_template_poppi_231_01_01,231.01.01,CAPITAL,,equity,,l10n_br_coa_poppi_chart_template
+account_template_poppi_231_02_01,231.02.01,RESERVAS DE CAPITAL - IPC-90,,equity,,l10n_br_coa_poppi_chart_template
+account_template_poppi_231_02_02,231.02.02,RESERVAS DE CAPITAL,,equity,,l10n_br_coa_poppi_chart_template
+account_template_poppi_231_02_03,231.02.03,RESERVA ESPECIAL DE CAPITAL,,equity,,l10n_br_coa_poppi_chart_template
+account_template_poppi_231_03_01,231.03.01,LUCROS ACUMULADOS,,equity,,l10n_br_coa_poppi_chart_template
+account_template_poppi_231_03_02,231.03.02,RESERVAS DE LUCROS,,equity,,l10n_br_coa_poppi_chart_template
+account_template_poppi_231_03_03,231.03.03,LUCROS SUSPENSOS - IPC-90,,equity,,l10n_br_coa_poppi_chart_template
+account_template_poppi_231_04_01,231.04.01,SALDO CORRECAO MONET. - IPC-90,,equity,,l10n_br_coa_poppi_chart_template
+account_template_poppi_241_01_01,241.01.01,TITULOS EM COBRANCA,,off_balance,,l10n_br_coa_poppi_chart_template
+account_template_poppi_241_02_01,241.02.01,PRODUTOS EM DEMONSTRACAO EXTERIOR,,off_balance,,l10n_br_coa_poppi_chart_template
+account_template_poppi_241_03_01,241.03.01,MERCADORIAS EM DEMONSTRACAO,,off_balance,,l10n_br_coa_poppi_chart_template
+account_template_poppi_241_06_01,241.06.01,MERC IMP TEMPORARIAMENTE,,off_balance,,l10n_br_coa_poppi_chart_template
+account_template_poppi_241_07_01,241.07.01,POPPI MAQS,,off_balance,,l10n_br_coa_poppi_chart_template
+account_template_poppi_241_08_01,241.08.01,MAQUINAS EM DEMONSTRACAO,,off_balance,,l10n_br_coa_poppi_chart_template
+account_template_poppi_241_10_01,241.10.01,MAT. PRIMA REMETIDA P/INDUSTRIALIZACAO,,off_balance,,l10n_br_coa_poppi_chart_template
+account_template_poppi_241_10_02,241.10.02,SIMPLES REMESSA REP. GARANTIA / TESTE,,off_balance,,l10n_br_coa_poppi_chart_template
+account_template_poppi_241_10_03,241.10.03,SIMPLES REMESSA P/EXPOSICAO FEIRAS,,off_balance,,l10n_br_coa_poppi_chart_template
+account_template_poppi_241_10_04,241.10.04,DEMONSTRACAO,,off_balance,,l10n_br_coa_poppi_chart_template
+account_template_poppi_241_10_05,241.10.05,SIMPLES REMESSA P/CONSERTO,,off_balance,,l10n_br_coa_poppi_chart_template
+account_template_poppi_311_01_01,311.01.01,ABONO DISSIDIO COLETIVO,,expense_direct_cost,,l10n_br_coa_poppi_chart_template
+account_template_poppi_311_01_02,311.01.02,ORDENADOS,,expense_direct_cost,,l10n_br_coa_poppi_chart_template
+account_template_poppi_311_01_03,311.01.03,FERIAS,,expense_direct_cost,,l10n_br_coa_poppi_chart_template
+account_template_poppi_311_01_04,311.01.04,13o SALARIO,,expense_direct_cost,,l10n_br_coa_poppi_chart_template
+account_template_poppi_311_01_05,311.01.05,DESPESAS C/INSS,,expense_direct_cost,,l10n_br_coa_poppi_chart_template
+account_template_poppi_311_01_06,311.01.06,SALARIO FAMILIA,,expense_direct_cost,,l10n_br_coa_poppi_chart_template
+account_template_poppi_311_01_07,311.01.07,DESPESAS C/FGTS,,expense_direct_cost,,l10n_br_coa_poppi_chart_template
+account_template_poppi_311_01_08,311.01.08,DESPESAS C/FERRAMENTAS,,expense_direct_cost,,l10n_br_coa_poppi_chart_template
+account_template_poppi_311_01_09,311.01.09,INDENIZACAO,,expense_direct_cost,,l10n_br_coa_poppi_chart_template
+account_template_poppi_311_01_10,311.01.10,AGUA E ESGOTO,,expense_direct_cost,,l10n_br_coa_poppi_chart_template
+account_template_poppi_311_01_11,311.01.11,ALUGUEL (PESSOA JURIDICA),,expense_direct_cost,,l10n_br_coa_poppi_chart_template
+account_template_poppi_311_01_12,311.01.12,ASSISTENCIA MEDICA,,expense_direct_cost,,l10n_br_coa_poppi_chart_template
+account_template_poppi_311_01_13,311.01.13,CONTRIBUICAO SINDICAL,,expense_direct_cost,,l10n_br_coa_poppi_chart_template
+account_template_poppi_311_01_14,311.01.14,DESPESAS DE CONSERVACAO,,expense_direct_cost,,l10n_br_coa_poppi_chart_template
+account_template_poppi_311_01_15,311.01.15,FRETES (CLIENTES SUL),,expense_direct_cost,,l10n_br_coa_poppi_chart_template
+account_template_poppi_311_01_16,311.01.16,DESPESAS DE FABRICA,,expense_direct_cost,,l10n_br_coa_poppi_chart_template
+account_template_poppi_311_01_17,311.01.17,DESPESAS DE VEICULOS,,expense_direct_cost,,l10n_br_coa_poppi_chart_template
+account_template_poppi_311_01_18,311.01.18,DESPESAS DE VIAGEM,,expense_direct_cost,,l10n_br_coa_poppi_chart_template
+account_template_poppi_311_01_19,311.01.19,FORCA E LUZ,,expense_direct_cost,,l10n_br_coa_poppi_chart_template
+account_template_poppi_311_01_20,311.01.20,FRETES E CARRETOS,,expense_direct_cost,,l10n_br_coa_poppi_chart_template
+account_template_poppi_311_01_21,311.01.21,SERVICOS PREST P/ PESSOA JURIDICA,,expense_direct_cost,,l10n_br_coa_poppi_chart_template
+account_template_poppi_311_01_22,311.01.22,MATERIAL DE CONSUMO,,expense_direct_cost,,l10n_br_coa_poppi_chart_template
+account_template_poppi_311_01_23,311.01.23,FRETES (POPPI/SUL MAQS),,expense_direct_cost,,l10n_br_coa_poppi_chart_template
+account_template_poppi_311_01_24,311.01.24,SERVICOS PREST P/ PESSOA JURIDICA TRIB ISSQN,,expense_direct_cost,,l10n_br_coa_poppi_chart_template
+account_template_poppi_311_01_25,311.01.25,MATERIA PRIMA,,expense_direct_cost,,l10n_br_coa_poppi_chart_template
+account_template_poppi_311_01_26,311.01.26,PRODUTOS EM ELABORACAO,,expense_direct_cost,,l10n_br_coa_poppi_chart_template
+account_template_poppi_311_01_27,311.01.27,ADICIONAL INSALUBRIDADE,,expense_direct_cost,,l10n_br_coa_poppi_chart_template
+account_template_poppi_311_01_28,311.01.28,CAFE E LANCHES,,expense_direct_cost,,l10n_br_coa_poppi_chart_template
+account_template_poppi_311_01_29,311.01.29,PRO LABORE,,expense_direct_cost,,l10n_br_coa_poppi_chart_template
+account_template_poppi_311_01_30,311.01.30,DESPESAS DE DEPRECIACAO,,expense_direct_cost,,l10n_br_coa_poppi_chart_template
+account_template_poppi_311_01_31,311.01.31,ADICIONAL NOTURNO,,expense_direct_cost,,l10n_br_coa_poppi_chart_template
+account_template_poppi_311_01_32,311.01.32,TRANSFERENCIA P/ESTOQUE,,expense_direct_cost,,l10n_br_coa_poppi_chart_template
+account_template_poppi_311_01_33,311.01.33,(-) PIS/CONFINS S/ENTRADAS,,expense_direct_cost,,l10n_br_coa_poppi_chart_template
+account_template_poppi_311_01_34,311.01.34,HORAS EXTRAS,,expense_direct_cost,,l10n_br_coa_poppi_chart_template
+account_template_poppi_311_01_35,311.01.35,DESPESAS C/COMBUST.E LUBRIFIC.,,expense_direct_cost,,l10n_br_coa_poppi_chart_template
+account_template_poppi_311_01_36,311.01.36,DESPESAS C/ LEASING,,expense_direct_cost,,l10n_br_coa_poppi_chart_template
+account_template_poppi_311_01_37,311.01.37,CONTRIBUICAO CONFEDERATIVA,,expense_direct_cost,,l10n_br_coa_poppi_chart_template
+account_template_poppi_311_01_38,311.01.38,ASSISTENCIA TECNICA,,expense_direct_cost,,l10n_br_coa_poppi_chart_template
+account_template_poppi_311_01_39,311.01.39,FRETES (CLIENTES DIVS),,expense_direct_cost,,l10n_br_coa_poppi_chart_template
+account_template_poppi_311_01_40,311.01.40,FRETES (EXPORTACAO),,expense_direct_cost,,l10n_br_coa_poppi_chart_template
+account_template_poppi_311_01_41,311.01.41,FRETES (POPPI/SUL PECAS),,expense_direct_cost,,l10n_br_coa_poppi_chart_template
+account_template_poppi_311_01_42,311.01.42,DESPESAS C/MATERIAL SEGURANCA,,expense_direct_cost,,l10n_br_coa_poppi_chart_template
+account_template_poppi_311_01_43,311.01.43,DESPESAS DE EMBALAGEM,,expense_direct_cost,,l10n_br_coa_poppi_chart_template
+account_template_poppi_311_01_44,311.01.44,FRETES (FEIRAS),,expense_direct_cost,,l10n_br_coa_poppi_chart_template
+account_template_poppi_311_01_45,311.01.45,SERVICOS PRESTADOS P/PESSOA FISICA,,expense_direct_cost,,l10n_br_coa_poppi_chart_template
+account_template_poppi_311_01_46,311.01.46,ASSISTENCIA MEDICA (UNIMED),,expense_direct_cost,,l10n_br_coa_poppi_chart_template
+account_template_poppi_311_01_47,311.01.47,DESPESAS C/FGTS S/RESCISAO,,expense_direct_cost,,l10n_br_coa_poppi_chart_template
+account_template_poppi_311_01_48,311.01.48,DESPESAS C/COMB LUBRIF (MANUTENCAO),,expense_direct_cost,,l10n_br_coa_poppi_chart_template
+account_template_poppi_311_01_49,311.01.49,DESPESAS DE VEICULO (ASSIT TECNICA),,expense_direct_cost,,l10n_br_coa_poppi_chart_template
+account_template_poppi_311_01_50,311.01.50,FRETES (IMPORTACAO),,expense_direct_cost,,l10n_br_coa_poppi_chart_template
+account_template_poppi_311_01_51,311.01.51,SINDICATO METAGURGICOS(CONVENIO SANTA CASA),,expense_direct_cost,,l10n_br_coa_poppi_chart_template
+account_template_poppi_311_01_52,311.01.52,PLR - PARTICIPACAO NOS LUCROS E RESULTADOS,,expense_direct_cost,,l10n_br_coa_poppi_chart_template
+account_template_poppi_311_01_53,311.01.53,CONTRIBUICAO P/TREIN.REQUALIFIC.PROFISSIONAL,,expense_direct_cost,,l10n_br_coa_poppi_chart_template
+account_template_poppi_311_01_54,311.01.54,UNIMED MEDICINA OCUPACIONAL,,expense_direct_cost,,l10n_br_coa_poppi_chart_template
+account_template_poppi_311_01_55,311.01.55,DESPESAS DE VIAGEM C/HOTEL,,expense_direct_cost,,l10n_br_coa_poppi_chart_template
+account_template_poppi_311_01_56,311.01.56,DESPESAS DE VIAGEM C/ALIMENTACAO,,expense_direct_cost,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_01_01,312.01.01,COFINS,,expense_direct_cost,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_01_02,312.01.02,PIS - FATURAMENTO,,expense_direct_cost,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_01_03,312.01.03,I.C.M.S,,expense_direct_cost,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_01_04,312.01.04,I.P.I,,expense_direct_cost,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_01_05,312.01.05,ISSQN S/SERVICO PRESTADO,,expense_direct_cost,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_01_06,312.01.06,COFINS (OUTRAS RECEITAS),,expense_direct_cost,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_01_07,312.01.07,INSS - RECEITA BRUTA,,expense_direct_cost,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_01_08,312.01.08,ICMS SUBSTITUICAO TRIBUTARIA,,expense_direct_cost,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_04_01,312.04.01,DESPESAS C/FEIRAS,,expense_direct_cost,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_04_02,312.04.02,DESPESAS C/ IMPRESSOS,,expense_direct_cost,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_04_03,312.04.03,DESPESAS C/FGTS,,expense_direct_cost,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_04_04,312.04.04,DESPESAS DE VIAGEM C/HOTEL,,expense_direct_cost,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_04_05,312.04.05,COMISSOES S/ VENDAS,,expense_direct_cost,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_04_06,312.04.06,DESPESAS C/ACESSORIA TECNICA,,expense_direct_cost,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_04_07,312.04.07,DESPESAS CONVENCAO/TREINAMENTO,,expense_direct_cost,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_04_08,312.04.08,SERVICOS PREST POR PESSOA JURIDICA,,expense_direct_cost,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_04_09,312.04.09,DESPESAS DE VEICULOS,,expense_direct_cost,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_04_10,312.04.10,DESPESAS DE VIAGEM,,expense_direct_cost,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_04_11,312.04.11,PROPAGANDA,,expense_direct_cost,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_04_12,312.04.12,DESPESAS C/ COMBUST E LUBRIFICANTES,,expense_direct_cost,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_04_13,312.04.13,DESPESAS C/FRETES,,expense_direct_cost,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_04_14,312.04.14,PERDAS COM RECEBIMENTO DE CLIENTES,,expense_direct_cost,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_04_15,312.04.15,INDENIZACAO,,expense_direct_cost,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_04_16,312.04.16,TREINAMENTO CLIENTES/MECANICOS,,expense_direct_cost,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_04_17,312.04.17,CONFRATERNIZACAO,,expense_direct_cost,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_04_18,312.04.18,DESPESAS PROJETO,,expense_direct_cost,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_04_19,312.04.19,DESPESAS DE VIAGEM C/ALIMENTACAO,,expense_direct_cost,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_04_20,312.04.20,REFEICOES E LANCHES (RESTAURANTE),,expense_direct_cost,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_04_21,312.04.21,SERVICOS PREST P/PESSOA JURIDICA (DIVERSOS),,expense_direct_cost,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_04_22,312.04.22,DESPESAS C/ FENAC,,expense_direct_cost,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_06_01,312.06.01,PLR - PARTICIPACAO NOS LUCROS E RESULTADOS,,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_06_02,312.06.02,ABONO DISSIDIO COLETIVO,,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_06_03,312.06.03,DESPESAS C/ MARCAS E PATENTES,,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_06_04,312.06.04,MATERIAL DE CONSUMO,,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_06_05,312.06.05,ORDENADOS,,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_06_06,312.06.06,FERIAS,,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_06_07,312.06.07,13o SALARIO,,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_06_08,312.06.08,DESPESAS C/ INSS,,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_06_09,312.06.09,LEASING,,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_06_10,312.06.10,SALARIO FAMILIA,,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_06_11,312.06.11,CUSTOS ADVOCATICIOS,,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_06_12,312.06.12,AVISO PREVIO,,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_06_13,312.06.13,ASSOCIACAO DE CLASSE,,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_06_14,312.06.14,DESPESAS C/ COMBUSTIVEIS,,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_06_15,312.06.15,CONTRIBUICAO ASSISTENCIAL,,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_06_16,312.06.16,DESPESAS DE CARTORIO,,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_06_17,312.06.17,TELEFONE (ALUGUEL/MANUTENCAO),,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_06_18,312.06.18,BRINDES,,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_06_19,312.06.19,ASSISTENCIA TECNICA,,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_06_20,312.06.20,DESPESAS DE ESCRITORIO,,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_06_21,312.06.21,DESPESAS POSTAIS,,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_06_22,312.06.22,DESPESAS PROCESSAMENTO DADOS,,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_06_23,312.06.23,DESPESAS CURSOS/TREINAMENTOS,,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_06_24,312.06.24,DESPESAS DE VIAGENS,,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_06_25,312.06.25,CONFRATERNIZACAO,,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_06_26,312.06.26,DESPESAS C/ INTERNET,,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_06_27,312.06.27,DESPESAS C/ LIMPEZA,,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_06_28,312.06.28,SEGURO PLANO SAUDE,,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_06_29,312.06.29,DESPESAS C/ ALIMENTACAO (RESTAURANTE),,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_06_30,312.06.30,ASSISTENCIA MEDICA,,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_06_31,312.06.31,SEGURO PLANO FUNCIONARIOS,,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_06_32,312.06.32,DESPESAS C/ FGTS S/RESCISAO,,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_06_33,312.06.33,PRO-LABORE,,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_06_34,312.06.34,SERVICOS PREST P/ PESSOA JURIDICA,,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_06_35,312.06.35,SEGUROS,,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_06_36,312.06.36,PRESTACAO SERVICOS P/PESSOA FISICA,,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_06_37,312.06.37,DESPESAS AUDITORIA/CONSULTORIA,,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_06_38,312.06.38,TELEFONES,,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_06_39,312.06.39,DESPESAS C/ IMPRESSOS,,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_06_40,312.06.40,DESPESAS DE EXPORTACAO,,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_06_41,312.06.41,DESPESAS C/ FGTS,,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_06_42,312.06.42,DESPESAS C/ DESENHO,,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_06_43,312.06.43,DESPESAS DE DEPRECIACAO,,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_06_44,312.06.44,SERVICOS CONTABEIS,,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_06_45,312.06.45,DESPESAS C/ SEGURANCA (MANUT/ALUGUEL),,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_06_46,312.06.46,DESPESAS DE VEICULOS,,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_06_47,312.06.47,HORAS EXTRAS,,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_06_48,312.06.48,CONTRIBUICOES E DOACOES,,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_06_49,312.06.49,DESPESAS DE IMPORTACAO,,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_06_50,312.06.50,ENERGIA DE ESCRITORIO,,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_06_51,312.06.51,SERVICOS PREST P/ PJ (APOL),,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_06_52,312.06.52,REVISTAS E JORNAIS,,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_06_53,312.06.53,ADICIONAL NOTURNO,,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_06_54,312.06.54,REFEICOES E LANCHES,,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_06_55,312.06.55,DESPESAS DE CONSERVACAO,,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_06_56,312.06.56,INDENIZACOES,,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_06_57,312.06.57,IPVA,,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_06_58,312.06.58,DESPESAS C/ EQUIPS P/INFORMATICA,,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_06_59,312.06.59,SERVICOS PREST P/PESSOA JURIDICA (VEICULOS),,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_08_01,312.08.01,JUROS/COMISSOES E DESP BANCARIAS,,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_08_02,312.08.02,DESCONTO CONCEDIDO,,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_08_03,312.08.03,JUROS PAGOS,,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_08_04,312.08.04,DESPESAS E JUROS DE OPERACOES BANCARIAS,,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_08_05,312.08.05,MULTAS,,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_08_06,312.08.06,DESPESAS DE CARTORIO,,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_08_07,312.08.07,DESPESAS DE IMPORTACAO,,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_08_08,312.08.08,VARIACAO CAMBIAL PASSIVA,,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_08_09,312.08.09,VARIACAO MONETARIA PASSIVA,,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_08_10,312.08.10,VARIACAO MONETARIA (N.DEDUTIV),,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_08_11,312.08.11,DESPESAS C/JUROS E OPERACOE FINANCEIRAS,,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_08_12,312.08.12,DESPESAS C/ IPMF,,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_08_13,312.08.13,ACRESCIMOS LEGAIS MULTAS/JUROS,,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_08_14,312.08.14,DESPESAS DE EXPORTACAO,,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_08_15,312.08.15,DESPESAS C/CPMF,,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_09_01,312.09.01,DESPESAS TRIBUTARIAS - PARCELAMENTO,,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_10_01,312.10.01,ISSQN S/SERVICO TOMADO,,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_10_02,312.10.02,TAXAS ICMS SUBSTITUICAO TRIBUTARIA,,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_10_03,312.10.03,PIS/COFINS/CONTRIB.SOC. (LEI 10833),,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_10_04,312.10.04,JUROS,,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_10_05,312.10.05,MULTAS,,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_10_06,312.10.06,TAXAS E IMPOSTOS DIVERSOS,,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_10_07,312.10.07,IPTU IMP.PRED.TERR. URBANO,,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_10_08,312.10.08,IMPOSTO SINDICAL (EMPRESA),,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_10_09,312.10.09,CONTRIBUICAO SINDICAL,,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_10_10,312.10.10,CONTRIBUICAO SOCIAL,,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_10_11,312.10.11,IMPOSTO DE RENDA S/ LUCRO,,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_10_12,312.10.12,IRRF,,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_10_13,312.10.13,IPVA / LICENCIAMENTOS,,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_10_14,312.10.14,IBAMA - TAXAS,,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_312_12_01,312.12.01,ALIMENTOS,,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_313_01_01,313.01.01,CUSTOS DE PRODUTOS VENDIDOS,,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_313_01_02,313.01.02,CUSTOS DE MERCADORIAS VENDIDAS,,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_315_01_01,315.01.01,AJUSTE PROV P/DEV. DUVIDOSOS,,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_315_01_02,315.01.02,GANHOS E PERDAS DE CAPITAL,,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_317_01_01,317.01.01,SALDO DEVEDOR CORR. MONETARIA,,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_331_01_01,331.01.01,PROVISAO P/CONTRIBUICAO SOCIAL,,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_331_02_01,331.02.01,PROVISAO P/ IMPOSTO RENDA S/ LUCRO,,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_331_02_02,331.02.02,PROV. P/ ADICIONAL I.RENDA S/LUCRO,,expense,,l10n_br_coa_poppi_chart_template
+account_template_poppi_411_01_01,411.01.01,VENDA DE MAQUINAS,,income,,l10n_br_coa_poppi_chart_template
+account_template_poppi_411_01_02,411.01.02,VENDA DE MAQUINAS EXPORTACAO,,income,,l10n_br_coa_poppi_chart_template
+account_template_poppi_411_01_03,411.01.03,VENDA DE MERCADORIAS,,income,,l10n_br_coa_poppi_chart_template
+account_template_poppi_411_01_04,411.01.04,PRESTACAO DE SERVICOS,,income,,l10n_br_coa_poppi_chart_template
+account_template_poppi_411_01_05,411.01.05,VENDA DE MERCADORIAS EXPORTACAO,,income,,l10n_br_coa_poppi_chart_template
+account_template_poppi_411_01_06,411.01.06,(-) DEVOLUCAO DE PRODUTOS,,income,,l10n_br_coa_poppi_chart_template
+account_template_poppi_411_01_07,411.01.07,(-) DEVOLUCAO DE MERCADORIA,,income,,l10n_br_coa_poppi_chart_template
+account_template_poppi_411_01_08,411.01.08,VENDA DE PECAS,,income,,l10n_br_coa_poppi_chart_template
+account_template_poppi_411_01_09,411.01.09,VENDA DE MAQUINAS IMPORTADAS,,income,,l10n_br_coa_poppi_chart_template
+account_template_poppi_411_01_10,411.01.10,VENDA DE MAQUINAS (USADAS),,income,,l10n_br_coa_poppi_chart_template
+account_template_poppi_411_01_11,411.01.11,VENDA EQUIPARADA A EXPORTACAO,,income,,l10n_br_coa_poppi_chart_template
+account_template_poppi_412_01_01,412.01.01,VARIACAO MONETARIA ATIVA,,income_other,,l10n_br_coa_poppi_chart_template
+account_template_poppi_412_01_02,412.01.02,RECEITAS FINANCEIRAS,,income_other,,l10n_br_coa_poppi_chart_template
+account_template_poppi_412_01_03,412.01.03,JUROS RECEBIDOS,,income_other,,l10n_br_coa_poppi_chart_template
+account_template_poppi_412_01_04,412.01.04,DESCONTOS RECEBIDOS,,income_other,,l10n_br_coa_poppi_chart_template
+account_template_poppi_412_01_05,412.01.05,DIVIDENDOS,,income_other,,l10n_br_coa_poppi_chart_template
+account_template_poppi_412_01_06,412.01.06,RENDIMENTOS PIS/ABONO,,income_other,,l10n_br_coa_poppi_chart_template
+account_template_poppi_412_01_07,412.01.07,RECEITA PIS NAO CUMULATIVO,,income_other,,l10n_br_coa_poppi_chart_template
+account_template_poppi_412_01_08,412.01.08,RECEITA COFINS NAO CUMULATIVO,,income_other,,l10n_br_coa_poppi_chart_template
+account_template_poppi_412_01_09,412.01.09,RECEITAS DIVERSAS,,income_other,,l10n_br_coa_poppi_chart_template
+account_template_poppi_412_01_10,412.01.10,VARIACAO CAMBIAL ATIVA,,income_other,,l10n_br_coa_poppi_chart_template
+account_template_poppi_412_01_11,412.01.11,COMISSOES RECEBIDAS,,income_other,,l10n_br_coa_poppi_chart_template
+account_template_poppi_412_01_12,412.01.12,RENDIMEN. S/APLIC. FINANCEIRAS,,income_other,,l10n_br_coa_poppi_chart_template
+account_template_poppi_414_01_01,414.01.01,GANHOS /PERDAS CAPITAL,,income_other,,l10n_br_coa_poppi_chart_template
+account_template_poppi_414_01_02,414.01.02,VENDA BENS ATIVO IMOBILIZADO,,income_other,,l10n_br_coa_poppi_chart_template
+account_template_poppi_414_01_03,414.01.03,(-) CUSTO VENDA ATIVO IMOBILIZADO,,income_other,,l10n_br_coa_poppi_chart_template
+account_template_poppi_415_01_01,415.01.01,SALDO CREDOR CORRECAO MONETARIA,,income_other,,l10n_br_coa_poppi_chart_template
+account_template_poppi_511_01_01,511.01.01,RESULTADO MENSAL,,off_balance,,l10n_br_coa_poppi_chart_template
+account_template_poppi_511_02_01,511.02.01,RESULTADO ANUAL,,off_balance,,l10n_br_coa_poppi_chart_template
+account_template_poppi_611_01_01,611.01.01,ENCERRAMENTO DO EXERCICIO,,off_balance,,l10n_br_coa_poppi_chart_template

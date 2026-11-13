@@ -1,0 +1,923 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+
+    <record id="account_group_1" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">1</field>
+      <field name="name">ATIVO</field>
+    </record>
+    <record id="account_group_11" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">11</field>
+      <field name="name">ATIVO CIRCULANTE</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_1" />
+    </record>
+    <record id="account_group_111" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">111</field>
+      <field name="name">ATIVO DISPONIVEL</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_11" />
+    </record>
+    <record id="account_group_111_01" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">111.01</field>
+      <field name="name">CAIXA</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_111" />
+    </record>
+    <record id="account_group_111_02" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">111.02</field>
+      <field name="name">BANCOS CONTA MOVIMENTO</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_111" />
+    </record>
+    <record id="account_group_111_03" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">111.03</field>
+      <field name="name">APLICACOES FINANCEIRAS</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_111" />
+    </record>
+    <record id="account_group_111_04" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">111.04</field>
+      <field name="name">TRANSFERENCIA DE LIQUIDEZ</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_111" />
+    </record>
+    <record id="account_group_112" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">112</field>
+      <field name="name">REALIZAVEL A CURTO PRAZO</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_11" />
+    </record>
+    <record id="account_group_112_01" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">112.01</field>
+      <field name="name">DUPLICATAS A RECEBER - MATRIZ</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_112" />
+    </record>
+    <record id="account_group_112_02" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">112.02</field>
+      <field name="name">VALORES A RECEBER - EXPORTACAO</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_112" />
+    </record>
+    <record id="account_group_112_03" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">112.03</field>
+      <field name="name">DUPLICATAS A RECEBER - NH</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_112" />
+    </record>
+    <record id="account_group_112_04" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">112.04</field>
+      <field name="name">(-) DUPLICATAS DESCONTADAS</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_112" />
+    </record>
+    <record id="account_group_112_05" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">112.05</field>
+      <field name="name">(-) PROVISAO P/DEV. DUVIDOSOS</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_112" />
+    </record>
+    <record id="account_group_112_06" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">112.06</field>
+      <field name="name">ENDOSSO DE TERCEIROS</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_112" />
+    </record>
+    <record id="account_group_112_07" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">112.07</field>
+      <field name="name">IMPOSTOS A RECUPERAR - MATRIZ</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_112" />
+    </record>
+    <record id="account_group_112_08" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">112.08</field>
+      <field name="name">IMPOSTOS A RECUPERAR - NH</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_112" />
+    </record>
+    <record id="account_group_112_09" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">112.09</field>
+      <field name="name">IMPOSTOS A COMPENSAR</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_112" />
+    </record>
+    <record id="account_group_112_10" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">112.10</field>
+      <field name="name">IMPOSTO SOBRE DEMONSTRACAO</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_112" />
+    </record>
+    <record id="account_group_112_11" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">112.11</field>
+      <field name="name">IMPOSTO SOBRE DEMONSTRACAO NH</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_112" />
+    </record>
+    <record id="account_group_112_12" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">112.12</field>
+      <field name="name">IMPOSTO SOBRE TRANSFERENCIA</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_112" />
+    </record>
+    <record id="account_group_112_13" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">112.13</field>
+      <field name="name">RESERVADO</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_112" />
+    </record>
+    <record id="account_group_112_14" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">112.14</field>
+      <field name="name">RESERVADO</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_112" />
+    </record>
+    <record id="account_group_112_15" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">112.15</field>
+      <field name="name">ADIANTAMENTOS A FUNCIONARIOS</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_112" />
+    </record>
+    <record id="account_group_112_16" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">112.16</field>
+      <field name="name">ADIANTAMENTO A IMPORTACAO</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_112" />
+    </record>
+    <record id="account_group_112_17" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">112.17</field>
+      <field name="name">ADIANTAMENTOS A FORNECEDORES</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_112" />
+    </record>
+    <record id="account_group_112_18" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">112.18</field>
+      <field name="name">ADIANTAMENTO DE VIAGENS</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_112" />
+    </record>
+    <record id="account_group_112_20" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">112.20</field>
+      <field name="name">teste</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_112" />
+    </record>
+    <record id="account_group_113" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">113</field>
+      <field name="name">ESTOQUES</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_11" />
+    </record>
+    <record id="account_group_113_01" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">113.01</field>
+      <field name="name">ESTOQUES - MATRIZ</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_113" />
+    </record>
+    <record id="account_group_113_02" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">113.02</field>
+      <field name="name">ESTOQUES - NH</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_113" />
+    </record>
+    <record id="account_group_113_03" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">113.03</field>
+      <field name="name">ESTOQUES - SHOPPING</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_113" />
+    </record>
+    <record id="account_group_114" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">114</field>
+      <field name="name">DESPESAS DO EXERCICIO SEGUINTE</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_11" />
+    </record>
+    <record id="account_group_114_01" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">114.01</field>
+      <field name="name">DESPESAS DO EXERCICIO SEGUINTE</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_114" />
+    </record>
+    <record id="account_group_115" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">115</field>
+      <field name="name">OPERACOES TRANSITORIAS</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_11" />
+    </record>
+    <record id="account_group_115_01" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">115.01</field>
+      <field name="name">PENDENTE TRANSITORIO</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_115" />
+    </record>
+    <record id="account_group_12" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">12</field>
+      <field name="name">REALIZAVEL A LONGO PRAZO</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_1" />
+    </record>
+    <record id="account_group_121" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">121</field>
+      <field name="name">REALIZAVEL A LONGO PRAZO</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_12" />
+    </record>
+    <record id="account_group_121_01" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">121.01</field>
+      <field name="name">DEPOSITO COMPULSORIO</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_121" />
+    </record>
+    <record id="account_group_121_02" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">121.02</field>
+      <field name="name">OUTROS CREDITOS</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_121" />
+    </record>
+    <record id="account_group_121_03" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">121.03</field>
+      <field name="name">ANTECIPACAO P/DISTRIB. DE LUCROS</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_121" />
+    </record>
+    <record id="account_group_121_04" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">121.04</field>
+      <field name="name">OPERACOES A PRAZO FIXO</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_121" />
+    </record>
+    <record id="account_group_121_05" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">121.05</field>
+      <field name="name">OUTRAS CONTAS</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_121" />
+    </record>
+    <record id="account_group_13" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">13</field>
+      <field name="name">ATIVO PERMANENTE</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_1" />
+    </record>
+    <record id="account_group_131" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">131</field>
+      <field name="name">INVESTIMENTOS</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_13" />
+    </record>
+    <record id="account_group_131_01" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">131.01</field>
+      <field name="name">INVESTIMENTOS INCENTIVADOS</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_131" />
+    </record>
+    <record id="account_group_131_02" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">131.02</field>
+      <field name="name">INVESTIMENTOS INCENT. - IPC-90</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_131" />
+    </record>
+    <record id="account_group_131_03" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">131.03</field>
+      <field name="name">PARTICIPACOES OUTRAS EMPRESAS</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_131" />
+    </record>
+    <record id="account_group_131_04" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">131.04</field>
+      <field name="name">PARTICIP OUTRAS EMPRESAS IPC90</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_131" />
+    </record>
+    <record id="account_group_132" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">132</field>
+      <field name="name">IMOBILIZADO OPERACIONAL-MATRIZ</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_13" />
+    </record>
+    <record id="account_group_132_01" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">132.01</field>
+      <field name="name">IMOBILIZADO OPERACIONAL</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_132" />
+    </record>
+    <record id="account_group_132_02" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">132.02</field>
+      <field name="name">(-) DEPRECIACOES ACUMULADAS</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_132" />
+    </record>
+    <record id="account_group_132_03" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">132.03</field>
+      <field name="name">IMOBILIZADO OPERACIONAL IPC-90</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_132" />
+    </record>
+    <record id="account_group_132_04" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">132.04</field>
+      <field name="name">(-) DEPREC. ACUMULADAS IPC-90</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_132" />
+    </record>
+    <record id="account_group_133" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">133</field>
+      <field name="name">IMOBILIZADO OPERACIONAL - NH</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_13" />
+    </record>
+    <record id="account_group_133_01" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">133.01</field>
+      <field name="name">IMOBILIZADO OPERACIONAL</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_133" />
+    </record>
+    <record id="account_group_133_02" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">133.02</field>
+      <field name="name">(-) DEPRECIACOES ACUMULADAS</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_133" />
+    </record>
+    <record id="account_group_133_03" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">133.03</field>
+      <field name="name">IMOBILIZADO OPERACIONAL IPC-90</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_133" />
+    </record>
+    <record id="account_group_133_04" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">133.04</field>
+      <field name="name">(-) DEPREC. ACUMULADAS IPC-90</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_133" />
+    </record>
+    <record id="account_group_134" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">134</field>
+      <field name="name">INTANGIVEL</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_13" />
+    </record>
+    <record id="account_group_134_01" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">134.01</field>
+      <field name="name">INTANGIVEL</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_134" />
+    </record>
+    <record id="account_group_14" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">14</field>
+      <field name="name">COMPENSACAO ATIVA</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_1" />
+    </record>
+    <record id="account_group_141" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">141</field>
+      <field name="name">COMPENSADO</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_14" />
+    </record>
+    <record id="account_group_141_01" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">141.01</field>
+      <field name="name">IMOBILIZADO EM ANDAMENTO (RESIDUAL)</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_141" />
+    </record>
+    <record id="account_group_141_07" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">141.07</field>
+      <field name="name">SIMPLES REMESSA</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_141" />
+    </record>
+    <record id="account_group_141_08" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">141.08</field>
+      <field name="name">MAQUINAS EM DEMONSTRAÇÃO - NH</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_141" />
+    </record>
+    <record id="account_group_2" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">2</field>
+      <field name="name">PASSIVO</field>
+    </record>
+    <record id="account_group_21" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">21</field>
+      <field name="name">PASSIVO CIRCULANTE</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_2" />
+    </record>
+    <record id="account_group_211" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">211</field>
+      <field name="name">EXIGIVEL A CURTO PRAZO</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_21" />
+    </record>
+    <record id="account_group_211_01" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">211.01</field>
+      <field name="name">FORNECEDORES</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_211" />
+    </record>
+    <record id="account_group_211_02" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">211.02</field>
+      <field name="name">FORNECEDORES - NH</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_211" />
+    </record>
+    <record id="account_group_211_03" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">211.03</field>
+      <field name="name">FORNECEDORES (FINANCEIROS)</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_211" />
+    </record>
+    <record id="account_group_211_04" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">211.04</field>
+      <field name="name">FORNECEDORES - TRANSPORTADORAS</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_211" />
+    </record>
+    <record id="account_group_211_05" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">211.05</field>
+      <field name="name">OBRIGACOES A PAGAR</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_211" />
+    </record>
+    <record id="account_group_211_06" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">211.06</field>
+      <field name="name">OBRIGACOES A PAGAR NH</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_211" />
+    </record>
+    <record id="account_group_211_08" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">211.08</field>
+      <field name="name">IMPOSTOS SOBRE DEMONSTRACAO</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_211" />
+    </record>
+    <record id="account_group_211_09" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">211.09</field>
+      <field name="name">ADIANTAMENTO DE CAMBIO</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_211" />
+    </record>
+    <record id="account_group_211_10" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">211.10</field>
+      <field name="name">IMPOSTOS SOBRE DEMONSTRACAO NH</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_211" />
+    </record>
+    <record id="account_group_211_11" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">211.11</field>
+      <field name="name">EMPRESTIMOS CONTRAIDOS NO PAIS</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_211" />
+    </record>
+    <record id="account_group_211_12" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">211.12</field>
+      <field name="name">ADIANT DE CLIENTES(M.INTERNO)</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_211" />
+    </record>
+    <record id="account_group_211_13" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">211.13</field>
+      <field name="name">ADIANT DE CLIENTES(M.EXTERNO)</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_211" />
+    </record>
+    <record id="account_group_211_14" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">211.14</field>
+      <field name="name">PREMIO DE SEGURO</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_211" />
+    </record>
+    <record id="account_group_211_15" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">211.15</field>
+      <field name="name">BANCOS (CHEQUES NAO COMPENSADOS)</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_211" />
+    </record>
+    <record id="account_group_22" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">22</field>
+      <field name="name">EXIGIVEL A LONGO PRAZO</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_2" />
+    </record>
+    <record id="account_group_221" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">221</field>
+      <field name="name">EXIGIVEL A LONGO PRAZO</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_22" />
+    </record>
+    <record id="account_group_221_01" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">221.01</field>
+      <field name="name">PARCELAMENTOS</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_221" />
+    </record>
+    <record id="account_group_221_02" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">221.02</field>
+      <field name="name">CONTAS CORRENTES INTERLIGADAS</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_221" />
+    </record>
+    <record id="account_group_23" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">23</field>
+      <field name="name">PATRIMONIO LIQUIDO</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_2" />
+    </record>
+    <record id="account_group_231" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">231</field>
+      <field name="name">PATRIMONIO LIQUIDO</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_23" />
+    </record>
+    <record id="account_group_231_01" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">231.01</field>
+      <field name="name">CAPITAL SOCIAL</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_231" />
+    </record>
+    <record id="account_group_231_02" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">231.02</field>
+      <field name="name">RESERVAS DE CAPITAL</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_231" />
+    </record>
+    <record id="account_group_231_03" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">231.03</field>
+      <field name="name">LUCROS E PREJUIZOS ACUMULADOS</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_231" />
+    </record>
+    <record id="account_group_231_04" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">231.04</field>
+      <field name="name">CORRECAO MONETARIA - IPC.90</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_231" />
+    </record>
+    <record id="account_group_24" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">24</field>
+      <field name="name">COMPENSACAO PASSIVA</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_2" />
+    </record>
+    <record id="account_group_241" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">241</field>
+      <field name="name">COMPENSADO</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_24" />
+    </record>
+    <record id="account_group_241_01" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">241.01</field>
+      <field name="name">TITULOS EM COBRANCA</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_241" />
+    </record>
+    <record id="account_group_241_02" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">241.02</field>
+      <field name="name">PRODUTOS EM DEMONSTRACAO EXTERIOR</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_241" />
+    </record>
+    <record id="account_group_241_03" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">241.03</field>
+      <field name="name">MERCADORIAS EM DEMONSTRACAO</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_241" />
+    </record>
+    <record id="account_group_241_04" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">241.04</field>
+      <field name="name">MERCADORIAS EM DOMONSTRACAO NH</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_241" />
+    </record>
+    <record id="account_group_241_06" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">241.06</field>
+      <field name="name">IMPORTACAO TEMPORARIA MERCADORIAS</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_241" />
+    </record>
+    <record id="account_group_241_07" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">241.07</field>
+      <field name="name">TRANSFERENCIA DE PRODUTOS</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_241" />
+    </record>
+    <record id="account_group_241_08" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">241.08</field>
+      <field name="name">MAQUINAS EM DEMONSTRACAO</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_241" />
+    </record>
+    <record id="account_group_241_09" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">241.09</field>
+      <field name="name">MAQUINAS EM DEMONSTRACAO - NH</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_241" />
+    </record>
+    <record id="account_group_241_10" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">241.10</field>
+      <field name="name">SIMPLES REMESSA</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_241" />
+    </record>
+    <record id="account_group_3" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">3</field>
+      <field name="name">DESPESAS</field>
+    </record>
+    <record id="account_group_31" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">31</field>
+      <field name="name">DESPESAS</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_3" />
+    </record>
+    <record id="account_group_311" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">311</field>
+      <field name="name">CUSTOS</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_31" />
+    </record>
+    <record id="account_group_311_01" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">311.01</field>
+      <field name="name">CUSTOS INDUSTRIAIS</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_311" />
+    </record>
+    <record id="account_group_312" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">312</field>
+      <field name="name">DESPESAS OPERACIONAIS</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_31" />
+    </record>
+    <record id="account_group_312_01" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">312.01</field>
+      <field name="name">IMPOSTOS INCIDENTES S/VENDAS-MATRIZ</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_312" />
+    </record>
+    <record id="account_group_312_02" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">312.02</field>
+      <field name="name">IMPOSTOS INCIDENTES S/VENDAS NH</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_312" />
+    </record>
+    <record id="account_group_312_03" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">312.03</field>
+      <field name="name">IMPOSTOS INCID. S/VENDAS (SHOPPING)</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_312" />
+    </record>
+    <record id="account_group_312_04" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">312.04</field>
+      <field name="name">DESPESAS COM VENDAS</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_312" />
+    </record>
+    <record id="account_group_312_05" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">312.05</field>
+      <field name="name">DESPESAS LOJA SHOPPING</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_312" />
+    </record>
+    <record id="account_group_312_06" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">312.06</field>
+      <field name="name">DESPESAS ADMINISTRATIVAS</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_312" />
+    </record>
+    <record id="account_group_312_08" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">312.08</field>
+      <field name="name">DESPESAS FINANCEIRAS</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_312" />
+    </record>
+    <record id="account_group_312_09" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">312.09</field>
+      <field name="name">DESPESAS TRIBUTARIAS - PARCELAMENTO</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_312" />
+    </record>
+    <record id="account_group_312_10" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">312.10</field>
+      <field name="name">DESPESAS TRIBUTARIAS - MATRIZ</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_312" />
+    </record>
+    <record id="account_group_312_11" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">312.11</field>
+      <field name="name">DESPESAS TRIBUTARIAS - NH</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_312" />
+    </record>
+    <record id="account_group_312_12" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">312.12</field>
+      <field name="name">DESPESA C/ PROGRAMA DE ALIMENTACAO</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_312" />
+    </record>
+    <record id="account_group_312_13" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">312.13</field>
+      <field name="name">DESPESAS ADMINISTRATIVAS N.H.</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_312" />
+    </record>
+    <record id="account_group_313" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">313</field>
+      <field name="name">CUSTOS PRODS/MERCDS VENDIDAS</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_31" />
+    </record>
+    <record id="account_group_313_01" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">313.01</field>
+      <field name="name">CUSTOS PRODS/MERCDS VENDIDAS</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_313" />
+    </record>
+    <record id="account_group_313_02" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">313.02</field>
+      <field name="name">CUSTOS PRODS/MERCDS VENDIDAS - NH</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_313" />
+    </record>
+    <record id="account_group_315" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">315</field>
+      <field name="name">GANHOS E PERDAS DE CAPITAL</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_31" />
+    </record>
+    <record id="account_group_315_01" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">315.01</field>
+      <field name="name">GANHOS E PERDAS DE CAPITAL</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_315" />
+    </record>
+    <record id="account_group_317" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">317</field>
+      <field name="name">RESULTADO DA CORRECAO MONETARIA</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_31" />
+    </record>
+    <record id="account_group_317_01" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">317.01</field>
+      <field name="name">RESULTADO DA CORRECAO MONETARIA</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_317" />
+    </record>
+    <record id="account_group_33" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">33</field>
+      <field name="name">PROV. P/ IMP.RENDA E CONT SOCIAL</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_3" />
+    </record>
+    <record id="account_group_331" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">331</field>
+      <field name="name">PROV. P/ IMP.RENDA E CONT. SOCIAL</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_33" />
+    </record>
+    <record id="account_group_331_01" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">331.01</field>
+      <field name="name">PROV P/ CONTRIBUICAO SOCIAL</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_331" />
+    </record>
+    <record id="account_group_331_02" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">331.02</field>
+      <field name="name">PROV. P/ IMPOSTO DE RENDA</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_331" />
+    </record>
+    <record id="account_group_4" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">4</field>
+      <field name="name">RECEITAS</field>
+    </record>
+    <record id="account_group_41" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">41</field>
+      <field name="name">RECEITAS</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_4" />
+    </record>
+    <record id="account_group_411" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">411</field>
+      <field name="name">RECEITA OPERACIONAL DE VENDAS</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_41" />
+    </record>
+    <record id="account_group_411_01" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">411.01</field>
+      <field name="name">RECEITA OPER. VENDAS - MATRIZ</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_411" />
+    </record>
+    <record id="account_group_411_02" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">411.02</field>
+      <field name="name">RECEITA OPER. VENDAS - NH</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_411" />
+    </record>
+    <record id="account_group_411_03" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">411.03</field>
+      <field name="name">RECEITA DE VENDAS - SHOPPING</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_411" />
+    </record>
+    <record id="account_group_412" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">412</field>
+      <field name="name">OUTRAS RECEITAS OPERACIONAIS</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_41" />
+    </record>
+    <record id="account_group_412_01" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">412.01</field>
+      <field name="name">OUTRAS RECEITAS OPERAC. MATRIZ</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_412" />
+    </record>
+    <record id="account_group_412_02" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">412.02</field>
+      <field name="name">OUTRAS RECEITAS OPERAC. NH</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_412" />
+    </record>
+    <record id="account_group_413" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">413</field>
+      <field name="name">RESERVADO</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_41" />
+    </record>
+    <record id="account_group_414" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">414</field>
+      <field name="name">RECEITAS NAO OPERACIONAIS</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_41" />
+    </record>
+    <record id="account_group_414_01" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">414.01</field>
+      <field name="name">RECEITA NAO OPERACIONAL</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_414" />
+    </record>
+    <record id="account_group_415" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">415</field>
+      <field name="name">RESULTADO CORRECAO MONETARIA</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_41" />
+    </record>
+    <record id="account_group_415_01" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">415.01</field>
+      <field name="name">RESULTADO CORRECAO MONETARIA</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_415" />
+    </record>
+    <record id="account_group_5" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">5</field>
+      <field name="name">CONTAS DE RESULTADO</field>
+    </record>
+    <record id="account_group_51" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">51</field>
+      <field name="name">CONTAS DE RESULTADO</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_5" />
+    </record>
+    <record id="account_group_511" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">511</field>
+      <field name="name">CONTAS DE RESULTADO</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_51" />
+    </record>
+    <record id="account_group_511_01" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">511.01</field>
+      <field name="name">RESULTADO MENSAL</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_511" />
+    </record>
+    <record id="account_group_511_02" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">511.02</field>
+      <field name="name">RESULTADO ANUAL</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_511" />
+    </record>
+    <record id="account_group_6" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">6</field>
+      <field name="name">ENCERRAMENTO DO EXERCICIO</field>
+    </record>
+    <record id="account_group_61" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">61</field>
+      <field name="name">ENCERRAMENTO DO EXERCICIO</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_6" />
+    </record>
+    <record id="account_group_611" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">611</field>
+      <field name="name">ENCERRAMENTO DO EXERCICIO</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_61" />
+    </record>
+    <record id="account_group_611_01" model="account.group.template">
+      <field name="chart_template_id" ref="l10n_br_coa_poppi_chart_template" />
+      <field name="code_prefix_start">611.01</field>
+      <field name="name">ENCERRAMENTO DO EXERCICIO</field>
+      <field name="parent_id" ref="l10n_br_coa_poppi.account_group_611" />
+    </record>
+
+</odoo>

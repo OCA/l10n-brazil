@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- Empresa Poppi -->
+    <record id="poppi_partner" model="res.partner">
+        <field name="name">Poppi</field>
+        <field name="company_name">Poppi</field>
+        <field name="street_name">Rua Paulo Dias</field>
+        <field name="street_number">586</field>
+        <field name="city_id" ref="l10n_br_base.city_3501152" />
+        <field name="zip">18125-000</field>
+        <field name='country_id' ref='base.br' />
+        <field name='state_id' ref='base.state_br_sp' />
+        <field name="phone">(21) 3010 9965</field>
+        <field name="email">info@poppi.example.com</field>
+        <field name="website">www.example.com</field>
+        <field name="is_company" eval="True" />
+        <field name="vat">73.118.302/0001-32</field>
+        <field name="l10n_br_ie_code">678.109.901.735</field>
+    </record>
+
+    <record id="poppi_company" model="res.company">
+        <field name="name">Poppi</field>
+        <field name="legal_name">Poppi</field>
+        <field name="partner_id" ref="poppi_partner" />
+        <field name="currency_id" ref="base.BRL" />
+    </record>
+</odoo>

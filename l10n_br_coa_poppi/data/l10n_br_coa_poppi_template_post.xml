@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- pylint:disable=duplicate-xml-record-id -->
+<!-- oca-hooks:disable=xml-duplicate-record-id -->
+<odoo>
+
+    <record id="l10n_br_coa_poppi_chart_template" model="account.chart.template">
+        <field
+            name="property_account_receivable_id"
+            ref="account_template_poppi_112_01_01"
+        />
+        <field
+            name="property_account_payable_id"
+            ref="account_template_poppi_211_01_01"
+        />
+        <field
+            name="property_account_expense_categ_id"
+            ref="account_template_poppi_312_06_04"
+        />
+        <field
+            name="property_account_income_categ_id"
+            ref="account_template_poppi_411_01_01"
+        />
+    </record>
+
+    <data noupdate="1">
+        <function model="account.chart.template" name="try_loading">
+            <value eval="[ref('l10n_br_coa_poppi.l10n_br_coa_poppi_chart_template')]" />
+        </function>
+    </data>
+
+</odoo>
