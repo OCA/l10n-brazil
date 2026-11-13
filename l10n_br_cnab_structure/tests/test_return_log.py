@@ -149,3 +149,8 @@ class TestReturnLog(AccountTestInvoicingCommon):
         self.assertEqual(sum_balance(rebate_moves), 2.00)
         self.assertEqual(sum_balance(discount_moves), 10.00)
         self.assertEqual(sum_balance(tariff_moves), 5.00)
+        # The journal sequence names the entry, the return data goes to ref
+        self.assertTrue(
+            event.generated_move_id.name.startswith(self.bank_journal_itau.code)
+        )
+        self.assertIn("ABCX123", event.generated_move_id.ref)
