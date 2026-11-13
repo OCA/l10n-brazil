@@ -111,6 +111,53 @@ class TestTaxClassification(TransactionCase):
                 self.classification_company.tax_ibs_id, line_form.fiscal_tax_ids
             )
 
+    def test_change_tax_classification_updates_cbs_ibs_reduction(self):
+        """Manually changing the classification must update the CBS/IBS taxes
+        used in the calculation, including their base reduction.
+
+        Regression test for OCA/l10n-brazil#5627: picking a classification
+        whose CBS/IBS taxes carry a percent_reduction left the line using the
+        previous (unreduced) taxes because fiscal_tax_ids was not refreshed.
+        """
+        self.company.tax_classification_id = self.classification_company
+        self.operation_line.tax_classification_id = False
+
+        doc = self.env["l10n_br_fiscal.document"].create(
+            {
+                "company_id": self.company.id,
+                "partner_id": self.partner.id,
+                "fiscal_operation_id": self.env.ref("l10n_br_fiscal.fo_venda").id,
+                "ind_final": "1",
+                "fiscal_line_ids": [
+                    (
+                        0,
+                        0,
+                        {
+                            "product_id": self.product.id,
+                            "fiscal_operation_line_id": self.operation_line.id,
+                        },
+                    )
+                ],
+            }
+        )
+        line = doc.fiscal_line_ids
+
+        # starts with the company's default classification (no reduction)
+        self.assertEqual(line.tax_classification_id, self.classification_company)
+        self.assertEqual(self.classification_company.tax_cbs_id.percent_reduction, 0.0)
+
+        # user manually picks a classification with CBS/IBS reduced taxes
+        line.write({"tax_classification_id": self.classification_line.id})
+
+        self.assertIn(self.classification_line.tax_cbs_id, line.fiscal_tax_ids)
+        self.assertIn(self.classification_line.tax_ibs_id, line.fiscal_tax_ids)
+        self.assertEqual(
+            line.cbs_reduction, self.classification_line.tax_cbs_id.percent_reduction
+        )
+        self.assertEqual(
+            line.ibs_reduction, self.classification_line.tax_ibs_id.percent_reduction
+        )
+
     def _ibscbs_binding(self, c_class_trib):
         """The XML IBSCBS group, as the document parser yields it."""
         return DotDict(
