@@ -21,13 +21,13 @@ Monitor de NF-e
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fl10n--brazil-lightgray.png?logo=github
-    :target: https://github.com/OCA/l10n-brazil/tree/18.0/l10n_br_nfe_dfe
+    :target: https://github.com/OCA/l10n-brazil/tree/19.0/l10n_br_nfe_dfe
     :alt: OCA/l10n-brazil
 .. |badge4| image:: https://img.shields.io/badge/weblate-Translate%20me-F47D42.png
-    :target: https://translation.odoo-community.org/projects/l10n-brazil-18-0/l10n-brazil-18-0-l10n_br_nfe_dfe
+    :target: https://translation.odoo-community.org/projects/l10n-brazil-19-0/l10n-brazil-19-0-l10n_br_nfe_dfe
     :alt: Translate me on Weblate
 .. |badge5| image:: https://img.shields.io/badge/runboat-Try%20me-875A7B.png
-    :target: https://runboat.odoo-community.org/builds?repo=OCA/l10n-brazil&target_branch=18.0
+    :target: https://runboat.odoo-community.org/builds?repo=OCA/l10n-brazil&target_branch=19.0
     :alt: Try me on Runboat
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
@@ -49,36 +49,36 @@ XML da NF-e).
 Principais Funcionalidades
 --------------------------
 
-- **Consulta Automática (Polling):** Tarefa agendada (Cron) que consulta
-  periodicamente o serviço da SEFAZ, garantindo que você tenha acesso
-  rápido a todas as NF-es emitidas contra o seu CNPJ sem precisar
-  solicitar o arquivo ao fornecedor.
-- **Processamento Especializado:** Identifica e separa os payloads
-  baixados nos seus devidos formatos: XMLs Completos com protocolo
-  (``procNFe``), Resumos da NF-e (``resNFe``) e Eventos da Nota Fiscal
-  (``resEvento`` / ``procEventoNFe``).
-- **Manifestação do Destinatário (MD-e):** Funcionalidade nativa para
-  acusar o recebimento ou rejeição da NF-e perante a SEFAZ:
+-  **Consulta Automática (Polling):** Tarefa agendada (Cron) que
+   consulta periodicamente o serviço da SEFAZ, garantindo que você tenha
+   acesso rápido a todas as NF-es emitidas contra o seu CNPJ sem
+   precisar solicitar o arquivo ao fornecedor.
+-  **Processamento Especializado:** Identifica e separa os payloads
+   baixados nos seus devidos formatos: XMLs Completos com protocolo
+   (``procNFe``), Resumos da NF-e (``resNFe``) e Eventos da Nota Fiscal
+   (``resEvento`` / ``procEventoNFe``).
+-  **Manifestação do Destinatário (MD-e):** Funcionalidade nativa para
+   acusar o recebimento ou rejeição da NF-e perante a SEFAZ:
 
-  - **Ciência da Operação:** Confirmação prévia para liberar o download
-    do XML completo.
-  - **Confirmação da Operação.**
-  - **Desconhecimento da Operação.**
-  - **Operação não Realizada.**
+   -  **Ciência da Operação:** Confirmação prévia para liberar o
+      download do XML completo.
+   -  **Confirmação da Operação.**
+   -  **Desconhecimento da Operação.**
+   -  **Operação não Realizada.**
 
-- **Manifestação Automática:** Opção para o Odoo aplicar o evento de
-  "Ciência da Operação" instantânea e automaticamente a todas as novas
-  notas resumidas identificadas, acelerando o recebimento do arquivo
-  completo para importação.
-- **Importação Inteligente:** Botão de ação que converte
-  instantaneamente o XML válido baixado em um rascunho de Documento
-  Fiscal padrão do Odoo (``l10n_br_fiscal.document``), pré-populando os
-  impostos, CFOPs, emitentes e destinatários.
-- **Geração de DANFE:** Geração do documento PDF do DANFE utilizando a
-  biblioteca ``brazilfiscalreport``.
-- **Notificações:** Notifica os usuários inscritos, diretamente no inbox
-  do Odoo, caso novas NF-es emitidas por terceiros sejam detectadas no
-  servidor da Receita Federal.
+-  **Manifestação Automática:** Opção para o Odoo aplicar o evento de
+   "Ciência da Operação" instantânea e automaticamente a todas as novas
+   notas resumidas identificadas, acelerando o recebimento do arquivo
+   completo para importação.
+-  **Importação Inteligente:** Botão de ação que converte
+   instantaneamente o XML válido baixado em um rascunho de Documento
+   Fiscal padrão do Odoo (``l10n_br_fiscal.document``), pré-populando os
+   impostos, CFOPs, emitentes e destinatários.
+-  **Geração de DANFE:** Geração do documento PDF do DANFE utilizando a
+   biblioteca ``brazilfiscalreport``.
+-  **Notificações:** Notifica os usuários inscritos, diretamente no
+   inbox do Odoo, caso novas NF-es emitidas por terceiros sejam
+   detectadas no servidor da Receita Federal.
 
 Este módulo é implementado em estrita conformidade com a `Nota Técnica
 2014.002
@@ -97,19 +97,19 @@ funcionar corretamente:
 
 1. **Dependências Odoo:**
 
-   - ``l10n_br_fiscal_dfe`` (O framework de distribuição abstrato da
-     OCA)
-   - ``l10n_br_nfe`` (O módulo base de emissão e gestão de modelos da
-     NF-e)
-   - ``queue_job`` (Sempre requerido pelo framework base para
-     agendamentos e chamadas assíncronas)
+   -  ``l10n_br_fiscal_dfe`` (O framework de distribuição abstrato da
+      OCA)
+   -  ``l10n_br_nfe`` (O módulo base de emissão e gestão de modelos da
+      NF-e)
+   -  ``queue_job`` (Sempre requerido pelo framework base para
+      agendamentos e chamadas assíncronas)
 
 2. **Dependências Python:**
 
-   - ``nfelib``: A biblioteca moderna que consolida os *bindings* e
-     clientes de comunicação para NF-e/CT-e/MDF-e.
-   - ``brazilfiscalreport``: Necessária para realizar o *parse* do XML e
-     desenhar a saída em formato PDF (DANFE).
+   -  ``nfelib``: A biblioteca moderna que consolida os *bindings* e
+      clientes de comunicação para NF-e/CT-e/MDF-e.
+   -  ``brazilfiscalreport``: Necessária para realizar o *parse* do XML
+      e desenhar a saída em formato PDF (DANFE).
 
 Para instalar as bibliotecas de sistema Python:
 
@@ -161,11 +161,11 @@ Configuração da empresa
 Em **Faturamento > Configuração > Empresas**, na aba **Fiscal > DF-e**
 (Configurações DF-e):
 
-- **Versão DF-e**: versão do serviço (padrão: 1.01)
-- **Ambiente DF-e**: Produção ou Homologação
-- **Busca automática de DF-e**: habilita a consulta automática via cron
-- **Manifestação Automática do Destinatário (NF-e)**: envia ciência da
-  operação automaticamente para cada resumo de NF-e recebido
+-  **Versão DF-e**: versão do serviço (padrão: 1.01)
+-  **Ambiente DF-e**: Produção ou Homologação
+-  **Busca automática de DF-e**: habilita a consulta automática via cron
+-  **Manifestação Automática do Destinatário (NF-e)**: envia ciência da
+   operação automaticamente para cada resumo de NF-e recebido
 
 A empresa precisa ter um **certificado digital A1** configurado no
 módulo ``l10n_br_fiscal_certificate``.
@@ -204,15 +204,15 @@ Consultas DF-e > NF-e de Terceiros**.
 No topo da listagem, o sistema exibe um painel de status em tempo real
 da sua comunicação com a SEFAZ:
 
-- **Status do Ambiente:** Indica se você está operando em Produção ou
-  Homologação.
-- **Progresso do NSU:** Mostra a numeração em que o seu Odoo está
-  (Último NSU) comparado ao NSU máximo registrado na base da Receita
-  Federal para o seu CNPJ. Quando os números se igualam, a tag verde
-  "Sincronizado" é exibida.
-- **Importações Pendentes:** Um contador de alerta que mostra quantas
-  notas completas já foram baixadas em XML, mas ainda não foram
-  efetivamente importadas como Documentos Fiscais no Odoo.
+-  **Status do Ambiente:** Indica se você está operando em Produção ou
+   Homologação.
+-  **Progresso do NSU:** Mostra a numeração em que o seu Odoo está
+   (Último NSU) comparado ao NSU máximo registrado na base da Receita
+   Federal para o seu CNPJ. Quando os números se igualam, a tag verde
+   "Sincronizado" é exibida.
+-  **Importações Pendentes:** Um contador de alerta que mostra quantas
+   notas completas já foram baixadas em XML, mas ainda não foram
+   efetivamente importadas como Documentos Fiscais no Odoo.
 
 Fluxo de Trabalho e Ações Disponíveis
 -------------------------------------
@@ -245,7 +245,7 @@ Bug Tracker
 Bugs are tracked on `GitHub Issues <https://github.com/OCA/l10n-brazil/issues>`_.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
-`feedback <https://github.com/OCA/l10n-brazil/issues/new?body=module:%20l10n_br_nfe_dfe%0Aversion:%2018.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
+`feedback <https://github.com/OCA/l10n-brazil/issues/new?body=module:%20l10n_br_nfe_dfe%0Aversion:%2019.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
 
 Do not contact contributors directly about support or help with technical issues.
 
@@ -262,21 +262,21 @@ Authors
 Contributors
 ------------
 
-- `Engenere <https://engenere.one>`__:
+-  `Engenere <https://engenere.one>`__:
 
-  - Felipe Motter <felipe@engenere.one>
-  - Antônio Neto <neto@engenere.one>
-  - Cristiano Mafra Junior
+   -  Felipe Motter <felipe@engenere.one>
+   -  Antônio Neto <neto@engenere.one>
+   -  Cristiano Mafra Junior
 
-- `KMEE <https://www.kmee.com.br>`__:
+-  `KMEE <https://www.kmee.com.br>`__:
 
-  - Luis Felipe Miléo <mileo@kmee.com.br>
-  - Gabriel Cardoso <gabriel.cardoso@kmee.com.br>
-  - Felipe Zago <felipe.zago@kmee.com.br>
+   -  Luis Felipe Miléo <mileo@kmee.com.br>
+   -  Gabriel Cardoso <gabriel.cardoso@kmee.com.br>
+   -  Felipe Zago <felipe.zago@kmee.com.br>
 
-- `AKRETION <https://akretion.com/pt-BR/>`__:
+-  `AKRETION <https://akretion.com/pt-BR/>`__:
 
-  - Raphaël Valyi <raphael.valyi@akretion.com.br>
+   -  Raphaël Valyi <raphael.valyi@akretion.com.br>
 
 Maintainers
 -----------
@@ -305,6 +305,6 @@ Current `maintainers <https://odoo-community.org/page/maintainer-role>`__:
 
 |maintainer-felipemotter| |maintainer-antoniospneto| |maintainer-rvalyi| 
 
-This module is part of the `OCA/l10n-brazil <https://github.com/OCA/l10n-brazil/tree/18.0/l10n_br_nfe_dfe>`_ project on GitHub.
+This module is part of the `OCA/l10n-brazil <https://github.com/OCA/l10n-brazil/tree/19.0/l10n_br_nfe_dfe>`_ project on GitHub.
 
 You are welcome to contribute. To learn how please visit https://odoo-community.org/page/Contribute.

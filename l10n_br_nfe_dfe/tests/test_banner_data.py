@@ -10,12 +10,14 @@ from odoo import fields
 from odoo.tests.common import TransactionCase
 
 from .test_nfe_dfe import response_sucesso_multiplos
+from .tools import load_nfe_dfe_fixture_files
 
 
 class TestDfeBannerData(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        load_nfe_dfe_fixture_files(cls.env)
         cls.company = cls.env.ref("l10n_br_base.empresa_lucro_presumido")
 
     def _banner_data(self):

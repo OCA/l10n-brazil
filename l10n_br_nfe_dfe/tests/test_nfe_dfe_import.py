@@ -17,6 +17,7 @@ from .test_nfe_dfe import (
     response_sucesso_individual,
     response_sucesso_multiplos,
 )
+from .tools import load_nfe_dfe_fixture_files
 
 
 def _bytes(string):
@@ -27,6 +28,7 @@ class TestNFeDFe(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        load_nfe_dfe_fixture_files(cls.env)
         cls.company = cls.env.ref("l10n_br_base.empresa_lucro_presumido")
 
     def _search_dfe(self):

@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="Docutils: https://docutils.sourceforge.io/" />
-<title>Monitor de NF-e</title>
+<title>README.rst</title>
 <style type="text/css">
 
 /*
@@ -374,7 +374,7 @@ ul.auto-toc {
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !! source digest: sha256:f97102e8b3f5ac4a28035590b92ae2e5321d9498c33cd26e2dd2123fb19c91fd
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
-<p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Beta" src="https://img.shields.io/badge/maturity-Beta-yellow.png" /></a> <a class="reference external image-reference" href="http://www.gnu.org/licenses/agpl-3.0-standalone.html"><img alt="License: AGPL-3" src="https://img.shields.io/badge/license-AGPL--3-blue.png" /></a> <a class="reference external image-reference" href="https://github.com/OCA/l10n-brazil/tree/18.0/l10n_br_nfe_dfe"><img alt="OCA/l10n-brazil" src="https://img.shields.io/badge/github-OCA%2Fl10n--brazil-lightgray.png?logo=github" /></a> <a class="reference external image-reference" href="https://translation.odoo-community.org/projects/l10n-brazil-18-0/l10n-brazil-18-0-l10n_br_nfe_dfe"><img alt="Translate me on Weblate" src="https://img.shields.io/badge/weblate-Translate%20me-F47D42.png" /></a> <a class="reference external image-reference" href="https://runboat.odoo-community.org/builds?repo=OCA/l10n-brazil&amp;target_branch=18.0"><img alt="Try me on Runboat" src="https://img.shields.io/badge/runboat-Try%20me-875A7B.png" /></a></p>
+<p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Beta" src="https://img.shields.io/badge/maturity-Beta-yellow.png" /></a> <a class="reference external image-reference" href="http://www.gnu.org/licenses/agpl-3.0-standalone.html"><img alt="License: AGPL-3" src="https://img.shields.io/badge/license-AGPL--3-blue.png" /></a> <a class="reference external image-reference" href="https://github.com/OCA/l10n-brazil/tree/19.0/l10n_br_nfe_dfe"><img alt="OCA/l10n-brazil" src="https://img.shields.io/badge/github-OCA%2Fl10n--brazil-lightgray.png?logo=github" /></a> <a class="reference external image-reference" href="https://translation.odoo-community.org/projects/l10n-brazil-19-0/l10n-brazil-19-0-l10n_br_nfe_dfe"><img alt="Translate me on Weblate" src="https://img.shields.io/badge/weblate-Translate%20me-F47D42.png" /></a> <a class="reference external image-reference" href="https://runboat.odoo-community.org/builds?repo=OCA/l10n-brazil&amp;target_branch=19.0"><img alt="Try me on Runboat" src="https://img.shields.io/badge/runboat-Try%20me-875A7B.png" /></a></p>
 <div class="section" id="monitor-de-nf-e-distribuicao-de-dfe">
 <h2>Monitor de NF-e (Distribuição de DFe)</h2>
 <p>Este módulo implementa a funcionalidade de monitoramento, download e
@@ -389,18 +389,18 @@ XML da NF-e).</p>
 <div class="section" id="principais-funcionalidades">
 <h3>Principais Funcionalidades</h3>
 <ul class="simple">
-<li><strong>Consulta Automática (Polling):</strong> Tarefa agendada (Cron) que consulta
-periodicamente o serviço da SEFAZ, garantindo que você tenha acesso
-rápido a todas as NF-es emitidas contra o seu CNPJ sem precisar
-solicitar o arquivo ao fornecedor.</li>
+<li><strong>Consulta Automática (Polling):</strong> Tarefa agendada (Cron) que
+consulta periodicamente o serviço da SEFAZ, garantindo que você tenha
+acesso rápido a todas as NF-es emitidas contra o seu CNPJ sem
+precisar solicitar o arquivo ao fornecedor.</li>
 <li><strong>Processamento Especializado:</strong> Identifica e separa os payloads
 baixados nos seus devidos formatos: XMLs Completos com protocolo
 (<tt class="docutils literal">procNFe</tt>), Resumos da NF-e (<tt class="docutils literal">resNFe</tt>) e Eventos da Nota Fiscal
 (<tt class="docutils literal">resEvento</tt> / <tt class="docutils literal">procEventoNFe</tt>).</li>
 <li><strong>Manifestação do Destinatário (MD-e):</strong> Funcionalidade nativa para
 acusar o recebimento ou rejeição da NF-e perante a SEFAZ:<ul>
-<li><strong>Ciência da Operação:</strong> Confirmação prévia para liberar o download
-do XML completo.</li>
+<li><strong>Ciência da Operação:</strong> Confirmação prévia para liberar o
+download do XML completo.</li>
 <li><strong>Confirmação da Operação.</strong></li>
 <li><strong>Desconhecimento da Operação.</strong></li>
 <li><strong>Operação não Realizada.</strong></li>
@@ -416,9 +416,9 @@ Fiscal padrão do Odoo (<tt class="docutils literal">l10n_br_fiscal.document</tt
 impostos, CFOPs, emitentes e destinatários.</li>
 <li><strong>Geração de DANFE:</strong> Geração do documento PDF do DANFE utilizando a
 biblioteca <tt class="docutils literal">brazilfiscalreport</tt>.</li>
-<li><strong>Notificações:</strong> Notifica os usuários inscritos, diretamente no inbox
-do Odoo, caso novas NF-es emitidas por terceiros sejam detectadas no
-servidor da Receita Federal.</li>
+<li><strong>Notificações:</strong> Notifica os usuários inscritos, diretamente no
+inbox do Odoo, caso novas NF-es emitidas por terceiros sejam
+detectadas no servidor da Receita Federal.</li>
 </ul>
 <p>Este módulo é implementado em estrita conformidade com a <a class="reference external" href="https://www.nfe.fazenda.gov.br/portal/exibirArquivo.aspx?conteudo=P0U3lU1Fe40=">Nota Técnica
 2014.002
@@ -443,8 +443,8 @@ agendamentos e chamadas assíncronas)</li>
 <li><strong>Dependências Python:</strong><ul>
 <li><tt class="docutils literal">nfelib</tt>: A biblioteca moderna que consolida os <em>bindings</em> e
 clientes de comunicação para NF-e/CT-e/MDF-e.</li>
-<li><tt class="docutils literal">brazilfiscalreport</tt>: Necessária para realizar o <em>parse</em> do XML e
-desenhar a saída em formato PDF (DANFE).</li>
+<li><tt class="docutils literal">brazilfiscalreport</tt>: Necessária para realizar o <em>parse</em> do XML
+e desenhar a saída em formato PDF (DANFE).</li>
 </ul>
 </li>
 </ol>
@@ -572,7 +572,7 @@ notas de recebimento urgente.</li>
 <p>Bugs are tracked on <a class="reference external" href="https://github.com/OCA/l10n-brazil/issues">GitHub Issues</a>.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
-<a class="reference external" href="https://github.com/OCA/l10n-brazil/issues/new?body=module:%20l10n_br_nfe_dfe%0Aversion:%2018.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**">feedback</a>.</p>
+<a class="reference external" href="https://github.com/OCA/l10n-brazil/issues/new?body=module:%20l10n_br_nfe_dfe%0Aversion:%2019.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**">feedback</a>.</p>
 <p>Do not contact contributors directly about support or help with technical issues.</p>
 </div>
 <div class="section" id="credits">
@@ -617,7 +617,7 @@ mission is to support the collaborative development of Odoo features and
 promote its widespread use.</p>
 <p>Current <a class="reference external" href="https://odoo-community.org/page/maintainer-role">maintainers</a>:</p>
 <p><a class="reference external image-reference" href="https://github.com/felipemotter"><img alt="felipemotter" src="https://github.com/felipemotter.png?size=40px" /></a> <a class="reference external image-reference" href="https://github.com/antoniospneto"><img alt="antoniospneto" src="https://github.com/antoniospneto.png?size=40px" /></a> <a class="reference external image-reference" href="https://github.com/rvalyi"><img alt="rvalyi" src="https://github.com/rvalyi.png?size=40px" /></a></p>
-<p>This module is part of the <a class="reference external" href="https://github.com/OCA/l10n-brazil/tree/18.0/l10n_br_nfe_dfe">OCA/l10n-brazil</a> project on GitHub.</p>
+<p>This module is part of the <a class="reference external" href="https://github.com/OCA/l10n-brazil/tree/19.0/l10n_br_nfe_dfe">OCA/l10n-brazil</a> project on GitHub.</p>
 <p>You are welcome to contribute. To learn how please visit <a class="reference external" href="https://odoo-community.org/page/Contribute">https://odoo-community.org/page/Contribute</a>.</p>
 </div>
 </div>
