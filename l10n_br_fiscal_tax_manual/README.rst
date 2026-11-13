@@ -69,7 +69,8 @@ Known issues / Roadmap
 - O valor 0 significa "cálculo automático", então não é possível zerar
   um imposto manualmente. Uma evolução possível é um booleano por
   imposto.
-- Avaliar os impostos da reforma tributária (CBS/IBS).
+- CBS e IBS já têm override manual de base/valor, igual aos demais
+  impostos.
 
 Bug Tracker
 ===========

@@ -22,6 +22,8 @@ MANUAL_TAX_DOMAINS = [
     "irpj_wh",
     "inss",
     "inss_wh",
+    "cbs",
+    "ibs",
 ]
 
 MANUAL_TAX_FIELDS = [
@@ -195,6 +197,24 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     )
     inss_wh_value_manual = fields.Monetary(
         string="Manual INSS RET Value",
+        help=MANUAL_TAX_HELP,
+    )
+
+    cbs_base_manual = fields.Monetary(
+        string="Manual CBS Base",
+        help=MANUAL_TAX_HELP,
+    )
+    cbs_value_manual = fields.Monetary(
+        string="Manual CBS Value",
+        help=MANUAL_TAX_HELP,
+    )
+
+    ibs_base_manual = fields.Monetary(
+        string="Manual IBS Base",
+        help=MANUAL_TAX_HELP,
+    )
+    ibs_value_manual = fields.Monetary(
+        string="Manual IBS Value",
         help=MANUAL_TAX_HELP,
     )
 

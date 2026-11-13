@@ -204,6 +204,24 @@
                     <field name="inss_wh_value_manual" string="Value" />
                 </group>
             </xpath>
+            <xpath expr="//field[@name='cbs_value']/.." position="after">
+                <group name="cbs_manual" string="Manual" invisible="not cbs_tax_id">
+                    <div class="text-muted" colspan="2">
+                        Leave empty for automatic calculation
+                    </div>
+                    <field name="cbs_base_manual" string="Base" />
+                    <field name="cbs_value_manual" string="Value" />
+                </group>
+            </xpath>
+            <xpath expr="//field[@name='ibs_value']/.." position="after">
+                <group name="ibs_manual" string="Manual" invisible="not ibs_tax_id">
+                    <div class="text-muted" colspan="2">
+                        Leave empty for automatic calculation
+                    </div>
+                    <field name="ibs_base_manual" string="Base" />
+                    <field name="ibs_value_manual" string="Value" />
+                </group>
+            </xpath>
         </field>
     </record>
 </odoo>
