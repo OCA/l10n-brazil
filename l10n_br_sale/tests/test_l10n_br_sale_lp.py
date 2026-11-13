@@ -11,6 +11,25 @@ class TestL10nBrSale(L10nBrSaleBaseTest, TransactionCase):
     so_services_ref = "l10n_br_sale.lc_so_only_services"
     so_product_service_ref = "l10n_br_sale.lc_so_product_service"
 
+    def test_invoice_document_type_from_order(self):
+        self._change_user_company(self.company)
+        nfce = self.env.ref("l10n_br_fiscal.document_65")
+        self.so_product_service.document_type_id = nfce
+        self.so_product_service.action_confirm()
+        self.so_product_service._create_invoices(final=True)
+
+        invoices = self.so_product_service.invoice_ids
+        product_invoice = invoices.filtered(lambda inv: inv.document_type_id == nfce)
+        self.assertEqual(
+            product_invoice.document_serie_id,
+            self.env.ref("l10n_br_fiscal.empresa_lc_document_65_serie_1"),
+        )
+        # the document type of the operation line still prevails
+        self.assertEqual(
+            (invoices - product_invoice).document_type_id,
+            self.env.ref("l10n_br_fiscal.document_SE"),
+        )
+
     def test_partial_invoice_fiscal_quantity(self):
         """Test fiscal fields on partial invoices with delivery policy."""
         self._change_user_company(self.company)
