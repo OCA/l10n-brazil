@@ -34,7 +34,7 @@ class InvalidateNumber(models.Model):
             }
             if self.document_type_id.code == "65":
                 params.update(
-                    csc_token=self.company_id.nfce_csc_token,
+                    csc_token=self.company_id._get_nfce_csc_token(),
                     csc_code=self.company_id.nfce_csc_code,
                 )
                 return edoc_nfce(**params)
@@ -57,7 +57,7 @@ class InvalidateNumber(models.Model):
         if self.document_type_id.code == "65":
             return NfceClient(
                 **common_params,
-                csc_token=self.company_id.nfce_csc_token,
+                csc_token=self.company_id._get_nfce_csc_token(),
                 csc_code=self.company_id.nfce_csc_code,
             )
         return NfeClient(**common_params)

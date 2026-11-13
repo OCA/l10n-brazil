@@ -1263,7 +1263,7 @@ class NFe(spec_models.StackedModel):
 
         if self.document_type == MODELO_FISCAL_NFCE:
             params.update(
-                csc_token=self.company_id.nfce_csc_token,
+                csc_token=self.company_id._get_nfce_csc_token(),
                 csc_code=self.company_id.nfce_csc_code,
             )
             return edoc_nfce(**params)
@@ -1294,7 +1294,7 @@ class NFe(spec_models.StackedModel):
         if self.document_type == MODELO_FISCAL_NFCE:
             return NfceClient(
                 **common_params,
-                csc_token=self.company_id.nfce_csc_token,
+                csc_token=self.company_id._get_nfce_csc_token(),
                 csc_code=self.company_id.nfce_csc_code,
             )
 
