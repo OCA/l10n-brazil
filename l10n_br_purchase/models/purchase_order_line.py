@@ -114,6 +114,7 @@ class PurchaseOrderLine(models.Model):
                     user_type="purchase",
                     fiscal_operation=line.fiscal_operation_id,
                     company=line.company_id,
+                    fiscal_operation_line=line.fiscal_operation_line_id,
                 )
             return res
 
@@ -124,6 +125,7 @@ class PurchaseOrderLine(models.Model):
                 user_type="purchase",
                 fiscal_operation=self.fiscal_operation_id,
                 company=self.company_id,
+                fiscal_operation_line=self.fiscal_operation_line_id,
             )
 
     def _prepare_account_move_line(self, move=False):
