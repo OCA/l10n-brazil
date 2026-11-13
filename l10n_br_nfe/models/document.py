@@ -165,7 +165,7 @@ class NFe(spec_models.StackedModel):
     # (+ content of the m2o is stacked in the parent / - standard m2o /
     # ≡ o2m; the mapped Odoo model may follow the tag)
     INFNFE_TREE = """
-+ <infnfe>
+    + <infnfe>
     + <ide>
         ≡ <NFref> l10n_br_fiscal.document.related
         - <gPagAntecipado>
@@ -1307,7 +1307,7 @@ class NFe(spec_models.StackedModel):
 
         if self.document_type == MODELO_FISCAL_NFCE:
             params.update(
-                csc_token=self.company_id.nfce_csc_token,
+                csc_token=self.company_id._get_nfce_csc_token(),
                 csc_code=self.company_id.nfce_csc_code,
             )
             return edoc_nfce(**params)
@@ -1335,7 +1335,7 @@ class NFe(spec_models.StackedModel):
         if self.document_type == MODELO_FISCAL_NFCE:
             return NfceClient(
                 **common_params,
-                csc_token=self.company_id.nfce_csc_token,
+                csc_token=self.company_id._get_nfce_csc_token(),
                 csc_code=self.company_id.nfce_csc_code,
             )
 

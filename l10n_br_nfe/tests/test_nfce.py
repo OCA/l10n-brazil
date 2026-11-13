@@ -157,6 +157,11 @@ class TestNFCe(TestNFeExport):
         self.assertIsNotNone(qr_code)
         self.assertIsNotNone(qr_code_url)
 
+    def test_qrcode_csc_id_without_leading_zeros(self):
+        self.document_id.company_id.nfce_csc_token = "000001"
+        qr_code = self.document_id.get_nfce_qrcode()
+        self.assertEqual(qr_code.split("|")[3], "1")
+
     def test_danfce_qrcode_image_url(self):
         """The DANFCE QR Code image must use the barcode_type parameter
         expected by the /report/barcode route (web controller)."""
