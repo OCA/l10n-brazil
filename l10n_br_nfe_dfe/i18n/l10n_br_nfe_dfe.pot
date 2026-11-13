@@ -89,6 +89,11 @@ msgid "Desconhecimento"
 msgstr ""
 
 #. module: l10n_br_nfe_dfe
+#: model:ir.model.fields,field_description:l10n_br_nfe_dfe.field_nfe_recipient_manifestation_event_wizard__dfe_document_id
+msgid "Dfe Document"
+msgstr ""
+
+#. module: l10n_br_nfe_dfe
 #: model:ir.model,name:l10n_br_nfe_dfe.model_l10n_br_fiscal_dfe_document
 msgid "Fiscal document from distribution service"
 msgstr ""
@@ -233,6 +238,13 @@ msgid "Recipient Manifestation"
 msgstr ""
 
 #. module: l10n_br_nfe_dfe
+#. odoo-python
+#: code:addons/l10n_br_nfe_dfe/wizards/nfe_md_event_wizard.py:0
+#, python-format
+msgid "Recipient Manifestation created successfully"
+msgstr ""
+
+#. module: l10n_br_nfe_dfe
 #: model:ir.model.fields.selection,name:l10n_br_nfe_dfe.selection__l10n_br_fiscal_dfe_document__manifestation_status__sem_manifestacao
 msgid "Sem manifestação"
 msgstr ""
@@ -253,8 +265,20 @@ msgid "Status Code"
 msgstr ""
 
 #. module: l10n_br_nfe_dfe
+#. odoo-python
+#: code:addons/l10n_br_nfe_dfe/wizards/nfe_md_event_wizard.py:0
+#, python-format
+msgid "Success"
+msgstr ""
+
+#. module: l10n_br_nfe_dfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe_dfe.nfe_dfe_document_tree
 msgid "Type"
+msgstr ""
+
+#. module: l10n_br_nfe_dfe
+#: model:ir.model,name:l10n_br_nfe_dfe.model_nfe_recipient_manifestation_event_wizard
+msgid "Wizard to manifest"
 msgstr ""
 
 #. module: l10n_br_nfe_dfe
