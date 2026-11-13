@@ -172,6 +172,12 @@ class ResCompany(spec_models.SpecModel):
         "with the default options.",
     )
 
+    def _get_nfce_csc_token(self):
+        self.ensure_one()
+        # the NFC-e QR Code takes the CSC id without leading zeros
+        token = self.nfce_csc_token
+        return str(int(token)) if token and token.isdecimal() else token
+
     def _compute_nfe_data(self):
         # compute because a simple related field makes the match_record fail
         for rec in self:
