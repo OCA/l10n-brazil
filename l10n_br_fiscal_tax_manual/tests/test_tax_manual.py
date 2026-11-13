@@ -185,6 +185,21 @@ class TestFiscalTaxManual(TransactionCase):
         self.assertMonetary(result["taxes"]["ipi"]["tax_value"], 10.00)
         self.assertMonetary(result["taxes"]["icms"]["base"], 44.58)
 
+    def test_manual_value_on_cbs_and_ibs(self):
+        """The tax reform's CBS/IBS domains already have base/value fields
+        on the mixin (unlike IS, which has no dedicated fields yet), so
+        they get a manual override just like the other domains."""
+        taxes = self.env.ref("l10n_br_fiscal.tax_cbs_0_9") + self.env.ref(
+            "l10n_br_fiscal.tax_ibs_0_1"
+        )
+        result = taxes.compute_taxes(
+            cbs_value_manual=3.21,
+            ibs_base_manual=250.00,
+            **self._compute_taxes_kwargs(),
+        )
+        self.assertMonetary(result["taxes"]["cbs"]["tax_value"], 3.21)
+        self.assertMonetary(result["taxes"]["ibs"]["base"], 250.00)
+
     def test_manual_base_on_domain_without_specific_method(self):
         """ISSQN has no _compute_issqn method: it goes through the generic
         _compute_tax/_compute_tax_base, which must honor the manual base."""
