@@ -4,6 +4,9 @@
 # @author Luis Felipe Mileo <mileo@kmee.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+from dateutil.relativedelta import relativedelta
+
+from odoo import fields
 from odoo.exceptions import UserError, ValidationError
 from odoo.tests import tagged
 
@@ -121,6 +124,50 @@ class TestPaymentOrderInbound(CNABTestCommon):
                 change.get("change_to_send"),
                 change.get("code_to_check"),
             )
+
+    def test_instruction_keeps_title_due_date(self):
+        """Instruction on a registered title keeps the title due date.
+
+        Only the registration of a new title replaces an overdue date by
+        today. A protest (or any other instruction) must be sent with the
+        due date of the title, and the due date change with the new date.
+        """
+        today = fields.Date.context_today(self.env.user)
+        past = today - relativedelta(days=10)
+        self._invoice_confirm_workflow(self.invoice_cef_240)
+        payment_order = self._get_draft_payment_order(self.invoice_cef_240)
+        # New registration of an overdue title: the date is today
+        payment_order.payment_line_ids.write({"ml_maturity_date": past})
+        self._run_payment_order_workflow(payment_order)
+        for line in payment_order.payment_line_ids:
+            self.assertEqual(line.date, today)
+
+        # Protest of the overdue title: keeps the title due date
+        aml = self.invoice_cef_240.due_line_ids[0]
+        aml.date_maturity = past
+        self._send_new_cnab_code(aml, "protest_tittle")
+        protest_order = self._get_draft_payment_order(self.invoice_cef_240)
+        protest_order.draft2open()
+        protest_line = protest_order.payment_line_ids.filtered(
+            lambda line: line.move_line_id == aml
+        )
+        self.assertEqual(
+            protest_line.instruction_move_code_id,
+            self.cnab_config_cef.protest_title_code_id,
+        )
+        self.assertEqual(protest_line.date, past)
+        protest_order.with_context(test_not_create_file=True).open2generated()
+        protest_order.generated2uploaded()
+
+        # Due date change: sends the new due date
+        self._send_new_cnab_code(aml, "change_date_maturity")
+        change_order = self._get_draft_payment_order(self.invoice_cef_240)
+        change_order.draft2open()
+        change_line = change_order.payment_line_ids.filtered(
+            lambda line: line.move_line_id == aml
+        )
+        self.assertEqual(change_line.date, aml.date_maturity)
+        self.assertGreater(change_line.date, today)
 
     def test_warning_when_cnab_config_dont_has_code(self):
         self._run_invoice_and_order_workflow(self.invoice_itau_400)
