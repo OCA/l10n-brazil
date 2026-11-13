@@ -963,11 +963,13 @@ class Tax(models.Model):
         """
 
         def fmt(val):
-            return (
-                str(int(val))
-                if float_is_zero(val - int(val), precision_digits=4)
-                else str(val).replace(".", "_")
-            )
+            # Odoo Float fields are doubles: a computed rate of 0.1 can be
+            # stored as 0.09999999999999999 and a rate of 26.36 as
+            # 26.360000000000003. The xml_id conventions use at most 4
+            # decimals (tax_pis_value_0_0211), so format with 4 decimals
+            # and drop the trailing zeros; otherwise the write() guard of
+            # the mixin would refuse a legit write of the same rate.
+            return f"{val:.4f}".rstrip("0").rstrip(".").replace(".", "_")
 
         self.ensure_one()
         if not self.tax_domain:
@@ -977,12 +979,10 @@ class Tax(models.Model):
 
         # PIS / COFINS
         if self.tax_domain in ("pis", "cofins"):
-            # Monofasico
-            if (
-                "monofásico" in name_lower
-                or "monofasico" in name_lower
-                or "sico" in name_lower
-            ):
+            # Monofasico. Do not widen this to a substring such as "sico":
+            # it also matches "Básico" or "Clássico" and would give the
+            # monofasico convention to unrelated manual taxes.
+            if "monofásico" in name_lower or "monofasico" in name_lower:
                 if self.value_amount:
                     return f"tax_{self.tax_domain}_value_{fmt(self.value_amount)}"
                 return f"tax_{self.tax_domain}_monofasico_{fmt(self.percent_amount)}"
