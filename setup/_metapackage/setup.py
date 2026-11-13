@@ -26,6 +26,7 @@ setuptools.setup(
         'odoo-addon-l10n_br_crm>=16.0dev,<16.1dev',
         'odoo-addon-l10n_br_crm_cnpj_search>=16.0dev,<16.1dev',
         'odoo-addon-l10n_br_cte>=16.0dev,<16.1dev',
+        'odoo-addon-l10n_br_cte_dfe>=16.0dev,<16.1dev',
         'odoo-addon-l10n_br_cte_spec>=16.0dev,<16.1dev',
         'odoo-addon-l10n_br_currency_rate_update>=16.0dev,<16.1dev',
         'odoo-addon-l10n_br_delivery>=16.0dev,<16.1dev',
