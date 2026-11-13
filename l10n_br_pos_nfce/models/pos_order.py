@@ -146,9 +146,17 @@ class PosOrder(models.Model):
         response = super().create_from_ui(orders, draft)
         for option in response:
             order = self.env["pos.order"].search([("id", "=", option["id"])])
-            if order.document_type == MODELO_FISCAL_NFCE:
+            if order.config_id.simplified_document_type == MODELO_FISCAL_NFCE:
                 fiscal_document_id = order.account_move.fiscal_document_id
-                order.write({"state_edoc": fiscal_document_id.state_edoc})
+                order.write(
+                    {
+                        "state_edoc": fiscal_document_id.state_edoc,
+                        "authorization_protocol": (
+                            fiscal_document_id.authorization_protocol
+                        ),
+                        "authorization_date": fiscal_document_id.authorization_date,
+                    }
+                )
                 option.update(order._prepare_fiscal_document_dict())
         return response
 
