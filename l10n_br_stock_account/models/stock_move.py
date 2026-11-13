@@ -158,8 +158,16 @@ class StockMove(models.Model):
         ]
         if not mixin_classes:
             return res
-        mixin_class = mixin_classes[0]
-        mixin_names = {field.name for field in mixin_class._field_definitions}
+        # Any addon may contribute its own class to this abstract mixin
+        # (its own `_inherit`). Collect field names and compute methods from
+        # all of them, not just the first one in the MRO: picking a single
+        # class here previously meant that, as soon as a third-party addon
+        # added its own class for this mixin, the fields it (that addon's
+        # class) doesn't define were silently skipped below, so their
+        # precompute wasn't disabled and the warnings came back.
+        mixin_names = {
+            field.name for klass in mixin_classes for field in klass._field_definitions
+        }
         for name in mixin_names:
             field = self._fields.get(name)
             if field is None or not field.precompute:
@@ -171,14 +179,14 @@ class StockMove(models.Model):
                 continue
             if not field.compute:
                 continue
-            # Look at the mixin method, not the stock.move override: the
+            # Look at the mixin methods, not the stock.move override: the
             # override may not repeat @api.depends, but the original field
             # definition still declares dependencies that drive precompute.
-            compute = getattr(mixin_class, field.compute, None)
-            if compute is None:
-                continue
-            func = getattr(compute, "__func__", compute)
-            if not getattr(func, "_depends", None):
+            has_depends = any(
+                getattr(getattr(klass, field.compute, None), "_depends", None)
+                for klass in mixin_classes
+            )
+            if not has_depends:
                 # Compute methods without explicit @api.depends rely on
                 # precompute to get their initial value (e.g. ind_final).
                 # Keep precompute enabled for them.
