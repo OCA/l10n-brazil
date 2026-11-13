@@ -14,6 +14,8 @@ from odoo.tools import config
 from odoo.addons import l10n_br_nfe
 from odoo.addons.l10n_br_fiscal.constants.fiscal import DOCUMENT_STATE_DRAFT
 
+from .mock_utils import set_nfelib_soap_transmission
+
 _logger = logging.getLogger(__name__)
 
 
@@ -22,6 +24,10 @@ class TestNFeExport(TransactionCase):
     def setUpClass(cls, nfe_list):
         super().setUpClass()
         cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
+        # These tests exercise the nfelib SOAP clients, which are opt-in on
+        # 16.0. The erpbrasil.edoc stack is covered by the NFeEdocLegacyMixin
+        # variants, which turn the parameter off after this setup.
+        set_nfelib_soap_transmission(cls.env, True)
         cls.nfe_list = nfe_list
         for nfe_data in cls.nfe_list:
             nfe = cls.env.ref(nfe_data["record_ref"])
