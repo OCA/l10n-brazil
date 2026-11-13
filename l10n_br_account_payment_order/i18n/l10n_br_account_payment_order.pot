@@ -2352,6 +2352,18 @@ msgid "Move Line"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
+#. odoo-python
+#: code:addons/l10n_br_account_payment_order/models/l10n_br_cnab_change_methods.py:0
+msgid "Movement Instruction Code Updated for Request to Write Off, because Invoice %(invoice_name)s was cancelled."
+msgstr ""
+
+#. module: l10n_br_account_payment_order
+#. odoo-python
+#: code:addons/l10n_br_account_payment_order/models/l10n_br_cnab_change_methods.py:0
+msgid "Movement Instruction Code Updated for Request to Write Off, because payment of %(amount)s done outside CNAB."
+msgstr ""
+
+#. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_log__my_activity_date_deadline
 msgid "My Activity Deadline"
 msgstr ""
