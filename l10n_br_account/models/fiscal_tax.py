@@ -3,11 +3,19 @@
 
 from odoo import Command, api, fields, models
 
+from odoo.addons.l10n_br_fiscal.constants.fiscal import TAX_DOMAIN_ICMS
+
 
 class FiscalTax(models.Model):
     _inherit = "l10n_br_fiscal.tax"
 
-    def account_taxes(self, user_type="sale", fiscal_operation=False, company=False):
+    def account_taxes(
+        self,
+        user_type="sale",
+        fiscal_operation=False,
+        company=False,
+        fiscal_operation_line=False,
+    ):
         account_taxes = self.env["account.tax"]
         # `deductible_taxes` is company dependent, so reading it off the record
         # as it comes answers for whatever company sits in the environment, not
@@ -18,6 +26,16 @@ class FiscalTax(models.Model):
         if fiscal_operation and company:
             fiscal_operation = fiscal_operation.with_company(company)
         for fiscal_tax in self:
+            # A purchase without ICMS credit (use and consumption) books no
+            # ICMS to recover: without the account tax, the ICMS stays in the
+            # cost of the line.
+            if (
+                user_type == "purchase"
+                and fiscal_operation_line
+                and fiscal_operation_line.icms_no_credit
+                and fiscal_tax.tax_domain == TAX_DOMAIN_ICMS
+            ):
+                continue
             taxes = fiscal_tax._account_taxes(company)
             # Atualiza os impostos contábeis relacionados aos impostos fiscais
             account_taxes |= taxes.filtered(

@@ -13,3 +13,10 @@ class OperationLine(models.Model):
         string="Fiscal Position",
         company_dependent=True,
     )
+
+    icms_no_credit = fields.Boolean(
+        string="ICMS without Credit",
+        help="Purchases under this line do not take the ICMS credit, as with "
+        "material for use and consumption (LC 87/1996, art. 33, I): the vendor "
+        "bill books no ICMS to recover and the ICMS stays in the cost of the line.",
+    )
