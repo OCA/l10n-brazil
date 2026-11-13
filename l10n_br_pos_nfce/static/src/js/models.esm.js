@@ -8,6 +8,14 @@ import {BRAZILIAN_STATES_IBGE_CODE_MAP, NFeXML} from "@l10n_br_pos_nfce/js/nfe-x
 
 const L10nBrNfceOrder = (Order) =>
     class L10nBrNfceOrder extends Order {
+        is_detailed_invoice() {
+            // On a NFC-e PoS every sale issues the NFC-e; the "Invoice" button
+            // asks for the detailed document (NF-e) instead.
+            return Boolean(
+                this.to_invoice && this.pos.config.detailed_document_type_id
+            );
+        }
+
         async document_send(component) {
             if (this.document_type !== "65") {
                 return super.document_send(...arguments);
