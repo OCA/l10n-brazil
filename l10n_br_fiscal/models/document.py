@@ -89,6 +89,25 @@ class Document(models.Model):
         index=True,
     )
 
+    edoc_is_locked = fields.Boolean(
+        compute="_compute_edoc_is_locked",
+        help="Technical field: True once the document leaves the draft "
+        "state, used to make identity fields readonly in the views.",
+    )
+
+    @api.depends("state_edoc", "issuer")
+    def _compute_edoc_is_locked(self):
+        for doc in self:
+            if doc.issuer == DOCUMENT_ISSUER_COMPANY:
+                # Company-issued docs lock as soon as they leave draft: the
+                # fiscal identity is committed once validated/sent.
+                doc.edoc_is_locked = doc.state_edoc != DOCUMENT_STATE_DRAFT
+            else:
+                # Partner-issued docs (e.g. supplier bills) are just local
+                # records of a third-party document; keep them editable so
+                # the user can fix data entry, except once cancelled.
+                doc.edoc_is_locked = doc.state_edoc == DOCUMENT_STATE_CANCEL
+
     state_fiscal = fields.Selection(
         selection=SITUACAO_FISCAL,
         string="Situação Fiscal",
@@ -517,6 +536,43 @@ class Document(models.Model):
         can call it without crashing.
         """
         pass
+
+    def _edoc_needs_sefaz_action(self):
+        """True when cancelling/resetting the e-doc requires a SEFAZ
+        round-trip, so the driving account.move flow must NOT touch it.
+
+        Base fiscal documents have no SEFAZ lifecycle, so they never do.
+        Overridden in l10n_br_fiscal_edi for authorized/in-transit docs.
+        """
+        self.ensure_one()
+        return False
+
+    def action_document_cancel_from_move(self):
+        """Best-effort cancel triggered by cancelling the linked move.
+
+        Cancels only e-docs that do not need a SEFAZ event; SEFAZ-locked
+        ones are left untouched so the accounting user can still cancel or
+        adjust the move without being blocked.
+        """
+        for doc in self:
+            if doc.state_edoc == DOCUMENT_STATE_CANCEL:
+                continue
+            if doc._edoc_needs_sefaz_action():
+                continue
+            doc.action_document_cancel()
+
+    def action_document_back2draft_from_move(self):
+        """Best-effort reset-to-draft triggered by resetting the move.
+
+        Resets only e-docs that do not need a SEFAZ event; SEFAZ-locked
+        ones are left untouched so the move can still be reset to draft.
+        """
+        for doc in self:
+            if doc.state_edoc == DOCUMENT_STATE_DRAFT:
+                continue
+            if doc._edoc_needs_sefaz_action():
+                continue
+            doc.action_document_back2draft()
 
     @api.depends("fiscal_operation_id")
     def _compute_edoc_purpose(self):
