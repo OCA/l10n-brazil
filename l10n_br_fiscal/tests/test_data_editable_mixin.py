@@ -486,3 +486,68 @@ class TestIrModelDataEditableMixinOnNcm(TransactionCase):
             )
         with self.assertRaises(ValidationError):
             service_type.code = self.env.ref("l10n_br_fiscal.service_type_102").code
+
+
+class TestEditableMixinOnTaxReformData(TransactionCase):
+    """xml_id conventions of the models of the consumption tax reform
+    (IBS/CBS): the cClassTrib and the cIndOp tables. Both keep growing with
+    the reform, so records entered by hand must be named like the data
+    files to be reused by the next module update."""
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.env = cls.env(
+            context=dict(
+                cls.env.context,
+                tracking_disable=True,
+            )
+        )
+        cls.IrModelData = cls.env["ir.model.data"].sudo()
+
+    def _get_xml_id(self, record):
+        return self.IrModelData.search(
+            [
+                ("module", "=", "l10n_br_fiscal"),
+                ("model", "=", record._name),
+                ("res_id", "=", record.id),
+            ]
+        )
+
+    def test_01_tax_classification(self):
+        classification = self.env["l10n_br_fiscal.tax.classification"].create(
+            {
+                "code": "999999",
+                "name": "Test cClassTrib",
+                "rate_type": "2",
+            }
+        )
+        self.assertEqual(classification._get_xml_id_name(), "tax_classification_999999")
+        xml_id = self._get_xml_id(classification)
+        self.assertEqual(xml_id.name, "tax_classification_999999")
+        self.assertTrue(xml_id.noupdate)
+        # The official table keeps the convention of its data file:
+        self.assertEqual(
+            self.env.ref("l10n_br_fiscal.tax_classification_000001")._get_xml_id_name(),
+            "tax_classification_000001",
+        )
+
+    def test_02_operation_indicator(self):
+        indicator = self.env["l10n_br_fiscal.operation.indicator"].create(
+            {
+                "code": "999999",
+                "name": "Test cIndOp",
+                "operation_type": "Test cIndOp",
+                "supply_location": "Test supply location",
+            }
+        )
+        self.assertEqual(indicator._get_xml_id_name(), "operation_indicator_999999")
+        xml_id = self._get_xml_id(indicator)
+        self.assertEqual(xml_id.name, "operation_indicator_999999")
+        self.assertTrue(xml_id.noupdate)
+        self.assertEqual(
+            self.env.ref(
+                "l10n_br_fiscal.operation_indicator_010101"
+            )._get_xml_id_name(),
+            "operation_indicator_010101",
+        )
