@@ -1,8 +1,11 @@
 # Copyright 2026 - TODAY Akretion - Raphael Valyi <raphael.valyi@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+from markupsafe import Markup
+
 from odoo import fields, models
 from odoo.exceptions import UserError
+from odoo.tools.misc import format_amount, format_date
 
 
 class AccountMove(models.Model):
@@ -103,22 +106,26 @@ class AccountMove(models.Model):
         currency = self.currency_id
 
         def format_line(line_data):
-            base = self.env._("%(date)s: %(amount)s") % {
-                "date": line_data["date_maturity"],
-                "amount": currency.format(abs(line_data["amount_currency"])),
+            base = Markup("%(date)s: %(amount)s") % {
+                "date": format_date(self.env, line_data["date_maturity"]),
+                "amount": format_amount(
+                    self.env, abs(line_data["amount_currency"]), currency
+                ),
             }
             # Append payment mode to the log if available
             if line_data.get("payment_mode"):
-                base += f" ({line_data['payment_mode']})"
+                base += Markup(" (%s)") % line_data["payment_mode"]
             return base
 
-        old_summary = "<br/>".join(format_line(line) for line in old_lines_data)
-        new_summary = "<br/>".join(format_line(line) for line in new_lines_data)
+        old_summary = Markup("<br/>").join(format_line(line) for line in old_lines_data)
+        new_summary = Markup("<br/>").join(format_line(line) for line in new_lines_data)
 
-        message = self.env._(
-            "<p><strong>Payment Installments Renegotiated</strong></p>"
-            "<p><strong>Previous installments:</strong><br/>%(old)s</p>"
-            "<p><strong>New installments:</strong><br/>%(new)s</p>"
+        message = Markup(
+            self.env._(
+                "<p><strong>Payment Installments Renegotiated</strong></p>"
+                "<p><strong>Previous installments:</strong><br/>%(old)s</p>"
+                "<p><strong>New installments:</strong><br/>%(new)s</p>"
+            )
         ) % {
             "old": old_summary,
             "new": new_summary,
