@@ -211,7 +211,8 @@ class Document(models.Model):
         # the export of a service is chosen on the line, never inferred from
         # the customer: it goes to the city abroad, in the country of the
         # customer, with the foreign trade group
-        export = line.issqn_eligibility == "4"
+        eligibility = line.issqn_eligibility or "1"
+        export = eligibility == "4"
         valores = tipos.TcValoresDeclaracaoServico(
             valor_servicos=_decimal(dados["valor_servicos"]),
             valor_deducoes=_optional(dados["valor_deducoes"]),
@@ -247,10 +248,9 @@ class Document(models.Model):
             codigo_pais=self._giss_country_code(
                 (self.partner_id if export else self.company_id).country_id
             ),
-            exigibilidade_iss=line.issqn_eligibility or "1",
-            municipio_incidencia=(
-                municipio if (line.issqn_eligibility or "1") == "1" else None
-            ),
+            exigibilidade_iss=eligibility,
+            # an export too goes with the city of the provider (E310 without it)
+            municipio_incidencia=municipio if eligibility in ("1", "4") else None,
             com_ext=self._giss_com_ext(dados) if export else None,
         )
 
