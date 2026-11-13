@@ -7,3 +7,10 @@
 # `AttributeError: module 'lib' has no attribute 'GEN_EMAIL'`.
 # Drop this pin once the CI image ships cryptography >= 42 and pyOpenSSL >= 24.
 signxml==3.2.2
+# requests-pkcs12 pin from #5611 (l10n_br_nfe): 1.23 and later require
+# cryptography >= 42, see the signxml pin above
+requests-pkcs12==1.22
+odoo-addon-spec_driven_model @ git+https://github.com/OCA/l10n-brazil.git@refs/pull/5272/head#subdirectory=spec_driven_model
+odoo-addon-l10n_br_nfe_spec @ git+https://github.com/OCA/l10n-brazil.git@refs/pull/5273/head#subdirectory=l10n_br_nfe_spec
+odoo-addon-l10n_br_nfe @ git+https://github.com/OCA/l10n-brazil.git@refs/pull/5611/head#subdirectory=l10n_br_nfe
+odoo-addon-l10n_br_fiscal_dfe @ git+https://github.com/OCA/l10n-brazil.git@refs/pull/5567/head#subdirectory=l10n_br_fiscal_dfe
