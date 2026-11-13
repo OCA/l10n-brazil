@@ -105,6 +105,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         return [
             "_compute_tax_fields",
             "_compute_fiscal_tax_ids",
+            "_compute_tax_classification_id",
             "_compute_product_fiscal_fields",
         ]
 
@@ -325,6 +326,16 @@ class FiscalDocumentLineMixin(models.AbstractModel):
                     )
                 )
 
+    @api.depends("fiscal_operation_line_id")
+    def _compute_tax_classification_id(self):
+        for line in self:
+            if line.fiscal_operation_line_id:
+                line.tax_classification_id = (
+                    line.fiscal_operation_line_id._get_tax_classification(
+                        line.company_id
+                    )
+                )
+
     @api.depends(
         "partner_id",
         "fiscal_operation_line_id",
@@ -337,6 +348,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         "national_taxation_code_id",
         "service_type_id",
         "ind_final",
+        "tax_classification_id",
     )
     def _compute_fiscal_tax_ids(self):
         for line in self:
@@ -353,10 +365,10 @@ class FiscalDocumentLineMixin(models.AbstractModel):
                     national_taxation_code=line.national_taxation_code_id,
                     service_type=line.service_type_id,
                     ind_final=line.ind_final,
+                    tax_classification=line.tax_classification_id,
                 )
                 line.cfop_id = mapping_result["cfop"]
                 line.ipi_guideline_id = mapping_result["ipi_guideline"]
-                line.tax_classification_id = mapping_result["tax_classification"]
                 line.icms_tax_benefit_id = mapping_result["icms_tax_benefit_id"]
 
                 if line._is_imported():
@@ -2118,7 +2130,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     tax_classification_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax.classification",
         string="Tax Classification",
-        compute="_compute_fiscal_tax_ids",
+        compute="_compute_tax_classification_id",
         store=True,
         precompute=True,
         readonly=False,
