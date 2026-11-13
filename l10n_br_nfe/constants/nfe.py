@@ -81,7 +81,7 @@ FISCAL_PAYMENT_MODE = [
     ("11", "11 - Vale Refeição"),
     ("12", "12 - Vale Presente"),
     ("13", "13 - Vale Combustível"),
-    ("14", "14 - Duplicata Mercanti"),
+    ("14", "14 - Duplicata Mercantil"),
     ("15", "15 - Boleto Bancário"),
     ("16", "16 - Depósito Bancário"),
     ("17", "17 - Pagamento Instantâneo (PIX)"),
