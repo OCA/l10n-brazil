@@ -3,7 +3,7 @@
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
 <!--
     The generic account_payment_mode demo payment modes are assigned to demo
-    partners via ir.default in account_payment_partner. NFe/NFC-e documents
+    partners via ir.default in account_payment_mode. NFe/NFC-e documents
     require a fiscal payment mode (nfe40_tPag), so fill it here to keep the
     full demo/CI suite working when l10n_br_account_nfe is installed.
 -->

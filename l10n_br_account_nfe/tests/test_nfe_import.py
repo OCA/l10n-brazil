@@ -10,21 +10,27 @@ from odoo.tests import Form, TransactionCase
 
 from odoo.addons import l10n_br_account_nfe
 
+from .tools import load_account_nfe_fixture_files
+
 
 class NFeImportTest(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        if not cls.env.ref(
+            "l10n_br_base.empresa_lucro_presumido", raise_if_not_found=False
+        ):
+            load_account_nfe_fixture_files(cls.env)
         cls.company = cls.env.ref("l10n_br_base.empresa_lucro_presumido")
         cls.user = cls.env["res.users"].create(
             {
                 "name": "Because I am accountman!",
                 "login": "accountman",
                 "password": "accountman",
-                "groups_id": [
+                "group_ids": [
                     # we purposely don't give Fiscal access rights now to ensure
                     # non fiscal operations are still allowed
-                    Command.set(cls.env.user.groups_id.ids),
+                    Command.set(cls.env.user.group_ids.ids),
                     Command.link(cls.env.ref("account.group_account_manager").id),
                     Command.link(cls.env.ref("account.group_account_user").id),
                     Command.link(cls.env.ref("l10n_br_fiscal.group_user").id),

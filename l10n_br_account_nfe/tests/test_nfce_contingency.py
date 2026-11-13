@@ -17,18 +17,19 @@ class TestAccountNFCeContingency(AccountMoveBRCommon):
         cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
 
         # Add required groups BEFORE accessing e-doc data
-        cls.env.user.groups_id |= cls.env.ref("l10n_br_nfe.group_manager")
-        cls.env.user.groups_id |= cls.env.ref("l10n_br_fiscal.group_manager")
-        cls.env.user.groups_id |= cls.env.ref("account.group_account_manager")
-
-        # Grant access to all companies (demo data belongs to different companies)
-        companies = cls.env["res.company"].search([])
-        cls.env.user.company_ids = [Command.set(companies.ids)]
+        cls.env.user.group_ids |= cls.env.ref("l10n_br_nfe.group_manager")
+        cls.env.user.group_ids |= cls.env.ref("l10n_br_fiscal.group_manager")
+        cls.env.user.group_ids |= cls.env.ref("account.group_account_manager")
 
         if not cls.env.ref(
             "l10n_br_nfe.demo_nfce_same_state", raise_if_not_found=False
         ):
             load_account_nfe_fixture_files(cls.env)
+
+        # Grant access to all companies (demo data belongs to different
+        # companies), after the fixtures that create the demo companies
+        companies = cls.env["res.company"].search([])
+        cls.env.user.company_ids = [Command.set(companies.ids)]
 
         cls.document_id = cls.env.ref("l10n_br_nfe.demo_nfce_same_state")
 
