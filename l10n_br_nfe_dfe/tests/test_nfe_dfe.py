@@ -942,6 +942,33 @@ class TestDFe(TransactionCase):
             "nfe_recipient_manifestation_event.wizard",
         )
         self.assertEqual(action["context"]["default_access_key"], dfe_doc.access_key)
+        self.assertEqual(action["context"]["default_dfe_document_id"], dfe_doc.id)
+
+    def test_manual_manifestation_wizard_links_to_document(self):
+        """Manual manifestation wizard should link the MDE to the DFe document."""
+        dfe_doc = self.env["l10n_br_fiscal_dfe.document"].create(
+            {
+                "access_key": "35200199999999999999550010000000019999999992",
+                "company_id": self.company.id,
+                "fiscal_type": "nfe",
+            }
+        )
+        action = dfe_doc.create_nfe_md_action()
+        wizard = (
+            self.env["nfe_recipient_manifestation_event.wizard"]
+            .with_context(**action["context"])
+            .create({"event_type": "confirmado"})
+        )
+        self.assertEqual(wizard.dfe_document_id, dfe_doc)
+
+        MdEvent = type(self.env["l10n_br_nfe.md_event"])
+        with mock.patch.object(MdEvent, "_send_event"):
+            wizard.action_create_nfe_md_event()
+
+        self.assertTrue(
+            dfe_doc.manifestations_ids,
+            "Manual manifestation should appear under the DFe document",
+        )
 
     def test_document_import_no_complete(self):
         """import_document on document without complete DFe should raise."""
