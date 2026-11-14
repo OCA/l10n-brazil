@@ -8,13 +8,16 @@ from ..constants.fiscal import (
     CFOP_DESTINATION_EXPORT,
     FISCAL_COMMENT_LINE,
     FISCAL_IN,
+    FISCAL_OUT,
     NFE_IND_IE_DEST,
+    NFE_IND_IE_DEST_9,
     OPERATION_STATE,
     OPERATION_STATE_DEFAULT,
     PRODUCT_FISCAL_TYPE,
     TAX_DOMAIN_CBS,
     TAX_DOMAIN_IBS,
     TAX_DOMAIN_ICMS,
+    TAX_DOMAIN_ICMS_SN,
     TAX_DOMAIN_II,
     TAX_DOMAIN_IPI,
     TAX_DOMAIN_ISSQN,
@@ -22,7 +25,7 @@ from ..constants.fiscal import (
     TAX_FRAMEWORK_NORMAL,
     TAX_ICMS_OR_ISSQN,
 )
-from ..constants.icms import ICMS_ORIGIN
+from ..constants.icms import ICMS_ORIGIN, ICMS_SN_TAX_WITHOUT_CREDIT
 
 
 class OperationLine(models.Model):
@@ -230,6 +233,24 @@ class OperationLine(models.Model):
         if tax_definition and tax_definition.is_benefit:
             mapping_result["icms_tax_benefit_id"] = tax_definition.id
 
+    def _map_icmssn_tax_without_credit(self, mapping_result, partner):
+        """A non-contributor of the ICMS cannot take the ICMS credit granted
+        by a company of the Simples Nacional, which is for goods bought to be
+        resold or industrialized (LC 123/2006, art. 23, § 1º), so on a sale
+        to it the tax with credit (CSOSN 101 and 201) gives way to the one
+        without (CSOSN 102 and 202)."""
+        tax = mapping_result["taxes"].get(TAX_DOMAIN_ICMS_SN)
+        if (
+            not tax
+            or self.fiscal_operation_type != FISCAL_OUT
+            or partner.ind_ie_dest != NFE_IND_IE_DEST_9
+        ):
+            return
+        cst = tax.cst_from_tax(self.fiscal_operation_type)
+        xmlid = ICMS_SN_TAX_WITHOUT_CREDIT.get(cst.code)
+        if xmlid:
+            mapping_result["taxes"][TAX_DOMAIN_ICMS_SN] = self.env.ref(xmlid)
+
     def _build_mapping_result(self, mapping_result, tax_definition):
         mapping_result["taxes"][tax_definition.tax_domain] = tax_definition.tax_id
         self._build_mapping_result_icms(
@@ -347,6 +368,10 @@ class OperationLine(models.Model):
             mapping_result["taxes"][TAX_DOMAIN_IBS] = mapping_result[
                 "tax_classification"
             ].tax_ibs_id
+
+        # 1_6 Simples Nacional: no ICMS credit to a non-contributor. The tax
+        # definitions below, set on purpose, still prevail.
+        self._map_icmssn_tax_without_credit(mapping_result, partner)
 
         # 2 From NCM
         if not ncm and product:
