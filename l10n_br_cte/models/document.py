@@ -1059,33 +1059,35 @@ class CTe(spec_models.StackedModel):
 
     ##########################
     # CT-e tag: autXML
-    # Compute Methods
-    ##########################
-
-    def _default_cte40_autxml(self):
-        company = self.env.company
-        authorized_partners = []
-        if company.accountant_id:
-            authorized_partners.append(company.accountant_id.id)
-        if company.technical_support_id:
-            authorized_partners.append(company.technical_support_id.id)
-        return [
-            Command.create({"partner_id": partner_id})
-            for partner_id in authorized_partners
-        ]
-
-    ##########################
-    # CT-e tag: autXML
     ##########################
 
     # The comodel is declared here instead of being left to the spec remapping
     # done at setup time: account.move copies this field through _inherits and,
     # when it is set up first (it depends on the module loading order), the
     # copy keeps pointing to the abstract spec model, which has no partner.
-    cte40_autXML = fields.One2many(
-        comodel_name="l10n_br_cte.autxml",
-        default=_default_cte40_autxml,
-    )
+    cte40_autXML = fields.One2many(comodel_name="l10n_br_cte.autxml")
+
+    def _get_cte40_autxml_partners(self):
+        """Partners of the company of the document allowed to download the XML."""
+        self.ensure_one()
+        return self.company_id.accountant_id | self.company_id.technical_support_id
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        documents = super().create(vals_list)
+        # Done after create, not as a field default: a default can only read
+        # the company the user is working on, and the company of the document
+        # is only settled here (through account.move it comes as
+        # proxy_company_id). Documents created with their own autXML keep it.
+        self.env["l10n_br_cte.autxml"].create(
+            [
+                {"cte40_autXML_infCte_id": document.id, "partner_id": partner.id}
+                for document in documents
+                if not document.cte40_autXML
+                for partner in document._get_cte40_autxml_partners()
+            ]
+        )
+        return documents
 
     ##########################
     # CT-e tag: infCTeSupl
