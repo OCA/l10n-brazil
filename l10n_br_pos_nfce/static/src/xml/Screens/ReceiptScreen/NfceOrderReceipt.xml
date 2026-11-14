@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="l10n_br_pos_nfce.NfceOrderReceipt">
+        <div class="pos-receipt">
+            <NfceHeaderReceipt receipt="receipt" />
+            <hr class="nfceSeparator" />
+            <t t-if="isHomologationEnvironment">
+                <div>
+                    <p class="nfcePTag nfceEnvironment">
+                        EMITIDA EM AMBIENTE DE HOMOLOGAÇÃO – SEM VALOR FISCAL
+                    </p>
+                </div>
+
+                <hr class="nfceSeparator" />
+            </t>
+            <div class="nfceItems">
+                <p class="nfcePTag itemsTitle" style="font-weight: bold;">
+                    # | COD | DESCRICAO | QUANTIDADE | UN | VL UNIT | VL TOTAL
+                </p>
+
+                <ul>
+                    <t
+                        t-foreach="receipt.nfce_orderlines"
+                        t-as="line"
+                        t-key="line_index"
+                    >
+                        <NfceItemReceipt line="line" index="line_index" />
+                    </t>
+                </ul>
+            </div>
+            <hr class="nfceSeparator" />
+            <NfceTotalsReceipt receipt="receipt" />
+            <t t-foreach="receipt.paymentlines" t-as="payment" t-key="payment_index">
+                <NfcePaymentlineReceipt payment="payment" />
+            </t>
+
+            <t t-if="hasChange">
+                <div class="nfcePaymentLine">
+                    <p class="nfcePTag nfceTotalPayement">
+                        TROCO
+                    </p>
+                    <p class="nfcePTag nfceTotalPayement">
+                        <t t-esc="orderChange" />
+                    </p>
+                </div>
+            </t>
+            <hr class="nfceSeparator" />
+            <NfceFiscalInfoReceipt receipt="receipt" />
+            <NfceFooterReceipt receipt="receipt" />
+        </div>
+    </t>
+</templates>
