@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html). -->
+<!--
+    ** Attention **
+    Loaded from the post_init_hook with the demo company active, not from the
+    manifest, because an invoice takes its journal and its accounts from the
+    CURRENT company: loading this with another company active books the moves
+    in the wrong place, silently. Same reason l10n_br_account_nfe loads its own
+    invoice demo from a hook.
+
+    Why the assessment module carries invoices at all: `l10n_br_fiscal.document`
+    is a fiscal document and produces no journal item, so the fiscal demo leaves
+    the accounting empty, and `action_compute` reads posted journal items only.
+    Without these two invoices the demo assessment computes zero on every field
+    and shows nothing but its manual adjustments, which demonstrates nothing and
+    hides any regression in the bridge between the tax engine and the assessment.
+-->
+<odoo>
+
+    <!--
+        Input tax is only recoverable when the fiscal operation says so.
+        Otherwise the engine picks the "no credit" variant of each tax and the
+        amount goes into the cost, which is right for a reseller and wrong for
+        this company: it is flagged is_industry with a manufacturing CNAE, and a
+        manufacturer credits the tax on the raw material it consumes.
+
+        The field is company_dependent, so this write only reaches the company
+        that is active while the hook loads this file.
+    -->
+    <record id="l10n_br_fiscal.fo_compras" model="l10n_br_fiscal.operation">
+        <field name="deductible_taxes" eval="True" />
+    </record>
+
+    <!--
+        Inbound: raw material for industrialization (CFOP 1101/2101). Its tax is
+        the CREDIT side of the running account.
+    -->
+    <record id="demo_in_invoice_insumo" model="account.move">
+        <field name="move_type">in_invoice</field>
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="invoice_date" eval="time.strftime('%Y-%m')+'-04'" />
+        <field name="date" eval="time.strftime('%Y-%m')+'-04'" />
+        <field name="ref">NF de entrada - insumo para industrialização</field>
+        <field name="document_type_id" ref="l10n_br_fiscal.document_55" />
+        <field name="document_serie">1</field>
+        <field name="document_number">100001</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
+        <field
+            name="invoice_line_ids"
+            eval="[
+                Command.create({
+                    'product_id': ref('product.product_product_3'),
+                    'quantity': 20,
+                    'price_unit': 50.0,
+                    'name': 'Insumo para industrialização',
+                    'fiscal_operation_id': ref('l10n_br_fiscal.fo_compras'),
+                    'fiscal_operation_line_id': ref('l10n_br_fiscal.fo_compras_compras'),
+                }),
+            ]"
+        />
+    </record>
+
+    <!--
+        Outbound: sale of goods produced by the establishment (CFOP 5101/6101).
+        Its tax is the DEBIT side. The amounts are deliberately larger than the
+        purchase, so the period closes with tax to pay rather than a credit
+        balance: that is the case with a payment slip, an E110 field 13 and a
+        closing entry to show.
+    -->
+    <record id="demo_out_invoice_producao" model="account.move">
+        <field name="move_type">out_invoice</field>
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="invoice_date" eval="time.strftime('%Y-%m')+'-05'" />
+        <field name="date" eval="time.strftime('%Y-%m')+'-05'" />
+        <field name="ref">NF de saída - venda de produção do estabelecimento</field>
+        <field name="document_type_id" ref="l10n_br_fiscal.document_55" />
+        <field
+            name="document_serie_id"
+            ref="l10n_br_fiscal.empresa_lc_document_55_serie_1"
+        />
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field
+            name="invoice_line_ids"
+            eval="[
+                Command.create({
+                    'product_id': ref('product.product_product_3'),
+                    'quantity': 10,
+                    'price_unit': 180.0,
+                    'name': 'Venda de produção do estabelecimento',
+                    'fiscal_operation_id': ref('l10n_br_fiscal.fo_venda'),
+                    'fiscal_operation_line_id': ref('l10n_br_fiscal.fo_venda_venda'),
+                }),
+            ]"
+        />
+    </record>
+
+    <!--
+        Posting is the point of this file: a draft invoice produces no journal
+        item, and the assessment reads posted ones only.
+    -->
+    <function model="account.move" name="action_post">
+        <value
+            eval="[ref('demo_in_invoice_insumo'), ref('demo_out_invoice_producao')]"
+        />
+    </function>
+
+</odoo>
