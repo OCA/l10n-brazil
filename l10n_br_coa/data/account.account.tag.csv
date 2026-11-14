@@ -87,3 +87,6 @@ l10n_br_coa.account_tag_dva_third_party_capital,Valor Adicionado / Remuneração
 l10n_br_coa.account_tag_dva_own_capital,Valor Adicionado / Remuneração de Capitais Próprios,accounts,base.br
 l10n_br_coa.account_tag_dva_transfer,Valor Adicionado / Recebido em Transferência,accounts,base.br
 l10n_br_coa.account_tag_cash_flow_result_adjustment,Fluxo de Caixa / Neutralizado por Ajuste ao Resultado,accounts,base.br
+l10n_br_coa.account_tag_dva_taxes_federal,Valor Adicionado / Impostos Federais,accounts,base.br
+l10n_br_coa.account_tag_dva_taxes_state,Valor Adicionado / Impostos Estaduais,accounts,base.br
+l10n_br_coa.account_tag_dva_taxes_municipal,Valor Adicionado / Impostos Municipais,accounts,base.br

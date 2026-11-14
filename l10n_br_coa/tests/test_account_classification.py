@@ -123,8 +123,13 @@ class TestAccountClassification(TransactionCase):
             )
         ]
         dva_ids = [self._tag(name).id for name in DVA_TAGS]
+        # A depreciação é linha própria da demonstração do valor adicionado,
+        # separada dos insumos: contá-la também como insumo somaria a mesma
+        # despesa duas vezes no valor adicionado.
+        depreciation = self._tag("account_tag_depreciation_expense")
         expenses = self.templates.filtered(
             lambda t: result in t.tag_ids
+            and depreciation not in t.tag_ids
             and not (set(t.tag_ids.ids) & set(revenue_ids))
         )
         for account in expenses:
