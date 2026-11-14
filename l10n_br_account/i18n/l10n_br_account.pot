@@ -1318,6 +1318,11 @@ msgid "ICMS or ISSQN Tax"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_operation_line__icms_no_credit
+msgid "ICMS without Credit"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__amount_icmssn_credit_value
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__amount_icmssn_credit_value
 msgid "ICMSSN Credit Value"
@@ -2167,6 +2172,14 @@ msgstr ""
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__partner_is_public_entity
 msgid "Public Entity"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,help:l10n_br_account.field_l10n_br_fiscal_operation_line__icms_no_credit
+msgid ""
+"Purchases under this line do not take the ICMS credit, as with material for "
+"use and consumption (LC 87/1996, art. 33, I): the vendor bill books no ICMS "
+"to recover and the ICMS stays in the cost of the line."
 msgstr ""
 
 #. module: l10n_br_account

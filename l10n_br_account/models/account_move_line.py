@@ -8,7 +8,10 @@ from odoo import _, api, fields, models
 from odoo.fields import Command
 from odoo.tools import frozendict
 
-from odoo.addons.l10n_br_fiscal.constants.fiscal import FISCAL_TAX_ID_FIELDS
+from odoo.addons.l10n_br_fiscal.constants.fiscal import (
+    FISCAL_TAX_ID_FIELDS,
+    TAX_DOMAIN_ICMS,
+)
 
 
 class AccountMoveLine(models.Model):
@@ -251,6 +254,24 @@ class AccountMoveLine(models.Model):
 
         return result
 
+    def _icms_in_cost(self):
+        """ICMS of a purchase without ICMS credit, kept in the cost of the line.
+
+        `account_taxes` leaves the ICMS account taxes out of such a line, so
+        there is no tax line to carry the ICMS and the product line takes it.
+        """
+        self.ensure_one()
+        if (
+            self.fiscal_operation_line_id.icms_no_credit
+            and self.move_id.is_purchase_document(include_receipts=True)
+            and not self.tax_ids.filtered(
+                lambda t: t.tax_group_id.fiscal_tax_group_id.tax_domain
+                == TAX_DOMAIN_ICMS
+            )
+        ):
+            return self.icms_value
+        return 0.0
+
     def _fiscal_unsigned_amount_currency(self):
         self.ensure_one()
         # `deductible_taxes` is company dependent, so reading it off the
@@ -270,6 +291,7 @@ class AccountMoveLine(models.Model):
                 self.amount_tax_included
                 + self.amount_tax_not_included
                 - self.amount_tax_withholding
+                - self._icms_in_cost()
             )
         amount_total = self.fiscal_amount_total + self.amount_tax_withholding
         if operation.deductible_taxes:
@@ -277,7 +299,10 @@ class AccountMoveLine(models.Model):
         if not self.tax_ids:
             return self.currency_id.round(amount_total)
         return self.currency_id.round(
-            amount_total - self.amount_tax_included - self.amount_tax_not_included
+            amount_total
+            - self.amount_tax_included
+            - self.amount_tax_not_included
+            + self._icms_in_cost()
         )
 
     @contextmanager
@@ -699,6 +724,7 @@ class AccountMoveLine(models.Model):
         "product_uom_id",
         "fiscal_tax_ids",
         "fiscal_operation_id",
+        "fiscal_operation_line_id",
     )
     def _compute_tax_ids(self):
         # Adding 'fiscal_tax_ids' as a dependency to ensure that the taxes
@@ -726,6 +752,7 @@ class AccountMoveLine(models.Model):
             user_type=user_type,
             fiscal_operation=self.fiscal_operation_id,
             company=self.company_id,
+            fiscal_operation_line=self.fiscal_operation_line_id,
         )
 
     @api.constrains("product_uom_id")

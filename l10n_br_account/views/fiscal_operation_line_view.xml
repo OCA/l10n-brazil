@@ -13,6 +13,9 @@
             <field name="ind_ie_dest" position="after">
                 <field name="fiscal_position_id" readonly="state != 'draft'" />
             </field>
+            <field name="is_icmsst" position="after">
+                <field name="icms_no_credit" />
+            </field>
         </field>
     </record>
 </odoo>
