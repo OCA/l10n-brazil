@@ -82,6 +82,10 @@ class TestNFCePosOrder(TestNFCePosOrderCommon):
             cnpj_document.document_number,
             "1001",
         )
+        self.assertEqual(cnpj_order.state_edoc, cnpj_document.state_edoc)
+        self.assertEqual(
+            cnpj_order.authorization_protocol, cnpj_document.authorization_protocol
+        )
 
         # NFC-e autorizada com CPF.
         cpf_order_data = self._prepare_order_data(
@@ -127,6 +131,37 @@ class TestNFCePosOrder(TestNFCePosOrderCommon):
             document_values["document_key"],
             cpf_document.document_key,
         )
+
+    def test_nfce_order_without_customer_nor_invoice_flag(self):
+        self.env = self.env(user=self.env.ref("base.user_admin"))
+        self.env.user.company_ids = [(4, self.company.id)]
+        self.env.user.company_id = self.company
+        anonymous = self.env["res.partner"].create(
+            {"name": "Consumidor", "is_anonymous_consumer": True}
+        )
+        self.config.partner_id = anonymous
+        self.open_new_session()
+
+        order_data = self._prepare_order_data()
+        order_data["data"].update({"to_invoice": False, "partner_id": False})
+        result = self.env["pos.order"].create_from_ui([order_data])
+        order = self.env["pos.order"].browse(result[0]["id"])
+
+        self.assertEqual(order.partner_id, anonymous)
+        self.assertTrue(order.account_move.fiscal_document_id)
+
+    def test_invoice_button_issues_detailed_document(self):
+        self.env = self.env(user=self.env.ref("base.user_admin"))
+        self.env.user.company_ids = [(4, self.company.id)]
+        self.env.user.company_id = self.company
+        nfe_type = self.env.ref("l10n_br_fiscal.document_55")
+        self.config.detailed_document_type_id = nfe_type
+        self.open_new_session()
+
+        result = self.env["pos.order"].create_from_ui([self._prepare_order_data()])
+        order = self.env["pos.order"].browse(result[0]["id"])
+
+        self.assertEqual(order.account_move.document_type_id, nfe_type)
 
     def test_cancel_nfce_from_ui(self):
         self.env = self.env(user=self.env.ref("base.user_admin"))
