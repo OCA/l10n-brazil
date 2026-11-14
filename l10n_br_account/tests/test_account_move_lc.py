@@ -416,6 +416,33 @@ class AccountMoveLucroPresumido(AccountMoveBRCommon):
             places=2,
         )
 
+    def test_venda_in_foreign_currency_with_payment_term(self):
+        """The installments are converted to the company currency, as the
+        other lines of the entry."""
+        move = self.init_invoice(
+            "out_invoice",
+            products=[self.product_a],
+            currency=self.setup_other_currency("USD"),
+            document_type=self.env.ref("l10n_br_fiscal.document_55"),
+            document_serie_id=self.empresa_lc_document_55_serie_1,
+            fiscal_operation=self.env.ref("l10n_br_fiscal.fo_venda"),
+            fiscal_operation_lines=[self.env.ref("l10n_br_fiscal.fo_venda_venda")],
+        )
+        for payment_term in (self.pay_terms_a, self.pay_terms_b):
+            move.invoice_payment_term_id = payment_term
+            terms = move.line_ids.filtered(
+                lambda line: line.display_type == "payment_term"
+            )
+            self.assertEqual(len(terms), len(payment_term.line_ids))
+            self.assertAlmostEqual(
+                sum(terms.mapped("amount_currency")),
+                move.amount_total_in_currency_signed,
+            )
+            self.assertAlmostEqual(
+                sum(terms.mapped("balance")), move.amount_total_signed
+            )
+        move.action_post()
+
     def test_venda_with_icms_reduction(self):
         product_line_vals_1 = {
             "name": self.product_a.display_name,

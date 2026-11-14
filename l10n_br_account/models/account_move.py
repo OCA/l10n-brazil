@@ -397,17 +397,21 @@ class AccountMove(models.Model):
                     if is_draft:
                         tax_amount_currency = 0.0
                         untaxed_amount_currency = 0.0
+                        untaxed_amount = 0.0
                         for line in invoice.invoice_line_ids:
                             if line.cfop_id and not line.cfop_id.finance_move:
                                 pass
                             else:
                                 untaxed_amount_currency += line.price_subtotal
-                        untaxed_amount = untaxed_amount_currency
+                                untaxed_amount += invoice.company_currency_id.round(
+                                    line.price_subtotal / line.currency_rate
+                                )
                         tax_amount = tax_amount_currency
                     else:
                         tax_amount_currency = tax_amount = 0.0
                         untaxed_amount_currency = invoice.amount_financial_total * sign
-                        untaxed_amount = invoice.amount_financial_total * sign
+                        # the other lines of the entry in the company currency
+                        untaxed_amount = invoice.amount_total_signed
                     invoice_payment_terms = (
                         invoice.invoice_payment_term_id._compute_terms(
                             date_ref=invoice.invoice_date
