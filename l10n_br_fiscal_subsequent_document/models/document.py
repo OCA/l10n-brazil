@@ -2,6 +2,7 @@
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 
 from odoo import _, api, fields, models
+from odoo.exceptions import UserError
 
 from odoo.addons.l10n_br_fiscal_edi.constants.fiscal import (
     DOCUMENT_STATE_AUTHORIZED,
@@ -14,7 +15,9 @@ class Document(models.Model):
     document_subsequent_ids = fields.One2many(
         comodel_name="l10n_br_fiscal.subsequent.document",
         inverse_name="source_document_id",
-        copy=True,
+        compute="_compute_document_subsequent_ids",
+        store=True,
+        readonly=False,
     )
 
     document_subsequent_generated = fields.Boolean(
@@ -22,6 +25,29 @@ class Document(models.Model):
         compute="_compute_document_subsequent_generated",
         default=False,
     )
+
+    @api.depends("fiscal_operation_id")
+    def _compute_document_subsequent_ids(self):
+        for document in self:
+            commands = [
+                fields.Command.delete(subsequent.id)
+                for subsequent in document.document_subsequent_ids
+                if not subsequent.operation_performed
+            ]
+            commands.extend(
+                fields.Command.create(
+                    {
+                        "subsequent_operation_id": subsequent_operation.id,
+                        "fiscal_operation_id": (
+                            subsequent_operation.subsequent_operation_id.id
+                        ),
+                    }
+                )
+                for subsequent_operation in (
+                    document.fiscal_operation_id.operation_subsequent_ids
+                )
+            )
+            document.document_subsequent_ids = commands
 
     def _prepare_referenced_subsequent(self, doc_referenced):
         self.ensure_one()
@@ -60,19 +86,24 @@ class Document(models.Model):
             ):
                 subsequent_id.generate_subsequent_document()
 
-    def cancel_edoc(self):
-        self.ensure_one()
+    def _before_document_cancel(self):
         if any(
-            doc.state_edoc == DOCUMENT_STATE_AUTHORIZED
-            for doc in self.document_subsequent_ids.mapped("document_subsequent_ids")
-        ):
-            message = _(
-                "Canceling the document is not allowed: one or more "
-                "associated documents have already been authorized."
+            document.state_edoc == DOCUMENT_STATE_AUTHORIZED
+            for document in self.document_subsequent_ids.mapped(
+                "subsequent_document_id"
             )
-            raise UserWarning(message)
+        ):
+            raise UserError(
+                _(
+                    "Canceling the document is not allowed: one or more "
+                    "subsequent documents have already been authorized."
+                )
+            )
+        return super()._before_document_cancel()
 
     def write(self, vals):
+        # The FSM of l10n_br_fiscal_edi moves state_edoc through the ORM, so
+        # every transition passes here.
         result = super().write(vals)
         if "state_edoc" in vals:
             self._generates_subsequent_operations()
