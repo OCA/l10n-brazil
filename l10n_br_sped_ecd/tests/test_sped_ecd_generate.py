@@ -1,150 +1,207 @@
-# Copyright 2024 - TODAY, Akretion - Raphael Valyi <raphael.valyi@akretion.com>
-# License AGPL-3.0 or later (https://www.gnu.org/licenses/lgpl-3.0.en.html).
+# Copyright 2026 KMEE
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
+"""Generation of block I from the Odoo ledger.
 
-from os import path
+These tests assert VALUES, not presence. A register full of zeros passes any
+check that only looks at whether the line was written, and is rejected by the
+PVA all the same, so every assertion here names the amount it expects.
+"""
+from io import StringIO
 
-# from odoo.addons import l10n_br_sped_ecd
-from odoo.tests.common import tagged
+from odoo.tests import tagged
 
-from odoo.addons.l10n_br_account.tests.common import AccountMoveBRCommon
+from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 
 
 @tagged("post_install", "-at_install")
-class SpedTest(AccountMoveBRCommon):
+class TestSpedEcdGenerate(AccountTestInvoicingCommon):
     @classmethod
-    def setUpClass(cls):
-        super().setUpClass()
-        cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
-        cls.fol_sale_with_icms_reduction = cls.env[
-            "l10n_br_fiscal.operation.line"
-        ].create(
+    def setUpClass(cls, chart_template_ref=None):
+        super().setUpClass(chart_template_ref=chart_template_ref)
+        cls.company = cls.company_data["company"]
+        cls.journal = cls.company_data["default_journal_misc"]
+        # the accountant of the account test common is not a fiscal manager,
+        # and creating a declaration is a manager right
+        cls.env.user.groups_id |= cls.env.ref("l10n_br_fiscal.group_manager")
+
+        cls.group = cls.env["account.group"].create(
             {
-                "name": "Venda com ICMS 12 e Redução de 26,57",
-                "ind_ie_dest": "1",
-                "cfop_internal_id": cls.env.ref("l10n_br_fiscal.cfop_5101").id,
-                "cfop_external_id": cls.env.ref("l10n_br_fiscal.cfop_6101").id,
-                "cfop_export_id": cls.env.ref("l10n_br_fiscal.cfop_7101").id,
-                "state": "approved",
-                "product_type": "04",
-                "fiscal_operation_id": cls.env.ref("l10n_br_fiscal.fo_venda").id,
+                "name": "DISPONIVEL",
+                "code_prefix_start": "ECD1",
+                "company_id": cls.company.id,
+            }
+        )
+        cls.acc_caixa = cls.env["account.account"].create(
+            {
+                "code": "ECD10",
+                "name": "Caixa",
+                "account_type": "asset_cash",
+                "company_id": cls.company.id,
+                "group_id": cls.group.id,
+            }
+        )
+        cls.acc_receita = cls.env["account.account"].create(
+            {
+                "code": "ECD90",
+                "name": "Vendas",
+                "account_type": "income",
+                "company_id": cls.company.id,
             }
         )
 
-        cls.pis_tax_definition_empresa_lc = cls.env[
-            "l10n_br_fiscal.tax.definition"
-        ].create(
+        cls.declaration = cls.env["l10n_br_sped.ecd.0000"].create(
             {
-                "company_id": cls.company_data["company"].id,
-                "tax_group_id": cls.env.ref("l10n_br_fiscal.tax_group_pis").id,
-                "is_taxed": True,
-                "is_debit_credit": True,
-                "custom_tax": True,
-                "tax_id": cls.env.ref("l10n_br_fiscal.tax_pis_0_65").id,
-                "cst_id": cls.env.ref("l10n_br_fiscal.cst_pis_01").id,
-                "state": "approved",
+                "company_id": cls.company.id,
+                "DT_INI": "2026-01-01",
+                "DT_FIN": "2026-03-31",
+                "LECD": "LECD",
+                "NOME": cls.company.name,
+                "CNPJ": "18751708000140",
+                "UF": "SP",
+                # the header fields the layout requires; the values are the
+                # ordinary case: regular bookkeeping, not a consolidated nor a
+                # centralised one, with no change of chart in the period
+                "IND_SIT_INI_PER": "0",
+                "IND_NIRE": "0",
+                "IND_FIN_ESC": "0",
+                "IND_GRANDE_PORTE": "N",
+                "TIP_ECD": 0,
+                "IDENT_MF": "N",
+                "IND_ESC_CONS": "N",
+                "IND_CENTRALIZADA": "0",
+                "IND_MUDANC_PC": "0",
             }
-        )
-
-        cls.cofins_tax_definition_empresa_lc = cls.env[
-            "l10n_br_fiscal.tax.definition"
-        ].create(
-            {
-                "company_id": cls.company_data["company"].id,
-                "tax_group_id": cls.env.ref("l10n_br_fiscal.tax_group_cofins").id,
-                "is_taxed": True,
-                "is_debit_credit": True,
-                "custom_tax": True,
-                "tax_id": cls.env.ref("l10n_br_fiscal.tax_cofins_3").id,
-                "cst_id": cls.env.ref("l10n_br_fiscal.cst_cofins_01").id,
-                "state": "approved",
-            }
-        )
-
-        cls.cofins_tax_definition_empresa_lc_icms_reduction = cls.env[
-            "l10n_br_fiscal.tax.definition"
-        ].create(
-            {
-                "company_id": cls.company_data["company"].id,
-                "tax_group_id": cls.env.ref("l10n_br_fiscal.tax_group_icms").id,
-                "is_taxed": True,
-                "is_debit_credit": True,
-                "custom_tax": True,
-                "tax_id": cls.env.ref("l10n_br_fiscal.tax_icms_12_red_26_57").id,
-                "cst_id": cls.env.ref("l10n_br_fiscal.cst_icms_20").id,
-                "state": "approved",
-                "fiscal_operation_line_id": cls.fol_sale_with_icms_reduction.id,
-            }
-        )
-
-        cls.empresa_lc_document_55_serie_1 = cls.env[
-            "l10n_br_fiscal.document.serie"
-        ].create(
-            {
-                "code": "1",
-                "name": "Série 1",
-                "document_type_id": cls.env.ref("l10n_br_fiscal.document_55").id,
-                "active": True,
-            }
-        )
-
-        cls.move_out_venda = cls.init_invoice(
-            "out_invoice",
-            products=[cls.product_a],
-            document_type=cls.env.ref("l10n_br_fiscal.document_55"),
-            document_serie_id=cls.empresa_lc_document_55_serie_1,
-            fiscal_operation=cls.env.ref("l10n_br_fiscal.fo_venda"),
-            fiscal_operation_lines=[cls.env.ref("l10n_br_fiscal.fo_venda_venda")],
-        )
-
-        cls.env.ref("l10n_br_fiscal.fo_compras").deductible_taxes = True
-        cls.move_in_compra_para_revenda = cls.init_invoice(
-            "in_invoice",
-            products=[cls.product_a],
-            document_type=cls.env.ref("l10n_br_fiscal.document_55"),
-            fiscal_operation=cls.env.ref("l10n_br_fiscal.fo_compras"),
-            fiscal_operation_lines=[
-                cls.env.ref("l10n_br_fiscal.fo_compras_compras_comercializacao")
-            ],
-            document_serie="1",
-            document_number="42",
         )
 
     @classmethod
-    def setup_company_data(cls, company_name, chart_template=None, **kwargs):
-        if company_name == "company_1_data":
-            company_name = "empresa 1 Lucro Presumido"
-        else:
-            company_name = "empresa 2 Lucro Presumido"
-        chart_template = cls.env.ref("l10n_br_coa_generic.l10n_br_coa_generic_template")
-        res = super().setup_company_data(
-            company_name,
-            chart_template,
-            tax_framework="3",
-            is_industry=True,
-            industry_type="00",
-            profit_calculation="presumed",
-            ripi=True,
-            piscofins_id=cls.env.ref("l10n_br_fiscal.tax_pis_cofins_columativo").id,
-            icms_regulation_id=cls.env.ref("l10n_br_fiscal.tax_icms_regulation").id,
-            cnae_main_id=cls.env.ref("l10n_br_fiscal.cnae_3101200").id,
-            document_type_id=cls.env.ref("l10n_br_fiscal.document_55").id,
-            **kwargs,
+    def _post(cls, date, amount):
+        move = cls.env["account.move"].create(
+            {
+                "journal_id": cls.journal.id,
+                "company_id": cls.company.id,
+                "date": date,
+                "line_ids": [
+                    (0, 0, {"account_id": cls.acc_caixa.id, "debit": amount}),
+                    (0, 0, {"account_id": cls.acc_receita.id, "credit": amount}),
+                ],
+            }
         )
-        res["company"].partner_id.state_id = cls.env.ref("base.state_br_sp").id
-        chart_template.load_fiscal_taxes()
-        return res
+        move.action_post()
+        return move
 
-    def test_generate_sped(self):
-        self.env["l10n_br_sped.mixin"]._flush_registers("ecd")
-        file_path = path.join(self.demo_path, "demo_ecd_output.txt")
-        declaration = self.env["l10n_br_sped.declaration"].create({})
-        # sped_mixin._import_file(file_path, "ecd")
-        sped = declaration._generate_sped_text()
-        with open(file_path) as f:
-            target_content = f.read()
-            # print(sped)
-            self.assertEqual(sped.strip(), target_content.strip())
+    def _populate(self):
+        """Pull the way `button_populate_sped_from_odoo` does.
+
+        Block I hangs entirely under I010, so the pull starts there and
+        cascades: pulling a child on its own would leave its parent link null.
+        `default_declaration_id` is what ties each register created down the
+        recursion to the declaration.
+        """
+        self.env["l10n_br_sped.ecd.i010"].with_context(
+            company_id=self.company.id,
+            declaration=self.declaration,
+            default_declaration_id=self.declaration.id,
+        )._pull_records_from_odoo("ecd", 2, log_msg=StringIO())
+
+    def _registers(self, model_name):
+        return self.env[model_name].search(
+            [("declaration_id", "=", self.declaration.id)]
+        )
+
+    def test_entries_are_pulled_with_the_accounting_date_and_amount(self):
+        """The entry carries its accounting date and the total of its debits.
+
+        Two defects lived here: the domain filtered `state = "open"`, a value
+        that does not exist in this version, so nothing was ever pulled; and
+        the amount came from `fiscal_amount_total`, which is zero on every
+        entry that did not come from a fiscal document.
+        """
+        self._post("2026-02-10", 1500.0)
+        self._populate()
+        registers = self._registers("l10n_br_sped.ecd.i200")
+        self.assertEqual(len(registers), 1)
+        self.assertEqual(str(registers.DT_LCTO), "2026-02-10")
+        self.assertAlmostEqual(registers.VL_LCTO, 1500.0, places=2)
+
+    def test_entries_on_the_period_edges_are_included(self):
+        """The period bounds are inclusive.
+
+        With the strict operator an entry booked on the first or the last day
+        of the escrituracao was silently dropped.
+        """
+        self._post("2026-01-01", 100.0)
+        self._post("2026-03-31", 200.0)
+        self._populate()
+        registers = self._registers("l10n_br_sped.ecd.i200")
+        self.assertEqual(len(registers), 2)
+
+    def test_line_amount_is_the_posted_value_not_the_currency_one(self):
+        """A line carries its own amount, positive, with the nature apart."""
+        move = self._post("2026-02-10", 800.0)
+        self._populate()
+        parent = self._registers("l10n_br_sped.ecd.i200")
+        lines = self._registers("l10n_br_sped.ecd.i250")
+        self.assertEqual(len(lines), 2)
+        self.assertEqual(parent.res_id, move.id)
+        for line in lines:
+            self.assertAlmostEqual(line.VL_DC, 800.0, places=2)
+        self.assertEqual(set(lines.mapped("IND_DC")), {"D", "C"})
+
+    def test_chart_of_accounts_declares_groups_and_accounts(self):
+        """I050 carries both the synthetic groups and the analytic accounts."""
+        self._populate()
+        registers = self._registers("l10n_br_sped.ecd.i050")
+        sintetica = registers.filtered(lambda r: r.COD_CTA == "ECD1")
+        analitica = registers.filtered(lambda r: r.COD_CTA == "ECD10")
+        self.assertEqual(sintetica.IND_CTA, "S")
+        self.assertEqual(analitica.IND_CTA, "A")
+        # the analytic account hangs under its group, one level below
+        self.assertEqual(analitica.COD_CTA_SUP, "ECD1")
+        self.assertEqual(analitica.NIVEL, sintetica.NIVEL + 1)
+        # nature comes from the internal group: 01 assets, 04 result
+        self.assertEqual(analitica.COD_NAT, "01")
         self.assertEqual(
-            self.move_out_venda.invoice_line_ids[0].cfop_id.name,
-            "Venda de produção do estabelecimento",
+            registers.filtered(lambda r: r.COD_CTA == "ECD90").COD_NAT, "04"
         )
+
+    def test_trial_balance_has_one_period_per_month(self):
+        """I150 covers the escrituracao month by month, with no gap."""
+        self._populate()
+        registers = self._registers("l10n_br_sped.ecd.i150")
+        self.assertEqual(len(registers), 3)
+        self.assertEqual(
+            [str(r.DT_INI) for r in registers.sorted("DT_INI")],
+            ["2026-01-01", "2026-02-01", "2026-03-01"],
+        )
+        self.assertEqual(str(registers.sorted("DT_INI")[-1].DT_FIN), "2026-03-31")
+
+    def test_trial_balance_carries_opening_movement_and_closing(self):
+        """I155 states the opening balance, the movement and the closing one.
+
+        January books 1000 and February another 400. February therefore opens
+        at 1000, moves 400 and closes at 1400, which is what makes the trial
+        balance tie from one month to the next.
+        """
+        self._post("2026-01-15", 1000.0)
+        self._post("2026-02-15", 400.0)
+        self._populate()
+        periods = self._registers("l10n_br_sped.ecd.i150").sorted("DT_INI")
+        fevereiro = periods[1]
+        detail = fevereiro.reg_I155_ids
+        caixa = detail.filtered(lambda r: r.COD_CTA == "ECD10")
+        self.assertAlmostEqual(caixa.VL_SLD_INI, 1000.0, places=2)
+        self.assertEqual(caixa.IND_DC_INI, "D")
+        self.assertAlmostEqual(caixa.VL_DEB, 400.0, places=2)
+        self.assertAlmostEqual(caixa.VL_CRED, 0.0, places=2)
+        self.assertAlmostEqual(caixa.VL_SLD_FIN, 1400.0, places=2)
+        self.assertEqual(caixa.IND_DC_FIN, "D")
+
+    def test_credit_balance_is_reported_as_credit_not_as_a_negative(self):
+        """A credit balance goes out positive, with the nature saying credit."""
+        self._post("2026-01-15", 700.0)
+        self._populate()
+        periods = self._registers("l10n_br_sped.ecd.i150").sorted("DT_INI")
+        detail = periods[0].reg_I155_ids
+        vendas = detail.filtered(lambda r: r.COD_CTA == "ECD90")
+        self.assertAlmostEqual(vendas.VL_SLD_FIN, 700.0, places=2)
+        self.assertEqual(vendas.IND_DC_FIN, "C")
