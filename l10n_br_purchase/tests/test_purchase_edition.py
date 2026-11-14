@@ -3,6 +3,7 @@
 
 from odoo import Command
 from odoo.tests import Form, TransactionCase, tagged
+from odoo.tests.common import users
 
 
 @tagged("post_install", "-at_install")
@@ -25,28 +26,27 @@ class TestPurchaseEdition(TransactionCase):
         cls.env.user.company_ids += cls.company
         cls.env.user.company_id = cls.company
 
-        cls.user = cls.env["res.users"].create(
+        # A plain purchase user: no fiscal configuration rights, only the
+        # read access to fiscal data granted by l10n_br_purchase's
+        # ir.model.access.csv. The fiscal edition test below runs for both
+        # this user and the admin so a missing grant fails with AccessError.
+        cls.purchase_user = cls.env["res.users"].create(
             {
                 "name": "Purchase Fiscal Editor",
                 "login": "po_fiscal_editor",
                 "password": "po_fiscal_editor",
                 "groups_id": [
-                    Command.set(cls.env.user.groups_id.ids),
-                    Command.link(cls.env.ref("purchase.group_purchase_manager").id),
-                    Command.link(cls.env.ref("l10n_br_fiscal.group_user").id),
+                    Command.link(cls.env.ref("purchase.group_purchase_user").id),
                     Command.link(cls.env.ref("uom.group_uom").id),
                 ],
             }
         )
         companies = cls.env["res.company"].search([])
-        cls.user.write(
+        cls.purchase_user.write(
             {
                 "company_ids": [Command.set(companies.ids)],
                 "company_id": cls.company.id,
             }
-        )
-        cls.env = cls.env(
-            user=cls.user, context=dict(cls.env.context, tracking_disable=True)
         )
 
         # Product with a non-zero cost so fiscal tax values can be computed.
@@ -55,6 +55,15 @@ class TestPurchaseEdition(TransactionCase):
         cls.product_id = cls.env.ref("product.product_product_7")
         cls.product_id.standard_price = 100.0
 
+    def setUp(self):
+        super().setUp()
+        # The @users decorator switches self.uid per subtest and restores it
+        # afterwards; just disable mail tracking for the whole suite here.
+        self.env = self.env(
+            context=dict(self.env.context, tracking_disable=True),
+        )
+
+    @users("po_fiscal_editor")
     def test_fiscal_purchase_order(self):
         """Ensure fiscal fields are computed on a purchase order line.
 
