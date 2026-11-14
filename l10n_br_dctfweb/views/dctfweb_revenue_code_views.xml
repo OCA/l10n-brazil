@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html). -->
+<odoo>
+    <record id="view_dctfweb_revenue_code_search" model="ir.ui.view">
+        <field name="name">l10n_br_dctfweb.revenue.code.search</field>
+        <field name="model">l10n_br_dctfweb.revenue.code</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="mit_code" />
+                <field name="name" />
+                <filter
+                    name="group_by_group"
+                    string="Tax group"
+                    context="{'group_by': 'group'}"
+                />
+                <filter
+                    name="group_by_periodicity"
+                    string="Periodicity"
+                    context="{'group_by': 'periodicity'}"
+                />
+            </search>
+        </field>
+    </record>
+
+    <record id="view_dctfweb_revenue_code_tree" model="ir.ui.view">
+        <field name="name">l10n_br_dctfweb.revenue.code.tree</field>
+        <field name="model">l10n_br_dctfweb.revenue.code</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="mit_code" />
+                <field name="group" />
+                <field name="periodicity" />
+                <field name="name" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_dctfweb_revenue_code_form" model="ir.ui.view">
+        <field name="name">l10n_br_dctfweb.revenue.code.form</field>
+        <field name="model">l10n_br_dctfweb.revenue.code</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group name="code">
+                            <field name="code" />
+                            <field name="extension" />
+                            <field name="mit_code" />
+                            <field name="group" />
+                            <field name="periodicity" />
+                            <field name="active" />
+                        </group>
+                        <group name="layout" string="Layout requirements">
+                            <field name="requires_period" />
+                            <field name="requires_establishment" />
+                            <field name="requires_incorporation" />
+                            <field name="allows_scp" />
+                            <field name="requires_gold_city" />
+                            <field name="is_postponed" />
+                            <field name="requires_debit_year" />
+                        </group>
+                    </group>
+                    <field name="name" />
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_dctfweb_revenue_code" model="ir.actions.act_window">
+        <field name="name">MIT Revenue Codes</field>
+        <field name="res_model">l10n_br_dctfweb.revenue.code</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem
+        id="menu_dctfweb_revenue_code"
+        name="MIT Revenue Codes"
+        parent="account.account_account_menu"
+        action="action_dctfweb_revenue_code"
+        sequence="95"
+    />
+</odoo>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html). -->
+<odoo>
+    <record id="view_company_form_dctfweb" model="ir.ui.view">
+        <field name="name">res.company.form.dctfweb</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="base.view_company_form" />
+        <field name="arch" type="xml">
+            <notebook position="inside">
+                <page name="dctfweb" string="DCTFWeb/MIT">
+                    <group>
+                        <group name="dctfweb_initial_data" string="Initial data">
+                            <field name="dctfweb_pj_qualification" />
+                            <field name="dctfweb_profit_taxation" />
+                            <field name="dctfweb_monetary_variation" />
+                            <field name="dctfweb_pis_cofins_regime" />
+                        </group>
+                        <group name="dctfweb_responsible" string="Responsible">
+                            <field name="dctfweb_responsible_cpf" />
+                            <field name="dctfweb_responsible_phone_area" />
+                            <field name="dctfweb_responsible_phone" />
+                            <field name="dctfweb_responsible_email" />
+                            <field name="dctfweb_crc_state_id" />
+                            <field name="dctfweb_crc_number" />
+                        </group>
+                    </group>
+                </page>
+            </notebook>
+        </field>
+    </record>
+</odoo>
