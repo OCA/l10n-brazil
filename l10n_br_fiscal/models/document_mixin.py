@@ -43,6 +43,7 @@ class FiscalDocumentMixin(models.AbstractModel):
     """
 
     _name = "l10n_br_fiscal.document.mixin"
+    _inherit = "l10n_br_fiscal.report.filter.mixin"
     _description = "Document Fiscal Mixin Fields"
 
     def _date_server_format(self):
