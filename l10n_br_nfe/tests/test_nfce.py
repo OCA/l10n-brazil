@@ -58,6 +58,10 @@ class TestNFCe(TestNFeExport):
         self.document_id.action_document_send()
 
         self.assertEqual(self.document_id.state_edoc, SITUACAO_EDOC_AUTORIZADA)
+        self.assertEqual(
+            Datetime.to_string(self.document_id.authorization_date),
+            "2023-08-07 14:09:08",
+        )
 
         cancel_wizard = (
             self.env["l10n_br_fiscal.document.cancel.wizard"]
@@ -84,7 +88,7 @@ class TestNFCe(TestNFeExport):
         )
         self.assertEqual(
             Datetime.to_string(self.document_id.cancel_event_id.protocol_date),
-            "2023-07-05 16:52:52",
+            "2023-07-05 19:52:52",
         )
 
     @nfe_mock({"nfeAutorizacaoLote": "retEnviNFe/rejeitada.xml"})

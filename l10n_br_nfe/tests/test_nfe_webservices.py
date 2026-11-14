@@ -66,8 +66,31 @@ class TestNFeWebServices(TestNFeExport):
             )
             self.assertEqual(
                 Datetime.to_string(nfe.cancel_event_id.protocol_date),
-                "2023-07-05 16:52:52",
+                "2023-07-05 19:52:52",
             )
+
+    @nfe_mock(
+        {
+            "nfeAutorizacaoLote": "retEnviNFe/lote_recebido.xml",
+            "nfeRetAutorizacaoLote": "retConsReciNFe/autorizada.xml",
+            "nfeRecepcaoEvento": "retEnvEvento/nfe_cancelamento_mt.xml",
+        }
+    )
+    def test_cancel_protocol_date_other_timezone(self):
+        """dhRegEvento at -04:00 (MT/AM) is stored in UTC, not as local time."""
+        nfe = self.nfe_list[0]["nfe"]
+        nfe.action_document_send()
+        cancel_wizard = (
+            self.env["l10n_br_fiscal.document.cancel.wizard"]
+            .with_context(active_model="l10n_br_fiscal.document", active_id=nfe.id)
+            .create({"document_id": nfe.id, "justification": "Era apenas um teste."})
+        )
+        cancel_wizard.doit()
+        self.assertEqual(nfe.cancel_event_id.state, "done")
+        self.assertEqual(
+            Datetime.to_string(nfe.cancel_event_id.protocol_date),
+            "2023-07-05 19:52:52",
+        )
 
     @nfe_mock({"nfeInutilizacaoNF": "retInutNFe/nfe_inutilizacao.xml"})
     def test_inutilizar(self):
