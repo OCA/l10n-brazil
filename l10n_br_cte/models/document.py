@@ -1098,7 +1098,14 @@ class CTe(spec_models.StackedModel):
     # CT-e tag: autXML
     ##########################
 
-    cte40_autXML = fields.One2many(default=_default_cte40_autxml)
+    # The comodel is declared here instead of being left to the spec remapping
+    # done at setup time: account.move copies this field through _inherits and,
+    # when it is set up first (it depends on the module loading order), the
+    # copy keeps pointing to the abstract spec model, which has no partner.
+    cte40_autXML = fields.One2many(
+        comodel_name="l10n_br_cte.autxml",
+        default=_default_cte40_autxml,
+    )
 
     ##########################
     # CT-e tag: infCTeSupl
