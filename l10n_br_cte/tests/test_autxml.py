@@ -64,3 +64,38 @@ class TestAutXml(TransactionCase):
 
         self.assertEqual(authorization.cte40_CNPJ, self.partner.cte40_CNPJ)
         self.assertEqual(authorization.cte40_CPF, self.partner.cte40_CPF)
+
+    def test_autxml_comes_from_the_document_company(self):
+        """The accountant authorized is the one of the document company.
+
+        Not the one of the company the user is working on, which may be
+        another one in the company switcher.
+        """
+        company = self.document.company_id
+        other_company = self.env["res.company"].search(
+            [("id", "!=", company.id)], limit=1
+        )
+        other_accountant = self.env["res.partner"].create(
+            {"name": "Other Company Accountant"}
+        )
+        company.accountant_id = self.partner
+        other_company.accountant_id = other_accountant
+
+        document = self.document.with_context(
+            allowed_company_ids=[other_company.id, company.id]
+        ).copy()
+
+        self.assertEqual(document.env.company, other_company)
+        self.assertIn(self.partner, document.cte40_autXML.partner_id)
+        self.assertNotIn(other_accountant, document.cte40_autXML.partner_id)
+
+    def test_document_created_with_autxml_keeps_it(self):
+        """A document created with its own autXML (an import) keeps it."""
+        self.document.company_id.accountant_id = self.partner
+        given_partner = self.env["res.partner"].create({"name": "Given Partner"})
+
+        document = self.document.copy(
+            {"cte40_autXML": [Command.create({"partner_id": given_partner.id})]}
+        )
+
+        self.assertEqual(document.cte40_autXML.partner_id, given_partner)
