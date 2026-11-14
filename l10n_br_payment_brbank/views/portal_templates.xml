@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <template
+        id="portal_invoice_page_brbank"
+        inherit_id="l10n_br_payment.portal_invoice_page_boleto"
+    >
+        <xpath expr="//div[hasclass('o_boleto_title')]" position="inside">
+            <a
+                t-if="title.boleto_pdf"
+                class="btn btn-secondary btn-sm mt-1"
+                t-att-href="'/my/invoices/%s/brbank/%s?access_token=%s&amp;download=true' % (invoice.id, title.id, invoice._portal_ensure_token())"
+            >
+                <i class="fa fa-download" title="Download" /> Boleto
+            </a>
+        </xpath>
+    </template>
+</odoo>
