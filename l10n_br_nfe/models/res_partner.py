@@ -189,27 +189,40 @@ class ResPartner(spec_models.SpecModel):
         for rec in self:
             rec.nfe40_enderDest = rec.id
 
-    @api.depends("is_company", "l10n_br_ie_code", "vat", "country_id")
+    @api.depends("l10n_br_ie_code", "vat", "country_id", "parent_id.cnpj_cpf_stripped")
     def _compute_nfe_data(self):
         """Set schema data which are not just related fields"""
         for rec in self:
-            if rec.cnpj_cpf_stripped:
+            cnpj_cpf = rec.cnpj_cpf_stripped
+            if not cnpj_cpf and rec.parent_id and rec.parent_id.country_id.code == "BR":
+                # Delivery/pickup addresses (tlocal/entrega/retirada) usually
+                # have no document of their own: inherit the Brazilian parent
+                # partner's one, as the pre-#5580-cleanup _export_field code
+                # intended (its fallback never fired because the
+                # nfe40_choice_tlocal gate was False for vat-less children).
+                cnpj_cpf = rec.parent_id.cnpj_cpf_stripped
+            if cnpj_cpf:
                 if rec.country_id.code != "BR":
                     rec.nfe40_choice_dest = "nfe40_idEstrangeiro"
                     rec.nfe40_choice_tlocal = False
-                elif rec.is_company:
+                elif len(cnpj_cpf) == 14:
+                    # 14 chars: CNPJ (numeric or alphanumeric, NT 2025.001).
+                    # The tag follows the actual document, not is_company:
+                    # a pessoa física may carry a CNPJ (e.g. produtor rural,
+                    # see OCA/l10n-brazil#5580).
                     rec.nfe40_choice_tlocal = "nfe40_CNPJ"
                     rec.nfe40_choice_emit = "nfe40_CNPJ"
                     rec.nfe40_choice_dest = "nfe40_CNPJ"
                     rec.nfe40_choice_transporta = "nfe40_CNPJ"
-                    rec.nfe40_CNPJ = rec.cnpj_cpf_stripped
+                    rec.nfe40_CNPJ = cnpj_cpf
                     rec.nfe40_CPF = None
                 else:
+                    # 11 digits: CPF
                     rec.nfe40_choice_tlocal = "nfe40_CPF"
                     rec.nfe40_choice_emit = "nfe40_CPF"
                     rec.nfe40_choice_dest = "nfe40_CPF"
                     rec.nfe40_choice_transporta = "nfe40_CPF"
-                    rec.nfe40_CPF = rec.cnpj_cpf_stripped
+                    rec.nfe40_CPF = cnpj_cpf
                     rec.nfe40_CNPJ = None
             else:
                 rec.nfe40_choice_tlocal = False
@@ -331,17 +344,12 @@ class ResPartner(spec_models.SpecModel):
         ):
             return "NF-E EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL"
 
-        if xsd_field in ("nfe40_CNPJ", "nfe40_CPF"):
-            # Caso o CNPJ/CPF esteja em branco e o parceiro tenha um parent_id
-            # É exportado o CNPJ/CPF do parent_id é importate para o endereço
-            # de entrega/retirada
-            if not self.vat and self.parent_id:
-                cnpj_cpf = punctuation_rm(self.parent_id.vat)
-            else:
-                cnpj_cpf = punctuation_rm(self.vat)
-
-            if xsd_field == self.nfe40_choice_tlocal:
-                return cnpj_cpf
+        # The CNPJ/CPF tag values are exported from the computed fields
+        # (nfe40_CNPJ/nfe40_CPF, see _compute_nfe_data): the single source
+        # of truth for the document number. The re-derivation from self.vat
+        # that used to live here was redundant (for partners with a vat it
+        # returned the computed value) and its parent_id fallback was dead
+        # code (nfe40_choice_tlocal is always False for vat-less children).
 
         if self.country_id.code != "BR":
             if xsd_field == "nfe40_xBairro":
