@@ -299,6 +299,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         "national_taxation_code_id",
         "service_type_id",
         "ind_final",
+        "tax_classification_id",
     )
     def _compute_fiscal_tax_ids(self):
         for line in self:
@@ -318,15 +319,32 @@ class FiscalDocumentLineMixin(models.AbstractModel):
                 )
                 line.cfop_id = mapping_result["cfop"]
                 line.ipi_guideline_id = mapping_result["ipi_guideline"]
-                line.tax_classification_id = mapping_result["tax_classification"]
                 line.icms_tax_benefit_id = mapping_result["icms_tax_benefit_id"]
 
                 if line._is_imported():
+                    line.tax_classification_id = mapping_result["tax_classification"]
                     continue
 
                 taxes = line.env["l10n_br_fiscal.tax"]
                 for tax in mapping_result["taxes"].values():
                     taxes |= tax
+
+                mapped_classification = mapping_result["tax_classification"]
+                if (
+                    line.tax_classification_id
+                    and line.tax_classification_id != mapped_classification
+                ):
+                    # The user manually overrode the mapped classification:
+                    # keep it and use its own CBS/IBS taxes (which may carry a
+                    # different base reduction) instead of the mapped ones.
+                    taxes = taxes.filtered(
+                        lambda t: t.tax_domain not in (TAX_DOMAIN_CBS, TAX_DOMAIN_IBS)
+                    )
+                    taxes |= line.tax_classification_id.tax_cbs_id
+                    taxes |= line.tax_classification_id.tax_ibs_id
+                else:
+                    line.tax_classification_id = mapped_classification
+
                 line.fiscal_tax_ids = taxes
 
     @api.depends("fiscal_operation_line_id")
@@ -355,10 +373,16 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     def write(self, vals):
         res = super().write(vals)
 
+        if "tax_classification_id" in vals:
+            for line in self:
+                if line.tax_classification_id:
+                    line.ibs_tax_id = line.tax_classification_id.tax_ibs_id
+                    line.cbs_tax_id = line.tax_classification_id.tax_cbs_id
+
         # Verifica se algum campo de imposto relevante foi alterado no 'write'
         tax_fields_in_vals = [fld for fld in vals if fld in FISCAL_TAX_ID_FIELDS]
 
-        if tax_fields_in_vals:
+        if tax_fields_in_vals or "tax_classification_id" in vals:
             # Por segurança, sempre recalcula se um campo relevante mudou.
             self._update_fiscal_tax_ids()
 
@@ -369,10 +393,14 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         for fiscal_tax_field in FISCAL_TAX_ID_FIELDS:
             taxes |= self[fiscal_tax_field]
 
+        new_taxes_domains = taxes.mapped("tax_domain")
+
         for line in self:
-            taxes_groups = line.fiscal_tax_ids.mapped("tax_domain")
+            # mantém impostos de domínios que não vêm de FISCAL_TAX_ID_FIELDS
+            # (ex.: PIS/COFINS/ICMS-SN calculados via mapeamento da operação fiscal)
             fiscal_taxes = line.fiscal_tax_ids.filtered(
-                lambda ft, taxes_groups=taxes_groups: ft.tax_domain not in taxes_groups
+                lambda ft, new_taxes_domains=new_taxes_domains: ft.tax_domain
+                not in new_taxes_domains
             )
             new_fiscal_tax_ids = fiscal_taxes + taxes
             # fiscal_tax_ids está nos depends de _compute_tax_fields; só
@@ -706,6 +734,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         if self.tax_classification_id:
             self.ibs_tax_id = self.tax_classification_id.tax_ibs_id
             self.cbs_tax_id = self.tax_classification_id.tax_cbs_id
+            self._update_fiscal_tax_ids()
 
     def _prepare_fields_icmssn(self, tax_dict):
         self.ensure_one()
