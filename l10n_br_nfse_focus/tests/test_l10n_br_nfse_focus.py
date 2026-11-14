@@ -2053,3 +2053,49 @@ class TestL10nBrNfseFocus(common.TransactionCase):
 
                 mock_handle.assert_called_once()
                 self.assertEqual(result.status_code, 200)
+
+    def test_foreign_trade_group_nacional(self):
+        """Foreign trade group is sent only when the service has foreign data."""
+        nfse_nacional = self.env["focusnfe.nfse.nacional"]
+        service = dict(PAYLOAD[1]["service"])
+        self.assertEqual(nfse_nacional._prepare_foreign_trade_nacional(service), {})
+
+        service["comercio_exterior"] = {
+            "moeda_original": "USD",
+            "codigo_moeda": "220",
+            "valor_servico_moeda_original": 1000.0,
+            "taxa_cambio": 4.9,
+            "modo_prestacao": "4",
+            "vinculo_negocio": "1",
+            "mecanismo_prestador": "02",
+            "mecanismo_tomador": "03",
+        }
+        group = nfse_nacional._prepare_foreign_trade_nacional(service)
+        self.assertEqual(group["codigo_moeda"], "220")
+        self.assertEqual(group["valor_servico_ext"], 1000.0)
+        self.assertEqual(group["modo_prestacao"], 4)
+        self.assertEqual(group["vinculo_negocio"], 1)
+        self.assertEqual(group["mecanismo_comercio_ext_prestador"], "02")
+        self.assertEqual(group["mecanismo_comercio_ext_tomador"], "03")
+
+        # Currency without a known BACEN code: the group is not sent.
+        service["comercio_exterior"]["codigo_moeda"] = None
+        self.assertEqual(nfse_nacional._prepare_foreign_trade_nacional(service), {})
+
+    def test_payload_nacional_carries_foreign_trade(self):
+        nfse_nacional = self.env["focusnfe.nfse.nacional"]
+        service = dict(PAYLOAD[1]["service"])
+        service["valor_servicos"] = 4900.0
+        service["comercio_exterior"] = {
+            "codigo_moeda": "220",
+            "valor_servico_moeda_original": 1000.0,
+        }
+        edoc = {
+            "rps": PAYLOAD[0]["rps"],
+            "service": service,
+            "recipient": PAYLOAD[2]["recipient"],
+        }
+        payload = nfse_nacional._prepare_payload_nacional(edoc, self.company)
+        self.assertEqual(payload["valor_servico"], 4900.0)
+        self.assertEqual(payload["valor_servico_ext"], 1000.0)
+        self.assertEqual(payload["codigo_moeda"], "220")

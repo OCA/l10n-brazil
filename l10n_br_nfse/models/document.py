@@ -9,7 +9,7 @@ from erpbrasil.edoc.provedores.cidades import NFSeFactory
 from erpbrasil.transmissao import TransmissaoSOAP
 from requests import Session
 
-from odoo import fields, models
+from odoo import _, fields, models
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     EVENT_ENV_HML,
@@ -19,7 +19,12 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     TAX_FRAMEWORK_SIMPLES_ALL,
 )
 
+from ..constants.currency import CURRENCY_BACEN_CODE
 from ..constants.nfse import (
+    FOREIGN_TRADE_LINK,
+    FOREIGN_TRADE_MODE,
+    FOREIGN_TRADE_SUPPORT_PROVIDER,
+    FOREIGN_TRADE_SUPPORT_RECIPIENT,
     ISSQN_TO_TRIBUTACAO_ISS,
     NFSE_ENVIRONMENTS,
     OPERATION_NATURE,
@@ -62,7 +67,7 @@ class Document(models.Model):
     )
     taxation_special_regime = fields.Selection(
         selection=TAXATION_SPECIAL_REGIME,
-        default="1",
+        default=lambda self: self.env.company.nfse_taxation_special_regime,
     )
     verify_code = fields.Char(
         copy=False,
@@ -71,6 +76,31 @@ class Document(models.Model):
         selection=NFSE_ENVIRONMENTS,
         string="NFSe Environment",
         default=lambda self: self.env.company.nfse_environment,
+    )
+
+    nfse_foreign_trade_mode = fields.Selection(
+        selection=FOREIGN_TRADE_MODE,
+        string="Foreign Trade Service Mode",
+        default=lambda self: self.env.company.nfse_foreign_trade_mode or "1",
+        help="mdPrestacao: used only when the invoice is in foreign currency.",
+    )
+    nfse_foreign_trade_link = fields.Selection(
+        selection=FOREIGN_TRADE_LINK,
+        string="Foreign Trade Link",
+        default="0",
+        help="vincPrest: link between the parties.",
+    )
+    nfse_foreign_trade_support_provider = fields.Selection(
+        selection=FOREIGN_TRADE_SUPPORT_PROVIDER,
+        string="Foreign Trade Support (Provider)",
+        default="01",
+        help="mecAFComexP: support mechanism used by the provider.",
+    )
+    nfse_foreign_trade_support_recipient = fields.Selection(
+        selection=FOREIGN_TRADE_SUPPORT_RECIPIENT,
+        string="Foreign Trade Support (Recipient)",
+        default="01",
+        help="mecAFComexT: support mechanism used by the recipient.",
     )
 
     civil_construction_code = fields.Char()
@@ -145,7 +175,46 @@ class Document(models.Model):
                 record.make_pdf()
         return result
 
+    def _nfse_foreign_currency_rate(self):
+        """Return the invoice currency and its rate to the company currency.
+
+        The NFS-e is always issued in the company currency (BRL). When the
+        invoice is in another currency, the fiscal values of the document
+        still are in the invoice currency (the fiscal line and the invoice
+        line are the same record), so they must be converted when the NFS-e
+        data is built. l10n_br_nfse does not depend on ``account``: the base
+        implementation has no invoice and returns no currency and rate 1.0.
+        l10n_br_account_nfse overrides it with the invoice rate.
+
+        :return: tuple (res.currency record, empty when there is nothing to
+            convert; float, multiplier from the invoice currency to the
+            company currency).
+        """
+        self.ensure_one()
+        return self.env["res.currency"], 1.0
+
+    def _nfse_foreign_trade_data(self):
+        """Return the foreign trade data to export, empty if not applicable."""
+        self.ensure_one()
+        currency, rate = self._nfse_foreign_currency_rate()
+        if not currency or rate == 1.0:
+            return {}
+        original_value = sum(
+            line.price_gross for line in self.fiscal_line_ids if line.product_id
+        )
+        return {
+            "moeda_original": currency.name,
+            "codigo_moeda": CURRENCY_BACEN_CODE.get(currency.name),
+            "valor_servico_moeda_original": round(original_value, 2),
+            "taxa_cambio": rate,
+            "modo_prestacao": self.nfse_foreign_trade_mode,
+            "vinculo_negocio": self.nfse_foreign_trade_link,
+            "mecanismo_prestador": self.nfse_foreign_trade_support_provider,
+            "mecanismo_tomador": self.nfse_foreign_trade_support_recipient,
+        }
+
     def _prepare_dados_servico(self):
+        _currency, rate = self._nfse_foreign_currency_rate()
         lines = self.env["l10n_br_fiscal.document.line"]
         for line in self.fiscal_line_ids:
             if line.product_id:
@@ -180,7 +249,7 @@ class Document(models.Model):
         base_calculo_cofins = 0
 
         for line in lines:
-            result_line.update(line._prepare_line_service())
+            result_line.update(line._prepare_line_service(rate=rate))
             valor_servicos += result_line.get("valor_servicos")
             valor_deducoes += result_line.get("valor_deducoes")
             valor_pis += result_line.get("valor_pis")
@@ -305,6 +374,9 @@ class Document(models.Model):
         }
 
         result.update(self.company_id._prepare_company_service())
+        foreign_trade = self._nfse_foreign_trade_data()
+        if foreign_trade:
+            result["comercio_exterior"] = foreign_trade
 
         return result
 
@@ -319,6 +391,27 @@ class Document(models.Model):
 
     def _prepare_lote_rps(self):
         num_rps = self.rps_number
+        currency, rate = self._nfse_foreign_currency_rate()
+        customer_additional_data = self.customer_additional_data
+        total_recebido = self.amount_price_gross
+        carga_tributaria = self.fiscal_amount_tax
+        carga_tributaria_estimada = self.amount_estimate_tax
+        if currency and rate != 1.0:
+            foreign_trade = self._nfse_foreign_trade_data()
+            note = _(
+                "Valor original: %(currency)s %(value).2f, taxa de cambio: %(rate).4f",
+                currency=currency.name,
+                value=foreign_trade["valor_servico_moeda_original"],
+                rate=rate,
+            )
+            customer_additional_data = (
+                f"{customer_additional_data}\n{note}"
+                if customer_additional_data
+                else note
+            )
+            total_recebido = round(total_recebido * rate, 2)
+            carga_tributaria = round(carga_tributaria * rate, 2)
+            carga_tributaria_estimada = round(carga_tributaria_estimada * rate, 2)
         return {
             "cnpj": misc.punctuation_rm(self.company_id.partner_id.vat),
             "inscricao_municipal": misc.punctuation_rm(
@@ -351,10 +444,10 @@ class Document(models.Model):
             "intermediario_servico": None,
             "codigo_obra": self.civil_construction_code or "",
             "art": self.civil_construction_art or "",
-            "carga_tributaria": self.fiscal_amount_tax,
-            "total_recebido": self.amount_price_gross,
-            "carga_tributaria_estimada": self.amount_estimate_tax,
-            "customer_additional_data": self.customer_additional_data,
+            "carga_tributaria": carga_tributaria,
+            "total_recebido": total_recebido,
+            "carga_tributaria_estimada": carga_tributaria_estimada,
+            "customer_additional_data": customer_additional_data,
             "fiscal_additional_data": self.fiscal_additional_data,
         }
 
@@ -384,6 +477,57 @@ class Document(models.Model):
         if not self.document_number:
             return self.rps_number
         return f"{self.rps_number}-{self.document_number}"
+
+    # -------------------------------------------------------------------------
+    # IBS/CBS group (tax reform), shared by the NFS-e layouts
+    # -------------------------------------------------------------------------
+
+    def _nfse_ibscbs_line(self):
+        """Return the line the IBSCBS group of the NFS-e is built from.
+
+        A NFS-e declares a single service, so the data of the group comes from
+        the first line, the same one exported for the service and its values.
+        """
+        self.ensure_one()
+        return self.fiscal_line_ids[:1]
+
+    def _nfse_export_ibscbs(self):
+        """Return True when the NFS-e must carry the IBSCBS group.
+
+        Like the NF-e IBSCBS group, the NFS-e one is exported as soon as the
+        line carries the data of the tax reform: the cClassTrib classification
+        plus the CST and the cIndOp operation indicator, both mandatory in the
+        group.
+
+        A line carrying the cClassTrib but missing one of the two other data
+        would produce an invalid group. A NFS-e without the group is still a
+        valid document, so the group is skipped rather than blocking the
+        emission, but the reason is logged: nothing else tells the user why
+        the group left the document.
+        """
+        self.ensure_one()
+        line = self._nfse_ibscbs_line()
+        if not line.tax_classification_id:
+            return False
+        missing = [
+            label
+            for value, label in (
+                (line.operation_indicator_id, "cIndOp"),
+                (line.ibs_cst_id or line.cbs_cst_id, "CST"),
+            )
+            if not value
+        ]
+        if not missing:
+            return True
+        _logger.warning(
+            "NFS-e %s: line %s carries the RTC classification %s but no %s, "
+            "so the document is exported without the IBSCBS group.",
+            self.display_name,
+            line.display_name,
+            line.tax_classification_id.code,
+            " and no ".join(missing),
+        )
+        return False
 
     def _convert_binding_value_to_odoo(self, binding_type, object_filed, value):
         if value is None:

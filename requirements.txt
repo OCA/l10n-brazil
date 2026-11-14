@@ -10,12 +10,14 @@ erpbrasil.assinatura
 erpbrasil.assinatura>=1.7.0
 erpbrasil.edoc
 erpbrasil.edoc>=2.5.2
+erpbrasil.edoc>=3.3.0
 erpbrasil.transmissao
 erpbrasil.transmissao>=1.1.0
 nfelib
 nfelib>=3.2.0
 nfelib>=3.3.0
 nfelib[soap]>=3.2.0
+nfselib.giss
 nfselib.paulistana
 num2words
 phonenumbers
