@@ -1,11 +1,12 @@
 # Copyright 2026 KMEE
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
-"""Add the deductible ICMS ST of the sale to existing companies.
+"""Add the deductible ICMS ST and ICMS FCP of the sale to existing companies.
 
 The ICMS ST of the sale was shipped without account and without the
 deductible pair that the own ICMS has. With an operation that uses deductible
 taxes the product line already carries the ST, so the ST tax line added it a
 second time to the receivable: the title was bigger than the invoice total.
+The ICMS FCP of the sale had the same gap and gets the same treatment.
 
 This version adds `tax_template_icms_st_out_deductible` to the chart and
 gives the two taxes their accounts. A database where the chart was loaded
@@ -20,8 +21,11 @@ from pathlib import Path
 
 from openupgradelib import openupgrade
 
-TAXES = ["tax_template_icms_st_out_deductible"]
-TAXES_WITHOUT_ACCOUNT = ["tax_template_out_icms_subist"]
+TAXES = [
+    "tax_template_icms_st_out_deductible",
+    "tax_template_icmsfcp_out_deductible",
+]
+TAXES_WITHOUT_ACCOUNT = ["tax_template_out_icms_subist", "tax_template_out_icmsfcp"]
 
 
 def _load_migration_18_0_3_5_0():

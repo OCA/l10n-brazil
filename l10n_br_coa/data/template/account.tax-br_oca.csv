@@ -17,6 +17,7 @@
 "tax_template_icms_st_out_deductible","ICMS Subist","ICMS Saída Subist Dedutível","ICMS Saída Subist Dedutível","0.00","sale","0","1","0","tax_group_icmsst"
 "tax_template_in_icms_subist","ICMS Subist","ICMS Entrada Subist","ICMS Entrada Subist","0.00","purchase","0","0","0","tax_group_icmsst"
 "tax_template_out_icmsfcp","ICMS FCP","ICMS Saída FCP","ICMS Saída FCP","0.00","sale","0","0","0","tax_group_icmsfcp"
+"tax_template_icmsfcp_out_deductible","ICMS FCP","ICMS Saída FCP Dedutível","ICMS Saída FCP Dedutível","0.00","sale","0","1","0","tax_group_icmsfcp"
 "tax_template_in_icmsfcp","ICMS FCP","ICMS Entrada FCP","ICMS Entrada FCP","0.00","purchase","0","0","0","tax_group_icmsfcp"
 "tax_template_out_icmsfcp_st","ICMS FCP ST","ICMS Saída FCP ST","ICMS Saída FCP ST","0.00","sale","0","0","0","tax_group_icmsfcp_st"
 "tax_template_in_icmsfcp_st","ICMS FCP ST","ICMS Entrada FCP ST","ICMS Entrada FCP ST","0.00","purchase","0","0","0","tax_group_icmsfcp_st"
