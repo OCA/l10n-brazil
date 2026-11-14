@@ -510,11 +510,13 @@
                     readonly="0"
                     invisible="state != 'draft'"
                 />
+                <field name="imported_document" invisible="1" />
+                <field name="fiscal_document_import_pending" invisible="1" />
                 <button
                     name="button_import_fiscal_document"
                     type="object"
                     class="oe_highlight"
-                    invisible="not fiscal_document_id or state != 'draft'"
+                    invisible="not fiscal_document_id or state != 'draft' or (imported_document and not fiscal_document_import_pending)"
                     string="Import Fiscal Document"
                 />
             </field>

@@ -61,6 +61,7 @@ class TestNFeDFe(TransactionCase):
 
             wizard = (
                 self.env["l10n_br_fiscal.document.import.wizard"]
+                .with_company(self.company)
                 .with_context(**action["context"])
                 .create({})
             )
@@ -72,7 +73,11 @@ class TestNFeDFe(TransactionCase):
 
         self.assertEqual(len(self._search_dfe()), 1)
         fiscal_doc = self.env["l10n_br_fiscal.document"].search(
-            [("document_key", "=", access_key)], limit=1
+            [
+                ("document_key", "=", access_key),
+                ("company_id", "=", self.company.id),
+            ],
+            limit=1,
         )
         self.assertTrue(fiscal_doc, "Fiscal document should be created after import")
         self.assertEqual(fiscal_doc.document_key, access_key)

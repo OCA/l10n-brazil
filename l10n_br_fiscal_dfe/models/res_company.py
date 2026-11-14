@@ -509,6 +509,7 @@ class ResCompany(models.Model):
             .search(
                 [
                     ("company_id", "=", self.env.company.id),
+                    ("imported_document", "=", True),
                     ("document_key", "in", complete_docs.mapped("access_key")),
                 ]
             )
