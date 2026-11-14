@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="nfe_detexport_tree" model="ir.ui.view">
+        <field name="name">nfe.40.detexport.list</field>
+        <field name="model">nfe.40.detexport</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="nfe40_nDraw" />
+                <field name="nfe40_exportInd" />
+            </list>
+        </field>
+    </record>
+    <record id="nfe_detexport_form" model="ir.ui.view">
+        <field name="name">nfe.40.detexport.form</field>
+        <field name="model">nfe.40.detexport</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="nfe40_nDraw" />
+                    <field
+                        name="nfe40_exportInd"
+                        context="{'form_view_ref': 'l10n_br_nfe.nfe_exportind_form'}"
+                    />
+                </group>
+            </form>
+        </field>
+    </record>
+    <record id="nfe_exportind_form" model="ir.ui.view">
+        <field name="name">nfe.40.exportind.form</field>
+        <field name="model">nfe.40.exportind</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="nfe40_nRE" />
+                    <field name="nfe40_chNFe" />
+                    <field name="nfe40_qExport" />
+                </group>
+            </form>
+        </field>
+    </record>
+</odoo>
