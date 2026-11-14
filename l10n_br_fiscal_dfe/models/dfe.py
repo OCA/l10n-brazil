@@ -7,7 +7,7 @@ from lxml import etree
 
 from odoo import _, api, fields, models
 
-from ..constants.dfe import DFE_DESCRIPTION_MAP, EVENT_TYPE_LABELS, OPERATION_TYPE
+from ..constants.dfe import DFE_DESCRIPTION_MAP, OPERATION_TYPE
 
 _logger = logging.getLogger(__name__)
 
@@ -76,12 +76,19 @@ class DFe(models.Model):
 
     @api.depends("event_type_dfe")
     def _compute_event_type_dfe_label(self):
+        codes = {rec.event_type_dfe for rec in self if rec.event_type_dfe}
+        labels = {}
+        if codes:
+            event_types = self.env["l10n_br_fiscal.event.type"].search(
+                [("code", "in", list(codes))]
+            )
+            labels = {event_type.code: event_type.name for event_type in event_types}
         for rec in self:
             code = rec.event_type_dfe
             if not code:
                 rec.event_type_dfe_label = False
-            elif code in EVENT_TYPE_LABELS:
-                rec.event_type_dfe_label = EVENT_TYPE_LABELS[code]
+            elif code in labels:
+                rec.event_type_dfe_label = labels[code]
             else:
                 rec.event_type_dfe_label = _("Other (%(code)s)", code=code)
 

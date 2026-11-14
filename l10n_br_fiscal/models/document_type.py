@@ -41,6 +41,13 @@ class DocumentType(models.Model):
         string="Document Series",
     )
 
+    event_type_ids = fields.Many2many(
+        comodel_name="l10n_br_fiscal.event.type",
+        string="Event Types",
+        help="Electronic document event types (tpEvento) that apply to "
+        "this document type.",
+    )
+
     def _get_default_document_serie(self, company):
         """Overwrite this method in a custom fiscal document
         modules like l10n_br_nfe, l10n_br_nfse and etc, to

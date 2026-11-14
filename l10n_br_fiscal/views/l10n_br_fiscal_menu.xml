@@ -513,6 +513,14 @@
         parent="others_config_menu"
         sequence="20"
     />
+    <!-- Fiscal Document Event Type -->
+    <menuitem
+        id="event_type_menu"
+        action="event_type_action"
+        groups="l10n_br_fiscal.group_manager"
+        parent="others_config_menu"
+        sequence="30"
+    />
     <!-- Comment -->
     <menuitem
         id="comment_menu"

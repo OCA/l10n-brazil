@@ -31,6 +31,7 @@ from . import icms_regulation
 from . import icms_relief
 from . import document_type
 from . import document_serie
+from . import event_type
 from . import product_genre
 from . import product_mixin
 from . import product_template
