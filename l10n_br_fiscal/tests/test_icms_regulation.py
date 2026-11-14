@@ -116,12 +116,15 @@ class TestICMSRegulation(TransactionCase):
         )
         self.assertEqual(tax_icms.percent_amount, 12.00)
 
-    def test_map_tax_def_icmsst_true(self):
-        self.company.state_id = self.sp_state_id
-        self.partner.state_id = self.sp_state_id
-        self.product.cest_id = self.env.ref("l10n_br_fiscal.cest_2112300")
+    def _icmsst_definitions(self):
+        """Run the ICMS ST search the way map_tax now runs it.
 
-        tax_definitions = self.icms_regulation._map_tax_def_icmsst(
+        `_map_tax_def_icmsst` answers the ``(tax_group, domain)`` pair that
+        map_tax feeds to its single combined search, so the definitions only
+        exist after the search plus the precedence. Truth-testing the pair
+        itself would pass for every product, which is no test at all.
+        """
+        search = self.icms_regulation._map_tax_def_icmsst(
             company=self.company,
             partner=self.partner,
             product=self.product,
@@ -129,7 +132,22 @@ class TestICMSRegulation(TransactionCase):
             nbm=self.product.nbm_id,
             cest=self.product.cest_id,
         )
-        self.assertTrue(tax_definitions)
+        self.assertTrue(search, "the ICMS ST branch always asks for a search")
+        _tax_group, domain = search
+        return self.icms_regulation._tax_definition_search(
+            domain,
+            self.product.ncm_id,
+            self.product.nbm_id,
+            self.product.cest_id,
+            self.product,
+        )
+
+    def test_map_tax_def_icmsst_true(self):
+        self.company.state_id = self.sp_state_id
+        self.partner.state_id = self.sp_state_id
+        self.product.cest_id = self.env.ref("l10n_br_fiscal.cest_2112300")
+
+        self.assertTrue(self._icmsst_definitions())
 
     def test_map_tax_def_icmsst_false(self):
         self.company.state_id = self.sp_state_id
@@ -137,15 +155,7 @@ class TestICMSRegulation(TransactionCase):
         self.product.cest_id = False
         self.product.ncm_id = self.ncm_48191000_id
 
-        tax_definitions = self.icms_regulation._map_tax_def_icmsst(
-            company=self.company,
-            partner=self.partner,
-            product=self.product,
-            ncm=self.product.ncm_id,
-            nbm=self.product.nbm_id,
-            cest=self.product.cest_id,
-        )
-        self.assertFalse(tax_definitions)
+        self.assertFalse(self._icmsst_definitions())
 
     def find_icms_tax(self, in_state_id, out_state_id, ncm_id, ind_final):
         self.partner.state_id = in_state_id
