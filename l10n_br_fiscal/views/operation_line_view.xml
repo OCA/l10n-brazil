@@ -60,6 +60,8 @@
                             </group>
                             <group name="general_tax_classification">
                                 <field name="tax_classification_id" />
+                                <field name="issqn_eligibility" />
+                                <field name="operation_indicator_id" />
                             </group>
                             <group
                                 name="general_cfop"
