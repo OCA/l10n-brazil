@@ -2,3 +2,4 @@
 odoo-test-helper  # Needed by spec_driven_model
 pyopenssl==22.1.0
 xmldiff
+brbank>=0.0.7  # Needed by l10n_br_bank_connection
