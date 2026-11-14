@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="caepi_certificate_tree" model="ir.ui.view">
+        <field name="name">caepi.certificate.tree</field>
+        <field name="model">caepi.certificate</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="numero_ca" />
+                <field name="situacao" />
+                <field name="data_validade" />
+                <field name="equipamento" />
+                <field name="fabricante" />
+                <field name="last_sync" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="caepi_certificate_form" model="ir.ui.view">
+        <field name="name">caepi.certificate.form</field>
+        <field name="model">caepi.certificate</field>
+        <field name="arch" type="xml">
+            <form string="Certificate of Approval">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="numero_ca" />
+                            <field name="situacao" />
+                            <field name="data_validade" />
+                            <field name="natureza" />
+                        </group>
+                        <group>
+                            <field name="fabricante" />
+                            <field name="cnpj_fabricante" />
+                            <field name="equipamento" />
+                            <field name="norma" />
+                        </group>
+                    </group>
+                    <group>
+                        <field name="aprovado_para" />
+                        <field name="last_sync" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="caepi_certificate_search" model="ir.ui.view">
+        <field name="name">caepi.certificate.search</field>
+        <field name="model">caepi.certificate</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="numero_ca" />
+                <field name="equipamento" />
+                <field name="fabricante" />
+                <filter
+                    name="valid"
+                    string="Valid"
+                    domain="[('situacao', '=', 'valid')]"
+                />
+                <filter
+                    name="expired"
+                    string="Expired"
+                    domain="[('situacao', '=', 'expired')]"
+                />
+                <filter
+                    name="suspended"
+                    string="Suspended"
+                    domain="[('situacao', '=', 'suspended')]"
+                />
+                <filter
+                    name="cancelled"
+                    string="Cancelled"
+                    domain="[('situacao', '=', 'cancelled')]"
+                />
+                <group expand="0" string="Group By">
+                    <filter
+                        name="group_situacao"
+                        string="Status"
+                        context="{'group_by': 'situacao'}"
+                    />
+                    <filter
+                        name="group_fabricante"
+                        string="Manufacturer"
+                        context="{'group_by': 'fabricante'}"
+                    />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_caepi_certificate" model="ir.actions.act_window">
+        <field name="name">Certificates of Approval (CAEPI)</field>
+        <field name="res_model">caepi.certificate</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="caepi_certificate_search" />
+        <field name="context">{'search_default_valid': 1}</field>
+    </record>
+
+    <record id="action_caepi_refresh" model="ir.actions.server">
+        <field name="name">Refresh CAEPI Database (MTE)</field>
+        <field name="model_id" ref="model_caepi_certificate" />
+        <field name="binding_model_id" ref="model_caepi_certificate" />
+        <field name="binding_type">action</field>
+        <field name="state">code</field>
+        <field name="code">action = model.action_manual_refresh()</field>
+    </record>
+
+    <menuitem
+        id="menu_caepi_certificate"
+        name="Certificates of Approval (CA)"
+        parent="hr.menu_human_resources_configuration"
+        action="action_caepi_certificate"
+        sequence="90"
+    />
+</odoo>

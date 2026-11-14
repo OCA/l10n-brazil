@@ -2,3 +2,5 @@
 odoo-test-helper  # Needed by spec_driven_model
 pyopenssl==22.1.0
 xmldiff
+# OCA/hr#1637 not yet merged — override pip package with PR branch
+odoo-addon-hr_employee_ppe @ git+https://github.com/marcos-mendez/hr@16.0-add-hr_employee_ppe-certification-validity#subdirectory=setup/hr_employee_ppe

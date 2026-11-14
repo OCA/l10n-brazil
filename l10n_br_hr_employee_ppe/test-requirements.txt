@@ -1,0 +1,1 @@
+odoo-addon-hr_employee_ppe @ git+https://github.com/marcos-mendez/hr.git@16.0-add-hr_employee_ppe-certification-validity#subdirectory=setup/hr_employee_ppe
