@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Família VENDA — operações NOVAS complementares ao core (que já tem fo_venda).
+  NÃO estende fo_venda (para não quebrar módulos que dependem da sua estrutura,
+  ex. l10n_br_pos conta as linhas). Cobre: (a) venda de ativo imobilizado (não
+  incidência); (b) nota complementar de valor e de imposto (edoc_purpose=2 /
+  finNFe=2, mesmo CFOP da origem).
+
+  FORA daqui (sub-famílias/PRs próprios): destinatário isento de IE (ind_ie_dest=2,
+  exige ajustar a contagem testada pelo l10n_br_pos); Substituição Tributária;
+  DIFAL (camada de imposto). Decisões default a validar com contador.
+-->
+<odoo noupdate="1">
+
+    <!-- (a) Venda de ativo imobilizado (desincorporação): não incidência de
+         ICMS (art. 3º LC 87/96), IPI, PIS e COFINS. -->
+    <record id="fo_venda_ativo" model="l10n_br_fiscal.operation">
+        <field name="code">VD-ATIVO</field>
+        <field name="name">Venda de ativo imobilizado</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_type">other</field>
+        <field name="state">approved</field>
+    </record>
+
+    <record id="fo_venda_ativo_line" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_venda_ativo" />
+        <field name="name">Venda de ativo imobilizado</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5551" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6551" />
+        <field name="product_type">04</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_venda_ativo_icms" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_venda_ativo_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icms" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icms_41" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_venda_ativo_ipi" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_venda_ativo_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_ipi" />
+        <field name="custom_tax">True</field>
+        <field name="tax_id" ref="l10n_br_fiscal.tax_ipi_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_ipi_53" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_venda_ativo_pis" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_venda_ativo_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_pis" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_pis_seminc" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_pis_08" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_venda_ativo_cofins" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_venda_ativo_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_cofins" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_cofins_seminc" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_cofins_08" />
+        <field name="state">approved</field>
+    </record>
+
+    <!-- (c) Nota complementar de VALOR/PREÇO: edoc_purpose=2 (finNFe=2), mesmo
+         CFOP da venda; todos os impostos incidem sobre a diferença de valor. -->
+    <record id="fo_complementar_valor" model="l10n_br_fiscal.operation">
+        <field name="code">COMPL-VALOR</field>
+        <field name="name">NF-e complementar de valor/preço</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_type">sale</field>
+        <field name="edoc_purpose">2</field>
+        <field name="state">approved</field>
+    </record>
+
+    <record id="fo_complementar_valor_producao" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_complementar_valor" />
+        <field name="name">Complemento de venda (produção)</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5101" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6101" />
+        <field name="cfop_export_id" ref="l10n_br_fiscal.cfop_7101" />
+        <field name="product_type">04</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+
+    <record id="fo_complementar_valor_revenda" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_complementar_valor" />
+        <field name="name">Complemento de revenda</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5102" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6102" />
+        <field name="cfop_export_id" ref="l10n_br_fiscal.cfop_7102" />
+        <field name="product_type">00</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record
+        id="fo_complementar_valor_revenda_ipi_nt"
+        model="l10n_br_fiscal.tax.definition"
+    >
+        <field name="fiscal_operation_line_id" ref="fo_complementar_valor_revenda" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_ipi" />
+        <field name="custom_tax">True</field>
+        <field name="tax_id" ref="l10n_br_fiscal.tax_ipi_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_ipi_53" />
+        <field name="state">approved</field>
+    </record>
+
+    <!-- (c) Nota complementar de IMPOSTO (ICMS): edoc_purpose=2; só o ICMS é
+         destacado (a diferença); IPI/PIS/COFINS não incidem no complemento. -->
+    <record id="fo_complementar_icms" model="l10n_br_fiscal.operation">
+        <field name="code">COMPL-ICMS</field>
+        <field name="name">NF-e complementar de imposto (ICMS)</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_type">other</field>
+        <field name="edoc_purpose">2</field>
+        <field name="state">approved</field>
+    </record>
+
+    <record id="fo_complementar_icms_line" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_complementar_icms" />
+        <field name="name">Complemento de ICMS</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5101" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6101" />
+        <field name="product_type">04</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <!-- ICMS: default (destaca o complemento). IPI/PIS/COFINS: não incidem. -->
+    <record id="fo_complementar_icms_ipi" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_complementar_icms_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_ipi" />
+        <field name="custom_tax">True</field>
+        <field name="tax_id" ref="l10n_br_fiscal.tax_ipi_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_ipi_53" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_complementar_icms_pis" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_complementar_icms_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_pis" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_pis_seminc" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_pis_08" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_complementar_icms_cofins" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_complementar_icms_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_cofins" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_cofins_seminc" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_cofins_08" />
+        <field name="state">approved</field>
+    </record>
+
+
+    <!-- ================= Simples Nacional =================
+         Linhas irmãs para empresa do Simples (company_tax_framework=1): o
+         seletor de linha prefere a mais específica, então a empresa SN casa
+         estas (CSOSN via grupo icmssn) e os demais regimes casam as genéricas
+         (CST). Empresa em excesso de sublimite (framework=2) recolhe ICMS fora
+         do DAS e cai na genérica com CST — correto. Regra geral: movimento sem
+         receita/titularidade = CSOSN 400; ajuste/simbólica = 900; linha de
+         receita não fixa ICMS (herda a tributação SN da empresa). Mapa a
+         ratificar com contador (transferência de mercadoria: ADC 49). -->
+    <record id="fo_venda_ativo_line_sn" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_venda_ativo" />
+        <field name="name">Venda de ativo imobilizado - Simples Nacional</field>
+        <field name="company_tax_framework">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5551" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6551" />
+        <field name="product_type">04</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_venda_ativo_ipi_sn" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_venda_ativo_line_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_ipi" />
+        <field name="custom_tax">True</field>
+        <field name="tax_id" ref="l10n_br_fiscal.tax_ipi_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_ipi_53" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_venda_ativo_pis_sn" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_venda_ativo_line_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_pis" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_pis_seminc" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_pis_08" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_venda_ativo_cofins_sn" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_venda_ativo_line_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_cofins" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_cofins_seminc" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_cofins_08" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_venda_ativo_line_sn_icmssn" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_venda_ativo_line_sn" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmssn" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_sn_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icmssn_400" />
+        <field name="state">approved</field>
+    </record>
+
+</odoo>
