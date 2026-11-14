@@ -291,17 +291,34 @@ class AccountMove(models.Model):
         "fiscal_line_ids.cfop_id",
         "fiscal_line_ids.fiscal_amount_untaxed",
         "fiscal_line_ids.fiscal_amount_tax",
+        "invoice_line_ids.cfop_id",
+        "invoice_line_ids.price_subtotal",
+        "invoice_line_ids.price_total",
     )
     def _compute_amount(self):
         result = super()._compute_amount()
         for move in self.filtered(lambda m: m.fiscal_operation_id):
             sign = -move.direction_sign
-            inv_line_ids = move.line_ids.filtered(
-                lambda line: (
-                    line.display_type == "product"
-                    and (not line.cfop_id or line.cfop_id.finance_move)
-                )
+            is_finance = lambda line: (  # noqa: E731
+                line.display_type == "product"
+                and (not line.cfop_id or line.cfop_id.finance_move)
             )
+            inv_line_ids = move.line_ids.filtered(is_finance)
+            if not inv_line_ids and move.invoice_line_ids:
+                # Odoo 17+ builds the journal items on save: a move not saved
+                # yet has no line_ids and no fiscal document line, so the
+                # totals come from the invoice lines until then (the core
+                # shows them through the tax_totals widget, hidden here).
+                product_lines = move.invoice_line_ids.filtered(is_finance)
+                untaxed = sum(product_lines.mapped("price_subtotal"))
+                total = sum(product_lines.mapped("price_total"))
+                move.amount_untaxed = untaxed
+                move.amount_tax = total - untaxed
+                move.amount_untaxed_signed = sign * untaxed
+                move.amount_untaxed_in_currency_signed = sign * untaxed
+                move.amount_tax_signed = sign * (total - untaxed)
+                move.amount_total = total
+                continue
             move.amount_untaxed = sum(inv_line_ids.mapped("fiscal_amount_untaxed"))
             move.amount_tax = sum(inv_line_ids.mapped("fiscal_amount_tax"))
             move.amount_untaxed_signed = sign * sum(
