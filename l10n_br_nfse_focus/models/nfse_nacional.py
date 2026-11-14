@@ -173,6 +173,13 @@ class FocusnfeNfseNacional(FocusnfeNfseBase):
             service_info.get("municipio_prestacao_servico") or 0
         )
 
+        # Used in _prepare_payload_nacional to decide whether the ISSQN
+        # rate must be sent (errors E0617/E0619 from the Sistema Nacional
+        # NFS-e). Comes from the editable field on the NFS-e document.
+        municipio_ativo_nfse_nacional = service_info.get(
+            "municipio_ativo_nfse_nacional", True
+        )
+
         codigo_tributacao_nacional = service_info.get("codigo_tributacao_nacional", "")
 
         codigo_tributacao_municipio = service_info.get(
@@ -198,6 +205,7 @@ class FocusnfeNfseNacional(FocusnfeNfseBase):
 
         return {
             "codigo_municipio_prestacao": int(codigo_municipio_prestacao),
+            "municipio_ativo_nfse_nacional": municipio_ativo_nfse_nacional,
             "codigo_tributacao_nacional": codigo_tributacao_nacional,
             "codigo_tributacao_municipio": codigo_tributacao_municipio,
             "codigo_nbs_unmasked": ""
@@ -455,13 +463,25 @@ class FocusnfeNfseNacional(FocusnfeNfseBase):
             "ibs_uf_valor": service_basic["ibs_uf_valor"],
             "ibs_mun_valor": service_basic["ibs_mun_valor"],
             "cbs_valor": service_basic["cbs_valor"],
+            # Sistema Nacional NFS-e rule for percentual_aliquota_
+            # relativa_municipio: optante do Simples Nacional (codigo_
+            # opcao_simples_nacional == 2) -> always send (the rate is
+            # company-specific, it isn't in the municipality's own
+            # registry). Non-optante (== 1) -> only send if the
+            # municipality of incidence is INATIVO (inactive) on the
+            # Sistema Nacional (E0619 if omitted); if ATIVO (active),
+            # never send (E0617 if sent, confirmed in production: the
+            # error happens with opSimpNac=1 + an active municipality).
             **(
                 {
                     "percentual_aliquota_relativa_municipio": service_basic[
                         "aliquota_iss"
                     ]
                 }
-                if provider_data["codigo_opcao_simples_nacional"] == 2
+                if (
+                    provider_data["codigo_opcao_simples_nacional"] == 2
+                    or not service_basic["municipio_ativo_nfse_nacional"]
+                )
                 and service_basic["tributacao_iss"] not in (2, 3, 4)
                 else {}
             ),
