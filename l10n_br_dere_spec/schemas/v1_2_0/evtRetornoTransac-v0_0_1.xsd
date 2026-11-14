@@ -1,0 +1,308 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns="http://www.dere.gov.br/schemas/evtRetornoTransac/v0_0_1"
+           targetNamespace="http://www.dere.gov.br/schemas/evtRetornoTransac/v0_0_1"
+           elementFormDefault="qualified"
+           attributeFormDefault="unqualified">
+  <xs:import namespace="http://www.w3.org/2000/09/xmldsig#" schemaLocation="xmldsig-core-schema.xsd"/>
+  <xs:element name="DeRE">
+    <xs:annotation>
+      <xs:documentation>Envelope raiz dos eventos da DeRE.</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+      <xs:element name="evtRetornoTransac">
+        <xs:annotation>
+          <xs:documentation>Evento de retorno e recibo de processamento de eventos transacionais. Retorno gerado para eventos que não exijam um totalizador específico de cálculo.</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:sequence>
+          <xs:element name="ideContrib" minOccurs="1" maxOccurs="1">
+            <xs:annotation>
+              <xs:documentation>Informações de identificação do contribuinte.</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:sequence>
+              <xs:element name="nrInsc" minOccurs="1" maxOccurs="1">
+                <xs:annotation>
+                  <xs:documentation>Número de inscrição do contribuinte (CNPJ raiz). Validação: Deve ser um CNPJ raiz válido de 8 posições.</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:whiteSpace value="preserve"/>
+                    <xs:length value="8"/>
+                    <xs:pattern value="[0-9A-Z]{8}"/>
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="ideStatus" minOccurs="1" maxOccurs="1">
+            <xs:annotation>
+              <xs:documentation>Situação do processamento do evento.</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:sequence>
+              <xs:element name="cdRetorno" minOccurs="1" maxOccurs="1">
+                <xs:annotation>
+                  <xs:documentation>Código indicativo do status do retorno.</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:whiteSpace value="preserve"/>
+                    <xs:enumeration value="0">
+                      <xs:annotation><xs:documentation>Erro</xs:documentation></xs:annotation>
+                    </xs:enumeration>
+                    <xs:enumeration value="1">
+                      <xs:annotation><xs:documentation>Sucesso</xs:documentation></xs:annotation>
+                    </xs:enumeration>
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="descRetorno" minOccurs="1" maxOccurs="1">
+                <xs:annotation>
+                  <xs:documentation>Descrição literal do status do retorno.</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:whiteSpace value="preserve"/>
+                    <xs:enumeration value="Erro"/>
+                    <xs:enumeration value="Sucesso"/>
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="ocorrencias" minOccurs="0" maxOccurs="10">
+                <xs:annotation>
+                  <xs:documentation>Informações de ocorrências registradas.</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:sequence>
+                  <xs:element name="codigo" minOccurs="1" maxOccurs="1">
+                    <xs:annotation>
+                      <xs:documentation>Código numérico da ocorrência.</xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:whiteSpace value="preserve"/>
+                        <xs:maxLength value="6"/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:element>
+                  <xs:element name="descricao" minOccurs="1" maxOccurs="1">
+                    <xs:annotation>
+                      <xs:documentation>Descrição detalhada da ocorrência (mensagem de erro ou aviso).</xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:whiteSpace value="preserve"/>
+                        <xs:maxLength value="2048"/>
+                        <xs:pattern value="([!-ÿ][ -ÿ]*[!-ÿ]|[!-ÿ])"/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:element>
+                  <xs:element name="tipo" minOccurs="1" maxOccurs="1">
+                    <xs:annotation>
+                      <xs:documentation>Classificação do tipo da ocorrência.</xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:whiteSpace value="preserve"/>
+                        <xs:enumeration value="1">
+                          <xs:annotation><xs:documentation>Erro</xs:documentation></xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="2">
+                          <xs:annotation><xs:documentation>Aviso</xs:documentation></xs:annotation>
+                        </xs:enumeration>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:element>
+                  <xs:element name="localizacao" minOccurs="0" maxOccurs="1">
+                    <xs:annotation>
+                      <xs:documentation>Identificação do campo ou grupo onde a ocorrência foi detectada.</xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:whiteSpace value="preserve"/>
+                        <xs:maxLength value="2048"/>
+                        <xs:pattern value="([!-ÿ][ -ÿ]*[!-ÿ]|[!-ÿ])"/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="infoRecEv" minOccurs="1" maxOccurs="1">
+            <xs:annotation>
+              <xs:documentation>Informações de processamento dos eventos.</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:sequence>
+              <xs:element name="nrRecibo" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                  <xs:documentation>Número do recibo do evento processado com sucesso. Preenchimento: Preenchido somente quando {cdRetorno} = [1] (Sucesso).</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:whiteSpace value="preserve"/>
+                    <xs:length value="31"/>
+                    <xs:pattern value="[0-9]{4}-20[0-9]{2}(0[1-9]|1[0-2])-[0-9A-Z]{19}"/>
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="protocoloLote" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                  <xs:documentation>Número do protocolo de entrega do lote.</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:whiteSpace value="preserve"/>
+                    <xs:length value="28"/>
+                    <xs:pattern value="[12]\.20[0-9]{2}(0[1-9]|1[0-2])\.[0-9]{19}"/>
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="dhRecepcao" minOccurs="1" maxOccurs="1">
+                <xs:annotation>
+                  <xs:documentation>Data e hora da recepção do evento (UTC). Máscara: AAAA-MM-DDThh:mm:ss.sssssssTZD</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:whiteSpace value="preserve"/>
+                    <xs:minLength value="25"/>
+                    <xs:maxLength value="33"/>
+                    <xs:pattern value="(((20(([02468][048])|([13579][26]))-02-29))|(20[0-9][0-9])-((((0[1-9])|(1[0-2]))-((0[1-9])|(1\d)|(2[0-8])))|((((0[13578])|(1[02]))-31)|(((0[1,3-9])|(1[0-2]))-(29|30)))))T(20|21|22|23|[0-1]\d):[0-5]\d:[0-5]\d\.[0-9]{7}([\-\+](0[0-9]|10|11):00|([\+](12):00))"/>
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="dhProcess" minOccurs="1" maxOccurs="1">
+                <xs:annotation>
+                  <xs:documentation>Data e hora do processamento do evento (UTC). Máscara: AAAA-MM-DDThh:mm:ss.sssssssTZD</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:whiteSpace value="preserve"/>
+                    <xs:minLength value="25"/>
+                    <xs:maxLength value="33"/>
+                    <xs:pattern value="(((20(([02468][048])|([13579][26]))-02-29))|(20[0-9][0-9])-((((0[1-9])|(1[0-2]))-((0[1-9])|(1\d)|(2[0-8])))|((((0[13578])|(1[02]))-31)|(((0[1,3-9])|(1[0-2]))-(29|30)))))T(20|21|22|23|[0-1]\d):[0-5]\d:[0-5]\d\.[0-9]{7}([\-\+](0[0-9]|10|11):00|([\+](12):00))"/>
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="tpEv" minOccurs="1" maxOccurs="1">
+                <xs:annotation>
+                  <xs:documentation>Sigla de identificação do tipo de evento. Exemplo: D-2201.</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:whiteSpace value="preserve"/>
+                    <xs:length value="6"/>
+                    <xs:pattern value="D-[0-9]{4}"/>
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="hash" minOccurs="1" maxOccurs="1">
+                <xs:annotation>
+                  <xs:documentation>Hashcode do arquivo processado.</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:whiteSpace value="preserve"/>
+                    <xs:length value="44"/>
+                    <xs:pattern value="[0-9A-Za-z+/]{43}="/>
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="infoPlanoSaude" minOccurs="0" maxOccurs="1">
+            <xs:annotation>
+              <xs:documentation>Grupo de retorno do processamento de Planos de Assistência à Saúde. Preenchimento: Exclusivo quando {tpEv} = [D-3201] e existir campo {tpContrato} igual a [4] (Plano ou seguro sem valor definido por usuário).</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:sequence>
+              <xs:element name="chDeREOper" minOccurs="1" maxOccurs="1">
+                <xs:annotation>
+                  <xs:documentation>Chave de acesso individualizada da operação da DeRE (chave-filha). Preenchimento: Chave de 53 caracteres que identifica unicamente a operação de rateio do beneficiário titular. Corresponde à chave-mãe do agrupamento ({chDeRE} do evento D-3201 de origem) com a substituição de seus 3 (três) últimos dígitos (sufixo aglutinador) pelo número sequencial ({seq}) individualizado.</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:whiteSpace value="preserve"/>
+                    <xs:length value="53"/>
+                    <xs:pattern value="[0-9A-Z]{10}[1-59][0-9A-Z]{24}[0-9]{18}"/>
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="detRateioPremio" minOccurs="1" maxOccurs="30000">
+                <xs:annotation>
+                  <xs:documentation>Grupo de detalhamento do rateio dos prêmios, individualizado por beneficiário titular. Gerado pelo sistema após a aplicação dos coeficientes de rateio da [[Tabela 33 – Coeficiente de Rateio do Prêmio não Individualizado]]. Preenchimento: Listagem das ocorrências válidas extraídas da tag {CPFTitular} do evento D-3201 de origem, consolidando-as exclusivamente para os contratos de plano ou seguro sem valor definido por usuário ({tpContrato} = [4]).</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:sequence>
+                  <xs:element name="chDeREOper" minOccurs="1" maxOccurs="1">
+                    <xs:annotation>
+                      <xs:documentation>Chave de acesso individualizada da operação da DeRE (chave-filha). Preenchimento: Chave de 53 caracteres que identifica unicamente a operação de rateio do beneficiário titular. Corresponde à chave-mãe do agrupamento ({chDeRE} do evento D-3201 de origem) com a substituição de seus 3 (três) últimos dígitos (sufixo aglutinador) pelo número sequencial ({seq}) individualizado.</xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:whiteSpace value="preserve"/>
+                        <xs:length value="53"/>
+                        <xs:pattern value="[0-9A-Z]{10}[1-59][0-9A-Z]{24}[0-9]{18}"/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:element>
+                  <xs:element name="CPFBenefTit" minOccurs="1" maxOccurs="1">
+                    <xs:annotation>
+                      <xs:documentation>Número de inscrição no CPF do beneficiário titular. Cálculo: Listagem de todas as ocorrências de {CPFTitular} quando {tpContrato} = [4] (Plano ou seguro sem valor definido por usuário).</xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:whiteSpace value="preserve"/>
+                        <xs:length value="11"/>
+                        <xs:pattern value="[0-9]{11}"/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:element>
+                  <xs:element name="vPremIndivid" minOccurs="1" maxOccurs="1">
+                    <xs:annotation>
+                      <xs:documentation>Valor consolidado do rateio do prêmio ou contraprestação, individualizado por titular. Nota: O valor alocado a cada titular será apurado pela proporção da soma dos coeficientes do titular e de seus respectivos dependentes em relação ao somatório dos coeficientes de todos os beneficiários do contrato. Os coeficientes de alocação são definidos pela faixa etária de cada pessoa no último dia da competência da declaração ({perApur}). Cálculo: 1. Apurar a idade em anos completos do titular e de cada dependente na data do último dia do {perApur}. Identificar o coeficiente individual de cada vida na [[Tabela 33 – Coeficiente de Rateio do Prêmio não Individualizado]]; 2. Somar os coeficientes individuais de todas as vidas do contrato para obter o coeficiente total do contrato (cTotal); 3. Para cada titular, somar o seu coeficiente individual ao de todos os seus dependentes para obter o subcoeficiente do titular (cTitular). 4. Calcular o coeficiente de rateio para cada titular do contrato: cRatTit = cTitular / cTotal. 5. Multiplicar o valor do contrato ({vOper}) pelo respectivo cRatTit para se obter o valor individualizado vinculado a este titular (e seus dependentes)</xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:whiteSpace value="preserve"/>
+                        <xs:minLength value="4"/>
+                        <xs:maxLength value="18"/>
+                        <xs:pattern value="(0|[1-9][0-9]{0,14})\.[0-9]{2}"/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          </xs:sequence>
+          <xs:attribute name="id" use="required">
+            <xs:annotation>
+              <xs:documentation>Identificação única do evento (campo id do evento transmitido pelo contribuinte, a que se refere este retorno).</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+                <xs:whiteSpace value="preserve"/>
+                <xs:length value="42"/>
+                <xs:pattern value="DeRE[0-9]{4}[1-2][0-9A-Z]{14}[0-9]{19}"/>
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:attribute>
+        </xs:complexType>
+      </xs:element>
+        <xs:element ref="ds:Signature"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

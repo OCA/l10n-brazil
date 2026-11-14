@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <record forcecreate="True" id="ir_cron_consult_batches" model="ir.cron">
+        <field name="name">DeRE: consult sent batch results</field>
+        <field name="model_id" ref="model_l10n_br_dere_batch" />
+        <field name="state">code</field>
+        <field name="code">model._cron_consult_batches()</field>
+        <field name="user_id" ref="base.user_root" />
+        <field name="interval_number">2</field>
+        <field name="interval_type">minutes</field>
+    </record>
+</odoo>

@@ -12,6 +12,7 @@ erpbrasil.edoc
 erpbrasil.edoc>=2.5.2
 erpbrasil.transmissao
 erpbrasil.transmissao>=1.1.0
+lxml
 nfelib
 nfelib>=3.2.0
 nfelib>=3.3.0
@@ -21,6 +22,7 @@ num2words
 phonenumbers
 pyyaml
 requests
+signxml
 transitions
 unidecode
 workalendar
