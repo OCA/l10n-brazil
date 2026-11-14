@@ -48,12 +48,12 @@ if (PosGlobalState) {
 
 const L10nBrOrder = (BaseOrder) =>
     class extends BaseOrder {
-        setup(_default_attributes, options) {
-            super.setup(...arguments);
+        constructor(obj, options) {
+            super(...arguments);
             this.state_edoc = this.state_edoc || "em_digitacao";
             this.cnpj_cpf = this.cnpj_cpf || null;
             // Always ensure the array exists
-            this.document_event_messages = [];
+            this.document_event_messages = this.document_event_messages || [];
 
             if (!options || !options.json) {
                 const config = this.pos.config;
