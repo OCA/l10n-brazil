@@ -72,12 +72,12 @@ class TestNfseIbscbs(TransactionCase):
         self.line.tax_classification_id = False
         self.assertFalse(self._export_ibscbs())
 
-    @mute_logger("odoo.addons.l10n_br_nfse_nacional.models.document")
+    @mute_logger("odoo.addons.l10n_br_nfse.models.document")
     def test_export_ibscbs_without_operation_indicator(self):
         self.line.operation_indicator_id = False
         self.assertFalse(self._export_ibscbs())
 
-    @mute_logger("odoo.addons.l10n_br_nfse_nacional.models.document")
+    @mute_logger("odoo.addons.l10n_br_nfse.models.document")
     def test_export_ibscbs_without_cst(self):
         self.line.ibs_cst_id = False
         self.line.cbs_cst_id = False
@@ -87,7 +87,7 @@ class TestNfseIbscbs(TransactionCase):
         """A line the group cannot be built from reports why it is skipped."""
         self.line.operation_indicator_id = False
         with self.assertLogs(
-            "odoo.addons.l10n_br_nfse_nacional.models.document",
+            "odoo.addons.l10n_br_nfse.models.document",
             level="WARNING",
         ) as logs:
             self.assertFalse(self._export_ibscbs())
