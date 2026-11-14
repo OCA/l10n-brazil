@@ -131,3 +131,32 @@ class TestFiscalClosing(TransactionCase):
         self.assertTrue(
             zip_file_period.namelist(), "Zip File for period export documents is empty"
         )
+
+    def test_refused_correction_letter_is_not_exported(self):
+        """Only the answer of a registered letter goes to the accountant.
+
+        A refused letter reuses the number of the registered one, so it would
+        also overwrite its protocol file.
+        """
+        self.nfe_export.state_edoc = DOCUMENT_STATE_AUTHORIZED
+        for status_code, content in (("135", "<registered/>"), ("573", "<refused/>")):
+            event = self.nfe_export.event_ids.create_event_save_xml(
+                company_id=self.nfe_export.company_id,
+                environment=EVENT_ENV_PROD,
+                event_type="14",
+                xml_file="<evento/>",
+                document_id=self.nfe_export,
+                sequence="1",
+                justification="Correction text for the test",
+            )
+            event.set_done(status_code, "mocked", False, "1", content)
+        temp_dir = tempfile.TemporaryDirectory()
+        self.addCleanup(temp_dir.cleanup)
+        self.closing_all._prepare_files(temp_dir)
+        exported = []
+        for dirname, _subdirs, files in os.walk(temp_dir.name):
+            for name in files:
+                with open(os.path.join(dirname, name)) as file:
+                    exported.append(file.read())
+        self.assertIn("<registered/>", exported)
+        self.assertNotIn("<refused/>", exported)
