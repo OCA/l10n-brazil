@@ -219,6 +219,55 @@
                                 <group />
                             </group>
                         </page>
+                        <page name="fiscal_help" string="Ajuda">
+                            <div class="alert alert-info" role="alert">
+                                <strong>O regime tributário da empresa é a chave
+                                central do cálculo de impostos.</strong> Tudo o que
+                                depende de regime (os códigos da nota, CST ou CSOSN,
+                                o PIS/COFINS e o ICMS) se ajusta a partir do que
+                                está configurado aqui.
+                            </div>
+                            <h4>Mudou de regime? A mudança é feita aqui</h4>
+                            <div
+                                style="display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin:12px 0;"
+                            >
+                                <div
+                                    style="border:1px solid #ccc; border-radius:8px; padding:10px 14px; background:#f8f9fa;"
+                                >
+                                    Saiu do <strong>Simples</strong> para o
+                                    <strong>Lucro Presumido</strong>?<br />
+                                    <small class="text-muted">Troque o regime
+                                    tributário para "3 - Regime Normal" e a apuração
+                                    do lucro para Presumido.</small>
+                                </div>
+                                <div
+                                    style="border:1px solid #ccc; border-radius:8px; padding:10px 14px; background:#f8f9fa;"
+                                >
+                                    Do <strong>Lucro Presumido</strong> para o
+                                    <strong>Lucro Real</strong>?<br />
+                                    <small class="text-muted">Troque só a apuração
+                                    do lucro para Real. O PIS/COFINS padrão da
+                                    empresa passa sozinho de cumulativo para não
+                                    cumulativo.</small>
+                                </div>
+                            </div>
+                            <p>As operações que têm linhas por regime tributário
+                            <strong>não precisam ser reconfiguradas</strong>: elas
+                            reconhecem o regime da empresa e passam a emitir com os
+                            códigos certos (CSOSN no Simples, CST no regime normal)
+                            a partir da próxima nota. Revise com o contador apenas
+                            as operações criadas para um regime específico.</p>
+                            <ul>
+                                <li>Empresa do <strong>Simples Nacional</strong>:
+                                informe a receita bruta dos últimos 12 meses e a
+                                folha de pagamento. Com elas e com o CNAE principal,
+                                o sistema calcula o anexo, a faixa e o fator R, e é
+                                deles que sai o percentual do DAS.</li>
+                                <li>Confirme a mudança de regime com o seu contador:
+                                a data de corte importa, e as notas já emitidas não
+                                são recalculadas.</li>
+                            </ul>
+                        </page>
                     </notebook>
                 </page>
             </notebook>
