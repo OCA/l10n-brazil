@@ -73,6 +73,19 @@ msgid "Auto-fetch off"
 msgstr "Busca automática desativada"
 
 #. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields.selection,name:l10n_br_fiscal_dfe.selection__l10n_br_fiscal_dfe_document__utilization__available
+msgid "Available"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,help:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_document__utilization
+msgid ""
+"Available while the document is still authorized at the source and no vendor "
+"bill is posted. Posted while a vendor bill is posted. Empty when the source "
+"cancelled or denied the document."
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_document__vat
 msgid "CNPJ/CPF"
 msgstr "CNPJ/CPF"
@@ -597,6 +610,11 @@ msgid "Please enter an access key."
 msgstr "Por favor, informe uma chave de acesso."
 
 #. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields.selection,name:l10n_br_fiscal_dfe.selection__l10n_br_fiscal_dfe_document__utilization__posted
+msgid "Posted"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
 #: model:ir.model.fields,help:l10n_br_fiscal_dfe.field_res_users__dfe_notification
 msgid ""
 "Receive Inbox notifications when the DF-e distribution finds new third-party "
@@ -765,6 +783,11 @@ msgstr "Tipo do documento DF-e de acordo com o schema XML."
 #: model:ir.model,name:l10n_br_fiscal_dfe.model_res_users
 msgid "User"
 msgstr "Usuário"
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_document__utilization
+msgid "Utilization"
+msgstr ""
 
 #. module: l10n_br_fiscal_dfe
 #. odoo-javascript

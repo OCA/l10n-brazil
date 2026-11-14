@@ -785,7 +785,7 @@ msgid "ICMS Effective Base"
 msgstr ""
 
 #. module: l10n_br_sale
-#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__icms_destination_percent
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__icms_origin_percent
 msgid "ICMS External %"
 msgstr ""
 
@@ -823,7 +823,7 @@ msgid "ICMS FCP Value"
 msgstr ""
 
 #. module: l10n_br_sale
-#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__icms_origin_percent
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__icms_destination_percent
 msgid "ICMS Internal %"
 msgstr ""
 

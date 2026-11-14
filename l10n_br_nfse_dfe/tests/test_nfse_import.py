@@ -63,7 +63,8 @@ class TestNfseImport(TransactionCase):
         self.assertEqual(wizard.document_type, MODELO_FISCAL_NFSE)
         self.assertEqual(wizard.document_key, ACCESS_KEY)
         self.assertEqual(wizard.partner_id, self.provider)
-        self.assertEqual(wizard.fiscal_operation_id.fiscal_operation_type, "in")
+        service_line = self.env.ref("l10n_br_fiscal.fo_compras_servico")
+        self.assertEqual(wizard.fiscal_operation_id, service_line.fiscal_operation_id)
         _binding, document = wizard._create_edoc_from_file()
         self.assertEqual(document.document_type_id.code, MODELO_FISCAL_NFSE)
         self.assertEqual(document.issuer, DOCUMENT_ISSUER_PARTNER)
@@ -74,6 +75,7 @@ class TestNfseImport(TransactionCase):
         self.assertEqual(document.partner_id, self.provider)
         line = document.fiscal_line_ids
         self.assertEqual(len(line), 1)
+        self.assertEqual(line.fiscal_operation_line_id, service_line)
         self.assertEqual(line.name, "Consulting")
         self.assertAlmostEqual(line.price_unit, 20.0)
         self.assertAlmostEqual(line.issqn_value, 0.4)
@@ -95,6 +97,63 @@ class TestNfseImport(TransactionCase):
             [("document_key", "=", ACCESS_KEY)]
         )
         self.assertEqual(before, after)
+
+    def _extra_inbound_issqn_line(self):
+        operation = self.env["l10n_br_fiscal.operation"].create(
+            {
+                "code": "CPS-TEST",
+                "name": "Service purchase test",
+                "fiscal_operation_type": "in",
+                "fiscal_type": "purchase",
+                "state": "approved",
+            }
+        )
+        return self.env["l10n_br_fiscal.operation.line"].create(
+            {
+                "name": "Extra service purchase",
+                "fiscal_operation_id": operation.id,
+                "tax_icms_or_issqn": "issqn",
+                "state": "approved",
+            }
+        )
+
+    def test_two_inbound_issqn_lines_leave_the_operation_empty(self):
+        self._extra_inbound_issqn_line()
+        wizard = self._wizard()
+        self.assertFalse(wizard.fiscal_operation_id)
+
+    def test_no_inbound_issqn_line_leaves_the_operation_empty(self):
+        service_line = self.env.ref("l10n_br_fiscal.fo_compras_servico")
+        service_line.tax_icms_or_issqn = False
+        wizard = self._wizard()
+        self.assertFalse(wizard.fiscal_operation_id)
+
+    def test_company_operation_is_used_on_import(self):
+        other_line = self._extra_inbound_issqn_line()
+        self.company.nfse_import_fiscal_operation_id = other_line.fiscal_operation_id
+        wizard = self._wizard()
+        self.assertEqual(wizard.fiscal_operation_id, other_line.fiscal_operation_id)
+        _binding, document = wizard._create_edoc_from_file()
+        self.assertEqual(document.fiscal_operation_id, other_line.fiscal_operation_id)
+        self.assertEqual(document.fiscal_line_ids.fiscal_operation_line_id, other_line)
+
+    def test_an_empty_company_operation_keeps_the_issqn_line_search(self):
+        self.assertFalse(self.company.nfse_import_fiscal_operation_id)
+        service_line = self.env.ref("l10n_br_fiscal.fo_compras_servico")
+        wizard = self._wizard()
+        self.assertEqual(wizard.fiscal_operation_id, service_line.fiscal_operation_id)
+
+    def test_a_changed_operation_keeps_the_users_choice(self):
+        service_line = self.env.ref("l10n_br_fiscal.fo_compras_servico")
+        other_line = self._extra_inbound_issqn_line()
+        wizard = self._wizard()
+        self.assertFalse(wizard.fiscal_operation_id)
+        wizard.fiscal_operation_id = service_line.fiscal_operation_id
+        _binding, document = wizard._create_edoc_from_file()
+        self.assertEqual(document.fiscal_operation_id, service_line.fiscal_operation_id)
+        self.assertNotEqual(
+            document.fiscal_line_ids.fiscal_operation_line_id, other_line
+        )
 
     def test_retention_codes_two_and_three_withhold_issqn(self):
         withheld = parse_nfse_xml(nfse_xml(retention="2"))

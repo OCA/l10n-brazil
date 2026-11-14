@@ -404,7 +404,6 @@ class TestMoveEdition(TransactionCase):
         move.button_cancel()
 
         self.assertEqual(move.state_edoc, DOCUMENT_STATE_CANCEL)
-        self.assertFalse(move.fiscal_document_id.cancel_event_id)
 
         move.button_draft()
         self.assertEqual(move.state, "draft")

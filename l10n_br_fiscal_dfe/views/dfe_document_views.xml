@@ -52,6 +52,7 @@
                             <field name="serie" />
                             <field name="document_emission_date" />
                             <field name="document_state" />
+                            <field name="utilization" />
                             <field name="document_amount" widget="monetary" />
                             <field name="currency_id" invisible="1" />
                             <field name="fiscal_document_id" />
@@ -123,6 +124,7 @@
                 <field name="currency_id" invisible="1" />
                 <field name="fiscal_document_id" />
                 <field name="document_state_label" string="State" />
+                <field name="utilization" optional="show" />
                 <button
                     string="XML"
                     name="action_download_xml"

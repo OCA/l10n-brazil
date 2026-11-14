@@ -17,6 +17,7 @@
                         </group>
                         <group>
                             <field name="nfse_auto_fetch" />
+                            <field name="nfse_import_fiscal_operation_id" />
                             <field name="nfse_import_product_id" />
                         </group>
                     </group>

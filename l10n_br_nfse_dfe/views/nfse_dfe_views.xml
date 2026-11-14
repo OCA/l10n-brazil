@@ -37,6 +37,7 @@
                 <field name="currency_id" column_invisible="1" />
                 <field name="fiscal_document_id" />
                 <field name="document_state_label" string="State" />
+                <field name="utilization" optional="show" />
                 <button
                     string="XML"
                     name="action_download_xml"

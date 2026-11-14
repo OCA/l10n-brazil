@@ -802,6 +802,19 @@ class Document(models.Model):
 
     def action_document_back2draft(self):
         """Override base button"""
+        if (
+            self.state_edoc == DOCUMENT_STATE_CANCEL
+            and self.document_number
+            and self.issuer == DOCUMENT_ISSUER_COMPANY
+            and self.cancel_event_id
+        ):
+            raise UserError(
+                self.env._(
+                    "You can't set this document number: %(doc_number)s to draft "
+                    "because this document is cancelled in SEFAZ",
+                    doc_number=self.document_number,
+                )
+            )
         if self.document_electronic and self.issuer == DOCUMENT_ISSUER_COMPANY:
             if self.state_edoc == DOCUMENT_STATE_DRAFT:
                 return True  # idempotent: already in draft

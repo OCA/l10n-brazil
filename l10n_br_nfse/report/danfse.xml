@@ -275,7 +275,7 @@ row {
                     Razão Social/Nome
                 </div>
                 <div class="col-10 linha esquerda">
-                    <span t-raw="doc.partner_id.legal_name or doc.partner_id.name" />
+                    <span t-out="doc.partner_id.legal_name or doc.partner_id.name" />
                 </div>
             </div>
             <div class="row bb br bl">

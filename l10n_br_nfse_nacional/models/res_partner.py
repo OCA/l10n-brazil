@@ -70,10 +70,18 @@ class ResPartner(spec_models.SpecModel):
         for rec in self:
             rec.nfse10_xNome = rec.legal_name or rec.name
 
+    @api.depends("street_name", "street_number", "district", "city_id")
     def _compute_nfse10_end(self):
         for rec in self:
-            rec.nfse10_end = rec.id
-            rec.nfse10_endNac = rec.id
+            # `toma/end` is optional in the leiaute (nfelib TcinfoPessoa.end has
+            # no required flag), while its children are: exporting the group for
+            # a partner without address makes the DPS fail schema validation
+            # ("endNac: Missing child element(s). Expected is (cMun)", "end:
+            # Missing child element(s). Expected is (xLgr)"). A taker identified
+            # only by its CNPJ is common, so leave the group out instead.
+            has_address = bool(rec.street_name and rec.city_id)
+            rec.nfse10_end = rec.id if has_address else False
+            rec.nfse10_endNac = rec.id if has_address else False
 
     @api.depends("country_id", "cnpj_cpf_stripped")
     def _compute_nfse10_cNaoNIF(self):

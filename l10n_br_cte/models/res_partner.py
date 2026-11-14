@@ -30,7 +30,6 @@ class ResPartner(spec_models.SpecModel):
         "cte.40.exped",
         "cte.40.receb",
         "cte.40.tresptec",
-        "cte.40.tcte_autxml",
         "cte.40.tenderfer",
     ]
     _cte_search_keys = ["cte40_CNPJ", "cte40_CPF", "cte40_xNome"]
@@ -266,14 +265,6 @@ class ResPartner(spec_models.SpecModel):
         string="CNPJ/CPF/idEstrangeiro",
     )
 
-    # cte.40.autXML
-    cte40_choice_autxml = fields.Selection(
-        selection=[("cte40_CNPJ", "CNPJ"), ("cte40_CPF", "CPF")],
-        string="CNPJ/CPF do Parceiro Autorizado",
-        compute="_compute_cte_data",
-        compute_sudo=True,
-    )
-
     # cte.40.transporta
     cte40_choice_transporta = fields.Selection(
         selection=[
@@ -365,7 +356,6 @@ class ResPartner(spec_models.SpecModel):
                     rec.cte40_choice_rem = "cte40_CNPJ"
                     rec.cte40_choice_receb = "cte40_CNPJ"
                     rec.cte40_choice_exped = "cte40_CNPJ"
-                    rec.cte40_choice_autxml = "cte40_CNPJ"
                     rec.cte40_choice_transporta = "cte40_CNPJ"
                 else:
                     rec.cte40_choice_tlocal = "cte40_CPF"
@@ -375,7 +365,6 @@ class ResPartner(spec_models.SpecModel):
                     rec.cte40_choice_rem = "cte40_CPF"
                     rec.cte40_choice_receb = "cte40_CPF"
                     rec.cte40_choice_exped = "cte40_CPF"
-                    rec.cte40_choice_autxml = "cte40_CPF"
                     rec.cte40_choice_transporta = "cte40_CPF"
             else:
                 rec.cte40_choice_tlocal = False
@@ -385,7 +374,6 @@ class ResPartner(spec_models.SpecModel):
                 rec.cte40_choice_rem = False
                 rec.cte40_choice_receb = False
                 rec.cte40_choice_exped = False
-                rec.cte40_choice_autxml = False
                 rec.cte40_choice_transporta = False
 
             if rec.l10n_br_ie_code:
@@ -419,7 +407,6 @@ class ResPartner(spec_models.SpecModel):
                 rec.cte40_choice_rem = "cte40_CPF"
                 rec.cte40_choice_receb = "cte40_CPF"
                 rec.cte40_choice_exped = "cte40_CPF"
-                rec.cte40_choice_autxml = "cte40_CPF"
                 rec.cte40_choice_transporta = "cte40_CPF"
                 rec.vat = cnpj_cpf.formata(str(rec.cte40_CNPJ))
 
@@ -441,7 +428,6 @@ class ResPartner(spec_models.SpecModel):
                     rec.cte40_choice_rem = "cte40_CPF"
                     rec.cte40_choice_receb = "cte40_CPF"
                     rec.cte40_choice_exped = "cte40_CPF"
-                rec.cte40_choice_autxml = "cte40_CNPJ"
                 rec.cte40_choice_transporta = "cte40_CNPJ"
                 rec.vat = cnpj_cpf.formata(str(rec.cte40_CPF))
 

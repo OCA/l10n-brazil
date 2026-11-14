@@ -1688,18 +1688,18 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         readonly=False,
     )
 
-    # pICMSUFDest - Alíquota interna da UF de destino
+    # pICMSInter - Alíquota interestadual das UF envolvidas
     icms_origin_percent = fields.Float(
-        string="ICMS Internal %",
+        string="ICMS External %",
         compute="_compute_tax_fields",
         store=True,
         precompute=True,
         readonly=False,
     )
 
-    # pICMSInter - Alíquota interestadual das UF envolvidas
+    # pICMSUFDest - Alíquota interna da UF de destino
     icms_destination_percent = fields.Float(
-        string="ICMS External %",
+        string="ICMS Internal %",
         compute="_compute_tax_fields",
         store=True,
         precompute=True,

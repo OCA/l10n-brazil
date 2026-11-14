@@ -238,8 +238,6 @@ class PartyMixin(models.AbstractModel):
         """
         Defines when Brazilian localization fields should be displayed.
         """
+        br_country = self.env.ref("base.br")
         for record in self:
-            show_l10n_br = False
-            if record.country_id == record.env.ref("base.br"):
-                show_l10n_br = True
-            record.show_l10n_br = show_l10n_br
+            record.show_l10n_br = record.country_id == br_country

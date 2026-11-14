@@ -894,6 +894,14 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_br_fiscal_edi/models/document.py:0
 msgid ""
+"You can't set this document number: %(doc_number)s to draft because this "
+"document is cancelled in SEFAZ"
+msgstr ""
+
+#. module: l10n_br_fiscal_edi
+#. odoo-python
+#: code:addons/l10n_br_fiscal_edi/models/document.py:0
+msgid ""
 "You cannot return the document to draft when its fiscal state is "
 "%(fiscal_state)s, as it has already been recorded as cancelled for SPED "
 "purposes."

@@ -67,12 +67,6 @@ msgid "Confirmada operação"
 msgstr "Confirmada operação"
 
 #. module: l10n_br_nfe_dfe
-#: model_terms:ir.ui.view,arch_db:l10n_br_nfe_dfe.nfe_dfe_document_tree
-#: model_terms:ir.ui.view,arch_db:l10n_br_nfe_dfe.view_l10n_br_fiscal_dfe_document_form_nfe
-msgid "DANFE"
-msgstr "DANFE"
-
-#. module: l10n_br_nfe_dfe
 #: model:ir.actions.server,name:l10n_br_nfe_dfe.ir_cron_search_dfe_documents_ir_actions_server
 msgid "DF-e - Search NF-e Documents"
 msgstr "DF-e - Pesquisa de Documentos NF-e"
@@ -220,6 +214,11 @@ msgid "Não realizado"
 msgstr "Não realizado"
 
 #. module: l10n_br_nfe_dfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe_dfe.nfe_dfe_document_tree
+msgid "PDF"
+msgstr ""
+
+#. module: l10n_br_nfe_dfe
 #: model:ir.model.fields,help:l10n_br_nfe_dfe.field_res_company__nfe_auto_fetch
 msgid "Periodically queries DF-e distribution for new NF-e documents"
 msgstr "Consulta periodicamente a distribuição DF-e por novos documentos NF-e"
@@ -264,3 +263,6 @@ msgstr "XML"
 #: code:addons/l10n_br_nfe_dfe/models/dfe_document.py:0
 msgid "You can only import the NF-e when the DF-e is completed."
 msgstr "Você só pode importar a NF-e quando o DF-e estiver completo."
+
+#~ msgid "DANFE"
+#~ msgstr "DANFE"

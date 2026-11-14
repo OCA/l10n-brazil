@@ -5,7 +5,7 @@
     "summary": """
     Monitor incoming national NFS-e documents via the ADN distribution API.
     """,
-    "version": "18.0.1.2.0",
+    "version": "18.0.1.4.0",
     "license": "AGPL-3",
     "author": "Escodoo, Odoo Community Association (OCA)",
     "maintainers": ["marcelsavegnago"],

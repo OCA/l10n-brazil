@@ -381,8 +381,8 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_br_purchase_blanket_order/wizards/create_purchase_orders.py:0
 msgid ""
-"Can not create Purchase Order from Blanket Order lines with different fiscal"
-" operations"
+"Can not create Purchase Order from Blanket Order lines with different fiscal "
+"operations"
 msgstr ""
 
 #. module: l10n_br_purchase_blanket_order
@@ -713,7 +713,7 @@ msgid "ICMS Effective Base"
 msgstr "Base para ICMS Efetivo"
 
 #. module: l10n_br_purchase_blanket_order
-#: model:ir.model.fields,field_description:l10n_br_purchase_blanket_order.field_purchase_blanket_order_line__icms_destination_percent
+#: model:ir.model.fields,field_description:l10n_br_purchase_blanket_order.field_purchase_blanket_order_line__icms_origin_percent
 msgid "ICMS External %"
 msgstr "% ICMS Externo"
 
@@ -751,7 +751,7 @@ msgid "ICMS FCP Value"
 msgstr "Valor do ICMS FCP"
 
 #. module: l10n_br_purchase_blanket_order
-#: model:ir.model.fields,field_description:l10n_br_purchase_blanket_order.field_purchase_blanket_order_line__icms_origin_percent
+#: model:ir.model.fields,field_description:l10n_br_purchase_blanket_order.field_purchase_blanket_order_line__icms_destination_percent
 msgid "ICMS Internal %"
 msgstr "% ICMS Interno"
 
@@ -1698,8 +1698,8 @@ msgstr ""
 #. module: l10n_br_purchase_blanket_order
 #: model:ir.model.fields,help:l10n_br_purchase_blanket_order.field_purchase_blanket_order__partner_shippering_id
 msgid ""
-"The partner responsible for delivering the cargo to the carrier, if not done"
-" directly by the sender. This field is primarily used when issuing the CT-e."
+"The partner responsible for delivering the cargo to the carrier, if not done "
+"directly by the sender. This field is primarily used when issuing the CT-e."
 msgstr ""
 "O parceiro responsável pela entrega da carga ao transportador, caso não seja "
 "feita diretamente pelo remetente. Este campo é usado principalmente na "
