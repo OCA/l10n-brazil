@@ -33,9 +33,16 @@ def post_init_hook(env):
     if env.ref("base.module_l10n_br_account").demo:
         main_company = env.ref("base.main_company", raise_if_not_found=False)
         if main_company:
+            # Set the company in Brazil BEFORE loading the fiscal taxes:
+            # account.tax.country_id is a stored computed field (depends only
+            # on company_id), so a tax keeps the country the company had at
+            # creation time. Loading the taxes while the demo company is
+            # still American would leave them with country_id = United
+            # States and break account.move._validate_taxes_country (#5602).
+            # account_fiscal_country_id has to be set explicitly: it is a
+            # stored computed field that only takes company.country_id when
+            # empty, and the demo company already has it set to the US.
+            main_company.account_fiscal_country_id = env.ref("base.br").id
+            main_company.country_id = env.ref("base.br").id
+            main_company.state_id = env.ref("base.state_br_sp").id
             env["account.chart.template"].load_fiscal_taxes([main_company])
-
-            # now that generic_coa demo data were loaded for main_company,
-            # we can set it in Brazil:
-            env.ref("base.main_company").country_id = env.ref("base.br").id
-            env.ref("base.main_company").state_id = env.ref("base.state_br_sp").id
