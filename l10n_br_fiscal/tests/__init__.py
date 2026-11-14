@@ -22,5 +22,6 @@ from . import (
     test_document_import_wizard,
     test_icmssn,
     test_simplified_tax,
+    test_tax_definition_validity,
     test_tax_pis_cofins,
 )
