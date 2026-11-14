@@ -11,6 +11,7 @@ from tempfile import TemporaryDirectory
 from unidecode import unidecode
 
 from odoo import fields
+from odoo.exceptions import UserError
 from odoo.tests import Form
 from odoo.tests.common import tagged
 
@@ -607,6 +608,17 @@ class TestCNABStructure(AccountTestInvoicingCommon):
         self.assertEqual(line_other.cnab_payment_way_id, way_other_bank)
         self.assertEqual(line_other.service_type, SVC_SALARY)
 
+        cnab_structure.cnab_payment_rule_ids.unlink()
+        line_other.partner_bank_id = self.partner_a_itau_bank
+        self.assertEqual(line_other.service_type, SVC_SUPPLIER)
+
+        self.pix_mode.cnab_payment_way_ids = False
+        line_other.partner_bank_id = self.partner_a_bb_bank
+        self.assertFalse(line_other.service_type)
+        self.pix_mode.cnab_structure_ok = True
+        with self.assertRaises(UserError):
+            line_other._compute_cnab_payment_way_id()
+
         with self.subTest("_compute_cnab_beneficiary_name"):
             self.partner_a_itau_bank.acc_holder_name = "São Paulo"
             line_same._compute_cnab_beneficiary_name()
@@ -697,6 +709,18 @@ class TestCNABStructure(AccountTestInvoicingCommon):
                 "cnab_processor": "oca_processor",
             }
         )
+        for bank_type, way, service_type in (
+            ("same", way_cc, SVC_SUPPLIER),
+            ("other", way_ted, SVC_SALARY),
+        ):
+            self.env["l10n_br_cnab.payment.rule"].create(
+                {
+                    "cnab_structure_id": cnab_structure.id,
+                    "match_bank_type": bank_type,
+                    "payment_way_id": way.id,
+                    "service_type": service_type,
+                }
+            )
 
         payment_order = self.env["account.payment.order"].create(
             {
@@ -713,8 +737,6 @@ class TestCNABStructure(AccountTestInvoicingCommon):
                 "partner_id": self.partner_a.id,
                 "partner_bank_id": self.partner_a_itau_bank.id,
                 "amount_currency": 100.0,
-                "service_type": SVC_SUPPLIER,
-                "cnab_payment_way_id": way_ted.id,
                 "communication": "TEST BATCH 1",
             }
         )
@@ -723,10 +745,8 @@ class TestCNABStructure(AccountTestInvoicingCommon):
             {
                 "order_id": payment_order.id,
                 "partner_id": self.partner_a.id,
-                "partner_bank_id": self.partner_a_itau_bank.id,
+                "partner_bank_id": self.partner_a_bb_bank.id,
                 "amount_currency": 200.0,
-                "service_type": SVC_SALARY,
-                "cnab_payment_way_id": way_cc.id,
                 "communication": "TEST BATCH 2",
             }
         )
