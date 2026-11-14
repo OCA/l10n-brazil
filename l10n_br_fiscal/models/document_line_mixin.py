@@ -207,17 +207,17 @@ class FiscalDocumentLineMixin(models.AbstractModel):
             round_curr = record.currency_id or self.env.ref("base.BRL")
 
             # Total value of products or services
-            record.price_gross = round_curr.round(record.price_unit * record.quantity)
-            record.amount_fiscal = record.price_gross - record.discount_value
+            # not read back from the record: where another method computes
+            # price_gross (sale.order.line), the read would run it too early
+            price_gross = round_curr.round(record.price_unit * record.quantity)
+            record.price_gross = price_gross
+            record.amount_fiscal = price_gross - record.discount_value
             record.fiscal_amount_tax = record.amount_tax_not_included
 
             add_to_amount = sum(record[a] for a in record._add_fields_to_amount())
             rm_to_amount = sum(record[r] for r in record._rm_fields_to_amount())
             record.fiscal_amount_untaxed = (
-                record.price_gross
-                - record.discount_value
-                + add_to_amount
-                - rm_to_amount
+                price_gross - record.discount_value + add_to_amount - rm_to_amount
             )
 
             # Valor do documento (NF)
