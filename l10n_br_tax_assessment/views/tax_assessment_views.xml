@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html). -->
+<odoo>
+    <record id="view_tax_assessment_form" model="ir.ui.view">
+        <field name="name">l10n_br_tax.assessment.form</field>
+        <field name="model">l10n_br_tax.assessment</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button
+                        name="action_compute"
+                        string="Apurar"
+                        type="object"
+                        class="oe_highlight"
+                        states="draft,computed"
+                    />
+                    <button
+                        name="action_post"
+                        string="Encerrar"
+                        type="object"
+                        class="oe_highlight"
+                        states="computed"
+                    />
+                    <button
+                        name="action_draft"
+                        string="Voltar a rascunho"
+                        type="object"
+                        states="computed,posted"
+                    />
+                    <field name="state" widget="statusbar" />
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1" /></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field
+                                name="company_id"
+                                groups="base.group_multi_company"
+                            />
+                            <field name="tax_group_id" />
+                            <field name="tax_domain" />
+                            <field name="regime" />
+                            <field name="currency_id" invisible="1" />
+                        </group>
+                        <group>
+                            <field name="date_from" />
+                            <field name="date_to" />
+                            <field name="move_id" readonly="1" />
+                        </group>
+                    </group>
+                    <group string="Conta gráfica">
+                        <group string="Débitos">
+                            <field name="debit_total" />
+                            <field name="adjustment_debit_total" />
+                            <field name="credit_reversal_total" />
+                        </group>
+                        <group string="Créditos">
+                            <field name="credit_total" />
+                            <field name="adjustment_credit_total" />
+                            <field name="debit_reversal_total" />
+                            <field name="previous_balance" />
+                        </group>
+                        <group string="Resultado">
+                            <field name="balance" />
+                            <field name="assessed_balance" />
+                            <field name="deduction_total" />
+                            <field name="withholding_total" />
+                        </group>
+                        <group>
+                            <field name="amount_payable" />
+                            <field name="amount_carried_forward" />
+                            <field name="special_debit_total" />
+                            <field name="previous_assessment_id" />
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Memória de cálculo">
+                            <field name="line_ids">
+                                <tree editable="bottom">
+                                    <field name="tax_id" />
+                                    <field name="kind" />
+                                    <field name="source" />
+                                    <field name="adjustment_code" />
+                                    <field name="adjustment_kind" />
+                                    <field name="description" />
+                                    <field name="base_amount" sum="Base" />
+                                    <field name="tax_amount" sum="Imposto" />
+                                    <field name="currency_id" invisible="1" />
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" />
+                    <field name="activity_ids" />
+                    <field name="message_ids" />
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_tax_assessment_tree" model="ir.ui.view">
+        <field name="name">l10n_br_tax.assessment.tree</field>
+        <field name="model">l10n_br_tax.assessment</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" />
+                <field name="tax_group_id" />
+                <field name="date_from" />
+                <field name="date_to" />
+                <field name="debit_total" sum="Débitos" />
+                <field name="credit_total" sum="Créditos" />
+                <field name="amount_payable" sum="A recolher" />
+                <field name="state" widget="badge" />
+                <field name="currency_id" invisible="1" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_tax_assessment" model="ir.actions.act_window">
+        <field name="name">Apuração de Impostos</field>
+        <field name="res_model">l10n_br_tax.assessment</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem
+        id="menu_tax_assessment"
+        name="Apuração de Impostos"
+        parent="account.menu_finance_entries_actions"
+        action="action_tax_assessment"
+        sequence="90"
+    />
+</odoo>
