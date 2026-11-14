@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="payment_instrument_reader_form" model="ir.ui.view">
+        <field name="model">l10n_br_payment_schedule.instrument.reader</field>
+        <field name="arch" type="xml">
+            <form string="Read Boleto or Pix">
+                <group>
+                    <field name="move_line_id" />
+                    <field name="partner_id" />
+                    <field
+                        name="text"
+                        placeholder="Barcode, digitable line or Pix copy and paste"
+                    />
+                </group>
+                <div
+                    class="alert alert-danger"
+                    role="alert"
+                    attrs="{'invisible': [('error', '=', False)]}"
+                >
+                    <field name="error" nolabel="1" />
+                </div>
+                <div
+                    class="alert alert-warning"
+                    role="alert"
+                    attrs="{'invisible': [('message', '=', False)]}"
+                >
+                    <field name="message" nolabel="1" />
+                </div>
+                <group attrs="{'invisible': [('kind', '!=', 'pix')]}">
+                    <field name="kind" invisible="1" />
+                    <field name="pix_key" />
+                    <field name="pix_receiver" />
+                    <field name="pix_key_id" />
+                </group>
+                <footer>
+                    <button
+                        name="action_apply"
+                        type="object"
+                        string="Apply"
+                        class="btn-primary"
+                        attrs="{'invisible': [('kind', '=', False)]}"
+                    />
+                    <button
+                        name="action_register_pix_key"
+                        type="object"
+                        string="Register Pix Key on the Partner"
+                        attrs="{'invisible': ['|', '|', ('kind', '!=', 'pix'), ('pix_key', '=', False), ('pix_key_id', '!=', False)]}"
+                    />
+                    <button special="cancel" string="Cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>
