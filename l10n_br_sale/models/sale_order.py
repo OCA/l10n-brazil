@@ -111,8 +111,7 @@ class SaleOrder(models.Model):
         document_type_id = self._context.get("document_type_id")
         lines_with_fo_line = lines.filtered(lambda ln: ln.fiscal_operation_line_id)
         lines_doc_type = lines_with_fo_line.filtered(
-            lambda ln: ln.fiscal_operation_line_id.get_document_type(ln.company_id).id
-            == document_type_id
+            lambda ln: ln._get_fiscal_document_type().id == document_type_id
         )
         other_lines = lines.filtered(lambda ln: ln.is_downpayment or ln.display_type)
         lines_doc_type |= other_lines
@@ -125,8 +124,7 @@ class SaleOrder(models.Model):
             lambda ln: ln.fiscal_operation_line_id
         )
         document_types = {
-            line.fiscal_operation_line_id.get_document_type(line.company_id)
-            for line in lines_with_fiscal_op_line
+            line._get_fiscal_document_type() for line in lines_with_fiscal_op_line
         }
 
         moves = self.env["account.move"]
@@ -159,10 +157,11 @@ class SaleOrder(models.Model):
                 fiscal_values["partner_id"] = result.get("partner_id")
             result.update(fiscal_values)
 
-            document_type_id = self._context.get("document_type_id")
-            if not document_type_id:
-                # Quando ocorre esse caso? Os Testes não estão passando aqui
-                document_type_id = self.company_id.document_type_id.id
+            document_type_id = (
+                self._context.get("document_type_id")
+                or self.document_type_id.id
+                or self.company_id.document_type_id.id
+            )
 
             document_type = self.env["l10n_br_fiscal.document.type"].browse(
                 document_type_id
