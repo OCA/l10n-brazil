@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Família IMPORTAÇÃO DIRETA. Operação de entrada dedicada (não reutiliza as
+  linhas de fo_compras, cujo cfop_export 3xxx aplicaria a tributação da compra
+  nacional). O que a família resolve:
+
+  - PIS/COFINS-Importação com as alíquotas próprias (2,1% / 9,65%, Lei
+    10.865/2004) via tax.definition da linha, válidas para todos os regimes
+    (o importador do Simples também recolhe por fora do DAS, por isso NÃO há
+    linhas irmãs Simples Nacional nesta família).
+  - II: aplicado automaticamente pelo motor a partir do NCM quando o CFOP é de
+    exterior (empresa de regime normal). IPI-Importação: idem, pelo NCM.
+  - ICMS-Importação: CST 00 pelo default do regulamento; a base "por dentro"
+    do desembaraço (II + IPI + PIS/COFINS + despesas) é responsabilidade do
+    processo de importação (módulo DUIMP), não do catálogo.
+  - Creditabilidade por destinação: revenda/industrialização com crédito
+    (CST 50); ativo com crédito (parcelamento 1/48 é camada contábil);
+    uso/consumo sem crédito (CST 70).
+
+  Devolução ao exterior: return aponta para fo_devolucao_compras (o core já
+  tem os CFOPs 7201/7202/7553/7556 nas linhas de devolução de compra).
+
+  Fora do escopo (incrementos futuros): importação por conta e ordem, por
+  encomenda, admissão temporária e drawback (3127/3128).
+-->
+<odoo noupdate="1">
+
+    <record id="comment_importacao" model="l10n_br_fiscal.comment">
+        <field name="name">Importação direta</field>
+        <field
+            name="comment"
+        >Importação direta. Tributos recolhidos no desembaraço aduaneiro (II, IPI, PIS/COFINS-Importação e ICMS), conforme a Declaração de Importação/DUIMP referenciada no documento.</field>
+        <field name="comment_type">fiscal</field>
+        <field name="object">l10n_br_fiscal.document.mixin</field>
+    </record>
+
+    <record id="fo_importacao" model="l10n_br_fiscal.operation">
+        <field name="code">IMP</field>
+        <field name="name">Importação direta</field>
+        <field name="fiscal_operation_type">in</field>
+        <field name="fiscal_type">purchase</field>
+        <field name="default_price_unit">cost_price</field>
+        <field
+            name="return_fiscal_operation_id"
+            ref="l10n_br_fiscal.fo_devolucao_compras"
+        />
+        <field name="state">approved</field>
+        <field name="comment_ids" eval="[(6, 0, [ref('comment_importacao')])]" />
+    </record>
+
+    <!-- Revenda (3102): PIS/COFINS-Importação com crédito -->
+    <record id="fo_importacao_revenda" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_importacao" />
+        <field name="name">Importação para revenda</field>
+        <field name="cfop_export_id" ref="l10n_br_fiscal.cfop_3102" />
+        <field name="product_type">00</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_imp_revenda_pis" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_importacao_revenda" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_pis" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_pis_importacao_2_1" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_pis_50" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_imp_revenda_cofins" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_importacao_revenda" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_cofins" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_cofins_importacao_9_65" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_cofins_50" />
+        <field name="state">approved</field>
+    </record>
+
+    <!-- Industrialização (3101): PIS/COFINS-Importação com crédito -->
+    <record id="fo_importacao_industrializacao" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_importacao" />
+        <field name="name">Importação para industrialização</field>
+        <field name="cfop_export_id" ref="l10n_br_fiscal.cfop_3101" />
+        <field name="product_type">01</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_imp_ind_pis" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_importacao_industrializacao" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_pis" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_pis_importacao_2_1" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_pis_50" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_imp_ind_cofins" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_importacao_industrializacao" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_cofins" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_cofins_importacao_9_65" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_cofins_50" />
+        <field name="state">approved</field>
+    </record>
+
+    <!-- Ativo imobilizado (3551): crédito (parcelamento 1/48 é camada contábil) -->
+    <record id="fo_importacao_ativo" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_importacao" />
+        <field name="name">Importação de bem para o ativo imobilizado</field>
+        <field name="cfop_export_id" ref="l10n_br_fiscal.cfop_3551" />
+        <field name="product_type">08</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_imp_ativo_pis" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_importacao_ativo" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_pis" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_pis_importacao_2_1" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_pis_50" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_imp_ativo_cofins" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_importacao_ativo" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_cofins" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_cofins_importacao_9_65" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_cofins_50" />
+        <field name="state">approved</field>
+    </record>
+
+    <!-- Uso e consumo (3556): tributos pagos no desembaraço, SEM crédito (CST 70) -->
+    <record id="fo_importacao_uso_consumo" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_importacao" />
+        <field name="name">Importação de material de uso e consumo</field>
+        <field name="cfop_export_id" ref="l10n_br_fiscal.cfop_3556" />
+        <field name="product_type">07</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_imp_uso_pis" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_importacao_uso_consumo" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_pis" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_pis_importacao_2_1" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_pis_70" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_imp_uso_cofins" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_importacao_uso_consumo" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_cofins" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_cofins_importacao_9_65" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_cofins_70" />
+        <field name="state">approved</field>
+    </record>
+
+</odoo>
