@@ -1,0 +1,216 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_br_payment
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-27 11:22+0000\n"
+"PO-Revision-Date: 2026-10-27 11:22+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#. module: l10n_br_payment
+#: model_terms:ir.ui.view,arch_db:l10n_br_payment.report_invoice_document_boleto
+msgid "<small>Digitable line:</small>"
+msgstr "<small>Linha digitável:</small>"
+
+#. module: l10n_br_payment
+#: model_terms:ir.ui.view,arch_db:l10n_br_payment.report_invoice_document_boleto
+msgid "<small>Pix copy and paste:</small>"
+msgstr "<small>Pix copia e cola:</small>"
+
+#. module: l10n_br_payment
+#: model_terms:ir.ui.view,arch_db:l10n_br_payment.portal_invoice_page_boleto
+msgid "<strong class=\"text-muted\">Due</strong>"
+msgstr "<strong class=\"text-muted\">Vencimento</strong>"
+
+#. module: l10n_br_payment
+#: model_terms:ir.ui.view,arch_db:l10n_br_payment.report_invoice_document_boleto
+msgid "<strong>How to pay</strong>"
+msgstr "<strong>Como pagar</strong>"
+
+#. module: l10n_br_payment
+#: model_terms:ir.ui.view,arch_db:l10n_br_payment.report_invoice_document_boleto
+msgid "Amount"
+msgstr "Valor"
+
+#. module: l10n_br_payment
+#: model:ir.model.fields,field_description:l10n_br_payment.field_payment_transaction__barcode
+msgid "Barcode"
+msgstr "Código de barras"
+
+#. module: l10n_br_payment
+#: model_terms:ir.ui.view,arch_db:l10n_br_payment.account_payment_mode_form_view
+#: model_terms:ir.ui.view,arch_db:l10n_br_payment.payment_transaction_form_view
+msgid "Boleto"
+msgstr "Boleto"
+
+#. module: l10n_br_payment
+#: model_terms:ir.ui.view,arch_db:l10n_br_payment.report_invoice_document_boleto
+msgid "Boleto / Pix"
+msgstr "Boleto / Pix"
+
+#. module: l10n_br_payment
+#: model:ir.model.fields,field_description:l10n_br_payment.field_payment_transaction__boleto_pdf
+msgid "Boleto PDF"
+msgstr "PDF do Boleto"
+
+#. module: l10n_br_payment
+#. odoo-python
+#: code:addons/l10n_br_payment/models/account_move.py:0
+#, python-format
+msgid ""
+"Could not generate the boletos. No payment provider is configured for the "
+"selected payment method"
+msgstr ""
+"Não foi possível gerar os boletos. Nenhum provedor de pagamento está "
+"configurado para a forma de pagamento selecionada"
+
+#. module: l10n_br_payment
+#: model:ir.model.fields,field_description:l10n_br_payment.field_payment_transaction__digitable_line
+msgid "Digitable Line"
+msgstr "Linha digitável"
+
+#. module: l10n_br_payment
+#: model:ir.model.fields,field_description:l10n_br_payment.field_payment_transaction__due_date
+#: model_terms:ir.ui.view,arch_db:l10n_br_payment.report_invoice_document_boleto
+msgid "Due Date"
+msgstr "Vencimento"
+
+#. module: l10n_br_payment
+#: model:ir.model.fields,field_description:l10n_br_payment.field_account_payment_mode__generate_boletos_on_invoice
+msgid "Generate boletos on invoice?"
+msgstr "Gerar boletos na fatura?"
+
+#. module: l10n_br_payment
+#: model:ir.model.fields,help:l10n_br_payment.field_account_payment_mode__generate_boletos_on_invoice
+msgid ""
+"If true, when confirming the invoice with this payment method, the boletos "
+"will be automatically generated using the associated payment provider"
+msgstr ""
+"Se marcado, ao confirmar a fatura com esta forma de pagamento, os boletos "
+"serão gerados automaticamente pelo provedor de pagamento associado"
+
+#. module: l10n_br_payment
+#: model:ir.model.fields,field_description:l10n_br_payment.field_payment_transaction__move_line_id
+msgid "Installment"
+msgstr "Parcela"
+
+#. module: l10n_br_payment
+#: model:ir.model.fields,field_description:l10n_br_payment.field_account_payment_mode__payment_boleto_instructions
+#: model:ir.model.fields,field_description:l10n_br_payment.field_payment_transaction__boleto_instructions
+msgid "Instructions"
+msgstr "Instruções"
+
+#. module: l10n_br_payment
+#: model:ir.model.fields,help:l10n_br_payment.field_account_payment_mode__payment_boleto_instructions
+#: model:ir.model.fields,help:l10n_br_payment.field_payment_transaction__boleto_instructions
+msgid ""
+"Instructions to be printed on the boleto. This field is used to provide "
+"additional information to the payer."
+msgstr ""
+"Instruções a imprimir no boleto. Este campo traz informações adicionais para"
+" o pagador."
+
+#. module: l10n_br_payment
+#: model:ir.model.fields,field_description:l10n_br_payment.field_account_payment_mode__payment_boleto_interest
+#: model:ir.model.fields,field_description:l10n_br_payment.field_payment_transaction__boleto_interest
+msgid "Interest"
+msgstr "Juros"
+
+#. module: l10n_br_payment
+#: model:ir.model.fields,help:l10n_br_payment.field_account_payment_mode__payment_boleto_interest
+#: model:ir.model.fields,help:l10n_br_payment.field_payment_transaction__boleto_interest
+msgid ""
+"Interest fee for overdue payments. This value will be added to the total "
+"amount of the invoice."
+msgstr ""
+"Juros por atraso no pagamento. Este valor será somado ao valor total da "
+"fatura."
+
+#. module: l10n_br_payment
+#: model:ir.model.fields,field_description:l10n_br_payment.field_payment_transaction__is_boleto_payment
+msgid "Is boleto payment"
+msgstr "É pagamento por boleto"
+
+#. module: l10n_br_payment
+#: model:ir.model,name:l10n_br_payment.model_account_move
+msgid "Journal Entry"
+msgstr "Lançamento Contábil"
+
+#. module: l10n_br_payment
+#: model:ir.model.fields,field_description:l10n_br_payment.field_payment_transaction__our_number
+msgid "Our Number"
+msgstr "Nosso número"
+
+#. module: l10n_br_payment
+#: model:ir.model,name:l10n_br_payment.model_account_payment_mode
+msgid "Payment Modes"
+msgstr "Modos de Pagamento"
+
+#. module: l10n_br_payment
+#: model:ir.model,name:l10n_br_payment.model_payment_transaction
+msgid "Payment Transaction"
+msgstr "Transação de Pagamento"
+
+#. module: l10n_br_payment
+#: model:ir.model.fields,field_description:l10n_br_payment.field_account_payment_mode__payment_provider_id
+msgid "Payment provider"
+msgstr "Provedor de pagamento"
+
+#. module: l10n_br_payment
+#: model:ir.model.fields,field_description:l10n_br_payment.field_account_payment_mode__payment_boleto_penalty
+#: model:ir.model.fields,field_description:l10n_br_payment.field_payment_transaction__boleto_penalty
+msgid "Penalty"
+msgstr "Multa"
+
+#. module: l10n_br_payment
+#: model:ir.model.fields,help:l10n_br_payment.field_account_payment_mode__payment_boleto_penalty
+#: model:ir.model.fields,help:l10n_br_payment.field_payment_transaction__boleto_penalty
+msgid ""
+"Penalty fee for overdue payments. This value will be added to the total "
+"amount of the invoice."
+msgstr ""
+"Multa por atraso no pagamento. Este valor será somado ao valor total da "
+"fatura."
+
+#. module: l10n_br_payment
+#: model:ir.model.fields,field_description:l10n_br_payment.field_payment_transaction__pix_copia_cola
+msgid "Pix Copy and Paste"
+msgstr "Pix Copia e Cola"
+
+#. module: l10n_br_payment
+#: model_terms:ir.ui.view,arch_db:l10n_br_payment.report_invoice_document_boleto
+msgid "Pix QR code"
+msgstr "QR code Pix"
+
+#. module: l10n_br_payment
+#: model:ir.model.fields,field_description:l10n_br_payment.field_payment_transaction__txid
+msgid "Pix TXID"
+msgstr "TXID do Pix"
+
+#. module: l10n_br_payment
+#: model:ir.model.fields,help:l10n_br_payment.field_payment_transaction__move_line_id
+msgid ""
+"Receivable line (installment) charged by this boleto. When set, the payment "
+"reconciles only this installment."
+msgstr ""
+"Linha a receber (parcela) cobrada por este boleto. Quando preenchida, o "
+"pagamento concilia somente esta parcela."
+
+#. module: l10n_br_payment
+#: model:ir.model.fields,field_description:l10n_br_payment.field_payment_transaction__provider_technical_info
+msgid "Technical Information"
+msgstr "Informações técnicas"
+
+#. module: l10n_br_payment
+#: model:ir.model.fields,help:l10n_br_payment.field_payment_transaction__provider_technical_info
+msgid "Technical information about the payment transaction."
+msgstr "Informações técnicas sobre a transação de pagamento."

@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_connection_admin,connection.admin,model_l10n_br_bank_connection_connection,group_bank_connection_admin,1,1,1,1
+access_connection_manager,connection.manager,model_l10n_br_bank_connection_connection,account.group_account_manager,1,0,0,0
+access_sync_status_admin,sync_status.admin,model_l10n_br_bank_connection_sync_status,group_bank_connection_admin,1,1,1,1
+access_sync_status_manager,sync_status.manager,model_l10n_br_bank_connection_sync_status,account.group_account_manager,1,0,0,0
+access_token_system,token.system,model_l10n_br_bank_connection_token,base.group_system,1,1,1,1
