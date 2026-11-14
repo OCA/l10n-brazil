@@ -10,8 +10,17 @@ class TestDocumentImportCheck(TransactionCase):
     def setUpClass(cls):
         super().setUpClass()
         cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
+        # every imported line carries a fiscal classification: the NCM is
+        # part of the minimum data the gate below requires
+        cls.ncm = cls.env["l10n_br_fiscal.ncm"].create(
+            {"name": "NCM de teste", "code": "9999.99.99"}
+        )
         cls.product = cls.env["product.product"].create(
-            {"name": "Amostra Teste", "uom_id": cls.env.ref("uom.product_uom_unit").id}
+            {
+                "name": "Amostra Teste",
+                "uom_id": cls.env.ref("uom.product_uom_unit").id,
+                "ncm_id": cls.ncm.id,
+            }
         )
         cls.document = cls.env["l10n_br_fiscal.document"].create(
             {
@@ -51,5 +60,12 @@ class TestDocumentImportCheck(TransactionCase):
     def test_missing_product_is_blocked(self):
         self.line.price_unit = 10.0
         self.line.product_id = False
+        with self.assertRaises(UserError):
+            self.document._check_document_import()
+
+    def test_missing_ncm_is_blocked(self):
+        """Without a fiscal classification the taxes cannot be mapped and
+        the SPED books would carry an unclassified item."""
+        self.line.ncm_id = False
         with self.assertRaises(UserError):
             self.document._check_document_import()

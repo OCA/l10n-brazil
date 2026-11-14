@@ -22,6 +22,31 @@
                     />
                     <field name="name" required="1" />
                 </group>
+                <group
+                    name="import_review"
+                    string="Import Review"
+                    attrs="{'invisible': [('import_state', '=', False)]}"
+                >
+                    <field name="import_state" invisible="1" />
+                    <group string="Declared By The Counterparty (from the file)">
+                        <field name="partner_cfop_id" readonly="1" />
+                        <field name="partner_uom_code" readonly="1" />
+                        <field name="partner_quantity" readonly="1" />
+                        <field name="partner_price_unit" readonly="1" />
+                        <field name="cfop_warning" readonly="1" />
+                    </group>
+                    <group string="Internal Mapping (review and confirm)">
+                        <field
+                            name="import_uom_id"
+                            options="{'no_create': True, 'no_open': True}"
+                        />
+                        <field name="import_uom_factor" />
+                        <field
+                            name="fiscal_operation_id"
+                            options="{'no_create': True}"
+                        />
+                    </group>
+                </group>
                 <notebook>
                     <page name="general" string="General">
                         <group>
