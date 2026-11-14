@@ -3,7 +3,11 @@
 
 from odoo import fields, models
 
-from ..constants.nfse import NFSE_ENVIRONMENT_DEFAULT, NFSE_ENVIRONMENTS
+from ..constants.nfse import (
+    FOREIGN_TRADE_MODE,
+    NFSE_ENVIRONMENT_DEFAULT,
+    NFSE_ENVIRONMENTS,
+)
 
 
 class ResCompany(models.Model):
@@ -21,6 +25,13 @@ class ResCompany(models.Model):
         selection=NFSE_ENVIRONMENTS,
         string="NFSe Environment",
         default=NFSE_ENVIRONMENT_DEFAULT,
+    )
+    nfse_foreign_trade_mode = fields.Selection(
+        selection=FOREIGN_TRADE_MODE,
+        string="NFSe Foreign Trade Mode",
+        default="1",
+        help="Default service mode (mdPrestacao) of the NFS-e of invoices in "
+        "foreign currency.",
     )
     nfse_city_logo = fields.Binary(
         string="NFSe City Logo",
