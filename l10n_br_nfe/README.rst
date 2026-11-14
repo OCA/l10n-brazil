@@ -1,7 +1,3 @@
-.. image:: https://odoo-community.org/readme-banner-image
-   :target: https://odoo-community.org/get-involved?utm_source=readme
-   :alt: Odoo Community Association
-
 ====
 NF-e
 ====
@@ -17,7 +13,7 @@ NF-e
 .. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
-.. |badge2| image:: https://img.shields.io/badge/license-AGPL--3-blue.png
+.. |badge2| image:: https://img.shields.io/badge/licence-AGPL--3-blue.png
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fl10n--brazil-lightgray.png?logo=github
@@ -80,6 +76,11 @@ canhoto de coleta da transportadora, fonte, casas decimais, dados
 exibidos na descrição do produto e carimbo de rodapé, entre outras. Cada
 empresa usa o perfil escolhido no campo *Perfil de DANFE*, na aba
 *Fiscal > NF-e* do cadastro da empresa.
+
+Nessa mesma aba, *Operação padrão de importação* define a operação usada
+quando uma NF-e recebida é importada. O campo nasce vazio. Preenchido, a
+importação usa essa operação. Vazio, a busca pelo CFOP mais frequente
+continua. Uma NF-e emitida pela própria empresa continua nessa busca.
 
 Usage
 =====
