@@ -53,3 +53,31 @@ class TestSaleOrderAmount(TransactionCase):
         self.assertEqual(
             order.amount_total, order.amount_untaxed + line.fiscal_amount_tax
         )
+
+    def test_amounts_when_fiscal_amounts_are_read_first(self):
+        """The line amounts follow the fiscal ones when these are read while
+        the line is still to be recomputed, as the procurement does"""
+        order = self.env["sale.order"].create(
+            {
+                "company_id": self.company.id,
+                "partner_id": self.partner.id,
+                "fiscal_operation_id": self.fiscal_operation.id,
+            }
+        )
+        line = self.env["sale.order.line"].create(
+            {
+                "order_id": order.id,
+                "product_id": self.product.id,
+                "price_unit": 100.0,
+                "fiscal_operation_id": self.fiscal_operation.id,
+                "fiscal_operation_line_id": self.fiscal_operation.line_definition(
+                    self.company, self.partner, self.product
+                ).id,
+            }
+        )
+        order.force_compute_delivery_costs_by_total = True
+        order.amount_freight_value = 10.0
+        line._prepare_br_fiscal_dict()
+        self.assertEqual(line.fiscal_amount_untaxed, 110.0)
+        self.assertEqual(line.price_subtotal, 110.0)
+        self.assertEqual(order.amount_untaxed, 110.0)
