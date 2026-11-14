@@ -5,3 +5,4 @@ from . import test_nfe_danfe_account
 from . import test_invoice_refund
 from . import test_nfe_import
 from . import test_nfe_autxml_comodel
+from . import test_nfe_autxml
