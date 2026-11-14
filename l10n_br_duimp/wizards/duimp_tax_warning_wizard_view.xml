@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright (C) 2026 – TODAY, KMEE (<https://kmee.com.br>)
+     License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html -->
+<odoo>
+    <record id="duimp_tax_warning_wizard_form" model="ir.ui.view">
+        <field name="name">l10n_br_duimp.tax_warning_wizard.form</field>
+        <field name="model">l10n_br_duimp.tax_warning_wizard</field>
+        <field name="arch" type="xml">
+            <form string="Taxes not registered">
+                <div class="alert alert-warning" role="alert">
+                    <field name="message" readonly="1" nolabel="1" />
+                </div>
+                <field name="declaration_id" invisible="1" />
+                <footer>
+                    <button
+                        name="action_confirm"
+                        string="Generate Anyway"
+                        class="btn-primary"
+                        type="object"
+                    />
+                    <button string="Cancel" class="btn-secondary" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

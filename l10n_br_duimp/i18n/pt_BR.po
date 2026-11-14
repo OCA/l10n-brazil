@@ -1,0 +1,1617 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_br_duimp
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-28 20:09+0000\n"
+"PO-Revision-Date: 2026-10-28 20:09+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_br_duimp
+#. odoo-python
+#: code:addons/l10n_br_duimp/models/duimp_declaration.py:0
+#, python-format
+msgid "%(tax)s: items add up to %(items)s but the header declares %(header)s."
+msgstr "%(tax)s: itens somam %(items)s mas o cabeçalho declara %(header)s."
+
+#. module: l10n_br_duimp
+#: model_terms:ir.ui.view,arch_db:l10n_br_duimp.l10n_br_duimp_declaration_form
+msgid "<span class=\"o_stat_text\">Fiscal Document</span>"
+msgstr "<span class=\"o_stat_text\">Documento Fiscal</span>"
+
+#. module: l10n_br_duimp
+#: model_terms:ir.ui.view,arch_db:l10n_br_duimp.l10n_br_duimp_declaration_form
+msgid "<span class=\"o_stat_text\">Vendor Bill</span>"
+msgstr "<span class=\"o_stat_text\">Fatura de Fornecedor</span>"
+
+#. module: l10n_br_duimp
+#: model:ir.model.constraint,message:l10n_br_duimp.constraint_l10n_br_duimp_declaration_number_version_company_uniq
+msgid "A DUIMP with this number/version already exists for this company."
+msgstr "Uma DUIMP com este número/versão já existe para esta empresa."
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_account_move_line__afrmm_value
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_item__amount_afrmm
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_fiscal_document_line__afrmm_value
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_fiscal_document_line_mixin__afrmm_value
+msgid "AFRMM"
+msgstr "AFRMM"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,help:l10n_br_duimp.field_l10n_br_duimp_item__amount_other
+msgid ""
+"AFRMM + Siscomex fee + capatazia allocated to this item. Booked as 'other "
+"value' on the generated invoice line."
+msgstr "AFRMM + taxa Siscomex + capatazia alocados a este item. Lançado como 'outro valor' na linha da fatura gerada."
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_declaration__afrmm_amount
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_fiscal_document_import_wizard__duimp_afrmm_value
+msgid "AFRMM Total"
+msgstr "Total AFRMM"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_declaration__access_key
+msgid "Access Key"
+msgstr "Chave de Acesso"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_payment__bank_account
+msgid "Account"
+msgstr "Conta"
+
+#. module: l10n_br_duimp
+#: model_terms:ir.ui.view,arch_db:l10n_br_duimp.l10n_br_duimp_declaration_form
+msgid "Acréscimos/Deduções"
+msgstr "Acréscimos/Deduções"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_declaration__message_needaction
+msgid "Action Needed"
+msgstr "Ação Necessária"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_declaration__activity_ids
+msgid "Activities"
+msgstr "Atividades"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_declaration__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr "Decoração de Exceção de Atividade"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_declaration__activity_state
+msgid "Activity State"
+msgstr "Estado da Atividade"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_declaration__activity_type_icon
+msgid "Activity Type Icon"
+msgstr "Ícone do Tipo de Atividade"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,help:l10n_br_duimp.field_account_move_line__afrmm_value
+#: model:ir.model.fields,help:l10n_br_duimp.field_l10n_br_fiscal_document_line__afrmm_value
+#: model:ir.model.fields,help:l10n_br_duimp.field_l10n_br_fiscal_document_line_mixin__afrmm_value
+msgid ""
+"Additional Freight for Renewal of the Merchant Marine, allocated to this "
+"line from the total amount reported by the DUIMP."
+msgstr "Frete Adicional para Renovação da Marinha Mercante, alocado a esta linha a partir do valor total informado pela DUIMP."
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,help:l10n_br_duimp.field_l10n_br_duimp_declaration__afrmm_amount
+msgid ""
+"Additional Freight for Renewal of the Merchant Marine. Not returned by the "
+"DUIMP query API (Siscomex Carga/Mercante); enter it manually from the DUIMP "
+"extract."
+msgstr "Frete Adicional para Renovação da Marinha Mercante. Não retornado pela API de consulta DUIMP (Siscomex Carga/Mercante); informe manualmente a partir do extrato da DUIMP."
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_declaration__addition_deduction_ids
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_item__addition_deduction_ids
+msgid "Additions/Deductions"
+msgstr "Acréscimos/Deduções"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_item__addition_deduction
+msgid "Additions/Deductions (BRL)"
+msgstr "Acréscimos/Deduções (BRL)"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_item__allocated_freight
+msgid "Allocated Freight"
+msgstr "Frete Alocado"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_item__allocated_insurance
+msgid "Allocated Insurance"
+msgstr "Seguro Alocado"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_payment__amendment_number
+msgid "Amendment Number"
+msgstr "Número da Alteração"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_addition_deduction__amount
+msgid "Amount (BRL)"
+msgstr "Valor (BRL)"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_addition_deduction__trade_currency_amount
+msgid "Amount (Currency)"
+msgstr "Valor (Moeda)"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_item_tax__amount_due
+msgid "Amount Due"
+msgstr "Valor Devido"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_item_tax__amount_to_collect
+msgid "Amount To Collect"
+msgstr "Valor a Recolher"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,help:l10n_br_duimp.field_l10n_br_duimp_addition_deduction__amount
+msgid ""
+"Amount already converted to BRL. Positive for an addition, negative for a "
+"deduction."
+msgstr "Valor já convertido para BRL. Positivo para acréscimo, negativo para dedução."
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_declaration__arrival_date
+msgid "Arrival Date"
+msgstr "Data de Chegada"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,help:l10n_br_duimp.field_l10n_br_duimp_item_tax__sequence
+msgid ""
+"Assessment order, so the breakdown is not listed alphabetically by tax code."
+msgstr "Ordem de apuração, para que o detalhamento não seja listado em ordem alfabética por código de imposto."
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_declaration__message_attachment_count
+msgid "Attachment Count"
+msgstr "Contagem de Anexos"
+
+#. module: l10n_br_duimp
+#. odoo-python
+#: code:addons/l10n_br_duimp/models/duimp_webservice.py:0
+#, python-format
+msgid ""
+"Authentication to the Portal Único Siscomex did not return the expected Set-"
+"Token/X-CSRF-Token headers."
+msgstr "A autenticação no Portal Único Siscomex não retornou os cabeçalhos Set-Token/X-CSRF-Token esperados."
+
+#. module: l10n_br_duimp
+#. odoo-python
+#: code:addons/l10n_br_duimp/models/duimp_webservice.py:0
+#, python-format
+msgid ""
+"Authentication to the Portal Único Siscomex failed (HTTP %(status)s): "
+"%(body)s"
+msgstr "Falha na autenticação no Portal Único Siscomex (HTTP %(status)s): %(body)s"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_payment__bank_name
+msgid "Bank"
+msgstr "Banco"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_declaration__bonded_warehouse
+msgid "Bonded Warehouse"
+msgstr "Armazém Alfandegado"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_payment__bank_branch
+msgid "Branch"
+msgstr "Agência"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_declaration__cbs_total
+msgid "CBS (header)"
+msgstr "CBS (cabeçalho)"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields.selection,name:l10n_br_duimp.selection__l10n_br_duimp_item_tax__type__cbs
+msgid "CBS - Contribuição sobre Bens e Serviços"
+msgstr "CBS - Contribuição sobre Bens e Serviços"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_item__cfop_id
+msgid "CFOP"
+msgstr "CFOP"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields.selection,name:l10n_br_duimp.selection__l10n_br_duimp_item_tax__type__cide
+msgid "CIDE"
+msgstr "CIDE"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_declaration__cofins_amount
+msgid "COFINS (header)"
+msgstr "COFINS (cabeçalho)"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields.selection,name:l10n_br_duimp.selection__l10n_br_duimp_item_tax__type__cofins
+msgid "COFINS-Importação"
+msgstr "COFINS-Importação"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_item_tax__cst
+msgid "CST"
+msgstr "CST"
+
+#. module: l10n_br_duimp
+#: model_terms:ir.ui.view,arch_db:l10n_br_duimp.duimp_import_wizard_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_duimp.duimp_search_wizard_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_duimp.duimp_tax_warning_wizard_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_duimp.l10n_br_duimp_declaration_form
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields.selection,name:l10n_br_duimp.selection__l10n_br_duimp_declaration__state__canceled
+msgid "Canceled"
+msgstr "Cancelada"
+
+#. module: l10n_br_duimp
+#. odoo-python
+#: code:addons/l10n_br_duimp/models/duimp_declaration.py:0
+#, python-format
+msgid "Cannot refresh a DUIMP that already generated an invoice."
+msgstr "Não é possível atualizar uma DUIMP que já gerou uma fatura."
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_item__amount_capatazia
+msgid "Capatazia"
+msgstr "Capatazia"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_fiscal_document_import_wizard__duimp_capatazia_value
+msgid "Capatazia Total"
+msgstr "Total Capatazia"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_declaration__cargo_identification
+msgid "Cargo ID (RUC)"
+msgstr "ID da Carga (RUC)"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_declaration__channel
+msgid "Channel"
+msgstr "Canal"
+
+#. module: l10n_br_duimp
+#: model_terms:ir.ui.view,arch_db:l10n_br_duimp.l10n_br_duimp_declaration_form
+msgid "Clearance & Transport"
+msgstr "Desembaraço & Transporte"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_declaration__clearance_office_name
+msgid "Clearance Customs Unit"
+msgstr "Unidade Alfandegária de Desembaraço"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_declaration__clearance_office_code
+msgid "Clearance Customs Unit Code"
+msgstr "Código da Unidade Alfandegária de Desembaraço"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_declaration__clearance_date
+msgid "Clearance Date"
+msgstr "Data de Desembaraço"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_declaration__clearance_state
+msgid "Clearance State"
+msgstr "Estado de Desembaraço"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_addition_deduction__code
+msgid "Code"
+msgstr "Código"
+
+#. module: l10n_br_duimp
+#: model:ir.model,name:l10n_br_duimp.model_res_company
+msgid "Companies"
+msgstr "Empresas"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_declaration__company_id
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_item__company_id
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_search_wizard__company_id
+msgid "Company"
+msgstr "Empresa"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields.selection,name:l10n_br_duimp.selection__res_company__duimp_environment__validation
+msgid "Company Validation"
+msgstr "Validação da Empresa"
+
+#. module: l10n_br_duimp
+#: model_terms:ir.ui.view,arch_db:l10n_br_duimp.l10n_br_duimp_declaration_form
+msgid "Costs & Taxes Summary"
+msgstr "Resumo de Custos e Impostos"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_declaration__origin_country_code
+msgid "Country of Origin Code"
+msgstr "Código do País de Origem"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_addition_deduction__create_uid
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_declaration__create_uid
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_item__create_uid
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_item_tax__create_uid
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_payment__create_uid
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_search_wizard__create_uid
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_search_wizard_line__create_uid
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_tax_warning_wizard__create_uid
+msgid "Created by"
+msgstr "Criado por"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_addition_deduction__create_date
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_declaration__create_date
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_item__create_date
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_item_tax__create_date
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_payment__create_date
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_search_wizard__create_date
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_search_wizard_line__create_date
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_tax_warning_wizard__create_date
+msgid "Created on"
+msgstr "Criado em"
+
+#. module: l10n_br_duimp
+#: model:ir.model,name:l10n_br_duimp.model_res_currency
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_addition_deduction__company_currency_id
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_declaration__currency_id
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_item__currency_id
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_item_tax__currency_id
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_payment__currency_id
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_fiscal_document_import_wizard__company_currency_id
+msgid "Currency"
+msgstr "Moeda"
+
+#. module: l10n_br_duimp
+#: model_terms:ir.ui.view,arch_db:l10n_br_duimp.l10n_br_duimp_declaration_form
+msgid "Customs Clearance"
+msgstr "Desembaraço Aduaneiro"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_item__customs_value
+msgid "Customs Value"
+msgstr "Valor Aduaneiro"
+
+#. module: l10n_br_duimp
+#: model:ir.actions.act_window,name:l10n_br_duimp.l10n_br_duimp_declaration_action
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_account_bank_statement_line__duimp_declaration_id
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_account_move__duimp_declaration_id
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_account_payment__duimp_declaration_id
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_fiscal_document__duimp_declaration_id
+#: model:ir.ui.menu,name:l10n_br_duimp.l10n_br_duimp_menu
+#: model_terms:ir.ui.view,arch_db:l10n_br_duimp.res_company_form_duimp
+msgid "DUIMP"
+msgstr "DUIMP"
+
+#. module: l10n_br_duimp
+#: model_terms:ir.ui.view,arch_db:l10n_br_duimp.res_company_form_duimp
+msgid "DUIMP (Siscomex)"
+msgstr "DUIMP (Siscomex)"
+
+#. module: l10n_br_duimp
+#: model:ir.model,name:l10n_br_duimp.model_l10n_br_duimp_addition_deduction
+msgid "DUIMP Addition/Deduction"
+msgstr "Acréscimo/Dedução DUIMP"
+
+#. module: l10n_br_duimp
+#: model:ir.model,name:l10n_br_duimp.model_l10n_br_duimp_declaration
+msgid "DUIMP Declaration"
+msgstr "Declaração DUIMP"
+
+#. module: l10n_br_duimp
+#: model:product.template,name:l10n_br_duimp.product_duimp_demo_1_product_template
+msgid "DUIMP Demo - Imported Bearing"
+msgstr "DUIMP Demo - Rolamento Importado"
+
+#. module: l10n_br_duimp
+#: model:product.template,name:l10n_br_duimp.product_duimp_demo_2_product_template
+msgid "DUIMP Demo - Imported Sensor"
+msgstr "DUIMP Demo - Sensor Importado"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_res_company__duimp_environment
+msgid "DUIMP Environment (Siscomex)"
+msgstr "Ambiente DUIMP (Siscomex)"
+
+#. module: l10n_br_duimp
+#. odoo-python
+#: code:addons/l10n_br_duimp/wizards/duimp_search_wizard.py:0
+#, python-format
+msgid "DUIMP Imports"
+msgstr "Importações DUIMP"
+
+#. module: l10n_br_duimp
+#: model_terms:ir.ui.view,arch_db:l10n_br_duimp.l10n_br_duimp_declaration_form
+msgid "DUIMP Information"
+msgstr "Informações DUIMP"
+
+#. module: l10n_br_duimp
+#: model:ir.model,name:l10n_br_duimp.model_l10n_br_duimp_item
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_account_move_line__duimp_item_id
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_fiscal_document_line__duimp_item_id
+msgid "DUIMP Item"
+msgstr "Item DUIMP"
+
+#. module: l10n_br_duimp
+#: model:ir.model,name:l10n_br_duimp.model_l10n_br_duimp_item_tax
+msgid "DUIMP Item Tax"
+msgstr "Imposto do Item DUIMP"
+
+#. module: l10n_br_duimp
+#: model:ir.model,name:l10n_br_duimp.model_l10n_br_duimp_tax_warning_wizard
+msgid "DUIMP Missing Tax Confirmation"
+msgstr "Confirmação de Imposto Ausente na DUIMP"
+
+#. module: l10n_br_duimp
+#: model:ir.model,name:l10n_br_duimp.model_l10n_br_duimp_mixin
+msgid "DUIMP Mixin"
+msgstr "Mixin DUIMP"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_account_bank_statement_line__duimp_number
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_account_move__duimp_number
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_account_payment__duimp_number
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_declaration__number
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_search_wizard_line__duimp_number
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_fiscal_document__duimp_number
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_fiscal_document_import_wizard__duimp_number
+#: model_terms:ir.ui.view,arch_db:l10n_br_duimp.l10n_br_duimp_declaration_form
+msgid "DUIMP Number"
+msgstr "Número DUIMP"
+
+#. module: l10n_br_duimp
+#: model:ir.model,name:l10n_br_duimp.model_l10n_br_duimp_payment
+msgid "DUIMP Payment"
+msgstr "Pagamento DUIMP"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_item__product_code
+msgid "DUIMP Product Code"
+msgstr "Código de Produto DUIMP"
+
+#. module: l10n_br_duimp
+#: model:ir.model,name:l10n_br_duimp.model_l10n_br_duimp_search_wizard_line
+msgid "DUIMP Search Wizard Line"
+msgstr "Linha do Assistente de Busca DUIMP"
+
+#. module: l10n_br_duimp
+#. odoo-python
+#: code:addons/l10n_br_duimp/models/duimp_declaration.py:0
+#, python-format
+msgid "DUIMP Serie"
+msgstr "Série DUIMP"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_account_bank_statement_line__duimp_version
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_account_move__duimp_version
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_account_payment__duimp_version
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_fiscal_document__duimp_version
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_fiscal_document_import_wizard__duimp_version
+msgid "DUIMP Version"
+msgstr "Versão DUIMP"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,help:l10n_br_duimp.field_account_move_line__duimp_item_id
+#: model:ir.model.fields,help:l10n_br_duimp.field_l10n_br_fiscal_document_line__duimp_item_id
+msgid ""
+"DUIMP item that originated this fiscal document line. Used by "
+"l10n_br_duimp_nfe to build the nfe40_DI/adi tags."
+msgstr "Item DUIMP que originou esta linha do documento fiscal. Usado pelo l10n_br_duimp_nfe para montar as tags nfe40_DI/adi."
+
+#. module: l10n_br_duimp
+#. odoo-python
+#: code:addons/l10n_br_duimp/models/duimp_webservice.py:0
+#, python-format
+msgid "DUIMP not found in the Portal Único Siscomex (%s)."
+msgstr "DUIMP não encontrada no Portal Único Siscomex (%s)."
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_search_wizard__line_ids
+#: model_terms:ir.ui.view,arch_db:l10n_br_duimp.duimp_search_wizard_form
+msgid "DUIMPs Found"
+msgstr "DUIMPs Encontradas"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_search_wizard__date_from
+msgid "Date From"
+msgstr "Data De"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_search_wizard__date_to
+msgid "Date To"
+msgstr "Data Até"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_addition_deduction__declaration_id
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_item__declaration_id
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_item_tax__declaration_id
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_payment__declaration_id
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_tax_warning_wizard__declaration_id
+msgid "Declaration"
+msgstr "Declaração"
+
+#. module: l10n_br_duimp
+#: model:ir.ui.menu,name:l10n_br_duimp.l10n_br_duimp_declaration_menu
+msgid "Declarations"
+msgstr "Declarações"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_declaration__declared_freight_total
+msgid "Declared Freight (header)"
+msgstr "Frete Declarado (cabeçalho)"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,help:l10n_br_duimp.field_res_company__import_fiscal_operation_id
+msgid ""
+"Default fiscal operation used when generating the vendor bill from a DUIMP."
+msgstr "Operação fiscal padrão usada ao gerar a fatura de fornecedor a partir de uma DUIMP."
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_addition_deduction__description
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_item__description
+msgid "Description"
+msgstr "Descrição"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields.selection,name:l10n_br_duimp.selection__l10n_br_duimp_item_tax__type__antidumping
+msgid "Direito Antidumping"
+msgstr "Direito Antidumping"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_addition_deduction__display_name
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_declaration__display_name
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_item__display_name
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_item_tax__display_name
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_payment__display_name
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_search_wizard__display_name
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_search_wizard_line__display_name
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_tax_warning_wizard__display_name
+msgid "Display Name"
+msgstr "Nome de Exibição"
+
+#. module: l10n_br_duimp
+#: model:ir.model,name:l10n_br_duimp.model_l10n_br_fiscal_document_line_mixin
+msgid "Document Fiscal Mixin"
+msgstr "Mixin Fiscal de Documentos"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields.selection,name:l10n_br_duimp.selection__l10n_br_duimp_declaration__state__draft
+msgid "Draft"
+msgstr "Rascunho"
+
+#. module: l10n_br_duimp
+#. odoo-python
+#: code:addons/l10n_br_duimp/models/duimp_webservice.py:0
+#, python-format
+msgid "Error connecting to the Portal Único Siscomex: %s"
+msgstr "Erro ao conectar ao Portal Único Siscomex: %s"
+
+#. module: l10n_br_duimp
+#. odoo-python
+#: code:addons/l10n_br_duimp/wizards/duimp_search_wizard.py:0
+#, python-format
+msgid ""
+"Every DUIMP found for this company in the selected period has already been "
+"imported."
+msgstr "Todas as DUIMPs encontradas para esta empresa no período selecionado já foram importadas."
+
+#. module: l10n_br_duimp
+#. odoo-python
+#: code:addons/l10n_br_duimp/models/duimp_declaration.py:0
+#, python-format
+msgid "Every DUIMP item must be matched to an internal product."
+msgstr "Cada item da DUIMP deve ser vinculado a um produto interno."
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_addition_deduction__exchange_rate
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_item__exchange_rate
+msgid "Exchange Rate"
+msgstr "Taxa de Câmbio"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_item__exporter_code
+msgid "Exporter Code"
+msgstr "Código do Exportador"
+
+#. module: l10n_br_duimp
+#: model_terms:ir.ui.view,arch_db:l10n_br_duimp.l10n_br_duimp_declaration_form
+msgid "Federal Taxes (BRL)"
+msgstr "Impostos Federais (BRL)"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_item__final_price_unit
+msgid "Final Unit Price"
+msgstr "Preço Unitário Final"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_declaration__fiscal_document_id
+msgid "Fiscal Document"
+msgstr "Documento Fiscal"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_declaration__fiscal_operation_id
+msgid "Fiscal Operation"
+msgstr "Operação Fiscal"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_declaration__message_follower_ids
+msgid "Followers"
+msgstr "Seguidores"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_declaration__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "Seguidores (Parceiros)"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,help:l10n_br_duimp.field_l10n_br_duimp_declaration__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr "Ícone Font Awesome, ex. fa-tasks"
+
+#. module: l10n_br_duimp
+#. odoo-python
+#: code:addons/l10n_br_duimp/models/duimp_declaration.py:0
+#, python-format
+msgid ""
+"Freight: items add up to %(items)s but the DUIMP declares %(declared)s."
+msgstr "Frete: itens somam %(items)s mas a DUIMP declara %(declared)s."
+
+#. module: l10n_br_duimp
+#: model_terms:ir.ui.view,arch_db:l10n_br_duimp.duimp_tax_warning_wizard_form
+msgid "Generate Anyway"
+msgstr "Gerar Mesmo Assim"
+
+#. module: l10n_br_duimp
+#: model_terms:ir.ui.view,arch_db:l10n_br_duimp.l10n_br_duimp_declaration_form
+msgid "Generate Vendor Bill"
+msgstr "Gerar Fatura de Fornecedor"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_declaration__gross_weight
+msgid "Gross Weight (kg)"
+msgstr "Peso Bruto (kg)"
+
+#. module: l10n_br_duimp
+#: model:ir.model,name:l10n_br_duimp.model_l10n_br_fiscal_document_line
+msgid ""
+"Grupo a ser informado nas vendas interestarduais para consumidor final,\n"
+"não contribuinte de ICMS"
+msgstr ""
+"Grupo a ser informado nas vendas interestaduais para consumidor final,\n"
+"não contribuinte de ICMS"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_declaration__handling_fee_amount
+msgid "Handling Fee Amount"
+msgstr "Valor da Taxa de Manuseio"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_declaration__has_message
+msgid "Has Message"
+msgstr "Tem Mensagem"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields.selection,name:l10n_br_duimp.selection__l10n_br_duimp_item_tax__type__ibs_estadual
+msgid "IBS Estadual"
+msgstr "IBS Estadual"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields.selection,name:l10n_br_duimp.selection__l10n_br_duimp_item_tax__type__ibs_municipal
+msgid "IBS Municipal"
+msgstr "IBS Municipal"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_declaration__ibs_municipal_total
+msgid "IBS Municipal (header)"
+msgstr "IBS Municipal (cabeçalho)"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_declaration__ibs_estadual_total
+msgid "IBS State (header)"
+msgstr "IBS Estadual (cabeçalho)"
+
+#. module: l10n_br_duimp
+#: model_terms:ir.ui.view,arch_db:l10n_br_duimp.l10n_br_duimp_declaration_form
+msgid "ICMS (Manual Entry)"
+msgstr "ICMS (Entrada Manual)"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_declaration__icms_amount
+msgid "ICMS Amount"
+msgstr "Valor ICMS"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_declaration__icms_base
+msgid "ICMS Base"
+msgstr "Base ICMS"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_addition_deduction__id
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_declaration__id
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_item__id
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_item_tax__id
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_payment__id
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_search_wizard__id
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_search_wizard_line__id
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_tax_warning_wizard__id
+msgid "ID"
+msgstr "ID"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_declaration__ii_amount
+msgid "II (header)"
+msgstr "II (cabeçalho)"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields.selection,name:l10n_br_duimp.selection__l10n_br_duimp_item_tax__type__ii
+msgid "II - Imposto de Importação"
+msgstr "II - Imposto de Importação"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_declaration__ipi_amount
+msgid "IPI (header)"
+msgstr "IPI (cabeçalho)"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields.selection,name:l10n_br_duimp.selection__l10n_br_duimp_item_tax__type__ipi
+msgid "IPI - Imposto sobre Produtos Industrializados"
+msgstr "IPI - Imposto sobre Produtos Industrializados"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_declaration__activity_exception_icon
+msgid "Icon"
+msgstr "Ícone"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,help:l10n_br_duimp.field_l10n_br_duimp_declaration__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr "Ícone para indicar uma atividade de exceção."
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,help:l10n_br_duimp.field_l10n_br_duimp_declaration__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr "Se marcado, novas mensagens requerem sua atenção."
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,help:l10n_br_duimp.field_l10n_br_duimp_declaration__message_has_error
+msgid "If checked, some messages have a delivery error."
+msgstr "Se marcado, algumas mensagens têm erro de entrega."
+
+#. module: l10n_br_duimp
+#: model_terms:ir.ui.view,arch_db:l10n_br_duimp.l10n_br_duimp_declaration_form
+msgid "Import Costs"
+msgstr "Custos de Importação"
+
+#. module: l10n_br_duimp
+#: model_terms:ir.ui.view,arch_db:l10n_br_duimp.duimp_import_wizard_form
+msgid "Import Costs (from the DUIMP extract)"
+msgstr "Custos de Importação (do extrato DUIMP)"
+
+#. module: l10n_br_duimp
+#: model:ir.model,name:l10n_br_duimp.model_l10n_br_fiscal_document_import_wizard
+msgid "Import Document Wizard"
+msgstr "Assistente de Importação de Documentos"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_res_company__import_fiscal_operation_id
+msgid "Import Fiscal Operation"
+msgstr "Operação Fiscal de Importação"
+
+#. module: l10n_br_duimp
+#: model_terms:ir.ui.view,arch_db:l10n_br_duimp.duimp_search_wizard_form
+msgid "Import Selected"
+msgstr "Importar Selecionadas"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_declaration__importer_name
+msgid "Importer"
+msgstr "Importador"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_declaration__importer_number
+msgid "Importer ID (CNPJ)"
+msgstr "ID do Importador (CNPJ)"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_declaration__incoterm_id
+msgid "Incoterm"
+msgstr "Incoterm"
+
+#. module: l10n_br_duimp
+#: model:ir.model,name:l10n_br_duimp.model_l10n_br_fiscal_document
+msgid "Informações de exportação"
+msgstr "Informações de exportação"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_payment__interest_amount
+msgid "Interest/Charges"
+msgstr "Juros/Encargos"
+
+#. module: l10n_br_duimp
+#. odoo-python
+#: code:addons/l10n_br_duimp/models/duimp_declaration.py:0
+#, python-format
+msgid "Invoicing requires a fiscal operation."
+msgstr "O faturamento requer uma operação fiscal."
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_declaration__message_is_follower
+msgid "Is Follower"
+msgstr "É Seguidor"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_addition_deduction__item_id
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_item_tax__item_id
+msgid "Item"
+msgstr "Item"
+
+#. module: l10n_br_duimp
+#. odoo-python
+#: code:addons/l10n_br_duimp/models/duimp_item.py:0
+#, python-format
+msgid "Item %s"
+msgstr "Item %s"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_item__item_number
+msgid "Item No."
+msgstr "Nº do Item"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_declaration__tax_ids
+msgid "Item Taxes"
+msgstr "Impostos do Item"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_declaration__item_ids
+msgid "Items"
+msgstr "Itens"
+
+#. module: l10n_br_duimp
+#: model_terms:ir.ui.view,arch_db:l10n_br_duimp.l10n_br_duimp_declaration_form
+msgid "Items & Costs"
+msgstr "Itens & Custos"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_addition_deduction____last_update
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_declaration____last_update
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_item____last_update
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_item_tax____last_update
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_payment____last_update
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_search_wizard____last_update
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_search_wizard_line____last_update
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_tax_warning_wizard____last_update
+msgid "Last Modified on"
+msgstr "Última Modificação em"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_addition_deduction__write_uid
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_declaration__write_uid
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_item__write_uid
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_item_tax__write_uid
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_payment__write_uid
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_search_wizard__write_uid
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_search_wizard_line__write_uid
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_tax_warning_wizard__write_uid
+msgid "Last Updated by"
+msgstr "Última Atualização por"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_addition_deduction__write_date
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_declaration__write_date
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_item__write_date
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_item_tax__write_date
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_payment__write_date
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_search_wizard__write_date
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_search_wizard_line__write_date
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_tax_warning_wizard__write_date
+msgid "Last Updated on"
+msgstr "Última Atualização em"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_item_tax__legal_basis_code
+msgid "Legal Basis Code"
+msgstr "Código da Base Legal"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields.selection,name:l10n_br_duimp.selection__l10n_br_duimp_declaration__state__locked
+msgid "Locked"
+msgstr "Bloqueada"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_declaration__message_main_attachment_id
+msgid "Main Attachment"
+msgstr "Anexo Principal"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_item__merchandise_value
+msgid "Merchandise Value"
+msgstr "Valor da Mercadoria"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_tax_warning_wizard__message
+msgid "Message"
+msgstr "Mensagem"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_declaration__message_has_error
+msgid "Message Delivery error"
+msgstr "Erro de Entrega de Mensagem"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_declaration__message_ids
+msgid "Messages"
+msgstr "Mensagens"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_declaration__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr "Meu Prazo de Atividade"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_item__ncm_code
+msgid "NCM"
+msgstr "NCM"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_addition_deduction__trade_currency_id
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_item__trade_currency_id
+msgid "Negotiated Currency"
+msgstr "Moeda Negociada"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_declaration__net_weight
+msgid "Net Weight (kg)"
+msgstr "Peso Líquido (kg)"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_declaration__activity_calendar_event_id
+msgid "Next Activity Calendar Event"
+msgstr "Próximo Evento de Calendário de Atividade"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_declaration__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr "Próximo Prazo de Atividade"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_declaration__activity_summary
+msgid "Next Activity Summary"
+msgstr "Resumo da Próxima Atividade"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_declaration__activity_type_id
+msgid "Next Activity Type"
+msgstr "Tipo da Próxima Atividade"
+
+#. module: l10n_br_duimp
+#. odoo-python
+#: code:addons/l10n_br_duimp/wizards/duimp_search_wizard.py:0
+#, python-format
+msgid ""
+"No DUIMP was found for this company in the selected period. Try widening the"
+" date range."
+msgstr "Nenhuma DUIMP foi encontrada para esta empresa no período selecionado. Tente ampliar o intervalo de datas."
+
+#. module: l10n_br_duimp
+#. odoo-python
+#: code:addons/l10n_br_duimp/models/duimp_declaration.py:0
+#, python-format
+msgid ""
+"No tax is registered in the system for:\n"
+"\n"
+"%(taxes)s\n"
+"\n"
+"The amounts will still be carried on the invoice lines, but they will not be posted to a tax account - they end up as part of the expense.\n"
+"\n"
+"Register the missing taxes and import the DUIMP again, or generate the bill anyway and adjust it afterwards."
+msgstr ""
+"Nenhum imposto está registrado no sistema para:\n"
+"\n"
+"%(taxes)s\n"
+"\n"
+"Os valores ainda serão lançados nas linhas da fatura, mas não serão contabilizados em uma conta de imposto - eles acabam fazendo parte da despesa.\n"
+"\n"
+"Registre os impostos ausentes e importe a DUIMP novamente, ou gere a fatura mesmo assim e ajuste depois."
+
+#. module: l10n_br_duimp
+#. odoo-python
+#: code:addons/l10n_br_duimp/models/duimp_declaration.py:0
+#, python-format
+msgid ""
+"No tax registered for: %s. These amounts will be carried on the invoice line"
+" but posted to no tax account."
+msgstr "Nenhum imposto registrado para: %s. Esses valores serão lançados na linha da fatura mas não serão contabilizados em conta de imposto."
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,help:l10n_br_duimp.field_l10n_br_duimp_declaration__clearance_date
+#: model:ir.model.fields,help:l10n_br_duimp.field_l10n_br_duimp_declaration__clearance_state
+#: model:ir.model.fields,help:l10n_br_duimp.field_l10n_br_duimp_declaration__operation_type_code
+msgid ""
+"Not returned by the DUIMP query service; fill it in manually from the DUIMP "
+"extract."
+msgstr "Não retornado pelo serviço de consulta da DUIMP; preencha manualmente a partir do extrato da DUIMP."
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_declaration__message_needaction_counter
+msgid "Number of Actions"
+msgstr "Número de Ações"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_declaration__message_has_error_counter
+msgid "Number of errors"
+msgstr "Número de erros"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,help:l10n_br_duimp.field_l10n_br_duimp_declaration__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr "Número de mensagens que requerem ação"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,help:l10n_br_duimp.field_l10n_br_duimp_declaration__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "Número de mensagens com erro de entrega"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,help:l10n_br_duimp.field_account_bank_statement_line__duimp_number
+#: model:ir.model.fields,help:l10n_br_duimp.field_account_move__duimp_number
+#: model:ir.model.fields,help:l10n_br_duimp.field_account_payment__duimp_number
+#: model:ir.model.fields,help:l10n_br_duimp.field_l10n_br_fiscal_document__duimp_number
+msgid ""
+"Number of the DUIMP (Import Declaration) that originated this fiscal "
+"document."
+msgstr "Número da DUIMP (Declaração Única de Importação) que originou este documento fiscal."
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,help:l10n_br_duimp.field_res_currency__siscomex_code
+msgid ""
+"Numeric currency code used by the Portal Único Siscomex (DI/DUIMP), which "
+"does not use the ISO alphabetic code."
+msgstr "Código numérico de moeda usado pelo Portal Único Siscomex (DI/DUIMP), que não utiliza o código alfabético ISO."
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields.selection,name:l10n_br_duimp.selection__l10n_br_duimp_declaration__state__open
+#: model_terms:ir.ui.view,arch_db:l10n_br_duimp.l10n_br_duimp_declaration_form
+msgid "Open"
+msgstr "Aberta"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_declaration__operation_type_code
+msgid "Operation Type Code"
+msgstr "Código do Tipo de Operação"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields.selection,name:l10n_br_duimp.selection__l10n_br_duimp_item_tax__type__outro
+msgid "Other"
+msgstr "Outro"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_item__amount_other
+msgid "Other Costs"
+msgstr "Outros Custos"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_declaration__pis_amount
+msgid "PIS (header)"
+msgstr "PIS (cabeçalho)"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields.selection,name:l10n_br_duimp.selection__l10n_br_duimp_item_tax__type__pis
+msgid "PIS/PASEP-Importação"
+msgstr "PIS/PASEP-Importação"
+
+#. module: l10n_br_duimp
+#: model_terms:ir.ui.view,arch_db:l10n_br_duimp.l10n_br_duimp_declaration_form
+msgid "Parties & Operations"
+msgstr "Partes & Operações"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_payment__payment_date
+msgid "Payment Date"
+msgstr "Data de Pagamento"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_payment__payment_type_name
+msgid "Payment Type"
+msgstr "Tipo de Pagamento"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_declaration__payment_ids
+msgid "Payments"
+msgstr "Pagamentos"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_payment__penalty_amount
+msgid "Penalty"
+msgstr "Multa"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,help:l10n_br_duimp.field_account_bank_statement_line__duimp_declaration_id
+#: model:ir.model.fields,help:l10n_br_duimp.field_account_move__duimp_declaration_id
+#: model:ir.model.fields,help:l10n_br_duimp.field_account_payment__duimp_declaration_id
+#: model:ir.model.fields,help:l10n_br_duimp.field_l10n_br_fiscal_document__duimp_declaration_id
+msgid "Persistent DUIMP that originated this fiscal document."
+msgstr "DUIMP persistente que originou este documento fiscal."
+
+#. module: l10n_br_duimp
+#. odoo-python
+#: code:addons/l10n_br_duimp/wizards/duimp_import_wizard.py:0
+#, python-format
+msgid "Please enter the DUIMP number!"
+msgstr "Por favor, informe o número da DUIMP!"
+
+#. module: l10n_br_duimp
+#. odoo-python
+#: code:addons/l10n_br_duimp/wizards/duimp_search_wizard.py:0
+#, python-format
+msgid "Please set the company CNPJ before searching!"
+msgstr "Por favor, defina o CNPJ da empresa antes de pesquisar!"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_item__product_id
+msgid "Product"
+msgstr "Produto"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields.selection,name:l10n_br_duimp.selection__res_company__duimp_environment__production
+msgid "Production"
+msgstr "Produção"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_item__quantity
+msgid "Quantity"
+msgstr "Quantidade"
+
+#. module: l10n_br_duimp
+#: model:ir.ui.menu,name:l10n_br_duimp.duimp_import_document_menu
+msgid "Query"
+msgstr "Consulta"
+
+#. module: l10n_br_duimp
+#: model:ir.actions.act_window,name:l10n_br_duimp.duimp_import_wizard_action
+#: model_terms:ir.ui.view,arch_db:l10n_br_duimp.duimp_import_wizard_form
+msgid "Query DUIMP"
+msgstr "Consultar DUIMP"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_item_tax__ad_valorem_rate
+msgid "Rate (%)"
+msgstr "Taxa (%)"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_declaration__payload_json
+msgid "Raw DUIMP JSON"
+msgstr "JSON DUIMP Bruto"
+
+#. module: l10n_br_duimp
+#: model_terms:ir.ui.view,arch_db:l10n_br_duimp.l10n_br_duimp_declaration_form
+msgid "Raw Payload"
+msgstr "Payload Bruto"
+
+#. module: l10n_br_duimp
+#: model_terms:ir.ui.view,arch_db:l10n_br_duimp.l10n_br_duimp_declaration_form
+msgid "Recolhimentos"
+msgstr "Recolhimentos"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_declaration__reconciliation_warning
+msgid "Reconciliation"
+msgstr "Reconciliação"
+
+#. module: l10n_br_duimp
+#: model_terms:ir.ui.view,arch_db:l10n_br_duimp.l10n_br_duimp_declaration_form
+msgid "Reform Taxes (IBS/CBS)"
+msgstr "Impostos de Reforma (IBS/CBS)"
+
+#. module: l10n_br_duimp
+#: model_terms:ir.ui.view,arch_db:l10n_br_duimp.l10n_br_duimp_declaration_form
+msgid "Refresh from Siscomex"
+msgstr "Atualizar do Siscomex"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_item_tax__regime_code
+msgid "Regime Code"
+msgstr "Código do Regime"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_declaration__registration_date
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_search_wizard_line__registration_date
+msgid "Registration Date"
+msgstr "Data de Registro"
+
+#. module: l10n_br_duimp
+#: model_terms:ir.ui.view,arch_db:l10n_br_duimp.l10n_br_duimp_declaration_form
+msgid "Reset to Draft"
+msgstr "Resetar para Rascunho"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_declaration__activity_user_id
+msgid "Responsible User"
+msgstr "Usuário Responsável"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_payment__revenue_amount
+msgid "Revenue Amount"
+msgstr "Valor da Receita"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_payment__revenue_code
+msgid "Revenue Code"
+msgstr "Código da Receita"
+
+#. module: l10n_br_duimp
+#: model:ir.ui.menu,name:l10n_br_duimp.duimp_search_wizard_menu
+#: model_terms:ir.ui.view,arch_db:l10n_br_duimp.duimp_search_wizard_form
+msgid "Search"
+msgstr "Pesquisar"
+
+#. module: l10n_br_duimp
+#: model:ir.actions.act_window,name:l10n_br_duimp.duimp_search_wizard_action
+#: model_terms:ir.ui.view,arch_db:l10n_br_duimp.duimp_search_wizard_form
+msgid "Search DUIMP"
+msgstr "Pesquisar DUIMP"
+
+#. module: l10n_br_duimp
+#: model:ir.model,name:l10n_br_duimp.model_l10n_br_duimp_search_wizard
+msgid "Search DUIMPs available for import"
+msgstr "Pesquisar DUIMPs disponíveis para importação"
+
+#. module: l10n_br_duimp
+#. odoo-python
+#: code:addons/l10n_br_duimp/wizards/duimp_search_wizard.py:0
+#, python-format
+msgid "Select at least one DUIMP to import!"
+msgstr "Selecione ao menos uma DUIMP para importar!"
+
+#. module: l10n_br_duimp
+#. odoo-python
+#: code:addons/l10n_br_duimp/models/duimp_declaration.py:0
+#, python-format
+msgid "Select the CFOP for every DUIMP item."
+msgstr "Selecione o CFOP para cada item da DUIMP."
+
+#. module: l10n_br_duimp
+#. odoo-python
+#: code:addons/l10n_br_duimp/models/duimp_declaration.py:0
+#, python-format
+msgid "Select the vendor (manufacturer/exporter)."
+msgstr "Selecione o fornecedor (fabricante/exportador)."
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_search_wizard_line__selected
+msgid "Selected"
+msgstr "Selecionada"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_item_tax__sequence
+msgid "Sequence"
+msgstr "Sequência"
+
+#. module: l10n_br_duimp
+#. odoo-python
+#: code:addons/l10n_br_duimp/models/duimp_declaration.py:0
+#, python-format
+msgid "Set the DUIMP number first."
+msgstr "Defina o número da DUIMP primeiro."
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_declaration__shipping_date
+msgid "Shipping Date"
+msgstr "Data de Envio"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_res_currency__siscomex_code
+msgid "Siscomex Code"
+msgstr "Código Siscomex"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_item__amount_siscomex
+msgid "Siscomex Fee"
+msgstr "Taxa Siscomex"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_declaration__siscomex_usage_fee_amount
+msgid "Siscomex Fee (header)"
+msgstr "Taxa Siscomex (cabeçalho)"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_item__siscomex_fee
+msgid "Siscomex Fee (item)"
+msgstr "Taxa Siscomex (item)"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_declaration__siscomex_fee_amount
+msgid "Siscomex Fee Amount"
+msgstr "Valor da Taxa Siscomex"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_fiscal_document_import_wizard__duimp_siscomex_value
+msgid "Siscomex Fee Total"
+msgstr "Total da Taxa Siscomex"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_search_wizard_line__situation
+msgid "Situation"
+msgstr "Situação"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_addition_deduction__smart_search
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_declaration__smart_search
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_item__smart_search
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_item_tax__smart_search
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_mixin__smart_search
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_payment__smart_search
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_search_wizard__smart_search
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_search_wizard_line__smart_search
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_tax_warning_wizard__smart_search
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_fiscal_document__smart_search
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_fiscal_document_import_wizard__smart_search
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_fiscal_document_line__smart_search
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_fiscal_document_line_mixin__smart_search
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_res_company__smart_search
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_res_currency__smart_search
+msgid "Smart Search"
+msgstr "Pesquisa Inteligente"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_declaration__state
+msgid "State"
+msgstr "Estado"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_declaration__status
+msgid "Status"
+msgstr "Status"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,help:l10n_br_duimp.field_l10n_br_duimp_declaration__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+"Status baseado em atividades\n"
+"Atrasado: Data de vencimento já passou\n"
+"Hoje: Data da atividade é hoje\n"
+"Planejado: Atividades futuras."
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_item_tax__tax_base
+msgid "Tax Base"
+msgstr "Base de Cálculo"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,help:l10n_br_duimp.field_l10n_br_duimp_item_tax__cst
+msgid ""
+"Tax situation code, returned for the tax reform taxes (CBS/IBS); the older "
+"federal taxes come without it."
+msgstr "Código de situação tributária, retornado para os impostos da reforma tributária (CBS/IBS); os impostos federais mais antigos vêm sem ele."
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields.selection,name:l10n_br_duimp.selection__l10n_br_duimp_item_tax__type__taxa_utilizacao
+msgid "Taxa de Utilização do Siscomex"
+msgstr "Taxa de Utilização do Siscomex"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_item__tax_ids
+msgid "Taxes"
+msgstr "Impostos"
+
+#. module: l10n_br_duimp
+#: model_terms:ir.ui.view,arch_db:l10n_br_duimp.l10n_br_duimp_declaration_form
+msgid "Taxes by Item"
+msgstr "Impostos por Item"
+
+#. module: l10n_br_duimp
+#. odoo-python
+#: code:addons/l10n_br_duimp/models/duimp_declaration.py:0
+#: model_terms:ir.ui.view,arch_db:l10n_br_duimp.duimp_tax_warning_wizard_form
+#, python-format
+msgid "Taxes not registered"
+msgstr "Impostos não registrados"
+
+#. module: l10n_br_duimp
+#. odoo-python
+#: code:addons/l10n_br_duimp/models/duimp_declaration.py:0
+#, python-format
+msgid "The DUIMP must have at least one item."
+msgstr "A DUIMP deve ter pelo menos um item."
+
+#. module: l10n_br_duimp
+#. odoo-python
+#: code:addons/l10n_br_duimp/models/duimp_webservice.py:0
+#, python-format
+msgid ""
+"The Portal Único Siscomex rejected a new login because this same e-CPF "
+"certificate authenticated less than 60 seconds ago (this happens if someone "
+"also logged in directly at portalunico.siscomex.gov.br around the same "
+"time). Please wait about a minute and try again."
+msgstr "O Portal Único Siscomex rejeitou um novo login porque este mesmo certificado e-CPF se autenticou há menos de 60 segundos (isso acontece se alguém também fez login diretamente em portalunico.siscomex.gov.br aproximadamente ao mesmo tempo). Aguarde cerca de um minuto e tente novamente."
+
+#. module: l10n_br_duimp
+#. odoo-python
+#: code:addons/l10n_br_duimp/models/duimp_declaration.py:0
+#, python-format
+msgid "The selected fiscal operation is not approved."
+msgstr "A operação fiscal selecionada não está aprovada."
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_item__amount_total
+#: model_terms:ir.ui.view,arch_db:l10n_br_duimp.l10n_br_duimp_declaration_form
+msgid "Total"
+msgstr "Total"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,help:l10n_br_duimp.field_l10n_br_fiscal_document_import_wizard__duimp_afrmm_value
+msgid ""
+"Total AFRMM (Additional Freight for Renewal of the Merchant Marine) amount. "
+"This value is not returned by the DUIMP query API (it is handled by Siscomex"
+" Carga/Mercante) and must be entered manually from the DUIMP extract. It is "
+"allocated to each item proportionally to its customs value."
+msgstr "Valor total do AFRMM (Frete Adicional para Renovação da Marinha Mercante). Este valor não é retornado pela API de consulta da DUIMP (é tratado pelo Siscomex Carga/Mercante) e deve ser informado manualmente a partir do extrato da DUIMP. É alocado a cada item proporcionalmente ao seu valor aduaneiro."
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_declaration__total_customs_value
+msgid "Total Customs Value"
+msgstr "Valor Total Aduaneiro"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_declaration__total_freight
+msgid "Total Freight"
+msgstr "Frete Total"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_declaration__total_insurance
+msgid "Total Insurance"
+msgstr "Seguro Total"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_item__trade_uom
+msgid "Traded UoM"
+msgstr "UdM Negociada"
+
+#. module: l10n_br_duimp
+#: model_terms:ir.ui.view,arch_db:l10n_br_duimp.l10n_br_duimp_declaration_form
+msgid "Transport Details"
+msgstr "Detalhes de Transporte"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_declaration__transport_mode_code
+msgid "Transport Mode Code"
+msgstr "Código do Modo de Transporte"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_item_tax__type
+msgid "Type"
+msgstr "Tipo"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,help:l10n_br_duimp.field_l10n_br_duimp_declaration__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr "Tipo da atividade de exceção registrada."
+
+#. module: l10n_br_duimp
+#. odoo-python
+#: code:addons/l10n_br_duimp/models/duimp_webservice.py:0
+#, python-format
+msgid ""
+"Unexpected response from the Portal Único Siscomex (HTTP %(status)s): "
+"%(body)s"
+msgstr "Resposta inesperada do Portal Único Siscomex (HTTP %(status)s): %(body)s"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_item__unit_addition_deduction
+msgid "Unit Additions/Deductions"
+msgstr "Acréscimos/Deduções Unitários"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_item__price_unit
+msgid "Unit Price (BRL)"
+msgstr "Preço Unitário (BRL)"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_item__trade_unit_value
+msgid "Unit Price (Currency)"
+msgstr "Preço Unitário (Moeda)"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_item__uom_id
+msgid "Unit of Measure"
+msgstr "Unidade de Medida"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,help:l10n_br_duimp.field_l10n_br_duimp_item__price_unit
+msgid "Unit price already converted to BRL."
+msgstr "Preço unitário já convertido para BRL."
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,help:l10n_br_duimp.field_l10n_br_duimp_item__final_price_unit
+msgid ""
+"Unit price in BRL including the allocated additions/deductions (used as "
+"price_unit of the generated invoice line)."
+msgstr "Preço unitário em BRL incluindo os acréscimos/deduções alocados (usado como price_unit da linha da fatura gerada)."
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,help:l10n_br_duimp.field_l10n_br_duimp_item__trade_unit_value
+msgid ""
+"Unit price in the negotiated currency, when the DUIMP reports it; otherwise "
+"0."
+msgstr "Preço unitário na moeda negociada, quando informado pela DUIMP; caso contrário, 0."
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_declaration__partner_id
+#: model_terms:ir.ui.view,arch_db:l10n_br_duimp.duimp_import_wizard_form
+msgid "Vendor"
+msgstr "Fornecedor"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_declaration__account_move_id
+msgid "Vendor Bill"
+msgstr "Fatura de Fornecedor"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_declaration__version
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_search_wizard_line__duimp_version
+msgid "Version"
+msgstr "Versão"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_declaration__website_message_ids
+msgid "Website Messages"
+msgstr "Mensagens do Site"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,help:l10n_br_duimp.field_l10n_br_duimp_declaration__website_message_ids
+msgid "Website communication history"
+msgstr "Histórico de comunicação do site"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_search_wizard_line__wizard_id
+msgid "Wizard"
+msgstr "Assistente"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,field_description:l10n_br_duimp.field_l10n_br_duimp_item_tax__cclass_trib
+msgid "cClassTrib"
+msgstr "cClassTrib"
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,help:l10n_br_duimp.field_l10n_br_duimp_item__exporter_code
+msgid ""
+"exportador.codigo (CATP operator code, e.g. OPE_3). The payload carries no "
+"exporter name, so this code is what a partner de-para can be built on "
+"(res.partner.ref)."
+msgstr "exportador.codigo (código de operador CATP, ex. OPE_3). O payload não traz o nome do exportador, então este código é a base para um de-para de parceiro (res.partner.ref)."
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,help:l10n_br_duimp.field_l10n_br_duimp_item_tax__legal_basis_code
+msgid "memoriaCalculo.fundamentosAplicados[].fundamento."
+msgstr "memoriaCalculo.fundamentosAplicados[].fundamento."
+
+#. module: l10n_br_duimp
+#: model:ir.model.fields,help:l10n_br_duimp.field_l10n_br_duimp_item__siscomex_fee
+msgid "tributos.mercadoria.taxaUtilizacao reported for this item."
+msgstr "tributos.mercadoria.taxaUtilizacao informado para este item."
