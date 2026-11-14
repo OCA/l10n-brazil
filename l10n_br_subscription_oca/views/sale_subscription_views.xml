@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="sale_subscription_form" model="ir.ui.view">
+        <field name="name">sale.subscription.form (in l10n_br_subscription_oca)</field>
+        <field name="model">sale.subscription</field>
+        <field name="inherit_id" ref="subscription_oca.sale_subscription_form" />
+        <field name="priority">99</field>
+        <field name="arch" type="xml">
+            <field name="pricelist_id" position="after">
+                <field name="company_country_id" invisible="1" />
+                <field
+                    name="fiscal_operation_id"
+                    options="{'no_create': True}"
+                    invisible="company_country_id != %(base.br)d"
+                />
+                <field
+                    name="ind_final"
+                    invisible="not fiscal_operation_id"
+                    required="fiscal_operation_id"
+                />
+                <field
+                    name="ind_pres"
+                    invisible="not fiscal_operation_id"
+                    required="fiscal_operation_id"
+                />
+            </field>
+            <xpath
+                expr="//field[@name='sale_subscription_line_ids']"
+                position="attributes"
+            >
+                <attribute
+                    name="context"
+                >{'default_fiscal_operation_id': fiscal_operation_id, 'default_partner_id': partner_id, 'default_company_id': company_id}</attribute>
+            </xpath>
+            <xpath
+                expr="//field[@name='sale_subscription_line_ids']/list"
+                position="inside"
+            >
+                <control name="fiscal_fields" invisible="1" />
+                <!-- this is a dynamic fiscal fields placeholder-->
+                <control name="fiscal_taxes_fields" string="Taxes" invisible="1" />
+                <!-- this is a dynamic fiscal fields placeholder-->
+                <!-- the fields below would be injected by the placeholders
+                    above, but we need to repeat them here to please the
+                    Form test framework or because they are used in some
+                    domain here that is checked before the dynamic fiscal
+                    placeholders kick in.
+                -->
+                <field name="fiscal_operation_type" column_invisible="1" />
+                <field name="cfop_id" column_invisible="1" />
+                <field name="tax_framework" column_invisible="1" />
+                <field name="fiscal_operation_id" column_invisible="1" />
+            </xpath>
+            <xpath
+                expr="//field[@name='sale_subscription_line_ids']/list/field[@name='product_id']"
+                position="before"
+            >
+                <button
+                    name="dummy_button_for_js"
+                    icon="fa-external-link"
+                    title="Edit in Form"
+                    class="btn-sm btn-link p-0 edit-line-popup"
+                />
+            </xpath>
+            <xpath
+                expr="//field[@name='sale_subscription_line_ids']/list/field[@name='tax_ids']"
+                position="attributes"
+            >
+                <attribute
+                    name="column_invisible"
+                >parent.fiscal_operation_id</attribute>
+            </xpath>
+            <xpath
+                expr="//field[@name='sale_subscription_line_ids']/list/field[@name='tax_ids']"
+                position="after"
+            >
+                <field
+                    name="fiscal_operation_line_id"
+                    options="{'no_create': True}"
+                    column_invisible="not parent.fiscal_operation_id"
+                />
+                <field
+                    name="fiscal_tax_ids"
+                    widget="many2many_tags"
+                    options="{'no_create': True}"
+                    column_invisible="not parent.fiscal_operation_id"
+                />
+            </xpath>
+            <!-- Line form: subscription_oca only has the editable list -->
+            <xpath
+                expr="//field[@name='sale_subscription_line_ids']/list"
+                position="after"
+            >
+                <form>
+                    <group>
+                        <group name="line">
+                            <field name="currency_id" invisible="1" />
+                            <field name="product_id" />
+                            <field name="name" />
+                            <field name="product_uom_qty" />
+                            <field name="price_unit" />
+                            <field name="discount" />
+                            <field
+                                name="tax_ids"
+                                widget="many2many_tags"
+                                invisible="parent.fiscal_operation_id"
+                            />
+                            <field name="price_subtotal" />
+                            <field name="price_total" />
+                        </group>
+                        <group name="fiscal" invisible="not parent.fiscal_operation_id">
+                            <field
+                                name="fiscal_operation_id"
+                                options="{'no_create': True}"
+                                required="parent.fiscal_operation_id"
+                            />
+                            <field
+                                name="fiscal_operation_line_id"
+                                options="{'no_create': True}"
+                                required="parent.fiscal_operation_id and product_id"
+                            />
+                            <field
+                                name="cfop_id"
+                                options="{'no_create': True}"
+                                invisible="tax_icms_or_issqn == 'issqn'"
+                            />
+                            <field
+                                name="service_type_id"
+                                options="{'no_create': True}"
+                                invisible="tax_icms_or_issqn == 'icms'"
+                            />
+                            <field
+                                name="city_taxation_code_id"
+                                options="{'no_create': True}"
+                                invisible="tax_icms_or_issqn == 'icms'"
+                            />
+                            <field
+                                name="national_taxation_code_id"
+                                options="{'no_create': True}"
+                                invisible="tax_icms_or_issqn == 'icms'"
+                            />
+                            <field
+                                name="cnae_id"
+                                options="{'no_create': True}"
+                                invisible="tax_icms_or_issqn == 'icms'"
+                            />
+                            <field
+                                name="nbs_id"
+                                options="{'no_create': True}"
+                                invisible="tax_icms_or_issqn == 'icms'"
+                            />
+                        </group>
+                    </group>
+                    <group name="fiscal_fields" invisible="1">
+                        <!-- this is a dynamic fiscal fields placeholder-->
+                        <field
+                            name="fiscal_operation_type"
+                            invisible="1"
+                            readonly="1"
+                        />
+                        <field name="tax_icms_or_issqn" invisible="1" />
+                    </group>
+                    <notebook invisible="not parent.fiscal_operation_id">
+                        <page name="fiscal_taxes" string="Taxes" />
+                        <!-- this is a dynamic fiscal fields placeholder-->
+                        <page name="amounts" string="Amounts">
+                            <group>
+                                <group>
+                                    <field name="fiscal_amount_untaxed" />
+                                    <field name="amount_fiscal" />
+                                    <field name="fiscal_amount_tax" />
+                                    <field name="estimate_tax" readonly="1" />
+                                </group>
+                                <group>
+                                    <field name="fiscal_amount_total" />
+                                    <field name="amount_tax_withholding" readonly="1" />
+                                    <field name="amount_taxed" />
+                                </group>
+                            </group>
+                        </page>
+                        <page name="fiscal_line_extra_info" string="Extra Info" />
+                        <!-- this is a dynamic fiscal fields placeholder-->
+                    </notebook>
+                </form>
+            </xpath>
+        </field>
+    </record>
+</odoo>
