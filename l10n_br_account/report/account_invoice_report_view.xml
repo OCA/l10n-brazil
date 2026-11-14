@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!-- oca-hooks:disable=file-not-used -->
 <odoo>
-
     <record
         id="l10n_br_account_product_view_account_invoice_report_search"
         model="ir.ui.view"
@@ -17,36 +16,16 @@
                     context="{'group_by':'product_id'}"
                 />
                 <filter
-                    string="Document Type"
-                    name="document_type"
-                    context="{'group_by':'document_type_id'}"
-                />
-                <filter string="CFOP" name="cfop" context="{'group_by':'cfop_id'}" />
-                <filter
                     string="Service Type"
                     name="service_type"
                     context="{'group_by':'service_type_id'}"
                 />
-
-                <filter string="NCM" name="ncm" context="{'group_by':'ncm_id'}" />
                 <filter string="NBM" name="nbm" context="{'group_by':'nbm_id'}" />
                 <filter string="CEST" name="cest" context="{'group_by':'cest_id'}" />
-                <filter
-                    string="Fiscal Operation"
-                    name="fiscal_operation"
-                    context="{'group_by':'fiscal_operation_id'}"
-                />
-                <filter
-                    string="Fiscal Operation Line"
-                    name="fiscal_operation_line"
-                    context="{'group_by':'fiscal_operation_line_id'}"
-                />
-                <filter
-                    string="Product Fiscal Type"
-                    name="fiscal_type"
-                    context="{'group_by':'fiscal_type'}"
-                />
             </filter>
+            <xpath expr="//search" position="inside">
+                <separator name="l10n_br_fiscal_report_filters" />
+            </xpath>
         </field>
     </record>
 
