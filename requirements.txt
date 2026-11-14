@@ -16,7 +16,7 @@ nfelib
 nfelib>=3.2.0
 nfelib>=3.3.0
 nfelib[soap]>=3.2.0
-nfselib.paulistana
+git+https://github.com/Escodoo/nfselib.paulistana.git@feat/schemas-reformatributaria-v02-7#egg=nfselib.paulistana
 num2words
 phonenumbers
 pyyaml
