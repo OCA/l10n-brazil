@@ -616,15 +616,18 @@ class TaxDefinition(models.Model):
                         )
                     )
 
-    @api.constrains("company_id")
+    @api.constrains("company_id", "state")
     def _check_company_id(self):
         for record in self:
-            if record.company_id:
+            # An expired definition is kept only as history of what was taxed
+            # before, so it neither conflicts nor is conflicted with.
+            if record.company_id and record.state != "expired":
                 domain = [
                     ("id", "!=", record.id),
                     ("company_id", "=", record.company_id.id),
                     ("tax_group_id", "=", record.tax_group_id.id),
                     ("tax_id", "=", record.tax_id.id),
+                    ("state", "!=", "expired"),
                 ]
 
                 if record.env["l10n_br_fiscal.tax.definition"].search_count(domain):
