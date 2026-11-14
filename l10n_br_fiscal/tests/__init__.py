@@ -23,4 +23,5 @@ from . import (
     test_icmssn,
     test_simplified_tax,
     test_tax_pis_cofins,
+    test_taxable_unit,
 )
