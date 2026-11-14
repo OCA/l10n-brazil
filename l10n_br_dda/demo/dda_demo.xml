@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <!-- Fictitious vendors, bills and boletos for the CNPJ of the main company. -->
+    <function model="l10n_br_dda.debit" name="_dda_demo_load" />
+</odoo>
