@@ -1893,6 +1893,12 @@ msgid "No new Fiscal Document Line to import!"
 msgstr ""
 
 #. module: l10n_br_account
+#. odoo-python
+#: code:addons/l10n_br_account/wizards/document_import_wizard.py:0
+msgid "None of the uploaded files is an XML: %(names)s"
+msgstr ""
+
+#. module: l10n_br_account
 #: model_terms:ir.ui.view,arch_db:l10n_br_account.invoice_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_account.invoice_tree
 msgid "Open Fiscal Document"
