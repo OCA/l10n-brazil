@@ -41,6 +41,7 @@ ICMS_SUB_TAGS = [
     "ICMSSN202",
     "ICMSSN500",
     "ICMSSN900",
+    "ICMSPrevistoPagtoAntecip",
 ]
 
 ICMS_SELECTION = list(map(lambda tag: (f"nfe40_{tag}", tag), ICMS_SUB_TAGS))
@@ -102,6 +103,7 @@ class NFeLine(spec_models.StackedModel):
         + <ICMS>
             + <ICMSPart>
             + <ICMSST>
+            + <ICMSPrevistoPagtoAntecip>
         + <IPI>
             + <IPITrib>
             + <IPINT>
@@ -551,7 +553,15 @@ class NFeLine(spec_models.StackedModel):
         if "nfe40_ICMSST" in xsd_fields:
             xsd_fields.remove("nfe40_ICMSST")
 
-        xsd_fields = [self.nfe40_choice_icms]
+        # The schema's ICMS field is a choice: exactly one branch may be
+        # serialized. Prune the other branches from the caller's list IN PLACE
+        # (it iterates this very list after the hook), otherwise legitimate
+        # siblings such as the RTC-era ICMSPrevistoPagtoAntecip get emitted
+        # next to the selected group and the XML fails schema validation.
+        selected = self.nfe40_choice_icms
+        xsd_fields[:] = [
+            f for f in xsd_fields if f == selected or not f.startswith("nfe40_ICMS")
+        ]
         icms_tag = (
             self.nfe40_choice_icms.replace("nfe40_", "")
             .replace("ICMS", "Icms")
@@ -566,6 +576,10 @@ class NFeLine(spec_models.StackedModel):
         det = infnfe.Det
         imposto = det.Imposto
         icms = imposto.Icms
+        if not hasattr(icms, icms_tag):
+            # The RTC-era groups keep the schema camel case in the binding
+            # (e.g. ICMSPrevistoPagtoAntecip), unlike Icms00..Icmssn900.
+            icms_tag = self.nfe40_choice_icms.replace("nfe40_", "")
         icms_binding = getattr(icms, icms_tag)
         icms_dict = self._export_fields_icms()
         sliced_icms_dict = {
@@ -1198,6 +1212,12 @@ class NFeLine(spec_models.StackedModel):
     def _build_attr(self, node, fields, vals, path, attr):
         key = f"nfe40_{attr[0]}"
         value = getattr(node, attr[0])
+        # Only the branches actually present in the document may drive the
+        # choice below: without this guard every ICMS* field of the binding
+        # is visited (most of them empty) and the last one in dataclass order
+        # would win, e.g. the RTC-era ICMSPrevistoPagtoAntecip.
+        if value is None or value == []:
+            return False
         if key in ["nfe40_CST", "nfe40_modBC", "nfe40_CSOSN"]:
             return  # (dealt with in _build_many2one)
 
@@ -1364,6 +1384,12 @@ class NFeLine(spec_models.StackedModel):
         found_tag = key
         if sub_tags:
             for tag in sub_tags:
+                # The installed nfelib may predate a group the schema now
+                # carries (e.g. the RTC-era ICMSPrevistoPagtoAntecip): such a
+                # binding simply cannot hold that branch, so skip it instead of
+                # crashing the whole import.
+                if not hasattr(value, tag):
+                    continue
                 if getattr(value, tag) is not None:
                     tax_binding = getattr(value, tag)
                     found_tag = f"nfe40_{tag}"
