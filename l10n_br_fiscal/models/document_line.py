@@ -1,7 +1,10 @@
 # Copyright (C) 2013  Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError
+
+from ..tools import cfop_geography_warning
 
 
 class DocumentLine(models.Model):
@@ -97,9 +100,96 @@ class DocumentLine(models.Model):
 
     additional_data = fields.Text()
 
+    # Review of lines imported from a fiscal file (draft-first import flow).
+    # The document is materialized faithfully from the file and each line is
+    # then reviewed: the de-para (supplier nomenclature -> company fiscal
+    # settings) is applied on the persisted line, keeping the supplier data
+    # as a snapshot for bookkeeping and audit.
+    import_state = fields.Selection(
+        selection=[
+            ("pending", "Pending"),
+            ("matched", "Matched"),
+            ("resolved", "Resolved"),
+        ],
+        copy=False,
+        index=True,
+        help="Review state of a line imported from a fiscal document file. "
+        "Pending: no internal product resolved yet. Matched: an automatic "
+        "suggestion needs confirmation. Resolved: the mapping was applied. "
+        "Empty on lines that were not imported.",
+    )
+
+    import_uom_id = fields.Many2one(
+        comodel_name="uom.uom",
+        string="Import UoM",
+        copy=False,
+        help="Internal UoM equivalent to the supplier unit of the imported " "line.",
+    )
+
+    import_uom_factor = fields.Float(
+        string="Import UoM Factor",
+        default=1.0,
+        copy=False,
+        help="Conversion factor between the supplier unit and the internal "
+        "UoM (e.g. 25 for a 25kg bag received in KG).",
+    )
+
+    import_supplierinfo_id = fields.Many2one(
+        comodel_name="product.supplierinfo",
+        string="Import Supplier Info",
+        copy=False,
+    )
+
+    # Snapshot of the supplier values, taken when the de-para converts the
+    # line to the internal nomenclature. partner_cfop_id (mixin) is the same
+    # pattern for the CFOP.
+    partner_uom_code = fields.Char(
+        readonly=True,
+        copy=False,
+        help="Unit of measure as declared by the counterparty in the "
+        "imported document.",
+    )
+
+    partner_quantity = fields.Float(
+        digits="Product Unit of Measure",
+        readonly=True,
+        copy=False,
+        help="Quantity as declared by the counterparty, in its own unit.",
+    )
+
+    partner_price_unit = fields.Float(
+        digits="Product Price",
+        readonly=True,
+        copy=False,
+        help="Unit price as declared by the counterparty, in its own unit.",
+    )
+
+    cfop_warning = fields.Char(
+        compute="_compute_cfop_warning",
+        string="CFOP Alert",
+        help="Warns when the CFOP declared by the counterparty is "
+        "inconsistent with the actual issuer/company geography. Useful to "
+        "spot supplier mistakes before they pollute the SPED books.",
+    )
+
+    def write(self, vals):
+        result = super().write(vals)
+        if vals.get("cfop_id") and "cfop_manual" not in vals:
+            # Writing the CFOP of an imported line is always a human decision
+            # (the automatic remap goes through the compute, which never
+            # calls write): flag it so a later recompute keeps it.
+            self.filtered(
+                lambda line: line._is_imported() and not line.cfop_manual
+            ).write({"cfop_manual": True})
+        return result
+
     @api.depends("product_id")
     def _compute_name(self):
         for line in self:
+            if line._is_imported() and line.name:
+                # Preserve the description imported from the fiscal file.
+                line.name = line.name
+                continue
             if line.product_id:
                 line.name = line.product_id.display_name
             else:
@@ -108,10 +198,227 @@ class DocumentLine(models.Model):
     @api.depends("product_id")
     def _compute_uom_id(self):
         for line in self:
+            if line._is_imported() and line.uom_id:
+                # Preserve the unit imported from the fiscal file; the
+                # internal unit is applied via _apply_import_depara().
+                line.uom_id = line.uom_id
+                continue
             if line.fiscal_operation_type == "in":
                 line.uom_id = line.product_id.uom_po_id
             else:
                 line.uom_id = line.product_id.uom_id
+
+    @api.depends(
+        "partner_cfop_id",
+        "document_id.partner_id.state_id",
+        "document_id.partner_id.country_id",
+    )
+    def _compute_cfop_warning(self):
+        for line in self:
+            line.cfop_warning = line._get_cfop_warning()
+
+    def _get_cfop_warning(self):
+        """Compare the declared CFOP scope with the real issuer/company
+        geography (see ``tools.cfop_geography_warning``)."""
+        self.ensure_one()
+        if self.document_id.fiscal_operation_type != "in":
+            return False
+        return cfop_geography_warning(
+            self.partner_cfop_id.code,
+            self.document_id.partner_id,
+            self.company_id,
+        )
+
+    def action_resolve_line(self):
+        for line in self:
+            if not line.product_id:
+                raise UserError(
+                    _("Set the internal product before resolving the line %s.")
+                    % (line.name or line.id)
+                )
+            line._apply_import_depara()
+
+    def _apply_import_depara(
+        self, product=None, uom=None, factor=None, fiscal_operation=None
+    ):
+        """Apply the reviewed de-para on a line imported from a fiscal file.
+
+        This is the single write path of the de-para: it snapshots the
+        supplier values (unit, quantity, unit price), converts the line to
+        the internal nomenclature preserving the line total (quantity is
+        multiplied by the factor, the unit price divided by it), applies the
+        fiscal operation of the line and persists the supplier info
+        learning. The original file stays untouched as an attachment.
+        """
+        self.ensure_one()
+        if not self._is_imported():
+            raise UserError(
+                _("The mapping can only be applied on imported document lines.")
+            )
+        product = product or self.product_id
+        uom = uom or self.import_uom_id
+        factor = factor or self.import_uom_factor or 1.0
+        fiscal_operation = fiscal_operation or self.fiscal_operation_id
+
+        if self.import_state != "resolved":
+            # The snapshot is taken ONCE, before the first conversion: a line
+            # already resolved holds converted values, and snapshotting them
+            # again would compound the factor on every new application.
+            # partner_uom_code is the code declared by the counterparty
+            # (filled by the importer or by the hook below) and is never
+            # replaced by the internal unit here.
+            self.write(
+                {
+                    "partner_uom_code": self.partner_uom_code
+                    or self._get_partner_uom_code(),
+                    "partner_quantity": self.quantity,
+                    "partner_price_unit": self.price_unit,
+                }
+            )
+
+        # The fallbacks keep a line whose supplier unit matched nothing
+        # (uom_id empty, no snapshot ever written) from being converted
+        # against zeros.
+        declared_quantity = self.partner_quantity or self.quantity
+        declared_price_unit = self.partner_price_unit or self.price_unit
+        vals = {
+            "import_state": "resolved",
+            "import_uom_factor": factor,
+            # Always convert from the declared values: the line total is
+            # invariant (quantity times factor, unit price divided by it) and
+            # re-applying with a factor of 1.0 restores what the counterparty
+            # declared.
+            "quantity": declared_quantity * factor,
+            "price_unit": declared_price_unit / factor,
+        }
+        if product:
+            vals["product_id"] = product.id
+        if uom:
+            vals["import_uom_id"] = uom.id
+            vals["uom_id"] = uom.id
+        if fiscal_operation:
+            vals["fiscal_operation_id"] = fiscal_operation.id
+        self.write(vals)
+        if product:
+            self._find_or_create_supplierinfo()
+        return True
+
+    # Supplier nomenclature hooks: implemented by each fiscal document type
+    # (e.g. l10n_br_nfe reads nfe40_cProd / nfe40_xProd / uCom).
+    def _get_partner_product_code(self):
+        self.ensure_one()
+        return False
+
+    def _get_partner_product_name(self):
+        self.ensure_one()
+        return False
+
+    def _get_partner_uom_code(self):
+        """Unit code as declared by the counterparty (e.g. the uCom of an
+        NFe), which may have no equivalent in the company's own units.
+
+        Importers that already persist it on ``partner_uom_code`` while
+        parsing the file have nothing to override here.
+        """
+        self.ensure_one()
+        return False
+
+    def _suggest_fiscal_operation_in(self):
+        """Suggest the inbound fiscal operation of the line from the CFOP
+        declared by the counterparty, through its inverse CFOP.
+
+        The supplier declares an outbound CFOP (5xxx/6xxx/7xxx); the inverse
+        CFOP (1xxx/2xxx/3xxx) is the company side of the same operation, and
+        the approved operation lines referencing it tell which fiscal
+        operations the company configured for that kind of entry.
+        """
+        self.ensure_one()
+        cfop_inverse = self.partner_cfop_id.cfop_inverse_id
+        if not cfop_inverse:
+            return self.env["l10n_br_fiscal.operation"]
+        operation_lines = self.env["l10n_br_fiscal.operation.line"].search(
+            [
+                ("state", "=", "approved"),
+                ("fiscal_operation_type", "=", "in"),
+                "|",
+                "|",
+                ("cfop_internal_id", "=", cfop_inverse.id),
+                ("cfop_external_id", "=", cfop_inverse.id),
+                ("cfop_export_id", "=", cfop_inverse.id),
+            ]
+        )
+        return operation_lines[:1].fiscal_operation_id
+
+    def _get_supplierinfo_price(self):
+        """Price of the supplier info expressed in the product main UoM.
+
+        The learning uses the CONVERTED unit price of the line, never the
+        counterparty snapshot: the snapshot is expressed in the supplier
+        unit, so with a conversion factor it would teach a price off by that
+        very factor (a 25kg bag at 100 would be learned as 100/kg).
+        """
+        self.ensure_one()
+        if not self.price_unit:
+            return self.product_id.lst_price
+        uom = self.import_uom_id or self.uom_id
+        if uom:
+            return uom._compute_price(self.price_unit, self.product_id.uom_id)
+        return self.price_unit
+
+    def _prepare_supplierinfo_vals(self):
+        """Common supplier info values.
+
+        Overriden by specialized document types (e.g. NFe) to add the
+        partner UoM de-para values.
+        """
+        self.ensure_one()
+        return {
+            "product_id": self.product_id.id,
+            "product_name": self._get_partner_product_name() or self.name,
+            "product_code": self._get_partner_product_code(),
+            "price": self._get_supplierinfo_price(),
+        }
+
+    def _find_or_create_supplierinfo(self):
+        for line in self:
+            partner = line.document_id.partner_id
+            if not line.product_id or not partner:
+                continue
+            supplierinfo_model = line.env["product.supplierinfo"].with_company(
+                line.company_id
+            )
+            supplierinfo = line.import_supplierinfo_id
+            if not supplierinfo:
+                # Adopt the de-para already learned for this partner, supplier
+                # code and product (possibly by an earlier document): creating
+                # a new record on every import would pile up duplicated
+                # sellers on the product.
+                supplierinfo = supplierinfo_model.search(
+                    [
+                        ("partner_id", "=", partner.id),
+                        ("product_code", "=", line._get_partner_product_code()),
+                        # a seller line entered by hand sits on the template,
+                        # the one this method creates sits on the variant
+                        "|",
+                        ("product_id", "=", line.product_id.id),
+                        (
+                            "product_tmpl_id",
+                            "=",
+                            line.product_id.product_tmpl_id.id,
+                        ),
+                    ],
+                    limit=1,
+                )
+            if supplierinfo:
+                supplierinfo.write(line._prepare_supplierinfo_vals())
+                line.import_supplierinfo_id = supplierinfo
+            else:
+                vals = line._prepare_supplierinfo_vals()
+                vals["partner_id"] = partner.id
+                line.import_supplierinfo_id = supplierinfo_model.create(vals)
+                line.product_id.product_tmpl_id.seller_ids = [
+                    fields.Command.link(line.import_supplierinfo_id.id)
+                ]
 
     def __document_comment_vals(self):
         self.ensure_one()
