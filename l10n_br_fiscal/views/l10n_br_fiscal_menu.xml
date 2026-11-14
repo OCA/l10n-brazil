@@ -489,6 +489,14 @@
         parent="operations_config_menu"
         sequence="30"
     />
+    <!-- Creditability Reason -->
+    <menuitem
+        id="creditability_reason_menu"
+        action="creditability_reason_action"
+        groups="l10n_br_fiscal.group_manager"
+        parent="operations_config_menu"
+        sequence="40"
+    />
     <!-- Others Settings -->
     <menuitem
         id="others_config_menu"
