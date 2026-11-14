@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2020 KMEE -->
+<!-- License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <template id="inline_form">
+        <div t-attf-id="o_pagseguro_form_{{provider_id}}" class="o_pagseguro_form">
+            <div class="mb-3">
+                <label
+                    t-attf-for="o_pagseguro_card_{{provider_id}}"
+                    class="col-form-label"
+                >Card Number</label>
+                <input
+                    type="text"
+                    t-attf-id="o_pagseguro_card_{{provider_id}}"
+                    required="required"
+                    maxlength="19"
+                    inputmode="numeric"
+                    class="form-control"
+                />
+            </div>
+            <div class="mb-3">
+                <label
+                    t-attf-for="o_pagseguro_holder_{{provider_id}}"
+                    class="col-form-label"
+                >Card Holder</label>
+                <input
+                    type="text"
+                    t-attf-id="o_pagseguro_holder_{{provider_id}}"
+                    required="required"
+                    maxlength="50"
+                    class="form-control"
+                />
+            </div>
+            <div class="row">
+                <div class="col-sm-8 mb-3">
+                    <label
+                        t-attf-for="o_pagseguro_month_{{provider_id}}"
+                    >Expiration</label>
+                    <div class="input-group">
+                        <input
+                            type="number"
+                            t-attf-id="o_pagseguro_month_{{provider_id}}"
+                            placeholder="MM"
+                            min="1"
+                            max="12"
+                            required="required"
+                            class="form-control"
+                        />
+                        <input
+                            type="number"
+                            t-attf-id="o_pagseguro_year_{{provider_id}}"
+                            placeholder="YYYY"
+                            min="2000"
+                            max="2100"
+                            required="required"
+                            class="form-control"
+                        />
+                    </div>
+                </div>
+                <div class="col-sm-4 mb-3">
+                    <label
+                        t-attf-for="o_pagseguro_code_{{provider_id}}"
+                    >Card Code</label>
+                    <input
+                        type="number"
+                        t-attf-id="o_pagseguro_code_{{provider_id}}"
+                        max="9999"
+                        required="required"
+                        class="form-control"
+                    />
+                </div>
+            </div>
+        </div>
+    </template>
+
+</odoo>

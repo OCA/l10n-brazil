@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--Copyright 2020 KMEE-->
+<!--License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).-->
+<odoo noupdate="1">
+    <record id="payment_provider_pagseguro" model="payment.provider">
+        <field name="name">PagSeguro</field>
+        <field name="code">pagseguro</field>
+        <field name="display_as">Credit Card (powered by PagBank)</field>
+        <field
+            name="image_128"
+            type="base64"
+            file="payment_pagseguro/static/src/img/pag_seguro_icon.jpg"
+        />
+        <field name="inline_form_view_id" ref="inline_form" />
+        <field name="module_id" ref="base.module_payment_pagseguro" />
+        <field
+            name="payment_icon_ids"
+            eval="[(6, 0, [
+                ref('payment.payment_icon_cc_visa'),
+                ref('payment.payment_icon_cc_mastercard'),
+                ref('payment.payment_icon_cc_american_express'),
+                ref('payment.payment_icon_cc_diners_club_intl'),
+            ])]"
+        />
+    </record>
+</odoo>
