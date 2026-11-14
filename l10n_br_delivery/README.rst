@@ -1,7 +1,3 @@
-.. image:: https://odoo-community.org/readme-banner-image
-   :target: https://odoo-community.org/get-involved?utm_source=readme
-   :alt: Odoo Community Association
-
 ======================================
 delivery module Brazilian Localization
 ======================================
@@ -17,7 +13,7 @@ delivery module Brazilian Localization
 .. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
-.. |badge2| image:: https://img.shields.io/badge/license-AGPL--3-blue.png
+.. |badge2| image:: https://img.shields.io/badge/licence-AGPL--3-blue.png
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fl10n--brazil-lightgray.png?logo=github
@@ -42,7 +38,8 @@ Brasil. Em especial ele:
      responsabilidade do frete, volume e peso bruto.
    - acrescenta na Transportadora o código ANTT e a lista de veículos.
    - cria um modelo simples de veículo com os campos fiscais (placa,
-     código ANTT, modelo, ano de fabricação...)
+     RENAVAM, código do veículo, tara, capacidade em KG e M3, tipo de
+     rodado e de carroceria, modelo, ano de fabricação...)
    - desativa o método *\_add_delivery_cost_to_so* da Expedição, pois o
      frete já esta corretamente informado no pedido.
    - vale a pena notar que o rateamento do frete, seguro e outros custos
@@ -96,6 +93,12 @@ Known issues / Roadmap
 
 Changelog
 =========
+
+16.0.4.1.0 (2026-08-13)
+-----------------------
+
+- Add vehicle data fields (owner, RENAVAM, tara, capacities, wheel/body
+  type).
 
 14.0.1.0.0 (2022-09-29)
 -----------------------

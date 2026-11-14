@@ -17,7 +17,7 @@
                             <field
                                 name="mdfe30_prop"
                                 context="{ 'form_view_ref': 'l10n_br_mdfe.res_partner_prop_form_view' }"
-                                domain="[ ('vat', '!=', False), ('mdfe30_RNTRC', '!=', False), ]"
+                                domain="[ ('vat', '!=', False), ('rntrc_code', '!=', False) ]"
                             />
                             <field name="mdfe30_UF" />
                         </group>
@@ -317,6 +317,7 @@
         <field name="model">l10n_br_mdfe.modal.rodoviario.veiculo.condutor</field>
         <field name="arch" type="xml">
             <tree>
+                <field name="partner_id" />
                 <field name="mdfe30_xNome" />
                 <field name="mdfe30_CPF" />
             </tree>
@@ -332,6 +333,7 @@
             <form>
                 <sheet>
                     <group>
+                        <field name="partner_id" />
                         <field name="mdfe30_xNome" />
                         <field name="mdfe30_CPF" />
                     </group>

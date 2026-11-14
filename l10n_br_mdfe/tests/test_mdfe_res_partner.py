@@ -4,6 +4,7 @@
 from erpbrasil.base.fiscal import cnpj_cpf
 from erpbrasil.base.misc import format_zipcode
 
+from odoo.exceptions import ValidationError
 from odoo.tests import TransactionCase
 
 
@@ -67,3 +68,35 @@ class TestMDFeResPartner(TransactionCase):
 
         self.partner_id.mdfe30_xBairro = "TESTE"
         self.assertEqual(self.partner_id.district, self.partner_id.mdfe30_xBairro)
+
+    def test_compute_mdfe30_rntrc(self):
+        self.partner_id.rntrc_code = "12345678"
+        self.assertEqual(self.partner_id.mdfe30_RNTRC, "12345678")
+        self.partner_id.rntrc_code = False
+        self.assertFalse(self.partner_id.mdfe30_RNTRC)
+
+    def test_inverse_mdfe30_rntrc(self):
+        self.partner_id.mdfe30_RNTRC = "87654321"
+        self.assertEqual(self.partner_id.rntrc_code, "87654321")
+
+    def test_inverse_mdfe30_rntrc_invalid(self):
+        with self.assertRaises(ValidationError):
+            self.partner_id.mdfe30_RNTRC = "123"
+        with self.assertRaises(ValidationError):
+            self.partner_id.mdfe30_RNTRC = "abcdefgh"
+
+    def test_onchange_condutor_partner_id(self):
+        condutor = self.env["l10n_br_mdfe.modal.rodoviario.veiculo.condutor"].new(
+            {"partner_id": self.partner_id.id}
+        )
+        condutor._onchange_partner_id()
+        self.assertEqual(
+            condutor.mdfe30_xNome,
+            self.partner_id.legal_name or self.partner_id.name,
+        )
+        self.assertEqual(condutor.mdfe30_CPF, self.partner_id.cnpj_cpf)
+
+    def test_get_binding_class_vehicle_owner(self):
+        for binding_name in ("mdfe.30.veictracao_prop", "mdfe.30.veicreboque_prop"):
+            binding = self.partner_id._get_binding_class(self.env[binding_name])
+            self.assertEqual(binding.__name__, "Prop")

@@ -42,6 +42,7 @@ from ..constants.mdfe import (
     MDFE_ENVIRONMENTS,
     MDFE_TRANSMISSIONS,
     MDFE_TRANSP_TYPE,
+    MDFE_TRANSP_TYPE_DEFAULT,
 )
 from ..constants.modal import (
     MDFE_MODAL_DEFAULT,
@@ -189,7 +190,7 @@ class MDFe(spec_models.StackedModel):
         selection=MDFE_TRANSP_TYPE,
         string="Transp Type",
         copy=False,
-        default=lambda self: self.env.company.mdfe_transp_type,
+        default=MDFE_TRANSP_TYPE_DEFAULT,
     )
 
     mdfe30_mod = fields.Char(related="document_type_id.code")
@@ -477,7 +478,9 @@ class MDFe(spec_models.StackedModel):
         inverse_name="document_id",
     )
 
-    mdfe30_RNTRC = fields.Char(size=8, string="RNTRC")
+    mdfe30_RNTRC = fields.Char(
+        related="company_id.partner_id.rntrc_code", string="RNTRC"
+    )
 
     mdfe30_infPag = fields.One2many(
         comodel_name="l10n_br_mdfe.modal.rodoviario.pagamento",
