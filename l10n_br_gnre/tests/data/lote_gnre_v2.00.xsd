@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://www.gnre.pe.gov.br"
+	elementFormDefault="qualified"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns="http://www.gnre.pe.gov.br" 
+	attributeFormDefault="unqualified">
+	<xs:include schemaLocation="dados_gnre_v1.00.xsd"/>
+	<xs:include schemaLocation="dados_gnre_v2.00.xsd"/>
+	<xs:group name="dadosGnre_1.00">
+		<xs:sequence>
+	       	<xs:group ref="dadosGnre_1.00_1"/>
+	       	<xs:group ref="dadosGnre_1.00_2"/>
+	       	<xs:group ref="dadosGnre_1.00_3"/>
+	       	<xs:group ref="dadosGnre_1.00_4"/>
+	    </xs:sequence>
+	</xs:group>
+	<xs:group name="dadosGnre_2.00">
+		<xs:sequence>
+	       	<xs:group ref="dadosGnre_2.00_1" />
+			<xs:group ref="dadosGnre_2.00_2_envio" />
+			<xs:group ref="dadosGnre_2.00_3" />
+	    </xs:sequence>
+	</xs:group>
+	<xs:element name="TLote_GNRE">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="guias" minOccurs="1" maxOccurs="1">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="TDadosGNRE" minOccurs="1"
+								maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:choice>
+						            	<xs:group ref="dadosGnre_1.00"/>
+						            	<xs:group ref="dadosGnre_2.00"/>
+									</xs:choice>
+									<xs:attribute name="versao"
+										use="required">
+										<xs:simpleType>
+											<xs:restriction
+												base="xs:string">
+												<xs:enumeration
+													value="1.00">
+												</xs:enumeration>
+												<xs:enumeration
+													value="2.00">
+												</xs:enumeration>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:attribute>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="versao" use="required" fixed="2.00">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="\d\.\d{2}"></xs:pattern>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+
+</xs:schema>

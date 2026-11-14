@@ -27,3 +27,29 @@ class FiscalTaxGroup(models.Model):
         domain="[('account_type', 'in', ('asset_receivable', 'liability_payable'))]",
         company_dependent=True,
     )
+
+    def _get_tax_authority_partner(self, move):
+        """Return the partner that collects this tax group for a given move.
+
+        The lookup depends on ``tax_scope``: city taxes are collected by the
+        city hall of the taxable event, state taxes by the treasury of the
+        state where the goods are delivered. When no specific authority is
+        registered, fall back to the partner set on the tax group itself.
+
+        :param move: the account.move that originated the tax.
+        :return: a res.partner recordset, possibly empty.
+        """
+        self.ensure_one()
+        authority = self.env["res.partner"]
+        if self.tax_scope == "city":
+            city = move.invoice_line_ids[:1].issqn_fg_city_id or move.partner_id.city_id
+            authority = authority.search(
+                [("city_id", "=", city.id), ("wh_cityhall", "=", True)], limit=1
+            )
+        elif self.tax_scope == "state":
+            state = move.partner_shipping_id.state_id or move.partner_id.state_id
+            authority = authority.search(
+                [("state_id", "=", state.id), ("wh_state_treasury", "=", True)],
+                limit=1,
+            )
+        return authority or self.partner_id
