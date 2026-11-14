@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2025 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record model="ir.ui.view" id="payment_transaction_form_view">
+        <field name="model">payment.transaction</field>
+        <field name="inherit_id" ref="payment.payment_transaction_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <group string="Boleto" name="boleto">
+                    <group name="boleto_info" invisible="not is_boleto_payment">
+                        <field name="is_boleto_payment" invisible="1" />
+                        <field name="due_date" />
+                        <field name="move_line_id" />
+                        <field name="our_number" />
+                        <field name="digitable_line" />
+                        <field name="barcode" />
+                        <field name="txid" invisible="not txid" />
+                        <field name="pix_copia_cola" invisible="not pix_copia_cola" />
+                        <field name="boleto_pdf" />
+
+                        <field name="boleto_penalty" widget="percentage" />
+                        <field name="boleto_interest" widget="percentage" />
+                        <field name="boleto_instructions" />
+                    </group>
+                    <group name="technical_info" groups="base.group_no_one">
+                        <field name="provider_technical_info" />
+                    </group>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="payment_transaction_search_view">
+        <field name="model">payment.transaction</field>
+        <field name="inherit_id" ref="payment.payment_transaction_search" />
+        <field name="arch" type="xml">
+            <field name="partner_name" position="after">
+                <field name="due_date" />
+            </field>
+        </field>
+    </record>
+</odoo>
