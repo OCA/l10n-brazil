@@ -207,3 +207,22 @@ class TestPaymentOrderOutboundPIX(AccountTestInvoicingCommon):
         )
         lines.invalidate_recordset(["pix_transfer_type"])
         self.assertEqual(lines.mapped("pix_transfer_type"), ["pix_key", False, False])
+
+    def test_payment_line_create_rejected_lines(self):
+        """The wizard only proposes rejected lines when allowed."""
+        self.invoice.action_post()
+        payable = self.invoice.line_ids.filtered(
+            lambda line: line.account_type == "liability_payable"
+        )
+        payable.cnab_state = "not_accepted"
+        order = self.payment_order_model.create({"payment_mode_id": self.pix_mode.id})
+        wizard = (
+            self.env["account.payment.line.create"]
+            .with_context(active_model="account.payment.order", active_id=order.id)
+            .create({"date_type": "move", "payment_mode": "any"})
+        )
+        wizard.populate()
+        self.assertNotIn(payable, wizard.move_line_ids)
+        wizard.allow_rejected = True
+        wizard.populate()
+        self.assertIn(payable, wizard.move_line_ids)
