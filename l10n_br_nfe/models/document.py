@@ -922,7 +922,14 @@ class NFe(spec_models.StackedModel):
     # NF-e tag: autXML
     ##########################
 
-    nfe40_autXML = fields.One2many(default=_default_nfe40_autxml)
+    # The comodel is declared here instead of being left to the spec remapping
+    # done at setup time: account.move copies this field through _inherits and,
+    # when it is set up first (it depends on the module loading order), the
+    # copy keeps pointing to the abstract nfe.40.autxml, which has no partner.
+    nfe40_autXML = fields.One2many(
+        comodel_name="l10n_br_nfe.autxml",
+        default=_default_nfe40_autxml,
+    )
 
     ################################
     # Framework Spec model's methods
