@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright (C) 2026 – TODAY, KMEE (<https://kmee.com.br>)
+     License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html -->
+<odoo>
+
+    <record id="product_duimp_demo_1" model="product.product">
+        <field name="name">DUIMP Demo - Imported Bearing</field>
+        <field name="default_code">DUIMP-BRG-001</field>
+        <field name="type">product</field>
+        <field name="purchase_ok" eval="True" />
+    </record>
+    <record id="product_duimp_demo_2" model="product.product">
+        <field name="name">DUIMP Demo - Imported Sensor</field>
+        <field name="default_code">DUIMP-SNS-002</field>
+        <field name="type">product</field>
+        <field name="purchase_ok" eval="True" />
+    </record>
+
+    <record id="partner_duimp_demo_vendor" model="res.partner">
+        <field name="name">DUIMP Demo Exporter Ltd.</field>
+        <field name="supplier_rank">1</field>
+        <field name="is_company" eval="True" />
+    </record>
+
+    <record id="duimp_demo_declaracao" model="l10n_br_duimp.declaration">
+        <field name="number">26BR0000758808</field>
+        <field name="version">1</field>
+        <field name="status">REGISTRADA</field>
+        <field name="channel">VERDE</field>
+        <field
+            name="registration_date"
+            eval="(DateTime.today()).strftime('%Y-%m-%d')"
+        />
+        <field name="partner_id" ref="partner_duimp_demo_vendor" />
+        <field name="importer_name">Demo Importer S.A.</field>
+        <field name="incoterm_id" ref="account.incoterm_FOB" />
+        <field name="clearance_office_name">PORTO DE SANTOS</field>
+        <field name="clearance_state">SP</field>
+        <field name="transport_mode_code">01</field>
+        <field name="operation_type_code">1</field>
+        <field name="afrmm_amount">1200.00</field>
+        <field name="taxa_siscomex_total">154.23</field>
+        <field name="state">open</field>
+    </record>
+
+    <record id="duimp_demo_item_1" model="l10n_br_duimp.item">
+        <field name="declaration_id" ref="duimp_demo_declaracao" />
+        <field name="item_number">1</field>
+        <field name="product_code">DUIMP-BRG-001</field>
+        <field name="ncm_code">84821010</field>
+        <field name="description">Imported bearing</field>
+        <field name="quantity">100</field>
+        <field name="unidade_comercializada">UN</field>
+        <field name="product_id" ref="product_duimp_demo_1" />
+        <field name="price_unit">50.00</field>
+        <field name="merchandise_value">5000.00</field>
+        <field name="customs_value">5300.00</field>
+        <field name="allocated_freight">200.00</field>
+        <field name="allocated_insurance">100.00</field>
+    </record>
+    <record id="duimp_demo_item_1_tributo_ii" model="l10n_br_duimp.item.tax">
+        <field name="item_id" ref="duimp_demo_item_1" />
+        <field name="type">II</field>
+        <field name="tax_base">5300.00</field>
+        <field name="ad_valorem_rate">16.0</field>
+        <field name="amount_due">848.00</field>
+    </record>
+
+    <record id="duimp_demo_item_2" model="l10n_br_duimp.item">
+        <field name="declaration_id" ref="duimp_demo_declaracao" />
+        <field name="item_number">2</field>
+        <field name="product_code">DUIMP-SNS-002</field>
+        <field name="ncm_code">90258090</field>
+        <field name="description">Imported sensor</field>
+        <field name="quantity">40</field>
+        <field name="unidade_comercializada">UN</field>
+        <field name="product_id" ref="product_duimp_demo_2" />
+        <field name="price_unit">120.00</field>
+        <field name="merchandise_value">4800.00</field>
+        <field name="customs_value">4950.00</field>
+        <field name="allocated_freight">100.00</field>
+        <field name="allocated_insurance">50.00</field>
+    </record>
+    <record id="duimp_demo_item_2_tributo_ii" model="l10n_br_duimp.item.tax">
+        <field name="item_id" ref="duimp_demo_item_2" />
+        <field name="type">II</field>
+        <field name="tax_base">4950.00</field>
+        <field name="ad_valorem_rate">14.0</field>
+        <field name="amount_due">693.00</field>
+    </record>
+
+</odoo>
