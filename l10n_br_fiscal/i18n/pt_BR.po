@@ -38,6 +38,41 @@ msgid "%(name)s Tax Estimate Failure: %(error)s"
 msgstr "%(name)s Falha na estimativa de imposto: %(error)s"
 
 #. module: l10n_br_fiscal
+#. odoo-python
+#: code:addons/l10n_br_fiscal/models/document_mixin.py:0
+#, python-format
+msgid "(+) Freight"
+msgstr "(+) Frete"
+
+#. module: l10n_br_fiscal
+#. odoo-python
+#: code:addons/l10n_br_fiscal/models/document_mixin.py:0
+#, python-format
+msgid "(+) Insurance"
+msgstr "(+) Seguro"
+
+#. module: l10n_br_fiscal
+#. odoo-python
+#: code:addons/l10n_br_fiscal/models/document_mixin.py:0
+#, python-format
+msgid "(+) Other costs"
+msgstr "(+) Outras despesas"
+
+#. module: l10n_br_fiscal
+#. odoo-python
+#: code:addons/l10n_br_fiscal/models/document_mixin.py:0
+#, python-format
+msgid "(-) Discount"
+msgstr "(-) Desconto"
+
+#. module: l10n_br_fiscal
+#. odoo-python
+#: code:addons/l10n_br_fiscal/models/document_mixin.py:0
+#, python-format
+msgid "(-) Withholdings (%s)"
+msgstr "(-) Retenções (%s)"
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__contract_line__icms_origin__0
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document_line__icms_origin__0
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document_line_mixin__icms_origin__0
@@ -439,6 +474,11 @@ msgid "9 - Não Contribuinte"
 msgstr "9 - Não Contribuinte"
 
 #. module: l10n_br_fiscal
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.report_fiscal_totals
+msgid "<em>Taxes included in the price (informative)</em>"
+msgstr "<em>Tributos incluídos no preço (informativo)</em>"
+
+#. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.l10n_br_fiscal_res_config_settings_form
 msgid "<i class=\"fa fa-arrow-right\"/>Generate an Access Key"
 msgstr ""
@@ -475,6 +515,11 @@ msgstr "<strong>Autorizada</strong>"
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_form
 msgid "<strong>Cancelled</strong>"
 msgstr "<strong>Cancelada</strong>"
+
+#. module: l10n_br_fiscal
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.report_fiscal_operation
+msgid "<strong>Fiscal Operation:</strong>"
+msgstr "<strong>Operação fiscal:</strong>"
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_form
@@ -620,6 +665,11 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_dashboard_kanban
 msgid "A enviar"
 msgstr "A enviar"
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__res_company__report_withholding_display__grouped
+msgid "A single line"
+msgstr "Uma linha só"
 
 #. module: l10n_br_fiscal
 #: model:uom.uom,name:l10n_br_fiscal.UOM_AMPOLA
@@ -1384,6 +1434,15 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.l10n_br_fiscal_res_config_settings_form
+msgid ""
+"CFOP below the line description. On quotations the CFOP may still change "
+"until the invoice."
+msgstr ""
+"CFOP abaixo da descrição da linha. Na cotação o CFOP ainda pode mudar até a "
+"nota."
+
+#. module: l10n_br_fiscal
 #: model:uom.uom,name:l10n_br_fiscal.UOM_CONJUNTO
 msgid "CJ"
 msgstr ""
@@ -2086,6 +2145,12 @@ msgid "Company"
 msgstr "Empresa"
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__report_company_fiscal_data
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_config_settings__report_company_fiscal_data
+msgid "Company Fiscal Data"
+msgstr "Dados fiscais da empresa"
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__company_l10n_br_ie_code_st
 msgid "Company ST State Tax Number"
 msgstr ""
@@ -2409,6 +2474,12 @@ msgstr "Dados Adicionais do Cliente"
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document_mixin__manual_customer_additional_data
 msgid "Customer Additional data manually entered by user"
 msgstr "Dados adicionais do cliente inseridos manualmente pelo usuário"
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__report_partner_fiscal_data
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_config_settings__report_partner_fiscal_data
+msgid "Customer and Vendor Fiscal Data"
+msgstr "Dados fiscais do cliente e do fornecedor"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__amount_ii_customhouse_charges
@@ -2834,6 +2905,13 @@ msgstr "Tipo de Documento"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__document_type
 msgid "Document Type Code"
 msgstr "Código do Tipo do Documento"
+
+#. module: l10n_br_fiscal
+#. odoo-python
+#: code:addons/l10n_br_fiscal/models/document_mixin.py:0
+#, python-format
+msgid "Document total"
+msgstr "Total do documento"
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.fiscal_res_company_form
@@ -3411,10 +3489,10 @@ msgstr "Resumo de Dados fiscais do NCM e NBS"
 #: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_operation
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__fiscal_operation_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_import_wizard__fiscal_operation_id
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_form
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_search
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__report_fiscal_operation
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_config_settings__report_fiscal_operation
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_search
 msgid "Fiscal Operation"
 msgstr "Operação Fiscal"
 
@@ -3545,6 +3623,12 @@ msgid "Fiscal Taxes"
 msgstr "Impostos Fiscais"
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__report_fiscal_totals
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_config_settings__report_fiscal_totals
+msgid "Fiscal Totals Summary"
+msgstr "Resumo fiscal de totais"
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__fiscal_type
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__fiscal_type
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation__fiscal_type
@@ -3558,6 +3642,16 @@ msgstr "Tipo Fiscal"
 #: model:res.groups,name:l10n_br_fiscal.group_user
 msgid "Fiscal User"
 msgstr "Usuário Fiscal"
+
+#. module: l10n_br_fiscal
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.l10n_br_fiscal_res_config_settings_form
+msgid "Fiscal operation line below the line description."
+msgstr "Linha da operação fiscal abaixo da descrição da linha."
+
+#. module: l10n_br_fiscal
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.l10n_br_fiscal_res_config_settings_form
+msgid "Fiscal operation of the document, next to the date and the salesperson."
+msgstr "Operação fiscal do documento, junto da data e do vendedor."
 
 #. module: l10n_br_fiscal
 #. odoo-python
@@ -4987,6 +5081,13 @@ msgid "ICMS Value"
 msgstr "Valor do ICMS"
 
 #. module: l10n_br_fiscal
+#. odoo-python
+#: code:addons/l10n_br_fiscal/models/res_partner.py:0
+#, python-format
+msgid "ICMS non-taxpayer"
+msgstr "Não contribuinte do ICMS"
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__tax_icms_or_issqn
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__tax_icms_or_issqn
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_line__tax_icms_or_issqn
@@ -5047,6 +5148,13 @@ msgstr "Valor do Crédito de ICMSSN"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_pis_cofins_credit__id
 msgid "ID"
 msgstr "ID"
+
+#. module: l10n_br_fiscal
+#. odoo-python
+#: code:addons/l10n_br_fiscal/models/res_partner.py:0
+#, python-format
+msgid "IE: exempt"
+msgstr "IE: isento"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_tax_group__tax_domain__ii
@@ -6103,6 +6211,39 @@ msgid "Legal Nature already exists with this code !"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.l10n_br_fiscal_res_config_settings_form
+msgid ""
+"Legal name, CNPJ, IE and IM of the company in the header of the reports."
+msgstr "Razão social, CNPJ, IE e IM da empresa no cabeçalho dos relatórios."
+
+#. module: l10n_br_fiscal
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.l10n_br_fiscal_res_config_settings_form
+msgid ""
+"Legal name, CNPJ/CPF, IE (or the ICMS taxpayer status) and IM of the "
+"customer or vendor."
+msgstr ""
+"Razão social, CNPJ/CPF, IE (ou a situação de contribuinte do ICMS) e IM do "
+"cliente ou do fornecedor."
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__report_line_cfop
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_config_settings__report_line_cfop
+msgid "Line CFOP"
+msgstr "CFOP da linha"
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__report_line_classification
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_config_settings__report_line_classification
+msgid "Line Fiscal Classification"
+msgstr "Classificação fiscal da linha"
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__report_line_operation_line
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_config_settings__report_line_operation_line
+msgid "Line Fiscal Operation Line"
+msgstr "Linha da operação fiscal"
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__contract_line__icmsst_base_type__1
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document_line__icmsst_base_type__1
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document_line_mixin__icmsst_base_type__1
@@ -6556,6 +6697,13 @@ msgid "NCM already exists with this code !"
 msgstr "NCM já existe com este código !"
 
 #. module: l10n_br_fiscal
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.l10n_br_fiscal_res_config_settings_form
+msgid ""
+"NCM of the product, or service type and NBS, below the line description."
+msgstr ""
+"NCM do produto, ou tipo de serviço e NBS, abaixo da descrição da linha."
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_cest__ncm_ids
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_nbm__ncm_ids
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__ncm_ids
@@ -6695,6 +6843,13 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.tax_definition_form
 msgid "National Taxation Codes"
 msgstr ""
+
+#. module: l10n_br_fiscal
+#. odoo-python
+#: code:addons/l10n_br_fiscal/models/document_mixin.py:0
+#, python-format
+msgid "Net amount"
+msgstr "Valor líquido"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__activity_calendar_event_id
@@ -7032,6 +7187,11 @@ msgid "Odoo helps you easily track all activities related to a partner."
 msgstr ""
 "Odoo ajuda você a acompanhar facilmente todas as atividades relacionadas a "
 "um parceiro."
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__res_company__report_withholding_display__detailed
+msgid "One line per tax"
+msgstr "Uma linha por imposto"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__state_edoc__a_enviar
@@ -7839,6 +7999,11 @@ msgid "Price Unit"
 msgstr "Preço Unitário"
 
 #. module: l10n_br_fiscal
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.l10n_br_fiscal_res_config_settings_form
+msgid "Printed Reports"
+msgstr "Relatórios impressos"
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__processador_edoc
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__processador_edoc
 msgid "Processador documentos eletrônicos"
@@ -7947,6 +8112,24 @@ msgstr "Quantidade de Produtos"
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_form
 msgid "Products and Services"
 msgstr "Produtos e Serviços"
+
+#. module: l10n_br_fiscal
+#. odoo-python
+#: code:addons/l10n_br_fiscal/models/document_mixin.py:0
+#, python-format
+msgid "Products and services"
+msgstr "Valor dos produtos e serviços"
+
+#. module: l10n_br_fiscal
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.l10n_br_fiscal_res_config_settings_form
+msgid ""
+"Products, discount, freight, insurance, other costs and the taxes added to "
+"the price, the document total, the withholdings and the net amount. Only "
+"lines with a value are printed."
+msgstr ""
+"Produtos, desconto, frete, seguro, outras despesas e os impostos somados ao "
+"preço, o total do documento, as retenções e o valor líquido. Só as linhas "
+"com valor são impressas."
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__contract_line__fiscal_type__04
@@ -8626,6 +8809,13 @@ msgid "Series"
 msgstr "Séries"
 
 #. module: l10n_br_fiscal
+#. odoo-python
+#: code:addons/l10n_br_fiscal/models/document_line_mixin.py:0
+#, python-format
+msgid "Service %s"
+msgstr "Serviço %s"
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_city_taxation_code__service_type_id
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.service_type_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.service_type_search
@@ -8756,6 +8946,12 @@ msgid ""
 msgstr ""
 "Alíquota efetiva do Simples Nacional de cada anexo, com base na faixa em que "
 "a empresa se enquadra atualmente."
+
+#. module: l10n_br_fiscal
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.l10n_br_fiscal_res_config_settings_form
+msgid "Simples Nacional or Regime Normal, below the company fiscal data."
+msgstr ""
+"Simples Nacional ou Regime Normal, abaixo dos dados fiscais da empresa."
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.simplified_tax_form
@@ -9593,6 +9789,13 @@ msgid "Tax benefit code must be start with state code!"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#. odoo-python
+#: code:addons/l10n_br_fiscal/models/res_partner.py:0
+#, python-format
+msgid "Tax framework: %s"
+msgstr "Regime tributário: %s"
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__is_taxed
 msgid "Taxed?"
 msgstr "Tributados?"
@@ -9609,10 +9812,25 @@ msgid "Taxes"
 msgstr "Impostos"
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__report_included_taxes
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_config_settings__report_included_taxes
+msgid "Taxes Included in the Price"
+msgstr "Tributos incluídos no preço"
+
+#. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.cfop_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.partner_profile_form
 msgid "Taxes Settings"
 msgstr "Configuração de Impostos"
+
+#. module: l10n_br_fiscal
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.l10n_br_fiscal_res_config_settings_form
+msgid ""
+"Taxes already included in the price (ICMS, PIS, COFINS, ISS, IBS, CBS), "
+"below the totals."
+msgstr ""
+"Tributos já incluídos no preço (ICMS, PIS, COFINS, ISS, IBS, CBS), abaixo "
+"dos totais."
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document__company_id
@@ -10149,6 +10367,12 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.tax_group_form
 msgid "Withholding"
 msgstr "Retenção"
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__report_withholding_display
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_config_settings__report_withholding_display
+msgid "Withholdings"
+msgstr "Retenções"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_import_wizard_line__cfop_xml
@@ -12257,228 +12481,3 @@ msgstr "{} Estimativa de Imposto Atualizada"
 
 #~ msgid "Àrea / Superfície"
 #~ msgstr "Àrea / Superfície"
-
-#. module: l10n_br_fiscal
-#. odoo-python
-#: code:addons/l10n_br_fiscal/models/document_mixin.py:0
-#, python-format
-msgid "(+) Freight"
-msgstr "(+) Frete"
-
-#. module: l10n_br_fiscal
-#. odoo-python
-#: code:addons/l10n_br_fiscal/models/document_mixin.py:0
-#, python-format
-msgid "(+) Insurance"
-msgstr "(+) Seguro"
-
-#. module: l10n_br_fiscal
-#. odoo-python
-#: code:addons/l10n_br_fiscal/models/document_mixin.py:0
-#, python-format
-msgid "(+) Other costs"
-msgstr "(+) Outras despesas"
-
-#. module: l10n_br_fiscal
-#. odoo-python
-#: code:addons/l10n_br_fiscal/models/document_mixin.py:0
-#, python-format
-msgid "(-) Discount"
-msgstr "(-) Desconto"
-
-#. module: l10n_br_fiscal
-#. odoo-python
-#: code:addons/l10n_br_fiscal/models/document_mixin.py:0
-#, python-format
-msgid "(-) Withholdings (%s)"
-msgstr "(-) Retenções (%s)"
-
-#. module: l10n_br_fiscal
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.report_fiscal_totals
-msgid "<em>Taxes included in the price (informative)</em>"
-msgstr "<em>Tributos incluídos no preço (informativo)</em>"
-
-#. module: l10n_br_fiscal
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.report_fiscal_operation
-msgid "<strong>Fiscal Operation:</strong>"
-msgstr "<strong>Operação fiscal:</strong>"
-
-#. module: l10n_br_fiscal
-#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__res_company__report_withholding_display__grouped
-msgid "A single line"
-msgstr "Uma linha só"
-
-#. module: l10n_br_fiscal
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.l10n_br_fiscal_res_config_settings_form
-msgid ""
-"CFOP below the line description. On quotations the CFOP may still change "
-"until the invoice."
-msgstr ""
-"CFOP abaixo da descrição da linha. Na cotação o CFOP ainda pode mudar até a "
-"nota."
-
-#. module: l10n_br_fiscal
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__report_company_fiscal_data
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_config_settings__report_company_fiscal_data
-msgid "Company Fiscal Data"
-msgstr "Dados fiscais da empresa"
-
-#. module: l10n_br_fiscal
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__report_partner_fiscal_data
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_config_settings__report_partner_fiscal_data
-msgid "Customer and Vendor Fiscal Data"
-msgstr "Dados fiscais do cliente e do fornecedor"
-
-#. module: l10n_br_fiscal
-#. odoo-python
-#: code:addons/l10n_br_fiscal/models/document_mixin.py:0
-#, python-format
-msgid "Document total"
-msgstr "Total do documento"
-
-#. module: l10n_br_fiscal
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__report_fiscal_totals
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_config_settings__report_fiscal_totals
-msgid "Fiscal Totals Summary"
-msgstr "Resumo fiscal de totais"
-
-#. module: l10n_br_fiscal
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.l10n_br_fiscal_res_config_settings_form
-msgid "Fiscal operation line below the line description."
-msgstr "Linha da operação fiscal abaixo da descrição da linha."
-
-#. module: l10n_br_fiscal
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.l10n_br_fiscal_res_config_settings_form
-msgid ""
-"Fiscal operation of the document, next to the date and the salesperson."
-msgstr "Operação fiscal do documento, junto da data e do vendedor."
-
-#. module: l10n_br_fiscal
-#. odoo-python
-#: code:addons/l10n_br_fiscal/models/res_partner.py:0
-#, python-format
-msgid "ICMS non-taxpayer"
-msgstr "Não contribuinte do ICMS"
-
-#. module: l10n_br_fiscal
-#. odoo-python
-#: code:addons/l10n_br_fiscal/models/res_partner.py:0
-#, python-format
-msgid "IE: exempt"
-msgstr "IE: isento"
-
-#. module: l10n_br_fiscal
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.l10n_br_fiscal_res_config_settings_form
-msgid ""
-"Legal name, CNPJ, IE and IM of the company in the header of the reports."
-msgstr "Razão social, CNPJ, IE e IM da empresa no cabeçalho dos relatórios."
-
-#. module: l10n_br_fiscal
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.l10n_br_fiscal_res_config_settings_form
-msgid ""
-"Legal name, CNPJ/CPF, IE (or the ICMS taxpayer status) and IM of the "
-"customer or vendor."
-msgstr ""
-"Razão social, CNPJ/CPF, IE (ou a situação de contribuinte do ICMS) e IM do "
-"cliente ou do fornecedor."
-
-#. module: l10n_br_fiscal
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__report_line_cfop
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_config_settings__report_line_cfop
-msgid "Line CFOP"
-msgstr "CFOP da linha"
-
-#. module: l10n_br_fiscal
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__report_line_classification
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_config_settings__report_line_classification
-msgid "Line Fiscal Classification"
-msgstr "Classificação fiscal da linha"
-
-#. module: l10n_br_fiscal
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__report_line_operation_line
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_config_settings__report_line_operation_line
-msgid "Line Fiscal Operation Line"
-msgstr "Linha da operação fiscal"
-
-#. module: l10n_br_fiscal
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.l10n_br_fiscal_res_config_settings_form
-msgid ""
-"NCM of the product, or service type and NBS, below the line description."
-msgstr ""
-"NCM do produto, ou tipo de serviço e NBS, abaixo da descrição da linha."
-
-#. module: l10n_br_fiscal
-#. odoo-python
-#: code:addons/l10n_br_fiscal/models/document_mixin.py:0
-#, python-format
-msgid "Net amount"
-msgstr "Valor líquido"
-
-#. module: l10n_br_fiscal
-#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__res_company__report_withholding_display__detailed
-msgid "One line per tax"
-msgstr "Uma linha por imposto"
-
-#. module: l10n_br_fiscal
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.l10n_br_fiscal_res_config_settings_form
-msgid "Printed Reports"
-msgstr "Relatórios impressos"
-
-#. module: l10n_br_fiscal
-#. odoo-python
-#: code:addons/l10n_br_fiscal/models/document_mixin.py:0
-#, python-format
-msgid "Products and services"
-msgstr "Valor dos produtos e serviços"
-
-#. module: l10n_br_fiscal
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.l10n_br_fiscal_res_config_settings_form
-msgid ""
-"Products, discount, freight, insurance, other costs and the taxes added to "
-"the price, the document total, the withholdings and the net amount. Only "
-"lines with a value are printed."
-msgstr ""
-"Produtos, desconto, frete, seguro, outras despesas e os impostos somados ao "
-"preço, o total do documento, as retenções e o valor líquido. Só as linhas "
-"com valor são impressas."
-
-#. module: l10n_br_fiscal
-#. odoo-python
-#: code:addons/l10n_br_fiscal/models/document_line_mixin.py:0
-#, python-format
-msgid "Service %s"
-msgstr "Serviço %s"
-
-#. module: l10n_br_fiscal
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.l10n_br_fiscal_res_config_settings_form
-msgid "Simples Nacional or Regime Normal, below the company fiscal data."
-msgstr ""
-"Simples Nacional ou Regime Normal, abaixo dos dados fiscais da empresa."
-
-#. module: l10n_br_fiscal
-#. odoo-python
-#: code:addons/l10n_br_fiscal/models/res_partner.py:0
-#, python-format
-msgid "Tax framework: %s"
-msgstr "Regime tributário: %s"
-
-#. module: l10n_br_fiscal
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__report_included_taxes
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_config_settings__report_included_taxes
-msgid "Taxes Included in the Price"
-msgstr "Tributos incluídos no preço"
-
-#. module: l10n_br_fiscal
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.l10n_br_fiscal_res_config_settings_form
-msgid ""
-"Taxes already included in the price (ICMS, PIS, COFINS, ISS, IBS, CBS), "
-"below the totals."
-msgstr ""
-"Tributos já incluídos no preço (ICMS, PIS, COFINS, ISS, IBS, CBS), abaixo "
-"dos totais."
-
-#. module: l10n_br_fiscal
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__report_withholding_display
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_config_settings__report_withholding_display
-msgid "Withholdings"
-msgstr "Retenções"
