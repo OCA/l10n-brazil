@@ -82,6 +82,10 @@ class TestNFCePosOrder(TestNFCePosOrderCommon):
             cnpj_document.document_number,
             "1001",
         )
+        self.assertEqual(cnpj_order.state_edoc, cnpj_document.state_edoc)
+        self.assertEqual(
+            cnpj_order.authorization_protocol, cnpj_document.authorization_protocol
+        )
 
         # NFC-e autorizada com CPF.
         cpf_order_data = self._prepare_order_data(
