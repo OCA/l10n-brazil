@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="account_move_line_payment_schedule_tree" model="ir.ui.view">
+        <field name="model">account.move.line</field>
+        <field
+            name="inherit_id"
+            ref="account_payment_schedule.account_move_line_payment_schedule_tree"
+        />
+        <field name="arch" type="xml">
+            <field name="partner_bank_id" position="after">
+                <button
+                    name="action_payment_instrument_reader"
+                    type="object"
+                    icon="fa-barcode"
+                    title="Read Boleto or Pix"
+                    invisible="payment_schedule_state in ('in_progress', 'done')"
+                />
+                <field name="payment_barcode_type" optional="show" />
+                <field name="payment_barcode" optional="hide" />
+                <field name="payment_digitable_line" optional="hide" />
+                <field
+                    name="partner_pix_id"
+                    optional="show"
+                    readonly="payment_schedule_state in ('draft_order', 'in_progress', 'done')"
+                />
+                <field
+                    name="payment_pix_check"
+                    widget="badge"
+                    optional="show"
+                    decoration-success="payment_pix_check == 'checked'"
+                    decoration-warning="payment_pix_check == 'to_check'"
+                    decoration-danger="payment_pix_check == 'mismatch'"
+                />
+            </field>
+        </field>
+    </record>
+</odoo>
