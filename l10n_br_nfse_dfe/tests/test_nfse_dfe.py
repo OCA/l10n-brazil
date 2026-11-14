@@ -12,6 +12,11 @@ from odoo.exceptions import UserError, ValidationError
 from odoo.tests.common import TransactionCase
 from odoo.tools import mute_logger
 
+from odoo.addons.l10n_br_fiscal.constants.fiscal import (
+    DOCUMENT_ISSUER_PARTNER,
+    DOCUMENT_STATE_CANCEL,
+    DOCUMENT_STATE_DRAFT,
+)
 from odoo.addons.l10n_br_fiscal_dfe.constants.dfe import DFE_INTERVAL_NO_DOCS
 from odoo.addons.l10n_br_nfse_dfe.services.sefin_nfse import (
     NfseHttpResponse,
@@ -128,6 +133,19 @@ class TestNfseDfe(TransactionCase):
         )
         if not cls.provider:
             raise AssertionError("Demo provider CNPJ 59594315000157 was not found")
+
+    def _fiscal_document(self, key, company=None, imported=True):
+        company = company or self.company
+        return self.env["l10n_br_fiscal.document"].create(
+            {
+                "company_id": company.id,
+                "partner_id": self.provider.id,
+                "issuer": DOCUMENT_ISSUER_PARTNER,
+                "imported_document": imported,
+                "document_type_id": self.env.ref("l10n_br_fiscal.document_SE").id,
+                "document_key": key,
+            }
+        )
 
     def _documents(self):
         return self.env["l10n_br_fiscal_dfe.document"].search(
@@ -497,6 +515,104 @@ class TestNfseDfe(TransactionCase):
         self.company._nfse_process_items([note, request])
         document = self._documents().filtered(lambda rec: rec.access_key == key)
         self.assertEqual(document.document_state, "1")
+
+    def test_cancel_event_marks_the_imported_fiscal_document(self):
+        key = "7" * 50
+        fiscal = self._fiscal_document(key)
+        other = self._fiscal_document(
+            key, company=self.env.ref("l10n_br_base.empresa_simples_nacional")
+        )
+        note = {
+            "NSU": 70,
+            "ChaveAcesso": key,
+            "TipoDocumento": "NFSE",
+            "ArquivoXml": gzip_base64(nfse_xml(access_key=key)),
+        }
+        event = {
+            "NSU": 71,
+            "ChaveAcesso": key,
+            "TipoDocumento": "EVENTO",
+            "TipoEvento": "101101",
+            "ArquivoXml": base64.b64encode(
+                event_xml(access_key=key, event_code="101101")
+            ).decode(),
+        }
+        self.company._nfse_process_items([note, event])
+        self.assertEqual(fiscal.state_edoc, DOCUMENT_STATE_CANCEL)
+        self.assertEqual(other.state_edoc, DOCUMENT_STATE_DRAFT)
+        # A draft that only carries the key is not an import. A second pass
+        # must not cancel it, and must leave the imported document cancelled.
+        shell = self._fiscal_document(key, imported=False)
+        self.company._nfse_sync_document_state(
+            self._documents().filtered(lambda rec: rec.access_key == key)
+        )
+        self.assertEqual(fiscal.state_edoc, DOCUMENT_STATE_CANCEL)
+        self.assertEqual(shell.state_edoc, DOCUMENT_STATE_DRAFT)
+
+    def test_document_imported_after_the_event_is_cancelled_on_the_next_sync(self):
+        key = "8" * 49 + "1"
+        event = {
+            "NSU": 80,
+            "ChaveAcesso": key,
+            "TipoDocumento": "EVENTO",
+            "TipoEvento": "CANCELAMENTO_POR_OFICIO",
+            "ArquivoXml": base64.b64encode(
+                event_xml(access_key=key, event_code="305101")
+            ).decode(),
+        }
+        self.company._nfse_process_item(event)
+        fiscal = self._fiscal_document(key)
+        self.assertEqual(fiscal.state_edoc, DOCUMENT_STATE_DRAFT)
+        note = {
+            "NSU": 81,
+            "ChaveAcesso": key,
+            "TipoDocumento": "NFSE",
+            "ArquivoXml": gzip_base64(nfse_xml(access_key=key)),
+        }
+        self.company._nfse_process_item(note)
+        self.assertEqual(fiscal.state_edoc, DOCUMENT_STATE_CANCEL)
+
+    def test_registration_request_leaves_the_fiscal_document(self):
+        key = "8" * 49 + "2"
+        fiscal = self._fiscal_document(key)
+        note = {
+            "NSU": 82,
+            "ChaveAcesso": key,
+            "TipoDocumento": "NFSE",
+            "ArquivoXml": gzip_base64(nfse_xml(access_key=key)),
+        }
+        request = {
+            "NSU": 83,
+            "ChaveAcesso": key,
+            "TipoDocumento": "PEDIDO_REGISTRO_EVENTO",
+            "TipoEvento": "CANCELAMENTO",
+            "ArquivoXml": base64.b64encode(event_xml(access_key=key)).decode(),
+        }
+        denied = {
+            "NSU": 84,
+            "ChaveAcesso": key,
+            "TipoDocumento": "EVENTO",
+            "TipoEvento": "105105",
+            "ArquivoXml": base64.b64encode(
+                event_xml(access_key=key, event_code="105105")
+            ).decode(),
+        }
+        self.company._nfse_process_items([note, request, denied])
+        inbox = self._documents().filtered(lambda rec: rec.access_key == key)
+        self.assertEqual(inbox.document_state, "1")
+        self.assertEqual(fiscal.state_edoc, DOCUMENT_STATE_DRAFT)
+
+    def test_note_alone_leaves_the_fiscal_document(self):
+        key = "8" * 49 + "3"
+        fiscal = self._fiscal_document(key)
+        note = {
+            "NSU": 85,
+            "ChaveAcesso": key,
+            "TipoDocumento": "NFSE",
+            "ArquivoXml": gzip_base64(nfse_xml(access_key=key)),
+        }
+        self.company._nfse_process_item(note)
+        self.assertEqual(fiscal.state_edoc, DOCUMENT_STATE_DRAFT)
 
     def test_dps_item_is_skipped(self):
         key = "5" * 50

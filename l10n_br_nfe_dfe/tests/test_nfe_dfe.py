@@ -18,6 +18,11 @@ from odoo.exceptions import UserError, ValidationError
 from odoo.tests.common import TransactionCase
 from odoo.tools import mute_logger
 
+from odoo.addons.l10n_br_fiscal.constants.fiscal import (
+    DOCUMENT_ISSUER_PARTNER,
+    DOCUMENT_STATE_CANCEL,
+    DOCUMENT_STATE_DRAFT,
+)
 from odoo.addons.l10n_br_fiscal_dfe.constants.dfe import (
     DFE_INTERVAL_ERROR,
     DFE_INTERVAL_NO_DOCS,
@@ -122,6 +127,44 @@ _PROCEVENTONFE_XML = (
     "</infEvento></retEvento>"
     "</procEventoNFe>"
 )
+
+_NFE_KEY = "35200159594315000157550010000000012062777161"
+
+
+def _sample_procnfe_xml():
+    """Return the procNFe body already shipped in the individual fixture."""
+    marker = 'schema="procNFe_v4.00.xsd">'
+    encoded = response_sucesso_individual.split(marker, 1)[1].split("</docZip>", 1)[0]
+    return gzip.decompress(base64.b64decode(encoded)).decode()
+
+
+def _res_evento_xml(tp_evento, key=_NFE_KEY):
+    return (
+        '<resEvento xmlns="http://www.portalfiscal.inf.br/nfe">'
+        "<cOrgao>91</cOrgao>"
+        "<CNPJ>59594315000157</CNPJ>"
+        f"<chNFe>{key}</chNFe>"
+        "<dhEvento>2022-04-04T11:54:49-03:00</dhEvento>"
+        f"<tpEvento>{tp_evento}</tpEvento>"
+        "<nSeqEvento>1</nSeqEvento>"
+        "<xEvento>Evento</xEvento>"
+        "<dhRecbto>2022-04-04T11:54:49-03:00</dhRecbto>"
+        "</resEvento>"
+    )
+
+
+def _resnfe_xml(situacao, key=_NFE_KEY):
+    return (
+        '<resNFe xmlns="http://www.portalfiscal.inf.br/nfe">'
+        f"<chNFe>{key}</chNFe>"
+        "<CNPJ>59594315000157</CNPJ>"
+        "<xNome>Test Emitter</xNome>"
+        "<dhEmi>2026-02-23T12:15:38-03:00</dhEmi>"
+        "<tpNF>1</tpNF>"
+        "<vNF>1000.00</vNF>"
+        f"<cSitNFe>{situacao}</cSitNFe>"
+        "</resNFe>"
+    )
 
 
 class TestDFe(TransactionCase):
@@ -1087,6 +1130,177 @@ class TestDFe(TransactionCase):
         self.assertEqual(dfe_record.document_type_dfe, "event")
         self.assertEqual(dfe_record.event_type_dfe, "210210")
         self.assertTrue(dfe_record.dfe_document_id)
+
+    def _fiscal_document(
+        self, key=_NFE_KEY, company=None, imported=True, document_type="document_55"
+    ):
+        company = company or self.company
+        return self.env["l10n_br_fiscal.document"].create(
+            {
+                "company_id": company.id,
+                "partner_id": company.partner_id.id,
+                "issuer": DOCUMENT_ISSUER_PARTNER,
+                "imported_document": imported,
+                "document_type_id": self.env.ref(f"l10n_br_fiscal.{document_type}").id,
+                "document_key": key,
+            }
+        )
+
+    def _search_lote(self, mock_post, documents):
+        last = documents[-1][0]
+        mock_post.return_value = _build_dfe_response(
+            documents, ult_nsu=last, max_nsu=last
+        ).encode()
+        self.company.nfe_dfe_search_documents()
+        return self.env["l10n_br_fiscal_dfe.document"].search(
+            [
+                ("company_id", "=", self.company.id),
+                ("access_key", "=", _NFE_KEY),
+                ("fiscal_type", "=", "nfe"),
+            ]
+        )
+
+    @mock.patch.object(DefaultTransport, "post")
+    def test_cancel_event_marks_the_authorized_inbox(self, mock_post):
+        """A registered 110111 turns an authorized complete NF-e into cancelled."""
+        inbox = self._search_lote(
+            mock_post,
+            [
+                ("000000000000201", "procNFe_v4.00.xsd", _sample_procnfe_xml()),
+                ("000000000000202", "resEvento_v1.00.xsd", _res_evento_xml("110111")),
+            ],
+        )
+        self.assertEqual(inbox.document_state, "3")
+        self.assertEqual(inbox.document_state_label, "Cancelada")
+        self.assertEqual(inbox.color_status, "muted")
+
+    @mock.patch.object(DefaultTransport, "post")
+    def test_complete_xml_after_the_cancel_event_stays_cancelled(self, mock_post):
+        """The authorized procNFe must not undo a cancel event already stored."""
+        inbox = self._search_lote(
+            mock_post,
+            [
+                ("000000000000201", "resEvento_v1.00.xsd", _res_evento_xml("110111")),
+                ("000000000000202", "procNFe_v4.00.xsd", _sample_procnfe_xml()),
+            ],
+        )
+        self.assertEqual(inbox.document_state, "3")
+
+    @mock.patch.object(DefaultTransport, "post")
+    def test_summary_after_the_cancel_event_stays_cancelled(self, mock_post):
+        """A later authorized summary must not undo a cancel event."""
+        inbox = self._search_lote(
+            mock_post,
+            [
+                ("000000000000201", "resEvento_v1.00.xsd", _res_evento_xml("110111")),
+                ("000000000000202", "resNFe_v1.00.xsd", _resnfe_xml("1")),
+            ],
+        )
+        self.assertEqual(inbox.document_state, "3")
+
+    @mock.patch.object(DefaultTransport, "post")
+    def test_substitution_cancel_marks_the_inbox(self, mock_post):
+        """110112, cancellation by substitution, also cancels the inbox."""
+        event_xml = _PROCEVENTONFE_XML.replace(
+            "<tpEvento>210210</tpEvento>",
+            "<tpEvento>110112</tpEvento>",
+        )
+        inbox = self._search_lote(
+            mock_post,
+            [("000000000000301", "procEventoNFe_v1.00.xsd", event_xml)],
+        )
+        self.assertEqual(inbox.document_state, "3")
+
+    @mock.patch.object(DefaultTransport, "post")
+    def test_ciencia_and_correction_leave_the_inbox_state(self, mock_post):
+        """Manifestation and a correction letter do not cancel the note."""
+        inbox = self._search_lote(
+            mock_post,
+            [
+                ("000000000000201", "resNFe_v1.00.xsd", _resnfe_xml("1")),
+                ("000000000000202", "resEvento_v1.00.xsd", _res_evento_xml("210210")),
+                ("000000000000203", "resEvento_v1.00.xsd", _res_evento_xml("110110")),
+            ],
+        )
+        self.assertEqual(inbox.document_state, "1")
+        self.assertEqual(inbox.document_state_label, "Autorizada")
+
+    @mock.patch.object(DefaultTransport, "post")
+    def test_a_correction_does_not_cancel_a_denied_summary(self, mock_post):
+        inbox = self._search_lote(
+            mock_post,
+            [
+                ("000000000000201", "resNFe_v1.00.xsd", _resnfe_xml("2")),
+                ("000000000000202", "resEvento_v1.00.xsd", _res_evento_xml("110110")),
+            ],
+        )
+        self.assertEqual(inbox.document_state, "2")
+        self.assertEqual(inbox.document_state_label, "Denegada")
+
+    @mock.patch.object(DefaultTransport, "post")
+    def test_cancel_event_marks_the_imported_fiscal_document(self, mock_post):
+        """110111 cancels the imported NF-e and leaves the other documents."""
+        fiscal = self._fiscal_document()
+        other = self._fiscal_document(
+            company=self.env.ref("l10n_br_base.empresa_simples_nacional")
+        )
+        inbox = self._search_lote(
+            mock_post,
+            [
+                ("000000000000201", "procNFe_v4.00.xsd", _sample_procnfe_xml()),
+                ("000000000000202", "resEvento_v1.00.xsd", _res_evento_xml("110111")),
+            ],
+        )
+        self.assertEqual(fiscal.state_edoc, DOCUMENT_STATE_CANCEL)
+        self.assertEqual(other.state_edoc, DOCUMENT_STATE_DRAFT)
+        shell = self._fiscal_document(imported=False)
+        self.company._nfe_apply_registered_cancel(inbox)
+        self.assertEqual(fiscal.state_edoc, DOCUMENT_STATE_CANCEL)
+        self.assertEqual(shell.state_edoc, DOCUMENT_STATE_DRAFT)
+
+    @mock.patch.object(DefaultTransport, "post")
+    def test_document_imported_after_the_cancel_is_cancelled_on_the_next_sync(
+        self, mock_post
+    ):
+        """An import done after the event is cancelled when the note arrives."""
+        self._search_lote(
+            mock_post,
+            [("000000000000201", "resEvento_v1.00.xsd", _res_evento_xml("110111"))],
+        )
+        fiscal = self._fiscal_document()
+        self.assertEqual(fiscal.state_edoc, DOCUMENT_STATE_DRAFT)
+        self.company.nfe_dfe_next_query = False
+        self._search_lote(
+            mock_post,
+            [("000000000000202", "procNFe_v4.00.xsd", _sample_procnfe_xml())],
+        )
+        self.assertEqual(fiscal.state_edoc, DOCUMENT_STATE_CANCEL)
+
+    @mock.patch.object(DefaultTransport, "post")
+    def test_substitution_cancel_marks_the_imported_fiscal_document(self, mock_post):
+        fiscal = self._fiscal_document()
+        event_xml = _PROCEVENTONFE_XML.replace(
+            "<tpEvento>210210</tpEvento>",
+            "<tpEvento>110112</tpEvento>",
+        )
+        self._search_lote(
+            mock_post,
+            [("000000000000301", "procEventoNFe_v1.00.xsd", event_xml)],
+        )
+        self.assertEqual(fiscal.state_edoc, DOCUMENT_STATE_CANCEL)
+
+    @mock.patch.object(DefaultTransport, "post")
+    def test_ciencia_leaves_the_imported_fiscal_document(self, mock_post):
+        fiscal = self._fiscal_document()
+        self._search_lote(
+            mock_post,
+            [
+                ("000000000000201", "resNFe_v1.00.xsd", _resnfe_xml("1")),
+                ("000000000000202", "resEvento_v1.00.xsd", _res_evento_xml("210210")),
+                ("000000000000203", "resEvento_v1.00.xsd", _res_evento_xml("110110")),
+            ],
+        )
+        self.assertEqual(fiscal.state_edoc, DOCUMENT_STATE_DRAFT)
 
     @mock.patch.object(DefaultTransport, "post")
     def test_create_from_unknown_schema(self, mock_post):

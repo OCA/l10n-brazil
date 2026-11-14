@@ -7,11 +7,17 @@ from datetime import datetime, timezone
 
 from odoo import api, fields, models
 
+from odoo.addons.l10n_br_fiscal.constants.fiscal import (
+    DOCUMENT_STATE_CANCEL,
+    MODELO_FISCAL_NFE,
+)
 from odoo.addons.l10n_br_fiscal_dfe.constants.dfe import (
     DFE_VERSION_DEFAULT,
     DFE_VERSIONS,
 )
 from odoo.addons.l10n_br_fiscal_dfe.tools import utils
+
+from ..constants.nfe_dfe import NFE_CANCEL_EVENT_CODES, SIT_NFE_CANCELADA
 
 try:
     from nfelib.nfe.client.v4_0.dfe import DfeClient
@@ -160,6 +166,7 @@ class ResCompany(models.Model):
             },
             is_complete=True,
         )
+        self._nfe_apply_registered_cancel(dfe_document)
         return dfe_record
 
     def _dfe_create_from_resNFe(self, root, nsu, fiscal_type="nfe"):
@@ -195,6 +202,7 @@ class ResCompany(models.Model):
             },
             is_complete=False,
         )
+        self._nfe_apply_registered_cancel(dfe_document)
 
         if self.auto_manifest_nfe:
             mde = self.env["l10n_br_nfe.md_event"].create(
@@ -234,6 +242,7 @@ class ResCompany(models.Model):
         )
 
         dfe_document.sudo().dfe_ids = [(4, dfe_record.id)]
+        self._nfe_apply_registered_cancel(dfe_document)
         return dfe_record
 
     def _dfe_create_from_procEventoNFe(self, root, nsu, fiscal_type="nfe"):
@@ -256,4 +265,51 @@ class ResCompany(models.Model):
         )
 
         dfe_document.sudo().dfe_ids = [(4, dfe_record.id)]
+        self._nfe_apply_registered_cancel(dfe_document)
         return dfe_record
+
+    def _nfe_apply_registered_cancel(self, document):
+        """Set the inbox to cancelled when an official cancel event is stored.
+
+        A correction letter and a manifestation do not cancel. Called after
+        the note and after the event, so a complete XML that arrives later
+        does not put the note back to authorized. A registered cancellation
+        also marks the imported fiscal document. The vendor bill is left as
+        it is.
+        """
+        document.ensure_one()
+        cancelled = document.dfe_ids.filtered(
+            lambda rec: rec.document_type_dfe == "event"
+            and (rec.event_type_dfe or "") in NFE_CANCEL_EVENT_CODES
+        )
+        if not cancelled:
+            return
+        if document.document_state != SIT_NFE_CANCELADA[0]:
+            document.sudo().write({"document_state": SIT_NFE_CANCELADA[0]})
+        self._nfe_cancel_imported_fiscal_documents(document)
+
+    def _nfe_cancel_imported_fiscal_documents(self, inbox):
+        """Set ``state_edoc`` on fiscal documents imported from this NF-e.
+
+        A key typed on a draft that was never imported does not count, and
+        another company's document is left alone. Writing the fiscal state
+        does not cancel or unreconcile the vendor bill.
+        """
+        inbox.ensure_one()
+        if not inbox.access_key or not inbox.company_id:
+            return
+        documents = (
+            self.env["l10n_br_fiscal.document"]
+            .sudo()
+            .search(
+                [
+                    ("document_key", "=", inbox.access_key),
+                    ("company_id", "=", inbox.company_id.id),
+                    ("imported_document", "=", True),
+                    ("document_type_id.code", "=", MODELO_FISCAL_NFE),
+                    ("state_edoc", "!=", DOCUMENT_STATE_CANCEL),
+                ]
+            )
+        )
+        if documents:
+            documents.write({"state_edoc": DOCUMENT_STATE_CANCEL})

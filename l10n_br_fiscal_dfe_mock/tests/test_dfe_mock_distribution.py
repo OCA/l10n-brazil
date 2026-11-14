@@ -329,7 +329,7 @@ class TestDfeMockDistribution(TransactionCase):
         self.company._dfe_document_distribution("nfe")
 
     def test_nfe_cancellation_is_a_later_event(self):
-        """The proc stays authorized. The cancel is the next NSU."""
+        """The proc XML stays. The later 110111 cancels the inbox."""
         note = self._generate_proc_nfe()
         note_xml = note.xml_content
         self._pull_nfe(reset_cursor=True)
@@ -350,7 +350,7 @@ class TestDfeMockDistribution(TransactionCase):
         self.assertIn("<tpEvento>110111</tpEvento>", event.xml_content)
         self._pull_nfe()
         inbox.invalidate_recordset()
-        self.assertEqual(inbox.document_state, "1")
+        self.assertEqual(inbox.document_state, "3")
         self.assertIn("110111", inbox.dfe_ids.mapped("event_type_dfe"))
         with self.assertRaises(UserError):
             note.action_register_nfe_cancellation()
