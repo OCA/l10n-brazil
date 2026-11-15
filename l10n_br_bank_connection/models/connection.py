@@ -732,7 +732,9 @@ class BankConnection(models.Model):
             auth = getattr(transport, "_auth", None)
             if auth is None:
                 return False
-            await auth.cabecalhos(None, transport.client)
+            # Banks such as Banco do Brasil refuse a token asked without a scope.
+            scope = next(iter(getattr(auth, "_escopos", None) or {}), None)
+            await auth.cabecalhos(scope, transport.client)
             return True
 
         got_token = self._l10n_br_bank_run(probe)

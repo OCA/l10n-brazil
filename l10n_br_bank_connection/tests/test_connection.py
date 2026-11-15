@@ -2,6 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 import json
+from types import SimpleNamespace
 from unittest.mock import patch
 
 from brbank.erros import Indisponivel, Validacao
@@ -11,7 +12,7 @@ from odoo.tests import TransactionCase, new_test_user, tagged
 
 from ..utils.token_store import OdooTokenStore
 from .common import ConnectionCommon
-from .fake_bank import FAKE, FAKE_NO_SANDBOX, STATE, reset_state
+from .fake_bank import FAKE, FAKE_NO_SANDBOX, STATE, FakeAdapter, reset_state
 
 SECRET_FIELDS = (
     "client_id",
@@ -222,6 +223,21 @@ class TestConnection(ConnectionCommon, TransactionCase):
             notification = self.connection.action_test_connection()
         self.assertEqual(notification["params"]["type"], "danger")
         self.assertIn("refused", notification["params"]["message"])
+
+    def test_test_connection_asks_the_token_with_a_scope(self):
+        asked = []
+
+        class Auth:
+            _escopos = {"cobranca": "cobrancas.boletos-info"}
+
+            async def cabecalhos(self, escopo, client):
+                asked.append(escopo)
+
+        transport = SimpleNamespace(_auth=Auth(), client=None)
+        with patch.object(FakeAdapter, "_transporte", transport, create=True):
+            lines = self.connection._l10n_br_bank_test_connection()
+        self.assertEqual(asked, ["cobranca"])
+        self.assertEqual(lines, ["Access token obtained."])
 
     # === security === #
 
