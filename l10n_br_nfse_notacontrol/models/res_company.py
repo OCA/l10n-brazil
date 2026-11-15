@@ -1,12 +1,9 @@
-# Copyright 2026 KMEE INFORMATICA LTDA
+# Copyright 2026 KMEE
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import api, fields, models
+from erpbrasil.edoc.provedores.notacontrol import MUNICIPIOS
 
-try:
-    from erpbrasil.edoc.provedores.notacontrol import MUNICIPIOS
-except ImportError:  # pragma: no cover - lib ausente
-    MUNICIPIOS = {}
+from odoo import api, fields, models
 
 
 class ResCompany(models.Model):

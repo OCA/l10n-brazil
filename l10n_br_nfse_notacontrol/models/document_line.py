@@ -1,4 +1,4 @@
-# Copyright 2026 KMEE INFORMATICA LTDA
+# Copyright 2026 KMEE
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import api, fields, models
@@ -16,7 +16,7 @@ class L10nBrFiscalDocumentLine(models.Model):
     # added back by the document when packing the DPS for NotaControl.
     nfse10_cTribMun = fields.Char(related=None, compute="_compute_nfse10_ctribmun")
 
-    @api.depends("national_taxation_code_id", "company_id")
+    @api.depends("national_taxation_code_id", "company_id.nfse_notacontrol")
     def _compute_nfse10_ctribnac(self):
         for line in self:
             nat = line.national_taxation_code_id
@@ -25,7 +25,7 @@ class L10nBrFiscalDocumentLine(models.Model):
                 nat.code_unmasked if unmasked else nat.code
             ) or False
 
-    @api.depends("city_taxation_code_id", "company_id")
+    @api.depends("city_taxation_code_id", "company_id.nfse_notacontrol")
     def _compute_nfse10_ctribmun(self):
         for line in self:
             code = line.city_taxation_code_id.code

@@ -120,6 +120,7 @@ Contributors
 - `KMEE <https://www.kmee.com.br>`__:
 
   - Luis Felipe Mileo mileo@kmee.com.br
+  - Luis Malta luis.malta@kmee.com.br
 
 Maintainers
 -----------

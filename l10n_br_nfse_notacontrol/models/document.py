@@ -1,11 +1,11 @@
-# Copyright 2026 KMEE INFORMATICA LTDA
+# Copyright 2026 KMEE
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-import logging
 import random
 from types import SimpleNamespace
 
 import pytz
+from erpbrasil.edoc.provedores.notacontrol import NS, NotaControl
 from lxml import etree
 
 from odoo import _, api, fields, models
@@ -16,13 +16,6 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     SITUACAO_EDOC_REJEITADA,
 )
 from odoo.addons.l10n_br_nfse_nacional.models.document import BRAZIL_TZ
-
-_logger = logging.getLogger(__name__)
-
-try:
-    from erpbrasil.edoc.provedores.notacontrol import NS, NotaControl
-except ImportError:  # pragma: no cover
-    _logger.debug("erpbrasil.edoc without the NotaControl provider")
 
 SIMULATED = "SIMULADO"
 
@@ -116,7 +109,7 @@ class L10nBrFiscalDocument(models.Model):
             vals, model=model, parent_dict=parent_dict, defaults_model=defaults_model
         )
 
-    @api.depends("rps_number", "document_number", "company_id")
+    @api.depends("rps_number", "document_number", "company_id.nfse_notacontrol")
     def _compute_nfse10_ndps(self):
         for rec in self:
             number = rec.document_number
@@ -127,7 +120,11 @@ class L10nBrFiscalDocument(models.Model):
             rec.nfse10_nDPS = number
 
     @api.depends(
-        "document_key", "rps_number", "document_number", "document_serie", "company_id"
+        "document_key",
+        "rps_number",
+        "document_number",
+        "document_serie",
+        "company_id.nfse_notacontrol",
     )
     def _compute_nfse10_dps_id(self):
         """TSIdDPS: DPS + city (7) + registration type (1) + CNPJ/CPF (14,
