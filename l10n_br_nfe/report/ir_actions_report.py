@@ -7,6 +7,7 @@ from brazilfiscalreport.danfe import Danfe
 
 from odoo import _, api, models
 from odoo.exceptions import UserError
+from odoo.tools.pdf import merge_pdf
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import SITUACAO_EDOC_CANCELADA
 
@@ -24,10 +25,14 @@ class IrActionsReport(models.Model):
         if report_ref not in ["main_template_danfe"]:
             return super()._render_qweb_pdf(report_ref, res_ids, data=data)
 
-        nfe = self.env["l10n_br_fiscal.document"].search([("id", "in", res_ids)])
+        nfe = self.env["l10n_br_fiscal.document"].browse(res_ids).exists()
         return self._render_danfe(nfe)
 
     def _render_danfe(self, nfe):
+        if len(nfe) > 1:
+            pdfs = [self._render_danfe(document)[0] for document in nfe]
+            return merge_pdf(pdfs), "pdf"
+
         if nfe.document_type != "55":
             raise UserError(_("You can only print a DANFE of a NFe(55)."))
 

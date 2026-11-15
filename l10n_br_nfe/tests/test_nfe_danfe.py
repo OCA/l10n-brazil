@@ -1,6 +1,7 @@
 # Copyright 2024 Engenere.one
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
+import base64
 from unittest.mock import patch
 
 from brazilfiscalreport.danfe import (
@@ -60,6 +61,38 @@ class TestDanfeGeneration(TransactionCase):
             captured_exception.exception.args[0],
             "You can only print a DANFE of a NFe(55).",
         )
+
+    def _confirmed_nfes(self):
+        nfes = self.nfe | self.env.ref("l10n_br_nfe.demo_nfe_natural_icms_7_resale")
+        nfes.action_document_confirm()
+        return nfes
+
+    def test_generate_danfe_multiple_documents(self):
+        """Printing several NFe at once gives one PDF, in the selection order."""
+        first, second = self._confirmed_nfes()
+        danfe_report = self.env.ref("l10n_br_nfe.report_danfe")
+        with patch(DANFE_CLASS, wraps=Danfe) as danfe_class:
+            pdf, extension = danfe_report._render_qweb_pdf(
+                "main_template_danfe", [second.id, first.id]
+            )
+        self.assertEqual(extension, "pdf")
+        self.assertTrue(pdf.startswith(b"%PDF"))
+        printed_xmls = [call.kwargs["xml"] for call in danfe_class.call_args_list]
+        self.assertEqual(
+            printed_xmls,
+            [
+                base64.b64decode(second.send_file_id.datas),
+                base64.b64decode(first.send_file_id.datas),
+            ],
+        )
+
+    def test_generate_danfe_multiple_documents_type_error(self):
+        """A document that is not an NFe(55) in the selection is still refused."""
+        first, second = self._confirmed_nfes()
+        second.document_type_id = self.env.ref("l10n_br_fiscal.document_01")
+        danfe_report = self.env.ref("l10n_br_nfe.report_danfe")
+        with self.assertRaises(UserError):
+            danfe_report._render_qweb_pdf("main_template_danfe", [first.id, second.id])
 
     def test_generate_danfe_brazil_fiscal_report_partner(self):
         nfe = self.env.ref("l10n_br_nfe.demo_nfe_natural_icms_18_red_51_11")
