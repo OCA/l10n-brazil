@@ -143,6 +143,40 @@ class TestBrbankTransaction(BrbankTransactionCase):
             self.assertTrue(tx._brbank_fetch_pdf())
         self.assertTrue(base64.b64decode(tx.boleto_pdf).startswith(b"%PDF"))
 
+    def test_invalid_bank_code_explains_why_there_is_no_pdf(self):
+        tx = self._standalone_tx()
+        tx.write(
+            {
+                "boleto_pdf": False,
+                "digitable_line": False,
+                "barcode": "00195313800000015000000003051284190526000118",
+            }
+        )
+        with patch.object(FakeAdapter, "capacidades", Capacidade.BAIXA):
+            tx.provider_id.invalidate_recordset(["brbank_supports_pdf"])
+            tx.invalidate_recordset(["brbank_supports_pdf"])
+            self.assertFalse(tx._brbank_fetch_pdf())
+            with self.assertRaisesRegex(UserError, "valid boleto"):
+                tx.action_brbank_download_pdf()
+
+    def test_print_boletos_of_the_invoice(self):
+        invoice = self._create_invoice()
+        self.assertTrue(invoice.brbank_boleto_printable)
+        action = invoice.action_brbank_print_boletos()
+        attachment = self.env["ir.attachment"].search(
+            [("res_model", "=", "account.move"), ("res_id", "=", invoice.id)]
+        )
+        self.assertEqual(len(attachment), 1)
+        self.assertIn(f"/web/content/{attachment.id}", action["url"])
+        self.assertTrue(base64.b64decode(attachment.datas).startswith(b"%PDF"))
+        invoice.action_brbank_print_boletos()
+        self.assertEqual(
+            self.env["ir.attachment"].search_count(
+                [("res_model", "=", "account.move"), ("res_id", "=", invoice.id)]
+            ),
+            1,
+        )
+
     def test_reconcile_cron(self):
         invoice = self._create_invoice()
         txs = self._brbank_txs(invoice)

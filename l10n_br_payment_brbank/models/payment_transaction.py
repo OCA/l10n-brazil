@@ -306,14 +306,15 @@ class PaymentTransaction(models.Model):
             self.brbank_nosso_numero = number
         return number
 
-    def _brbank_fetch_pdf(self):
+    def _brbank_fetch_pdf(self, raise_reason=False):
         """The boleto PDF: the bank's when it provides one, else drawn by brbank.
 
-        Not fatal: without it the invoice still prints the digitable line and the Pix.
+        Not fatal by default: without it the invoice still prints the digitable line
+        and the Pix. A user asking for the PDF gets the reason (`raise_reason`).
         """
         self.ensure_one()
         if not self.brbank_supports_pdf:
-            return self._brbank_render_pdf()
+            return self._brbank_render_pdf(raise_reason=raise_reason)
         reference = self.provider_reference
         try:
             pdf = self.provider_id.sudo()._brbank_run(
@@ -327,7 +328,7 @@ class PaymentTransaction(models.Model):
         self.boleto_pdf = base64.b64encode(pdf)
         return True
 
-    def _brbank_render_pdf(self):
+    def _brbank_render_pdf(self, raise_reason=False):
         """Draw the boleto (payer receipt and compensation slip) with brbank.pdf."""
         self.ensure_one()
         if not (self.barcode or self.digitable_line):
@@ -367,6 +368,15 @@ class PaymentTransaction(models.Model):
             _logger.info(
                 "brbank: boleto PDF of %s not drawn: %s", self.reference, error
             )
+            if raise_reason:
+                raise UserError(
+                    _(
+                        "The boleto of %(ref)s cannot be printed: the bank data "
+                        "does not form a valid boleto (%(error)s).",
+                        ref=self.reference,
+                        error=error,
+                    )
+                ) from None
             return False
         self.boleto_pdf = base64.b64encode(pdf)
         return True
@@ -611,7 +621,7 @@ class PaymentTransaction(models.Model):
     def action_brbank_download_pdf(self):
         self.ensure_one()
         if not self.boleto_pdf and not (
-            self.provider_reference and self._brbank_fetch_pdf()
+            self.provider_reference and self._brbank_fetch_pdf(raise_reason=True)
         ):
             raise UserError(_("The boleto PDF is not available yet."))
         return {

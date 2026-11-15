@@ -1,14 +1,68 @@
 # Copyright 2026 KMEE
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from odoo import _, models
+import base64
+
+from odoo import _, fields, models
 from odoo.exceptions import UserError
+from odoo.tools.pdf import merge_pdf
 
 from .payment_provider import BRBANK
 
 
 class AccountMove(models.Model):
     _inherit = "account.move"
+
+    brbank_boleto_printable = fields.Boolean(compute="_compute_brbank_boleto_printable")
+
+    def _brbank_printable_transactions(self):
+        """Live boletos of the invoice (Pix-only charges have no boleto)."""
+        self.ensure_one()
+        return self._boleto_report_transactions().filtered(
+            lambda t: t.provider_code == BRBANK and (t.barcode or t.digitable_line)
+        )
+
+    def _compute_brbank_boleto_printable(self):
+        for move in self:
+            move.brbank_boleto_printable = bool(
+                move.move_type == "out_invoice"
+                and move.state == "posted"
+                and move._brbank_printable_transactions()
+            )
+
+    def action_brbank_print_boletos(self):
+        """One PDF with every live boleto of the invoice, attached to it."""
+        self.ensure_one()
+        pdfs = [
+            base64.b64decode(tx.boleto_pdf)
+            for tx in self._brbank_printable_transactions()
+            if tx.boleto_pdf or tx._brbank_fetch_pdf(raise_reason=True)
+        ]
+        if not pdfs:
+            raise UserError(_("No boleto of this invoice can be printed yet."))
+        content = pdfs[0] if len(pdfs) == 1 else merge_pdf(pdfs)
+        name = _("Boleto %s.pdf", self.name.replace("/", "-"))
+        Attachment = self.env["ir.attachment"]
+        attachment = Attachment.search(
+            [
+                ("res_model", "=", self._name),
+                ("res_id", "=", self.id),
+                ("name", "=", name),
+            ],
+            limit=1,
+        )
+        values = {"datas": base64.b64encode(content), "mimetype": "application/pdf"}
+        if attachment:
+            attachment.write(values)
+        else:
+            attachment = Attachment.create(
+                dict(values, name=name, res_model=self._name, res_id=self.id)
+            )
+        return {
+            "type": "ir.actions.act_url",
+            "url": f"/web/content/{attachment.id}?download=true",
+            "target": "new",
+        }
 
     def _compute_invoice_date_due(self):
         """Core reads the payment term: an extended boleto would go back on the
