@@ -134,6 +134,27 @@ class TestSaleOrderEdition(TransactionCase):
             msg="untaxed + tax should equal the total after edition.",
         )
 
+        # Edit the quantity of the saved line: IPI, PIS and COFINS follow.
+        with Form(sale_order) as order_form:
+            with order_form.order_line.edit(0) as line_form:
+                line_form.product_uom_qty = 4.0
+        self.env.flush_all()
+        line.invalidate_recordset()
+        # the pricelist price replaces the edited one when the quantity changes
+        self.assertAlmostEqual(
+            line.ipi_base,
+            line.price_unit * line.product_uom_qty,
+            2,
+            msg="IPI base frozen.",
+        )
+        for tax in ("ipi", "pis", "cofins"):
+            self.assertAlmostEqual(
+                line[f"{tax}_value"],
+                line[f"{tax}_base"] * line[f"{tax}_percent"] / 100.0,
+                2,
+                msg=f"{tax.upper()} value must follow the edited quantity.",
+            )
+
     @users("l10n_br_sale_salesman")
     def test_fiscal_sale_order_amounts_on_edition_salesman(self):
         self.test_fiscal_sale_order_amounts_on_edition()
