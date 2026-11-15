@@ -246,7 +246,14 @@ class FiscalDocumentMixin(models.AbstractModel):
             and self.document_type_id.type != "service"
         )
 
-    @api.depends("partner_id")
+    @api.depends(
+        "partner_id.country_id",
+        "partner_id.ind_final",
+        "partner_id.ind_ie_dest",
+        "company_id.country_id",
+        "document_type_id.type",
+        "fiscal_operation_id",
+    )
     def _compute_ind_final(self):
         for doc in self:
             partner = doc._get_fiscal_partner()
@@ -257,8 +264,11 @@ class FiscalDocumentMixin(models.AbstractModel):
             elif partner:
                 doc.ind_final = partner.ind_final
             else:
-                # Default Value
-                doc.ind_final = "1"  # Yes
+                # Default Value. Without a partner keep what is already there:
+                # the delegated fiscal document of an account.move is
+                # recomputed by the operation or the document type before it
+                # sees the partner, and must not overwrite the partner value.
+                doc.ind_final = doc.ind_final or "1"  # Yes
 
     @api.onchange("ind_final")
     def _inverse_ind_final(self):
