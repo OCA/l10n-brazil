@@ -36,7 +36,7 @@ class AccountMove(models.Model):
         pdfs = [
             base64.b64decode(tx.boleto_pdf)
             for tx in self._brbank_printable_transactions()
-            if tx.boleto_pdf or tx._brbank_fetch_pdf()
+            if tx.boleto_pdf or tx._brbank_fetch_pdf(raise_reason=True)
         ]
         if not pdfs:
             raise UserError(_("No boleto of this invoice can be printed yet."))
