@@ -1,8 +1,12 @@
 # Copyright (C) 2020  Luis Felipe Mileo - KMEE
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
+from unittest.mock import patch
+
 from odoo.tests import tagged
 from odoo.tests.common import TransactionCase
+
+from odoo.addons.account.models.chart_template import AccountChartTemplate
 
 
 class L10nBrCoaGeneric(TransactionCase):
@@ -47,3 +51,15 @@ class L10nBrCoaGenericGuess(TransactionCase):
             chart_template._get_chart_template_mapping()[guess]["country_id"],
             brazil.id,
         )
+
+    def test_guess_replaces_br_oca_parent(self):
+        """When the generic guess is the br_oca parent, an installed child
+        chart is proposed instead."""
+        chart_template = self.env["account.chart.template"]
+        with patch.object(
+            AccountChartTemplate, "_guess_chart_template", return_value="br_oca"
+        ):
+            guess = chart_template._guess_chart_template(self.env.ref("base.br"))
+        mapping = chart_template._get_chart_template_mapping()
+        self.assertEqual(mapping[guess]["parent"], "br_oca")
+        self.assertTrue(mapping[guess]["installed"])
