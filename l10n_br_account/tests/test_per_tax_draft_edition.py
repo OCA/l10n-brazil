@@ -179,6 +179,25 @@ class TestPerTaxDraftEdition(AccountMoveBRCommon):
             self._assert_value_tracks_rate(line, "icms", percent, "(price=2500)")
             self.assertAlmostEqual(line.icms_base, base_1000 * 2.5, places=2)
 
+    def test_saved_line_quantity_edition(self):
+        """Editing the quantity of an already saved line rescales IPI, PIS and
+        COFINS too, not only the ICMS kept in the tree."""
+        move_form = self._invoice_form()
+        with move_form.invoice_line_ids.new() as line:
+            self._init_line(line, price_unit=1000.0, quantity=1.0)
+            line.ipi_tax_id = self.tax_ipi_10
+        move = move_form.save()
+
+        with Form(move) as move_form:
+            with move_form.invoice_line_ids.edit(0) as line:
+                line.quantity = 3.0
+        fisc_line = move.fiscal_line_ids[0]
+        for domain in ("ipi", "pis", "cofins"):
+            self.assertAlmostEqual(fisc_line[f"{domain}_base"], 3000.0, places=2)
+            self._assert_value_tracks_rate(
+                fisc_line, domain, fisc_line[f"{domain}_percent"], "(saved, qty=3)"
+            )
+
     # -------------------------------------------------- (c) operation line remap
 
     def test_draft_fiscal_operation_line_remap(self):
