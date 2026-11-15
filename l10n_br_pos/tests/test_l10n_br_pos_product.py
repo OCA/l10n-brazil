@@ -7,14 +7,16 @@ from odoo.tests.common import TransactionCase
 class TestL10nBrPosProduct(TransactionCase):
     def setUp(self):
         super().setUp()
-        self.pos_config = self.env.ref("point_of_sale.pos_config_main")
+        self.env.company = self.env.ref("l10n_br_base.empresa_lucro_presumido")
+        self.pos_config = self.env.ref("l10n_br_pos.pos_config_presumido")
         self.pos_config.partner_id = self.env.ref("l10n_br_fiscal.res_partner_anonimo")
 
     def test_fiscal_map_after_create_product(self):
         self.env["product.template"].create(
             {
                 "name": "Product Fiscal Map",
-                "type": "product",
+                "type": "consu",
+                "is_storable": True,
                 "fiscal_type": 00,
                 "icms_origin": 0,
                 "ncm_id": self.env.ref("l10n_br_fiscal.ncm_94033000").id,

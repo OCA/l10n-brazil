@@ -1,7 +1,7 @@
 # Copyright 2021 KMEE
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import fields, models
+from odoo import api, fields, models
 
 
 class L10nBrPosProductFiscalMap(models.Model):
@@ -79,9 +79,15 @@ class L10nBrPosProductFiscalMap(models.Model):
 
     company_tax_framework = fields.Selection(
         related="company_id.tax_framework",
+        string="Company Tax Framework",
     )
 
-    ind_final = fields.Selection(related="partner_id.ind_final")
+    ind_final = fields.Selection(compute="_compute_ind_final")
+
+    @api.depends("partner_id.ind_final")
+    def _compute_ind_final(self):
+        for record in self:
+            record.ind_final = record.partner_id.ind_final
 
     def _get_product_price(self):
         self.price_unit = 1

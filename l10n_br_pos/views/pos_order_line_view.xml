@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <odoo>
     <record model="ir.ui.view" id="pos_order_line_devolucao_tree_view">
-        <field name="name">pos.order.line.devolucao.tree.view</field>
+        <field name="name">pos.order.line.devolucao.list.view</field>
         <field name="model">pos.order.line</field>
         <field name="inherit_id" ref="point_of_sale.view_pos_order_line" />
         <field name="arch" type="xml">
@@ -12,7 +12,7 @@
     </record>
 
     <record model="ir.ui.view" id="pos_order_line_devolucao_tree_all_sales_line_view">
-        <field name="name">pos.order.line.devolucao.tree.all.sales.line.view</field>
+        <field name="name">pos.order.line.devolucao.list.all.sales.line.view</field>
         <field name="model">pos.order.line</field>
         <field
             name="inherit_id"

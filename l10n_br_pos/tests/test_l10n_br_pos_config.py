@@ -33,8 +33,12 @@ class TestL10nBrPosConfig(TransactionCase):
 
     def test_update_pos_config_fiscal_map(self):
         self.pos_config.update_pos_fiscal_map()
+        products = self.env["product.template"].search(
+            [("available_in_pos", "=", True)]
+        )
+        self.assertTrue(products, "There are no products available in the PoS.")
         self.assertEqual(
-            36,
+            len(products),
             len(self.pos_config.pos_fiscal_map_ids),
             "No tax data was generated for the products.",
         )
