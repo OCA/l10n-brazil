@@ -33,3 +33,7 @@ class Nbs(models.Model):
 
     def _get_ibpt(self, config, code_unmasked):
         return get_ibpt_service(config, code_unmasked)
+
+    def _get_xml_id_name(self):
+        self.ensure_one()
+        return f"nbs_{self.code.replace('.', '')}"
