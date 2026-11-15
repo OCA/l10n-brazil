@@ -7,10 +7,14 @@
         <field name="priority" eval="100" />
         <field name="arch" type="xml">
             <field name="vat" position="replace">
-                <!--Não encontrei uma maneira que não desformatasse campo do CNPJ, mas mantém um padrão-->
                 <div class="o_row" colspan="2">
-                    <label for='vat'>CNPJ</label>
-                    <field name="vat" nolabel="1" />
+                    <label for="vat" string="CNPJ/CPF" />
+                    <field name="vat" nolabel="1" invisible="show_l10n_br" />
+                    <field
+                        name="vat_formatted_cnpj"
+                        nolabel="1"
+                        invisible="not show_l10n_br"
+                    />
                     <button
                         name="action_open_cnpj_search_wizard"
                         type="object"
@@ -22,12 +26,21 @@
                 </div>
             </field>
             <xpath
+                expr="//group[@name='lead_partner']/field[@name='vat_formatted_cnpj']"
+                position="replace"
+            />
+            <xpath
                 expr="//page[@name='lead']/group/group/field[@name='vat']"
                 position="replace"
             >
                 <div class="o_row" colspan="2">
-                    <label for='vat'>CNPJ</label>
-                    <field name="vat" nolabel="1" />
+                    <label for="vat" string="CNPJ/CPF" />
+                    <field name="vat" nolabel="1" invisible="show_l10n_br" />
+                    <field
+                        name="vat_formatted_cnpj"
+                        nolabel="1"
+                        invisible="not show_l10n_br"
+                    />
                     <button
                         name="action_open_cnpj_search_wizard"
                         type="object"
@@ -38,6 +51,10 @@
                     />
                 </div>
             </xpath>
+            <xpath
+                expr="//page[@name='lead']/group/group/field[@name='vat_formatted_cnpj']"
+                position="replace"
+            />
         </field>
     </record>
 
