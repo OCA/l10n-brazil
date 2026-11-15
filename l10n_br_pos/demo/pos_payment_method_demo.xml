@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo noupdate="1">
-
     <record id="l10n_br_pos_account_account" model="account.account">
         <field name="name">Account for POS Test</field>
         <field name="code">1.1.1.1</field>
@@ -119,5 +118,4 @@
         <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
         <field name="receivable_account_id" ref="l10n_br_pos_account_account" />
     </record>
-
 </odoo>

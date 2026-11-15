@@ -7,7 +7,6 @@
         t-inherit-mode="extension"
         owl="1"
     >
-
         <xpath expr="//div[hasclass('header-row')]/div[2]" position="after">
             <div class="col start">CPF/CNPJ</div>
             <div class="col start wide">Chave</div>
@@ -40,7 +39,6 @@
                 >Reimprimir</button>
             </div>
         </xpath>
-
     </t>
 
 </templates>

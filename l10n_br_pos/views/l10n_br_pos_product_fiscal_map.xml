@@ -2,7 +2,6 @@
 <!-- Copyright 2021 KMEE
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
 <odoo>
-
     <record model="ir.ui.view" id="l10n_br_pos_product_fiscal_map_form_view">
         <field name="name">l10n_br_pos.product_fiscal_map.form (in l10n_br_pos)</field>
         <field name="model">l10n_br_pos.product_fiscal_map</field>
@@ -82,5 +81,4 @@
         <field name="domain">[]</field>
         <field name="context">{}</field>
     </record>
-
 </odoo>

@@ -4,21 +4,23 @@
         <div class="nfceTotals">
             <div class="nfceTotalItems">
                 <p class="nfcePTag nfceTotalPayement">Qtd total itens</p>
-                <p class="nfcePTag nfceTotalPayement"><t
-                        t-esc="totalOrderItemsLength"
-                    /></p>
+                <p class="nfcePTag nfceTotalPayement">
+                    <t t-esc="totalOrderItemsLength" />
+                </p>
             </div>
             <t t-if="totalOrderDiscount">
                 <div class="nfceTotalDiscount">
                     <p class="nfcePTag nfceTotalPayement">Desconto</p>
-                    <p class="nfcePTag nfceTotalPayement"><t
-                            t-esc="totalOrderDiscount"
-                        /></p>
+                    <p class="nfcePTag nfceTotalPayement">
+                        <t t-esc="totalOrderDiscount" />
+                    </p>
                 </div>
             </t>
             <div class="nfceTotalAmount">
                 <p class="nfcePTag nfceTotalPayement nfceTotal">Valor total</p>
-                <p class="nfcePTag nfceTotalPayement"><t t-esc="totalOrderAmount" /></p>
+                <p class="nfcePTag nfceTotalPayement">
+                    <t t-esc="totalOrderAmount" />
+                </p>
             </div>
         </div>
     </t>

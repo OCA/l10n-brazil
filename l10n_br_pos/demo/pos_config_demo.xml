@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo noupdate="1">
-
     <record id="l10n_br_fiscal.res_partner_anonimo" model="res.partner">
         <field name="state_id" ref="base.state_br_sp" />
     </record>
@@ -78,10 +77,9 @@
         />
     </record>
 
-   <function model="pos.config" name="update_pos_fiscal_map">
-       <value
+    <function model="pos.config" name="update_pos_fiscal_map">
+        <value
             eval="[ref('point_of_sale.pos_config_main'), ref('l10n_br_pos.pos_config_presumido')]"
         />
-   </function>
-
+    </function>
 </odoo>

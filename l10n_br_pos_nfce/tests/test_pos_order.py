@@ -116,14 +116,17 @@ class TestNFCePosOrder(TestNFCePosOrderCommon):
             }
         )
 
-        with mock.patch.object(
-            NFe,
-            "get_nfce_qrcode",
-            return_value=None,
-        ), mock.patch.object(
-            NFe,
-            "get_nfce_qrcode_url",
-            return_value=None,
+        with (
+            mock.patch.object(
+                NFe,
+                "get_nfce_qrcode",
+                return_value=None,
+            ),
+            mock.patch.object(
+                NFe,
+                "get_nfce_qrcode_url",
+                return_value=None,
+            ),
         ):
             document_values = cpf_order._prepare_fiscal_document_dict()
 

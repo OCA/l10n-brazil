@@ -5,7 +5,10 @@
             <div class="footerText">
                 <div class="consumerInfo">
                     <t t-if="hasConsumer">
-                        <p><b>CONSUMIDOR:</b> <t t-esc="hasConsumer" /></p>
+                        <p>
+                            <b>CONSUMIDOR:</b>
+                            <t t-esc="hasConsumer" />
+                        </p>
                     </t>
                     <t t-else="">
                         <p class="consumerNotIdentified">Consumidor Nao Identificado</p>
@@ -14,19 +17,19 @@
 
                 <div class="fiscalDocumentInfo">
                     <p class="nfcePTag">Numero: <t t-esc="documentNumber" /> Serie: <t
-                            t-esc="documentSerie"
-                        /></p>
+                        t-esc="documentSerie"
+                    /></p>
                     <p class="nfcePTag">Emissao: <t t-esc="documentDate" /></p>
                 </div>
 
                 <div class="protocolInfo">
                     <t t-if="notIssuedInContingency">
                         <p class="nfcePTag">Protocolo: <t
-                                t-esc="autorizationProtocol"
-                            /></p>
+                            t-esc="autorizationProtocol"
+                        /></p>
                         <p class="nfcePTag">Autorizacao: <t
-                                t-esc="authorizationDate"
-                            /></p>
+                            t-esc="authorizationDate"
+                        /></p>
                     </t>
                     <t t-else="">
                         <p class="nfcePTag inContingency">Emitida em Contingencia</p>
@@ -34,7 +37,7 @@
                     </t>
                 </div>
             </div>
-  <!-- patch para funcionar o qrcode da mesma forma que foi feito no l10n_br_nfe/report/danfe_nfce.xml -->
+            <!-- patch para funcionar o qrcode da mesma forma que foi feito no l10n_br_nfe/report/danfe_nfce.xml -->
             <div class="footerQrCode">
                 <t t-if="qrCodeUrl">
                     <div class="footerQrCode">
