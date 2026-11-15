@@ -187,3 +187,17 @@ class TestSpedEcdGenerate(AccountTestInvoicingCommon):
         vendas = detail.filtered(lambda r: r.COD_CTA == "ECD90")
         self.assertAlmostEqual(vendas.VL_SLD_FIN, 700.0, places=2)
         self.assertEqual(vendas.IND_DC_FIN, "C")
+
+    def test_result_accounts_open_the_fiscal_year_at_zero(self):
+        """Last year's revenue does not carry over, the cash balance does."""
+        self._post("2025-12-20", 500.0)
+        self._post("2026-01-15", 300.0)
+        self._populate()
+        periods = self._registers("l10n_br_sped.ecd.i150").sorted("DT_INI")
+        detail = periods[0].reg_I155_ids
+        caixa = detail.filtered(lambda r: r.COD_CTA == "ECD10")
+        vendas = detail.filtered(lambda r: r.COD_CTA == "ECD90")
+        self.assertAlmostEqual(caixa.VL_SLD_INI, 500.0, places=2)
+        self.assertAlmostEqual(caixa.VL_SLD_FIN, 800.0, places=2)
+        self.assertAlmostEqual(vendas.VL_SLD_INI, 0.0, places=2)
+        self.assertAlmostEqual(vendas.VL_SLD_FIN, 300.0, places=2)

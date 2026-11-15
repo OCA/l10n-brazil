@@ -548,9 +548,9 @@ class RegistroI155(models.Model):
     def _odoo_query(self, parent_record, declaration):
         """Saldo inicial, movimento e saldo final por conta, no período do pai.
 
-        Agregado no banco, que percorre todas as partidas do exercício. O saldo
-        inicial soma tudo o que veio antes do período (ver o ROADMAP do módulo).
-        Só entra conta com movimento ou saldo.
+        Agregado no banco, que percorre todas as partidas do exercício. As contas
+        de resultado começam o exercício fiscal zeradas, mesmo sem lançamento de
+        encerramento. Só entra conta com movimento ou saldo.
         """
         query = """
             SELECT a.code AS cod_cta,
@@ -574,6 +574,8 @@ class RegistroI155(models.Model):
             WHERE l.company_id = %(company)s
               AND m.state = 'posted'
               AND l.date <= %(fim)s
+              AND (a.internal_group NOT IN ('income', 'expense')
+                   OR l.date >= %(exercicio)s)
             GROUP BY a.code
             HAVING COALESCE(SUM(
                        CASE WHEN l.date <= %(fim)s THEN l.balance ELSE 0 END
@@ -592,6 +594,9 @@ class RegistroI155(models.Model):
             "ini": parent_record["dt_ini"],
             "fim": parent_record["dt_fin"],
             "company": declaration.company_id.id,
+            "exercicio": declaration.company_id.compute_fiscalyear_dates(
+                parent_record["dt_ini"]
+            )["date_from"],
         }
         return query, params
 
