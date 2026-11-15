@@ -48,13 +48,15 @@
                                 <div t-if="title.pix_copia_cola">
                                     <small>Pix copy and paste:</small>
                                     <span
-                                        class="font-monospace text-break"
+                                        class="font-monospace"
+                                        style="word-break: break-all;"
                                         t-field="title.pix_copia_cola"
                                     />
                                     <div>
                                         <img
                                             alt="Pix QR code"
-                                            t-att-src="'/report/barcode/?barcode_type=QR&amp;value=%s&amp;width=140&amp;height=140' % quote_plus(title.pix_copia_cola)"
+                                            style="width: 35mm; height: 35mm;"
+                                            t-att-src="'/report/barcode/?barcode_type=QR&amp;value=%s&amp;width=1000&amp;height=1000' % quote_plus(title.pix_copia_cola)"
                                         />
                                     </div>
                                 </div>
