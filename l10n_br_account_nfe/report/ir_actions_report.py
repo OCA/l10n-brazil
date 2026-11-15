@@ -16,7 +16,7 @@ class IrActionsReport(models.Model):
         if report_ref not in ["main_template_danfe_account"]:
             return super()._render_qweb_pdf(report_ref, res_ids, data=data)
 
-        nfe = self.env["account.move"].search([("id", "in", res_ids)])
+        nfe = self.env["account.move"].browse(res_ids).exists()
 
         return self._render_danfe(nfe)
 
