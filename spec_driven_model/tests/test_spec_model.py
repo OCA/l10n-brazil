@@ -7,6 +7,7 @@ import logging
 from unittest.mock import patch
 
 from odoo.tools import mute_logger
+from odoo.tools.sql import table_exists
 
 from odoo_test_helper import FakeModelLoader
 
@@ -480,6 +481,27 @@ class TestSpecModel(TransactionCase, FakeModelLoader):
         # a fresh Registry.new() has no per-schema guard, so the hook runs;
         # here we clear it to run the hook again inside a single test process
         self.env.registry.__dict__.pop("_poxsd_register_hook_loaded", None)
+
+    def test_hook_reflects_again_when_the_tables_are_gone(self):
+        """A reflection done inside a transaction rolled back afterwards (an
+        at_install test importing a document, before Odoo calls _register_hook
+        once all the modules are loaded) leaves the hook guard on the registry
+        and no table. The next call must create the tables again, without
+        building the classes a second time (#4668)."""
+        registry = self.env.registry
+        cr = self.env.cr
+        mixin = self.env["spec.mixin.poxsd"]
+        registry.__dict__.pop("_poxsd_register_hook_loaded", None)
+        try:
+            mixin._register_hook()
+            self.assertTrue(table_exists(cr, "poxsd_10_comment"))
+
+            # what the rollback of that transaction leaves behind
+            cr.execute("DROP TABLE poxsd_10_comment CASCADE")
+            mixin._register_hook()
+            self.assertTrue(table_exists(cr, "poxsd_10_comment"))
+        finally:
+            registry.__dict__.pop("_poxsd_register_hook_loaded", None)
 
     def test_hook_read_only_on_ordinary_registry_load(self):
         """hook v2: an ordinary registry load performs zero reflection writes.
