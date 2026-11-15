@@ -109,7 +109,7 @@ msgstr ""
 #. openerp-web
 #: code:addons/l10n_br_pos_nfce/static/src/xml/Screens/ReceiptScreen/NfceOrderReceipt.xml:0
 #, python-format
-msgid "EMITIDA EM AMBIENTE DE HOMOLOGAÇÃO – SEM VALOR FISCAL"
+msgid "EMITIDA EM AMBIENTE DE HOMOLOGAÇÃO - SEM VALOR FISCAL"
 msgstr ""
 
 #. module: l10n_br_pos_nfce

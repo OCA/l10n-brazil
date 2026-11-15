@@ -1,12 +1,10 @@
-/** @odoo-module */
+import {Component} from "@odoo/owl";
 
-import PosComponent from "point_of_sale.PosComponent";
-import Registries from "point_of_sale.Registries";
+export class NfceFiscalInfoReceipt extends Component {
+    static template = "l10n_br_pos_nfce.NfceFiscalInfoReceipt";
+    static props = {receipt: Object};
 
-class NfceFiscalInfoReceipt extends PosComponent {
     setup() {
-        super.setup();
-
         this.order = this.props.receipt;
     }
 
@@ -22,7 +20,3 @@ class NfceFiscalInfoReceipt extends PosComponent {
         return this.order.url_consulta || "";
     }
 }
-
-NfceFiscalInfoReceipt.template = "NfceFiscalInfoReceipt";
-
-Registries.Component.add(NfceFiscalInfoReceipt);

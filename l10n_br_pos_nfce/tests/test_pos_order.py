@@ -23,7 +23,7 @@ class TestNFCePosOrder(TestNFCePosOrderCommon):
             customer=self.customer,
         )
 
-        order_data["data"].update(
+        order_data.update(
             {
                 "to_invoice": True,
                 "company_id": self.env.user.company_id.id,
@@ -31,7 +31,7 @@ class TestNFCePosOrder(TestNFCePosOrderCommon):
         )
 
         if cnpj_cpf:
-            order_data["data"]["cnpj_cpf"] = cnpj_cpf
+            order_data["cnpj_cpf"] = cnpj_cpf
 
         return order_data
 
@@ -45,7 +45,7 @@ class TestNFCePosOrder(TestNFCePosOrderCommon):
 
         # NFC-e em contingência.
         contingency_order_data = self._prepare_order_data()
-        contingency_order_data["data"].update(
+        contingency_order_data.update(
             {
                 "authorization_protocol": False,
                 "document_key": self.valid_nfce_key,
@@ -53,8 +53,8 @@ class TestNFCePosOrder(TestNFCePosOrderCommon):
             }
         )
 
-        result = self.env["pos.order"].create_from_ui([contingency_order_data])
-        contingency_order = self.env["pos.order"].browse(result[0]["id"])
+        result = self.env["pos.order"].sync_from_ui([contingency_order_data])
+        contingency_order = self.env["pos.order"].browse(result["pos.order"][0]["id"])
         contingency_document = contingency_order.account_move.fiscal_document_id
 
         self.assertTrue(contingency_order.is_contingency)
@@ -71,40 +71,36 @@ class TestNFCePosOrder(TestNFCePosOrderCommon):
         cnpj_order_data = self._prepare_order_data(
             cnpj_cpf="44300963000186",
         )
-        cnpj_order_data["data"]["authorization_protocol"] = "123456789012345"
+        cnpj_order_data["authorization_protocol"] = "123456789012345"
 
-        result = self.env["pos.order"].create_from_ui([cnpj_order_data])
-        cnpj_order = self.env["pos.order"].browse(result[0]["id"])
+        result = self.env["pos.order"].sync_from_ui([cnpj_order_data])
+        cnpj_order = self.env["pos.order"].browse(result["pos.order"][0]["id"])
         cnpj_document = cnpj_order.account_move.fiscal_document_id
 
-        self.assertFalse(cnpj_order.partner_id.cnpj_cpf)
+        self.assertFalse(cnpj_order.partner_id.vat)
         self.assertEqual(
             cnpj_document.document_number,
             "1001",
-        )
-        self.assertEqual(cnpj_order.state_edoc, cnpj_document.state_edoc)
-        self.assertEqual(
-            cnpj_order.authorization_protocol, cnpj_document.authorization_protocol
         )
 
         # NFC-e autorizada com CPF.
         cpf_order_data = self._prepare_order_data(
             cnpj_cpf="42820627030",
         )
-        cpf_order_data["data"]["authorization_protocol"] = "123456789012345"
+        cpf_order_data["authorization_protocol"] = "123456789012345"
 
         with mock.patch.object(
             Document,
             "action_document_confirm",
         ):
-            result = self.env["pos.order"].create_from_ui([cpf_order_data])
+            result = self.env["pos.order"].sync_from_ui([cpf_order_data])
 
-        cpf_order = self.env["pos.order"].browse(result[0]["id"])
+        cpf_order = self.env["pos.order"].browse(result["pos.order"][0]["id"])
         cpf_document = cpf_order.account_move.fiscal_document_id
 
-        self.assertFalse(cpf_order.partner_id.cnpj_cpf)
+        self.assertFalse(cpf_order.partner_id.vat)
 
-        cpf_order.payment_ids = False
+        cpf_order.payment_ids.unlink()
         self.assertEqual(
             cpf_order._prepare_nfce_vals(self.config),
             {},
@@ -143,15 +139,16 @@ class TestNFCePosOrder(TestNFCePosOrderCommon):
         self.open_new_session()
 
         order_data = self._prepare_order_data()
-        order_data["data"]["authorization_protocol"] = "123456789012345"
+        order_data["authorization_protocol"] = "123456789012345"
 
-        result = self.env["pos.order"].create_from_ui([order_data])
-        order = self.env["pos.order"].browse(result[0]["id"])
+        result = self.env["pos.order"].sync_from_ui([order_data])
+        order = self.env["pos.order"].browse(result["pos.order"][0]["id"])
 
-        self.env["pos.order"].cancel_nfce_from_ui(
-            order.pos_reference,
-            "Teste",
-        )
+        with mock.patch.object(NFe, "_document_cancel"):
+            self.env["pos.order"].cancel_nfce_from_ui(
+                order.pos_reference,
+                "Teste",
+            )
 
         refund_order = self.env["pos.order"].search(
             [

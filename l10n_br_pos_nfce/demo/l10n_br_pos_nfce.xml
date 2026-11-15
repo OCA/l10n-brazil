@@ -58,7 +58,8 @@
 
     <record id="product_led_lamp" model="product.product">
         <field name="name">Led Lamp</field>
-        <field name="type">product</field>
+        <field name="type">consu</field>
+        <field name="is_storable" eval="True" />
         <field name="available_in_pos" eval="True" />
         <field name="list_price">0.90</field>
         <field name="default_code">112233</field>
