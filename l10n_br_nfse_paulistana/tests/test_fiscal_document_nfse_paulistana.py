@@ -168,6 +168,11 @@ class TestFiscalDocumentNFSePaulistana(TestFiscalDocumentNFSeCommon):
         )
         self.assertTrue(line.operation_indicator_id.code)
         self.assertEqual(rps.IBSCBS.cIndOp, line.operation_indicator_id.code)
+        self.assertIsNone(
+            rps.IBSCBS.tpOper,
+            "tpOper só deve ser informado para os subitens da LC116/2003 sobre "
+            "bens imóveis (25.05, 15.09, 17.12, 10.05).",
+        )
 
         self.assertEqual(rps.ExigibilidadeSuspensa, 0)
         self.assertEqual(rps.PagamentoParceladoAntecipado, 0)
