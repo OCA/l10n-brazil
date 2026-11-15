@@ -40,6 +40,10 @@ class TestPagseguroProvider(PagseguroCommon):
         )
         self.assertNotIn(self.pagseguro, providers)
 
+    def test_validation_amount_is_not_zero(self):
+        """PagBank refuses charges of zero, so validations use a real amount."""
+        self.assertEqual(self.pagseguro._get_validation_amount(), 1.0)
+
     def test_api_url_depends_on_the_state(self):
         """The sandbox is used unless the provider is enabled."""
         self.pagseguro.state = "test"

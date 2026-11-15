@@ -63,6 +63,18 @@ class PaymentProvider(models.Model):
 
         return providers
 
+    def _get_validation_amount(self):
+        """Override of `payment` to return the amount for PagSeguro validations.
+
+        PagBank refuses a charge with a zero amount, so tokens are validated
+        with a real amount. The authorization is voided right away by the
+        payment framework.
+        """
+        res = super()._get_validation_amount()
+        if self.code != "pagseguro":
+            return res
+        return 1.0
+
     def _pagseguro_get_api_url(self):
         """Return the base URL of the API for the state of the provider.
 
