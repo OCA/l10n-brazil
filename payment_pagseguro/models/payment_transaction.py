@@ -310,9 +310,19 @@ class PaymentTransaction(models.Model):
             self._set_pending(state_message=state_message)
         elif status in PAYMENT_STATUS_MAPPING["authorized"]:
             self._pagseguro_tokenize_from_notification_data(charge_data)
-            self._set_authorized(state_message=state_message)
             if self.operation == "validation":
+                self._set_authorized(state_message=state_message)
                 self._send_void_request()  # Last, as it processes the response.
+            elif self.provider_id.capture_manually:
+                self._set_authorized(state_message=state_message)
+            else:  # The capture requested along with the order did not go through.
+                self._set_error(
+                    _(
+                        "PagSeguro: The payment was authorized but could not be "
+                        "captured: %s",
+                        state_message or _("no information given"),
+                    )
+                )
         elif status in PAYMENT_STATUS_MAPPING["done"]:
             self._pagseguro_tokenize_from_notification_data(charge_data)
             self._set_done(state_message=state_message)

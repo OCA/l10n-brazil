@@ -139,6 +139,11 @@ class TestPagseguroNotificationData(PagseguroCommon):
         tx = self._process("AUTHORIZED")
         self.assertEqual(tx.state, "authorized")
 
+    def test_authorized_charge_without_capture_is_an_error(self):
+        """An order requested with capture must not stay authorized silently."""
+        tx = self._process("AUTHORIZED")
+        self.assertEqual(tx.state, "error")
+
     def test_waiting_charge_sets_the_transaction_pending(self):
         for status in ("WAITING", "IN_ANALYSIS"):
             self.reference = f"Test Transaction {status}"
