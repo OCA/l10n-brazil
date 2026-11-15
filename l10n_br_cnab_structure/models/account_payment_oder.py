@@ -25,7 +25,7 @@ class AccountPaymentOrder(models.Model):
         for order in self:
             order.cnab_processor = order.payment_mode_id.cnab_processor
             if order.cnab_processor:
-                return
+                continue
             if order.payment_type == "outbound":
                 order.cnab_processor = order.journal_id.default_outbound_cnab_processor
 
@@ -33,7 +33,7 @@ class AccountPaymentOrder(models.Model):
         for order in self:
             order.cnab_structure_id = order.payment_mode_id.cnab_structure_id
             if order.cnab_structure_id:
-                return
+                continue
             if order.payment_type == "outbound":
                 order.cnab_structure_id = (
                     order.journal_id.default_outbound_cnab_structure_id
