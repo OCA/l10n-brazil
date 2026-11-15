@@ -81,6 +81,7 @@ msgstr ""
 #. module: l10n_br_delivery
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_account_bank_statement_line__carrier_id
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_account_move__carrier_id
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_contract_contract__carrier_id
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_l10n_br_delivery_carrier_vehicle__carrier_id
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_l10n_br_fiscal_document__carrier_id
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_l10n_br_fiscal_document_mixin__carrier_id
