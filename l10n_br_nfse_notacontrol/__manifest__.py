@@ -1,4 +1,4 @@
-# Copyright 2026 KMEE INFORMATICA LTDA
+# Copyright 2026 KMEE
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 {
@@ -11,7 +11,9 @@
     "website": "https://github.com/OCA/l10n-brazil",
     "development_status": "Alpha",
     "maintainers": ["mileo"],
-    "external_dependencies": {"python": ["erpbrasil.edoc"]},
+    "external_dependencies": {
+        "python": ["erpbrasil-edoc>=3.3.0", "erpbrasil-assinatura>=1.9.0"]
+    },
     "depends": ["l10n_br_nfse_nacional"],
     "data": ["views/res_company_view.xml"],
     "installable": True,
