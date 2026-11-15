@@ -564,6 +564,29 @@ class TestDocumentEdition(TransactionCase):
         )
         self.assertEqual(doc.ind_final, "0")
 
+    def test_ind_final_recomputed_when_its_inputs_change(self):
+        """The final consumer rule reads the operation, the document type and
+        the partner contributor indicator, so changing any of them recomputes
+        ind_final."""
+        partner = self.env.ref("l10n_br_base.res_partner_cliente9_mg")
+        partner.ind_final = "0"
+        operation = self.env.ref("l10n_br_fiscal.fo_venda")
+
+        doc = self._create_doc_ind_final(partner, operation)
+        self.assertEqual(doc.ind_final, "1")
+        doc.fiscal_operation_id = self.env.ref("l10n_br_fiscal.fo_compras")
+        self.assertEqual(doc.ind_final, "0")
+
+        doc = self._create_doc_ind_final(partner, operation)
+        self.assertEqual(doc.ind_final, "1")
+        doc.document_type_id = self.env.ref("l10n_br_fiscal.document_SE")
+        self.assertEqual(doc.ind_final, "0")
+
+        doc = self._create_doc_ind_final(partner, operation)
+        self.assertEqual(doc.ind_final, "1")
+        partner.ind_ie_dest = "1"
+        self.assertEqual(doc.ind_final, "0")
+
     def test_difal_calculation(self):
         partner = self.env.ref("l10n_br_base.res_partner_cliente5_pe")
         partner.ind_ie_dest = "9"
