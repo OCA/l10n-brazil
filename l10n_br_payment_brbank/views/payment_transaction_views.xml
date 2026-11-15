@@ -28,7 +28,7 @@
                     name="action_brbank_download_pdf"
                     type="object"
                     string="Boleto PDF"
-                    invisible="provider_code != 'brbank' or not provider_reference or not brbank_supports_pdf"
+                    invisible="provider_code != 'brbank' or not provider_reference or not (brbank_supports_pdf or barcode or digitable_line)"
                 />
                 <button
                     name="action_brbank_new_instruction"

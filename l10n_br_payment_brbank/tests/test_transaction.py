@@ -1,15 +1,18 @@
 # Copyright 2026 KMEE
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
+import base64
 from datetime import date
 from decimal import Decimal
+from unittest.mock import patch
 
-from brbank import StatusCanonico, TipoInstrucao
+from brbank import Capacidade, StatusCanonico, TipoInstrucao
 
 from odoo.exceptions import UserError
 from odoo.tests import tagged
 
 from .common import FAKE_BASIC, BrbankTransactionCase
+from .fake_bank import FakeAdapter
 
 
 @tagged("post_install", "-at_install")
@@ -122,6 +125,24 @@ class TestBrbankTransaction(BrbankTransactionCase):
         self.assertTrue(tx.boleto_pdf)
         action = tx.action_brbank_download_pdf()
         self.assertIn(f"/web/content/payment.transaction/{tx.id}/", action["url"])
+
+    def test_pdf_drawn_when_the_bank_has_none(self):
+        tx = self._standalone_tx()
+        self.env.company.partner_id.vat = "91300766000147"
+        # Boleto of R$ 15,00 from the Banco do Brasil test set: a valid barcode.
+        tx.write(
+            {
+                "amount": 15.0,
+                "boleto_pdf": False,
+                "digitable_line": False,
+                "barcode": "00195313800000015000000003051284190526000117",
+            }
+        )
+        with patch.object(FakeAdapter, "capacidades", Capacidade.BAIXA):
+            tx.provider_id.invalidate_recordset(["brbank_supports_pdf"])
+            tx.invalidate_recordset(["brbank_supports_pdf"])
+            self.assertTrue(tx._brbank_fetch_pdf())
+        self.assertTrue(base64.b64decode(tx.boleto_pdf).startswith(b"%PDF"))
 
     def test_reconcile_cron(self):
         invoice = self._create_invoice()

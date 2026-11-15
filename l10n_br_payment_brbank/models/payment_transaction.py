@@ -2,16 +2,17 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 import base64
+import io
 import json
 import logging
 import re
 from decimal import Decimal
 
-from brbank import Encargos, Endereco, Pessoa, StatusCanonico, Titulo
+from brbank import Encargos, Endereco, Pessoa, StatusCanonico, Titulo, TituloRegistrado
 from brbank.erros import Duplicado, ErroBrbank, Indisponivel
 from pydantic import ValidationError as PydanticValidationError
 
-from odoo import _, fields, models
+from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 from odoo.tools import float_round
 
@@ -47,6 +48,17 @@ TECHNICAL_INFO_LIMIT = 4000
 # payment by a text its guide does not define. Until a real Pix confirms that
 # text, a write-off not commanded from Odoo goes to review instead of canceling.
 WRITE_OFF_REVIEW_ADAPTERS = {"santander"}
+
+
+def _agency_code(account):
+    """Branch and account as printed on the boleto: 1607 / 99738672-X."""
+    branch = account.bra_number or ""
+    if account.bra_number_dig:
+        branch = f"{branch}-{account.bra_number_dig}"
+    number = account.acc_number or ""
+    if account.acc_number_dig:
+        number = f"{number}-{account.acc_number_dig}"
+    return f"{branch} / {number}".strip(" /")
 
 
 def _percent(value):
@@ -151,18 +163,28 @@ class PaymentTransaction(models.Model):
                     fields=", ".join(missing),
                 )
             )
-        address = Endereco(
-            logradouro=street,
-            numero=partner.street_number or "SN",
-            complemento=partner.street2 or "",
-            bairro=partner.district or "",
-            cidade=city,
-            uf=partner.state_id.code,
-            cep=zip_code,
-        )
+        return self._brbank_person(partner)
+
+    @api.model
+    def _brbank_person(self, partner):
+        """`brbank.Pessoa` of a partner; the address only when it is complete."""
+        street = partner.street_name or partner.street
+        city = partner.city_id.name or partner.city
+        zip_code = re.sub(r"\D", "", partner.zip or "")
+        address = None
+        if street and city and partner.state_id.code and len(zip_code) == 8:
+            address = Endereco(
+                logradouro=street,
+                numero=partner.street_number or "SN",
+                complemento=partner.street2 or "",
+                bairro=partner.district or "",
+                cidade=city,
+                uf=partner.state_id.code,
+                cep=zip_code,
+            )
         return Pessoa(
             nome=partner.legal_name or partner.name,
-            documento=document,
+            documento=re.sub(r"[^0-9A-Za-z]", "", partner.vat or ""),
             endereco=address,
             email=partner.email or None,
         )
@@ -283,8 +305,13 @@ class PaymentTransaction(models.Model):
         return number
 
     def _brbank_fetch_pdf(self):
-        """Download the boleto PDF when the bank provides it. Not fatal."""
+        """The boleto PDF: the bank's when it provides one, else drawn by brbank.
+
+        Not fatal: without it the invoice still prints the digitable line and the Pix.
+        """
         self.ensure_one()
+        if not self.brbank_supports_pdf:
+            return self._brbank_render_pdf()
         reference = self.provider_reference
         try:
             pdf = self.provider_id.sudo()._brbank_run(
@@ -293,6 +320,50 @@ class PaymentTransaction(models.Model):
         except ErroBrbank as error:
             _logger.info(
                 "brbank: no PDF for %s (%s)", self.reference, type(error).__name__
+            )
+            return False
+        self.boleto_pdf = base64.b64encode(pdf)
+        return True
+
+    def _brbank_render_pdf(self):
+        """Draw the boleto (payer receipt and compensation slip) with brbank.pdf."""
+        self.ensure_one()
+        if not (self.barcode or self.digitable_line):
+            return False
+        try:
+            from brbank.pdf import BoletoPdf, Carteira, ConfigBoleto, gerar_boleto_pdf
+        except ImportError:
+            _logger.info("brbank: the boleto PDF needs brbank[pdf] (fpdf2, qrcode)")
+            return False
+        provider = self.provider_id.sudo()
+        account = provider.journal_id.bank_account_id
+        settings = provider.brbank_connection_id._l10n_br_bank_load_json("extra_config")
+        company = self.company_id
+        try:
+            boleto = BoletoPdf(
+                titulo=self._brbank_prepare_titulo(),
+                registrado=TituloRegistrado(
+                    banco=provider.brbank_adapter,
+                    id_banco=self.provider_reference or self.reference,
+                    status=StatusCanonico.REGISTRADO,
+                    nosso_numero=self.our_number or None,
+                    linha_digitavel=self.digitable_line or None,
+                    codigo_barras=self.barcode or None,
+                    pix_copia_cola=self.pix_copia_cola or None,
+                ),
+                carteira=Carteira(
+                    banco=account.bank_id.code_bc or "",
+                    agencia_codigo=_agency_code(account),
+                    carteira=str(settings.get("carteira") or ""),
+                    especie_documento=settings.get("especie") or "DM",
+                ),
+                beneficiario=self._brbank_person(company.partner_id),
+            )
+            logo = io.BytesIO(base64.b64decode(company.logo)) if company.logo else None
+            pdf = gerar_boleto_pdf([boleto], ConfigBoleto(logo=logo))
+        except (ErroBrbank, UserError, ValueError) as error:
+            _logger.info(
+                "brbank: boleto PDF of %s not drawn: %s", self.reference, error
             )
             return False
         self.boleto_pdf = base64.b64encode(pdf)
@@ -352,7 +423,7 @@ class PaymentTransaction(models.Model):
             tx._set_pending()
         elif target == "authorized":
             tx._set_authorized()
-            if self.brbank_supports_pdf and not self.boleto_pdf:
+            if not self.boleto_pdf:
                 self._brbank_fetch_pdf()
         elif target == "done":
             paid = self.brbank_paid_amount
@@ -538,11 +609,10 @@ class PaymentTransaction(models.Model):
 
     def action_brbank_download_pdf(self):
         self.ensure_one()
-        if not self.boleto_pdf:
-            if not (self.brbank_supports_pdf and self.provider_reference):
-                raise UserError(_("The bank does not provide the boleto PDF."))
-            if not self._brbank_fetch_pdf():
-                raise UserError(_("The boleto PDF is not available yet."))
+        if not self.boleto_pdf and not (
+            self.provider_reference and self._brbank_fetch_pdf()
+        ):
+            raise UserError(_("The boleto PDF is not available yet."))
         return {
             "type": "ir.actions.act_url",
             "url": (
