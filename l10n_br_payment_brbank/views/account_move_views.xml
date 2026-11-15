@@ -31,4 +31,22 @@
             </xpath>
         </field>
     </record>
+
+    <record id="view_move_form_brbank_print" model="ir.ui.view">
+        <field name="name">account.move.form.brbank.print</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <field name="brbank_boleto_printable" invisible="1" />
+                <button
+                    name="action_brbank_print_boletos"
+                    type="object"
+                    string="Boleto"
+                    icon="fa-barcode"
+                    invisible="not brbank_boleto_printable"
+                />
+            </xpath>
+        </field>
+    </record>
 </odoo>

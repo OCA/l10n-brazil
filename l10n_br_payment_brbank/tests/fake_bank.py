@@ -136,7 +136,12 @@ class FakeAdapter(BankAdapter):
         ]
 
     async def obter_pdf(self, id_banco):
-        return b"%PDF-1.4 fake boleto"
+        # A real one-page PDF: the invoice joins the boletos of every installment.
+        from fpdf import FPDF
+
+        pdf = FPDF()
+        pdf.add_page()
+        return bytes(pdf.output())
 
 
 class FakeBasicAdapter(FakeAdapter):
