@@ -9,6 +9,7 @@
     "license": "AGPL-3",
     "author": "KMEE, Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-brazil",
+    "maintainers": ["mileo"],
     "depends": ["payment"],
     "data": [
         "views/payment_pagseguro_templates.xml",
