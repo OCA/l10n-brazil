@@ -7,7 +7,7 @@
         <field name="arch" type="xml">
             <field name="partner_id" position="after">
                 <field name="show_l10n_br" invisible="1" />
-                <field name="street" invisible="show_l10n_br == False" />
+                <field name="street" invisible="1" />
             </field>
             <xpath expr="//group[@name='lead_info']/div" position="after">
                 <field name="name_surname" />
