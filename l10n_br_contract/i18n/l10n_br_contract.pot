@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 17.0\n"
+"Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -80,6 +80,11 @@ msgid "Amounts"
 msgstr ""
 
 #. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__automatic_price
+msgid "Auto-price?"
+msgstr ""
+
+#. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__ind_pres
 msgid "Buyer Presence"
 msgstr ""
@@ -129,6 +134,14 @@ msgstr ""
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__cfop_destination
 msgid "CFOP Destination"
+msgstr ""
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,help:l10n_br_contract.field_contract_line__partner_cfop_id
+msgid ""
+"CFOP as declared by the counterparty in the imported document. It is "
+"preserved as-is for fiscal bookkeeping / SPED (e.g. C197), while cfop_id "
+"reflects the company's own operation after the de-para."
 msgstr ""
 
 #. module: l10n_br_contract
@@ -343,6 +356,13 @@ msgid "CST PIS ST"
 msgstr ""
 
 #. module: l10n_br_contract
+#: model:ir.model.fields,help:l10n_br_contract.field_contract_line__line_recurrence
+msgid ""
+"Check this if you want to control recurrence at the line level instead of "
+"for the whole contract."
+msgstr ""
+
+#. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__city_taxation_code_id
 msgid "City Taxation Code"
 msgstr ""
@@ -390,6 +410,12 @@ msgstr ""
 #. module: l10n_br_contract
 #: model:ir.model,name:l10n_br_contract.model_contract_line
 msgid "Contract Line"
+msgstr ""
+
+#. module: l10n_br_contract
+#. odoo-python
+#: code:addons/l10n_br_contract/models/contract_contract.py:0
+msgid "Contract manually invoiced: %(invoice_link)s"
 msgstr ""
 
 #. module: l10n_br_contract
@@ -467,18 +493,8 @@ msgid "Document Key Random Code"
 msgstr ""
 
 #. module: l10n_br_contract
-#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__document_number
-msgid "Document Number"
-msgstr ""
-
-#. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__document_serie_id
 msgid "Document Serie"
-msgstr ""
-
-#. module: l10n_br_contract
-#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__document_type_id
-msgid "Document Type"
 msgstr ""
 
 #. module: l10n_br_contract
@@ -551,8 +567,23 @@ msgid "Fiscal Amount Untaxed"
 msgstr ""
 
 #. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__document_number
+msgid "Fiscal Document Number"
+msgstr ""
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__document_type_id
+msgid "Fiscal Document Type"
+msgstr ""
+
+#. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__fiscal_operation_id
 msgid "Fiscal Operation"
+msgstr ""
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__fiscal_operation_type
+msgid "Fiscal Operation Type"
 msgstr ""
 
 #. module: l10n_br_contract
@@ -700,7 +731,7 @@ msgid "ICMS Effective Base"
 msgstr ""
 
 #. module: l10n_br_contract
-#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__icms_destination_percent
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__icms_origin_percent
 msgid "ICMS External %"
 msgstr ""
 
@@ -738,7 +769,7 @@ msgid "ICMS FCP Value"
 msgstr ""
 
 #. module: l10n_br_contract
-#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__icms_origin_percent
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__icms_destination_percent
 msgid "ICMS Internal %"
 msgstr ""
 
@@ -756,6 +787,11 @@ msgstr ""
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__icms_relief_id
 msgid "ICMS Relief"
+msgstr ""
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__icms_relief_type
+msgid "ICMS Relief Deduction"
 msgstr ""
 
 #. module: l10n_br_contract
@@ -1112,8 +1148,20 @@ msgid "ISSQN Value"
 msgstr ""
 
 #. module: l10n_br_contract
+#: model:ir.model.fields,help:l10n_br_contract.field_contract_contract__cnpj_cpf
+msgid "Identification Number for selected type"
+msgstr ""
+
+#. module: l10n_br_contract
 #: model:ir.model.fields,help:l10n_br_contract.field_contract_line__cfop_destination
 msgid "Identifies the operation destination."
+msgstr ""
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,help:l10n_br_contract.field_contract_line__automatic_price
+msgid ""
+"If checked, the price will be taken from the pricelist. Otherwise, it must "
+"be set manually."
 msgstr ""
 
 #. module: l10n_br_contract
@@ -1182,13 +1230,6 @@ msgid "Manual Fiscal Additional Data"
 msgstr ""
 
 #. module: l10n_br_contract
-#: model:ir.model.fields,help:l10n_br_contract.field_contract_line__line_recurrence
-msgid ""
-"Mark this check if you want to control recurrrence at line level instead of "
-"all together for the whole contract."
-msgstr ""
-
-#. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__nbm_id
 msgid "NBM"
 msgstr ""
@@ -1201,16 +1242,6 @@ msgstr ""
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__ncm_id
 msgid "NCM"
-msgstr ""
-
-#. module: l10n_br_contract
-#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__simple_value
-msgid "National Simple Taxes"
-msgstr ""
-
-#. module: l10n_br_contract
-#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__simple_without_icms_value
-msgid "National Simple Taxes without ICMS"
 msgstr ""
 
 #. module: l10n_br_contract
@@ -1241,11 +1272,6 @@ msgstr ""
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__operation_name
 msgid "Operation Name"
-msgstr ""
-
-#. module: l10n_br_contract
-#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__fiscal_operation_type
-msgid "Operation Type"
 msgstr ""
 
 #. module: l10n_br_contract
@@ -1374,6 +1400,11 @@ msgid "Partner"
 msgstr ""
 
 #. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__partner_cfop_id
+msgid "Partner CFOP"
+msgstr ""
+
+#. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__partner_order
 msgid "Partner Order (xPed)"
 msgstr ""
@@ -1401,6 +1432,13 @@ msgstr ""
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__quantity
 msgid "Quantity"
+msgstr ""
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,help:l10n_br_contract.field_contract_line__icmssn_range_id
+msgid ""
+"Range of the Simples Nacional annex that taxes the operation, the one the "
+"company was in when the taxes of the line were computed."
 msgstr ""
 
 #. module: l10n_br_contract
@@ -1441,6 +1479,11 @@ msgstr ""
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__icmssn_range_id
 msgid "Simplified Range Tax"
+msgstr ""
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,help:l10n_br_contract.field_contract_contract__ie
+msgid "State Tax Identification Number. Should contain 9-14 digits."
 msgstr ""
 
 #. module: l10n_br_contract
@@ -1603,7 +1646,6 @@ msgstr ""
 #. module: l10n_br_contract
 #. odoo-python
 #: code:addons/l10n_br_contract/models/contract_contract.py:0
-#, python-format
 msgid "The contract has no fiscal operation defined!"
 msgstr ""
 
@@ -1696,4 +1738,12 @@ msgstr ""
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__ipi_devol_value
 msgid "Valor do IPI devolvido"
+msgstr ""
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,help:l10n_br_contract.field_contract_line__icms_relief_type
+msgid ""
+"indDeduzDeson (NT 2023.004): indicates whether the ICMS relief value "
+"(vICMSDeson) is deducted from the item value (vProd) and from the document "
+"total (vNF)."
 msgstr ""
