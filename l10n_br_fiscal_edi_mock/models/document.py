@@ -12,7 +12,8 @@ _logger = logging.getLogger(__name__)
 
 NFE, NFCE, CTE, MDFE = "55", "65", "57", "58"
 GENERICOS = {
-    # modelo: (raiz do processo, raiz do protocolo, namespace, motivo, campo de ambiente)
+    # modelo: (raiz do processo, raiz do protocolo, namespace, motivo,
+    # campo de ambiente)
     CTE: (
         "cteProc",
         "protCTe",
@@ -59,9 +60,10 @@ class Document(models.Model):
                 # l10n_br_nfe.nfelib_soap_transmission = True): ainda nao simulada
                 raise UserError(
                     _(
-                        "SEFAZ simulada: a transmissao pelo cliente da nfelib ainda nao e "
-                        "simulada. Desligue o parametro de sistema "
-                        "l10n_br_nfe.nfelib_soap_transmission para usar a erpbrasil.edoc."
+                        "SEFAZ simulada: a transmissao pelo cliente da nfelib "
+                        "ainda nao e simulada. Desligue o parametro de sistema "
+                        "l10n_br_nfe.nfelib_soap_transmission para usar a "
+                        "erpbrasil.edoc."
                     )
                 )
             _logger.info("SEFAZ simulada: %s %s", self.document_type, self.document_key)
@@ -88,8 +90,8 @@ class Document(models.Model):
         raiz_proc, raiz_prot, ns, motivo, campo_amb = GENERICOS[self.document_type]
         ambiente = self[campo_amb] if campo_amb in self._fields else "2"
         self._edoc_mock_check(ambiente or "2")
-        # Ate a 16.0 de 10/2026 o envio rodava com o documento "a enviar"; depois da maquina de
-        # estados (transitions) ele ja esta "enviada" quando o envio eletronico e chamado.
+        # Ate a 16.0 de 10/2026 o envio rodava com o documento "a enviar";
+        # com a maquina de estados (transitions) ele ja chega "enviada".
         if self.xml_error_message or self.state_edoc not in ("a_enviar", "enviada"):
             return
         evento = self.authorization_event_id

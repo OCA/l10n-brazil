@@ -7,11 +7,14 @@ devolve o envelope que a SEFAZ devolveria. Todo o resto (assinatura, montagem
 do nfeProc, leitura do protocolo) continua sendo feito pela biblioteca e pelo
 modulo da NF-e.
 """
+import logging
 import random
 from contextlib import contextmanager
 from datetime import datetime, timedelta, timezone
 
 from lxml import etree
+
+_logger = logging.getLogger(__name__)
 
 NS = "http://www.portalfiscal.inf.br/nfe"
 VER_APLIC = "SEFAZ-SIMULADA"
@@ -39,8 +42,7 @@ class RespostaFalsa:
     def __init__(self, corpo):
         self.text = (
             '<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope">'
-            "<soap:Body><nfeResultMsg>%s</nfeResultMsg></soap:Body></soap:Envelope>"
-            % corpo
+            f"<soap:Body><nfeResultMsg>{corpo}</nfeResultMsg></soap:Body></soap:Envelope>"
         )
         self.content = self.text.encode()
 
@@ -65,27 +67,29 @@ class TransmissaoMock:
         metodo = getattr(self, "_resp_" + operacao, None)
         if metodo is None:
             raise NotImplementedError(
-                "SEFAZ simulada: operacao %s nao tratada" % operacao
+                f"SEFAZ simulada: operacao {operacao} nao tratada"
             )
         return RespostaFalsa(metodo(xml_etree))
 
     def _texto(self, raiz, tag):
-        achado = raiz.find(".//{%s}%s" % (NS, tag))
+        achado = raiz.find(f".//{{{NS}}}{tag}")
         return achado.text if achado is not None else ""
 
     def _resp_nfeStatusServicoNF(self, raiz):
         return (
-            '<retConsStatServ xmlns="%s" versao="4.00"><tpAmb>%s</tpAmb><verAplic>%s</verAplic>'
-            "<cStat>107</cStat><xMotivo>Servico em Operacao%s</xMotivo><cUF>%s</cUF>"
-            "<dhRecbto>%s</dhRecbto><tMed>1</tMed></retConsStatServ>"
-        ) % (NS, self.ambiente, VER_APLIC, SUFIXO, self.uf, agora())
+            '<retConsStatServ xmlns="{}" versao="4.00"><tpAmb>{}</tpAmb>'
+            "<verAplic>{}</verAplic>"
+            "<cStat>107</cStat><xMotivo>Servico em Operacao{}</xMotivo><cUF>{}</cUF>"
+            "<dhRecbto>{}</dhRecbto><tMed>1</tMed></retConsStatServ>"
+        ).format(NS, self.ambiente, VER_APLIC, SUFIXO, self.uf, agora())
 
     def _resp_nfeConsultaNF(self, raiz):
         return (
-            '<retConsSitNFe xmlns="%s" versao="4.00"><tpAmb>%s</tpAmb><verAplic>%s</verAplic>'
-            "<cStat>217</cStat><xMotivo>NF-e nao consta na base de dados da SEFAZ%s</xMotivo>"
-            "<cUF>%s</cUF><dhRecbto>%s</dhRecbto><chNFe>%s</chNFe></retConsSitNFe>"
-        ) % (
+            '<retConsSitNFe xmlns="{}" versao="4.00"><tpAmb>{}</tpAmb>'
+            "<verAplic>{}</verAplic><cStat>217</cStat>"
+            "<xMotivo>NF-e nao consta na base de dados da SEFAZ{}</xMotivo>"
+            "<cUF>{}</cUF><dhRecbto>{}</dhRecbto><chNFe>{}</chNFe></retConsSitNFe>"
+        ).format(
             NS,
             self.ambiente,
             VER_APLIC,
@@ -97,39 +101,38 @@ class TransmissaoMock:
 
     def _prot_nfe(self, chave):
         return (
-            '<protNFe versao="4.00"><infProt><tpAmb>%s</tpAmb><verAplic>%s</verAplic><chNFe>%s</chNFe>'
-            "<dhRecbto>%s</dhRecbto><nProt>%s</nProt><digVal>c2ltdWxhZG8=</digVal><cStat>100</cStat>"
-            "<xMotivo>Autorizado o uso da NF-e%s</xMotivo></infProt></protNFe>"
-        ) % (self.ambiente, VER_APLIC, chave, agora(), protocolo(self.uf), SUFIXO)
+            f'<protNFe versao="4.00"><infProt><tpAmb>{self.ambiente}</tpAmb>'
+            f"<verAplic>{VER_APLIC}</verAplic><chNFe>{chave}</chNFe>"
+            f"<dhRecbto>{agora()}</dhRecbto><nProt>{protocolo(self.uf)}</nProt>"
+            "<digVal>c2ltdWxhZG8=</digVal><cStat>100</cStat>"
+            f"<xMotivo>Autorizado o uso da NF-e{SUFIXO}</xMotivo></infProt></protNFe>"
+        )
 
     def _resp_nfeAutorizacaoLote(self, raiz):
-        inf = raiz.find(".//{%s}infNFe" % NS)
+        inf = raiz.find(f".//{{{NS}}}infNFe")
         chave = (inf.get("Id") or "")[3:] if inf is not None else ""
         return (
-            '<retEnviNFe xmlns="%s" versao="4.00"><tpAmb>%s</tpAmb><verAplic>%s</verAplic><cStat>104</cStat>'
-            "<xMotivo>Lote processado%s</xMotivo><cUF>%s</cUF><dhRecbto>%s</dhRecbto>%s</retEnviNFe>"
-        ) % (
-            NS,
-            self.ambiente,
-            VER_APLIC,
-            SUFIXO,
-            self.uf,
-            agora(),
-            self._prot_nfe(chave),
+            f'<retEnviNFe xmlns="{NS}" versao="4.00"><tpAmb>{self.ambiente}</tpAmb>'
+            f"<verAplic>{VER_APLIC}</verAplic><cStat>104</cStat>"
+            f"<xMotivo>Lote processado{SUFIXO}</xMotivo><cUF>{self.uf}</cUF>"
+            f"<dhRecbto>{agora()}</dhRecbto>{self._prot_nfe(chave)}</retEnviNFe>"
         )
 
     def _resp_nfeRecepcaoEvento(self, raiz):
         eventos = ""
-        for inf in raiz.iter("{%s}infEvento" % NS):
+        for inf in raiz.iter(f"{{{NS}}}infEvento"):
             tipo = self._texto(inf, "tpEvento")
             chave = self._texto(inf, "chNFe")
-            # 135: evento registrado e vinculado a NF-e (cancelamento 110111 e carta de correcao 110110)
+            # 135: evento registrado e vinculado a NF-e (cancelamento 110111 e
+            # carta de correcao 110110)
             eventos += (
-                '<retEvento versao="1.00"><infEvento><tpAmb>%s</tpAmb><verAplic>%s</verAplic><cOrgao>%s</cOrgao>'
-                "<cStat>135</cStat><xMotivo>Evento registrado e vinculado a NF-e%s</xMotivo><chNFe>%s</chNFe>"
-                "<tpEvento>%s</tpEvento><nSeqEvento>%s</nSeqEvento><dhRegEvento>%s</dhRegEvento>"
-                "<nProt>%s</nProt></infEvento></retEvento>"
-            ) % (
+                '<retEvento versao="1.00"><infEvento><tpAmb>{}</tpAmb>'
+                "<verAplic>{}</verAplic><cOrgao>{}</cOrgao><cStat>135</cStat>"
+                "<xMotivo>Evento registrado e vinculado a NF-e{}</xMotivo>"
+                "<chNFe>{}</chNFe><tpEvento>{}</tpEvento>"
+                "<nSeqEvento>{}</nSeqEvento><dhRegEvento>{}</dhRegEvento>"
+                "<nProt>{}</nProt></infEvento></retEvento>"
+            ).format(
                 self.ambiente,
                 VER_APLIC,
                 self.uf,
@@ -141,9 +144,11 @@ class TransmissaoMock:
                 protocolo(self.uf),
             )
         return (
-            '<retEnvEvento xmlns="%s" versao="1.00"><idLote>1</idLote><tpAmb>%s</tpAmb><verAplic>%s</verAplic>'
-            "<cOrgao>%s</cOrgao><cStat>128</cStat><xMotivo>Lote de Evento Processado%s</xMotivo>%s</retEnvEvento>"
-        ) % (NS, self.ambiente, VER_APLIC, self.uf, SUFIXO, eventos)
+            '<retEnvEvento xmlns="{}" versao="1.00"><idLote>1</idLote>'
+            "<tpAmb>{}</tpAmb><verAplic>{}</verAplic><cOrgao>{}</cOrgao>"
+            "<cStat>128</cStat><xMotivo>Lote de Evento Processado{}</xMotivo>"
+            "{}</retEnvEvento>"
+        ).format(NS, self.ambiente, VER_APLIC, self.uf, SUFIXO, eventos)
 
 
 def proc_generico(
@@ -152,9 +157,7 @@ def proc_generico(
     """Monta o XML de processo (cteProc, mdfeProc) com um protocolo simulado."""
     numero = protocolo(uf)
     quando = agora()
-    proc = etree.Element(
-        "{%s}%s" % (ns, raiz_proc), versao="simulada", nsmap={None: ns}
-    )
+    proc = etree.Element(f"{{{ns}}}{raiz_proc}", versao="simulada", nsmap={None: ns})
     if xml_enviado:
         try:
             proc.append(
@@ -165,9 +168,9 @@ def proc_generico(
                 )
             )
         except etree.XMLSyntaxError:
-            pass
-    prot = etree.SubElement(proc, "{%s}%s" % (ns, raiz_prot), versao="simulada")
-    inf = etree.SubElement(prot, "{%s}infProt" % ns)
+            _logger.debug("SEFAZ simulada: XML enviado invalido, protocolo sem ele")
+    prot = etree.SubElement(proc, f"{{{ns}}}{raiz_prot}", versao="simulada")
+    inf = etree.SubElement(prot, f"{{{ns}}}infProt")
     for tag, valor in (
         ("tpAmb", ambiente),
         ("verAplic", VER_APLIC),
@@ -177,5 +180,5 @@ def proc_generico(
         ("cStat", "100"),
         ("xMotivo", motivo + SUFIXO),
     ):
-        etree.SubElement(inf, "{%s}%s" % (ns, tag)).text = valor
+        etree.SubElement(inf, f"{{{ns}}}{tag}").text = valor
     return etree.tostring(proc, encoding="unicode"), numero
