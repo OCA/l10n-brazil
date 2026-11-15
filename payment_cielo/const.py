@@ -64,6 +64,9 @@ CARD_BRANDS = {
 # The maximum length of the soft descriptor, as enforced by Cielo.
 SOFT_DESCRIPTOR_MAX_LENGTH = 13
 
+# The maximum length of the MerchantOrderId, as enforced by Cielo.
+MERCHANT_ORDER_ID_MAX_LENGTH = 50
+
 
 def get_card_brand(card_number):
     """Return the Cielo brand matching the card number, or ``None``.

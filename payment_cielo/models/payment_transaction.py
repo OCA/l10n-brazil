@@ -4,12 +4,13 @@
 import logging
 import pprint
 
-from odoo import _, models
+from odoo import _, api, models
 from odoo.exceptions import UserError, ValidationError
 
 from odoo.addons.payment import utils as payment_utils
 
 from ..const import (
+    MERCHANT_ORDER_ID_MAX_LENGTH,
     PAYMENT_STATUS_MAPPING,
     SOFT_DESCRIPTOR_MAX_LENGTH,
     get_card_brand,
@@ -21,6 +22,36 @@ _logger = logging.getLogger(__name__)
 
 class PaymentTransaction(models.Model):
     _inherit = "payment.transaction"
+
+    @api.model
+    def _compute_reference(self, provider_code, prefix=None, separator="-", **kwargs):
+        """Override of `payment` to fit the reference in the MerchantOrderId.
+
+        Cielo accepts at most 50 characters there, and the transaction is found
+        back by that value, so a longer reference is shortened at creation.
+
+        :param str provider_code: The code of the provider handling the transaction.
+        :param str prefix: The custom prefix used to compute the full reference.
+        :param str separator: The custom separator used to separate the prefix
+                              from the suffix.
+        :return: The unique reference for the transaction.
+        :rtype: str
+        """
+        reference = super()._compute_reference(
+            provider_code, prefix=prefix, separator=separator, **kwargs
+        )
+        if provider_code != "cielo" or len(reference) <= MERCHANT_ORDER_ID_MAX_LENGTH:
+            return reference
+
+        # Leave room for the `-n` suffix added when the prefix is already taken.
+        prefix = payment_utils.singularize_reference_prefix(
+            prefix=reference,
+            separator=separator,
+            max_length=MERCHANT_ORDER_ID_MAX_LENGTH - 4,
+        )
+        return super()._compute_reference(
+            provider_code, prefix=prefix, separator=separator, **kwargs
+        )
 
     # === BUSINESS METHODS === #
 
@@ -80,7 +111,7 @@ class PaymentTransaction(models.Model):
             not self.provider_id.capture_manually and self.operation != "validation"
         )
         payload = {
-            "MerchantOrderId": self.reference[:50],
+            "MerchantOrderId": self.reference,
             "Customer": {"Name": self.partner_id.name or ""},
             "Payment": {
                 "Type": "CreditCard",

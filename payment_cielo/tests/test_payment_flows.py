@@ -1,12 +1,15 @@
 # Copyright 2020 KMEE INFORMATICA LTDA
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+from freezegun import freeze_time
+
 from odoo.exceptions import ValidationError
 from odoo.tests import tagged
 from odoo.tools import mute_logger
 
 from odoo.addons.payment.tests.http_common import PaymentHttpCommon
 
+from ..const import MERCHANT_ORDER_ID_MAX_LENGTH
 from .common import CieloCommon
 
 _TX_LOGGER = "odoo.addons.payment.models.payment_transaction"
@@ -127,6 +130,40 @@ class TestCieloPaymentFlows(CieloCommon):
         tx = self._create_transaction(flow="direct")
         found_tx = self.env["payment.transaction"]._get_tx_from_notification_data(
             "cielo", {"response": self._sale_response()}
+        )
+        self.assertEqual(found_tx, tx)
+
+    def test_short_reference_is_kept(self):
+        """A reference that fits in the MerchantOrderId is not changed."""
+        reference = self.env["payment.transaction"]._compute_reference(
+            "cielo", prefix="S00012"
+        )
+        self.assertEqual(reference, "S00012")
+
+    def test_long_reference_fits_in_the_merchant_order_id(self):
+        """A reference longer than the MerchantOrderId is shortened at creation."""
+        tx_model = self.env["payment.transaction"]
+        with freeze_time("2026-11-15 12:00:00"):
+            reference = tx_model._compute_reference("cielo", prefix="S" * 60)
+            self._create_transaction(flow="direct", reference=reference)
+            next_reference = tx_model._compute_reference("cielo", prefix="S" * 60)
+
+        self.assertLessEqual(len(reference), MERCHANT_ORDER_ID_MAX_LENGTH)
+        self.assertLessEqual(len(next_reference), MERCHANT_ORDER_ID_MAX_LENGTH)
+        self.assertNotEqual(next_reference, reference)
+
+    def test_long_reference_finds_the_transaction(self):
+        """The MerchantOrderId sent to Cielo finds a long reference back."""
+        reference = self.env["payment.transaction"]._compute_reference(
+            "cielo", prefix="S" * 60
+        )
+        tx = self._create_transaction(flow="direct", reference=reference)
+        with self._patch_request(self._sale_response()) as request_mock:
+            tx._cielo_create_sale(card_data=self.card_data)
+
+        merchant_order_id = request_mock.call_args.args[1]["MerchantOrderId"]
+        found_tx = self.env["payment.transaction"]._get_tx_from_notification_data(
+            "cielo", {"response": {"MerchantOrderId": merchant_order_id}}
         )
         self.assertEqual(found_tx, tx)
 
