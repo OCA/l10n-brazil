@@ -108,7 +108,8 @@ class TestNFCePosOrder(TestNFCePosOrderCommon):
 
         cpf_document.write(
             {
-                "authorization_date": datetime.now(),
+                # SEFAZ protocol 16:52:52 -03:00, stored in UTC
+                "authorization_date": datetime(2023, 7, 5, 19, 52, 52),
             }
         )
 
@@ -121,12 +122,16 @@ class TestNFCePosOrder(TestNFCePosOrderCommon):
             "get_nfce_qrcode_url",
             return_value=None,
         ):
-            document_values = cpf_order._prepare_fiscal_document_dict()
+            document_values = cpf_order.with_context(
+                tz="America/Sao_Paulo"
+            )._prepare_fiscal_document_dict()
 
         self.assertEqual(
             document_values["document_key"],
             cpf_document.document_key,
         )
+        # the receipt shows the local time of the protocol, not the stored UTC
+        self.assertEqual(document_values["authorization_date"], "07/05/2023 16:52:52")
 
     def test_cancel_nfce_from_ui(self):
         self.env = self.env(user=self.env.ref("base.user_admin"))

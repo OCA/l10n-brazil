@@ -157,9 +157,10 @@ class PosOrder(models.Model):
 
         authorization_date = False
         if fiscal_document_id.authorization_date:
-            authorization_date = fiscal_document_id.authorization_date.strftime(
-                "%m/%d/%Y %H:%M:%S"
-            )
+            # authorization_date is stored in UTC, the receipt shows the local time
+            authorization_date = fields.Datetime.context_timestamp(
+                self, fiscal_document_id.authorization_date
+            ).strftime("%m/%d/%Y %H:%M:%S")
 
         return {
             "status_description": self.account_move.status_description,
