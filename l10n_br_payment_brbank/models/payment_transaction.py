@@ -16,6 +16,7 @@ from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 from odoo.tools import float_round, format_date
 
+from .boleto_instruction import COMMANDS
 from .payment_provider import BRBANK, NOSSO_NUMERO_CONTEXT
 
 _logger = logging.getLogger(__name__)
@@ -103,10 +104,20 @@ class PaymentTransaction(models.Model):
     brbank_review_message = fields.Char(
         string="Review Needed", readonly=True, copy=False
     )
+    brbank_waive_fees = fields.Boolean(
+        string="Fees Waived",
+        readonly=True,
+        copy=False,
+        help="Issued without fine and interest: the bank charges only the amount, "
+        "even after the due date.",
+    )
     brbank_instruction_ids = fields.One2many(
         comodel_name="l10n_br.boleto.instruction",
         inverse_name="transaction_id",
         string="Bank Instructions",
+    )
+    brbank_boleto_action_available = fields.Boolean(
+        compute="_compute_brbank_boleto_action_available"
     )
     brbank_supports_pdf = fields.Boolean(related="provider_id.brbank_supports_pdf")
     brbank_supports_instruction = fields.Boolean(
@@ -123,6 +134,15 @@ class PaymentTransaction(models.Model):
             "The idempotency key of a bank title must be unique.",
         )
     ]
+
+    def _compute_brbank_boleto_action_available(self):
+        Action = self.env["l10n_br.boleto.action"]
+        for tx in self:
+            tx.brbank_boleto_action_available = bool(
+                tx.provider_code == BRBANK
+                and tx._origin
+                and Action._available_actions(tx._origin.sudo(), tx.move_line_id)
+            )
 
     # === BUSINESS METHODS: TITLE === #
 
@@ -203,6 +223,17 @@ class PaymentTransaction(models.Model):
             for line in (self.boleto_instructions or "").splitlines()
             if line.strip()
         )
+        if self.brbank_waive_fees:
+            fees = Encargos()
+        else:
+            fees = Encargos(
+                multa_percentual=_percent(
+                    self.boleto_penalty or mode.payment_boleto_penalty
+                ),
+                juros_mensal_percentual=_percent(
+                    self.boleto_interest or mode.payment_boleto_interest
+                ),
+            )
         try:
             return Titulo(
                 chave_idempotencia=self.brbank_idempotency_key,
@@ -210,14 +241,7 @@ class PaymentTransaction(models.Model):
                 valor=Decimal(f"{self.currency_id.round(self.amount):.2f}"),
                 vencimento=due_date,
                 pagador=self._brbank_prepare_payer(),
-                encargos=Encargos(
-                    multa_percentual=_percent(
-                        self.boleto_penalty or mode.payment_boleto_penalty
-                    ),
-                    juros_mensal_percentual=_percent(
-                        self.boleto_interest or mode.payment_boleto_interest
-                    ),
-                ),
+                encargos=fees,
                 mensagens=messages,
             )
         except PydanticValidationError as error:
@@ -521,11 +545,19 @@ class PaymentTransaction(models.Model):
             )
 
     def _brbank_available_commands(self):
-        """Write-off needs `BAIXA`, the other commands `ALTERACAO`."""
+        """Write-off needs `BAIXA`, the other commands `ALTERACAO`, narrowed to the
+        instructions the adapter declares (`instrucoes`, from brbank 0.0.19 on):
+        the BB and the Sicredi do not protest, the C6 only extends."""
         self.ensure_one()
         commands = []
         if self.brbank_supports_instruction:
-            commands += ["prorrogacao", "abatimento", "protesto"]
+            adapter_class = self.provider_id.sudo()._brbank_adapter_class()
+            declared = getattr(adapter_class, "instrucoes", None)
+            commands += [
+                command
+                for command in ("prorrogacao", "abatimento", "protesto")
+                if declared is None or COMMANDS[command] in declared
+            ]
         if self.brbank_supports_write_off:
             commands.append("baixa")
         return commands
@@ -751,19 +783,9 @@ class PaymentTransaction(models.Model):
             "target": "new",
         }
 
-    def action_brbank_new_instruction(self):
+    def action_brbank_boleto_actions(self):
         self.ensure_one()
-        return {
-            "type": "ir.actions.act_window",
-            "name": _("Bank Instruction"),
-            "res_model": "l10n_br.boleto.instruction",
-            "view_mode": "form",
-            "target": "new",
-            "context": {
-                "default_transaction_id": self.id,
-                "brbank_commands": self._brbank_available_commands(),
-            },
-        }
+        return self.env["l10n_br.boleto.action"]._open_for(self, self.move_line_id)
 
     def action_brbank_write_off(self):
         self.ensure_one()

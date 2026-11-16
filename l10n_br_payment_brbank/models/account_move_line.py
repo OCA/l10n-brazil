@@ -2,7 +2,6 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 from odoo import _, fields, models
-from odoo.exceptions import UserError
 
 from .payment_provider import BRBANK
 
@@ -10,39 +9,63 @@ from .payment_provider import BRBANK
 class AccountMoveLine(models.Model):
     _inherit = "account.move.line"
 
-    brbank_instruction_available = fields.Boolean(
-        compute="_compute_brbank_instruction_available"
+    brbank_boleto_action_available = fields.Boolean(
+        compute="_compute_brbank_boleto_action_available"
     )
 
-    def _brbank_live_transaction(self):
-        """The registered boleto of this open installment, as the system."""
+    def _brbank_boleto_transaction(self):
+        """The boleto of this installment, as the system: the live one, else the
+        last one issued (written off, refused or never registered)."""
         self.ensure_one()
         transactions = self.env["payment.transaction"].sudo()
-        if not self._origin or self.reconciled:
+        if not self._origin:
             return transactions
-        return transactions.search(
-            [
-                ("move_line_id", "=", self._origin.id),
-                ("provider_code", "=", BRBANK),
-                ("state", "=", "authorized"),
-                ("provider_reference", "!=", False),
-            ],
-            limit=1,
+        transactions = transactions.search(
+            [("move_line_id", "=", self._origin.id), ("provider_code", "=", BRBANK)],
+            order="id desc",
+        )
+        live = transactions.filtered(lambda t: t._brbank_is_live())
+        return live[:1] or transactions[:1]
+
+    def _brbank_can_issue_boleto(self):
+        """An open installment of a posted invoice charged through brbank."""
+        self.ensure_one()
+        move = self.move_id
+        provider = move.payment_mode_id.payment_provider_id.sudo()
+        return bool(
+            self._origin
+            and self.display_type == "payment_term"
+            and not self.reconciled
+            and move.state == "posted"
+            and move.move_type == "out_invoice"
+            and provider.code == BRBANK
+            and provider.state != "disabled"
         )
 
-    def _compute_brbank_instruction_available(self):
+    def _compute_brbank_boleto_action_available(self):
+        Action = self.env["l10n_br.boleto.action"]
         for line in self:
-            transaction = line._brbank_live_transaction()
-            line.brbank_instruction_available = bool(
-                transaction and transaction._brbank_available_commands()
+            line.brbank_boleto_action_available = bool(
+                not line.reconciled
+                and Action._available_actions(line._brbank_boleto_transaction(), line)
             )
 
-    def action_brbank_new_instruction(self):
+    def action_brbank_boleto_actions(self):
         self.ensure_one()
-        transaction = self._brbank_live_transaction()
-        if not transaction:
-            raise UserError(_("This installment has no registered boleto."))
-        return transaction.action_brbank_new_instruction()
+        return self.env["l10n_br.boleto.action"]._open_for(
+            self._brbank_boleto_transaction(), self
+        )
+
+    def _brbank_set_due_date(self, new_date):
+        """Move the installment; `invoice_date_due` stays as core defines it, the
+        due date of the last installment."""
+        self.ensure_one()
+        no_sync = self.with_context(skip_invoice_sync=True)
+        no_sync.date_maturity = new_date
+        invoice = no_sync.move_id
+        invoice.invoice_date_due = max(
+            invoice.due_line_ids.filtered("date_maturity").mapped("date_maturity")
+        )
 
     def _reconcile_post_hook(self, data):
         res = super()._reconcile_post_hook(data)

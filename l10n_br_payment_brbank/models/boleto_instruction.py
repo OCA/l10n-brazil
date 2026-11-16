@@ -79,15 +79,12 @@ class BoletoInstruction(models.Model):
 
     @api.model
     def _selection_command(self):
-        """All commands; the form of a title narrows them through the context."""
-        commands = [
+        return [
             ("prorrogacao", _("Due date extension")),
             ("abatimento", _("Rebate")),
             ("protesto", _("Protest")),
             ("baixa", _("Write-off")),
         ]
-        allowed = self.env.context.get("brbank_commands")
-        return [item for item in commands if allowed is None or item[0] in allowed]
 
     @api.depends("transaction_id.reference", "command")
     def _compute_name(self):
@@ -244,15 +241,9 @@ class BoletoInstruction(models.Model):
             self._post_rebate_credit_note(installment)
 
     def _apply_due_date(self, installment):
-        """Keep `invoice_date_due` as core defines it: the last installment."""
         old_date = installment.date_maturity
-        no_sync = installment.with_context(skip_invoice_sync=True)
-        no_sync.date_maturity = self.new_due_date
-        invoice = no_sync.move_id
-        invoice.invoice_date_due = max(
-            invoice.due_line_ids.filtered("date_maturity").mapped("date_maturity")
-        )
-        invoice.message_post(
+        installment._brbank_set_due_date(self.new_due_date)
+        installment.move_id.message_post(
             body=_(
                 "The bank accepted the new due date of the boleto %(ref)s: "
                 "%(old)s -> %(new)s.",

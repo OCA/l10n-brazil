@@ -8,6 +8,9 @@ Issuing:
   and the reconciliation cron registers it later with the same idempotency key.
   If the bank refuses the data, the posting stops with the reason, naming the
   missing customer fields.
+- An installment already past due is not sent: banks refuse an overdue boleto.
+  Posting stops with the reason, and a transaction waiting for a retry goes to
+  error instead of being retried forever.
 - A title the bank has not confirmed yet (the Itaú Bolecode may answer "in
   progress") stays pending, takes no instruction and is not shown to the
   customer, until the reconciliation cron reads it as registered.
@@ -17,18 +20,19 @@ Following up, in the transaction:
 
 - *Check at the bank* reads the title back and applies its status. The
   *Capture* button of `payment` does the same, and *Void* writes the title off.
-- *Bank instruction* sends a due date extension, a rebate or a protest; *Write
-  off at the bank* cancels the title. The buttons only show when the bank
-  declares the capability; a command the bank refuses stays recorded as
-  rejected, with the reason.
+- *Boleto actions* opens one dialog: choose what to do, fill only what that
+  action needs and send it to the bank. It lists only what the bank declares
+  (the BB and the Sicredi do not protest, the C6 only extends the due date). A
+  command the bank refuses stays recorded as rejected, with the reason.
 - For BTG Pactual, the *Refresh Token* of the provider changes by itself after
   the calls to the bank: the provider keeps the last token the bank returned.
 - *Invoicing > Customers > Boleto Instructions* lists every instruction, and
   *Invoicing > Configuration > Payments > Bank Webhook Events* every event
   received (managers only).
 
-From the invoice: the *Receivables* tab has a *Bank instruction* button on each
-open installment with a registered boleto, offering only what the bank accepts.
+From the invoice: the *Receivables* tab has a *Boleto actions* button on each
+open installment, with the same dialog: extend the due date, grant a rebate,
+protest, write off at the bank, or issue a new boleto.
 After the bank accepts:
 
 - Due date extension: the due date of the installment and of the invoice change.
@@ -38,7 +42,22 @@ After the bank accepts:
   invoice and an activity asks the salesperson (or the sender, when the
   salesperson has no access to invoices) to do it by hand.
 - Write-off: the invoice only receives a message. The title remains open, since
-  the customer still owes the amount.
+  the customer still owes the amount. The boleto leaves the invoice and the
+  portal at once, even when the bank (the BB) reports it only on the next day.
+- New boleto: the current boleto is written off at the bank (when still open
+  there) and a new one is registered for the open amount, due on the new date,
+  with or without fine and interest. The installment moves to that date. The new
+  title is checked before the write-off, so missing customer data stops it with
+  nothing done at the bank; if the bank keeps the old boleto, no new one is
+  issued.
+
+Automatic write-off: a boleto leaves the bank, after the commit, when its
+installment is fully paid by other means (cash, a Pix to the company key) and
+when the invoice is reset to draft or canceled; posting again issues new
+boletos. If the bank is unavailable, the reconciliation cron sends it later.
+Before writing off, the title is read back: one paid at the bank in the meantime
+is not written off, and if the installment was also paid by other means, the
+invoice receives a message and an activity (the customer paid twice).
 
 Santander: a boleto the bank reports as written off, with no write-off sent from
 Odoo, is not canceled: it may have been paid by Pix. The transaction stays open

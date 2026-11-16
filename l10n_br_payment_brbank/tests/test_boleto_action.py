@@ -4,8 +4,8 @@
 from decimal import Decimal
 from unittest.mock import AsyncMock, patch
 
-from brbank import StatusCanonico
-from brbank.erros import Indisponivel
+from brbank import StatusCanonico, TipoInstrucao
+from brbank.erros import Indisponivel, Validacao
 
 from odoo.exceptions import UserError
 from odoo.tests import tagged
@@ -16,6 +16,16 @@ from .fake_bank import FakeAdapter
 
 @tagged("post_install", "-at_install")
 class TestBoletoAction(BrbankTransactionCase):
+    def _wizard(self, line, **values):
+        action = line.action_brbank_boleto_actions()
+        wizard = (
+            self.env["l10n_br.boleto.action"]
+            .with_context(**action["context"])
+            .browse(action["res_id"])
+        )
+        wizard.write(values)
+        return wizard
+
     def _calls(self, kind):
         return [call for call in self.bank["calls"] if call[0] == kind]
 
@@ -26,6 +36,142 @@ class TestBoletoAction(BrbankTransactionCase):
 
     def _messages(self, invoice):
         return " ".join(invoice.message_ids.mapped("body"))
+
+    # === ASSISTANT === #
+
+    def test_extension_from_the_assistant(self):
+        invoice = self._create_invoice()
+        tx = self._brbank_txs(invoice)[0]
+        new_date = in_days(100)
+        wizard = self._wizard(
+            tx.move_line_id, action="prorrogacao", new_due_date=new_date
+        )
+        result = wizard.action_confirm()
+        self.assertEqual(result["params"]["type"], "success")
+        self.assertEqual(
+            result["params"]["next"]["type"], "ir.actions.act_window_close"
+        )
+        instruction = tx.brbank_instruction_ids
+        self.assertEqual(instruction.command, "prorrogacao")
+        self.assertEqual(instruction.state, "done")
+        self.assertEqual(tx.move_line_id.date_maturity, new_date)
+
+    def test_protest_offered_only_when_the_bank_declares_it(self):
+        invoice = self._create_invoice()
+        tx = self._brbank_txs(invoice)[0]
+        self.assertIn("protesto", tx._brbank_available_commands())
+        declared = frozenset({TipoInstrucao.PRORROGACAO, TipoInstrucao.ABATIMENTO})
+        with patch.object(FakeAdapter, "instrucoes", declared, create=True):
+            self.assertEqual(
+                tx._brbank_available_commands(), ["prorrogacao", "abatimento", "baixa"]
+            )
+
+    # === NEW BOLETO === #
+
+    def test_reissue_without_fees(self):
+        invoice = self._create_invoice()
+        old = self._brbank_txs(invoice)[0]
+        line = old.move_line_id
+        old_date = line.date_maturity
+        new_date = in_days(10)
+        wizard = self._wizard(
+            line, action="reemissao", new_due_date=new_date, charge_fees=False
+        )
+        result = wizard.action_confirm()
+        self.assertEqual(result["params"]["type"], "success")
+        self.assertEqual(old.state, "cancel")
+        self.assertEqual(self._calls("baixar"), [("baixar", old.provider_reference)])
+        new = line._brbank_boleto_transaction()
+        self.assertNotEqual(new, old)
+        self.assertEqual(new.state, "authorized")
+        self.assertEqual(new.due_date, new_date)
+        self.assertEqual(new.amount, 300.0)
+        self.assertTrue(new.brbank_waive_fees)
+        fees = new._brbank_prepare_titulo().encargos
+        self.assertIsNone(fees.multa_percentual)
+        self.assertIsNone(fees.juros_mensal_percentual)
+        self.assertEqual(self._bank_title(new)["vencimento"], new_date)
+        self.assertEqual(line.date_maturity, new_date)
+        self.assertNotEqual(old_date, new_date)
+        self.assertIn(new.reference, self._messages(invoice))
+        # The portal and the printed invoice show only the new boleto.
+        self.assertNotIn(old, invoice._boleto_report_transactions())
+        self.assertIn(new, invoice._boleto_report_transactions())
+
+    def test_reissue_keeps_fees_by_default(self):
+        invoice = self._create_invoice()
+        old = self._brbank_txs(invoice)[0]
+        self._wizard(
+            old.move_line_id, action="reemissao", new_due_date=in_days(10)
+        ).action_confirm()
+        new = old.move_line_id._brbank_boleto_transaction()
+        self.assertFalse(new.brbank_waive_fees)
+        self.assertEqual(new._brbank_prepare_titulo().encargos.multa_percentual, 2)
+
+    def test_reissue_refuses_a_past_date(self):
+        invoice = self._create_invoice()
+        old = self._brbank_txs(invoice)[0]
+        self.bank["calls"].clear()
+        wizard = self._wizard(
+            old.move_line_id, action="reemissao", new_due_date=in_days(-1)
+        )
+        with self.assertRaisesRegex(UserError, "today or later"):
+            wizard.action_confirm()
+        self.assertFalse(self.bank["calls"])
+
+    def test_reissue_stops_when_the_bank_keeps_the_old_boleto(self):
+        invoice = self._create_invoice()
+        old = self._brbank_txs(invoice)[0]
+        line = old.move_line_id
+        count = len(invoice.transaction_ids)
+        with patch.object(
+            FakeAdapter,
+            "baixar_titulo",
+            new=AsyncMock(side_effect=Validacao("fake: titulo em cartorio")),
+        ):
+            result = self._wizard(
+                line, action="reemissao", new_due_date=in_days(10)
+            ).action_confirm()
+        self.assertEqual(result["params"]["type"], "danger")
+        self.assertIn("cartorio", result["params"]["message"])
+        self.assertEqual(old.state, "authorized")
+        self.assertEqual(len(invoice.transaction_ids), count)
+        self.assertFalse(self._calls("registrar")[3:])
+
+    def test_reissue_waits_when_the_bank_cannot_write_off_yet(self):
+        # The BB refuses a write-off in the first 30 minutes after registering.
+        invoice = self._create_invoice()
+        old = self._brbank_txs(invoice)[0]
+        count = len(invoice.transaction_ids)
+        with patch.object(
+            FakeAdapter,
+            "baixar_titulo",
+            new=AsyncMock(side_effect=Indisponivel("fake: menos de 30 minutos")),
+        ):
+            result = self._wizard(
+                old.move_line_id, action="reemissao", new_due_date=in_days(10)
+            ).action_confirm()
+        self.assertEqual(result["params"]["type"], "warning")
+        self.assertEqual(old.state, "authorized")
+        self.assertEqual(len(invoice.transaction_ids), count)
+        # The write-off of an aborted new boleto is never sent later.
+        self.assertEqual(old.brbank_instruction_ids.state, "cancel")
+        self.assertFalse(self._queued())
+
+    def test_reissue_after_a_write_off(self):
+        invoice = self._create_invoice()
+        old = self._brbank_txs(invoice)[0]
+        old.action_brbank_write_off()
+        self.bank["calls"].clear()
+        self._wizard(
+            old.move_line_id, action="reemissao", new_due_date=in_days(5)
+        ).action_confirm()
+        self.assertFalse(self._calls("baixar"))
+        new = old.move_line_id._brbank_boleto_transaction()
+        self.assertEqual(new.state, "authorized")
+        # The old transaction no longer offers a second new boleto.
+        self.assertFalse(old.brbank_boleto_action_available)
+        self.assertTrue(new.brbank_boleto_action_available)
 
     # === PAST DUE === #
 

@@ -25,6 +25,7 @@
         "views/payment_provider_views.xml",
         "views/payment_transaction_views.xml",
         "views/boleto_instruction_views.xml",
+        "views/boleto_action_views.xml",
         "views/brbank_event_views.xml",
         "views/account_payment_mode_views.xml",
         "views/account_move_views.xml",

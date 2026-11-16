@@ -124,7 +124,7 @@ class TestInstructionOnInvoice(BrbankTransactionCase):
         line = tx.move_line_id
         self.assertEqual(tx.state, "pending")
         self.assertFalse(tx.boleto_pdf)
-        self.assertFalse(line.brbank_instruction_available)
+        self.assertFalse(line.brbank_boleto_action_available)
         self.assertFalse(invoice._boleto_report_transactions())
         with self.assertRaises(UserError):
             self._send(tx, command="protesto")
@@ -136,7 +136,7 @@ class TestInstructionOnInvoice(BrbankTransactionCase):
         line.invalidate_recordset()
         self.assertEqual(tx.state, "authorized")
         self.assertTrue(tx.boleto_pdf)
-        self.assertTrue(line.brbank_instruction_available)
+        self.assertTrue(line.brbank_boleto_action_available)
 
     def test_customer_without_email_posts(self):
         self.partner.email = False
@@ -217,39 +217,38 @@ class TestInstructionOnInvoice(BrbankTransactionCase):
         self.assertIn("posting refused", activity.note)
         self.assertEqual(activity.user_id, self.billing_user)
 
+    def _offered(self, action):
+        wizard = self.env["l10n_br.boleto.action"].browse(action["res_id"])
+        selection = wizard.with_context(**action["context"]).fields_get(["action"])
+        return [value for value, _label in selection["action"]["selection"]]
+
     def test_entry_offers_what_the_bank_accepts(self):
         invoice = self._create_invoice()
         txs = self._brbank_txs(invoice)
-        Instruction = self.env["l10n_br.boleto.instruction"]
         line = txs[0].move_line_id.with_user(self.billing_user)
-        self.assertTrue(line.brbank_instruction_available)
-        action = line.action_brbank_new_instruction()
-        self.assertEqual(action["context"]["default_transaction_id"], txs[0].id)
+        self.assertTrue(line.brbank_boleto_action_available)
+        action = line.action_brbank_boleto_actions()
+        wizard = self.env["l10n_br.boleto.action"].browse(action["res_id"])
+        self.assertEqual(wizard.transaction_id, txs[0])
         self.assertEqual(
-            {
-                value
-                for value, _label in Instruction.with_context(
-                    **action["context"]
-                ).fields_get(["command"])["command"]["selection"]
-            },
-            {"prorrogacao", "abatimento", "protesto", "baixa"},
+            self._offered(action),
+            ["prorrogacao", "abatimento", "protesto", "baixa", "reemissao"],
         )
         txs[1].provider_id = self._create_provider(FAKE_BASIC)
-        action = txs[1].move_line_id.action_brbank_new_instruction()
-        self.assertEqual(
-            [
-                value
-                for value, _label in Instruction.with_context(
-                    **action["context"]
-                ).fields_get(["command"])["command"]["selection"]
-            ],
-            ["baixa"],
-        )
-        # A title that left the bank gets no entry at all.
+        action = txs[1].move_line_id.action_brbank_boleto_actions()
+        self.assertEqual(self._offered(action), ["baixa", "reemissao"])
+        # A title that left the bank: only a new boleto.
         txs[2].action_brbank_write_off()
-        self.assertFalse(txs[2].move_line_id.brbank_instruction_available)
+        self.assertTrue(txs[2].move_line_id.brbank_boleto_action_available)
+        action = txs[2].move_line_id.action_brbank_boleto_actions()
+        self.assertEqual(self._offered(action), ["reemissao"])
+        # A paid installment: nothing.
+        self._set_bank_status(txs[0], StatusCanonico.LIQUIDADO, Decimal("300.00"))
+        txs[0]._brbank_sync_from_bank()
+        txs[0].move_line_id.invalidate_recordset()
+        self.assertFalse(txs[0].move_line_id.brbank_boleto_action_available)
         with self.assertRaises(UserError):
-            txs[2].move_line_id.action_brbank_new_instruction()
+            txs[0].move_line_id.action_brbank_boleto_actions()
 
     def test_write_off_keeps_the_title_open(self):
         invoice = self._create_invoice()

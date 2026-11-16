@@ -45,18 +45,13 @@
                     string="Boleto PDF"
                     invisible="provider_code != 'brbank' or not provider_reference or not (brbank_supports_pdf or barcode or digitable_line)"
                 />
+                <field name="brbank_boleto_action_available" invisible="1" />
                 <button
-                    name="action_brbank_new_instruction"
+                    name="action_brbank_boleto_actions"
                     type="object"
-                    string="Bank instruction"
-                    invisible="provider_code != 'brbank' or not provider_reference or state != 'authorized' or not brbank_supports_instruction"
-                />
-                <button
-                    name="action_brbank_write_off"
-                    type="object"
-                    string="Write off at the bank"
-                    confirm="The bank will cancel this boleto. Continue?"
-                    invisible="provider_code != 'brbank' or not provider_reference or state != 'authorized' or not brbank_supports_write_off"
+                    string="Boleto actions"
+                    invisible="not brbank_boleto_action_available"
+                    groups="account.group_account_invoice"
                 />
             </xpath>
             <xpath expr="//group[@name='boleto_info']" position="inside">

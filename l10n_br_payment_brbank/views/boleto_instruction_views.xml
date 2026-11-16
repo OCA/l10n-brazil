@@ -6,12 +6,13 @@
         <field name="name">l10n_br.boleto.instruction.form</field>
         <field name="model">l10n_br.boleto.instruction</field>
         <field name="arch" type="xml">
-            <form>
+            <!-- History only: instructions are sent from the Boleto actions. -->
+            <form create="0" edit="0" delete="0">
                 <header>
                     <button
                         name="action_send"
                         type="object"
-                        string="Send to the bank"
+                        string="Send again"
                         class="oe_highlight"
                         invisible="state != 'draft'"
                     />
@@ -20,29 +21,14 @@
                 <sheet>
                     <group>
                         <group>
-                            <field
-                                name="transaction_id"
-                                readonly="state != 'draft'"
-                                options="{'no_create': True}"
-                            />
-                            <field
-                                name="command"
-                                widget="radio"
-                                readonly="state != 'draft'"
-                            />
+                            <field name="transaction_id" />
+                            <field name="command" />
                             <field
                                 name="new_due_date"
                                 invisible="command != 'prorrogacao'"
-                                required="command == 'prorrogacao'"
-                                readonly="state != 'draft'"
                             />
                             <field name="currency_id" invisible="1" />
-                            <field
-                                name="amount"
-                                invisible="command != 'abatimento'"
-                                required="command == 'abatimento'"
-                                readonly="state != 'draft'"
-                            />
+                            <field name="amount" invisible="command != 'abatimento'" />
                         </group>
                         <group>
                             <field name="provider_id" />
@@ -61,6 +47,8 @@
         <field name="model">l10n_br.boleto.instruction</field>
         <field name="arch" type="xml">
             <list
+                create="0"
+                decoration-muted="state == 'cancel'"
                 decoration-success="state == 'done'"
                 decoration-danger="state in ('rejected', 'error')"
             >

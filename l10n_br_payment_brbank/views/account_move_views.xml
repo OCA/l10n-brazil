@@ -13,18 +13,18 @@
             >
                 <list>
                     <field name="currency_id" column_invisible="1" />
-                    <field name="brbank_instruction_available" column_invisible="1" />
+                    <field name="brbank_boleto_action_available" column_invisible="1" />
                     <field name="date_maturity" />
                     <field name="name" />
                     <field name="amount_currency" />
                     <field name="amount_residual_currency" />
                     <field name="reconciled" />
                     <button
-                        name="action_brbank_new_instruction"
+                        name="action_brbank_boleto_actions"
                         type="object"
-                        string="Bank instruction"
-                        icon="fa-university"
-                        invisible="not brbank_instruction_available"
+                        string="Boleto actions"
+                        icon="fa-barcode"
+                        invisible="not brbank_boleto_action_available"
                         groups="account.group_account_invoice"
                     />
                 </list>
