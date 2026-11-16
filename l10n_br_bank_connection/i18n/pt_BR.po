@@ -39,6 +39,19 @@ msgid "A connection has one token per key."
 msgstr "Uma conexão tem um token por chave."
 
 #. module: l10n_br_bank_connection
+#: model_terms:ir.ui.view,arch_db:l10n_br_bank_connection.bank_connection_form
+msgid ""
+"A new self-signed certificate replaces the one of this connection. Continue?"
+msgstr ""
+"Um novo certificado autoassinado substitui o desta conexão. Continuar?"
+
+#. module: l10n_br_bank_connection
+#. odoo-python
+#: code:addons/l10n_br_bank_connection/models/connection.py:0
+msgid "A test certificate is only for a connection in the test environment."
+msgstr "Certificado de teste só serve para conexão no ambiente de teste."
+
+#. module: l10n_br_bank_connection
 #: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__password
 msgid "API Password"
 msgstr "Senha da API"
@@ -170,6 +183,26 @@ msgid "Boleto PDF"
 msgstr "PDF do boleto"
 
 #. module: l10n_br_bank_connection
+#: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__certificate_id
+msgid "Certificate"
+msgstr "Certificado"
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__certificate_registered_fingerprint
+msgid "Certificate at the Bank"
+msgstr "Certificado da credencial no banco"
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__certificate_fingerprint
+msgid "Certificate Fingerprint"
+msgstr "Impressão digital do certificado"
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__certificate_renewal_needed
+msgid "Certificate Renewal Needed"
+msgstr "Renovação da credencial necessária"
+
+#. module: l10n_br_bank_connection
 #. odoo-python
 #: code:addons/l10n_br_bank_connection/models/connection.py:0
 msgid "CNAB remittance"
@@ -266,6 +299,11 @@ msgstr ""
 
 #. module: l10n_br_bank_connection
 #: model_terms:ir.ui.view,arch_db:l10n_br_bank_connection.bank_connection_form
+msgid "Credential renewed at the bank"
+msgstr "Credencial renovada no banco"
+
+#. module: l10n_br_bank_connection
+#: model_terms:ir.ui.view,arch_db:l10n_br_bank_connection.bank_connection_form
 msgid "Credentials"
 msgstr "Credenciais"
 
@@ -291,6 +329,11 @@ msgstr "Nome exibido"
 #: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_sync_status__domain
 msgid "Domain"
 msgstr "Domínio"
+
+#. module: l10n_br_bank_connection
+#: model_terms:ir.ui.view,arch_db:l10n_br_bank_connection.bank_connection_form
+msgid "Download certificate (.pem)"
+msgstr "Baixar certificado (.pem)"
 
 #. module: l10n_br_bank_connection
 #: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__environment
@@ -339,6 +382,11 @@ msgid "Followers (Partners)"
 msgstr "Seguidores (parceiros)"
 
 #. module: l10n_br_bank_connection
+#: model_terms:ir.ui.view,arch_db:l10n_br_bank_connection.bank_connection_form
+msgid "Generate test certificate"
+msgstr "Gerar certificado de teste"
+
+#. module: l10n_br_bank_connection
 #: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__has_message
 msgid "Has Message"
 msgstr "Tem mensagem"
@@ -369,6 +417,7 @@ msgstr "Se marcado, novas mensagens precisam da sua atenção."
 
 #. module: l10n_br_bank_connection
 #: model:ir.model.fields,help:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__message_has_error
+#: model:ir.model.fields,help:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
 msgstr "Se marcado, algumas mensagens têm erro de entrega."
 
@@ -462,6 +511,17 @@ msgstr "Erro na entrega da mensagem"
 #: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__message_ids
 msgid "Messages"
 msgstr "Mensagens"
+
+#. module: l10n_br_bank_connection
+#: model:ir.model.fields,help:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__certificate_id
+msgid ""
+"mTLS certificate of the company, with its private key (Settings, "
+"Certificates and Keys; a .pfx file and its password). When set, it is used "
+"instead of the PEM fields."
+msgstr ""
+"Certificado mTLS da empresa, com a chave privada (Configurações, "
+"Certificados e chaves; um arquivo .pfx e a senha). Quando preenchido, é "
+"usado no lugar dos campos PEM."
 
 #. module: l10n_br_bank_connection
 #: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__name
@@ -624,6 +684,15 @@ msgid "Settings Help"
 msgstr "Ajuda das configurações"
 
 #. module: l10n_br_bank_connection
+#: model:ir.model.fields,help:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__certificate_registered_fingerprint
+msgid ""
+"SHA-256 fingerprint of the certificate the bank credential was issued with. "
+"A different certificate needs a renewed credential."
+msgstr ""
+"Impressão digital SHA-256 do certificado com que a credencial do banco foi "
+"emitida. Um certificado diferente exige renovar a credencial."
+
+#. module: l10n_br_bank_connection
 #: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__state
 #: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_sync_status__state
 #: model_terms:ir.ui.view,arch_db:l10n_br_bank_connection.bank_connection_search
@@ -645,6 +714,22 @@ msgstr "Testar"
 #: model:ir.model.fields.selection,name:l10n_br_bank_connection.selection__l10n_br_bank_connection_connection__environment__test
 msgid "Test (bank sandbox)"
 msgstr "Teste (sandbox do banco)"
+
+#. module: l10n_br_bank_connection
+#. odoo-python
+#: code:addons/l10n_br_bank_connection/models/connection.py:0
+msgid "Test certificate - %s"
+msgstr "Certificado de teste - %s"
+
+#. module: l10n_br_bank_connection
+#. odoo-python
+#: code:addons/l10n_br_bank_connection/models/connection.py:0
+msgid ""
+"Test certificate created. Download its public part with Download certificate"
+" (.pem) and upload it at the bank portal."
+msgstr ""
+"Certificado de teste criado. Baixe a parte pública em Baixar certificado "
+"(.pem) e suba no portal do banco."
 
 #. module: l10n_br_bank_connection
 #: model_terms:ir.ui.view,arch_db:l10n_br_bank_connection.bank_connection_form
@@ -707,6 +792,29 @@ msgstr "O banco recusou a configuração da conexão %(name)s: %(error)s"
 #. module: l10n_br_bank_connection
 #. odoo-python
 #: code:addons/l10n_br_bank_connection/models/connection.py:0
+msgid ""
+"The certificate %s has no private key: load it as a PKCS12 (.pfx) file with "
+"its password."
+msgstr ""
+"O certificado %s não tem a chave privada: carregue-o como arquivo PKCS12 "
+"(.pfx), com a senha."
+
+#. module: l10n_br_bank_connection
+#: model_terms:ir.ui.view,arch_db:l10n_br_bank_connection.bank_connection_form
+msgid ""
+"The certificate of this connection changed (a renewed A1, for\n"
+"                        instance): the bank credential was issued with the previous\n"
+"                        one. Renew the credential at the bank portal (Bradesco:\n"
+"                        Solicitar Credencial, Renovação certificado), then confirm."
+msgstr ""
+"O certificado desta conexão mudou (um A1 renovado, por exemplo), e a "
+"credencial do banco foi emitida com o anterior. Renove a credencial no "
+"portal do banco (Bradesco: Solicitar Credencial, Renovação certificado) e "
+"depois confirme."
+
+#. module: l10n_br_bank_connection
+#. odoo-python
+#: code:addons/l10n_br_bank_connection/models/connection.py:0
 msgid "The consent was not started or already used."
 msgstr "O consentimento não foi iniciado ou já foi usado."
 
@@ -733,6 +841,12 @@ msgid ""
 msgstr ""
 "Este adaptador de banco ainda não foi validado no sandbox\n"
 "                        do banco. Teste com valores baixos antes de usar em produção."
+
+#. module: l10n_br_bank_connection
+#. odoo-python
+#: code:addons/l10n_br_bank_connection/models/connection.py:0
+msgid "This connection has no certificate yet."
+msgstr "Esta conexão ainda não tem certificado."
 
 #. module: l10n_br_bank_connection
 #: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__token_url_override

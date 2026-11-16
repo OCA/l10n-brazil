@@ -15,6 +15,11 @@ import httpx
 import psycopg2
 from brbank import Capacidade, registro
 from brbank.erros import AdapterNaoEncontrado, ErroBrbank, Indisponivel
+from cryptography import x509
+from cryptography.hazmat.primitives import hashes, serialization
+from cryptography.hazmat.primitives.asymmetric import rsa
+from cryptography.hazmat.primitives.serialization import pkcs12
+from cryptography.x509.oid import NameOID
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError, ValidationError
@@ -197,6 +202,29 @@ class BankConnection(models.Model):
     )
     private_key = fields.Binary(
         string="Private Key (PEM)", attachment=False, groups=SECRET_GROUP
+    )
+    certificate_id = fields.Many2one(
+        comodel_name="certificate.certificate",
+        string="Certificate",
+        groups=SECRET_GROUP,
+        domain="[('company_id', 'in', [company_id, False])]",
+        help="mTLS certificate of the company, with its private key (Settings, "
+        "Certificates and Keys; a .pfx file and its password). When set, it is "
+        "used instead of the PEM fields.",
+    )
+    certificate_fingerprint = fields.Char(
+        compute="_compute_certificate_renewal", groups=SECRET_GROUP
+    )
+    certificate_registered_fingerprint = fields.Char(
+        string="Certificate at the Bank",
+        readonly=True,
+        copy=False,
+        groups=SECRET_GROUP,
+        help="SHA-256 fingerprint of the certificate the bank credential was "
+        "issued with. A different certificate needs a renewed credential.",
+    )
+    certificate_renewal_needed = fields.Boolean(
+        compute="_compute_certificate_renewal", groups=SECRET_GROUP
     )
     pix_key = fields.Char(groups=SECRET_GROUP)
     refresh_token = fields.Char(
@@ -441,7 +469,10 @@ class BankConnection(models.Model):
     def _l10n_br_bank_prepare_adapter(self, callbacks=None, outcome=None, oauth=False):
         """Build the adapter class and configuration of the connection."""
         self.ensure_one()
-        connection = self.sudo()
+        # Without bin_size (a save from the form reads binaries as their size),
+        # and from the database: the cache of a binary is per bin_size.
+        connection = self.sudo().with_context(bin_size=False)
+        connection.invalidate_recordset(["certificate", "private_key"])
         adapter_class = connection._l10n_br_bank_adapter_class()
         if adapter_class is None:
             raise UserError(
@@ -461,6 +492,10 @@ class BankConnection(models.Model):
             if value and connection._fields[field_name].type == "binary":
                 value = base64.b64decode(value)
             generic[key] = value
+        if connection.certificate_id:
+            generic["certificado_pem"], generic["chave_pem"] = (
+                connection._l10n_br_bank_certificate_record_pems()
+            )
         renewed = self.env.cr.cache.get(RENEWED_TOKENS, {}).get(connection.id)
         if renewed:
             generic["refresh_token"] = renewed
@@ -737,6 +772,200 @@ class BankConnection(models.Model):
             if got_token
             else _("The adapter has no token step.")
         ]
+
+    # === CERTIFICATE === #
+
+    def _l10n_br_bank_certificate_record_pems(self):
+        """PEM certificate and private key of the chosen certificate record."""
+        self.ensure_one()
+        certificate = self.sudo().with_context(bin_size=False).certificate_id
+        key = certificate.private_key_id
+        if not certificate.pem_certificate or not key.pem_key or key.public:
+            raise UserError(
+                _(
+                    "The certificate %s has no private key: load it as a PKCS12 "
+                    "(.pfx) file with its password.",
+                    certificate.display_name,
+                )
+            )
+        return (
+            base64.b64decode(certificate.pem_certificate),
+            base64.b64decode(key.pem_key),
+        )
+
+    def _l10n_br_bank_certificate_pem(self):
+        """The PEM certificate the connection presents to the bank, if any.
+
+        Read without bin_size: the form reads binaries as their size.
+        """
+        self.ensure_one()
+        connection = self.sudo().with_context(bin_size=False)
+        # From the database: the cache of a binary is per bin_size.
+        connection.invalidate_recordset(["certificate"])
+        connection.certificate_id.invalidate_recordset(["pem_certificate"])
+        if connection.certificate_id.pem_certificate:
+            return base64.b64decode(connection.certificate_id.pem_certificate)
+        if connection.certificate:
+            return base64.b64decode(connection.certificate)
+        return None
+
+    @api.depends(
+        "certificate_id.pem_certificate",
+        "certificate",
+        "certificate_registered_fingerprint",
+    )
+    def _compute_certificate_renewal(self):
+        for connection in self:
+            fingerprint = False
+            pem = connection._l10n_br_bank_certificate_pem()
+            if pem:
+                try:
+                    cert = x509.load_pem_x509_certificate(pem)
+                    fingerprint = cert.fingerprint(hashes.SHA256()).hex()
+                except ValueError:
+                    fingerprint = False
+            connection.certificate_fingerprint = fingerprint
+            registered = connection.certificate_registered_fingerprint
+            connection.certificate_renewal_needed = bool(
+                fingerprint and registered and fingerprint != registered
+            )
+
+    def _l10n_br_bank_register_certificate(self, force=False):
+        """Remember the certificate the bank credential goes with: the first one,
+        a new environment (new credential), or a renewal confirmed by a person."""
+        for connection in self.sudo():
+            fingerprint = connection.certificate_fingerprint
+            if fingerprint and (
+                force or not connection.certificate_registered_fingerprint
+            ):
+                connection.certificate_registered_fingerprint = fingerprint
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        connections = super().create(vals_list)
+        connections._l10n_br_bank_register_certificate()
+        return connections
+
+    def write(self, vals):
+        res = super().write(vals)
+        if {"certificate_id", "certificate", "environment"} & set(vals):
+            self._l10n_br_bank_register_certificate(force="environment" in vals)
+        return res
+
+    @api.onchange("adapter", "company_id")
+    def _onchange_certificate_default(self):
+        """The certificate of the company, when the bank asks for one."""
+        for connection in self:
+            if connection.uses_certificate and not connection.certificate_id:
+                connection.certificate_id = self.env["certificate.certificate"].search(
+                    [
+                        ("company_id", "in", [connection.company_id.id, False]),
+                        ("is_valid", "=", True),
+                        ("private_key_id", "!=", False),
+                    ],
+                    order="date_end desc",
+                    limit=1,
+                )
+
+    def _l10n_br_bank_test_certificate_subject(self):
+        """Subject as the Bradesco asks: CN=LEGAL NAME:CNPJ, C=BR, O=LEGAL NAME."""
+        self.ensure_one()
+        partner = self.company_id.partner_id
+        legal_name = (
+            getattr(partner, "legal_name", False) or self.company_id.name or ""
+        ).upper()
+        cnpj = re.sub(r"\D", "", self.cnpj or self.company_id.vat or "")
+        return x509.Name(
+            [
+                x509.NameAttribute(NameOID.COMMON_NAME, f"{legal_name}:{cnpj}"),
+                x509.NameAttribute(NameOID.COUNTRY_NAME, "BR"),
+                x509.NameAttribute(NameOID.ORGANIZATION_NAME, legal_name),
+            ]
+        )
+
+    def action_generate_test_certificate(self):
+        """Self-signed certificate for a bank sandbox, kept on the connection; the
+        user downloads only its public part, to upload at the bank portal."""
+        self.ensure_one()
+        self.check_access("write")
+        if self.environment != "test":
+            raise UserError(
+                _(
+                    "A test certificate is only for a connection in the test "
+                    "environment."
+                )
+            )
+        key = rsa.generate_private_key(public_exponent=65537, key_size=2048)
+        subject = self._l10n_br_bank_test_certificate_subject()
+        now = fields.Datetime.now()
+        cert = (
+            x509.CertificateBuilder()
+            .subject_name(subject)
+            .issuer_name(subject)
+            .public_key(key.public_key())
+            .serial_number(x509.random_serial_number())
+            .not_valid_before(now - timedelta(minutes=5))
+            .not_valid_after(now + timedelta(days=365))
+            .sign(key, hashes.SHA256())
+        )
+        bundle = pkcs12.serialize_key_and_certificates(
+            name=b"test",
+            key=key,
+            cert=cert,
+            cas=None,
+            encryption_algorithm=serialization.NoEncryption(),
+        )
+        record = (
+            self.env["certificate.certificate"]
+            .sudo()
+            .create(
+                {
+                    "name": _("Test certificate - %s", self.name),
+                    "content": base64.b64encode(bundle),
+                    "company_id": self.company_id.id,
+                }
+            )
+        )
+        self.sudo().certificate_id = record
+        return {
+            "type": "ir.actions.client",
+            "tag": "display_notification",
+            "params": {
+                "message": _(
+                    "Test certificate created. Download its public part with "
+                    "Download certificate (.pem) and upload it at the bank portal."
+                ),
+                "type": "success",
+                "next": {"type": "ir.actions.client", "tag": "soft_reload"},
+            },
+        }
+
+    def action_download_certificate_pem(self):
+        """The public part of the certificate of the connection (a test one or
+        the A1 of the company), to upload at the bank portal. Never the key."""
+        self.ensure_one()
+        self.check_access("read")
+        connection = self.sudo().with_context(bin_size=False)
+        filename = re.sub(r"[^A-Za-z0-9]+", "-", self.name or "conexao").strip("-")
+        if connection.certificate_id.pem_certificate:
+            url = (
+                f"/web/content/certificate.certificate/{connection.certificate_id.id}"
+                "/pem_certificate"
+            )
+        elif connection.certificate:
+            url = f"/web/content/{self._name}/{self.id}/certificate"
+        else:
+            raise UserError(_("This connection has no certificate yet."))
+        return {
+            "type": "ir.actions.act_url",
+            "url": f"{url}?download=true&filename={filename}-certificado.pem",
+            "target": "new",
+        }
+
+    def action_certificate_renewed_at_bank(self):
+        """A person confirms the bank credential now goes with this certificate."""
+        self.check_access("write")
+        self._l10n_br_bank_register_certificate(force=True)
 
     # === ACTIONS === #
 

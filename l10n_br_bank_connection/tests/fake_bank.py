@@ -11,6 +11,7 @@ from brbank.erros import NaoSuportado
 
 FAKE = "conn_test_fake"
 FAKE_NO_SANDBOX = "conn_test_fake_no_sandbox"
+FAKE_MTLS = "conn_test_fake_mtls"
 STATE = {}
 
 
@@ -79,3 +80,20 @@ class FakeNoSandboxConfig:
 class FakeNoSandboxAdapter(FakeAdapter):
     def __init__(self, config: FakeNoSandboxConfig, *, client=None):
         super().__init__(config, client=client)
+
+
+@dataclass
+class FakeMtlsConfig:
+    """A bank that authenticates with a client certificate (mTLS)."""
+
+    conta: str
+    client_id: str
+    certificado_pem: bytes = field(repr=False)
+    chave_pem: bytes = field(repr=False)
+    ambiente: str = "producao"
+
+
+class FakeMtlsAdapter(FakeAdapter):
+    def __init__(self, config: FakeMtlsConfig, *, client=None):
+        self.config = config
+        STATE["configs"].append(config)

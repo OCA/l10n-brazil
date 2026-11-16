@@ -423,6 +423,24 @@ then asks to <em>Reconnect</em>.</li>
 register at the bank, is in the <em>Webhook</em> tab; <em>Rotate webhook token</em>
 stops the old one at once. The URL carries a secret: mask it in the
 logs of the proxy.</li>
+<li>Client certificate (mTLS), for the banks that ask for one: load the
+A1 of the company once, as a <tt class="docutils literal">.pfx</tt> file with its password, in
+<em>Settings &gt; Certificates and Keys &gt; Certificates</em>, and choose it in
+the <em>Certificate</em> field of the connection (the certificate of the
+company is suggested when the bank asks for one). The PEM certificate
+and key fields remain for a certificate kept outside Odoo.</li>
+<li>In the test environment, <em>Generate test certificate</em> creates a
+self-signed certificate (RSA 2048, SHA-256, one year, subject
+<tt class="docutils literal">CN=LEGAL NAME:CNPJ, C=BR, O=LEGAL NAME</tt>, as the Bradesco asks),
+keeps it on the connection and downloads only its public part
+(<tt class="docutils literal">.pem</tt>), to upload at the bank portal. The button does not show in
+production.</li>
+<li>The connection remembers the certificate the bank credential was
+issued with. When it changes (a renewed A1), a warning asks to renew
+the credential at the bank portal (Bradesco: <em>Solicitar Credencial</em>,
+<em>Renovação certificado</em>) and to confirm with <em>Credential renewed at
+the bank</em>. Changing the environment starts a new credential, without
+warning.</li>
 </ol>
 <p>Developers: call the bank with
 <tt class="docutils literal">connection._l10n_br_bank_run(lambda adapter: <span class="pre">adapter.method(...))</span></tt>,

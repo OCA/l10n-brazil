@@ -13,6 +13,7 @@
     "development_status": "Beta",
     "depends": [
         "account",
+        "certificate",
         "mail",
     ],
     # Module name only: a version specifier here breaks the import check.

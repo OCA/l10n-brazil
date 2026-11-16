@@ -108,6 +108,26 @@
                         string="Test connection"
                         invisible="state == 'draft' and oauth_supported"
                     />
+                    <button
+                        name="action_generate_test_certificate"
+                        type="object"
+                        string="Generate test certificate"
+                        groups="base.group_system"
+                        invisible="environment != 'test' or not uses_certificate"
+                        confirm="A new self-signed certificate replaces the one of this connection. Continue?"
+                    />
+                    <field
+                        name="certificate_fingerprint"
+                        invisible="1"
+                        groups="base.group_system"
+                    />
+                    <button
+                        name="action_download_certificate_pem"
+                        type="object"
+                        string="Download certificate (.pem)"
+                        groups="base.group_system"
+                        invisible="not uses_certificate or not certificate_fingerprint"
+                    />
                     <field name="state" widget="statusbar" />
                 </header>
                 <sheet>
@@ -134,6 +154,28 @@
                     >
                         This bank adapter has not been validated in the bank sandbox
                         yet. Test it with low amounts before using it in production.
+                    </div>
+                    <field
+                        name="certificate_renewal_needed"
+                        invisible="1"
+                        groups="base.group_system"
+                    />
+                    <div
+                        class="alert alert-warning"
+                        role="alert"
+                        groups="base.group_system"
+                        invisible="not certificate_renewal_needed"
+                    >
+                        The certificate of this connection changed (a renewed A1, for
+                        instance): the bank credential was issued with the previous
+                        one. Renew the credential at the bank portal (Bradesco:
+                        Solicitar Credencial, Renovação certificado), then confirm.
+                        <button
+                        name="action_certificate_renewed_at_bank"
+                        type="object"
+                        string="Credential renewed at the bank"
+                        class="btn-link"
+                    />
                     </div>
                     <div
                         class="alert alert-danger"
@@ -208,12 +250,20 @@
                                         invisible="not oauth_supported"
                                     />
                                     <field
-                                        name="certificate"
+                                        name="certificate_id"
                                         invisible="not uses_certificate"
                                     />
                                     <field
+                                        name="certificate"
+                                        invisible="not uses_certificate or certificate_id"
+                                    />
+                                    <field
                                         name="private_key"
-                                        invisible="not uses_certificate"
+                                        invisible="not uses_certificate or certificate_id"
+                                    />
+                                    <field
+                                        name="certificate_registered_fingerprint"
+                                        invisible="not certificate_registered_fingerprint"
                                     />
                                 </group>
                             </group>
