@@ -348,7 +348,11 @@ class RegistroJ050(models.Model):
             .with_company(company)
             .search([("company_id", "=", company.id)])
         )
-        accounts = self.env["account.account"].with_company(company).search([])
+        accounts = (
+            self.env["account.account"]
+            .with_company(company)
+            .search([("company_id", "=", company.id)])
+        )
 
         group_nat = {}
         for account in accounts:
