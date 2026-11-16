@@ -17,7 +17,6 @@ class ResPartner(spec_models.SpecModel):
         "mdfe.30.tendeemi",
         "mdfe.30.dest",
         "mdfe.30.tresptec",
-        "mdfe.30.autxml",
         "mdfe.30.veicreboque_prop",
         "mdfe.30.veictracao_prop",
         "mdfe.30.infresp",
@@ -166,13 +165,6 @@ class ResPartner(spec_models.SpecModel):
 
     mdfe30_tpProp = fields.Selection(default="0")
 
-    mdfe30_choice_autxml = fields.Selection(
-        selection=[("mdfe30_CNPJ", "CNPJ"), ("mdfe30_CPF", "CPF")],
-        string="CNPJ/CPF do Parceiro Autorizado - MDFe",
-        compute="_compute_mdfe_data",
-        compute_sudo=True,
-    )
-
     mdfe30_choice_trailer_owner = fields.Selection(
         selection=[("mdfe30_CNPJ", "CNPJ"), ("mdfe30_CPF", "CPF")],
         string="CNPJ/CPF do Proprietário do Reboque",
@@ -241,21 +233,18 @@ class ResPartner(spec_models.SpecModel):
                     rec.mdfe30_choice_tcontractor = "mdfe30_idEstrangeiro"
                 elif rec.is_company:
                     rec.mdfe30_choice_emit = "mdfe30_CNPJ"
-                    rec.mdfe30_choice_autxml = "mdfe30_CNPJ"
                     rec.mdfe30_choice_trailer_owner = "mdfe30_CNPJ"
                     rec.mdfe30_choice_tcontractor = "mdfe30_CNPJ"
                     rec.mdfe30_choice_contractor = "mdfe30_CNPJ"
                     rec.mdfe30_choice_insurer = "mdfe30_CNPJ"
                 else:
                     rec.mdfe30_choice_emit = "mdfe30_CPF"
-                    rec.mdfe30_choice_autxml = "mdfe30_CPF"
                     rec.mdfe30_choice_trailer_owner = "mdfe30_CPF"
                     rec.mdfe30_choice_tcontractor = "mdfe30_CPF"
                     rec.mdfe30_choice_contractor = "mdfe30_CPF"
                     rec.mdfe30_choice_insurer = "mdfe30_CPF"
             else:
                 rec.mdfe30_choice_emit = False
-                rec.mdfe30_choice_autxml = False
                 rec.mdfe30_choice_trailer_owner = False
                 rec.mdfe30_choice_tcontractor = False
                 rec.mdfe30_choice_contractor = False
@@ -274,7 +263,6 @@ class ResPartner(spec_models.SpecModel):
             if rec.mdfe30_CNPJ:
                 rec.is_company = True
                 rec.mdfe30_choice_emit = "mdfe30_CPF"
-                rec.mdfe30_choice_autxml = "mdfe30_CPF"
                 rec.mdfe30_choice_trailer_owner = "mdfe30_CPF"
                 rec.mdfe30_choice_tcontractor = "mdfe30_CPF"
                 rec.mdfe30_choice_contractor = "mdfe30_CPF"
@@ -286,7 +274,6 @@ class ResPartner(spec_models.SpecModel):
             if rec.mdfe30_CPF:
                 rec.is_company = False
                 rec.mdfe30_choice_emit = "mdfe30_CNPJ"
-                rec.mdfe30_choice_autxml = "mdfe30_CNPJ"
                 rec.mdfe30_choice_trailer_owner = "mdfe30_CNPJ"
                 rec.mdfe30_choice_tcontractor = "mdfe30_CNPJ"
                 rec.mdfe30_choice_contractor = "mdfe30_CNPJ"
