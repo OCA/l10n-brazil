@@ -502,6 +502,37 @@ class TestSpecModel(TransactionCase):
         finally:
             registry.__dict__.pop("_poxsd_register_hook_loaded", None)
 
+    def test_check_tables_exist_recreates_the_remaining_tables(self):
+        """After that rollback, init_models() of the next module runs
+        Registry.check_tables_exist() before the hook runs again. SpecModel.init()
+        must recreate the remaining tables with their foreign keys (no "has no
+        table" error) and have the hook reflect the models again."""
+        registry = self.env.registry
+        cr = self.env.cr
+        mixin = self.env["spec.mixin.poxsd"]
+        fk_query = """SELECT conname FROM pg_constraint
+                      WHERE contype = 'f' AND conrelid = 'poxsd_10_comment'::regclass"""
+        registry.__dict__.pop("_poxsd_register_hook_loaded", None)
+        try:
+            mixin._register_hook()
+            cr.execute(fk_query)
+            foreign_keys = {row[0] for row in cr.fetchall()}
+
+            # what the rollback of that transaction leaves behind
+            cr.execute("DROP TABLE poxsd_10_comment CASCADE")
+            with self.assertNoLogs("odoo.registry", "ERROR"):
+                registry.init_models(cr, ["res.country"], {})
+            self.assertTrue(table_exists(cr, "poxsd_10_comment"))
+            cr.execute(fk_query)
+            self.assertEqual({row[0] for row in cr.fetchall()}, foreign_keys)
+            loaded = registry._poxsd_register_hook_loaded
+            self.assertTrue(loaded["reflect_again"])
+
+            mixin._register_hook()
+            self.assertFalse(loaded["reflect_again"])
+        finally:
+            registry.__dict__.pop("_poxsd_register_hook_loaded", None)
+
     def test_hook_read_only_on_ordinary_registry_load(self):
         """hook v2: an ordinary registry load performs zero reflection writes.
 

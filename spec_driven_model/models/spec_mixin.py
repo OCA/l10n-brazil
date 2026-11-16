@@ -124,13 +124,20 @@ class SpecMixin(models.AbstractModel):
             # gone: a reflection done inside a transaction rolled back afterwards
             # (an at_install test importing a document, before Odoo calls
             # _register_hook once all the modules are loaded) leaves the key set
-            # and no table. In that case only the reflection is done again.
-            if loaded and not set(loaded["tables"]).issubset(
-                existing_tables(self.env.cr, list(loaded["tables"]))
+            # and no table. In that case only the reflection is done again. When
+            # SpecModel.init() already recreated the tables (check_tables_exist of
+            # the next module), it sets reflect_again, because the access rules
+            # and the reflected fields are still missing.
+            if loaded and (
+                loaded.get("reflect_again")
+                or not set(loaded["tables"]).issubset(
+                    existing_tables(self.env.cr, list(loaded["tables"]))
+                )
             ):
                 self._reflect_remaining_schema_models(
                     loaded["built"], loaded["remaining"], loaded["module"]
                 )
+                loaded["reflect_again"] = False
             return
         setattr(self.env.registry, load_key, {})
 

@@ -10,7 +10,7 @@ from inspect import getmembers, isclass
 from odoo import _, api, models
 from odoo.api import Environment
 from odoo.orm import model_classes
-from odoo.tools import mute_logger
+from odoo.tools import mute_logger, sql
 
 from .ir_model import disambiguate_spec_labels
 
@@ -154,6 +154,50 @@ class SpecModel(models.Model):
 
     # TODO a save python constraint that ensuire xsd_required fields for the
     # context are present
+
+    def init(self):
+        super().init()
+        # Registry.check_tables_exist() calls init() to recreate a missing table,
+        # from init_models() and before its post init calls and foreign keys. The
+        # remaining schema models built by the spec.mixin hook lose their tables
+        # when the transaction that reflected them is rolled back (an at_install
+        # test importing a document), while they stay in the registry. Recreate
+        # all the missing ones at once, so the foreign keys between them can be
+        # created, then do what init_models() does after _auto_init().
+        registry = self.env.registry
+        cr = self.env.cr
+        if (
+            not self._auto
+            or self._abstract
+            or not hasattr(registry, "_post_init_queue")
+            or sql.table_exists(cr, self._table)
+        ):
+            return
+        spec_tables = {
+            model._table: name
+            for name, model in registry.items()
+            if issubclass(model, SpecModel) and model._auto and not model._abstract
+        }
+        missing = set(spec_tables).difference(
+            sql.existing_tables(cr, list(spec_tables))
+        )
+        for table in sorted(missing):
+            self.env[spec_tables[table]]._auto_init()
+        # the cached list of tables does not know the new ones yet, and with it
+        # Odoo would skip their foreign keys
+        registry._ordinary_tables = None
+        while registry._post_init_queue:
+            registry._post_init_queue.popleft()()
+        registry.check_foreign_keys(cr)
+        # the access rules and the reflected fields of these models went away
+        # with the same rollback: the spec.mixin hook reflects them again
+        for key, loaded in vars(registry).items():
+            if (
+                key.endswith("_register_hook_loaded")
+                and loaded
+                and missing.intersection(loaded["tables"])
+            ):
+                loaded["reflect_again"] = True
 
     @api.depends(lambda self: (self._rec_name,) if self._rec_name else ())
     def _compute_display_name(self):
