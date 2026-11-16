@@ -150,6 +150,16 @@ class TestConnection(ConnectionCommon, TransactionCase):
         self.assertEqual(self.connection.state, "connected")
         self.assertFalse(self.connection.last_error)
 
+    def test_cleared_error_is_stored_empty(self):
+        """The write apart is raw SQL: False must not become the text "false"."""
+        self.connection.write({"last_error": "old"})
+        self.connection._l10n_br_bank_write_apart({"last_error": False})
+        self.env.cr.execute(
+            "SELECT last_error FROM l10n_br_bank_connection_connection WHERE id = %s",
+            (self.connection.id,),
+        )
+        self.assertIsNone(self.env.cr.fetchone()[0])
+
     def test_token_refusal_marks_the_connection(self):
         STATE["error"] = Validacao("credenciais recusadas ao obter token")
         self._ping_fails(Validacao)

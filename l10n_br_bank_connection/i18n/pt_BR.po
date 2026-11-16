@@ -67,7 +67,7 @@ msgstr "Conta e escopo do token."
 #. module: l10n_br_bank_connection
 #: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__message_needaction
 msgid "Action Needed"
-msgstr ""
+msgstr "Ação necessária"
 
 #. module: l10n_br_bank_connection
 #: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__active
@@ -110,7 +110,7 @@ msgstr "Registro assíncrono"
 #. module: l10n_br_bank_connection
 #: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__message_attachment_count
 msgid "Attachment Count"
-msgstr ""
+msgstr "Quantidade de anexos"
 
 #. module: l10n_br_bank_connection
 #: model_terms:ir.ui.view,arch_db:l10n_br_bank_connection.bank_connection_search
@@ -186,6 +186,8 @@ msgid ""
 "CNPJ of the account holder, as the bank knows it. Defaults to the CNPJ of "
 "the company."
 msgstr ""
+"CNPJ do titular da conta, como o banco o conhece. Por padrão, o CNPJ da "
+"empresa."
 
 #. module: l10n_br_bank_connection
 #: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__capability_labels
@@ -216,7 +218,7 @@ msgstr "Client Secret"
 #. module: l10n_br_bank_connection
 #: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_sync_status__color
 msgid "Color"
-msgstr ""
+msgstr "Cor"
 
 #. module: l10n_br_bank_connection
 #: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__company_id
@@ -244,22 +246,23 @@ msgstr "Conexão"
 #: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_sync_status__create_uid
 #: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_token__create_uid
 msgid "Created by"
-msgstr ""
+msgstr "Criado por"
 
 #. module: l10n_br_bank_connection
 #: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__create_date
 #: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_sync_status__create_date
 #: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_token__create_date
 msgid "Created on"
-msgstr ""
+msgstr "Criado em"
 
 #. module: l10n_br_bank_connection
 #: model:res.groups,comment:l10n_br_bank_connection.group_bank_connection_admin
 msgid ""
 "Creates and edits bank connections and starts the consent\n"
-"            at the bank. Credentials stay readable by system administrators "
-"only."
+"            at the bank. Credentials stay readable by system administrators only."
 msgstr ""
+"Cria e edita conexões bancárias e inicia o consentimento\n"
+"            no banco. As credenciais só ficam legíveis para administradores do sistema."
 
 #. module: l10n_br_bank_connection
 #: model_terms:ir.ui.view,arch_db:l10n_br_bank_connection.bank_connection_form
@@ -282,7 +285,7 @@ msgstr "DDA (débito direto autorizado)"
 #: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_sync_status__display_name
 #: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_token__display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Nome exibido"
 
 #. module: l10n_br_bank_connection
 #: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_sync_status__domain
@@ -328,17 +331,17 @@ msgstr "Preencher modelo de configurações"
 #. module: l10n_br_bank_connection
 #: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__message_follower_ids
 msgid "Followers"
-msgstr ""
+msgstr "Seguidores"
 
 #. module: l10n_br_bank_connection
 #: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__message_partner_ids
 msgid "Followers (Partners)"
-msgstr ""
+msgstr "Seguidores (parceiros)"
 
 #. module: l10n_br_bank_connection
 #: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__has_message
 msgid "Has Message"
-msgstr ""
+msgstr "Tem mensagem"
 
 #. module: l10n_br_bank_connection
 #. odoo-python
@@ -357,17 +360,17 @@ msgstr "Somente boleto híbrido"
 #: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_sync_status__id
 #: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_token__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: l10n_br_bank_connection
 #: model:ir.model.fields,help:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__message_needaction
 msgid "If checked, new messages require your attention."
-msgstr ""
+msgstr "Se marcado, novas mensagens precisam da sua atenção."
 
 #. module: l10n_br_bank_connection
 #: model:ir.model.fields,help:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__message_has_error
 msgid "If checked, some messages have a delivery error."
-msgstr ""
+msgstr "Se marcado, algumas mensagens têm erro de entrega."
 
 #. module: l10n_br_bank_connection
 #. odoo-python
@@ -390,7 +393,7 @@ msgstr "Instruções (vencimento, abatimento)"
 #. module: l10n_br_bank_connection
 #: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__message_is_follower
 msgid "Is Follower"
-msgstr ""
+msgstr "É seguidor"
 
 #. module: l10n_br_bank_connection
 #: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__is_pix
@@ -403,6 +406,8 @@ msgid ""
 "JSON object with the bank specific secrets (developer key, API key, webhook "
 "secret...)."
 msgstr ""
+"Objeto JSON com os segredos próprios do banco (chave de desenvolvedor, chave"
+" da API, segredo do webhook etc.)."
 
 #. module: l10n_br_bank_connection
 #: model:ir.model.fields,help:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__extra_config
@@ -410,6 +415,9 @@ msgid ""
 "JSON object with the bank specific settings (agreement, wallet, client "
 "number...). Use 'Fill settings template' to get the keys."
 msgstr ""
+"Objeto JSON com as configurações próprias do banco (convênio, carteira, "
+"número do cliente etc.). Use \"Preencher modelo de configurações\" para "
+"obter as chaves."
 
 #. module: l10n_br_bank_connection
 #: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_token__key
@@ -431,29 +439,29 @@ msgstr "Último erro"
 #: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_sync_status__write_uid
 #: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_token__write_uid
 msgid "Last Updated by"
-msgstr ""
+msgstr "Última atualização por"
 
 #. module: l10n_br_bank_connection
 #: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__write_date
 #: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_sync_status__write_date
 #: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_token__write_date
 msgid "Last Updated on"
-msgstr ""
+msgstr "Última atualização em"
 
 #. module: l10n_br_bank_connection
 #: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_sync_status__message
 msgid "Message"
-msgstr ""
+msgstr "Mensagem"
 
 #. module: l10n_br_bank_connection
 #: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__message_has_error
 msgid "Message Delivery error"
-msgstr ""
+msgstr "Erro na entrega da mensagem"
 
 #. module: l10n_br_bank_connection
 #: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__message_ids
 msgid "Messages"
-msgstr ""
+msgstr "Mensagens"
 
 #. module: l10n_br_bank_connection
 #: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__name
@@ -478,22 +486,22 @@ msgstr "Não conectado"
 #. module: l10n_br_bank_connection
 #: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__message_needaction_counter
 msgid "Number of Actions"
-msgstr ""
+msgstr "Número de ações"
 
 #. module: l10n_br_bank_connection
 #: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__message_has_error_counter
 msgid "Number of errors"
-msgstr ""
+msgstr "Número de erros"
 
 #. module: l10n_br_bank_connection
 #: model:ir.model.fields,help:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__message_needaction_counter
 msgid "Number of messages requiring action"
-msgstr ""
+msgstr "Número de mensagens que pedem ação"
 
 #. module: l10n_br_bank_connection
 #: model:ir.model.fields,help:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__message_has_error_counter
 msgid "Number of messages with delivery error"
-msgstr ""
+msgstr "Número de mensagens com erro de entrega"
 
 #. module: l10n_br_bank_connection
 #: model:ir.model.fields,help:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__refresh_token
@@ -502,37 +510,41 @@ msgid ""
 "Connect). The bank may return a new one at each renewal: the connection "
 "keeps it up to date by itself."
 msgstr ""
+"Refresh token OAuth obtido no banco (fluxo de código de autorização, ver "
+"Conectar). O banco pode devolver um novo a cada renovação: a conexão o "
+"mantém atualizado sozinha."
 
 #. module: l10n_br_bank_connection
 #: model:ir.model.fields,help:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__scopes
 msgid ""
 "OAuth scopes asked at the consent. Empty uses the default of the adapter."
 msgstr ""
+"Escopos OAuth pedidos no consentimento. Vazio usa o padrão do adaptador."
 
 #. module: l10n_br_bank_connection
 #: model:ir.model.fields.selection,name:l10n_br_bank_connection.selection__l10n_br_bank_connection_sync_status__state__ok
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 #. module: l10n_br_bank_connection
 #: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__oauth_expires
 msgid "Oauth Expires"
-msgstr ""
+msgstr "Expiração OAuth"
 
 #. module: l10n_br_bank_connection
 #: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__oauth_state
 msgid "Oauth State"
-msgstr ""
+msgstr "Estado OAuth"
 
 #. module: l10n_br_bank_connection
 #: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__oauth_supported
 msgid "Oauth Supported"
-msgstr ""
+msgstr "Suporta OAuth"
 
 #. module: l10n_br_bank_connection
 #: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__oauth_verifier
 msgid "Oauth Verifier"
-msgstr ""
+msgstr "Verificador OAuth"
 
 #. module: l10n_br_bank_connection
 #: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__pix_key
@@ -553,9 +565,11 @@ msgstr "Cobrança Pix com vencimento"
 #. module: l10n_br_bank_connection
 #: model:ir.model.fields,help:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__api_base_url_override
 msgid ""
-"Points the adapter to another server (bank simulator, tests). Leave empty to "
-"use the bank environment."
+"Points the adapter to another server (bank simulator, tests). Leave empty to"
+" use the bank environment."
 msgstr ""
+"Aponta o adaptador para outro servidor (simulador do banco, testes). Deixe "
+"vazio para usar o ambiente do banco."
 
 #. module: l10n_br_bank_connection
 #: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__private_key
@@ -591,7 +605,7 @@ msgstr "O mesmo para o endpoint de token do OAuth."
 #. module: l10n_br_bank_connection
 #: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__sandbox_validated
 msgid "Sandbox Validated"
-msgstr ""
+msgstr "Validado no sandbox"
 
 #. module: l10n_br_bank_connection
 #. odoo-python
@@ -607,7 +621,7 @@ msgstr "Escopos"
 #. module: l10n_br_bank_connection
 #: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__settings_help
 msgid "Settings Help"
-msgstr ""
+msgstr "Ajuda das configurações"
 
 #. module: l10n_br_bank_connection
 #: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__state
@@ -656,6 +670,8 @@ msgid ""
 "The bank adapter %s has no test environment: every call reaches production. "
 "Use the production environment and validate it with a low amount."
 msgstr ""
+"O adaptador do banco %s não tem ambiente de teste: toda chamada chega à "
+"produção. Use o ambiente de produção e valide com um valor baixo."
 
 #. module: l10n_br_bank_connection
 #. odoo-python
@@ -686,7 +702,7 @@ msgstr "O banco recusou o código de autorização: %s"
 #: code:addons/l10n_br_bank_connection/models/connection.py:0
 msgid ""
 "The bank refused the configuration of the connection %(name)s: %(error)s"
-msgstr ""
+msgstr "O banco recusou a configuração da conexão %(name)s: %(error)s"
 
 #. module: l10n_br_bank_connection
 #. odoo-python
@@ -700,6 +716,8 @@ msgid ""
 "The current webhook URL stops working. Register the new one at the bank. "
 "Continue?"
 msgstr ""
+"A URL de webhook atual deixa de funcionar. Cadastre a nova no banco. "
+"Continuar?"
 
 #. module: l10n_br_bank_connection
 #. odoo-python
@@ -711,9 +729,10 @@ msgstr "O campo %s deve conter um objeto JSON."
 #: model_terms:ir.ui.view,arch_db:l10n_br_bank_connection.bank_connection_form
 msgid ""
 "This bank adapter has not been validated in the bank sandbox\n"
-"                        yet. Test it with low amounts before using it in "
-"production."
+"                        yet. Test it with low amounts before using it in production."
 msgstr ""
+"Este adaptador de banco ainda não foi validado no sandbox\n"
+"                        do banco. Teste com valores baixos antes de usar em produção."
 
 #. module: l10n_br_bank_connection
 #: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__token_url_override
@@ -723,37 +742,37 @@ msgstr "URL do token (substituição)"
 #. module: l10n_br_bank_connection
 #: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__uses_certificate
 msgid "Uses Certificate"
-msgstr ""
+msgstr "Usa certificado"
 
 #. module: l10n_br_bank_connection
 #: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__uses_client_id
 msgid "Uses Client"
-msgstr ""
+msgstr "Usa client ID"
 
 #. module: l10n_br_bank_connection
 #: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__uses_client_secret
 msgid "Uses Client Secret"
-msgstr ""
+msgstr "Usa client secret"
 
 #. module: l10n_br_bank_connection
 #: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__uses_password
 msgid "Uses Password"
-msgstr ""
+msgstr "Usa senha"
 
 #. module: l10n_br_bank_connection
 #: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__uses_pix_key
 msgid "Uses Pix Key"
-msgstr ""
+msgstr "Usa chave Pix"
 
 #. module: l10n_br_bank_connection
 #: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__uses_refresh_token
 msgid "Uses Refresh Token"
-msgstr ""
+msgstr "Usa refresh token"
 
 #. module: l10n_br_bank_connection
 #: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__uses_username
 msgid "Uses Username"
-msgstr ""
+msgstr "Usa usuário"
 
 #. module: l10n_br_bank_connection
 #: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_token__value
@@ -785,12 +804,12 @@ msgstr "URL do webhook"
 #. module: l10n_br_bank_connection
 #: model:ir.model.fields,field_description:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__website_message_ids
 msgid "Website Messages"
-msgstr ""
+msgstr "Mensagens do site"
 
 #. module: l10n_br_bank_connection
 #: model:ir.model.fields,help:l10n_br_bank_connection.field_l10n_br_bank_connection_connection__website_message_ids
 msgid "Website communication history"
-msgstr ""
+msgstr "Histórico de comunicação do site"
 
 #. module: l10n_br_bank_connection
 #. odoo-python
@@ -804,6 +823,8 @@ msgid ""
 "mTLS certificate. It only goes to a temporary file in memory while the TLS "
 "context is built."
 msgstr ""
+"Certificado mTLS. Só vai para um arquivo temporário em memória enquanto o "
+"contexto TLS é montado."
 
 #. module: l10n_br_bank_connection
 #. odoo-python

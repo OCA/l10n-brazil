@@ -48,8 +48,9 @@ class BankConnectionSyncStatus(models.Model):
 
     @api.depends("domain", "state")
     def _compute_display_name(self):
-        labels = dict(self._fields["domain"].selection)
-        states = dict(self._fields["state"].selection)
+        # Translated labels: the static selection is in English.
+        labels = dict(self._fields["domain"]._description_selection(self.env))
+        states = dict(self._fields["state"]._description_selection(self.env))
         for status in self:
             status.display_name = "{}: {}".format(
                 labels.get(status.domain, status.domain or ""),
