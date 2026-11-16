@@ -84,6 +84,71 @@ class TestImportedTaxOverride(AccountMoveBRCommon):
         self.assertEqual(taxes[0]["amount"], 0.0)
         self.assertEqual(taxes[0]["base"], 0.0)
 
+    def test_tax_kind_from_the_name(self):
+        """Without an account.tax, the kind comes from the name of the entry."""
+        cases = {
+            "ICMS ST": "icmsst",
+            "ICMS": "icms",
+            "IPI": "ipi",
+            "PIS": "pis",
+            "COFINS": "cofins",
+            "ISSQN": "issqn",
+            "IBS": "ibs",
+            "CBS": "cbs",
+            "ISS Retido": "",
+            "Outra taxa": "",
+        }
+        for name, kind in cases.items():
+            with self.subTest(name=name):
+                self.assertEqual(self.line._resolve_tax_kind({"name": name}), kind)
+
+    def test_tax_kind_from_the_fiscal_tax(self):
+        """An account.tax linked to fiscal taxes takes their domain, whatever
+        the name of the entry, also when only the repartition line is known."""
+        tax = self._account_tax_by_domain("ipi")
+        self.assertTrue(tax.fiscal_tax_ids)
+        kind = tax.fiscal_tax_ids[0].tax_domain
+        self.assertEqual(self.line._resolve_tax_kind({"id": tax.id, "name": "x"}), kind)
+        repartition = tax.repartition_line_ids[:1]
+        self.assertEqual(
+            self.line._resolve_tax_kind(
+                {"name": "x", "tax_repartition_line_id": repartition.id}
+            ),
+            kind,
+        )
+
+    def test_tax_without_fiscal_group_falls_back_to_the_name(self):
+        """An account.tax with no fiscal tax group is matched by its name."""
+        self.fiscal_line.write({"icms_value": 18.0, "icms_base": 100.0})
+        tax = self.env["account.tax"].create(
+            {
+                "name": "ICMS sem grupo fiscal",
+                "amount": 18.0,
+                "company_id": self.env.company.id,
+            }
+        )
+        self.assertFalse(tax.tax_group_id.fiscal_tax_group_id)
+        taxes = [{"id": tax.id, "name": tax.name, "amount": 0.0, "base": 0.0}]
+
+        self.line._override_taxes_from_import(taxes, self.fiscal_line, 1)
+
+        self.assertAlmostEqual(taxes[0]["amount"], 18.0, places=2)
+        self.assertAlmostEqual(taxes[0]["base"], 100.0, places=2)
+
+    def test_brazilian_engine_needs_a_saved_line(self):
+        """A line not saved yet has no fiscal taxes: the native computation
+        fills the tax details."""
+        base_line = self.move._prepare_product_base_line_for_taxes_computation(
+            self.line
+        )
+        base_line["record"] = self.env["account.move.line"].new(
+            {"move_id": self.move.id}
+        )
+        self.env["account.tax"]._add_br_tax_details_in_base_line(
+            base_line, self.env.company
+        )
+        self.assertIn("tax_details", base_line)
+
     def _account_tax_by_domain(self, tax_domain):
         tax = self.env["account.tax"].search(
             [
