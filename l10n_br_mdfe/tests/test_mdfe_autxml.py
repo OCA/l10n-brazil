@@ -33,8 +33,8 @@ class TestMDFeAutXml(TransactionCase):
         ).copy()
 
         self.assertEqual(document.env.company, other_company)
-        self.assertIn(self.accountant, document.mdfe30_autXML)
-        self.assertNotIn(other_accountant, document.mdfe30_autXML)
+        self.assertIn(self.accountant, document.mdfe30_autXML.partner_id)
+        self.assertNotIn(other_accountant, document.mdfe30_autXML.partner_id)
 
     def test_document_created_with_autxml_keeps_it(self):
         """A document created with its own autXML (an import) keeps it."""
@@ -42,7 +42,41 @@ class TestMDFeAutXml(TransactionCase):
         given_partner = self.env["res.partner"].create({"name": "Given Partner"})
 
         document = self.document.copy(
-            {"mdfe30_autXML": [Command.link(given_partner.id)]}
+            {"mdfe30_autXML": [Command.create({"partner_id": given_partner.id})]}
         )
 
-        self.assertEqual(document.mdfe30_autXML, given_partner)
+        self.assertEqual(document.mdfe30_autXML.partner_id, given_partner)
+
+    def test_new_document_keeps_the_authorization_of_the_previous(self):
+        """Creating a document does not take the accountant from another one."""
+        self.document.company_id.accountant_id = self.accountant
+
+        first = self.document.copy()
+        second = self.document.copy()
+
+        self.assertEqual(len(first.mdfe30_autXML), 1)
+        self.assertEqual(len(second.mdfe30_autXML), 1)
+
+    def test_user_without_contact_rights_creates_document(self):
+        """The accountant default does not write on the contact."""
+        self.document.company_id.accountant_id = self.accountant
+        user = self.env["res.users"].create(
+            {
+                "name": "Fiscal User",
+                "login": "mdfe_autxml_fiscal_user",
+                "company_id": self.document.company_id.id,
+                "company_ids": [Command.set(self.document.company_id.ids)],
+                "groups_id": [
+                    Command.set(
+                        [
+                            self.env.ref("base.group_user").id,
+                            self.env.ref("l10n_br_fiscal.group_user").id,
+                        ]
+                    )
+                ],
+            }
+        )
+
+        document = self.document.with_user(user).copy()
+
+        self.assertEqual(len(document.mdfe30_autXML), 1)
