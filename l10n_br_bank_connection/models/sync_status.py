@@ -47,8 +47,9 @@ class BankConnectionSyncStatus(models.Model):
             status.color = STATE_COLORS.get(status.state, 0)
 
     def name_get(self):
-        labels = dict(self._fields["domain"].selection)
-        states = dict(self._fields["state"].selection)
+        # Translated labels: the static selection is in English.
+        labels = dict(self._fields["domain"]._description_selection(self.env))
+        states = dict(self._fields["state"]._description_selection(self.env))
         return [
             (
                 status.id,

@@ -654,6 +654,11 @@ class BankConnection(models.Model):
         """Write `values` in a cursor of its own, falling back to this one."""
         self.ensure_one()
         columns = ", ".join(f"{name} = %s" for name in values)
+        # Raw SQL: False in a text column would be stored as the text "false".
+        params = [
+            None if value is False and self._fields[name].type != "boolean" else value
+            for name, value in values.items()
+        ]
         try:
             with self.env.registry.cursor() as cr:
                 cr.execute(
@@ -664,7 +669,7 @@ class BankConnection(models.Model):
                 cr.execute(
                     f"UPDATE l10n_br_bank_connection_connection SET {columns}, "  # noqa: S608
                     "write_date = now() AT TIME ZONE 'UTC' WHERE id = %s",
-                    (*values.values(), self.id),
+                    (*params, self.id),
                     log_exceptions=False,
                 )
                 done = bool(cr.rowcount)
