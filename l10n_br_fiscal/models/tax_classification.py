@@ -13,7 +13,7 @@ from ..constants.fiscal import (
 
 class TaxClassification(models.Model):
     _name = "l10n_br_fiscal.tax.classification"
-    _inherit = "l10n_br_fiscal.data.abstract"
+    _inherit = ["l10n_br_fiscal.data.abstract", "l10n_br_fiscal.cache.mixin"]
     _order = "code"
     _description = "Tax Classification"
 
