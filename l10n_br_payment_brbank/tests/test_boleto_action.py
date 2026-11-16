@@ -66,6 +66,28 @@ class TestBoletoAction(BrbankTransactionCase):
                 tx._brbank_available_commands(), ["prorrogacao", "abatimento", "baixa"]
             )
 
+    def test_instructions_follow_the_public_settings(self):
+        """The product of the account may narrow the instructions (Bradesco with
+        QR code: no protest), read from the public settings only."""
+        invoice = self._create_invoice()
+        tx = self._brbank_txs(invoice)[0]
+        seen = []
+
+        # The fake bank has no product setting: numero_cliente plays its part.
+        def by_settings(cls, settings):
+            seen.append(dict(settings))
+            if settings.get("numero_cliente") == 7:
+                return frozenset({TipoInstrucao.PRORROGACAO})
+            return None
+
+        with patch.object(
+            FakeAdapter, "instrucoes_da_config", classmethod(by_settings), create=True
+        ):
+            self.assertIn("protesto", tx._brbank_available_commands())
+            self.provider.brbank_connection_id.extra_config = '{"numero_cliente": 7}'
+            self.assertEqual(tx._brbank_available_commands(), ["prorrogacao", "baixa"])
+        self.assertEqual(seen[-1], {"numero_cliente": 7})
+
     # === NEW BOLETO === #
 
     def test_reissue_without_fees(self):

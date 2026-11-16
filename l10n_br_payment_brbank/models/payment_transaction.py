@@ -551,8 +551,19 @@ class PaymentTransaction(models.Model):
         self.ensure_one()
         commands = []
         if self.brbank_supports_instruction:
-            adapter_class = self.provider_id.sudo()._brbank_adapter_class()
+            provider = self.provider_id.sudo()
+            adapter_class = provider._brbank_adapter_class()
             declared = getattr(adapter_class, "instrucoes", None)
+            if hasattr(adapter_class, "instrucoes_da_config"):
+                # The product may narrow it (Bradesco with QR code: no protest),
+                # read from the public settings only, never the secrets.
+                connection = provider.brbank_connection_id
+                settings = (
+                    connection._l10n_br_bank_load_json("extra_config")
+                    if connection
+                    else {}
+                )
+                declared = adapter_class.instrucoes_da_config(settings)
             commands += [
                 command
                 for command in ("prorrogacao", "abatimento", "protesto")
