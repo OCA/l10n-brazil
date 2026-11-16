@@ -220,6 +220,10 @@ class Document(models.Model):
             self.fiscal_line_ids[0].issqn_fg_city_id.state_id
             or self.company_id.partner_id.state_id
         )
+        # Approximate tax burden (Lei 12.741/2012) from the IBPT table by NBS,
+        # for the layouts that declare IBPT as the source. The layouts without
+        # that source use the burden computed from the line taxes instead, see
+        # l10n_br_fiscal.document.line._nfse_approximate_tax_burden_from_taxes.
         nbs_id = self.fiscal_line_ids[0].nbs_id
         tax_estimate = nbs_id.tax_estimate_ids.filtered(
             lambda x: x.state_id == state_id
