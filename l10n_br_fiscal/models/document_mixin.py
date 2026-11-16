@@ -332,11 +332,12 @@ class FiscalDocumentMixin(models.AbstractModel):
             and self.document_type_id.type != "service"
         )
 
+    # Not on company_id: stock.picking takes it from a related field that is
+    # not precomputed, and ind_final (precomputed) could not depend on it.
     @api.depends(
         "partner_id.country_id",
         "partner_id.ind_final",
         "partner_id.ind_ie_dest",
-        "company_id.country_id",
         "document_type_id.type",
         "fiscal_operation_id",
     )
