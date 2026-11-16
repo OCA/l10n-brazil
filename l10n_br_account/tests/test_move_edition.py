@@ -952,6 +952,26 @@ class TestMoveEdition(TransactionCase):
         self.assertEqual(move.ind_final, "0")
         self.assertEqual(fiscal_line.ind_final, "0")
 
+    def test_ind_final_non_contributor_on_invoice_form(self):
+        """On the invoice form the partner usually comes before the operation:
+        an outgoing invoice to a non-contributor must still end as a final
+        consumer operation (NF-e rejection 696)."""
+        self._setup_fiscal_user()
+        partner = self.env.ref("l10n_br_base.res_partner_cliente9_mg")
+        partner.ind_final = "0"
+        self.assertEqual(partner.ind_ie_dest, "9")
+
+        move_form = self._create_fiscal_invoice_form(partner)
+        with move_form.invoice_line_ids.new() as line_form:
+            line_form.product_id = self.product_id
+            line_form.price_unit = 100.0
+            line_form.quantity = 1.0
+        self.assertEqual(move_form.ind_final, "1")
+
+        move = move_form.save()
+        self.assertEqual(move.ind_final, "1")
+        self.assertEqual(move.fiscal_line_ids[0].ind_final, "1")
+
     def test_ind_final_propagation_on_form_partner_change(self):
         """Changing partner_id on an unsaved invoice form must propagate
         ind_final to existing lines both in the form and after saving."""

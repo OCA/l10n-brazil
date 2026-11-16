@@ -164,7 +164,10 @@ class AccountMove(models.Model):
         if self.fiscal_document_id:
             self.fiscal_document_id.company_id = self.company_id
 
-    @api.onchange("partner_id")
+    # Also on the operation and the document type: each onchange rebuilds the
+    # delegated fiscal document from the form values, without its partner, and
+    # rules computed on it (ind_final of a non-contributor) need the partner.
+    @api.onchange("partner_id", "fiscal_operation_id", "document_type_id")
     def _onchange_partner_id_br(self):
         if self.fiscal_document_id:
             self.fiscal_document_id.partner_id = self.partner_id
