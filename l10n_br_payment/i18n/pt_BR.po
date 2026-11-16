@@ -17,29 +17,69 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #. module: l10n_br_payment
-#: model_terms:ir.ui.view,arch_db:l10n_br_payment.report_invoice_document_boleto
-msgid "<small>Digitable line:</small>"
-msgstr "<small>Linha digitável:</small>"
-
-#. module: l10n_br_payment
-#: model_terms:ir.ui.view,arch_db:l10n_br_payment.report_invoice_document_boleto
-msgid "<small>Pix copy and paste:</small>"
-msgstr "<small>Pix copia e cola:</small>"
+#: model_terms:ir.ui.view,arch_db:l10n_br_payment.portal_invoice_page_boleto
+msgid ""
+"<i class=\"fa fa-copy\"/>\n"
+"                                    <span class=\"o_boleto_copy_label\">Copy digitable line</span>"
+msgstr ""
+"<i class=\"fa fa-copy\"/>\n"
+"                                    <span class=\"o_boleto_copy_label\">Copiar linha digitável</span>"
 
 #. module: l10n_br_payment
 #: model_terms:ir.ui.view,arch_db:l10n_br_payment.portal_invoice_page_boleto
-msgid "<strong class=\"text-muted\">Due</strong>"
-msgstr "<strong class=\"text-muted\">Vencimento</strong>"
+msgid ""
+"<i class=\"fa fa-copy\"/>\n"
+"                                    <span class=\"o_boleto_copy_label\">Copy Pix code</span>"
+msgstr ""
+"<i class=\"fa fa-copy\"/>\n"
+"                                    <span class=\"o_boleto_copy_label\">Copiar código Pix</span>"
+
+#. module: l10n_br_payment
+#: model_terms:ir.ui.view,arch_db:l10n_br_payment.portal_invoice_page_boleto
+msgid ""
+"<small class=\"text-muted text-center\">\n"
+"                                    Scan with your bank app, or copy the Pix code\n"
+"                                </small>"
+msgstr ""
+"<small class=\"text-muted text-center\">\n"
+"                                    Leia com o app do seu banco ou copie o código Pix\n"
+"                                </small>"
+
+#. module: l10n_br_payment
+#: model_terms:ir.ui.view,arch_db:l10n_br_payment.portal_invoice_page_boleto
+#: model_terms:ir.ui.view,arch_db:l10n_br_payment.report_invoice_document_boleto
+msgid "<small class=\"text-muted\">Boleto digitable line</small>"
+msgstr "<small class=\"text-muted\">Linha digitável do boleto</small>"
+
+#. module: l10n_br_payment
+#: model_terms:ir.ui.view,arch_db:l10n_br_payment.portal_invoice_page_boleto
+msgid "<small class=\"text-muted\">How to pay</small>"
+msgstr "<small class=\"text-muted\">Como pagar</small>"
+
+#. module: l10n_br_payment
+#: model_terms:ir.ui.view,arch_db:l10n_br_payment.report_invoice_document_boleto
+msgid "<small class=\"text-muted\">Pix copy and paste</small>"
+msgstr "<small class=\"text-muted\">Pix copia e cola</small>"
+
+#. module: l10n_br_payment
+#: model_terms:ir.ui.view,arch_db:l10n_br_payment.portal_boleto_title_header
+msgid "<span class=\"badge text-bg-danger\">Overdue</span>"
+msgstr "<span class=\"badge text-bg-danger\">Vencida</span>"
+
+#. module: l10n_br_payment
+#: model_terms:ir.ui.view,arch_db:l10n_br_payment.portal_boleto_title_header
+msgid "<span class=\"badge text-bg-success\">Paid</span>"
+msgstr "<span class=\"badge text-bg-success\">Paga</span>"
+
+#. module: l10n_br_payment
+#: model_terms:ir.ui.view,arch_db:l10n_br_payment.portal_boleto_title_header
+msgid "<span class=\"text-muted\">Due</span>"
+msgstr "<span class=\"text-muted\">Vencimento</span>"
 
 #. module: l10n_br_payment
 #: model_terms:ir.ui.view,arch_db:l10n_br_payment.report_invoice_document_boleto
 msgid "<strong>How to pay</strong>"
 msgstr "<strong>Como pagar</strong>"
-
-#. module: l10n_br_payment
-#: model_terms:ir.ui.view,arch_db:l10n_br_payment.report_invoice_document_boleto
-msgid "Amount"
-msgstr "Valor"
 
 #. module: l10n_br_payment
 #: model:ir.model.fields,field_description:l10n_br_payment.field_payment_transaction__barcode
@@ -53,14 +93,15 @@ msgid "Boleto"
 msgstr "Boleto"
 
 #. module: l10n_br_payment
-#: model_terms:ir.ui.view,arch_db:l10n_br_payment.report_invoice_document_boleto
-msgid "Boleto / Pix"
-msgstr "Boleto / Pix"
-
-#. module: l10n_br_payment
 #: model:ir.model.fields,field_description:l10n_br_payment.field_payment_transaction__boleto_pdf
 msgid "Boleto PDF"
 msgstr "PDF do Boleto"
+
+#. module: l10n_br_payment
+#. odoo-javascript
+#: code:addons/l10n_br_payment/static/src/js/boleto_copy.esm.js:0
+msgid "Copied"
+msgstr "Copiado"
 
 #. module: l10n_br_payment
 #. odoo-python
@@ -78,8 +119,12 @@ msgid "Digitable Line"
 msgstr "Linha digitável"
 
 #. module: l10n_br_payment
-#: model:ir.model.fields,field_description:l10n_br_payment.field_payment_transaction__due_date
 #: model_terms:ir.ui.view,arch_db:l10n_br_payment.report_invoice_document_boleto
+msgid "Due"
+msgstr "Vencimento"
+
+#. module: l10n_br_payment
+#: model:ir.model.fields,field_description:l10n_br_payment.field_payment_transaction__due_date
 msgid "Due Date"
 msgstr "Vencimento"
 
@@ -99,6 +144,8 @@ msgstr ""
 
 #. module: l10n_br_payment
 #: model:ir.model.fields,field_description:l10n_br_payment.field_payment_transaction__move_line_id
+#: model_terms:ir.ui.view,arch_db:l10n_br_payment.portal_boleto_title_header
+#: model_terms:ir.ui.view,arch_db:l10n_br_payment.report_invoice_document_boleto
 msgid "Installment"
 msgstr "Parcela"
 
@@ -115,8 +162,8 @@ msgid ""
 "Instructions to be printed on the boleto. This field is used to provide "
 "additional information to the payer."
 msgstr ""
-"Instruções a imprimir no boleto. Este campo traz informações adicionais para "
-"o pagador."
+"Instruções a imprimir no boleto. Este campo traz informações adicionais para"
+" o pagador."
 
 #. module: l10n_br_payment
 #: model:ir.model.fields,field_description:l10n_br_payment.field_account_payment_mode__payment_boleto_interest
@@ -143,6 +190,12 @@ msgstr "É pagamento por boleto"
 #: model:ir.model,name:l10n_br_payment.model_account_move
 msgid "Journal Entry"
 msgstr "Lançamento Contábil"
+
+#. module: l10n_br_payment
+#: model_terms:ir.ui.view,arch_db:l10n_br_payment.portal_boleto_title_header
+#: model_terms:ir.ui.view,arch_db:l10n_br_payment.report_invoice_document_boleto
+msgid "of"
+msgstr "de"
 
 #. module: l10n_br_payment
 #: model:ir.model.fields,field_description:l10n_br_payment.field_payment_transaction__our_number
@@ -186,6 +239,7 @@ msgid "Pix Copy and Paste"
 msgstr "Pix Copia e Cola"
 
 #. module: l10n_br_payment
+#: model_terms:ir.ui.view,arch_db:l10n_br_payment.portal_invoice_page_boleto
 #: model_terms:ir.ui.view,arch_db:l10n_br_payment.report_invoice_document_boleto
 msgid "Pix QR code"
 msgstr "QR code Pix"
