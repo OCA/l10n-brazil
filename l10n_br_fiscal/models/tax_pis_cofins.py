@@ -1,6 +1,8 @@
 # Copyright (C) 2019  Renato Lima - Akretion <renato.lima@akretion.com.br>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
+import logging
+
 from odoo import _, api, fields, models
 
 from .. import tools
@@ -10,6 +12,8 @@ from ..constants.fiscal import (
     TAX_DOMAIN_PIS,
     TAX_DOMAIN_PIS_ST,
 )
+
+_logger = logging.getLogger(__name__)
 
 
 class TaxPisCofins(models.Model):
@@ -81,8 +85,17 @@ class TaxPisCofins(models.Model):
 
             # Clear Field to recompute
             r.ncm_ids = False
-            if r.ncms:
-                domain = tools.domain_field_codes(r.ncms)
+            if not r.ncms:
+                if r.not_in_ncms or r.ncm_exception:
+                    _logger.info(
+                        "PIS/COFINS setup %s (%s) declares exclusions without "
+                        "any NCM of its own and was not applied to any NCM.",
+                        r.code,
+                        r.name,
+                    )
+                continue
+
+            domain = tools.domain_field_codes(r.ncms)
 
             if r.not_in_ncms:
                 domain += tools.domain_field_codes(
