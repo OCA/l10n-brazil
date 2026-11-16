@@ -3,12 +3,16 @@
 import base64
 from io import BytesIO
 
+from brazilfiscalreport.dacce import DaCCe
 from brazilfiscalreport.danfe import Danfe
 
 from odoo import _, api, models
 from odoo.exceptions import UserError
+from odoo.tools.pdf import merge_pdf
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import SITUACAO_EDOC_CANCELADA
+
+DOCUMENT_EVENT_REPORT = "l10n_br_fiscal_edi.main_report_document_event"
 
 
 class IrActionsReport(models.Model):
@@ -22,10 +26,46 @@ class IrActionsReport(models.Model):
 
     def _render_qweb_pdf(self, report_ref, res_ids, data=None):
         if report_ref not in ["main_template_danfe"]:
+            if self._is_document_event_report(report_ref):
+                return self._render_document_event(report_ref, res_ids, data=data)
             return super()._render_qweb_pdf(report_ref, res_ids, data=data)
 
         nfe = self.env["l10n_br_fiscal.document"].search([("id", "in", res_ids)])
         return self._render_danfe(nfe)
+
+    @api.model
+    def _is_document_event_report(self, report_ref):
+        report = self._get_report(report_ref)
+        return bool(report) and report.report_name == DOCUMENT_EVENT_REPORT
+
+    def _render_document_event(self, report_ref, res_ids, data=None):
+        """Print the events: the DACCE for the correction letters that have a
+        procEventoNFe, the QWeb report for any other.
+        """
+        events = self.env["l10n_br_fiscal.event"].browse(res_ids)
+        rendered = []
+        for event in events:
+            event._check_can_print()
+            if event._get_proc_evento_nfe():
+                rendered.append((self.render_dacce_brazilfiscalreport(event), "pdf"))
+            else:
+                rendered.append(
+                    super()._render_qweb_pdf(report_ref, event.ids, data=data)
+                )
+        if len(rendered) == 1:
+            return rendered[0]
+        return merge_pdf([content for content, _fmt in rendered]), "pdf"
+
+    def render_dacce_brazilfiscalreport(self, event):
+        proc_xml = event._get_proc_evento_nfe()
+        company = event.company_id
+        logo = False
+        if company.logo:
+            logo = BytesIO(base64.b64decode(company.logo))
+        dacce = DaCCe(xml=proc_xml, emitente=event._get_dacce_issuer(), image=logo)
+        output = BytesIO()
+        dacce.output(output)
+        return output.getvalue()
 
     def _render_danfe(self, nfe):
         if nfe.document_type != "55":
