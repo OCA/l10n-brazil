@@ -527,8 +527,12 @@ class PaymentTransaction(models.Model):
             ],
             limit=limit,
         )
+        results = {}
         for tx in drafts:
-            tx._brbank_cron_step(lambda t: t._brbank_register(raise_on_error=False))
+            error = tx._brbank_cron_step(
+                lambda t: t._brbank_register(raise_on_error=False)
+            )
+            tx._brbank_count_sync(results, error)
         open_txs = self.search(
             [
                 ("provider_code", "=", BRBANK),
@@ -540,9 +544,12 @@ class PaymentTransaction(models.Model):
             limit=limit,
         )
         for tx in open_txs:
-            tx._brbank_cron_step(lambda t: t._brbank_sync_from_bank())
+            error = tx._brbank_cron_step(lambda t: t._brbank_sync_from_bank())
+            tx._brbank_count_sync(results, error)
+        self._brbank_report_sync(results)
 
     def _brbank_cron_step(self, step):
+        """Run one step of the cron; return the error, if any."""
         self.ensure_one()
         try:
             with self.env.cr.savepoint():
@@ -553,9 +560,53 @@ class PaymentTransaction(models.Model):
                 self.reference,
                 type(error).__name__,
             )
-            if isinstance(error, Indisponivel):
-                return
-            self.brbank_last_check = fields.Datetime.now()
+            if not isinstance(error, Indisponivel):
+                self.brbank_last_check = fields.Datetime.now()
+            return error
+        return None
+
+    def _brbank_count_sync(self, results, error):
+        """Count the title of this cron round under its bank connection."""
+        self.ensure_one()
+        connection = self.provider_id.sudo().brbank_connection_id
+        if not connection:
+            return
+        result = results.setdefault(connection.id, {"done": 0, "errors": []})
+        result["done"] += 1
+        if error is not None:
+            result["errors"].append(error)
+
+    @api.model
+    def _brbank_report_sync(self, results):
+        """Fill the Synchronization tab of every enabled brbank connection."""
+        providers = (
+            self.env["payment.provider"]
+            .sudo()
+            .search([("code", "=", BRBANK), ("state", "!=", "disabled")])
+        )
+        for connection in providers.mapped("brbank_connection_id"):
+            result = results.get(connection.id, {"done": 0, "errors": []})
+            errors = result["errors"]
+            if not errors:
+                connection._l10n_br_bank_sync_report(
+                    "collection",
+                    True,
+                    _("%s titles checked at the bank.", result["done"]),
+                )
+                continue
+            # Only "unavailable" errors clear by themselves on the next round.
+            unavailable = all(isinstance(e, Indisponivel) for e in errors)
+            last = errors[-1]
+            connection._l10n_br_bank_sync_report(
+                "collection",
+                "warning" if unavailable else False,
+                _(
+                    "%(failed)s of %(total)s titles failed. Last error: %(error)s",
+                    failed=len(errors),
+                    total=result["done"],
+                    error=last.args[0] if last.args else last,
+                ),
+            )
 
     # === BUSINESS METHODS: CNAB BRIDGE (O10) === #
 

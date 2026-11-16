@@ -17,6 +17,18 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #. module: l10n_br_payment_brbank
+#. odoo-python
+#: code:addons/l10n_br_payment_brbank/models/payment_transaction.py:0
+msgid "%(failed)s of %(total)s titles failed. Last error: %(error)s"
+msgstr "%(failed)s de %(total)s títulos falharam. Último erro: %(error)s"
+
+#. module: l10n_br_payment_brbank
+#. odoo-python
+#: code:addons/l10n_br_payment_brbank/models/payment_transaction.py:0
+msgid "%s titles checked at the bank."
+msgstr "%s títulos conferidos no banco."
+
+#. module: l10n_br_payment_brbank
 #: model_terms:ir.ui.view,arch_db:l10n_br_payment_brbank.portal_invoice_page_brbank
 msgid "<i class=\"fa fa-download\"/> Download boleto (PDF)"
 msgstr "<i class=\"fa fa-download\"/> Baixar boleto (PDF)"
