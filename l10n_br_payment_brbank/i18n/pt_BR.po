@@ -18,8 +18,8 @@ msgstr ""
 
 #. module: l10n_br_payment_brbank
 #: model_terms:ir.ui.view,arch_db:l10n_br_payment_brbank.portal_invoice_page_brbank
-msgid "<i class=\"fa fa-download\" title=\"Download\"/> Boleto"
-msgstr "<i class=\"fa fa-download\" title=\"Baixar\"/> Boleto"
+msgid "<i class=\"fa fa-download\"/> Download boleto (PDF)"
+msgstr "<i class=\"fa fa-download\"/> Baixar boleto (PDF)"
 
 #. module: l10n_br_payment_brbank
 #. odoo-python
@@ -72,6 +72,23 @@ msgstr "Tentativas"
 #: model:ir.model.fields.selection,name:l10n_br_payment_brbank.selection__l10n_br_brbank_event__event_type__baixado
 msgid "BAIXADO"
 msgstr "BAIXADO"
+
+#. module: l10n_br_payment_brbank
+#: model_terms:ir.ui.view,arch_db:l10n_br_payment_brbank.view_move_form_brbank_print
+msgid "Boleto"
+msgstr "Boleto"
+
+#. module: l10n_br_payment_brbank
+#. odoo-python
+#: code:addons/l10n_br_payment_brbank/models/account_move.py:0
+msgid "Boleto %s.pdf"
+msgstr "Boleto %s.pdf"
+
+#. module: l10n_br_payment_brbank
+#: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_account_bank_statement_line__brbank_boleto_printable
+#: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_account_move__brbank_boleto_printable
+msgid "Brbank Boleto Printable"
+msgstr "Boleto imprimível (brbank)"
 
 #. module: l10n_br_payment_brbank
 #: model:payment.provider,name:l10n_br_payment_brbank.payment_provider_brbank_btg
@@ -463,6 +480,12 @@ msgstr "Novo Vencimento"
 
 #. module: l10n_br_payment_brbank
 #. odoo-python
+#: code:addons/l10n_br_payment_brbank/models/account_move.py:0
+msgid "No boleto of this invoice can be printed yet."
+msgstr "Nenhum boleto desta fatura pode ser impresso ainda."
+
+#. module: l10n_br_payment_brbank
+#. odoo-python
 #: code:addons/l10n_br_payment_brbank/models/brbank_event.py:0
 msgid "No transaction found."
 msgstr "Nenhuma transação encontrada."
@@ -838,6 +861,16 @@ msgid ""
 msgstr ""
 "O boleto %s foi baixado no banco. O título continua em aberto: o cliente "
 "ainda deve este valor."
+
+#. module: l10n_br_payment_brbank
+#. odoo-python
+#: code:addons/l10n_br_payment_brbank/models/payment_transaction.py:0
+msgid ""
+"The boleto of %(ref)s cannot be printed: the bank data does not form a valid"
+" boleto (%(error)s)."
+msgstr ""
+"O boleto de %(ref)s não pode ser impresso: os dados do banco não formam um "
+"boleto válido (%(error)s)."
 
 #. module: l10n_br_payment_brbank
 #. odoo-python

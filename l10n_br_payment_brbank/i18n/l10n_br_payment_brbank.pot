@@ -17,7 +17,7 @@ msgstr ""
 
 #. module: l10n_br_payment_brbank
 #: model_terms:ir.ui.view,arch_db:l10n_br_payment_brbank.portal_invoice_page_brbank
-msgid "<i class=\"fa fa-download\" title=\"Download\"/> Boleto"
+msgid "<i class=\"fa fa-download\"/> Download boleto (PDF)"
 msgstr ""
 
 #. module: l10n_br_payment_brbank
@@ -70,6 +70,23 @@ msgstr ""
 #. module: l10n_br_payment_brbank
 #: model:ir.model.fields.selection,name:l10n_br_payment_brbank.selection__l10n_br_brbank_event__event_type__baixado
 msgid "BAIXADO"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model_terms:ir.ui.view,arch_db:l10n_br_payment_brbank.view_move_form_brbank_print
+msgid "Boleto"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#. odoo-python
+#: code:addons/l10n_br_payment_brbank/models/account_move.py:0
+msgid "Boleto %s.pdf"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_account_bank_statement_line__brbank_boleto_printable
+#: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_account_move__brbank_boleto_printable
+msgid "Brbank Boleto Printable"
 msgstr ""
 
 #. module: l10n_br_payment_brbank
@@ -456,6 +473,12 @@ msgstr ""
 
 #. module: l10n_br_payment_brbank
 #. odoo-python
+#: code:addons/l10n_br_payment_brbank/models/account_move.py:0
+msgid "No boleto of this invoice can be printed yet."
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#. odoo-python
 #: code:addons/l10n_br_payment_brbank/models/brbank_event.py:0
 msgid "No transaction found."
 msgstr ""
@@ -814,6 +837,14 @@ msgstr ""
 msgid ""
 "The boleto %s was written off at the bank. The title remains open: the "
 "customer still owes this amount."
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#. odoo-python
+#: code:addons/l10n_br_payment_brbank/models/payment_transaction.py:0
+msgid ""
+"The boleto of %(ref)s cannot be printed: the bank data does not form a valid"
+" boleto (%(error)s)."
 msgstr ""
 
 #. module: l10n_br_payment_brbank
