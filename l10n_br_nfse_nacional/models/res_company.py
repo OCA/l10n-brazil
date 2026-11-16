@@ -35,6 +35,14 @@ class ResCompany(spec_models.SpecModel):
 
     nfse10_end = fields.Many2one("res.partner", related="partner_id")
 
+    nfse_nacional_concat_lines = fields.Boolean(
+        string="Declare all lines in the DPS",
+        default=False,
+        help="Sum the values of every fiscal line and concatenate their "
+        "descriptions in the DPS. Off: the DPS declares only the first line "
+        "(legacy behaviour).",
+    )
+
     # Overriding the inherited fields to make them computed
     nfse10_opSimpNac = fields.Selection(compute="_compute_nfse10_reg_trib")
     nfse10_regApTribSN = fields.Selection(compute="_compute_nfse10_reg_trib")
