@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 18.0\n"
+"Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -65,6 +65,19 @@ msgstr ""
 #. odoo-javascript
 #: code:addons/l10n_br_fiscal_dfe/static/src/components/dfe_banner/dfe_banner.xml:0
 msgid "Auto-fetch off"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields.selection,name:l10n_br_fiscal_dfe.selection__l10n_br_fiscal_dfe_document__utilization__available
+msgid "Available"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,help:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_document__utilization
+msgid ""
+"Available while the document is still authorized at the source and no vendor"
+" bill is posted. Posted while a vendor bill is posted. Empty when the source"
+" cancelled or denied the document."
 msgstr ""
 
 #. module: l10n_br_fiscal_dfe
@@ -238,6 +251,8 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_dfe__display_name
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_distribution_log__display_name
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_document__display_name
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_res_company__display_name
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_res_users__display_name
 msgid "Display Name"
 msgstr ""
 
@@ -374,11 +389,6 @@ msgid "Fiscal document from distribution service"
 msgstr ""
 
 #. module: l10n_br_fiscal_dfe
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.l10n_br_fiscal_dfe_document_search
-msgid "Group By"
-msgstr ""
-
-#. module: l10n_br_fiscal_dfe
 #. odoo-javascript
 #: code:addons/l10n_br_fiscal_dfe/static/src/components/dfe_banner/dfe_banner.xml:0
 msgid "Homologação"
@@ -389,6 +399,8 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_dfe__id
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_distribution_log__id
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_document__id
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_res_company__id
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_res_users__id
 msgid "ID"
 msgstr ""
 
@@ -578,6 +590,11 @@ msgid "Please enter an access key."
 msgstr ""
 
 #. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields.selection,name:l10n_br_fiscal_dfe.selection__l10n_br_fiscal_dfe_document__utilization__posted
+msgid "Posted"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
 #: model:ir.model.fields,help:l10n_br_fiscal_dfe.field_res_users__dfe_notification
 msgid ""
 "Receive Inbox notifications when the DF-e distribution finds new third-party"
@@ -741,6 +758,11 @@ msgstr ""
 #. module: l10n_br_fiscal_dfe
 #: model:ir.model,name:l10n_br_fiscal_dfe.model_res_users
 msgid "User"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_document__utilization
+msgid "Utilization"
 msgstr ""
 
 #. module: l10n_br_fiscal_dfe
