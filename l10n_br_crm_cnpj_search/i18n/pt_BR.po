@@ -22,16 +22,16 @@ msgid "CNAE Principal"
 msgstr ""
 
 #. module: l10n_br_crm_cnpj_search
-#: model_terms:ir.ui.view,arch_db:l10n_br_crm_cnpj_search.crm_lead_cnpj_search_form_view
-msgid "CNPJ"
-msgstr "CNPJ"
-
-#. module: l10n_br_crm_cnpj_search
 #: model:ir.model,name:l10n_br_crm_cnpj_search.model_partner_search_wizard
 msgid "CNPJ based search wizard allowing to update partner data."
 msgstr ""
 "Assistente de pesquisa baseado em CNPJ que permite atualizar dados de "
 "parceiros."
+
+#. module: l10n_br_crm_cnpj_search
+#: model_terms:ir.ui.view,arch_db:l10n_br_crm_cnpj_search.crm_lead_cnpj_search_form_view
+msgid "CNPJ/CPF"
+msgstr ""
 
 #. module: l10n_br_crm_cnpj_search
 #: model_terms:ir.ui.view,arch_db:l10n_br_crm_cnpj_search.crm_lead_fiscal_page_view_form
@@ -62,3 +62,6 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_br_crm_cnpj_search.crm_lead_cnpj_search_form_view
 msgid "Pesquisar CNPJ"
 msgstr ""
+
+#~ msgid "CNPJ"
+#~ msgstr "CNPJ"
