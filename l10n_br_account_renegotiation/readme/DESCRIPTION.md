@@ -14,3 +14,9 @@ Features:
   - Edit the payment mode on installments (supports heterogenous payment modes)
   - Automatically logs changes in the invoice's chatter
   - Does not affect the fiscal document (NFe)
+  - Installments replaced are zeroed instead of deleted, keeping their original
+    amount: a boleto transaction or a CNAB remittance that points to them keeps
+    its history. Installments left unchanged are not touched
+  - Hooks `_installment_renegotiation_before` and
+    `_installment_renegotiation_after` on the invoice let payment modules
+    cancel the old charges and issue the new ones
