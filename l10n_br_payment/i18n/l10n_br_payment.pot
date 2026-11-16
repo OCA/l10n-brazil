@@ -16,28 +16,61 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_br_payment
-#: model_terms:ir.ui.view,arch_db:l10n_br_payment.report_invoice_document_boleto
-msgid "<small>Digitable line:</small>"
-msgstr ""
-
-#. module: l10n_br_payment
-#: model_terms:ir.ui.view,arch_db:l10n_br_payment.report_invoice_document_boleto
-msgid "<small>Pix copy and paste:</small>"
+#: model_terms:ir.ui.view,arch_db:l10n_br_payment.portal_invoice_page_boleto
+msgid ""
+"<i class=\"fa fa-copy\"/>\n"
+"                                    <span class=\"o_boleto_copy_label\">Copy digitable line</span>"
 msgstr ""
 
 #. module: l10n_br_payment
 #: model_terms:ir.ui.view,arch_db:l10n_br_payment.portal_invoice_page_boleto
-msgid "<strong class=\"text-muted\">Due</strong>"
+msgid ""
+"<i class=\"fa fa-copy\"/>\n"
+"                                    <span class=\"o_boleto_copy_label\">Copy Pix code</span>"
+msgstr ""
+
+#. module: l10n_br_payment
+#: model_terms:ir.ui.view,arch_db:l10n_br_payment.portal_invoice_page_boleto
+msgid ""
+"<small class=\"text-muted text-center\">\n"
+"                                    Scan with your bank app, or copy the Pix code\n"
+"                                </small>"
+msgstr ""
+
+#. module: l10n_br_payment
+#: model_terms:ir.ui.view,arch_db:l10n_br_payment.portal_invoice_page_boleto
+#: model_terms:ir.ui.view,arch_db:l10n_br_payment.report_invoice_document_boleto
+msgid "<small class=\"text-muted\">Boleto digitable line</small>"
+msgstr ""
+
+#. module: l10n_br_payment
+#: model_terms:ir.ui.view,arch_db:l10n_br_payment.portal_invoice_page_boleto
+msgid "<small class=\"text-muted\">How to pay</small>"
+msgstr ""
+
+#. module: l10n_br_payment
+#: model_terms:ir.ui.view,arch_db:l10n_br_payment.report_invoice_document_boleto
+msgid "<small class=\"text-muted\">Pix copy and paste</small>"
+msgstr ""
+
+#. module: l10n_br_payment
+#: model_terms:ir.ui.view,arch_db:l10n_br_payment.portal_boleto_title_header
+msgid "<span class=\"badge text-bg-danger\">Overdue</span>"
+msgstr ""
+
+#. module: l10n_br_payment
+#: model_terms:ir.ui.view,arch_db:l10n_br_payment.portal_boleto_title_header
+msgid "<span class=\"badge text-bg-success\">Paid</span>"
+msgstr ""
+
+#. module: l10n_br_payment
+#: model_terms:ir.ui.view,arch_db:l10n_br_payment.portal_boleto_title_header
+msgid "<span class=\"text-muted\">Due</span>"
 msgstr ""
 
 #. module: l10n_br_payment
 #: model_terms:ir.ui.view,arch_db:l10n_br_payment.report_invoice_document_boleto
 msgid "<strong>How to pay</strong>"
-msgstr ""
-
-#. module: l10n_br_payment
-#: model_terms:ir.ui.view,arch_db:l10n_br_payment.report_invoice_document_boleto
-msgid "Amount"
 msgstr ""
 
 #. module: l10n_br_payment
@@ -52,13 +85,14 @@ msgid "Boleto"
 msgstr ""
 
 #. module: l10n_br_payment
-#: model_terms:ir.ui.view,arch_db:l10n_br_payment.report_invoice_document_boleto
-msgid "Boleto / Pix"
+#: model:ir.model.fields,field_description:l10n_br_payment.field_payment_transaction__boleto_pdf
+msgid "Boleto PDF"
 msgstr ""
 
 #. module: l10n_br_payment
-#: model:ir.model.fields,field_description:l10n_br_payment.field_payment_transaction__boleto_pdf
-msgid "Boleto PDF"
+#. odoo-javascript
+#: code:addons/l10n_br_payment/static/src/js/boleto_copy.esm.js:0
+msgid "Copied"
 msgstr ""
 
 #. module: l10n_br_payment
@@ -75,8 +109,12 @@ msgid "Digitable Line"
 msgstr ""
 
 #. module: l10n_br_payment
-#: model:ir.model.fields,field_description:l10n_br_payment.field_payment_transaction__due_date
 #: model_terms:ir.ui.view,arch_db:l10n_br_payment.report_invoice_document_boleto
+msgid "Due"
+msgstr ""
+
+#. module: l10n_br_payment
+#: model:ir.model.fields,field_description:l10n_br_payment.field_payment_transaction__due_date
 msgid "Due Date"
 msgstr ""
 
@@ -94,6 +132,8 @@ msgstr ""
 
 #. module: l10n_br_payment
 #: model:ir.model.fields,field_description:l10n_br_payment.field_payment_transaction__move_line_id
+#: model_terms:ir.ui.view,arch_db:l10n_br_payment.portal_boleto_title_header
+#: model_terms:ir.ui.view,arch_db:l10n_br_payment.report_invoice_document_boleto
 msgid "Installment"
 msgstr ""
 
@@ -136,6 +176,12 @@ msgid "Journal Entry"
 msgstr ""
 
 #. module: l10n_br_payment
+#: model_terms:ir.ui.view,arch_db:l10n_br_payment.portal_boleto_title_header
+#: model_terms:ir.ui.view,arch_db:l10n_br_payment.report_invoice_document_boleto
+msgid "of"
+msgstr ""
+
+#. module: l10n_br_payment
 #: model:ir.model.fields,field_description:l10n_br_payment.field_payment_transaction__our_number
 msgid "Our Number"
 msgstr ""
@@ -175,6 +221,7 @@ msgid "Pix Copy and Paste"
 msgstr ""
 
 #. module: l10n_br_payment
+#: model_terms:ir.ui.view,arch_db:l10n_br_payment.portal_invoice_page_boleto
 #: model_terms:ir.ui.view,arch_db:l10n_br_payment.report_invoice_document_boleto
 msgid "Pix QR code"
 msgstr ""

@@ -23,5 +23,10 @@
         "views/report_invoice.xml",
         "views/portal_templates.xml",
     ],
+    "assets": {
+        "web.assets_frontend": [
+            "l10n_br_payment/static/src/js/boleto_copy.esm.js",
+        ],
+    },
     "demo": [],
 }

@@ -33,8 +33,30 @@ class AccountMove(models.Model):
             lambda t: t.move_line_id == moveline and t.state in BOLETO_ACTIVE_STATES
         )
 
+    def _boleto_portal_transactions(self):
+        """Boletos and Pix charges of the invoice for the portal, open and paid.
+
+        Each installment shows its position in the whole invoice, so a paid first
+        installment does not turn the second into "1 of 2".
+        """
+        self.ensure_one()
+        return (
+            self.sudo()
+            .transaction_ids.filtered(
+                lambda t: t.is_boleto_payment
+                and (
+                    t.state == "done"
+                    or (
+                        t.state in ("pending", "authorized")
+                        and (t.digitable_line or t.pix_copia_cola)
+                    )
+                )
+            )
+            .sorted(lambda t: (t.due_date or t.create_date.date(), t.id))
+        )
+
     def _boleto_report_transactions(self):
-        """Open boletos and Pix charges of the invoice, for the PDF and the portal."""
+        """Open boletos and Pix charges of the invoice, for the printed invoice."""
         self.ensure_one()
         return (
             self.sudo()
