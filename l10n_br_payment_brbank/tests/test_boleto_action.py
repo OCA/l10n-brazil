@@ -255,6 +255,15 @@ class TestBoletoAction(BrbankTransactionCase):
         self.assertIn("paid twice", self._messages(invoice))
         self.assertNotIn(("baixar", tx.provider_reference), self.bank["calls"])
 
+    def test_queued_write_off_leaves_the_portal_at_once(self):
+        invoice = self._create_invoice()
+        tx = self._brbank_txs(invoice)[0]
+        self.assertIn(tx, invoice._boleto_portal_transactions())
+        tx._brbank_queue_write_off("teste")
+        self.assertEqual(tx.state, "authorized")
+        self.assertNotIn(tx, invoice._boleto_portal_transactions())
+        self.assertNotIn(tx, invoice._boleto_report_transactions())
+
     def test_unavailable_bank_keeps_the_write_off_queued(self):
         invoice = self._create_invoice()
         self._pay_in_cash(invoice)

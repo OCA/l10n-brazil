@@ -112,6 +112,24 @@ class AccountMove(models.Model):
             )
         )
 
+    def _brbank_without_queued_write_off(self, transactions):
+        return transactions.filtered(
+            lambda t: t.provider_code != BRBANK
+            or not t.sudo()._brbank_pending_write_off()
+        )
+
+    def _boleto_portal_transactions(self):
+        """A boleto waiting for its write-off (the BB refuses it in the first 30
+        minutes) is no longer offered to the customer."""
+        return self._brbank_without_queued_write_off(
+            super()._boleto_portal_transactions()
+        )
+
+    def _boleto_report_transactions(self):
+        return self._brbank_without_queued_write_off(
+            super()._boleto_report_transactions()
+        )
+
     def generate_boletos(self):
         provider = self.payment_mode_id.payment_provider_id.sudo()
         if provider.code == BRBANK:
