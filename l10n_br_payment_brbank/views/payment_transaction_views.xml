@@ -8,6 +8,19 @@
         <field name="model">payment.transaction</field>
         <field name="inherit_id" ref="payment.payment_transaction_form" />
         <field name="arch" type="xml">
+            <!-- The core Capture and Void are Check at the bank and Write off here. -->
+            <xpath expr="//header/button[@name='action_capture']" position="attributes">
+                <attribute name="states" />
+                <attribute
+                    name="attrs"
+                >{'invisible': ['|', ('state', '!=', 'authorized'), ('provider_code', '=', 'brbank')]}</attribute>
+            </xpath>
+            <xpath expr="//header/button[@name='action_void']" position="attributes">
+                <attribute name="states" />
+                <attribute
+                    name="attrs"
+                >{'invisible': ['|', ('state', '!=', 'authorized'), ('provider_code', '=', 'brbank')]}</attribute>
+            </xpath>
             <xpath expr="//header/field[@name='state']" position="before">
                 <field name="brbank_supports_pdf" invisible="1" />
                 <field name="barcode" invisible="1" />

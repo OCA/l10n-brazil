@@ -49,4 +49,33 @@
             </xpath>
         </field>
     </record>
+
+    <!-- On a boleto, "capture" reads the bank and "void" writes the title off: the
+         transaction has those actions with their own names. -->
+    <record id="account_invoice_view_form_brbank_capture" model="ir.ui.view">
+        <field name="name">account.move.form.brbank.capture</field>
+        <field name="model">account.move</field>
+        <field
+            name="inherit_id"
+            ref="account_payment.account_invoice_view_form_inherit_payment"
+        />
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='payment_action_capture']" position="before">
+                <field name="brbank_hide_capture" invisible="1" />
+            </xpath>
+            <xpath
+                expr="//button[@name='payment_action_capture']"
+                position="attributes"
+            >
+                <attribute
+                    name="attrs"
+                >{'invisible': ['|', '|', '|', ('move_type', 'not in', ('out_invoice', 'out_refund', 'in_invoice', 'in_refund')), ('state', '!=', 'posted'), ('authorized_transaction_ids', '=', []), ('brbank_hide_capture', '=', True)]}</attribute>
+            </xpath>
+            <xpath expr="//button[@name='payment_action_void']" position="attributes">
+                <attribute
+                    name="attrs"
+                >{'invisible': ['|', '|', '|', ('move_type', 'not in', ('out_invoice', 'out_refund', 'in_invoice', 'in_refund')), ('state', '!=', 'posted'), ('authorized_transaction_ids', '=', []), ('brbank_hide_capture', '=', True)]}</attribute>
+            </xpath>
+        </field>
+    </record>
 </odoo>
