@@ -22,6 +22,8 @@
     "assets": {
         "web.assets_frontend": [
             "/l10n_br_website_sale/static/src/js/l10n_br_address.js",
+        ],
+        "web.assets_tests": [
             "/l10n_br_website_sale/static/src/js/l10n_br_website_sale_tour.js",
         ],
     },
