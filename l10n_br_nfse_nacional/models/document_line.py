@@ -241,7 +241,7 @@ class L10nBrFiscalDocumentLine(spec_models.SpecModel):
         # pTotTribSN for a company outside the Simples Nacional (E0713), which
         # informs the approximate burden in pTotTrib instead.
         for rec in self:
-            burden = rec._nfse_approximate_tax_burden()
+            burden = rec._nfse_approximate_tax_burden_from_taxes()
             if burden["simples"]:
                 percent = burden["simples_percent"]
                 rec.nfse10_indTotTrib = False if percent else "0"
@@ -256,7 +256,7 @@ class L10nBrFiscalDocumentLine(spec_models.SpecModel):
                 rec.nfse10_pTotTrib = rec.id
                 rec.nfse10_pTotTribFed = f"{burden['federal_percent']:.2f}"
                 rec.nfse10_pTotTribEst = f"{burden['state_percent']:.2f}"
-                rec.nfse10_pTotTribMun = f"{burden['city_percent']:.2f}"
+                rec.nfse10_pTotTribMun = f"{burden['municipal_percent']:.2f}"
 
     def _export_many2one(self, field_name, xsd_required, class_obj=None):
         internal_stack_mappings = [
