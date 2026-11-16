@@ -610,7 +610,12 @@ class L10nBrFiscalDocument(spec_models.StackedModel):
         for record in self.filtered(filter_nfse_nacional):
             record._prepare_nfse10_service()
             inf_dps = record._build_binding("nfse", "10")
-            nfse = Dps(infDPS=inf_dps, versao="1.00", signature=None)
+            # Leiaute 1.04.01 (NT 009): the ADN only accepts the IBSCBS
+            # group from DPS version 1.01 on (E0854), so the version
+            # follows the group instead of being a constant. A document
+            # without RTC data keeps the legacy 1.00 shape.
+            versao = "1.01" if record._nfse_export_ibscbs() else "1.00"
+            nfse = Dps(infDPS=inf_dps, versao=versao, signature=None)
             edocs.append(nfse)
         return edocs
 
