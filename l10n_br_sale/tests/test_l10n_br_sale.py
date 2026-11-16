@@ -36,6 +36,11 @@ class L10nBrSaleBaseTest:
             load_sale_fixture_files(cls.env)
 
         cls.company = cls.env.ref(cls.company_ref)
+        # The tests invoice the Sale Orders. When sale_stock_picking_invoicing
+        # is installed in the same database (e.g. by l10n_br_sale_stock), its
+        # default policy without demo data only invoices from the Picking.
+        if "sale_invoicing_policy" in cls.company._fields:
+            (cls.company | cls.main_company).sale_invoicing_policy = "sale_order"
 
         # Ensure warehouse exists if stock module is installed
         if "stock.warehouse" in cls.env:
