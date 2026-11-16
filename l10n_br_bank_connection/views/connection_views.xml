@@ -112,6 +112,26 @@
                         string="Test connection"
                         attrs="{'invisible': [('state', '=', 'draft'), ('oauth_supported', '=', True)]}"
                     />
+                    <button
+                        name="action_generate_test_certificate"
+                        type="object"
+                        string="Generate test certificate"
+                        groups="base.group_system"
+                        attrs="{'invisible': ['|', ('environment', '!=', 'test'), ('uses_certificate', '=', False)]}"
+                        confirm="A new self-signed certificate replaces the one of this connection. Continue?"
+                    />
+                    <field
+                        name="certificate_fingerprint"
+                        invisible="1"
+                        groups="base.group_system"
+                    />
+                    <button
+                        name="action_download_certificate_pem"
+                        type="object"
+                        string="Download certificate (.pem)"
+                        groups="base.group_system"
+                        attrs="{'invisible': ['|', ('uses_certificate', '=', False), ('certificate_fingerprint', '=', False)]}"
+                    />
                     <field name="state" widget="statusbar" />
                 </header>
                 <sheet>
@@ -138,6 +158,28 @@
                     >
                         This bank adapter has not been validated in the bank sandbox
                         yet. Test it with low amounts before using it in production.
+                    </div>
+                    <field
+                        name="certificate_renewal_needed"
+                        invisible="1"
+                        groups="base.group_system"
+                    />
+                    <div
+                        class="alert alert-warning"
+                        role="alert"
+                        groups="base.group_system"
+                        attrs="{'invisible': [('certificate_renewal_needed', '=', False)]}"
+                    >
+                        The certificate of this connection changed (a renewed A1, for
+                        instance): the bank credential was issued with the previous
+                        one. Renew the credential at the bank portal (Bradesco:
+                        Solicitar Credencial, Renovação certificado), then confirm.
+                        <button
+                            name="action_certificate_renewed_at_bank"
+                            type="object"
+                            string="Credential renewed at the bank"
+                            class="btn-link"
+                        />
                     </div>
                     <div
                         class="alert alert-danger"
@@ -215,6 +257,19 @@
                                     <field
                                         name="private_key"
                                         attrs="{'invisible': [('uses_certificate', '=', False)]}"
+                                    />
+                                    <field
+                                        name="certificate_pfx"
+                                        attrs="{'invisible': [('uses_certificate', '=', False)]}"
+                                    />
+                                    <field
+                                        name="certificate_pfx_password"
+                                        password="True"
+                                        attrs="{'invisible': [('uses_certificate', '=', False)]}"
+                                    />
+                                    <field
+                                        name="certificate_registered_fingerprint"
+                                        attrs="{'invisible': [('certificate_registered_fingerprint', '=', False)]}"
                                     />
                                 </group>
                             </group>

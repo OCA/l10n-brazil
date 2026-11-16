@@ -5,8 +5,10 @@ from brbank import registro
 
 from .fake_bank import (
     FAKE,
+    FAKE_MTLS,
     FAKE_NO_SANDBOX,
     FakeAdapter,
+    FakeMtlsAdapter,
     FakeNoSandboxAdapter,
     reset_state,
 )
@@ -20,6 +22,8 @@ class ConnectionCommon:
         cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
         registro.registrar_adapter(FAKE, FakeAdapter)
         registro.registrar_adapter(FAKE_NO_SANDBOX, FakeNoSandboxAdapter)
+        registro.registrar_adapter(FAKE_MTLS, FakeMtlsAdapter)
+        cls.addClassCleanup(lambda: registro._manuais.pop(FAKE_MTLS, None))
         cls.addClassCleanup(lambda: registro._manuais.pop(FAKE, None))
         cls.addClassCleanup(lambda: registro._manuais.pop(FAKE_NO_SANDBOX, None))
         reset_state()
