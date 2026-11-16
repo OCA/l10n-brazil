@@ -3,7 +3,6 @@
 
 import logging
 import re
-from datetime import datetime, timezone
 
 from erpbrasil.transmissao import TransmissaoSOAP
 from nfelib.nfe.ws.edoc_legacy import MDeAdapter as edoc_mde
@@ -11,6 +10,8 @@ from requests import Session
 
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
+
+from odoo.addons.l10n_br_fiscal_edi.tools import tax_authority_date_to_utc
 
 from ..constants import mdest as MD
 
@@ -131,11 +132,7 @@ class NfeRecipientManifestationEvent(models.Model):
             else:
                 valid = True
                 self.protocol = inf_evento.nProt
-                self.protocol_date = fields.Datetime.to_string(
-                    datetime.fromisoformat(inf_evento.dhRegEvento)
-                    .astimezone(timezone.utc)
-                    .replace(tzinfo=None)
-                )
+                self.protocol_date = tax_authority_date_to_utc(inf_evento.dhRegEvento)
                 self.response_xml = result.retorno._content.decode("utf-8")
                 self.state = "done"
 
