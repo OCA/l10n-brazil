@@ -264,4 +264,26 @@
         <field name="icms_origin" eval="" />
         <field name="service_type_id" ref="l10n_br_fiscal.service_type_105" />
     </record>
+
+    <!-- Taxable unit fixed by the NCM -->
+    <!-- Cement: the NCM fixes the kilogram as taxable unit, and the product is
+         sold by the bag of 50 kg, with no taxable unit of its own -->
+    <record id="ncm_25232910" model="l10n_br_fiscal.ncm">
+        <field name="uot_id" ref="uom.product_uom_kgm" />
+    </record>
+
+    <record id="product_demo_cement_bag" model="product.product">
+        <field name="name">Portland Cement (bag)</field>
+        <field name="list_price">35.0</field>
+        <field name="standard_price">28.0</field>
+        <field name="type">consu</field>
+        <field name="default_code">CEMENT_BAG</field>
+        <field name="uom_id" ref="uom.product_uom_unit" />
+        <field name="uom_po_id" ref="uom.product_uom_unit" />
+        <field name="uot_factor">50</field>
+        <field name="ncm_id" ref="l10n_br_fiscal.ncm_25232910" />
+        <field name="fiscal_genre_id" ref="l10n_br_fiscal.product_genre_25" />
+        <field name="fiscal_type">00</field>
+        <field name="icms_origin">0</field>
+    </record>
 </odoo>

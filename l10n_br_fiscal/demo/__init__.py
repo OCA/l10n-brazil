@@ -3,6 +3,7 @@
 DEMO_NCM = [
     # NCMs used in demo products and tests:
     "ncm_00000000",
+    "ncm_25232910",
     "ncm_94013090",
     "ncm_94052000",
     "ncm_94033000",
