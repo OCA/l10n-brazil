@@ -5,6 +5,7 @@
 from odoo import Command
 from odoo.tests import tagged
 
+from odoo.addons.l10n_br_fiscal.tests.tools import load_fiscal_fixture_files
 from odoo.addons.l10n_br_sale.hooks import sale_set_journal_in_fiscal_operation
 from odoo.addons.l10n_br_stock_account.tests.common import TestBrPickingInvoicingCommon
 
@@ -52,10 +53,22 @@ class TestSaleStock(TestBrPickingInvoicingCommon):
             }
         )
 
+        # Odoo 19 installs no demo data by default: the partners below come
+        # from the l10n_br_base demo data, loaded here as fixtures
+        if not cls.env.ref(
+            "l10n_br_base.res_partner_akretion", raise_if_not_found=False
+        ):
+            load_fiscal_fixture_files(cls.env(su=True))
+
         cls.partner = cls.env.ref("l10n_br_base.res_partner_akretion")
         cls.partner_addr_ak2 = cls.env.ref("l10n_br_base.res_partner_address_ak2")
         cls.partner_addr_ak3 = cls.env.ref("l10n_br_base.res_partner_address_ak3")
         cls.fo_venda = cls.env.ref("l10n_br_fiscal.fo_venda")
+
+    @classmethod
+    def get_default_groups(cls):
+        groups = super().get_default_groups()
+        return groups | cls.env.ref("sales_team.group_sale_manager")
 
     def _create_sale_order(self, partner_shipping=None, lines=None):
         """Helper to create a sale order with fiscal operation and lines."""
@@ -83,7 +96,7 @@ class TestSaleStock(TestBrPickingInvoicingCommon):
                         "name": self.storable_product.name,
                         "product_id": self.storable_product.id,
                         "product_uom_qty": 3.0,
-                        "product_uom": self.storable_product.uom_id.id,
+                        "product_uom_id": self.storable_product.uom_id.id,
                         "price_unit": self.storable_product.lst_price,
                         "fiscal_operation_id": self.fo_venda.id,
                     }
@@ -104,19 +117,40 @@ class TestSaleStock(TestBrPickingInvoicingCommon):
         Test compatibility with international cases or
         without Fiscal Operation.
 
-        sale.sale_order_3 belongs to main_company, so we run this
+        The international Sale Order belongs to main_company, so we run this
         test entirely in the main_company context.
         """
         main_company = self.env.ref("base.main_company")
         # Save current env and switch to main_company for this test only.
-        # sale.sale_order_3 and its pickings belong to main_company, and
+        # The Sale Order and its pickings belong to main_company, and
         # the invoice wizard checks pickings are related to "your company".
         saved_env = self.env
         self.env = self.env(
             context=dict(self.env.context, allowed_company_ids=main_company.ids)
         )
         try:
-            so_international = self.env.ref("sale.sale_order_3")
+            # A Sale Order to a customer abroad, as sale.sale_order_3 of the
+            # core demo data (not installed by default in Odoo 19)
+            customer = self.env["res.partner"].create(
+                {
+                    "name": "International Customer (l10n_br_sale_stock)",
+                    "country_id": self.env.ref("base.us").id,
+                }
+            )
+            so_international = self.env["sale.order"].create(
+                {
+                    "partner_id": customer.id,
+                    "company_id": main_company.id,
+                    "order_line": [
+                        Command.create(
+                            {
+                                "product_id": self.storable_product.id,
+                                "product_uom_qty": 2.0,
+                            }
+                        )
+                    ],
+                }
+            )
             so_international.fiscal_operation_id = False
             so_international.action_confirm()
             picking = so_international.picking_ids
