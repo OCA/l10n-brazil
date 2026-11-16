@@ -4,9 +4,10 @@
 import base64
 from datetime import date
 from decimal import Decimal
-from unittest.mock import patch
+from unittest.mock import AsyncMock, patch
 
 from brbank import Capacidade, StatusCanonico, TipoInstrucao
+from brbank.erros import Indisponivel, Validacao
 from lxml import etree
 
 from odoo.exceptions import UserError
@@ -210,6 +211,31 @@ class TestBrbankTransaction(BrbankTransactionCase):
         self.assertEqual(txs.mapped("state"), ["done", "cancel", "authorized"])
         consulted = {call[1] for call in self.bank["calls"] if call[0] == "consultar"}
         self.assertTrue(set(txs.mapped("provider_reference")) <= consulted)
+
+    def test_cron_fills_the_synchronization_tab(self):
+        self._create_invoice()
+        cron = self.env.ref("l10n_br_payment_brbank.ir_cron_brbank_reconcile")
+        connection = self.provider.brbank_connection_id
+
+        def status():
+            return connection.sync_status_ids.filtered(
+                lambda s: s.domain == "collection"
+            )
+
+        cron.method_direct_trigger()
+        self.assertEqual(status().state, "ok")
+        self.assertTrue(status().last_date)
+        cases = (
+            (Validacao("fake: titulo inexistente"), "error"),
+            (Indisponivel("fake: fora do ar"), "warning"),
+        )
+        for error, state in cases:
+            with self.subTest(state=state), patch.object(
+                FakeAdapter, "consultar_titulo", new=AsyncMock(side_effect=error)
+            ):
+                cron.method_direct_trigger()
+                self.assertEqual(status().state, state)
+                self.assertIn(str(error), status().message)
 
     def test_report_shows_the_titles(self):
         invoice = self._create_invoice()
