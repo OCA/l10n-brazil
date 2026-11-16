@@ -79,6 +79,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     """
 
     _name = "l10n_br_fiscal.document.line.mixin"
+    _inherit = "l10n_br_fiscal.report.filter.mixin"
     _description = "Document Fiscal Mixin"
 
     @api.model

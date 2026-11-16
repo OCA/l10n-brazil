@@ -7,29 +7,16 @@ from odoo.tools import SQL
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     DOCUMENT_ISSUER,
-    PRODUCT_FISCAL_TYPE,
+    SITUACAO_EDOC,
 )
 
 
 class AccountInvoiceReport(models.Model):
-    _inherit = "account.invoice.report"
+    _name = "account.invoice.report"
+    _inherit = ["account.invoice.report", "l10n_br_fiscal.report.mixin"]
 
     issuer = fields.Selection(
         selection=DOCUMENT_ISSUER,
-    )
-
-    fiscal_operation_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.operation",
-        string="Operation",
-    )
-
-    fiscal_operation_line_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.operation.line",
-        string="Operation Line",
-    )
-
-    service_type_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.service.type",
     )
 
     document_type_id = fields.Many2one(
@@ -41,71 +28,42 @@ class AccountInvoiceReport(models.Model):
         comodel_name="l10n_br_fiscal.document.serie",
     )
 
-    fiscal_type = fields.Selection(selection=PRODUCT_FISCAL_TYPE)
-
-    cfop_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.cfop",
-        string="CFOP",
+    state_edoc = fields.Selection(
+        selection=SITUACAO_EDOC,
+        string="Situation",
     )
-
-    icms_value = fields.Float(string="Valor ICMS", digits="Account")
-
-    icmsst_value = fields.Float(string="Valor ICMS ST", digits="Account")
-
-    icms_origin_value = fields.Float(string="Valor Difal Origem", digits="Account")
-
-    icms_destination_value = fields.Float(
-        string="Valor Difal Destino",
-        digits="Account",
-    )
-
-    icmsfcp_value = fields.Float(string="Valor Difal FCP", digits="Account")
-
-    ipi_value = fields.Float(string="IPI Value", digits="Account")
-
-    pis_value = fields.Float(string="PIS Value", digits="Account")
-
-    cofins_value = fields.Float(string="COFINS Value", digits="Account")
-
-    ii_value = fields.Float(string="II Value", digits="Account")
-
-    issqn_value = fields.Float(digits="Account")
-
-    freight_value = fields.Float(digits="Account")
-
-    insurance_value = fields.Float(digits="Account")
-
-    other_value = fields.Float(digits="Account")
-
-    discount_value = fields.Float(digits="Account")
-
-    cest_id = fields.Many2one(comodel_name="l10n_br_fiscal.cest", string="CEST")
-
-    ncm_id = fields.Many2one(comodel_name="l10n_br_fiscal.ncm", string="NCM")
-
-    nbm_id = fields.Many2one(comodel_name="l10n_br_fiscal.nbm", string="NBM")
 
     @api.model
     def _select(self):
-        return SQL(
-            "%s, fd.issuer, fd.document_type_id, fd.document_serie_id, "
-            "fdl.fiscal_operation_id, fdl.fiscal_operation_line_id, "
-            "fdl.service_type_id, fdl.cfop_id, fdl.ncm_id, fdl.nbm_id, "
-            "fdl.cest_id, fdl.fiscal_type, fdl.icms_value, "
-            "fdl.icms_origin_value, fdl.icms_destination_value, "
-            "fdl.icmsfcp_value, fdl.icmsst_value, fdl.ipi_value, "
-            "fdl.pis_value, fdl.cofins_value, fdl.ii_value, "
-            "fdl.issqn_value, fdl.freight_value, fdl.insurance_value, "
-            "fdl.other_value, fdl.discount_value",
-            super()._select(),
+        # same sign and currency rate the core applies to price_subtotal and
+        # price_total: refunds and vendor bills are negative
+        factor = (
+            "(CASE WHEN move.move_type IN ('in_invoice', 'out_refund', 'in_receipt')"
+            " THEN -1 ELSE 1 END) * account_currency_table.rate"
         )
+        res = self._fiscal_report_select(
+            "fdl", "partner", factor=factor, aggregate=False
+        )
+        res.update(
+            {
+                "partner_state_id": (
+                    "COALESCE(partner.state_id, commercial_partner.state_id)"
+                ),
+                "issuer": "fd.issuer",
+                "document_type_id": "fd.document_type_id",
+                "document_serie_id": "fd.document_serie_id",
+                "state_edoc": "fd.state_edoc",
+            }
+        )
+        fiscal = "".join(f", {expr} AS {fname}" for fname, expr in res.items())
+        return SQL("%s" + fiscal, super()._select())
 
     @api.model
     def _from(self):
-        return SQL(
-            "%s LEFT JOIN l10n_br_fiscal_document fd "
-            "ON fd.id = move.fiscal_document_id "
-            "LEFT JOIN l10n_br_fiscal_document_line fdl "
-            "ON fdl.id = line.fiscal_document_line_id",
-            super()._from(),
+        joins = (
+            " LEFT JOIN l10n_br_fiscal_document fd"
+            " ON fd.id = move.fiscal_document_id"
+            " LEFT JOIN l10n_br_fiscal_document_line fdl"
+            " ON fdl.id = line.fiscal_document_line_id"
         )
+        return SQL("%s" + joins + self._fiscal_report_from("fdl"), super()._from())
