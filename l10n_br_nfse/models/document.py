@@ -277,20 +277,6 @@ class Document(models.Model):
             "codigo_nbs": self.fiscal_line_ids[0].nbs_id.code,
             "codigo_nbs_unmasked": self.fiscal_line_ids[0].nbs_id.code_unmasked,
             "consumidor_final": self.ind_final,
-            "codigo_indicador_operacao": self.fiscal_line_ids[
-                0
-            ].operation_indicator_id.code,
-            "ibs_cbs_classificacao_tributaria": self.fiscal_line_ids[
-                0
-            ].tax_classification_id.code,
-            "ibs_cbs_situacao_tributaria": self.fiscal_line_ids[0].cbs_cst_code,
-            "ibs_cbs_base_calculo": ibs_cbs_base_calculo,
-            "ibs_uf_aliquota": ibs_uf_aliquota if ibs_uf_aliquota else None,
-            "ibs_mun_aliquota": 0.0,
-            "cbs_aliquota": cbs_aliquota if cbs_aliquota else None,
-            "ibs_uf_valor": ibs_uf_valor if ibs_uf_valor else None,
-            "ibs_mun_valor": 0.0,
-            "cbs_valor": cbs_valor if cbs_valor else None,
             "situacao_tributaria_pis": situacao_tributaria_pis,
             "situacao_tributaria_cofins": situacao_tributaria_cofins,
             "base_calculo_pis": round(base_calculo_pis, 2),
@@ -308,6 +294,31 @@ class Document(models.Model):
             ),
         }
 
+        # The IBSCBS group follows the rule of the layouts that build the DPS
+        # (_nfse_export_ibscbs): without cClassTrib, CST and cIndOp the group is
+        # invalid, so none of its keys is sent to the provider.
+        ibscbs = self._nfse_export_ibscbs()
+        line = self._nfse_ibscbs_line()
+        result.update(
+            {
+                "codigo_indicador_operacao": (
+                    line.operation_indicator_id.code if ibscbs else None
+                ),
+                "ibs_cbs_classificacao_tributaria": (
+                    line.tax_classification_id.code if ibscbs else None
+                ),
+                "ibs_cbs_situacao_tributaria": (
+                    line._nfse_ibscbs_cst_code() if ibscbs else None
+                ),
+                "ibs_cbs_base_calculo": ibs_cbs_base_calculo if ibscbs else None,
+                "ibs_uf_aliquota": (ibs_uf_aliquota or None) if ibscbs else None,
+                "ibs_mun_aliquota": 0.0 if ibscbs else None,
+                "cbs_aliquota": (cbs_aliquota or None) if ibscbs else None,
+                "ibs_uf_valor": (ibs_uf_valor or None) if ibscbs else None,
+                "ibs_mun_valor": 0.0 if ibscbs else None,
+                "cbs_valor": (cbs_valor or None) if ibscbs else None,
+            }
+        )
         result.update(self.company_id._prepare_company_service())
 
         return result
@@ -420,6 +431,8 @@ class Document(models.Model):
         line = self._nfse_ibscbs_line()
         if not line.tax_classification_id:
             return False
+        if line._nfse_ibscbs_complete():
+            return True
         missing = [
             label
             for value, label in (
@@ -428,8 +441,6 @@ class Document(models.Model):
             )
             if not value
         ]
-        if not missing:
-            return True
         _logger.warning(
             "NFS-e %s: line %s carries the RTC classification %s but no %s, "
             "so the document is exported without the IBSCBS group.",
