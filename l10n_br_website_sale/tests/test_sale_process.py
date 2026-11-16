@@ -2,58 +2,94 @@
 #   Diego Paradeda <diego.paradeda@kme.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html)
 
-from unittest import mock
+from unittest.mock import patch
 
 from odoo.tests import HttpCase, tagged
-
-_module_ns = "odoo.addons.l10n_br_zip"
-_provider_class = _module_ns + ".models.l10n_br_zip" + ".L10nBrZip"
 
 
 @tagged("post_install", "-at_install")
 class TestUi(HttpCase):
-    def test_01_l10n_br_website_sale_tour(self):
-        provider = self.env.ref("payment.payment_provider_demo")
-        provider.sudo().write(
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.website = cls.env.ref("website.default_website")
+        cls.city = cls.env.ref("l10n_br_base.city_3500105")
+        cls.website.company_id.partner_id.write(
             {
-                "state": "test",
+                "country_id": cls.env.ref("base.br").id,
+                "state_id": cls.city.state_id.id,
+                "city_id": cls.city.id,
             }
         )
-        tour = (
-            "odoo.__DEBUG__.services['web_tour.tour']",
-            "l10n_br_website_sale_tour",
+        cls.website.account_on_checkout = "optional"
+        cls.website.viewref("website_sale.address_b2b").active = False
+        cls.website.user_id.partner_id.country_id = False
+        cls.product = cls.env["product.template"].create(
+            {
+                "name": "Checkout Test Service",
+                "detailed_type": "service",
+                "list_price": 20,
+                "website_published": True,
+            }
         )
-        mocked_response = {
-            "zip_code": "12246250",
-            "street_name": " Rua do Aruana",
-            "district": "Parque Residencial Aquarius",
-            "city_id": self.env.ref("l10n_br_base.city_3500105").id,
-            "state_id": self.env.ref("base.state_br_sp").id,
-            "country_id": self.env.ref("base.br").id,
-        }
-        with mock.patch(
-            _provider_class + "._consultar_cep",
-            return_value=mocked_response,
-        ):
-            self.browser_js(
-                url_path="/shop",
-                code=f"{tour[0]}.run('{tour[1]}')",
-                ready=f"{tour[0]}.tours.{tour[1]}.ready",
-                login="admin",
-                timeout=20000,
-            )
-        # check result
-        admin_partner = self.env.ref("base.partner_admin")
-        record = (
-            self.env["sale.order"]
-            .search([("partner_id", "=", admin_partner.id)], limit=1)
-            .partner_shipping_id
-        )
-        self.assertEqual(record.state_id.code, "SP")
-        self.assertEqual(record.city_id.ibge_code, "3500105")
 
-        # VAT is mandatory for a BR billing address and must be persisted
-        self.assertEqual(admin_partner.vat, "89604455095")
-        # State Tax Number: only shown (and editable) once Company Name is
-        # filled in; must be persisted on the billing partner too
-        self.assertEqual(admin_partner.l10n_br_ie_code, "110042490114")
+    def _get_checkout_order(self, email):
+        order = self.env["sale.order"].search(
+            [
+                ("website_id", "=", self.website.id),
+                ("partner_id.email", "=", email),
+                ("order_line.product_id", "=", self.product.product_variant_id.id),
+            ]
+        )
+        self.assertEqual(len(order), 1)
+        return order
+
+    def test_brazilian_checkout(self):
+        operation = self.env.ref("l10n_br_fiscal.fo_venda")
+        self.website.company_id.sale_fiscal_operation_id = operation
+        self.product.tax_icms_or_issqn = "issqn"
+        with patch(
+            "odoo.addons.l10n_br_zip.models.l10n_br_zip.get_address_from_cep",
+            return_value={
+                "street": "Rua do Aruana",
+                "district": "Parque Residencial Aquarius",
+                "city": self.city.name,
+                "uf": self.city.state_id.code,
+                "complement": "",
+            },
+        ) as cep:
+            self.start_tour(self.product.website_url, "l10n_br_website_sale_tour")
+        self.assertTrue(cep.called)
+        self.assertEqual(cep.call_args.args[0], "12246250")
+        order = self._get_checkout_order("checkout-br@example.com")
+        self.assertEqual(order.order_line.fiscal_operation_id, operation)
+        self.assertEqual(
+            order.order_line.fiscal_operation_line_id,
+            self.env.ref("l10n_br_fiscal.fo_venda_servico"),
+        )
+        partner = order.partner_invoice_id
+        self.assertEqual(order.partner_id, partner)
+        self.assertEqual(partner.state_id, self.city.state_id)
+        self.assertEqual(partner.city_id, self.city)
+        self.assertEqual(partner.street_name, "Rua do Aruana")
+        self.assertEqual(partner.street_number, "200")
+        self.assertEqual(partner.district, "Parque Residencial Aquarius")
+        self.assertEqual(partner.zip, "12246-250")
+        self.assertEqual(partner.vat, "89604455095")
+        self.assertEqual(partner.l10n_br_ie_code, "110042490114")
+
+    def test_foreign_checkout(self):
+        country = self.env.ref("base.fr")
+        self.start_tour(
+            self.product.website_url,
+            "l10n_br_website_sale_foreign_tour",
+            code=(
+                f"sessionStorage.setItem('l10n_br_checkout_country', '{country.id}');"
+                "odoo.startTour('l10n_br_website_sale_foreign_tour');"
+            ),
+        )
+        partner = self._get_checkout_order("checkout-fr@example.com").partner_invoice_id
+        self.assertEqual(partner.country_id, country)
+        self.assertEqual(partner.city, "Paris")
+        self.assertEqual(partner.street, "1 rue de la Paix")
+        self.assertFalse(partner.vat)

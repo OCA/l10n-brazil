@@ -1,148 +1,117 @@
-/* eslint no-unused-vars: "off", no-undef: "off" */
-
 odoo.define("l10n_br_website_sale.l10n_br_address", function (require) {
     "use strict";
 
-    require("web.dom_ready");
-    var ajax = require("web.ajax");
+    const ajax = require("web.ajax");
+    const publicWidget = require("web.public.widget");
 
-    var $checkout_autoformat_selector = $(".checkout_autoformat");
+    publicWidget.registry.L10nBrCheckoutAddress = publicWidget.Widget.extend({
+        selector: ".checkout_autoformat[data-br-country]",
+        events: {
+            "change [name=country_id]": "_onCountryChange",
+            "change [name=state_id]": "_onStateChange",
+            "change [name=zip]": "_onZipChange",
+            "input [name=company_name]": "_toggleTaxRegistrations",
+        },
 
-    if (!$checkout_autoformat_selector.length) {
-        return $.Deferred().reject("DOM doesn't contain '.checkout_autoformat'");
-    }
+        start: function () {
+            this.countryId = this.$("[name=country_id]").val();
+            this._toggleAddressFields();
+            return this._super.apply(this, arguments);
+        },
 
-    function formatVat(inputValue) {
-        // Remove non-numeric characters
-        let value = inputValue.replace(/\D/g, "");
+        _isBrazil: function () {
+            return this.$("[name=country_id]").val() === this.el.dataset.brCountry;
+        },
 
-        // Truncate the value to 11 digits if it's more than 11 and less than 14
-        if (value.length > 11 && value.length < 14) {
-            value = value.substring(0, 11);
-        }
-        // Truncate the value to 14 digits if it's 14 or more
-        else if (value.length >= 14) {
-            value = value.substring(0, 14);
-        }
+        _toggleAddressFields: function () {
+            const brazil = this._isBrazil();
+            this.$(".o_br_address_field")
+                .toggle(brazil)
+                .find(":input")
+                .prop("disabled", !brazil);
+            this.$(".div_street, .div_city")
+                .toggleClass("d-none", brazil)
+                .find(":input")
+                .prop("disabled", brazil);
+            this.$(".o_br_vat_name").toggle(brazil);
+            this.$(".o_regular_vat_name").toggle(!brazil);
+            this.$(".div_vat, [name=company_name]")
+                .closest(".col-lg-6")
+                .toggle(brazil || this.el.dataset.b2b === "1");
+            this._toggleTaxRegistrations();
+        },
 
-        if (value.length <= 11) {
-            // Format as CPF
-            value = value.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
-        } else {
-            // Format as CNPJ
-            value = value.replace(
-                /(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/,
-                "$1.$2.$3/$4-$5"
-            );
-        }
+        _toggleTaxRegistrations: function () {
+            const companyName = this.$("[name=company_name]").val() || "";
+            const show = this._isBrazil() && Boolean(companyName.trim());
+            this.$(".o_br_tax_registration")
+                .toggle(show)
+                .find(":input")
+                .prop("disabled", !show);
+        },
 
-        return value;
-    }
+        _onCountryChange: function () {
+            const countryId = this.$("[name=country_id]").val();
+            // Odoo triggers this event on page load, including after validation errors.
+            if (this.countryId !== undefined && this.countryId !== countryId) {
+                this.$("[name=city_id] option:not(:first)").remove();
+            }
+            this.countryId = countryId;
+            this._toggleAddressFields();
+        },
 
-    $("#input_vat").on("blur", function () {
-        var value = $(this).val();
-        var formattedValue = formatVat(value);
-        $(this).val(formattedValue);
-    });
+        _onStateChange: function () {
+            if (this._isBrazil()) {
+                return this._loadCities();
+            }
+        },
 
-    function toggleStateTaxFields() {
-        var $companyName = $("input[name='company_name']");
-        if (!$companyName.length) {
-            return;
-        }
-        var hasCompanyName = Boolean($companyName.val().trim());
-        $(".div_l10n_br_ie_code, .div_l10n_br_im_code").toggle(hasCompanyName);
-    }
-
-    toggleStateTaxFields();
-    $checkout_autoformat_selector.on(
-        "input",
-        "input[name='company_name']",
-        toggleStateTaxFields
-    );
-
-    var zip_cleave = new Cleave(".input-zipcode", {
-        blocks: [5, 3],
-        delimiter: "-",
-        numericOnly: true,
-    });
-
-    if ($checkout_autoformat_selector.length) {
-        $checkout_autoformat_selector.on(
-            "change",
-            "select[name='country_id']",
-            function () {
-                var country_id = $("select[name='country_id']") || false;
-
-                ajax.jsonRpc("/shop/country_infos/" + country_id.val(), "call", {
-                    mode: $("#country_id").attr("mode"),
-                }).then(function (data) {
-                    if (data.country_code) {
-                        setTimeout(() => {
-                            if (data.country_code === "BR") {
-                                $("input[name='city']").parent("div").hide();
-                                $("select[name='city_id']").parent("div").show();
-                            } else {
-                                $("select[name='city_id']").parent("div").hide();
-                                $("input[name='city']").parent("div").show();
-                            }
-                        }, 1000);
+        _loadCities: function (selectedCity) {
+            const state = this.$("[name=state_id]").val();
+            const city = this.$("[name=city_id]");
+            city.find("option:not(:first)").remove();
+            city.val("");
+            if (!state) {
+                return;
+            }
+            return ajax
+                .jsonRpc("/shop/state_infos/" + state, "call", {})
+                .then((data) => {
+                    if (
+                        !this._isBrazil() ||
+                        this.$("[name=state_id]").val() !== state
+                    ) {
+                        return;
+                    }
+                    city.find("option:not(:first)").remove();
+                    for (const [id, name] of data.cities) {
+                        city.append(new Option(name, id, false, id === selectedCity));
                     }
                 });
+        },
+
+        _onZipChange: function (event) {
+            const zip = event.currentTarget.value.replace(/\D/g, "");
+            if (!this._isBrazil() || zip.length !== 8) {
+                return;
             }
-        );
-        $checkout_autoformat_selector.on(
-            "change",
-            "select[name='state_id']",
-            function () {
-                var state_id = $("#state_id").val();
-                if (!state_id) {
-                    return;
-                }
-                ajax.jsonRpc("/shop/state_infos/" + state_id, "call").then(function (
-                    data
-                ) {
-                    var city_id_selector = $("select[name='city_id']");
-                    city_id_selector.empty();
-                    if (data.cities.length) {
-                        data.cities.forEach(function (city) {
-                            city_id_selector.append(
-                                new Option(city[1], city[0], false, false)
-                            );
-                        });
-                        city_id_selector.parent("div").show();
-                        $("input[name='city']").parent("div").hide();
-                    } else {
-                        city_id_selector.parent("div").hide();
-                        $("input[name='city']").parent("div").show();
+            event.currentTarget.value = zip.slice(0, 5) + "-" + zip.slice(5);
+            const formattedZip = event.currentTarget.value;
+            return ajax
+                .jsonRpc("/l10n_br/zip_search_public", "call", {zipcode: zip})
+                .then((data) => {
+                    if (
+                        data.error ||
+                        !this._isBrazil() ||
+                        this.$("[name=zip]").val() !== formattedZip
+                    ) {
+                        return;
                     }
+                    this.$("[name=district]").val(data.district);
+                    this.$("[name=street_name]").val(data.street_name);
+                    this.$("[name=state_id]").val(String(data.state_id));
+                    return this._loadCities(data.city_id);
                 });
-            }
-        );
-        $checkout_autoformat_selector.on("change", "input[name='zip']", function () {
-            var vals = {zipcode: $('input[name="zip"]').val()};
-            console.log("Changing ZIP code");
-            $('a:contains("Next")').css("display", "none");
-            ajax.jsonRpc("/l10n_br/zip_search_public", "call", vals).then(function (
-                data
-            ) {
-                if (data.error) {
-                    console.log("Failed to query zip code");
-                } else {
-                    var state_id_selector = $('select[name="state_id"]');
-                    var city_id_selector = $('select[name="city_id"]');
-                    // Set the district and street name based on the ZIP code data
-                    $('input[name="district"]').val(data.district);
-                    $('input[name="street_name"]').val(data.street_name);
-                    // Set the value of the state selector and trigger its change event
-                    state_id_selector.val(data.state_id).change();
-                    // Wait for the city selector to be populated, then set its value and trigger its change event
-                    setTimeout(() => {
-                        city_id_selector.val(data.city_id).change();
-                    }, 1000);
-                    $('a:contains("Next")').css("display", "block");
-                }
-            });
-        });
-    }
+        },
+    });
 });
