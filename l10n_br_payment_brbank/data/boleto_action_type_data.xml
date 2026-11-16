@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="boleto_action_type_prorrogacao" model="l10n_br.boleto.action.type">
+        <field name="name">Extend the due date</field>
+        <field name="code">prorrogacao</field>
+        <field name="sequence">10</field>
+    </record>
+    <record id="boleto_action_type_abatimento" model="l10n_br.boleto.action.type">
+        <field name="name">Grant a rebate</field>
+        <field name="code">abatimento</field>
+        <field name="sequence">20</field>
+    </record>
+    <record id="boleto_action_type_protesto" model="l10n_br.boleto.action.type">
+        <field name="name">Protest</field>
+        <field name="code">protesto</field>
+        <field name="sequence">30</field>
+    </record>
+    <record id="boleto_action_type_baixa" model="l10n_br.boleto.action.type">
+        <field name="name">Write off at the bank</field>
+        <field name="code">baixa</field>
+        <field name="sequence">40</field>
+    </record>
+    <record id="boleto_action_type_reemissao" model="l10n_br.boleto.action.type">
+        <field name="name">Issue a new boleto</field>
+        <field name="code">reemissao</field>
+        <field name="sequence">50</field>
+    </record>
+</odoo>

@@ -16,13 +16,14 @@ from .fake_bank import FakeAdapter
 
 @tagged("post_install", "-at_install")
 class TestBoletoAction(BrbankTransactionCase):
-    def _wizard(self, line, **values):
-        action = line.action_brbank_boleto_actions()
-        wizard = (
-            self.env["l10n_br.boleto.action"]
-            .with_context(**action["context"])
-            .browse(action["res_id"])
-        )
+    def _wizard(self, line, action=None, **values):
+        """Open the assistant of the installment and choose `action` (a code)."""
+        opened = line.action_brbank_boleto_actions()
+        wizard = self.env["l10n_br.boleto.action"].browse(opened["res_id"])
+        if action:
+            chosen = wizard.available_type_ids.filtered(lambda t: t.code == action)
+            self.assertTrue(chosen, f"{action} is not offered")
+            values["action_type_id"] = chosen.id
         wizard.write(values)
         return wizard
 

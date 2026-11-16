@@ -4,3 +4,5 @@ access_boleto_instruction_manager,boleto.instruction.manager,model_l10n_br_bolet
 access_brbank_event_manager,brbank.event.manager,model_l10n_br_brbank_event,account.group_account_manager,1,0,0,0
 access_brbank_event_system,brbank.event.system,model_l10n_br_brbank_event,base.group_system,1,1,1,1
 access_boleto_action_invoice,boleto.action.invoice,model_l10n_br_boleto_action,account.group_account_invoice,1,1,1,1
+access_boleto_action_type_invoice,boleto.action.type.invoice,model_l10n_br_boleto_action_type,account.group_account_invoice,1,0,0,0
+access_boleto_action_type_manager,boleto.action.type.manager,model_l10n_br_boleto_action_type,account.group_account_manager,1,1,1,1

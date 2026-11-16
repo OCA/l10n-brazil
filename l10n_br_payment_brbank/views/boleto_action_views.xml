@@ -8,7 +8,8 @@
         <field name="arch" type="xml">
             <form>
                 <field name="currency_id" invisible="1" />
-                <field name="available_actions" invisible="1" />
+                <field name="available_type_ids" invisible="1" />
+                <field name="action" invisible="1" />
                 <group>
                     <group string="Current boleto">
                         <field name="transaction_id" invisible="not transaction_id" />
@@ -19,7 +20,13 @@
                         <field name="open_amount" />
                     </group>
                     <group string="What to do">
-                        <field name="action" widget="radio" nolabel="1" colspan="2" />
+                        <field
+                            name="action_type_id"
+                            widget="radio"
+                            nolabel="1"
+                            colspan="2"
+                            options="{'no_create': True, 'no_open': True}"
+                        />
                     </group>
                 </group>
                 <group>

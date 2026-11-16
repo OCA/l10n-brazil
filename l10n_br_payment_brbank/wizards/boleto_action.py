@@ -3,14 +3,11 @@
 
 import logging
 
-from odoo import _, api, fields, models
+from odoo import Command, _, api, fields, models
 from odoo.exceptions import UserError
 from odoo.tools import format_date
 
 _logger = logging.getLogger(__name__)
-
-# Actions of the assistant: the bank instructions, then a new boleto.
-ACTIONS = ("prorrogacao", "abatimento", "protesto", "baixa", "reemissao")
 
 
 class BoletoAction(models.TransientModel):
@@ -34,10 +31,18 @@ class BoletoAction(models.TransientModel):
     )
     open_amount = fields.Monetary(currency_field="currency_id", readonly=True)
     boleto_state = fields.Char(string="Boleto Status", readonly=True)
-    available_actions = fields.Char(readonly=True)
-    action = fields.Selection(
-        selection="_selection_action", string="What to do", required=True
+    available_type_ids = fields.Many2many(
+        comodel_name="l10n_br.boleto.action.type",
+        string="Available Actions",
+        readonly=True,
     )
+    action_type_id = fields.Many2one(
+        comodel_name="l10n_br.boleto.action.type",
+        string="What to do",
+        required=True,
+        domain="[('id', 'in', available_type_ids)]",
+    )
+    action = fields.Char(related="action_type_id.code")
     new_due_date = fields.Date()
     amount = fields.Monetary(string="Rebate Amount", currency_field="currency_id")
     charge_fees = fields.Boolean(
@@ -49,21 +54,6 @@ class BoletoAction(models.TransientModel):
     explanation = fields.Text(compute="_compute_explanation")
 
     # === OPENING === #
-
-    @api.model
-    def _selection_action(self):
-        """Every action; the dialog of a boleto lists only its own (context)."""
-        labels = {
-            "prorrogacao": _("Extend the due date"),
-            "abatimento": _("Grant a rebate"),
-            "protesto": _("Protest"),
-            "baixa": _("Write off at the bank"),
-            "reemissao": _("Issue a new boleto"),
-        }
-        allowed = self.env.context.get("brbank_actions")
-        return [
-            (key, labels[key]) for key in ACTIONS if allowed is None or key in allowed
-        ]
 
     @api.model
     def _available_actions(self, transaction, installment):
@@ -100,6 +90,7 @@ class BoletoAction(models.TransientModel):
             raise UserError(_("There is nothing to do with this boleto now."))
         reference = transaction or installment
         currency = transaction.currency_id or installment.currency_id
+        types = self.env["l10n_br.boleto.action.type"].search([("code", "in", actions)])
         wizard = self.create(
             {
                 "transaction_id": transaction.id,
@@ -115,8 +106,8 @@ class BoletoAction(models.TransientModel):
                 ).get(transaction.state, "")
                 if transaction
                 else "",
-                "available_actions": ",".join(actions),
-                "action": actions[0],
+                "available_type_ids": [Command.set(types.ids)],
+                "action_type_id": types[:1].id,
             }
         )
         return {
@@ -126,7 +117,6 @@ class BoletoAction(models.TransientModel):
             "res_id": wizard.id,
             "view_mode": "form",
             "target": "new",
-            "context": {"brbank_actions": actions},
         }
 
     @api.depends("action", "charge_fees", "transaction_id", "move_line_id")

@@ -21,6 +21,7 @@
     "data": [
         "security/ir.model.access.csv",
         "data/payment_provider_data.xml",
+        "data/boleto_action_type_data.xml",
         "data/ir_cron.xml",
         "views/payment_provider_views.xml",
         "views/payment_transaction_views.xml",

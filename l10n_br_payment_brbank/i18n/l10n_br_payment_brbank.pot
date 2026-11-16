@@ -81,7 +81,7 @@ msgid "Attempts"
 msgstr ""
 
 #. module: l10n_br_payment_brbank
-#: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_l10n_br_boleto_action__available_actions
+#: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_l10n_br_boleto_action__available_type_ids
 msgid "Available Actions"
 msgstr ""
 
@@ -106,6 +106,11 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_br_payment_brbank/models/account_move.py:0
 msgid "Boleto %s.pdf"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:ir.model,name:l10n_br_payment_brbank.model_l10n_br_boleto_action_type
+msgid "Boleto Action Type"
 msgstr ""
 
 #. module: l10n_br_payment_brbank
@@ -367,6 +372,8 @@ msgstr ""
 
 #. module: l10n_br_payment_brbank
 #: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_account_payment_mode__payment_provider_code
+#: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_l10n_br_boleto_action__action
+#: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_l10n_br_boleto_action_type__code
 #: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_payment_provider__code
 msgid "Code"
 msgstr ""
@@ -395,6 +402,7 @@ msgstr ""
 
 #. module: l10n_br_payment_brbank
 #: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_l10n_br_boleto_action__create_uid
+#: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_l10n_br_boleto_action_type__create_uid
 #: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_l10n_br_boleto_instruction__create_uid
 #: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_l10n_br_brbank_event__create_uid
 msgid "Created by"
@@ -402,6 +410,7 @@ msgstr ""
 
 #. module: l10n_br_payment_brbank
 #: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_l10n_br_boleto_action__create_date
+#: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_l10n_br_boleto_action_type__create_date
 #: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_l10n_br_boleto_instruction__create_date
 #: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_l10n_br_brbank_event__create_date
 msgid "Created on"
@@ -427,6 +436,7 @@ msgstr ""
 
 #. module: l10n_br_payment_brbank
 #: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_l10n_br_boleto_action__display_name
+#: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_l10n_br_boleto_action_type__display_name
 #: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_l10n_br_boleto_instruction__display_name
 #: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_l10n_br_brbank_event__display_name
 msgid "Display Name"
@@ -480,8 +490,7 @@ msgid "Explanation"
 msgstr ""
 
 #. module: l10n_br_payment_brbank
-#. odoo-python
-#: code:addons/l10n_br_payment_brbank/wizards/boleto_action.py:0
+#: model:l10n_br.boleto.action.type,name:l10n_br_payment_brbank.boleto_action_type_prorrogacao
 msgid "Extend the due date"
 msgstr ""
 
@@ -491,13 +500,13 @@ msgid "Fees Waived"
 msgstr ""
 
 #. module: l10n_br_payment_brbank
-#. odoo-python
-#: code:addons/l10n_br_payment_brbank/wizards/boleto_action.py:0
+#: model:l10n_br.boleto.action.type,name:l10n_br_payment_brbank.boleto_action_type_abatimento
 msgid "Grant a rebate"
 msgstr ""
 
 #. module: l10n_br_payment_brbank
 #: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_l10n_br_boleto_action__id
+#: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_l10n_br_boleto_action_type__id
 #: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_l10n_br_boleto_instruction__id
 #: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_l10n_br_brbank_event__id
 msgid "ID"
@@ -538,8 +547,7 @@ msgid "Invoice reset to draft or canceled."
 msgstr ""
 
 #. module: l10n_br_payment_brbank
-#. odoo-python
-#: code:addons/l10n_br_payment_brbank/wizards/boleto_action.py:0
+#: model:l10n_br.boleto.action.type,name:l10n_br_payment_brbank.boleto_action_type_reemissao
 msgid "Issue a new boleto"
 msgstr ""
 
@@ -584,6 +592,7 @@ msgstr ""
 
 #. module: l10n_br_payment_brbank
 #: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_l10n_br_boleto_action__write_uid
+#: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_l10n_br_boleto_action_type__write_uid
 #: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_l10n_br_boleto_instruction__write_uid
 #: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_l10n_br_brbank_event__write_uid
 msgid "Last Updated by"
@@ -591,6 +600,7 @@ msgstr ""
 
 #. module: l10n_br_payment_brbank
 #: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_l10n_br_boleto_action__write_date
+#: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_l10n_br_boleto_action_type__write_date
 #: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_l10n_br_boleto_instruction__write_date
 #: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_l10n_br_brbank_event__write_date
 msgid "Last Updated on"
@@ -602,6 +612,7 @@ msgid "Masked payload"
 msgstr ""
 
 #. module: l10n_br_payment_brbank
+#: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_l10n_br_boleto_action_type__name
 #: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_l10n_br_boleto_instruction__name
 msgid "Name"
 msgstr ""
@@ -801,7 +812,7 @@ msgstr ""
 #. module: l10n_br_payment_brbank
 #. odoo-python
 #: code:addons/l10n_br_payment_brbank/models/boleto_instruction.py:0
-#: code:addons/l10n_br_payment_brbank/wizards/boleto_action.py:0
+#: model:l10n_br.boleto.action.type,name:l10n_br_payment_brbank.boleto_action_type_protesto
 msgid "Protest"
 msgstr ""
 
@@ -909,6 +920,11 @@ msgstr ""
 #. module: l10n_br_payment_brbank
 #: model_terms:ir.ui.view,arch_db:l10n_br_payment_brbank.boleto_action_form
 msgid "Send to the bank"
+msgstr ""
+
+#. module: l10n_br_payment_brbank
+#: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_l10n_br_boleto_action_type__sequence
+msgid "Sequence"
 msgstr ""
 
 #. module: l10n_br_payment_brbank
@@ -1156,6 +1172,11 @@ msgid "The boleto is not registered at the bank."
 msgstr ""
 
 #. module: l10n_br_payment_brbank
+#: model:ir.model.constraint,message:l10n_br_payment_brbank.constraint_l10n_br_boleto_action_type_code_unique
+msgid "The code of a boleto action must be unique."
+msgstr ""
+
+#. module: l10n_br_payment_brbank
 #. odoo-python
 #: code:addons/l10n_br_payment_brbank/models/payment_provider.py:0
 msgid ""
@@ -1307,7 +1328,7 @@ msgid "Validated in Sandbox"
 msgstr ""
 
 #. module: l10n_br_payment_brbank
-#: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_l10n_br_boleto_action__action
+#: model:ir.model.fields,field_description:l10n_br_payment_brbank.field_l10n_br_boleto_action__action_type_id
 #: model_terms:ir.ui.view,arch_db:l10n_br_payment_brbank.boleto_action_form
 msgid "What to do"
 msgstr ""
@@ -1325,7 +1346,7 @@ msgid "without fine and interest"
 msgstr ""
 
 #. module: l10n_br_payment_brbank
-#: code:addons/l10n_br_payment_brbank/wizards/boleto_action.py:0
+#: model:l10n_br.boleto.action.type,name:l10n_br_payment_brbank.boleto_action_type_baixa
 msgid "Write off at the bank"
 msgstr ""
 

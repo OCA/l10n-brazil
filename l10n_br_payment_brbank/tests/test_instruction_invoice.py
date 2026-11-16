@@ -218,9 +218,12 @@ class TestInstructionOnInvoice(BrbankTransactionCase):
         self.assertEqual(activity.user_id, self.billing_user)
 
     def _offered(self, action):
+        """The radio of the assistant lists the types its domain allows."""
         wizard = self.env["l10n_br.boleto.action"].browse(action["res_id"])
-        selection = wizard.with_context(**action["context"]).fields_get(["action"])
-        return [value for value, _label in selection["action"]["selection"]]
+        allowed = self.env["l10n_br.boleto.action.type"].search(
+            [("id", "in", wizard.available_type_ids.ids)]
+        )
+        return allowed.mapped("code")
 
     def test_entry_offers_what_the_bank_accepts(self):
         invoice = self._create_invoice()
