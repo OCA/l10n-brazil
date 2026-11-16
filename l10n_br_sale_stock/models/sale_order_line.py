@@ -9,10 +9,10 @@ from odoo import models
 class SaleOrderLine(models.Model):
     _inherit = "sale.order.line"
 
-    def _prepare_procurement_values(self, group_id=False):
+    def _prepare_procurement_values(self):
         values = {}
         if self.order_id.fiscal_operation_id:
             values = self._prepare_br_fiscal_dict()
-        values.update(super()._prepare_procurement_values(group_id))
+        values.update(super()._prepare_procurement_values())
 
         return values
