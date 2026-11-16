@@ -92,7 +92,21 @@ const L10nBrNfceOrder = (Order) =>
                 document_number: this.document_number,
 
                 document_serie: this.document_serie,
+
+                customer_tax_id: this._getNFCeCustomerTaxId(),
             };
+        }
+
+        _getNFCeCustomerTaxId() {
+            // The anonymous consumer of the config has no CPF/CNPJ of its own.
+            const partner = this.get_partner();
+            const anonymousId = this.pos.config.partner_id
+                ? this.pos.config.partner_id[0]
+                : false;
+            if (!partner || partner.id === anonymousId) {
+                return this.cnpj_cpf || null;
+            }
+            return this.get_cnpj_cpf ? this.get_cnpj_cpf() : partner.vat || null;
         }
 
         _prepare_fiscal_json(json) {
