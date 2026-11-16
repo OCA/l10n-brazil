@@ -14,6 +14,18 @@ class AccountMove(models.Model):
     _inherit = "account.move"
 
     brbank_boleto_printable = fields.Boolean(compute="_compute_brbank_boleto_printable")
+    brbank_hide_capture = fields.Boolean(
+        compute="_compute_brbank_hide_capture",
+        help="Every authorized transaction is a brbank title: the core Capture and "
+        "Void buttons give way to Check at the bank and Write off at the bank.",
+    )
+
+    def _compute_brbank_hide_capture(self):
+        for move in self:
+            txs = move.authorized_transaction_ids
+            move.brbank_hide_capture = bool(txs) and all(
+                tx.provider_code == BRBANK for tx in txs
+            )
 
     def _brbank_printable_transactions(self):
         """Live boletos of the invoice (Pix-only charges have no boleto)."""

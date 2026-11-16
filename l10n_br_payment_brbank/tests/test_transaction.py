@@ -7,6 +7,7 @@ from decimal import Decimal
 from unittest.mock import patch
 
 from brbank import Capacidade, StatusCanonico, TipoInstrucao
+from lxml import etree
 
 from odoo.exceptions import UserError
 from odoo.tests import tagged
@@ -159,6 +160,26 @@ class TestBrbankTransaction(BrbankTransactionCase):
             self.assertFalse(tx._brbank_fetch_pdf())
             with self.assertRaisesRegex(UserError, "valid boleto"):
                 tx.action_brbank_download_pdf()
+
+    def test_core_capture_and_void_hidden_on_boletos(self):
+        invoice = self._create_invoice()
+        self.assertTrue(invoice.authorized_transaction_ids)
+        self.assertTrue(invoice.brbank_hide_capture)
+        conditions = {
+            ("account.move", "payment_action_capture"): "brbank_hide_capture",
+            ("account.move", "payment_action_void"): "brbank_hide_capture",
+            ("payment.transaction", "action_capture"): "provider_code == 'brbank'",
+            ("payment.transaction", "action_void"): "provider_code == 'brbank'",
+        }
+        for (model, button), condition in conditions.items():
+            with self.subTest(button=button):
+                arch = etree.fromstring(
+                    self.env[model].get_views([(False, "form")])["views"]["form"][
+                        "arch"
+                    ]
+                )
+                node = arch.xpath(f"//button[@name='{button}']")[0]
+                self.assertIn(condition, node.get("invisible"))
 
     def test_print_boletos_of_the_invoice(self):
         invoice = self._create_invoice()
