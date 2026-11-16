@@ -26,6 +26,7 @@
                         name="event_type"
                         attrs="{'readonly': [('state', '!=', 'draft')]}"
                     />
+                <field name="event_type_id" />
                 <field
                         name="access_key"
                         attrs="{'readonly': [('state', '!=', 'draft')]}"
@@ -101,6 +102,7 @@
             <tree>
                 <field name="company_id" />
                 <field name="event_type" />
+                <field name="event_type_id" optional="hide" />
                 <field name="document_type" />
                 <field name="access_key" />
                 <field name="protocol" />
