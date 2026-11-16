@@ -1,0 +1,41 @@
+# Copyright 2023 KMEE
+# Copyright 2026 Engenere
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+{
+    "name": "Monitor de DF-e (Base)",
+    "summary": """
+    Generic framework to monitor incoming electronic fiscal documents
+    via the Sefaz DF-e distribution web service.
+    """,
+    "version": "19.0.1.0.0",
+    "license": "AGPL-3",
+    "author": "Engenere, KMEE, Odoo Community Association (OCA)",
+    "maintainers": ["felipemotter", "antoniospneto", "rvalyi"],
+    "website": "https://github.com/OCA/l10n-brazil",
+    "depends": ["l10n_br_fiscal", "queue_job"],
+    "data": [
+        # Security
+        "security/dfe_security.xml",
+        "security/ir.model.access.csv",
+        # Data
+        "data/dfe_actions.xml",
+        "data/queue_job_data.xml",
+        # Views
+        "views/dfe_views.xml",
+        "views/dfe_document_views.xml",
+        "views/dfe_distribution_log_views.xml",
+        "views/l10n_br_fiscal_menu.xml",
+        "views/res_company_view.xml",
+        "views/res_users_views.xml",
+        # Wizards
+        "wizards/specific_search_wizard.xml",
+    ],
+    "assets": {
+        "web.assets_backend": [
+            "l10n_br_fiscal_dfe/static/src/components/dfe_banner/dfe_banner.esm.js",
+            "l10n_br_fiscal_dfe/static/src/components/dfe_banner/dfe_banner.xml",
+            "l10n_br_fiscal_dfe/static/src/views/dfe_document_list/dfe_document_list_view.esm.js",
+            "l10n_br_fiscal_dfe/static/src/views/dfe_document_list/dfe_document_list_view.xml",
+        ],
+    },
+}
