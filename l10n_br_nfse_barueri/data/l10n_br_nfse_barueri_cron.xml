@@ -6,7 +6,7 @@
         <field
             name="name"
         >NFSe Barueri: Check status and update status of submitted documents.</field>
-        <field name="model_id" ref="model_l10n_br_fiscal_document" />
+        <field name="model_id" ref="l10n_br_fiscal.model_l10n_br_fiscal_document" />
         <field name="state">code</field>
         <field name="code">model._cron_document_status_barueri()</field>
         <field name="user_id" ref="base.user_root" />

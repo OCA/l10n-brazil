@@ -2,10 +2,13 @@
 # Copyright 2025 - TODAY, Cristiano Mafra Junior <cristiano.mafra@escodoo.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+import base64
+import logging
 import unicodedata
 from datetime import datetime
 
 import requests
+from erpbrasil.base.misc import punctuation_rm
 from nfselib.barueri.NFeLoteEnviarArquivo import NFeLoteEnviarArquivo
 from nfselib.barueri.nfse import (
     NFSeRegistroTipo1,
@@ -25,14 +28,15 @@ from nfselib.barueri.rps import (
 )
 
 from odoo import _, api, fields, models
+from odoo.exceptions import UserError
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
+    DOCUMENT_ISSUER_COMPANY,
     EVENT_ENV_HML,
     EVENT_ENV_PROD,
     MODELO_FISCAL_NFSE,
     PROCESSADOR_OCA,
     SITUACAO_EDOC_AUTORIZADA,
-    SITUACAO_EDOC_CANCELADA,
     SITUACAO_EDOC_ENVIADA,
     SITUACAO_EDOC_REJEITADA,
 )
@@ -42,6 +46,8 @@ from ..constants.barueri import (
     CONSULTAR_SITUACAO_LOTE_RPS,
     ENVIO_LOTE_RPS,
 )
+
+_logger = logging.getLogger(__name__)
 
 
 def filter_oca_nfse(record):
@@ -93,6 +99,9 @@ class Document(models.Model):
         help="Technical field to identify if the document is a NFSe Barueri.",
     )
 
+    @api.depends(
+        "is_nfse_barueri", "verify_code", "partner_id.cnpj_cpf", "nfse_environment"
+    )
     def _compute_url_nfse_barueri(self):
         for doc in self:
             if not doc.is_nfse_barueri:
@@ -100,9 +109,7 @@ class Document(models.Model):
                 continue
 
             autenticidade = (doc.verify_code or "").strip()
-            cnpj_tomador = "".join(
-                ch for ch in (doc.partner_id.cnpj_cpf or "") if ch.isdigit()
-            )
+            cnpj_tomador = punctuation_rm(doc.partner_id.cnpj_cpf or "").upper()
             if not (autenticidade and cnpj_tomador):
                 doc.url_nfse_barueri = ""
                 continue
@@ -124,6 +131,7 @@ class Document(models.Model):
             "target": "new",
         }
 
+    @api.depends("document_type", "company_id.city_id", "company_id.provedor_nfse")
     def _compute_is_nfse_barueri(self):
         for doc in self:
             is_nfse = doc.document_type == "SE"
@@ -131,10 +139,41 @@ class Document(models.Model):
                 "l10n_br_base.city_3505708"
             )
 
-            if is_nfse and is_barueri:
+            if is_nfse and is_barueri and filter_barueri(doc):
                 doc.is_nfse_barueri = True
             else:
                 doc.is_nfse_barueri = False
+
+    def make_pdf(self):
+        barueri = self.filtered(filter_oca_nfse).filtered(filter_barueri)
+        other_documents = self - barueri
+        if other_documents:
+            super(Document, other_documents).make_pdf()
+        for record in barueri:
+            report = self.env.ref("l10n_br_nfse.report_br_nfse_danfe")
+            pdf, _report_type = report._render_qweb_pdf(report, res_ids=record.ids)
+            filename = (
+                f"NFS-e-{record.document_number}.pdf"
+                if record.document_number
+                else f"RPS-{record.rps_number}.pdf"
+            )
+            values = {
+                "name": filename,
+                "res_model": record._name,
+                "res_id": record.id,
+                "datas": base64.b64encode(pdf),
+                "mimetype": "application/pdf",
+                "type": "binary",
+            }
+            if record.file_report_id:
+                record.file_report_id.write(values)
+            else:
+                record.file_report_id = self.env["ir.attachment"].create(values)
+
+    def _processador_erpbrasil_nfse(self):
+        if filter_barueri(self):
+            self = self.with_company(self.company_id)
+        return super()._processador_erpbrasil_nfse()
 
     def _serialize(self, edocs):
         edocs = super()._serialize(edocs)
@@ -165,7 +204,7 @@ class Document(models.Model):
         # Registro tipo 1 - Cabeçalho do arquivo RPS
         registro_tipo1 = RegistroTipo1()
         registro_tipo1.TipoRegistro = 1
-        registro_tipo1.InscricaoContribuinte = self.company_id.inscr_mun
+        registro_tipo1.InscricaoContribuinte = self.company_id.l10n_br_im_code
         registro_tipo1.VersaoLayout = "PMB004"
         if cancel:
             data_base = datetime.now()
@@ -247,7 +286,7 @@ class Document(models.Model):
         registro_tipo2.ServicoExportacao = "2"  # String: 1=Exportado, 2=Não exportado
         cnpj_cpf = dados_tomador.get("cnpj") or dados_tomador.get("cpf", "")
         if cnpj_cpf:
-            if len(cnpj_cpf) == 14 and cnpj_cpf.isdigit():
+            if len(cnpj_cpf) == 14 and cnpj_cpf.isalnum():
                 registro_tipo2.IndicadorCPFCNPJTomador = "2"
                 registro_tipo2.CPFCNPJTomador = cnpj_cpf.zfill(14)
             elif len(cnpj_cpf) == 11 and cnpj_cpf.isdigit():
@@ -325,11 +364,11 @@ class Document(models.Model):
         )
 
         registro_tipo4.CodigoClassificacaoTributariaIBSCBS = (
-            dados_servico.get("codigo_classificacao_tributaria") or ""
+            dados_servico.get("ibs_cbs_classificacao_tributaria") or ""
         )
 
         registro_tipo4.CodigoSituacaoTributariaIBSCBS = (
-            dados_servico.get("codigo_situacao_tributaria") or ""
+            dados_servico.get("ibs_cbs_situacao_tributaria") or ""
         )
         registro_tipo4.OperacaoUsoConsumoPessoal = "0"
         registro_tipo4.IndicadorDestinatarioServico = "0"
@@ -396,12 +435,14 @@ class Document(models.Model):
     def serialize_nfse_barueri(self, cancel=False):
         lote_rps = NFeLoteEnviarArquivo(
             InscricaoMunicipal=self._convert_binding_value_to_odoo(
-                NFeLoteEnviarArquivo, "InscricaoMunicipal", self.company_id.inscr_mun
+                NFeLoteEnviarArquivo,
+                "InscricaoMunicipal",
+                self.company_id.l10n_br_im_code,
             ),
             CPFCNPJContrib=self._convert_binding_value_to_odoo(
                 NFeLoteEnviarArquivo,
                 "CPFCNPJContrib",
-                "".join(char for char in self.company_id.cnpj_cpf if char.isdigit()),
+                punctuation_rm(self.company_id.cnpj_cpf or "").upper(),
             ),
             NomeArquivoRPS=self._convert_binding_value_to_odoo(
                 NFeLoteEnviarArquivo,
@@ -420,11 +461,12 @@ class Document(models.Model):
         return lote_rps
 
     def _document_status(self):
-        mensagem = False
-        status = super()._document_status()
+        mensagem = super()._document_status()
         for record in self.filtered(filter_oca_nfse).filtered(filter_barueri):
-            processador = record._processador_erpbrasil_nfse()
             protocolo = record.authorization_event_id.lot_receipt_number
+            if not protocolo:
+                continue
+            processador = record._processador_erpbrasil_nfse()
             processo = processador.consulta_nfse_rps(
                 rps_number=int(record.rps_number),
                 rps_serie=record.document_serie,
@@ -434,30 +476,30 @@ class Document(models.Model):
 
             status, mensagem = processador.analisa_retorno_consulta(processo)
             vals = dict()
-            if status == 1 and int(record.status_code) in [-1, -2]:
+            if status == 1 and record.status_code in ("-1", "-2"):
                 vals[
                     "return_filename"
                 ] = processo.resposta.ListaNfeArquivosRPS.NomeArqRetorno
                 vals["status_name"] = _("Successfully Processed")
                 vals["status_code"] = 1
-                vals = record._set_response(record, processador, protocolo, vals)
+                record._set_response(processador, protocolo, vals)
 
-            if status == 2 and int(record.status_code) in [-1, -2]:
+            if status == 2 and record.status_code in ("-1", "-2"):
                 vals[
                     "return_filename"
                 ] = processo.resposta.ListaNfeArquivosRPS.NomeArqRetorno
                 vals["status_name"] = _("Processed with Error")
                 vals["status_code"] = 2
-                vals = record._set_response(record, processador, protocolo, vals)
+                record._set_response(processador, protocolo, vals)
 
         return mensagem
 
     def _baixar_xml_nfse(self, autenticidade, cnpj):
-        url = (
-            "https://testeeiss.barueri.sp.gov.br/nfe/xmlNFe.ashx"
-            f"?codigoautenticidade={autenticidade}"
-            f"&numdoc={cnpj}"
-        )
+        if self.nfse_environment == "1":
+            base_url = "https://www.barueri.sp.gov.br/nfe/xmlNFe.ashx"
+        else:
+            base_url = "https://testeeiss.barueri.sp.gov.br/nfe/xmlNFe.ashx"
+        url = f"{base_url}?codigoautenticidade={autenticidade}&numdoc={cnpj}"
         resp = requests.get(url, timeout=15)
         resp.raise_for_status()
 
@@ -512,8 +554,7 @@ class Document(models.Model):
 
         return vals, protocolo
 
-    @staticmethod
-    def _set_response(record, processador, protocolo, vals):
+    def _set_response(self, processador, protocolo, vals):
         processo = processador.baixar_lote_rps(vals.get("return_filename"))
 
         if processo.resposta:
@@ -560,14 +601,19 @@ class Document(models.Model):
                             )
                 vals["edoc_error_message"] = mensagem_completa
 
-                record.write(
+                self.write(
                     {
                         "status_name": vals["status_name"],
                         "status_code": vals["status_code"],
                         "edoc_error_message": mensagem_completa,
                     }
                 )
-                record._change_state(SITUACAO_EDOC_REJEITADA)
+                state = (
+                    SITUACAO_EDOC_AUTORIZADA
+                    if self.authorization_event_id.state == "done"
+                    else SITUACAO_EDOC_REJEITADA
+                )
+                self._change_state(state)
             else:
                 if vals.get("status_code") == 1:
                     arquivo_bytes = processo.retorno.ArquivoRPSBase64
@@ -586,7 +632,7 @@ class Document(models.Model):
                         nfse_date + nfse_time, "%Y%m%d%H%M%S"
                     )
 
-                    record.write(
+                    self.write(
                         {
                             "verify_code": nfse_auth_code,
                             "document_number": nfse_number,
@@ -596,30 +642,49 @@ class Document(models.Model):
                         }
                     )
 
-                    xml_file = record._baixar_xml_nfse(nfse_auth_code, nfse_cnpj_cpf)
+                    try:
+                        xml_file = self._baixar_xml_nfse(nfse_auth_code, nfse_cnpj_cpf)
+                    except requests.RequestException as exc:
+                        _logger.warning(
+                            "Could not download Barueri NFS-e XML for %s: %s",
+                            self.display_name,
+                            exc,
+                        )
+                        vals["status_code"] = -2 if nfse_status == "C" else -1
+                        vals["status_name"] = _("Waiting to download the NFS-e XML")
+                        self.write(
+                            {
+                                "status_code": vals["status_code"],
+                                "status_name": vals["status_name"],
+                                "edoc_error_message": str(exc),
+                            }
+                        )
+                        return vals
+
+                    self.edoc_error_message = False
 
                     if nfse_status == "A":
-                        record.authorization_event_id.set_done(
+                        self.authorization_event_id.set_done(
                             status_code=vals["status_code"],
                             response=vals["status_name"],
                             protocol_date=vals["authorization_date"],
                             protocol_number=protocolo,
                             file_response_xml=xml_file,
                         )
-                        record._change_state(SITUACAO_EDOC_AUTORIZADA)
-                        record.make_pdf()
+                        self._change_state(SITUACAO_EDOC_AUTORIZADA)
+                        self.make_pdf()
 
                     if nfse_status == "C":
-                        event = record.event_ids.create_event_save_xml(
-                            company_id=record.company_id,
+                        event = self.event_ids.create_event_save_xml(
+                            company_id=self.company_id,
                             environment=(
                                 EVENT_ENV_PROD
-                                if record.nfse_environment == "1"
+                                if self.nfse_environment == "1"
                                 else EVENT_ENV_HML
                             ),
                             event_type="2",
                             xml_file=xml_file,
-                            document_id=record,
+                            document_id=self,
                         )
                         event.write(
                             {
@@ -630,15 +695,21 @@ class Document(models.Model):
                                 "state": "done",
                             }
                         )
-                        record.cancel_event_id = event
-                        record.state_edoc = SITUACAO_EDOC_CANCELADA
+                        self.cancel_event_id = event
+                        super()._document_cancel(self.cancel_reason)
         return vals
 
     def _eletronic_document_send(self):
         super()._eletronic_document_send()
         for record in self.filtered(filter_oca_nfse).filtered(filter_barueri):
-            processador = record._processador_erpbrasil_nfse()
+            if (
+                record.authorization_event_id.lot_receipt_number
+                and record.status_code in ("-1", "-2")
+            ):
+                record._document_status()
+                continue
 
+            processador = record._processador_erpbrasil_nfse()
             protocolo = record.authorization_protocol
             vals = dict()
 
@@ -648,13 +719,8 @@ class Document(models.Model):
             else:
                 vals["status_code"] = 0
 
-            if vals.get("status_code") == -1:
+            if vals.get("status_code") in (-1, -2):
                 vals["status_name"] = _("Batch not yet processed")
-                record._change_state(SITUACAO_EDOC_ENVIADA)
-
-            elif vals.get("status_code") == -2:
-                vals["status_name"] = _("Batch not yet processed")
-                record._change_state(SITUACAO_EDOC_ENVIADA)
 
             elif vals.get("status_code") == 0:
                 vals["status_name"] = _("Validated")
@@ -667,7 +733,7 @@ class Document(models.Model):
                 vals["status_name"] = _("Processed with Error")
 
             if vals.get("status_code") in (1, 2):
-                vals = record._set_response(record, processador, protocolo, vals)
+                vals = record._set_response(processador, protocolo, vals)
 
             if "return_filename" in vals:
                 vals.pop("return_filename")
@@ -695,12 +761,14 @@ class Document(models.Model):
                 lot_receipt_number=protocolo,
             )
             status, _mensagem = processador.analisa_retorno_consulta(processo_consulta)
-            if status == 0:
-                return False
-            if status in (-1, -2):
-                record._change_state(SITUACAO_EDOC_ENVIADA)
-                record.status_code = -2
-                record.status_name = _("Cancel batch not yet processed")
+            if status in (-1, -2, 0):
+                record.write(
+                    {
+                        "state_edoc": SITUACAO_EDOC_ENVIADA,
+                        "status_code": -2,
+                        "status_name": _("Cancel batch not yet processed"),
+                    }
+                )
                 return False
 
             nome_arquivo = (
@@ -743,16 +811,35 @@ class Document(models.Model):
                     }
                 )
                 record.cancel_event_id = event
-                record.state_edoc = SITUACAO_EDOC_CANCELADA
                 return True
             return False
 
+    def _document_cancel(self, justificative=None):
+        self.ensure_one()
+        if (
+            self.issuer == DOCUMENT_ISSUER_COMPANY
+            and self.state_edoc == SITUACAO_EDOC_AUTORIZADA
+            and filter_oca_nfse(self)
+            and filter_barueri(self)
+        ):
+            self._check_cancel_move_ids_allowed()
+            self.cancel_reason = justificative or self.cancel_reason
+            if not self._cancel_document_barueri():
+                if self.state_edoc == SITUACAO_EDOC_ENVIADA:
+                    return
+                raise UserError(_("Barueri did not confirm the NFS-e cancellation."))
+        return super()._document_cancel(justificative)
+
     def _before_document_cancel(self):
-        result = super()._before_document_cancel()
-        matched = self.filtered(filter_oca_nfse).filtered(filter_barueri)
-        if not matched:
-            return result
-        return matched._cancel_document_barueri()
+        if (
+            filter_oca_nfse(self)
+            and filter_barueri(self)
+            and self.state_edoc == SITUACAO_EDOC_ENVIADA
+            and self.authorization_event_id.lot_receipt_number
+            and not self.cancel_event_id
+        ):
+            raise UserError(_("Wait for Barueri to finish processing this NFS-e."))
+        return super()._before_document_cancel()
 
     @api.model
     def _cron_document_status_barueri(self):
@@ -765,10 +852,16 @@ class Document(models.Model):
             None. Updates the status of each document based
             on the NFSe provider's response.
         """
-        records = (
-            self.search([("state", "in", ["enviada"])], limit=25)
-            .filtered(filter_oca_nfse)
-            .filtered(filter_barueri)
+        records = self.search(
+            [
+                ("state_edoc", "=", SITUACAO_EDOC_ENVIADA),
+                ("status_code", "in", ("-1", "-2")),
+                ("processador_edoc", "=", PROCESSADOR_OCA),
+                ("document_type_id.code", "=", MODELO_FISCAL_NFSE),
+                ("company_id.provedor_nfse", "=", "barueri"),
+                ("authorization_event_id.lot_receipt_number", "!=", False),
+            ],
+            limit=25,
         )
         if records:
             records._document_status()

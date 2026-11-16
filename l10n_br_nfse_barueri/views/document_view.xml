@@ -9,13 +9,13 @@
             name="name"
         >l10n_br_nfse_barueri_direct_print.document.form.inherit</field>
         <field name="model">l10n_br_fiscal.document</field>
-        <field name="inherit_id" ref="l10n_br_fiscal.document_form" />
+        <field name="inherit_id" ref="l10n_br_fiscal_edi.document_form" />
         <field name="arch" type="xml">
             <button name="view_pdf" position="attributes">
                 <attribute name="attrs">
                     {'invisible': [
                         '|',
-                        ('state_edoc', 'not in', ('autorizada', 'cancelada')),
+                        ('state_edoc', '=', 'em_digitacao'),
                         ('is_nfse_barueri', '=', True)
                     ]}
                 </attribute>
@@ -28,6 +28,7 @@
                     type="object"
                     class="btn-primary"
                     icon="fa-file-text"
+                    groups="l10n_br_fiscal.group_user"
                     attrs="{'invisible': ['|', ('is_nfse_barueri', '=', False), ('state_edoc', 'not in', ('autorizada', 'cancelada'))]}"
                 />
             </button>

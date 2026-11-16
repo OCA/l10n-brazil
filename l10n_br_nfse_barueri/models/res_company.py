@@ -10,5 +10,6 @@ class ResCompany(models.Model):
     provedor_nfse = fields.Selection(
         selection_add=[
             ("barueri", "Barueri"),
-        ]
+        ],
+        ondelete={"barueri": "set null"},
     )

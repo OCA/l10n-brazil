@@ -22,15 +22,18 @@
             "erpbrasil.edoc",
             "erpbrasil.assinatura",
             "erpbrasil.transmissao",
-            "erpbrasil.base",
-            "nfselib.barueri",
+            "erpbrasil-base>=2.4.2",
+            "nfselib.barueri>=1.1.0",
+            "requests",
         ],
     },
     "data": [
         "views/document_view.xml",
+        "report/danfse.xml",
         "data/l10n_br_nfse_barueri_cron.xml",
     ],
     "depends": [
+        "l10n_br_account",
         "l10n_br_nfse",
     ],
 }
