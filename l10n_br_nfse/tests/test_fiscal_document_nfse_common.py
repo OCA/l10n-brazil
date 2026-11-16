@@ -327,3 +327,32 @@ class TestFiscalDocumentNFSeCommon(TransactionCase):
         )
         self.assertEqual(burden["state_percent"], 0.0)
         self.assertEqual(burden["municipal_percent"], line.issqn_percent)
+
+    def test_provider_payload_follows_the_ibscbs_group_rule(self):
+        """The service data sent to the providers (FocusNFE) carries the IBSCBS
+        keys only when the group can be exported, with the CST of the rule."""
+        document = self.nfse_same_state
+        line = document.fiscal_line_ids[0]
+        keys = (
+            "codigo_indicador_operacao",
+            "ibs_cbs_classificacao_tributaria",
+            "ibs_cbs_situacao_tributaria",
+            "ibs_cbs_base_calculo",
+        )
+        line.tax_classification_id = False
+        service = document._prepare_dados_servico()
+        for key in keys:
+            self.assertIsNone(service[key], key)
+
+        line.tax_classification_id = self.env.ref(
+            "l10n_br_fiscal.tax_classification_000001"
+        )
+        line.ibs_cst_id = self.env.ref("l10n_br_fiscal.cst_ibs_000")
+        line.operation_indicator_id = self.env.ref(
+            "l10n_br_fiscal.operation_indicator_030101"
+        )
+        service = document._prepare_dados_servico()
+        self.assertEqual(service["codigo_indicador_operacao"], "030101")
+        self.assertEqual(service["ibs_cbs_classificacao_tributaria"], "000001")
+        self.assertEqual(service["ibs_cbs_situacao_tributaria"], "000")
+        self.assertIsNotNone(service["ibs_cbs_base_calculo"])
