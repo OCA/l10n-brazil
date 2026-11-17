@@ -1,0 +1,44 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_br_qr_code_emv
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: 2026-10-20 19:45+0000\n"
+"Last-Translator: Luis Felipe Miléo <mileo@kmee.com.br>\n"
+"Language-Team: none\n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 5.15.2\n"
+
+#. module: l10n_br_qr_code_emv
+#: model:ir.model,name:l10n_br_qr_code_emv.model_res_partner_bank
+msgid "Bank Accounts"
+msgstr "Contas Bancárias"
+
+#. module: l10n_br_qr_code_emv
+#. odoo-python
+#: code:addons/l10n_br_qr_code_emv/models/res_partner_bank.py:0
+msgid "Missing Merchant City."
+msgstr "Cidade do recebedor não informada."
+
+#. module: l10n_br_qr_code_emv
+#. odoo-python
+#: code:addons/l10n_br_qr_code_emv/models/res_partner_bank.py:0
+msgid "Pix is only available in BRL."
+msgstr "O Pix só está disponível em BRL."
+
+#. module: l10n_br_qr_code_emv
+#. odoo-python
+#: code:addons/l10n_br_qr_code_emv/models/res_partner_bank.py:0
+msgid ""
+"The bank account %(account)s has no Pix key. Register one under the "
+"partner's Pix Keys and link it to this account."
+msgstr ""
+"A conta bancária %(account)s não possui chave Pix. Cadastre uma nas Chaves "
+"Pix do parceiro e vincule-a a esta conta."
