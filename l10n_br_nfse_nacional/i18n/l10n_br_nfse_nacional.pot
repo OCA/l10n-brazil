@@ -743,12 +743,14 @@ msgstr ""
 #. module: l10n_br_nfse_nacional
 #: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_res_company__nfse10_NIF
 #: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_res_partner__nfse10_NIF
+#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_res_users__nfse10_NIF
 msgid "Número de Identificação Fiscal fornecido"
 msgstr ""
 
 #. module: l10n_br_nfse_nacional
 #: model:ir.model.fields,help:l10n_br_nfse_nacional.field_res_company__nfse10_NIF
 #: model:ir.model.fields,help:l10n_br_nfse_nacional.field_res_partner__nfse10_NIF
+#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_res_users__nfse10_NIF
 msgid ""
 "Número de Identificação Fiscal fornecido por órgão de administração "
 "tributária no exterior"
