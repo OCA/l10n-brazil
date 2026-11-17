@@ -4,7 +4,7 @@
 <odoo>
     <record id="document_fiscal_line_mixin_form_manual" model="ir.ui.view">
         <field name="name">l10n_br_fiscal.document.line.mixin.form.manual</field>
-        <field name="model">l10n_br_fiscal.document.line.mixin</field>
+        <field name="model">l10n_br_fiscal.document.line</field>
         <field name="inherit_id" ref="l10n_br_fiscal.document_fiscal_line_mixin_form" />
         <field name="arch" type="xml">
             <xpath expr="//field[@name='icms_value']" position="after">
