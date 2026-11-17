@@ -232,3 +232,45 @@ msgstr "Processado com Sucesso"
 #, python-format
 msgid "status"
 msgstr "situação"
+
+#. module: l10n_br_nfse_focus
+#. odoo-python
+#: code:addons/l10n_br_nfse_focus/models/base.py:0
+#, python-format
+msgid "Error communicating with %(service)s service: %(error)s"
+msgstr "Erro na comunicação com o serviço %(service)s: %(error)s"
+
+#. module: l10n_br_nfse_focus
+#. odoo-python
+#: code:addons/l10n_br_nfse_focus/models/base.py:0
+#, python-format
+msgid "Error: %s"
+msgstr "Erro: %s"
+
+#. module: l10n_br_nfse_focus
+#. odoo-python
+#: code:addons/l10n_br_nfse_focus/models/base.py:0
+#, python-format
+msgid "Field: %s"
+msgstr "Campo: %s"
+
+#. module: l10n_br_nfse_focus
+#. odoo-python
+#: code:addons/l10n_br_nfse_focus/models/document.py:0
+#, python-format
+msgid "Code: %s"
+msgstr "Código: %s"
+
+#. module: l10n_br_nfse_focus
+#. odoo-python
+#: code:addons/l10n_br_nfse_focus/models/document.py:0
+#, python-format
+msgid "Correction: %s"
+msgstr "Correção: %s"
+
+#. module: l10n_br_nfse_focus
+#. odoo-python
+#: code:addons/l10n_br_nfse_focus/models/document.py:0
+#, python-format
+msgid "Message: %s"
+msgstr "Mensagem: %s"

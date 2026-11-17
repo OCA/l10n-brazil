@@ -4,10 +4,17 @@
 
 """Base class for FocusNFE NFSe operations."""
 
+import re
+
 import requests
 
 from odoo import _, models
 from odoo.exceptions import UserError
+
+FOCUS_XSD_ERROR_LINE_RE = re.compile(
+    r"^\d+:\d+:\s*ERROR:\s*(?P<descricao>.+?)" r"(?:\s*--\s*xpath:\s*(?P<xpath>.+))?$",
+    re.MULTILINE,
+)
 
 
 class FocusnfeNfseBase(models.AbstractModel):
@@ -15,6 +22,34 @@ class FocusnfeNfseBase(models.AbstractModel):
 
     _name = "focusnfe.nfse.base"
     _description = "FocusNFE NFSE Base"
+
+    def _format_focus_nfse_message(self, raw_message):
+        """Format a FocusNFE error message for display to the end user.
+
+        FocusNFE sometimes returns raw XSD schema validation output
+        (e.g. "42:0: ERROR: Element '...' -- xpath: /DPS/...") instead of a
+        human-readable message. When that pattern is detected, each error
+        line is turned into a labeled block; otherwise the message is
+        returned unchanged.
+
+        Args:
+            raw_message (str): The raw message from the FocusNFE API.
+
+        Returns:
+            str: The formatted message.
+        """
+        non_empty_lines = [line for line in raw_message.splitlines() if line.strip()]
+        matches = FOCUS_XSD_ERROR_LINE_RE.findall(raw_message)
+        if len(matches) != len(non_empty_lines):
+            return raw_message  # not every line is an XSD error, leave as-is
+
+        blocks = []
+        for descricao, xpath in matches:
+            block = _("Error: %s") % descricao
+            if xpath:
+                block += "\n" + _("Field: %s") % xpath
+            blocks.append(block)
+        return "\n\n".join(blocks)
 
     def _make_focus_nfse_http_request(
         self, method, url, token, data=None, params=None, service_name="NFSe"
@@ -48,9 +83,14 @@ class FocusnfeNfseBase(models.AbstractModel):
             )
             if response.status_code == 422:
                 payload = response.json()
-                msg = payload.get("mensagem") or ""
                 raise UserError(
-                    f"Error communicating with {service_name} service: {msg}"
+                    _("Error communicating with %(service)s service: %(error)s")
+                    % {
+                        "service": service_name,
+                        "error": self._format_focus_nfse_message(
+                            payload.get("mensagem") or ""
+                        ),
+                    }
                 )
             response.raise_for_status()  # Raises an error for 4xx/5xx responses
             return response

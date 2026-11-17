@@ -330,10 +330,10 @@ class Document(models.Model):
             correcao = erro.get("correcao")
             lines = []
             if codigo:
-                lines.append(_("Código: %s") % codigo)
+                lines.append(_("Code: %s") % codigo)
             if correcao:
-                lines.append(_("Correção: %s") % correcao)
-            lines.append(_("Mensagem: %s") % mensagem)
+                lines.append(_("Correction: %s") % correcao)
+            lines.append(_("Message: %s") % mensagem)
             error_blocks.append("\n".join(lines))
         error_msg = (
             "\n\n".join(error_blocks) if error_blocks else _("Authorization error")
