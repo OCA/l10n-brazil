@@ -68,7 +68,7 @@ class HrEmployee(models.Model):
         groups="hr.group_hr_user",
     )
 
-    cpf = fields.Char(
+    vat = fields.Char(
         string="CPF",
         related="work_contact_id.vat",
         readonly=False,
@@ -185,11 +185,11 @@ class HrEmployee(models.Model):
             self._sanitize_document_fields(vals)
         employees = super().create(vals_list)
         # The hr module auto-creates the work contact only after the
-        # related field inverse has run, so a cpf given at creation time
-        # would be lost: apply it again on the created work contact.
+        # related field inverse has run, so a vat (CPF) given at creation
+        # time would be lost: apply it again on the created work contact.
         for employee, vals in zip(employees, vals_list, strict=False):
-            if vals.get("cpf") and employee.work_contact_id:
-                employee.cpf = vals["cpf"]
+            if vals.get("vat") and employee.work_contact_id:
+                employee.vat = vals["vat"]
         return employees
 
     def write(self, vals):
@@ -201,10 +201,11 @@ class HrEmployee(models.Model):
         """Store identification documents as plain digits, as required by
         the eSocial layouts; formatted values are exposed by the
         pis_pasep_formatted field and by the work contact
-        vat_formatted_cnpj field. The cpf is sanitized here and not only
-        on the work contact, because the res.partner vat normalization of
-        l10n_br_base is skipped for non-Brazilian contacts."""
-        for fname in ("cpf", "pis_pasep"):
+        vat_formatted_cnpj field. The employee vat (CPF) is sanitized
+        here and not only on the work contact, because the res.partner
+        vat normalization of l10n_br_base is skipped for non-Brazilian
+        contacts."""
+        for fname in ("vat", "pis_pasep"):
             if vals.get(fname):
                 vals[fname] = misc.punctuation_rm(str(vals[fname]))
 
@@ -234,19 +235,19 @@ class HrEmployee(models.Model):
             if record.pis_pasep and not pis.validar(record.pis_pasep):
                 raise ValidationError(_("Invalid PIS/PASEP"))
 
-    @api.constrains("cpf")
+    @api.constrains("vat")
     def _check_cpf(self):
         for record in self:
-            check_cnpj_cpf(record.env, record.cpf, record.country_id)
+            check_cnpj_cpf(record.env, record.vat, record.country_id)
 
-    @api.onchange("cpf")
-    def onchange_cpf(self):
-        """Keep the CPF unformatted, following the l10n_br_base convention
-        of storing res_partner.vat as plain digits (eSocial ready); the
-        formatted value is available on the work contact through
-        vat_formatted_cnpj."""
-        if self.cpf:
-            self.cpf = misc.punctuation_rm(self.cpf)
+    @api.onchange("vat")
+    def onchange_vat(self):
+        """Keep the employee VAT (CPF) unformatted, following the
+        l10n_br_base convention of storing res_partner.vat as plain
+        digits (eSocial ready); the formatted value is available on the
+        work contact through vat_formatted_cnpj."""
+        if self.vat:
+            self.vat = misc.punctuation_rm(self.vat)
 
     @api.model
     def _get_marital_status_selection(self):
