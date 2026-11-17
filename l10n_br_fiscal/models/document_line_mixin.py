@@ -2822,8 +2822,11 @@ class FiscalDocumentLineMixin(models.AbstractModel):
             "issqn_fg_city_id",
             "issqn_eligibility",
             "issqn_percent",
+            "issqn_wh_percent",
             "tax_classification_id",
             "operation_indicator_id",
+            "cbs_cst_id",
+            "ibs_cst_id",
         ]
 
     def _get_document_split_key(self, document_type=None):
