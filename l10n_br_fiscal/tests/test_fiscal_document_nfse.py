@@ -55,6 +55,18 @@ class TestFiscalDocumentNFSe(TransactionCase):
         self.assertEqual(same._get_document_split_key(document.document_type_id), key)
         document._check_document_split()
 
+        # what the layout declares once: ISS withholding and the IBS/CBS CST
+        for name, value in (
+            ("issqn_wh_percent", line.issqn_wh_percent + 5.0),
+            ("cbs_cst_id", self.env.ref("l10n_br_fiscal.cst_cbs_011").id),
+            ("ibs_cst_id", self.env.ref("l10n_br_fiscal.cst_ibs_011").id),
+        ):
+            other = line.copy({"document_id": False, "name": name})
+            other[name] = value
+            self.assertNotEqual(
+                other._get_document_split_key(document.document_type_id), key, name
+            )
+
         nfe = self.env.ref("l10n_br_fiscal.document_55")
         self.assertEqual(line._get_document_split_key(nfe), (nfe.id,))
 
