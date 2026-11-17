@@ -80,7 +80,7 @@ class MDFe(spec_models.StackedModel):
     # (+ content of the m2o is stacked in the parent / - standard m2o /
     # ≡ o2m; the mapped Odoo model may follow the tag)
     INFMDFE_TREE = """
-    + <tmdfe_infmdfe>
++ <tmdfe_infmdfe>
     + <ide>
         ≡ <infMunCarrega>
         ≡ <infPercurso>
