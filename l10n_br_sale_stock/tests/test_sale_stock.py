@@ -165,3 +165,101 @@ class TestSaleStock(TestBrPickingInvoicingCommon):
         # Change shipping partner after confirmation
         so.partner_shipping_id = self.partner_addr_ak2.id
         self.assertEqual(so.partner_shipping_id, picking.partner_id)
+
+    def test_kit_component_fiscal_values(self):
+        """
+        Phantom kit sold with a discount: the component moves point to the
+        sale line of the kit and carry its fiscal values. Each invoice line
+        must get the fiscal values of its component (fiscal price equal to
+        the price, its own NCM) and its share of the kit discount, so the
+        invoice totals the price the kit was sold for.
+        """
+        self.fo_venda.with_company(self.env.company).journal_id = self.env[
+            "account.journal"
+        ].search(
+            [("type", "=", "sale"), ("company_id", "=", self.env.company.id)],
+            limit=1,
+        )
+        ncm_kit, ncm_component = self.env["l10n_br_fiscal.ncm"].search([], limit=2)
+        components = self.env["product.product"].create(
+            [
+                {
+                    "name": f"Kit Component {price}",
+                    "type": "consu",
+                    "is_storable": True,
+                    "invoice_policy": "delivery",
+                    "list_price": price,
+                    "standard_price": 10.0,
+                    "ncm_id": ncm_component.id,
+                }
+                for price in (239.0, 189.0, 319.0, 269.0)
+            ]
+        )
+        kit = self.env["product.product"].create(
+            {
+                "name": "Kit",
+                "type": "consu",
+                "is_storable": True,
+                "invoice_policy": "delivery",
+                "list_price": 914.40,
+                "ncm_id": ncm_kit.id,
+            }
+        )
+        so = self._create_sale_order(
+            lines=[
+                Command.create(
+                    {
+                        "product_id": kit.id,
+                        "product_uom_qty": 1.0,
+                        "price_unit": 914.40,
+                        "discount": 10.0,
+                        "fiscal_operation_id": self.fo_venda.id,
+                    }
+                )
+            ],
+        )
+        so.action_confirm()
+        kit_line = so.order_line
+        self.assertAlmostEqual(kit_line.discount_value, 91.44, places=2)
+        picking = so.picking_ids
+
+        # Simulate the phantom BOM explosion of mrp: the kit move is copied
+        # into one move per component, keeping the fiscal values of the kit.
+        kit_move = picking.move_ids
+        for component in components:
+            kit_move.copy(
+                {
+                    "product_id": component.id,
+                    "product_uom": component.uom_id.id,
+                    "product_uom_qty": 1.0,
+                    "picking_id": picking.id,
+                    "sale_line_id": kit_line.id,
+                }
+            )
+        kit_move._action_cancel()
+        kit_move.unlink()
+        self.picking_move_state(picking)
+        picking.set_to_be_invoiced()
+
+        invoice = self.create_invoice_wizard(picking)
+
+        lines = invoice.invoice_line_ids.filtered(
+            lambda ln: ln.display_type == "product"
+        )
+        self.assertEqual(len(lines), 4)
+        # invoiced at the share of the sale price, not at the cost
+        self.assertEqual(
+            sorted(lines.mapped("price_unit")), [170.10, 215.10, 242.10, 287.10]
+        )
+        for line in lines:
+            self.assertEqual(line.ncm_id, ncm_component)
+            self.assertAlmostEqual(line.fiscal_price, line.price_unit, places=2)
+            self.assertEqual(line.fiscal_quantity, line.quantity)
+            self.assertAlmostEqual(
+                line.discount_value, line.price_unit * line.quantity * 0.1, places=2
+            )
+        self.assertAlmostEqual(sum(lines.mapped("discount_value")), 91.44, places=2)
+        self.assertAlmostEqual(invoice.amount_untaxed, 822.96, places=2)
+        self.assertAlmostEqual(
+            invoice.fiscal_document_id.amount_discount_value, 91.44, places=2
+        )
