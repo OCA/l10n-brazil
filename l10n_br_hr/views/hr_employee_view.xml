@@ -92,7 +92,10 @@
                                 />
                             </group>
                             <group name="pis_pasep" string="PIS/PASEP">
-                                <field name="pis_pasep" placeholder="XXX.XXXXX.XX-X" />
+                                <field
+                                    name="pis_pasep_formatted"
+                                    placeholder="XXX.XXXXX.XX-X"
+                                />
                                 <field name="pis_pasep_date" />
                             </group>
                             <group name="parents_name" string="Parents names">

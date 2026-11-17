@@ -3,7 +3,8 @@
 # (c) 2016 KMEE Informática - Daniel Sadamo <daniel.sadamo@kmee.com.br>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from erpbrasil.base.fiscal import cnpj_cpf, pis
+from erpbrasil.base import misc
+from erpbrasil.base.fiscal import pis
 
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
@@ -22,6 +23,15 @@ class HrEmployee(models.Model):
     birth_city_id = fields.Many2one(comodel_name="res.city", groups="hr.group_hr_user")
 
     pis_pasep = fields.Char(string="PIS/PASEP", groups="hr.group_hr_user")
+
+    pis_pasep_formatted = fields.Char(
+        string="PIS/PASEP Formatted",
+        compute="_compute_pis_pasep_formatted",
+        inverse="_inverse_pis_pasep_formatted",
+        help="PIS/PASEP displayed with punctuation (XXX.XXXXX.XX-X);"
+        " it is stored unformatted in the pis_pasep field.",
+        groups="hr.group_hr_user",
+    )
 
     pis_pasep_date = fields.Date(
         string="PIS/PASEP emission date", groups="hr.group_hr_user"
@@ -171,6 +181,55 @@ class HrEmployee(models.Model):
         groups="hr.group_hr_user",
     )
 
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            self._sanitize_document_fields(vals)
+        employees = super().create(vals_list)
+        # The hr module auto-creates the work contact only after the
+        # related field inverse has run, so a cpf given at creation time
+        # would be lost: apply it again on the created work contact.
+        for employee, vals in zip(employees, vals_list, strict=False):
+            if vals.get("cpf") and employee.work_contact_id:
+                employee.cpf = vals["cpf"]
+        return employees
+
+    def write(self, vals):
+        self._sanitize_document_fields(vals)
+        return super().write(vals)
+
+    @api.model
+    def _sanitize_document_fields(self, vals):
+        """Store identification documents as plain digits, as required by
+        the eSocial layouts; formatted values are exposed by the
+        pis_pasep_formatted field and by the work contact
+        vat_formatted_cnpj field. The cpf is sanitized here and not only
+        on the work contact, because the res.partner vat normalization of
+        l10n_br_base is skipped for non-Brazilian contacts."""
+        for fname in ("cpf", "pis_pasep"):
+            if vals.get(fname):
+                vals[fname] = misc.punctuation_rm(str(vals[fname]))
+
+    @api.depends("pis_pasep")
+    def _compute_pis_pasep_formatted(self):
+        for record in self:
+            pis_pasep = record.pis_pasep
+            if pis_pasep and len(pis_pasep) == 11 and pis_pasep.isdigit():
+                record.pis_pasep_formatted = (
+                    f"{pis_pasep[:3]}.{pis_pasep[3:8]}.{pis_pasep[8:10]}"
+                    f"-{pis_pasep[10]}"
+                )
+            else:
+                # legacy records may still hold a punctuated value
+                record.pis_pasep_formatted = pis_pasep
+
+    def _inverse_pis_pasep_formatted(self):
+        for record in self:
+            if record.pis_pasep_formatted:
+                record.pis_pasep = misc.punctuation_rm(record.pis_pasep_formatted)
+            else:
+                record.pis_pasep = False
+
     @api.constrains("pis_pasep")
     def _validate_pis_pasep(self):
         for record in self:
@@ -184,9 +243,12 @@ class HrEmployee(models.Model):
 
     @api.onchange("cpf")
     def onchange_cpf(self):
-        cpf = cnpj_cpf.formata(str(self.cpf))
-        if cpf:
-            self.cpf = cpf
+        """Keep the CPF unformatted, following the l10n_br_base convention
+        of storing res_partner.vat as plain digits (eSocial ready); the
+        formatted value is available on the work contact through
+        vat_formatted_cnpj."""
+        if self.cpf:
+            self.cpf = misc.punctuation_rm(self.cpf)
 
     @api.model
     def _get_marital_status_selection(self):

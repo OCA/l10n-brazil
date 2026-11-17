@@ -33,9 +33,37 @@ class TestL10nBr(TransactionCase):
         self.assertFalse(result, "Error on update invalid employee cpf")
 
     def test_onchange_cpf(self):
-        self.employee.write({"cpf": "78004863035"})
+        self.employee.write({"cpf": "780.048.630-35"})
         self.employee.onchange_cpf()
-        self.assertEqual(self.employee.cpf, "780.048.630-35")
+        self.assertEqual(self.employee.cpf, "78004863035")
+
+    def test_cpf_stored_unformatted(self):
+        """The CPF is stored as plain digits on the work contact vat,
+        following the l10n_br_base convention (eSocial ready)."""
+        self.employee.write({"cpf": "780.048.630-35"})
+        self.assertEqual(self.employee.cpf, "78004863035")
+        self.assertEqual(self.employee.work_contact_id.vat, "78004863035")
+
+    def test_cpf_propagated_on_create(self):
+        """A cpf given at creation time lands on the auto-created work
+        contact vat (the hr module creates the work contact only after
+        the related field inverse ran)."""
+        employee = self.env["hr.employee"].create(
+            {"name": "create-time cpf", "cpf": "780.048.630-35"}
+        )
+        self.assertEqual(employee.cpf, "78004863035")
+        self.assertEqual(employee.work_contact_id.vat, "78004863035")
+
+    def test_pis_pasep_sanitized(self):
+        """PIS/PASEP is stored as plain digits (eSocial ready) while the
+        formatted value is exposed by pis_pasep_formatted."""
+        self.employee.write({"pis_pasep": "496.85994.95-6"})
+        self.assertEqual(self.employee.pis_pasep, "49685994956")
+        self.assertEqual(self.employee.pis_pasep_formatted, "496.85994.95-6")
+
+    def test_pis_pasep_formatted_inverse(self):
+        self.employee.write({"pis_pasep_formatted": "496.85994.95-6"})
+        self.assertEqual(self.employee.pis_pasep, "49685994956")
 
     def test_invalid_employee_pis_pasep(self):
         try:
