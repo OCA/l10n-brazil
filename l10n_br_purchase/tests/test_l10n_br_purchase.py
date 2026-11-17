@@ -576,7 +576,7 @@ class L10nBrPurchaseBaseTest(TransactionCase):
             self.assertNotIn(
                 dead,
                 injected,
-                "Pruned dead fiscal field %s must not be injected." % dead,
+                f"Pruned dead fiscal field {dead} must not be injected.",
             )
 
     def test_fields_freight_insurance_other_costs(self):
