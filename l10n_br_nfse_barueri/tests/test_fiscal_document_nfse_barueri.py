@@ -104,7 +104,8 @@ class TestFiscalDocumentNFSeBarueri(TestFiscalDocumentNFSeCommon):
         barueri_city = self.env.ref("l10n_br_base.city_3505708")
         self.company.city_id = barueri_city
         self.nfse_same_state.document_type = "SE"
-        self.nfse_same_state.partner_id.cnpj_cpf = "12.345.678/0001-95"
+        cnpj = self.nfse_same_state.partner_id.cnpj_cpf
+        cnpj_without_punctuation = cnpj.translate(str.maketrans("", "", "./-"))
         self.nfse_same_state.verify_code = "ABC123"
 
         self.nfse_same_state.nfse_environment = "1"
@@ -112,7 +113,7 @@ class TestFiscalDocumentNFSeBarueri(TestFiscalDocumentNFSeCommon):
         self.assertEqual(
             self.nfse_same_state.url_nfse_barueri,
             "https://www.barueri.sp.gov.br/nfe/wfimagemNota.aspx"
-            "?CODIGOAUTENTICIDADE=ABC123&NUMDOC=12345678000195",
+            f"?CODIGOAUTENTICIDADE=ABC123&NUMDOC={cnpj_without_punctuation}",
         )
 
         self.nfse_same_state.nfse_environment = "2"
@@ -120,7 +121,7 @@ class TestFiscalDocumentNFSeBarueri(TestFiscalDocumentNFSeCommon):
         self.assertEqual(
             self.nfse_same_state.url_nfse_barueri,
             "https://testeeiss.barueri.sp.gov.br/nfe/wfimagemNota.aspx"
-            "?CODIGOAUTENTICIDADE=ABC123&NUMDOC=12345678000195",
+            f"?CODIGOAUTENTICIDADE=ABC123&NUMDOC={cnpj_without_punctuation}",
         )
 
     def test_action_open_nfse_barueri(self):
@@ -128,13 +129,13 @@ class TestFiscalDocumentNFSeBarueri(TestFiscalDocumentNFSeCommon):
         barueri_city = self.env.ref("l10n_br_base.city_3505708")
         self.company.city_id = barueri_city
         self.nfse_same_state.document_type = "SE"
-        self.nfse_same_state.partner_id.cnpj_cpf = "12345678000195"
         self.nfse_same_state.verify_code = "COD123"
         self.nfse_same_state.nfse_environment = "1"
 
         action = self.nfse_same_state.action_open_nfse_barueri()
 
         self.assertEqual(action["type"], "ir.actions.act_url")
+        self.assertTrue(action["url"])
         self.assertEqual(action["url"], self.nfse_same_state.url_nfse_barueri)
         self.assertEqual(action["target"], "new")
 
