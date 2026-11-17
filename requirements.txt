@@ -6,7 +6,7 @@ erpbrasil.assinatura
 erpbrasil.base
 erpbrasil.edoc
 erpbrasil.transmissao
-nfselib.barueri>=1.1.0
+nfselib-barueri>=1.1.0
 nfelib
 num2words
 phonenumbers

@@ -23,7 +23,7 @@
             "erpbrasil.assinatura",
             "erpbrasil.transmissao",
             "erpbrasil-base>=2.4.2",
-            "nfselib.barueri>=1.1.0",
+            "nfselib-barueri>=1.1.0",
             "requests",
         ],
     },

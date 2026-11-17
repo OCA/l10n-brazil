@@ -8,7 +8,9 @@
             expr="//img[contains(@t-att-src, 'company_id.nfse_city_logo')]"
             position="attributes"
         >
-            <attribute name="t-att-src">image_data_uri(doc.company_id.nfse_city_logo)</attribute>
+            <attribute
+                name="t-att-src"
+            >image_data_uri(doc.company_id.nfse_city_logo)</attribute>
             <attribute name="t-if">doc.company_id.nfse_city_logo</attribute>
         </xpath>
         <xpath

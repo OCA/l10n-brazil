@@ -9,7 +9,7 @@ from types import SimpleNamespace
 from unittest.mock import MagicMock, patch
 
 from nfselib.barueri.nfse import NFSeRegistroTipo1, NFSeRegistroTipo2
-from requests.exceptions import ConnectionError
+from requests.exceptions import ConnectionError as RequestsConnectionError
 from xmldiff import main
 
 from odoo.exceptions import UserError
@@ -240,7 +240,7 @@ class TestFiscalDocumentNFSeBarueri(TestFiscalDocumentNFSeCommon):
         ), patch.object(
             type(document),
             "_baixar_xml_nfse",
-            side_effect=[ConnectionError("unavailable"), "<nfse/>"],
+            side_effect=[RequestsConnectionError("unavailable"), "<nfse/>"],
         ), patch.object(type(document), "make_pdf"):
             document.action_document_send()
             self.assertEqual(document.state_edoc, SITUACAO_EDOC_ENVIADA)

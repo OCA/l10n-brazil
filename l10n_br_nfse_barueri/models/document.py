@@ -147,8 +147,9 @@ class Document(models.Model):
     def make_pdf(self):
         barueri = self.filtered(filter_oca_nfse).filtered(filter_barueri)
         other_documents = self - barueri
+        result = None
         if other_documents:
-            super(Document, other_documents).make_pdf()
+            result = super(Document, other_documents).make_pdf()
         for record in barueri:
             report = self.env.ref("l10n_br_nfse.report_br_nfse_danfe")
             pdf, _report_type = report._render_qweb_pdf(report, res_ids=record.ids)
@@ -169,6 +170,7 @@ class Document(models.Model):
                 record.file_report_id.write(values)
             else:
                 record.file_report_id = self.env["ir.attachment"].create(values)
+        return result
 
     def _processador_erpbrasil_nfse(self):
         if filter_barueri(self):
