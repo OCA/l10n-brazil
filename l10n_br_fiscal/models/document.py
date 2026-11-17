@@ -439,6 +439,8 @@ class Document(models.Model):
     def _check_document_split(self):
         """Refuse a document whose lines need separate documents."""
         for document in self:
+            if document.issuer != DOCUMENT_ISSUER_COMPANY:
+                continue
             doc_type = document.document_type_id
             lines = document.fiscal_line_ids.filtered("product_id")
             groups = lines.grouped(

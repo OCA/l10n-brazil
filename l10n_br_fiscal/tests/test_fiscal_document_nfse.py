@@ -64,3 +64,6 @@ class TestFiscalDocumentNFSe(TransactionCase):
         )
         with self.assertRaises(UserError):
             document.action_document_confirm()
+
+        document.issuer = "partner"
+        document._check_document_split()
