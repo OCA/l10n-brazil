@@ -126,16 +126,20 @@ class AccountMove(models.Model):
         return res
 
     def _inverse_tax_totals(self):
-        # Never let the tax_totals widget override the exact tax values
-        # of an imported fiscal document.
+        # Never let the tax_totals widget override the tax values of a fiscal
+        # document: the widget's total is the base plus every tax, so applying
+        # it rebuilds the payment term line from a total that no longer matches
+        # the fiscal one and the entry stops balancing.
         if self.env.context.get("force_fiscal_amount_recompute"):
             # Import flow: the move is still being assembled and
             # imported_document may not be written yet, so skip the
             # inverse for the whole batch.
             return
         # Regular (UI) flow: run the standard inverse only for the moves
-        # that are not the mirror of an imported fiscal document.
-        moves = self.filtered(lambda move: not move.imported_document)
+        # that carry no fiscal document.
+        moves = self.filtered(
+            lambda move: not move.fiscal_operation_id and not move.imported_document
+        )
         return super(AccountMove, moves)._inverse_tax_totals()
 
     @api.constrains("fiscal_document_id", "document_type_id")
@@ -174,6 +178,15 @@ class AccountMove(models.Model):
     @api.model
     def _get_fiscal_lines_field_name(self):
         return "invoice_line_ids"
+
+    def _get_report_fiscal_totals(self):
+        # _inherits brings the fields of the fiscal document, not its methods
+        self.ensure_one()
+        return (
+            self.fiscal_document_id._get_report_fiscal_totals()
+            if self.fiscal_document_id
+            else False
+        )
 
     @api.onchange("ind_final")
     def _onchange_ind_final(self):
@@ -712,20 +725,22 @@ class AccountMove(models.Model):
                 line_form.fiscal_document_line_id = line
 
                 # SEFAZ Standard: What is included in vProd?
+                # IBS/CBS are "por dentro" (tax_group tax_include=True) like
+                # ICMS/PIS/COFINS, so they belong to amt_inc, not amt_not_inc.
                 amt_inc = (
                     (line.icms_value or 0.0)
                     + (line.pis_value or 0.0)
                     + (line.cofins_value or 0.0)
                     + (line.issqn_value or 0.0)
                     + (line.icmsfcp_value or 0.0)
+                    + (line.ibs_value or 0.0)
+                    + (line.cbs_value or 0.0)
                 )
                 amt_not_inc = (
                     (line.icmsst_value or 0.0)
                     + (line.ipi_value or 0.0)
                     + (line.ii_value or 0.0)
                     + (line.icmsfcpst_value or 0.0)
-                    + (line.ibs_value or 0.0)
-                    + (line.cbs_value or 0.0)
                 )
 
                 unit_and_prices.append(

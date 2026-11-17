@@ -2,11 +2,12 @@
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl-3.0.en.html).
 # flake8: noqa: C901
 
+import dataclasses
 import re
 from datetime import datetime
+from importlib import resources
 
 import nfelib
-import pkg_resources
 from nfelib.mdfe.bindings.v3_0.mdfe_v3_00 import Tmdfe
 
 from odoo import Command, api, fields, models
@@ -38,12 +39,21 @@ def build_attrs_fake(self, node, create_m2o=False):
         if fname == "any_element":  # FIXME in spec_driven_model
             continue
         value = getattr(node, fname)
-        if value is None:
+        if value is None or value == []:
             continue
         key = f"mdfe30_{fspec.metadata.get('name', fname)}"
-        if (
-            fspec.type == str or not any(["." in str(i) for i in fspec.type.__args__])
-        ) and not str(fspec.type).startswith("typing.List"):
+        # Value-driven dispatch (see spec_driven_model): classify from the
+        # runtime binding value, which is stable across xsdata annotation
+        # format changes (ForwardRef, PEP 585, PEP 563).
+        if isinstance(value, list):
+            items = [li for li in value if li]
+            is_list = bool(items) and dataclasses.is_dataclass(items[0])
+            is_complex = is_list
+        else:
+            items = None
+            is_list = False
+            is_complex = dataclasses.is_dataclass(value)
+        if not is_complex:
             # SimpleType
             if fields[key]["type"] == "datetime":
                 if "T" in value:
@@ -55,10 +65,8 @@ def build_attrs_fake(self, node, create_m2o=False):
             vals[key] = value
 
         else:
-            if hasattr(fspec.type.__args__[0], "__name__"):
-                binding_type = fspec.type.__args__[0].__name__
-            else:
-                binding_type = fspec.type.__args__[0].__forward_arg__
+            binding_value = items[0] if is_list else value
+            binding_type = type(binding_value).__qualname__
 
             # ComplexType
             if fields.get(key) and fields[key].get("related"):
@@ -71,7 +79,7 @@ def build_attrs_fake(self, node, create_m2o=False):
             if comodel is None:  # example skip ICMS100 class
                 continue
 
-            if not str(fspec.type).startswith("typing.List"):
+            if not is_list:
                 # m2o
                 new_value = comodel.build_attrs_fake(
                     value,
@@ -88,7 +96,7 @@ def build_attrs_fake(self, node, create_m2o=False):
             else:  # if attr.get_container() == 1:
                 # o2m
                 lines = []
-                for line in [li for li in value if li]:
+                for line in items:
                     line_vals = comodel.build_attrs_fake(line, create_m2o=create_m2o)
                     lines.append(Command.create(line_vals))
                 vals[key] = lines
@@ -263,9 +271,9 @@ class NFeImportTest(TransactionCase):
             "v3_0",
             "41190876676436000167580010000500001000437558-mdfe.xml",
         )
-        resource_path = "/".join(res_items)
-        mdfe_stream = pkg_resources.resource_stream(nfelib.__name__, resource_path)
-        binding = Tmdfe.from_xml(mdfe_stream.read().decode())
+        binding = Tmdfe.from_xml(
+            resources.files(nfelib.__name__).joinpath(*res_items).read_bytes().decode()
+        )
         mdfe = (
             self.env["mdfe.30.tmdfe_infmdfe"]
             .with_context(tracking_disable=True, edoc_type="in", lang="pt_BR")
@@ -280,9 +288,9 @@ class NFeImportTest(TransactionCase):
             "v3_0",
             "50170876063965000276580010000011311421039568-mdfe.xml",
         )
-        resource_path = "/".join(res_items)
-        mdfe_stream = pkg_resources.resource_stream(nfelib.__name__, resource_path)
-        binding = Tmdfe.from_xml(mdfe_stream.read().decode())
+        binding = Tmdfe.from_xml(
+            resources.files(nfelib.__name__).joinpath(*res_items).read_bytes().decode()
+        )
         mdfe = (
             self.env["mdfe.30.tmdfe_infmdfe"]
             .with_context(tracking_disable=True, edoc_type="in", lang="pt_BR")

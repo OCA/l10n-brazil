@@ -30,16 +30,26 @@ class DocumentImporterWizardMixin(models.TransientModel):
         return res
 
     def _destination_partner_from_binding(self, binding):
-        if self.document_type == MODELO_FISCAL_CTE:
-            self.destination_partner_id = self._search_partner(
-                cnpj=binding.infCte.dest.CNPJ,
-                legal_name=binding.infCte.dest.xNome,
-            )
-            self.issuer_legal_name = binding.infCte.emit.xNome
-            self.issuer_name = binding.infCte.emit.xFant
-
-            self.destination_cnpj = formata(binding.infCte.dest.CNPJ)
-            self.destination_name = binding.infCte.dest.xNome
+        if self.document_type != MODELO_FISCAL_CTE:
+            return super()._destination_partner_from_binding(binding)
+        # A cteProc (authorized XML, the one DF-e distributes) wraps the CTe
+        if hasattr(binding, "CTe"):
+            binding = binding.CTe
+        infcte = binding.infCte
+        self.issuer_legal_name = infcte.emit.xNome
+        self.issuer_name = infcte.emit.xFant
+        # dest is optional in the CT-e layout (e.g. toma3 without dest)
+        dest = getattr(infcte, "dest", None)
+        if dest is None:
+            return None
+        cnpj_cpf = dest.CNPJ or dest.CPF
+        self.destination_partner_id = self._search_partner(
+            cnpj=cnpj_cpf,
+            legal_name=dest.xNome,
+        )
+        self.destination_cnpj = formata(cnpj_cpf) if cnpj_cpf else False
+        self.destination_name = dest.xNome
+        return None
 
     def _create_edoc_from_file(self):
         if self.document_type == MODELO_FISCAL_CTE:

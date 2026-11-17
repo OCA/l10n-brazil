@@ -882,18 +882,18 @@ class TestFiscalDocumentGeneric(TransactionCase):
                     " for Venda de Simples Nacional Fora do Estado.",
                 )
 
-            # ICMS
+            # ICMS: the foreign buyer is not a contributor and takes no credit
             self.assertEqual(
                 line.icmssn_tax_id.name,
-                "ICMS SN Com Permissão de Crédito",
-                "Error to mapping ICMS SN Com Permissão de Crédito"
-                " for Venda de Simples Nacional Dentro do Estado.",
+                "ICMS SN Sem Permissão de Crédito",
+                "Error to mapping ICMS SN Sem Permissão de Crédito"
+                " for Venda de Contribuinte p/ o Exterior.",
             )
             self.assertEqual(
                 line.icms_cst_id.code,
-                "101",
-                "Erro ao mapear a CST 101 do ICMS SN Com Permissão de Crédito"
-                " para Venda de Simples Nacional Dentro do Estado.",
+                "102",
+                "Erro ao mapear a CST 102 do ICMS SN Sem Permissão de Crédito"
+                " para Venda de Contribuinte p/ o Exterior.",
             )
 
             # ICMS FCP
@@ -1033,3 +1033,9 @@ class TestFiscalDocumentGeneric(TransactionCase):
                 10.0,
                 "Unexpected value for the field Other Values in Fiscal Document line",
             )
+
+    def test_document_key_alphanumeric_cnpj(self):
+        """Access key with alphanumeric CNPJ issuer passes _check_key."""
+        key = "352610A87HBZHB000161550010000001231123456783"
+        self.nfe_same_state.document_key = key
+        self.assertEqual(self.nfe_same_state.document_key, key)

@@ -73,6 +73,16 @@ class DataNcmNbsAbstract(models.AbstractModel):
                     + last_estimated.municipal_taxes
                 )
 
+    @api.model
+    def _get_ibpt_request_timeout(self):
+        """Timeout of the IBPT requests, in seconds: the server option, else
+        the system parameter, else 30 seconds."""
+        return (
+            odooconfig.get("ibpt_request_timeout")
+            or self.env["ir.config_parameter"].sudo().get_param("ibpt_request_timeout")
+            or 30
+        )
+
     def _get_ibpt(self, config, code_unmasked):
         return False
 
@@ -91,10 +101,7 @@ class DataNcmNbsAbstract(models.AbstractModel):
                     company.ibpt_token,
                     misc.punctuation_rm(company.vat),
                     company.state_id.code,
-                    odooconfig.get("ibpt_request_timeout")
-                    or self.env["ir.config_parameter"]
-                    .sudo()
-                    .get_param("ibpt_request_timeout"),
+                    self._get_ibpt_request_timeout(),
                 )
 
                 result = self._get_ibpt(config, record.code_unmasked)
@@ -106,6 +113,7 @@ class DataNcmNbsAbstract(models.AbstractModel):
                         "origin": result.fonte,
                         "state_id": company.state_id.id,
                         "state_taxes": result.estadual,
+                        "municipal_taxes": result.municipal,
                         "federal_taxes_national": result.nacional,
                         "federal_taxes_import": result.importado,
                     }

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+    Copyright 2026 Engenere (<https://engenere.one>)
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+    <record id="dfe_mock_generate_wizard_form" model="ir.ui.view">
+        <field name="name">dfe.mock.generate.wizard.form</field>
+        <field name="model">dfe.mock.generate.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Generate Mock NSU">
+                <group>
+                    <field name="company_id" groups="base.group_multi_company" />
+                    <field name="fiscal_type" widget="radio" />
+                    <field name="quantity" />
+                </group>
+                <group
+                    string="Document Types"
+                    attrs="{'invisible': [('fiscal_type', '!=', 'nfe')]}"
+                >
+                    <field name="generate_res_nfe" />
+                    <field name="generate_proc_nfe" />
+                    <field name="generate_res_evento" />
+                    <field name="generate_proc_evento_nfe" />
+                </group>
+                <div
+                    attrs="{'invisible': [('fiscal_type', '!=', 'nfse')]}"
+                    class="text-muted"
+                >
+                    Authorized national NFS-e issued to this company, as the
+                    ADN distributes them.
+                </div>
+                <footer>
+                    <button
+                        name="action_generate"
+                        string="Generate"
+                        type="object"
+                        class="btn-primary"
+                    />
+                    <button string="Cancel" class="btn-secondary" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

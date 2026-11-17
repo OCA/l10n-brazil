@@ -117,7 +117,7 @@
                         string="Set to Draft"
                         groups="l10n_br_fiscal.group_user"
                         class="btn-secondary"
-                        attrs="{'invisible': [('state_edoc', '=', 'em_digitacao')]}"
+                        attrs="{'invisible': [('state_edoc', 'in', ('em_digitacao', 'autorizada'))]}"
                     />
                     <button
                         name="action_document_cancel"
@@ -155,18 +155,25 @@
                     <field name="xml_error_message" readonly="1" />
                 </div>
                 <div
+                    class="alert alert-danger"
+                    role="alert"
+                    attrs="{'invisible': [('state_edoc','not in',('rejeitada', 'denegada'))]}"
+                >Fiscal Document:
+                <field name="document_type_id" readonly="1" class="me-1" />
+                <strong><field name="state_edoc" readonly="1" /></strong></div>
+                <div
                     class="alert alert-success"
                     role="alert"
-                    attrs="{'invisible': [('state_edoc','!=','a_enviar')]}"
+                    attrs="{'invisible': [('state_edoc','!=','autorizada')]}"
                 >Fiscal Document:
-                <field name="document_type_id" readonly="1" />is
-                <strong>Open</strong></div>
+                <field name="document_type_id" readonly="1" class="me-1" />
+                <strong>Authorized</strong></div>
                 <div
                     class="alert alert-warning"
                     role="alert"
                     attrs="{'invisible': [('state_edoc','!=','cancelada')]}"
                 >Fiscal Document:
-                <field name="document_type_id" readonly="1" />is
+                <field name="document_type_id" readonly="1" class="me-1" />
                 <strong>Cancelled</strong></div>
                 <sheet string="Fiscal Document">
                     <div class="oe_button_box" name="button_box" />

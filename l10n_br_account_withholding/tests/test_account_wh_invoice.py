@@ -533,3 +533,28 @@ class AccountMoveWithWhInvoice(AccountMoveBRCommon):
                 for pay_line in payable_line_ids
             )
         )
+
+    def test_wh_due_date_day_beyond_month_end(self):
+        """The due day is clamped to the last day of the month (no ValueError)."""
+        move = self.move_in_compra_para_revenda
+        move.action_post()
+        wh_line = move.wh_invoice_ids.invoice_line_ids.wh_move_line_id[:1]
+        self.assertTrue(wh_line, "A withholding invoice line is expected.")
+        fiscal_group = wh_line.tax_line_id.tax_group_id.fiscal_tax_group_id
+        # Without the fix, February.replace(day=31) raised ValueError.
+        self.env.cr.execute(
+            "UPDATE account_move SET date = %s WHERE id = %s",
+            (fields.Date.to_date("2026-02-10"), move.id),
+        )
+        move.invalidate_recordset(["date"])
+        fiscal_group.wh_due_day = 31
+        vals = move._prepare_wh_invoice(wh_line, fiscal_group)
+        self.assertEqual(vals["invoice_date_due"], fields.Date.to_date("2026-03-31"))
+        fiscal_group.wh_due_day = 30
+        self.env.cr.execute(
+            "UPDATE account_move SET date = %s WHERE id = %s",
+            (fields.Date.to_date("2026-01-20"), move.id),
+        )
+        move.invalidate_recordset(["date"])
+        vals = move._prepare_wh_invoice(wh_line, fiscal_group)
+        self.assertEqual(vals["invoice_date_due"], fields.Date.to_date("2026-02-28"))

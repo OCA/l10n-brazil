@@ -121,6 +121,8 @@ class Comment(models.Model):
 
         from jinja2.sandbox import SandboxedEnvironment
 
+        lang_br = self.env.ref("base.lang_pt_BR")
+
         mako_template_env = SandboxedEnvironment(
             block_start_string="<%",
             block_end_string="%>",
@@ -154,6 +156,11 @@ class Comment(models.Model):
                 "format_amount": (
                     lambda amount, context=self._context: self.format_amount(
                         self.env, amount, self.env.ref("base.BRL")
+                    )
+                ),
+                "format_number": (
+                    lambda value, format_pattern="%.2f": lang_br.format(
+                        format_pattern, value, grouping=True
                     )
                 ),
             }

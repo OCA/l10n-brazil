@@ -23,3 +23,10 @@ class TestNFCeResPartner(TransactionCase):
         self.assertFalse(self.partner_id.nfe40_UF)
         self.assertFalse(self.partner_id.nfe40_cPais)
         self.assertFalse(self.partner_id.nfe40_xPais)
+
+
+class TestAnonymousConsumerData(TransactionCase):
+    def test_anonymous_consumer_data(self):
+        """The standard anonymous consumer comes marked."""
+        partner = self.env.ref("l10n_br_fiscal.res_partner_anonimo")
+        self.assertTrue(partner.is_anonymous_consumer)

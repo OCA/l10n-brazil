@@ -9,12 +9,14 @@ from os import path
 from unittest import mock
 from unittest.mock import patch
 
+from erpbrasil.base import misc
 from lxml import etree
 from odoo_test_helper import FakeModelLoader
 
 from odoo import fields
 from odoo.exceptions import UserError
 from odoo.tests import TransactionCase
+from odoo.tools.translate import code_translations
 
 from odoo.addons import l10n_br_sped_base
 from odoo.addons.l10n_br_sped_base.models.sped_mixin import SPED_ENCODING
@@ -353,6 +355,50 @@ class TestSpedBase(TransactionCase, FakeModelLoader):
             '<field name="IND_SIT_ESP"',
             arch,
         )
+
+    def test_declaration_buttons_are_translatable(self):
+        """The header buttons are built in code: their labels must go through
+        the translation function, or no .po file can ever translate them."""
+        labels = {
+            "button_populate_sped_from_odoo": "Pull Registers from Odoo",
+            "button_flush_registers": "Flush Registers",
+            "button_done": "Set to Done",
+            "button_draft": "Reset to Draft",
+            "button_create_sped_files": "Generate SPED File",
+        }
+        fake_pt_br = {label: f"{label} (pt)" for label in labels.values()}
+        declaration_model = self.env["l10n_br_sped.fake.0000"]
+
+        arch, _view = declaration_model._get_view(view_type="form")
+        for name, label in labels.items():
+            button = arch.xpath(f"//header/button[@name='{name}']")[0]
+            self.assertEqual(button.get("string"), label)
+
+        self.env["res.lang"]._activate_lang("pt_BR")
+        with patch.object(
+            code_translations, "get_python_translations", return_value=fake_pt_br
+        ):
+            arch, _view = declaration_model.with_context(lang="pt_BR")._get_view(
+                view_type="form"
+            )
+        for name, label in labels.items():
+            button = arch.xpath(f"//header/button[@name='{name}']")[0]
+            self.assertEqual(button.get("string"), fake_pt_br[label])
+
+    def test_declaration_children_separator_is_translated(self):
+        """The title above each child registers list is built in code from the
+        field label, which must come already translated."""
+        self.env["res.lang"]._activate_lang("pt_BR")
+        register_model = self.env["l10n_br_sped.fake.i010"]
+        field = self.env["ir.model.fields"]._get(register_model._name, "reg_I050_ids")
+        field.with_context(lang="pt_BR").field_description = "Plano de contas (pt)"
+
+        arch, _view = register_model.with_context(lang="pt_BR")._get_view(
+            view_type="form"
+        )
+        titles = arch.xpath("//separator/@string")
+        self.assertIn("Plano de contas (pt)", titles)
+        self.assertNotIn(register_model._fields["reg_I050_ids"].string, titles)
 
     def test_populate_and_split_attachment_creation(self):
         declaration = self.declaration
@@ -881,3 +927,42 @@ class TestSpedBase(TransactionCase, FakeModelLoader):
             path = handle.name
         declaration = self.env["l10n_br_sped.mixin"]._import_file(path, "fake")
         self.assertTrue(declaration)
+
+    def test_populate_fills_the_declaration_header(self):
+        """The declaration IS the 0000: pulling must fill its own fields.
+
+        Before the fix only the child registers were pulled and the header
+        went out blank (LECD, the company identification), which the PVA
+        refuses at the door. What the user typed must survive the pull.
+        """
+        company = self.declaration.company_id
+        # the fake spec keeps Odoo required on the header fields, so the
+        # create carries the minimum and the assertion targets the optional
+        # mapped fields the pull must fill
+        declaration = self.env["l10n_br_sped.fake.0000"].create(
+            {
+                "company_id": company.id,
+                "DT_INI": "2019-01-01",
+                "DT_FIN": "2019-12-31",
+                "LECD": "LECD",
+                "NOME": "typed by the user",
+                "CNPJ": "00000000000000",
+                "UF": "XX",
+                "IND_NIRE": "0",
+                "IND_FIN_ESC": "0",
+                "IND_GRANDE_PORTE": "0",
+                "TIP_ECD": 0,
+                "IDENT_MF": "N",
+                "IND_ESC_CONS": "N",
+                "IND_CENTRALIZADA": "0",
+                "IND_MUDANC_PC": "0",
+            }
+        )
+        self.assertFalse(declaration.IE)
+        declaration.button_populate_sped_from_odoo()
+        # optional header fields came from the company mapping
+        self.assertEqual(declaration.IE, misc.punctuation_rm(company.l10n_br_ie_code))
+        self.assertEqual(declaration.COD_MUN, company.city_id.ibge_code)
+        # what the user typed by hand is never overwritten
+        self.assertEqual(declaration.NOME, "typed by the user")
+        self.assertEqual(declaration.CNPJ, "00000000000000")

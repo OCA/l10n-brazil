@@ -8,13 +8,18 @@
         <field name="arch" type="xml">
             <form string="Import Document">
                 <group>
-                    <field name="file" required="1" />
+                    <field name="file" filename="file_name" required="1" />
+                    <field name="file_name" invisible="1" />
                     <field
                         name="document_key"
                         attrs="{'invisible': [('file', '=', False)]}"
                     />
                     <field
                         name="date_in_out"
+                        attrs="{'invisible': [('file', '=', False)]}"
+                    />
+                    <field
+                        name="allow_product_creation"
                         attrs="{'invisible': [('file', '=', False)]}"
                     />
                 </group>
@@ -32,6 +37,8 @@
                     <group>
                         <field name="document_number" readonly="1" force_save="1" />
                         <field name="document_serie" readonly="1" force_save="1" />
+                        <field name="currency_id" invisible="1" />
+                        <field name="amount_total" readonly="1" force_save="1" />
                     </group>
                     <group string="Emitente">
                         <field name="issuer_cnpj" readonly="1" force_save="1" />

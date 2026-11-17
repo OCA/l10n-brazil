@@ -6,7 +6,8 @@
 
 import logging
 
-from odoo import models
+from odoo import _, models
+from odoo.exceptions import ValidationError
 
 from ..constants.br_cobranca import modulo11
 
@@ -47,6 +48,51 @@ class AccountPaymentLine(models.Model):
         if cnab_config.payment_method_code == "400":
             self._prepare_cod_primeira_instrucao_protest(cnab_config, linhas_pagamentos)
 
+            # O Nº do Documento (posicoes 111 a 120) tem 10 caracteres e o
+            # BRCobranca completa com zeros mas nao corta: um numero maior
+            # desloca o resto da linha e o banco recusa o arquivo. O numero
+            # segue o formato DOCUMENTO/PARCELA-TOTAL, entao sem o total de
+            # parcelas ele cabe. O numero completo continua na identificacao
+            # do titulo na empresa (posicoes 38 a 62, 25 caracteres).
+            numero = str(linhas_pagamentos.get("numero") or "")
+            if numero:
+                result = numero
+                numero_sem_zeros = numero.lstrip("0")
+                numero_limpo = "".join(
+                    char for char in numero_sem_zeros if char.isalnum()
+                )
+                if len(numero) > 25:
+                    result = numero_sem_zeros
+                    if len(numero_sem_zeros) > 25:
+                        result = numero_limpo
+                        if len(numero_limpo) > 25:
+                            raise ValidationError(
+                                _(
+                                    "The lenght of the field 'documento' can't be more "
+                                    "than 25 caracters:\n %(doc)s",
+                                    doc=numero_limpo,
+                                )
+                            )
+
+                linhas_pagamentos["documento"] = result
+
+                # TODO: É melhor "cortar" o número silenciosamente
+                #  ou mostrar o erro?
+                # linhas_pagamentos["numero"] = numero[-10:]
+                if len(result) > 10:
+                    result = numero_sem_zeros
+                    if len(numero_sem_zeros) > 10:
+                        result = numero_limpo
+                        if len(numero_limpo) > 10:
+                            raise ValidationError(
+                                _(
+                                    "The lenght of the field 'numero' can't be more "
+                                    "than 10 caracters:\n %(num)s",
+                                    num=numero_limpo,
+                                )
+                            )
+                linhas_pagamentos["numero"] = result
+
     def _prepare_bank_line_banco_brasil(self, cnab_config, linhas_pagamentos):
         self._prepare_cod_primeira_instrucao_protest(cnab_config, linhas_pagamentos)
 
@@ -76,6 +122,37 @@ class AccountPaymentLine(models.Model):
             if self.discount_value:
                 linhas_pagamentos["data_desconto"] = self.date.strftime("%Y/%m/%d")
                 linhas_pagamentos["valor_desconto"] = self.discount_value
+
+    def _prepare_bank_line_sicredi(self, cnab_config, linhas_pagamentos):
+        # TODO: O valor do Nosso Numero não é calculado dentro da biblioteca, idealmente
+        #  deveria, é necessário verificar a possibilidade, por enquanto está sendo
+        #  resolvido por aqui.
+
+        # O campo Nosso Número deve ser apresentado no formato AA/BXXXXX-D, onde:
+        # AA = Ano atual
+        # B = Byte que pode ser de 2 a 9. Somente será 1 se forem boletos pré-impressos.
+        # XXXXX = número sequencial
+        # D = dígito verificador calculado
+
+        # Data de referencia precisa ser a da Fatura e não a Atual para evitar
+        # o erro de Fim de Ano, por exemplo:
+        #   Boleto gerado no ano de 2026 será 262000025 mas se
+        #   o arquivo for Gerado em 2027 vai estar 272000021.
+
+        ano = self.move_line_id.move_id.invoice_date.strftime("%y")
+        nosso_numero = linhas_pagamentos["nosso_numero"]
+        nosso_numero = nosso_numero.zfill(5)[-5:]
+
+        nosso_numero_with_byte_idt = ano + cnab_config.boleto_byte_idt + nosso_numero
+        nosso_numero_para_calcular_dv = (
+            self.order_id.journal_id.bank_account_id.bra_number
+            + cnab_config.boleto_post.zfill(2)
+            + cnab_config.cnab_company_bank_code
+            + nosso_numero_with_byte_idt
+        )
+
+        dv = modulo11(nosso_numero_para_calcular_dv, 9, 0)
+        linhas_pagamentos["nosso_numero"] = nosso_numero_with_byte_idt + str(dv)
 
     def prepare_bank_payment_line(self, bank_name_brcobranca):
         cnab_config = self.order_id.payment_mode_id.cnab_config_id

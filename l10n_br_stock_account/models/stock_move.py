@@ -91,6 +91,24 @@ class StockMove(models.Model):
         self.ensure_one()
         return self.picking_id
 
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if vals.get("picking_id") and not vals.get("fiscal_operation_id"):
+                picking = self.env["stock.picking"].browse(vals["picking_id"])
+                if picking.fiscal_operation_id:
+                    vals["fiscal_operation_id"] = picking.fiscal_operation_id.id
+        return super().create(vals_list)
+
+    def write(self, vals):
+        result = super().write(vals)
+        if vals.get("picking_id"):
+            for move in self.filtered(
+                lambda m: not m.fiscal_operation_id and m.picking_id.fiscal_operation_id
+            ):
+                move.fiscal_operation_id = move.picking_id.fiscal_operation_id
+        return result
+
     @api.depends("fiscal_tax_ids", "fiscal_operation_line_id")
     def _compute_tax_ids(self):
         for record in self:

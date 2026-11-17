@@ -76,7 +76,11 @@ class AccountMove(models.Model):
         :return: Dictionary of invoice values.
         """
         wh_date_invoice = move_line.move_id.date
-        wh_due_invoice = wh_date_invoice.replace(day=fiscal_group.wh_due_day)
+        # relativedelta clamps the day to the last day of the month, so a due
+        # day of 30 or 31 does not fail on shorter months.
+        wh_due_invoice = wh_date_invoice + relativedelta(
+            months=1, day=fiscal_group.wh_due_day
+        )
 
         if fiscal_group.tax_scope == "city":
             city_id = (
@@ -95,7 +99,7 @@ class AccountMove(models.Model):
             "partner_id": partner_id.id,
             "date": wh_date_invoice,
             "invoice_date": wh_date_invoice,
-            "invoice_date_due": wh_due_invoice + relativedelta(months=1),
+            "invoice_date_due": wh_due_invoice,
             "move_type": "in_invoice",
             "journal_id": fiscal_group.journal_id.id or move_line.journal_id.id,
             "invoice_origin": move_line.move_id.name,

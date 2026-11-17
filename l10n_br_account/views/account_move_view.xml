@@ -107,13 +107,13 @@
                 />
                 <field
                     name="document_serie"
-                    attrs="{'invisible': ['|', ('document_type_id', '=', False), ('issuer', '=', 'company')], 'required': [('issuer', '=', 'partner'), ('document_type_id', '!=', False)], 'readonly': [('state', '!=', 'draft')]}"
+                    attrs="{'invisible': ['|', ('document_type_id', '=', False), ('issuer', '=', 'company')], 'required': [('issuer', '=', 'partner'), ('document_type_id', '!=', False), ('state', '=', 'draft')], 'readonly': [('state', '!=', 'draft')]}"
                 />
                 <field
                     name="document_number"
                     readonly="0"
                     force_save="1"
-                    attrs="{'invisible': ['|', ('document_type_id', '=', False), ('issuer', '=', 'company')], 'required': [('issuer', '=', 'partner'), ('document_type_id', '!=', False)], 'readonly': [('state', '!=', 'draft')]}"
+                    attrs="{'invisible': ['|', ('document_type_id', '=', False), ('issuer', '=', 'company')], 'required': [('issuer', '=', 'partner'), ('document_type_id', '!=', False), ('state', '=', 'draft')], 'readonly': [('state', '!=', 'draft')]}"
                 />
                 <field
                     name="document_key"

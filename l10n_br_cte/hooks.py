@@ -1,9 +1,9 @@
 # Copyright (C) 2019-2020 - Raphael Valyi Akretion
 # Copyright 2024 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
+import importlib.resources
 import logging
 
-import pkg_resources
 from nfelib.cte.bindings.v4_0.cte_v4_00 import Tcte
 
 from odoo import SUPERUSER_ID, api
@@ -26,9 +26,12 @@ def post_init_hook(cr, registry):
             "CTe51160724686092000173570010000000031000000024.xml",
         )
 
-        resource_path = "/".join(res_items)
-        doc_stream = pkg_resources.resource_stream(l10n_br_cte.__name__, resource_path)
-        binding = Tcte.from_xml(doc_stream.read().decode())
+        binding = Tcte.from_xml(
+            importlib.resources.files(l10n_br_cte.__name__)
+            .joinpath(*res_items)
+            .read_bytes()
+            .decode()
+        )
         document_number = binding.infCte.ide.nCT
         existing_docs = env["l10n_br_fiscal.document"].search(
             [("document_number", "=", document_number)]

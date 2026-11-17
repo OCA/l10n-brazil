@@ -3,7 +3,7 @@
 
 {
     "name": "Ponto de venda adaptado a legislação Brasileira",
-    "version": "16.0.1.0.1",
+    "version": "16.0.1.0.3",
     "author": "KMEE, Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-brazil",
     "license": "AGPL-3",
@@ -61,7 +61,7 @@
     "installable": True,
     "external_dependencies": {
         "python": [
-            "erpbrasil.base",
+            "erpbrasil-base>=2.4.2",
         ]
     },
 }

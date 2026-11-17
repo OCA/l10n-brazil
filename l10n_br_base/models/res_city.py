@@ -15,3 +15,12 @@ class City(models.Model):
     ibge_code = fields.Char(string="IBGE Code", size=7, index=True, unaccent=False)
     siafi_code = fields.Char(string="SIAFI Code", size=4, unaccent=False)
     anp_code = fields.Char(string="ANP Code", size=4, unaccent=False)
+
+    def name_get(self):
+        result = []
+        for city in self:
+            name = city.name
+            if city.state_id and city.state_id.code:
+                name = f"{name} - {city.state_id.code}"
+            result.append((city.id, name))
+        return result

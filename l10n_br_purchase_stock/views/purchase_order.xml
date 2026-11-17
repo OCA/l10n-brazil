@@ -15,7 +15,7 @@
             >
                 <attribute
                     name="attrs"
-                >{'invisible': [('button_create_invoice_invisible', '=', True)]}</attribute>
+                >{'invisible': ['|', ('button_create_invoice_invisible', '=', True), ('invoice_status', 'in', ('no', 'invoiced'))]}</attribute>
             </xpath>
             <xpath
                 expr="//button[@name='action_create_invoice'][2]"
@@ -23,7 +23,7 @@
             >
                 <attribute
                     name="attrs"
-                >{'invisible': [('button_create_invoice_invisible', '=', True)]}</attribute>
+                >{'invisible': ['|', ('button_create_invoice_invisible', '=', True), ('invoice_status', 'not in', ('no', 'invoiced'))]}</attribute>
             </xpath>
         </field>
     </record>

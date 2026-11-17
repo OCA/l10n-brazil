@@ -35,6 +35,51 @@ class TaxClassification(models.Model):
                 f"{prefix}%" if len(prefix) == 3 else "__no_match__%"
             )
 
+    def _get_cst(self, tax_domain):
+        """Return the IBS or CBS CST of the classification.
+
+        The first three digits of the cClassTrib are the CST (IT 2025.002),
+        and a CST that does not match them is rejected (rule UB14-20).
+        """
+        self.ensure_one()
+        if not self.code or len(self.code) < 3:
+            return self.env["l10n_br_fiscal.cst"]
+        return self.env["l10n_br_fiscal.cst"].search(
+            [("code", "=", self.code[:3]), ("tax_domain", "=", tax_domain)],
+            limit=1,
+        )
+
+    @api.model
+    def _tax_has_code_cst(self, tax, code):
+        """Whether the tax has the CST of the cClassTrib (its 3 first digits)."""
+        prefix = (code or "")[:3]
+        return len(prefix) == 3 and prefix in (
+            tax.cst_in_id.code,
+            tax.cst_out_id.code,
+        )
+
+    def _load_records_write(self, values):
+        # The data file refreshes the official table on every module update,
+        # but the IBS/CBS taxes of a classification are configuration: keep
+        # the ones already set, the user may have mapped them to other rates.
+        # The file only replaces a tax without the cClassTrib CST by a tax
+        # with it, which is how a wrong default of the file gets fixed.
+        if self.env.context.get("install_module"):
+            code = values.get("code") or self.code
+            for field_name in ("tax_ibs_id", "tax_cbs_id"):
+                current = self[field_name]
+                if field_name not in values or not current:
+                    continue
+                new = self.env["l10n_br_fiscal.tax"].browse(values[field_name] or [])
+                if (
+                    new
+                    and not self._tax_has_code_cst(current, code)
+                    and self._tax_has_code_cst(new, code)
+                ):
+                    continue
+                values.pop(field_name)
+        return super()._load_records_write(values)
+
     tax_ibs_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax",
         string="Tax IBS",

@@ -3,6 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import os
+from collections import namedtuple
 from datetime import datetime
 from unittest.mock import MagicMock, patch
 
@@ -28,6 +29,7 @@ from ... import l10n_br_nfse_focus
 from ..models.constants import API_ENDPOINT, NFSE_URL
 from ..models.document import Document
 from ..models.helpers import (
+    concat_lines_discriminacao,
     filter_focusnfe,
     filter_focusnfe_municipal,
     filter_focusnfe_nacional,
@@ -727,6 +729,27 @@ class TestL10nBrNfseFocus(common.TransactionCase):
         self.assertIn("codigo_tributacao_nacional_iss", payload)
         self.assertIn("valor_servico", payload)
 
+    def test_prepare_payload_nacional_sends_desconto_incondicionado(self):
+        """Tests the unconditional discount (vDescIncond) reaches the payload.
+
+        valor_desconto_incondicionado (the line's "Discount Value") must be
+        forwarded as desconto_incondicionado, the NFS-e Nacional JSON field
+        name, or the DANFSe prints "Desconto Incondicionado: -" even when a
+        discount was entered on the invoice line.
+        """
+        nfse_nacional = self.env["focusnfe.nfse.nacional"]
+        edoc = {
+            "rps": PAYLOAD[0]["rps"],
+            "service": dict(PAYLOAD[1]["service"], valor_desconto_incondicionado=20.0),
+            "recipient": PAYLOAD[2]["recipient"],
+        }
+
+        self.company.city_id = self.env.ref("l10n_br_base.city_3550308")
+
+        payload = nfse_nacional._prepare_payload_nacional(edoc, self.company)
+
+        self.assertEqual(payload.get("desconto_incondicionado"), 20.0)
+
     def test_prepare_payload_nacional_send_im_prestador(self):
         """Tests that the provider IM is sent when the company option is enabled."""
         nfse_nacional = self.env["focusnfe.nfse.nacional"]
@@ -763,6 +786,221 @@ class TestL10nBrNfseFocus(common.TransactionCase):
         payload = nfse_nacional._prepare_payload_nacional(edoc, self.company)
 
         self.assertNotIn("inscricao_municipal_prestador", payload)
+
+    def test_prepare_payload_nacional_sends_aliquota_simples_optante(self):
+        """Tests aliquota is sent for a Simples Nacional optante provider.
+
+        percentual_aliquota_relativa_municipio must be informed when the
+        provider is optante do Simples Nacional (codigo_opcao_simples_nacional
+        == 2), matching the Sistema Nacional NFS-e requirement.
+        """
+        nfse_nacional = self.env["focusnfe.nfse.nacional"]
+        edoc = {
+            "rps": dict(PAYLOAD[0]["rps"], optante_simples_nacional="1"),
+            "service": PAYLOAD[1]["service"],
+            "recipient": PAYLOAD[2]["recipient"],
+        }
+
+        self.company.city_id = self.env.ref("l10n_br_base.city_3550308")
+
+        payload = nfse_nacional._prepare_payload_nacional(edoc, self.company)
+
+        self.assertEqual(payload.get("codigo_opcao_simples_nacional"), 2)
+        self.assertIn("percentual_aliquota_relativa_municipio", payload)
+
+    def test_prepare_payload_nacional_suppresses_aliquota_non_simples_no_special_regime(
+        self,
+    ):
+        """Tests aliquota is omitted for a non-Simples provider without special regime.
+
+        The Sistema Nacional NFS-e rejects percentual_aliquota_relativa_municipio
+        (error E0617) whenever the provider is not optante do Simples Nacional
+        (codigo_opcao_simples_nacional == 1), regardless of
+        regime_especial_tributacao, for municipalities active in the national
+        system.
+        """
+        nfse_nacional = self.env["focusnfe.nfse.nacional"]
+        edoc = {
+            "rps": dict(
+                PAYLOAD[0]["rps"],
+                optante_simples_nacional="2",
+                regime_especial_tributacao="0",
+            ),
+            "service": PAYLOAD[1]["service"],
+            "recipient": PAYLOAD[2]["recipient"],
+        }
+
+        self.company.city_id = self.env.ref("l10n_br_base.city_3550308")
+
+        payload = nfse_nacional._prepare_payload_nacional(edoc, self.company)
+
+        self.assertEqual(payload.get("codigo_opcao_simples_nacional"), 1)
+        self.assertNotIn("percentual_aliquota_relativa_municipio", payload)
+
+    def test_prepare_payload_nacional_suppresses_aliquota_special_regime(self):
+        """Tests aliquota is omitted for a non-Simples provider with special regime.
+
+        A provider that is neither optante do Simples Nacional nor free of a
+        special municipal taxation regime must not have the aliquota field
+        sent, matching the pre-existing behavior for that combination.
+        """
+        nfse_nacional = self.env["focusnfe.nfse.nacional"]
+        edoc = {
+            "rps": dict(
+                PAYLOAD[0]["rps"],
+                optante_simples_nacional="2",
+                regime_especial_tributacao="1",
+            ),
+            "service": PAYLOAD[1]["service"],
+            "recipient": PAYLOAD[2]["recipient"],
+        }
+
+        self.company.city_id = self.env.ref("l10n_br_base.city_3550308")
+
+        payload = nfse_nacional._prepare_payload_nacional(edoc, self.company)
+
+        self.assertEqual(payload.get("codigo_opcao_simples_nacional"), 1)
+        self.assertNotIn("percentual_aliquota_relativa_municipio", payload)
+
+    def test_prepare_payload_nacional_sends_finalidade_emissao(self):
+        """Tests finalidade_emissao (finNFSe) is always sent to the payload.
+
+        finNFSe is a mandatory Reforma Tributaria element; the Sistema
+        Nacional NFS-e rejects the DPS (error at the infDPS sequence level)
+        when it is missing. It must default to "0" (regular NFS-e) when the
+        RPS does not carry it, and forward the RPS value otherwise.
+        """
+        nfse_nacional = self.env["focusnfe.nfse.nacional"]
+        edoc = {
+            "rps": PAYLOAD[0]["rps"],
+            "service": PAYLOAD[1]["service"],
+            "recipient": PAYLOAD[2]["recipient"],
+        }
+
+        self.company.city_id = self.env.ref("l10n_br_base.city_3550308")
+
+        payload = nfse_nacional._prepare_payload_nacional(edoc, self.company)
+
+        self.assertEqual(payload.get("finalidade_emissao"), "0")
+
+        edoc["rps"] = dict(PAYLOAD[0]["rps"], finalidade_emissao="2")
+        payload = nfse_nacional._prepare_payload_nacional(edoc, self.company)
+
+        self.assertEqual(payload.get("finalidade_emissao"), "2")
+
+    def test_prepare_service_basic_nacional_consumidor_final_default(self):
+        """Tests consumidor_final (indFinal) defaults to "0" when absent.
+
+        indFinal is a mandatory Reforma Tributaria element; it must still
+        be sent even when the upstream service dict does not carry
+        "consumidor_final" (e.g. older callers/fixtures).
+        """
+        nfse_nacional = self.env["focusnfe.nfse.nacional"]
+
+        result = nfse_nacional._prepare_service_basic_nacional(PAYLOAD[1]["service"])
+
+        self.assertEqual(result["consumidor_final"], "0")
+
+    def test_prepare_payload_nacional_sends_consumidor_final(self):
+        """Tests consumidor_final is forwarded from the service dict."""
+        nfse_nacional = self.env["focusnfe.nfse.nacional"]
+        edoc = {
+            "rps": PAYLOAD[0]["rps"],
+            "service": dict(PAYLOAD[1]["service"], consumidor_final="1"),
+            "recipient": PAYLOAD[2]["recipient"],
+        }
+
+        self.company.city_id = self.env.ref("l10n_br_base.city_3550308")
+
+        payload = nfse_nacional._prepare_payload_nacional(edoc, self.company)
+
+        self.assertEqual(payload.get("consumidor_final"), "1")
+
+    def test_prepare_service_basic_nacional_ibs_cbs_fields(self):
+        """Tests IBS/CBS (Reforma Tributaria) fields are read from service_info.
+
+        codigo_indicador_operacao (cIndOp) and the ibs_cbs_* fields must be
+        forwarded so the NFS-e Nacional "IBSCBS/valores" XML block can be
+        built; without them the Sistema Nacional rejects the DPS for
+        missing IBSCBS children.
+        """
+        nfse_nacional = self.env["focusnfe.nfse.nacional"]
+        service_info = dict(
+            PAYLOAD[1]["service"],
+            codigo_indicador_operacao="030102",
+            ibs_cbs_classificacao_tributaria="000001",
+            ibs_cbs_situacao_tributaria="000",
+            ibs_cbs_base_calculo=91.35,
+            ibs_uf_aliquota=0.10,
+            cbs_aliquota=0.90,
+            ibs_uf_valor=0.09,
+            cbs_valor=0.82,
+        )
+
+        result = nfse_nacional._prepare_service_basic_nacional(service_info)
+
+        self.assertEqual(result["codigo_indicador_operacao"], "030102")
+        self.assertEqual(result["ibs_cbs_classificacao_tributaria"], "000001")
+        self.assertEqual(result["ibs_cbs_situacao_tributaria"], "000")
+        self.assertEqual(result["ibs_cbs_base_calculo"], 91.35)
+        self.assertEqual(result["ibs_uf_aliquota"], 0.10)
+        self.assertEqual(result["ibs_mun_aliquota"], 0.0)
+        self.assertEqual(result["cbs_aliquota"], 0.90)
+        self.assertEqual(result["ibs_uf_valor"], 0.09)
+        self.assertEqual(result["ibs_mun_valor"], 0.0)
+        self.assertEqual(result["cbs_valor"], 0.82)
+
+    def test_prepare_service_basic_nacional_ibs_cbs_aliquota_none_when_absent(self):
+        """Tests ibs_uf/cbs aliquota and valor fall back to None, not 0.0.
+
+        When the fiscal line has no IBS/CBS tax configured (ibs_percent/
+        cbs_percent falsy), Focus NFe expects the field omitted/null rather
+        than a literal zero.
+        """
+        nfse_nacional = self.env["focusnfe.nfse.nacional"]
+
+        result = nfse_nacional._prepare_service_basic_nacional(PAYLOAD[1]["service"])
+
+        self.assertIsNone(result["ibs_uf_aliquota"])
+        self.assertIsNone(result["cbs_aliquota"])
+        self.assertIsNone(result["ibs_uf_valor"])
+        self.assertIsNone(result["cbs_valor"])
+        self.assertEqual(result["ibs_mun_aliquota"], 0.0)
+        self.assertEqual(result["ibs_mun_valor"], 0.0)
+
+    def test_prepare_payload_nacional_sends_ibs_cbs_fields(self):
+        """Tests the IBS/CBS fields reach the final Nacional payload."""
+        nfse_nacional = self.env["focusnfe.nfse.nacional"]
+        edoc = {
+            "rps": PAYLOAD[0]["rps"],
+            "service": dict(
+                PAYLOAD[1]["service"],
+                codigo_indicador_operacao="030102",
+                ibs_cbs_classificacao_tributaria="000001",
+                ibs_cbs_situacao_tributaria="000",
+                ibs_cbs_base_calculo=91.35,
+                ibs_uf_aliquota=0.10,
+                cbs_aliquota=0.90,
+                ibs_uf_valor=0.09,
+                cbs_valor=0.82,
+            ),
+            "recipient": PAYLOAD[2]["recipient"],
+        }
+
+        self.company.city_id = self.env.ref("l10n_br_base.city_3550308")
+
+        payload = nfse_nacional._prepare_payload_nacional(edoc, self.company)
+
+        self.assertEqual(payload.get("codigo_indicador_operacao"), "030102")
+        self.assertEqual(payload.get("ibs_cbs_classificacao_tributaria"), "000001")
+        self.assertEqual(payload.get("ibs_cbs_situacao_tributaria"), "000")
+        self.assertEqual(payload.get("ibs_cbs_base_calculo"), 91.35)
+        self.assertEqual(payload.get("ibs_uf_aliquota"), 0.10)
+        self.assertEqual(payload.get("ibs_mun_aliquota"), 0.0)
+        self.assertEqual(payload.get("cbs_aliquota"), 0.90)
+        self.assertEqual(payload.get("ibs_uf_valor"), 0.09)
+        self.assertEqual(payload.get("ibs_mun_valor"), 0.0)
+        self.assertEqual(payload.get("cbs_valor"), 0.82)
 
     def test_prepare_service_basic_nacional_tipo_retencao_iss_override(self):
         """Tests that tipo_retencao_iss is forced to '1' for tributacao_iss 2/3/4.
@@ -813,6 +1051,68 @@ class TestL10nBrNfseFocus(common.TransactionCase):
 
         self.assertEqual(result["aliquota_pis"], "1.50")
         self.assertEqual(result["aliquota_cofins"], "3.00")
+
+    def test_compute_tipo_retencao_pis_cofins_nt007_codes(self):
+        """Tests the NT 007 tpRetPisCofins code for every retention combination.
+
+        Legacy codes "1" and "2" must never be returned; only "0" and
+        "3"-"9" are valid for NFSe Nacional after NT 007.
+        """
+        nfse_nacional = self.env["focusnfe.nfse.nacional"]
+        compute = nfse_nacional._compute_tipo_retencao_pis_cofins
+
+        self.assertEqual(compute(False, False, False), "0")
+        self.assertEqual(compute(True, False, False), "5")
+        self.assertEqual(compute(False, True, False), "6")
+        self.assertEqual(compute(False, False, True), "8")
+        self.assertEqual(compute(True, True, False), "4")
+        self.assertEqual(compute(True, False, True), "9")
+        self.assertEqual(compute(False, True, True), "7")
+        self.assertEqual(compute(True, True, True), "3")
+
+    def test_prepare_tax_data_nacional_no_retention_uses_code_zero(self):
+        """Tests that no retention maps to code "0", not the legacy code "2"."""
+        nfse_nacional = self.env["focusnfe.nfse.nacional"]
+        service_info = {
+            "valor_pis": 2.48,
+            "valor_cofins": 11.4,
+            "valor_pis_retido": 0,
+            "valor_cofins_retido": 0,
+            "valor_csll_retido": 0,
+        }
+
+        result = nfse_nacional._prepare_tax_data_nacional(service_info, 150.0)
+
+        self.assertEqual(result["tipo_retencao_pis_cofins"], "0")
+        self.assertEqual(result["valor_csll"], 0.0)
+
+    def test_prepare_tax_data_nacional_full_retention_uses_code_three(self):
+        """Tests that PIS+COFINS+CSLL retention maps to code "3".
+
+        valor_csll must carry the sum of the three retained amounts,
+        as required by NT 007.
+        """
+        nfse_nacional = self.env["focusnfe.nfse.nacional"]
+        service_info = {
+            "valor_pis_retido": 2.60,
+            "valor_cofins_retido": 12.0,
+            "valor_csll_retido": 4.0,
+        }
+
+        result = nfse_nacional._prepare_tax_data_nacional(service_info, 150.0)
+
+        self.assertEqual(result["tipo_retencao_pis_cofins"], "3")
+        self.assertEqual(result["valor_csll"], 18.6)
+
+    def test_prepare_tax_data_nacional_pis_only_retention_uses_code_five(self):
+        """Tests that PIS-only retention maps to code "5"."""
+        nfse_nacional = self.env["focusnfe.nfse.nacional"]
+        service_info = {"valor_pis_retido": 1.0}
+
+        result = nfse_nacional._prepare_tax_data_nacional(service_info, 150.0)
+
+        self.assertEqual(result["tipo_retencao_pis_cofins"], "5")
+        self.assertEqual(result["valor_csll"], 1.0)
 
     @patch(
         "odoo.addons.l10n_br_nfse_focus.models.nfse_nacional.FocusnfeNfseNacional.process_focus_nfse_nacional_document"  # noqa: B950
@@ -1379,6 +1679,73 @@ class TestL10nBrNfseFocus(common.TransactionCase):
                     mock_rps.assert_called_once()
                     mock_service.assert_called_once()
                     mock_recipient.assert_called_once()
+
+    def test_concat_lines_discriminacao_helper(self):
+        """Tests the pure helper that concatenates fiscal line descriptions."""
+        SimpleLine = namedtuple("SimpleLine", ["name", "product_id"])
+        lines = [
+            SimpleLine(name="Linha 1", product_id=True),
+            SimpleLine(name="Linha 2", product_id=True),
+            SimpleLine(name="Sem produto", product_id=False),
+            SimpleLine(name="", product_id=True),
+        ]
+
+        result = concat_lines_discriminacao(lines)
+
+        self.assertEqual(result, "Linha 1\nLinha 2")
+
+    def test_concat_lines_discriminacao_helper_truncates(self):
+        """Tests that the helper truncates the result to max_length."""
+        SimpleLine = namedtuple("SimpleLine", ["name", "product_id"])
+        lines = [SimpleLine(name="A" * 3000, product_id=True)]
+
+        result = concat_lines_discriminacao(lines, max_length=2000)
+
+        self.assertEqual(len(result), 2000)
+
+    def test_serialize_nacional_concat_lines_discriminacao_enabled(self):
+        """Tests discriminacao concatenation when the company flag is enabled."""
+        document = self.nfse_demo
+        document.processador_edoc = PROCESSADOR_OCA
+        document.document_type_id.code = MODELO_FISCAL_NFSE
+        document.company_id.provedor_nfse = "focusnfe"
+        document.company_id.focusnfe_nfse_type = "nfse_nacional"
+        document.company_id.focusnfe_nfse_nacional_concat_lines_discriminacao = True
+        document.document_date = datetime.now()
+        document.date_in_out = datetime.now()
+
+        first_line = document.fiscal_line_ids[0]
+        first_line.name = "Linha 1 descricao"
+        first_line.copy({"name": "Linha 2 descricao"})
+
+        edocs = document._serialize([])
+
+        self.assertEqual(
+            edocs[-1]["service"]["discriminacao"],
+            "Linha 1 descricao\nLinha 2 descricao",
+        )
+
+    def test_serialize_nacional_concat_lines_discriminacao_disabled(self):
+        """Tests discriminacao keeps only the first line when the flag is disabled."""
+        document = self.nfse_demo
+        document.processador_edoc = PROCESSADOR_OCA
+        document.document_type_id.code = MODELO_FISCAL_NFSE
+        document.company_id.provedor_nfse = "focusnfe"
+        document.company_id.focusnfe_nfse_type = "nfse_nacional"
+        document.company_id.focusnfe_nfse_nacional_concat_lines_discriminacao = False
+        document.document_date = datetime.now()
+        document.date_in_out = datetime.now()
+
+        first_line = document.fiscal_line_ids[0]
+        first_line.name = "Linha 1 descricao"
+        first_line.copy({"name": "Linha 2 descricao"})
+
+        edocs = document._serialize([])
+
+        self.assertEqual(
+            edocs[-1]["service"]["discriminacao"],
+            "Linha 1 descricao",
+        )
 
     def test_serialize_municipal(self):
         """Tests serialization for NFSe Municipal."""

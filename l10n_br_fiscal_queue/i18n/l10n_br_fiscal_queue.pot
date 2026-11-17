@@ -1,0 +1,53 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_br_fiscal_queue
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_br_fiscal_queue
+#: model:ir.model,name:l10n_br_fiscal_queue.model_l10n_br_fiscal_operation
+msgid "Fiscal Operation"
+msgstr ""
+
+#. module: l10n_br_fiscal_queue
+#: model:ir.model,name:l10n_br_fiscal_queue.model_l10n_br_fiscal_document
+msgid "Informações de exportação"
+msgstr ""
+
+#. module: l10n_br_fiscal_queue
+#: model:ir.model.fields.selection,name:l10n_br_fiscal_queue.selection__l10n_br_fiscal_operation__queue_document_send__send_now
+msgid "Send Immediately"
+msgstr ""
+
+#. module: l10n_br_fiscal_queue
+#: model:ir.model.fields,help:l10n_br_fiscal_queue.field_l10n_br_fiscal_operation__queue_document_send
+msgid ""
+"Send Immediately: transmit the fiscal document to SEFAZ in the same transaction (synchronous).\n"
+"Send Later: enqueue the transmission as a queue_job, so the SEFAZ round trip does not block the user request."
+msgstr ""
+
+#. module: l10n_br_fiscal_queue
+#: model:ir.model.fields.selection,name:l10n_br_fiscal_queue.selection__l10n_br_fiscal_operation__queue_document_send__with_delay
+msgid "Send Later"
+msgstr ""
+
+#. module: l10n_br_fiscal_queue
+#: model:ir.model.fields,field_description:l10n_br_fiscal_queue.field_l10n_br_fiscal_operation__queue_document_send
+msgid "Transmission moment"
+msgstr ""
+
+#. module: l10n_br_fiscal_queue
+#. odoo-python
+#: code:addons/l10n_br_fiscal_queue/models/document.py:0
+#, python-format
+msgid "Transmit fiscal document %s to SEFAZ"
+msgstr ""

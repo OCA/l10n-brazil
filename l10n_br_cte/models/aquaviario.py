@@ -21,8 +21,10 @@ class Aquav(spec_models.StackedModel):
 
     cte40_vAFRMM = fields.Monetary(related="document_id.cte40_vAFRMM")
 
+    # AFRMM base: amount of the service without IBS/CBS, which are part of
+    # vTPrest from 2027 on (NT CT-e 2026.004)
     cte40_vPrest = fields.Monetary(
-        related="document_id.cte40_vTPrest"
+        related="document_id.cte40_vTPrestLiq"
     )  # TODO: avaliar melhor
 
     cte40_xNavio = fields.Char(related="document_id.cte40_xNavio")

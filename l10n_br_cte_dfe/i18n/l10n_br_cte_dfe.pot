@@ -1,0 +1,215 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_br_cte_dfe
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_br_cte_dfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_cte_dfe.cte_dfe_document_tree
+msgid "Amount"
+msgstr ""
+
+#. module: l10n_br_cte_dfe
+#: model:ir.model.fields,field_description:l10n_br_cte_dfe.field_res_company__cte_auto_fetch
+msgid "Auto-fetch CT-e DF-e"
+msgstr ""
+
+#. module: l10n_br_cte_dfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_cte_dfe.cte_dfe_res_company_form
+msgid "CT-e DF-e"
+msgstr ""
+
+#. module: l10n_br_cte_dfe
+#: model:ir.model.fields,field_description:l10n_br_cte_dfe.field_res_company__cte_dfe_last_query
+msgid "CT-e DF-e Last Query"
+msgstr ""
+
+#. module: l10n_br_cte_dfe
+#: model:ir.model.fields,field_description:l10n_br_cte_dfe.field_res_company__cte_dfe_last_status
+msgid "CT-e DF-e Last Status"
+msgstr ""
+
+#. module: l10n_br_cte_dfe
+#: model:ir.model.fields,field_description:l10n_br_cte_dfe.field_res_company__cte_dfe_last_status_code
+msgid "CT-e DF-e Last Status Code"
+msgstr ""
+
+#. module: l10n_br_cte_dfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_cte_dfe.cte_dfe_res_company_form
+msgid "CT-e DF-e Settings"
+msgstr ""
+
+#. module: l10n_br_cte_dfe
+#: model:ir.model.fields,help:l10n_br_cte_dfe.field_res_company__cte_dfe_next_query
+msgid "CT-e DF-e distribution will not be queried before this time."
+msgstr ""
+
+#. module: l10n_br_cte_dfe
+#: model:ir.model.fields,field_description:l10n_br_cte_dfe.field_res_company__cte_last_nsu
+msgid "CT-e Last NSU"
+msgstr ""
+
+#. module: l10n_br_cte_dfe
+#: model:ir.model.fields,field_description:l10n_br_cte_dfe.field_res_company__cte_max_nsu
+msgid "CT-e Max NSU"
+msgstr ""
+
+#. module: l10n_br_cte_dfe
+#: model:ir.model.fields,field_description:l10n_br_cte_dfe.field_res_company__cte_dfe_next_query
+msgid "CT-e Next Scheduled Query"
+msgstr ""
+
+#. module: l10n_br_cte_dfe
+#: model:ir.actions.act_window,name:l10n_br_cte_dfe.action_cte_dfe_document
+#: model:ir.ui.menu,name:l10n_br_cte_dfe.menu_l10n_br_cte_dfe_document
+msgid "CT-e de Terceiros"
+msgstr ""
+
+#. module: l10n_br_cte_dfe
+#: model:ir.model,name:l10n_br_cte_dfe.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: l10n_br_cte_dfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_cte_dfe.cte_dfe_document_tree
+msgid "DACTE"
+msgstr ""
+
+#. module: l10n_br_cte_dfe
+#: model:ir.model,name:l10n_br_cte_dfe.model_l10n_br_fiscal_dfe_dfe
+msgid "DF-e"
+msgstr ""
+
+#. module: l10n_br_cte_dfe
+#: model:ir.actions.server,name:l10n_br_cte_dfe.ir_cron_search_cte_dfe_documents_ir_actions_server
+#: model:ir.cron,cron_name:l10n_br_cte_dfe.ir_cron_search_cte_dfe_documents
+msgid "DF-e - Search CT-e Documents"
+msgstr ""
+
+#. module: l10n_br_cte_dfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_cte_dfe.cte_dfe_document_tree
+#: model_terms:ir.ui.view,arch_db:l10n_br_cte_dfe.cte_dfe_res_company_form
+msgid "Date"
+msgstr ""
+
+#. module: l10n_br_cte_dfe
+#: model:ir.model,name:l10n_br_cte_dfe.model_l10n_br_fiscal_dfe_document
+msgid "Fiscal document from distribution service"
+msgstr ""
+
+#. module: l10n_br_cte_dfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_cte_dfe.cte_dfe_document_tree
+msgid "Import"
+msgstr ""
+
+#. module: l10n_br_cte_dfe
+#. odoo-python
+#: code:addons/l10n_br_cte_dfe/models/dfe_document.py:0
+#, python-format
+msgid "Import CT-e XML"
+msgstr ""
+
+#. module: l10n_br_cte_dfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_cte_dfe.cte_dfe_document_tree
+msgid "Invoice"
+msgstr ""
+
+#. module: l10n_br_cte_dfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_cte_dfe.cte_dfe_res_company_form
+msgid "Last Query"
+msgstr ""
+
+#. module: l10n_br_cte_dfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_cte_dfe.cte_dfe_res_company_form
+msgid "Next Query"
+msgstr ""
+
+#. module: l10n_br_cte_dfe
+#. odoo-python
+#: code:addons/l10n_br_cte_dfe/models/dfe_document.py:0
+#, python-format
+msgid "No complete DF-e found."
+msgstr ""
+
+#. module: l10n_br_cte_dfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_cte_dfe.cte_dfe_document_tree
+msgid "Number"
+msgstr ""
+
+#. module: l10n_br_cte_dfe
+#. odoo-python
+#: code:addons/l10n_br_cte_dfe/models/dfe_document.py:0
+#, python-format
+msgid ""
+"Only the CT-e (model 57) can be imported as a fiscal document. This DF-e is "
+"a %(schema)s."
+msgstr ""
+
+#. module: l10n_br_cte_dfe
+#: model:ir.model.fields,help:l10n_br_cte_dfe.field_res_company__cte_auto_fetch
+msgid "Periodically queries DF-e distribution for new CT-e documents"
+msgstr ""
+
+#. module: l10n_br_cte_dfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_cte_dfe.cte_dfe_document_tree
+msgid "State"
+msgstr ""
+
+#. module: l10n_br_cte_dfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_cte_dfe.cte_dfe_res_company_form
+msgid "Status"
+msgstr ""
+
+#. module: l10n_br_cte_dfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_cte_dfe.cte_dfe_res_company_form
+msgid "Status Code"
+msgstr ""
+
+#. module: l10n_br_cte_dfe
+#. odoo-python
+#: code:addons/l10n_br_cte_dfe/wizards/specific_search_wizard.py:0
+#, python-format
+msgid ""
+"The CT-e distribution service does not support searching by access key. "
+"Search by NSU instead."
+msgstr ""
+
+#. module: l10n_br_cte_dfe
+#. odoo-python
+#: code:addons/l10n_br_cte_dfe/models/res_company.py:0
+#, python-format
+msgid "The CT-e distribution service has no query by access key."
+msgstr ""
+
+#. module: l10n_br_cte_dfe
+#. odoo-python
+#: code:addons/l10n_br_cte_dfe/models/dfe_document.py:0
+#, python-format
+msgid ""
+"The DACTE can only be generated for a CT-e (model 57). This DF-e is a "
+"%(schema)s."
+msgstr ""
+
+#. module: l10n_br_cte_dfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_cte_dfe.cte_dfe_document_tree
+msgid "Type"
+msgstr ""
+
+#. module: l10n_br_cte_dfe
+#: model:ir.model,name:l10n_br_cte_dfe.model_dfe_specific_search_wizard
+msgid "Wizard to search specific DFe"
+msgstr ""
+
+#. module: l10n_br_cte_dfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_cte_dfe.cte_dfe_document_tree
+msgid "XML"
+msgstr ""

@@ -1,4 +1,5 @@
 from . import dfe
-from . import document
-from . import attachment
+from . import dfe_distribution_log
+from . import dfe_document
 from . import res_company
+from . import res_users

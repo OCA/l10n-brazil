@@ -71,6 +71,12 @@ msgid "Esp."
 msgstr ""
 
 #. module: l10n_br_delivery_nfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_stock_invoice_onshipping_vol_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_stock_picking_vol_form
+msgid "Espécie"
+msgstr ""
+
+#. module: l10n_br_delivery_nfe
 #: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_invoice_onshipping_vol__nfe40_esp
 #: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_picking_vol__nfe40_esp
 msgid "Espécie dos volumes transportados"
@@ -132,6 +138,8 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_l10n_br_delivery_nfe_invoice_onshipping
 #: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_picking_withcarrier_out_form_inherit
 #: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_stock_generate_volumes
+#: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_stock_invoice_onshipping_vol_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_stock_picking_vol_form
 msgid "Marca"
 msgstr ""
 
@@ -162,6 +170,12 @@ msgid ""
 "3- Transporte próprio por conta do remetente;\n"
 "4- Transporte próprio por conta do destinatário;\n"
 "9- Sem Ocorrência de transporte."
+msgstr ""
+
+#. module: l10n_br_delivery_nfe
+#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_picking_lacres__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_picking_vol__brl_currency_id
+msgid "Moeda"
 msgstr ""
 
 #. module: l10n_br_delivery_nfe
@@ -204,6 +218,12 @@ msgid "Number of Volumes"
 msgstr ""
 
 #. module: l10n_br_delivery_nfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_stock_invoice_onshipping_vol_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_stock_picking_vol_form
+msgid "Numeração"
+msgstr ""
+
+#. module: l10n_br_delivery_nfe
 #: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_invoice_onshipping_vol__nfe40_nVol
 #: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_picking_vol__nfe40_nVol
 msgid "Numeração dos volumes transportados"
@@ -223,10 +243,22 @@ msgid "Peso B."
 msgstr ""
 
 #. module: l10n_br_delivery_nfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_stock_invoice_onshipping_vol_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_stock_picking_vol_form
+msgid "Peso Bruto (kg)"
+msgstr ""
+
+#. module: l10n_br_delivery_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_l10n_br_delivery_nfe_invoice_onshipping
 #: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_picking_withcarrier_out_form_inherit
 #: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_stock_generate_volumes
 msgid "Peso L."
+msgstr ""
+
+#. module: l10n_br_delivery_nfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_stock_invoice_onshipping_vol_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_stock_picking_vol_form
+msgid "Peso Líquido (kg)"
 msgstr ""
 
 #. module: l10n_br_delivery_nfe
@@ -259,6 +291,12 @@ msgid "Qt Vol"
 msgstr ""
 
 #. module: l10n_br_delivery_nfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_stock_invoice_onshipping_vol_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_stock_picking_vol_form
+msgid "Quantidade"
+msgstr ""
+
+#. module: l10n_br_delivery_nfe
 #: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_invoice_onshipping_vol__nfe40_qVol
 #: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_picking_vol__nfe40_qVol
 msgid "Quantidade de volumes transportados"
@@ -285,11 +323,11 @@ msgid "Technical Field: True if the picking has already generated Volume IDs."
 msgstr ""
 
 #. module: l10n_br_delivery_nfe
-#: model:ir.model.fields,help:l10n_br_delivery_nfe.field_account_bank_statement_line__nfe40_transporta
-#: model:ir.model.fields,help:l10n_br_delivery_nfe.field_account_move__nfe40_transporta
-#: model:ir.model.fields,help:l10n_br_delivery_nfe.field_account_payment__nfe40_transporta
-#: model:ir.model.fields,help:l10n_br_delivery_nfe.field_l10n_br_fiscal_document__nfe40_transporta
-msgid "The partner that is doing the delivery service."
+#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_account_bank_statement_line__total_weight
+#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_account_move__total_weight
+#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_account_payment__total_weight
+#: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_l10n_br_fiscal_document__total_weight
+msgid "Total Weight"
 msgstr ""
 
 #. module: l10n_br_delivery_nfe

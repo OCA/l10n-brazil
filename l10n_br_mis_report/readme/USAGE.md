@@ -1,17 +1,43 @@
-1.  Acesse Faturamento \> Relatórios \> Relatórios SIG \> Relatórios SIG
+O módulo já instala os relatórios prontos. Acesse **Faturamento > Relatórios >
+Relatórios SIG** e escolha um deles:
 
-2.  Crie um **novo Relatório**.
+- **Balanço Patrimonial - exercício atual e anterior**: a apresentação
+  comparativa que a Lei 6.404/76 manda publicar (art. 176, § 1º), com a coluna
+  de variação.
+- **DRE - exercício atual e anterior**: a mesma comparação, para o resultado.
+- **DRE - mês e acumulado no exercício**: o acompanhamento gerencial corrente,
+  com o mês, o acumulado desde 1º de janeiro e as duas colunas equivalentes do
+  exercício anterior.
+- **DRE - trimestral**: o trimestre em que se apura o IRPJ e a CSLL no lucro
+  presumido e no lucro real trimestral (Lei 9.430/96, art. 1º), com o trimestre
+  anterior e o mesmo trimestre do exercício passado.
 
-3.  Selecione um dos **modelos de relatórios contabeis brasileiro**.
+Para ver outro período, mude a **data base** do relatório: todas as colunas se
+reposicionam juntas, porque são declaradas relativas a ela, não por data fixa.
 
-4.  Na aba **Layout**, você pode desativar a **expansão das contas** para gerar um relatório mais resumido.
+Depois clique em **Visualizar**, **Imprimir** ou **Exportar**. No modo de
+visualização, clicar no valor de uma linha detalhada abre os lançamentos que a
+compõem.
 
-5. Para selecionar os períodos, siga uma das opções abaixo:
+## Períodos
 
-    - Selecione diretamente o **intervalo de datas** ou o **nome do período** desejado para obter o relatório referente a esse período específico.
-    - Ative o **Modo de Comparação** e, na guia **Colunas**, defina quantas colunas deseja, com períodos diferentes. Esses períodos podem ser configurados com **datas fixas** ou períodos relativos. Por exemplo, defina "Tipo de período" como "Ano", com "Deslocamento" = "0" e "Duração" = "1" para o ano corrente (N), e "Deslocamento" = "-1" para o ano anterior (N-1). Lembre-se de ajustar a **data base** do relatório para o ano a ser analisado.
+O módulo instala três tipos de período (**Faturamento > Configuração >
+Intervalos de Datas**), que se geram sozinhos daí em diante:
 
+- **Mês de competência**, que é o período da apuração de ICMS, IPI, PIS e
+  COFINS e da escrituração mensal do SPED;
+- **Trimestre de apuração**, o trimestre civil do IRPJ e da CSLL;
+- **Exercício social**, de um ano (Lei 6.404/76, art. 175).
 
-6. Clique em **Visualizar**, **Imprimir** ou **Exportar** para calcular o relatório e executar a ação desejada.
+## Montar um relatório próprio
 
-7. No modo de visualização, você pode clicar no **valor** das linhas detalhadas para visualizar os **registros contábeis relacionados**.
+Duplique um dos prontos e ajuste as colunas, ou crie um novo escolhendo o
+modelo BP ou DRE. Em **Colunas**, cada coluna pode ser uma data fixa ou um
+período relativo à data base: "Tipo de período" Ano com "Deslocamento" 0 é o
+exercício corrente, -1 o anterior. Marque **Acumulado no ano** para a coluna
+começar em 1º de janeiro.
+
+Uma ressalva do Balanço: a coluna precisa cobrir o exercício (o exercício
+inteiro ou um acumulado desde 1º de janeiro), porque o resultado do período é
+lido do movimento das contas de resultado. Numa coluna de mês isolado, o
+patrimônio líquido exibiria só o resultado daquele mês.

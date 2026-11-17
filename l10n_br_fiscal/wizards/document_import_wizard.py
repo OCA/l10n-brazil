@@ -38,6 +38,17 @@ class DocumentImportWizard(models.TransientModel):
 
     file = fields.Binary(string="File to Import")
 
+    file_name = fields.Char()
+
+    allow_product_creation = fields.Boolean(
+        string="Create unmapped products",
+        default=False,
+        help="If enabled, products that don't match an existing record will be"
+        " automatically created during import. If disabled (default), the"
+        " import will raise an error when an unmapped product is found so you"
+        " can map it in the product lines above before importing.",
+    )
+
     date_in_out = fields.Datetime(
         default=fields.Datetime.now,
         help="Effective incoming/outgoing date of the goods (DT_E_S in the "
@@ -58,6 +69,12 @@ class DocumentImportWizard(models.TransientModel):
     )
 
     document_type = fields.Char()
+
+    currency_id = fields.Many2one(related="company_id.currency_id")
+
+    amount_total = fields.Monetary(
+        string="Document Total",
+    )
 
     fiscal_operation_type = fields.Selection(
         selection=FISCAL_IN_OUT,
@@ -120,9 +137,11 @@ class DocumentImportWizard(models.TransientModel):
             domain.append(("cnpj_cpf_stripped", "=", punctuation_rm(cnpj)))
         elif legal_name or name:
             domain = [("is_company", "=", True)]
-            domain.append(
-                ["|", ("legal_name", "ilike", legal_name), ("name", "ilike", name)]
-            )
+            domain += [
+                "|",
+                ("legal_name", "ilike", legal_name or name),
+                ("name", "ilike", name or legal_name),
+            ]
         else:
             raise UserError(_("No CNPJ or Legal Name to search for a partner!"))
         return self.env["res.partner"].search(domain, limit=1)

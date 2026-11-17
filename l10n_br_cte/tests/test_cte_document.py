@@ -74,6 +74,22 @@ class CTeDocumentTest(TransactionCase):
     #     with self.assertRaises(UserError):
     #         processor = self.cte_id._edoc_processor()
 
+    def test_comment_xcampo_cut_to_the_xsd_max_length(self):
+        """xCampo accepts 20 characters in the CTe schema and the cut is done
+        generically on export, l10n_br_cte does not hard code it anymore."""
+        comment = self.env["l10n_br_fiscal.comment"].create(
+            {
+                "name": "x" * 30,
+                "comment": "y" * 200,
+                "comment_type": "commercial",
+                "object": "l10n_br_fiscal.document.mixin",
+            }
+        )
+        binding = comment._build_binding(
+            spec_schema="cte", spec_version="40", class_name="cte.40.tcte_obscont"
+        )
+        self.assertEqual(binding.xCampo, "x" * 20)
+
     def test_generate_key(self):
         self.cte_id._generate_key()
         self.assertTrue(self.cte_id.document_key)

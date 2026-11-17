@@ -2,6 +2,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from contextlib import contextmanager
+from unittest.mock import patch
 
 from lxml import etree
 
@@ -249,6 +250,47 @@ class TestL10nBrContract(TransactionCase):
         )
         self.assertIn("tax_ids", invoice_line_vals)
         self.assertIn("quantity", invoice_line_vals)
+
+    def test_invoice_line_taxes_use_invoiced_quantity(self):
+        """With variable quantity, taxes follow the invoiced quantity.
+
+        The invoiced quantity (e.g. from timesheets) differs from the quantity
+        stored on the contract line; fiscal amounts must not be copied from
+        the contract line.
+        """
+        contract = self._create_contract_with_line(
+            self.product_service,
+            price_unit=120.0,
+            fiscal_operation=self.fo_venda,
+        )
+        line = contract.contract_line_ids
+        line.write({"quantity": 1.0, "price_unit": 120.0})
+        invoiced_qty = 9.5
+        with patch.object(
+            type(line),
+            "_get_quantity_to_invoice",
+            lambda self, *args, **kwargs: invoiced_qty,
+        ):
+            vals = line._prepare_invoice_line()
+        self.assertEqual(vals["quantity"], invoiced_qty)
+        for fname in ("price_gross", "amount_fiscal", "fiscal_quantity"):
+            self.assertNotIn(fname, vals)
+        with patch.object(
+            type(line),
+            "_get_quantity_to_invoice",
+            lambda self, *args, **kwargs: invoiced_qty,
+        ):
+            moves = contract._recurring_create_invoice()
+        move_line = moves.invoice_line_ids
+        self.assertEqual(move_line.quantity, invoiced_qty)
+        self.assertAlmostEqual(move_line.price_gross, 120.0 * invoiced_qty, places=2)
+        self.assertTrue(move_line.issqn_value)
+        self.assertAlmostEqual(
+            move_line.issqn_value,
+            move_line.issqn_base * move_line.issqn_percent / 100,
+            places=2,
+        )
+        self.assertAlmostEqual(move_line.issqn_base, 120.0 * invoiced_qty, places=2)
 
     def test_prepare_recurring_invoices_without_contract_fiscal_operation(self):
         """Without contract fiscal operation, document_type_id must be cleared."""

@@ -4,6 +4,7 @@
 
 import logging
 import os
+import re
 from unicodedata import normalize
 
 from erpbrasil.base.misc import punctuation_rm
@@ -84,6 +85,11 @@ def build_edoc_path(
     return caminho
 
 
+# Control characters (TAB etc.) are rejected by the NF-e XSD text patterns,
+# which only accept characters from space (0x20) upward.
+_CONTROL_CHARS_RE = re.compile(r" *[\x00-\x1f\x7f][\x00-\x1f\x7f ]*")
+
+
 def remove_non_ascii_characters(value):
     result = ""
     if value and isinstance(value, str):
@@ -93,8 +99,10 @@ def remove_non_ascii_characters(value):
             .decode("ASCII")
             .replace("\n", "")
             .replace("\r", "")
-            .strip()
         )
+        # Remaining control characters (e.g. TABs pasted from a spreadsheet)
+        # become a single space; plain spaces are left untouched.
+        result = _CONTROL_CHARS_RE.sub(" ", result).strip()
 
     return result
 

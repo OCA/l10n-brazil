@@ -31,6 +31,7 @@ from ..constants.fiscal import (
     DOCUMENT_STATE_REJECTED,
     DOCUMENT_STATE_SENDING,
     DOCUMENT_STATES,
+    FSM_STATE_CHANGE_CONTEXT,
 )
 
 
@@ -52,7 +53,8 @@ class FiscalDocumentStateMachine(Machine):
     Nested ``_trigger_fsm()`` calls made from those callbacks (e.g. the
     send -> authorize chain) therefore always read the up-to-date state_edoc.
     The initial ``set_state()`` done at machine construction is a no-op write
-    thanks to the value comparison.
+    thanks to the value comparison. The write carries FSM_STATE_CHANGE_CONTEXT,
+    so that extensions can defer work that needs the ``after`` callbacks.
     """
 
     def __init__(self, document, *args, **kwargs):
@@ -62,7 +64,9 @@ class FiscalDocumentStateMachine(Machine):
     def set_state(self, state, model=None):
         result = super().set_state(state, model)
         if self.state != self.document.state_edoc:
-            self.document.write({"state_edoc": self.state})
+            self.document.with_context(**{FSM_STATE_CHANGE_CONTEXT: True}).write(
+                {"state_edoc": self.state}
+            )
         return result
 
 
@@ -150,6 +154,15 @@ class Document(models.Model):
         string="Authorization File XML",
         ondelete="restrict",
         readonly=True,
+    )
+
+    original_xml_file_id = fields.Many2one(
+        comodel_name="ir.attachment",
+        string="Original XML File",
+        copy=False,
+        readonly=True,
+        help="XML of a document issued by a third party, kept as received "
+        "when the document is imported. It is not an authorization event.",
     )
 
     # Cancel Event Related Fields
@@ -441,8 +454,25 @@ class Document(models.Model):
             self._document_export()
 
     def _before_document_send(self):
-        # Placeholder for pre-send checks
-        pass
+        """Veto the transition to SENDING when the XML failed schema validation.
+
+        This callback runs *before* the machine writes state_edoc (see
+        FiscalDocumentStateMachine.set_state), so raising here leaves the
+        document in its source state. Without this guard the document was
+        moved to SENDING first and only then did the transmission module skip
+        the actual send because of xml_error_message, stranding the document
+        in a state that is not a valid source for action_draft_fsm.
+        """
+        self.ensure_one()
+        if self.xml_error_message:
+            raise UserError(
+                _(
+                    "The document XML does not comply with its schema, so it "
+                    "cannot be transmitted. Set the document back to draft, "
+                    "fix the data and confirm it again.\n\n%(errors)s",
+                    errors=self.xml_error_message,
+                )
+            )
 
     def _after_document_send(self):
         # Trigger actual sending logic
@@ -798,7 +828,9 @@ class Document(models.Model):
 
     def view_xml(self):
         self.ensure_one()
-        xml_file = self.authorization_file_id or self.send_file_id
+        xml_file = (
+            self.authorization_file_id or self.send_file_id or self.original_xml_file_id
+        )
         if not xml_file:
             self._document_export()
             xml_file = self.authorization_file_id or self.send_file_id

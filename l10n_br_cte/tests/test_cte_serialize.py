@@ -5,6 +5,7 @@ import logging
 import os
 from datetime import datetime
 
+from erpbrasil.assinatura import misc
 from xmldiff import main
 
 from odoo import Command
@@ -23,10 +24,34 @@ class TestCTeSerialize(TransactionCase):
         super().setUpClass()
         cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
         cls.cte_list = cte_list
+        cls._set_fake_certificate()
         for cte_data in cls.cte_list:
             cte = cls.env.ref(cte_data["record_ref"])
             cte_data["cte"] = cte
             cls.prepare_test_cte(cte)
+
+    @classmethod
+    def _set_fake_certificate(cls):
+        """The export signs the XML and builds the QR Code, so the company
+        needs a certificate."""
+        certificate = cls.env["l10n_br_fiscal.certificate"].create(
+            {
+                "type": "nf-e",
+                "subtype": "a1",
+                "password": "123456",
+                "file": misc.create_fake_certificate_file(
+                    valid=True,
+                    passwd="123456",
+                    issuer="EMISSOR A TESTE",
+                    country="BR",
+                    subject="CERTIFICADO VALIDO TESTE",
+                ),
+            }
+        )
+        for cte_data in cls.cte_list:
+            cls.env.ref(
+                cte_data["record_ref"]
+            ).company_id.certificate_nfe_id = certificate
 
     @classmethod
     def prepare_test_cte(self, cte):
@@ -91,9 +116,9 @@ class TestCTeSerialize(TransactionCase):
             "2024-11-22", "%Y-%m-%d"
         ).date()  # Data prevista de entrega
         cte.cte40_CL = "TEST_CL"  # Código de Localidade
-        cte.cte40_cTar = "TAR123"  # Código da Tarifa
+        cte.cte40_cTar = "TAR1"  # Código da Tarifa
         cte.cte40_vTar = 2500.00  # Valor da Tarifa
-        cte.cte40_xDime = "Dimensão Padrão"  # Dimensões do volume
+        cte.cte40_xDime = "Dim. Padrão"  # Dimensões do volume
 
         # Lista de produtos perigosos
         cte.cte40_peri = [
@@ -155,7 +180,7 @@ class TestCTeSerialize(TransactionCase):
     def prepare_modal_ferroviario_data(cls, cte):
         # Dados gerais do modal ferroviário
         cte.cte40_tpTraf = "1"  # Tipo de Tráfego: 1 = Nacional, 2 = Internacional
-        cte.cte40_fluxo = "Fluxo Norte-Sul"  # Fluxo de transporte
+        cte.cte40_fluxo = "Norte-Sul"  # Fluxo de transporte
         cte.cte40_vFrete = 5000.00  # Valor do frete ferroviário
         cte.cte40_chCTeFerroOrigem = (
             "CTE123456789"  # Chave do CTe Ferroviário de origem

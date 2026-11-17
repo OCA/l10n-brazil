@@ -3,6 +3,7 @@ import os
 import re
 from unittest.mock import MagicMock, patch
 
+from odoo import Command
 from odoo.tests import TransactionCase
 
 from odoo.addons import l10n_br_nfe
@@ -115,6 +116,31 @@ class NFeImportWizardTest(TransactionCase):
 
         self.check_edoc(edoc)
 
+    def test_imported_document_view_xml_and_pdf(self):
+        """Ver XML and Ver PDF must work on a document imported from a
+        supplier XML, without an authorization event."""
+        self._prepare_wizard(self.xml_1)
+        binding, edoc = self.wizard._create_edoc_from_file()
+
+        self.assertFalse(edoc.authorization_event_id)
+        self.assertTrue(edoc.original_xml_file_id)
+        self.assertEqual(
+            base64.b64decode(edoc.original_xml_file_id.datas),
+            self.xml_1,
+        )
+        state_edoc = edoc.state_edoc
+
+        action = edoc.view_xml()
+        self.assertIn(str(edoc.original_xml_file_id.id), action["url"])
+
+        action = edoc.view_pdf()
+        self.assertTrue(edoc.file_report_id)
+        self.assertIn(str(edoc.file_report_id.id), action["url"])
+        self.assertTrue(base64.b64decode(edoc.file_report_id.datas).startswith(b"%PDF"))
+
+        self.assertFalse(edoc.authorization_event_id)
+        self.assertEqual(edoc.state_edoc, state_edoc)
+
     def FIXME_test_set_fiscal_operation_type(self):
         self._prepare_wizard(self.xml_1)
 
@@ -148,6 +174,24 @@ class NFeImportWizardTest(TransactionCase):
 
         first_product.product_id = old_product_id
         self.assertNotEqual(first_product.product_id, self.product_1)
+        # The fiscal profile imports the XML without purchase access rights
+        fiscal_user = self.env["res.users"].create(
+            {
+                "name": "Fiscal importer",
+                "login": "fiscal_importer",
+                "groups_id": [
+                    Command.set(
+                        [
+                            self.env.ref("base.group_user").id,
+                            self.env.ref("l10n_br_fiscal.group_manager").id,
+                            self.env.ref("l10n_br_nfe.group_manager").id,
+                        ]
+                    )
+                ],
+            }
+        )
+        first_product.with_user(fiscal_user)._find_or_create_product_supplierinfo()
+        self.assertIn(first_product.product_supplier_id, old_product_id.seller_ids)
 
         self.wizard.partner_id = self.partner_1
         first_product.product_supplier_id = self.env["product.supplierinfo"].create(
@@ -160,7 +204,7 @@ class NFeImportWizardTest(TransactionCase):
         )
         wiz_supplier_id = first_product.product_supplier_id
 
-        first_product._find_or_create_product_supplierinfo()
+        first_product.with_user(fiscal_user)._find_or_create_product_supplierinfo()
         self.assertEqual(wiz_supplier_id.product_id, first_product.product_id)
         self.assertEqual(wiz_supplier_id.partner_uom_id, first_product.uom_internal)
         self.assertEqual(wiz_supplier_id.product_name, first_product.product_name)
@@ -225,6 +269,33 @@ class NFeImportWizardTest(TransactionCase):
                 )
             )
 
+    def test_import_nfe_created_product_uom_from_xml(self):
+        """A product created during import gets its unit from the XML uCom.
+
+        The fiscal line's uom is computed from the product, but for a product
+        created during the import that computation runs before the product's
+        units are resolved, so the wizard must fall back to the unit it
+        matched from the XML uCom/uTrib. Otherwise ``_check_document_import``
+        rejects the document with "no unit of measure".
+        """
+        self._prepare_wizard(self.xml_1)
+        self.wizard.allow_product_creation = True
+        self.wizard.fiscal_operation_id = self.env.ref("l10n_br_fiscal.fo_compras")
+        _binding, edoc = self.wizard._import_edoc()
+        if hasattr(edoc, "_check_document_import"):
+            # integrity guard lives in l10n_br_account, which l10n_br_nfe
+            # does not depend on: skip it when the module is not installed
+            edoc._check_document_import()  # must not raise
+        self.assertTrue(edoc.fiscal_line_ids)
+        for line in edoc.fiscal_line_ids:
+            self.assertTrue(
+                line.uom_id, "created-product line must get a uom from the XML"
+            )
+            self.assertTrue(
+                line.product_id.uom_id,
+                "product created during import must get the XML unit",
+            )
+
     def test__parse_xml(self):
         self._prepare_wizard(self.xml_1)
 
@@ -246,6 +317,7 @@ class NFeImportWizardTest(TransactionCase):
         self.assertEqual(taxes["vICMS"], 100)
         self.assertEqual(taxes["pIPI"], 5)
         self.assertEqual(taxes["vIPI"], 100)
+        self.assertEqual(self.wizard.amount_total, 14.00)
 
     def test_cfop_warning(self):
         """The wizard line flags a CFOP whose scope (intra/interstate) is

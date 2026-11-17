@@ -428,11 +428,6 @@ msgid "Customhouse Charges"
 msgstr ""
 
 #. module: l10n_br_contract
-#: model:ir.model.fields,field_description:l10n_br_contract.field_res_company__contract_recalculate_taxes_before_invoice
-msgid "Dafault recalculate taxes before invoicing"
-msgstr ""
-
-#. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_res_company__contract_purchase_fiscal_operation_id
 msgid "Default Contract Purchase Fiscal Operation"
 msgstr ""
@@ -1217,16 +1212,6 @@ msgid "NCM"
 msgstr ""
 
 #. module: l10n_br_contract
-#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__simple_value
-msgid "National Simple Taxes"
-msgstr ""
-
-#. module: l10n_br_contract
-#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__simple_without_icms_value
-msgid "National Simple Taxes without ICMS"
-msgstr ""
-
-#. module: l10n_br_contract
 #: model:ir.model.fields,help:l10n_br_contract.field_contract_line__national_taxation_code_id
 msgid "National Taxation Code for the ISS tax (National NFS-e)"
 msgstr ""
@@ -1417,8 +1402,15 @@ msgid "Quantity"
 msgstr ""
 
 #. module: l10n_br_contract
+#: model:ir.model.fields,help:l10n_br_contract.field_contract_line__icmssn_range_id
+msgid ""
+"Range of the Simples Nacional annex that taxes the operation, the one the "
+"company was in when the taxes of the line were computed."
+msgstr ""
+
+#. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__contract_recalculate_taxes_before_invoice
-msgid "Recalculate taxes before invoicing"
+msgid "Recalculate Fiscal Operation Line Before Invoicing"
 msgstr ""
 
 #. module: l10n_br_contract

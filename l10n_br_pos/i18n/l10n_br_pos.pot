@@ -1975,18 +1975,6 @@ msgid "Name"
 msgstr ""
 
 #. module: l10n_br_pos
-#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__simple_value
-#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__simple_value
-msgid "National Simple Taxes"
-msgstr ""
-
-#. module: l10n_br_pos
-#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__simple_without_icms_value
-#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order_line__simple_without_icms_value
-msgid "National Simple Taxes without ICMS"
-msgstr ""
-
-#. module: l10n_br_pos
 #: model:ir.model.fields,help:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__national_taxation_code_id
 #: model:ir.model.fields,help:l10n_br_pos.field_pos_order_line__national_taxation_code_id
 msgid "National Taxation Code for the ISS tax (National NFS-e)"
@@ -2386,6 +2374,14 @@ msgstr ""
 #. module: l10n_br_pos
 #: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__quantity
 msgid "Quantity"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,help:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icmssn_range_id
+#: model:ir.model.fields,help:l10n_br_pos.field_pos_order_line__icmssn_range_id
+msgid ""
+"Range of the Simples Nacional annex that taxes the operation, the one the "
+"company was in when the taxes of the line were computed."
 msgstr ""
 
 #. module: l10n_br_pos

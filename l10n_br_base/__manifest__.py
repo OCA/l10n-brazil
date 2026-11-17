@@ -10,7 +10,7 @@
     "maintainers": ["renatonlima", "rvalyi"],
     "website": "https://github.com/OCA/l10n-brazil",
     "depends": ["base", "base_setup", "base_address_extended"],
-    "version": "16.0.6.5.3",
+    "version": "16.0.6.6.1",
     "data": [
         "security/ir.model.access.csv",
         "data/res.city.csv",
@@ -43,7 +43,7 @@
     "external_dependencies": {
         "python": [
             "num2words",
-            "erpbrasil.base",
+            "erpbrasil-base>=2.4.2",
             "phonenumbers",
             "email-validator",
         ]
