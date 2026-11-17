@@ -3,7 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import Command
-from odoo.tests import tagged
+from odoo.tests import Form, tagged
 
 from odoo.addons.l10n_br_sale.hooks import sale_set_journal_in_fiscal_operation
 from odoo.addons.l10n_br_stock_account.tests.common import TestBrPickingInvoicingCommon
@@ -165,3 +165,155 @@ class TestSaleStock(TestBrPickingInvoicingCommon):
         # Change shipping partner after confirmation
         so.partner_shipping_id = self.partner_addr_ak2.id
         self.assertEqual(so.partner_shipping_id, picking.partner_id)
+
+    def _create_kit_picking(self, ncm_component):
+        """Kit of 914.40 with 10% discount, exploded into 4 component moves.
+
+        The kit move is copied into one move per component, keeping the
+        fiscal values of the kit line, as the phantom BoM explosion does.
+        """
+        journal = self.env["account.journal"].search(
+            [("type", "=", "sale"), ("company_id", "=", self.env.company.id)],
+            limit=1,
+        )
+        for fiscal_operation in (
+            self.fo_venda,
+            self.fo_venda.return_fiscal_operation_id,
+        ):
+            fiscal_operation.with_company(self.env.company).journal_id = journal
+        ncm_kit = self.env["l10n_br_fiscal.ncm"].search(
+            [("id", "!=", ncm_component.id)], limit=1
+        )
+        components = self.env["product.product"].create(
+            [
+                {
+                    "name": f"Kit Component {price}",
+                    "type": "consu",
+                    "is_storable": True,
+                    "invoice_policy": "delivery",
+                    "list_price": price,
+                    "standard_price": 10.0,
+                    "ncm_id": ncm_component.id,
+                }
+                for price in (239.0, 189.0, 319.0, 269.0)
+            ]
+        )
+        kit = self.env["product.product"].create(
+            {
+                "name": "Kit",
+                "type": "consu",
+                "is_storable": True,
+                "invoice_policy": "delivery",
+                "list_price": 914.40,
+                "ncm_id": ncm_kit.id,
+            }
+        )
+        so = self._create_sale_order(
+            lines=[
+                Command.create(
+                    {
+                        "product_id": kit.id,
+                        "product_uom_qty": 1.0,
+                        "price_unit": 914.40,
+                        "discount": 10.0,
+                        "fiscal_operation_id": self.fo_venda.id,
+                    }
+                )
+            ],
+        )
+        so.action_confirm()
+        kit_line = so.order_line
+        self.assertAlmostEqual(kit_line.discount_value, 91.44, places=2)
+        picking = so.picking_ids
+        kit_move = picking.move_ids
+        for component in components:
+            kit_move.copy(
+                {
+                    "product_id": component.id,
+                    "product_uom": component.uom_id.id,
+                    "product_uom_qty": 1.0,
+                    "picking_id": picking.id,
+                    "sale_line_id": kit_line.id,
+                }
+            )
+        kit_move._action_cancel()
+        kit_move.unlink()
+        self.picking_move_state(picking)
+        picking.set_to_be_invoiced()
+        return picking
+
+    def _product_lines(self, invoice):
+        return invoice.invoice_line_ids.filtered(
+            lambda ln: ln.display_type == "product"
+        )
+
+    def test_kit_component_fiscal_values(self):
+        """
+        Phantom kit sold with a discount: the component moves point to the
+        sale line of the kit and carry its fiscal values. Each invoice line
+        must get the fiscal values of its component (fiscal price equal to
+        the price, its own NCM) and its share of the kit discount, so the
+        invoice totals the price the kit was sold for.
+        """
+        ncm_component = self.env["l10n_br_fiscal.ncm"].search([], limit=1)
+        picking = self._create_kit_picking(ncm_component)
+
+        invoice = self.create_invoice_wizard(picking)
+
+        lines = self._product_lines(invoice)
+        self.assertEqual(len(lines), 4)
+        # invoiced at the share of the sale price, not at the cost
+        self.assertEqual(
+            sorted(lines.mapped("price_unit")), [170.10, 215.10, 242.10, 287.10]
+        )
+        for line in lines:
+            self.assertEqual(line.ncm_id, ncm_component)
+            self.assertAlmostEqual(line.fiscal_price, line.price_unit, places=2)
+            self.assertEqual(line.fiscal_quantity, line.quantity)
+            self.assertAlmostEqual(
+                line.discount_value, line.price_unit * line.quantity * 0.1, places=2
+            )
+        self.assertAlmostEqual(sum(lines.mapped("discount_value")), 91.44, places=2)
+        self.assertAlmostEqual(invoice.amount_untaxed, 822.96, places=2)
+        self.assertAlmostEqual(
+            invoice.fiscal_document_id.amount_discount_value, 91.44, places=2
+        )
+
+    def test_kit_return_fiscal_values(self):
+        """
+        Returning the whole kit: the return moves point to the kit line too,
+        but stay out of the split. The refund takes, for each component, the
+        price and the discount it was invoiced with, and totals the invoice.
+        """
+        ncm_component = self.env["l10n_br_fiscal.ncm"].search([], limit=1)
+        picking = self._create_kit_picking(ncm_component)
+        invoice = self.create_invoice_wizard(picking)
+        invoiced = {
+            line.product_id: (line.price_unit, line.discount_value)
+            for line in self._product_lines(invoice)
+        }
+
+        return_form = Form(
+            self.env["stock.return.picking"].with_context(
+                active_id=picking.id, active_model="stock.picking"
+            )
+        )
+        return_form.invoice_state = "2binvoiced"
+        return_wizard = return_form.save()
+        for return_line in return_wizard.product_return_moves:
+            return_line.quantity = return_line.move_id.product_uom_qty
+        result = return_wizard.action_create_returns()
+        return_picking = self.env["stock.picking"].browse(result["res_id"])
+        self.picking_move_state(return_picking)
+
+        refund = self.create_invoice_wizard(return_picking)
+
+        self.assertEqual(refund.move_type, "out_refund")
+        lines = self._product_lines(refund)
+        self.assertEqual(len(lines), 4)
+        for line in lines:
+            price_unit, discount_value = invoiced[line.product_id]
+            self.assertAlmostEqual(line.price_unit, price_unit, places=2)
+            self.assertAlmostEqual(line.discount_value, discount_value, places=2)
+            self.assertEqual(line.ncm_id, ncm_component)
+        self.assertAlmostEqual(refund.amount_untaxed, invoice.amount_untaxed, places=2)

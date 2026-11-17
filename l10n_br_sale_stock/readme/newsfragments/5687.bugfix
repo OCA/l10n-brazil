@@ -1,0 +1,1 @@
+Invoice from the picking: a sold move is invoiced at the price of its sale line (not at the cost of the product), and the components of a phantom kit get their own fiscal values (fiscal price, NCM...) and their share of the discount, freight, insurance and other costs of the kit line.

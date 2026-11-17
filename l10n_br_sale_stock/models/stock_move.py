@@ -2,7 +2,7 @@
 # Copyright (C) 2021  Magno Costa - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import models
+from odoo import fields, models
 
 
 class StockMove(models.Model):
@@ -38,3 +38,24 @@ class StockMove(models.Model):
             if partner != self.sale_line_id.order_id.partner_invoice_id:
                 partner = self.sale_line_id.order_id.partner_invoice_id
         return partner
+
+    def _get_price_unit_invoice(self, inv_type, partner, qty=1):
+        """A sold move is invoiced at the price of the sale.
+
+        l10n_br_stock_account invoices the outgoing moves without a price
+        informed at the cost of the product (simples remessa and so on), and
+        whether it overrides the sale price of sale_stock_picking_invoicing
+        depends on the order the modules are loaded in.
+        """
+        result = super()._get_price_unit_invoice(inv_type, partner, qty)
+        move = fields.first(self)
+        line = move.sale_line_id
+        if not line or inv_type not in ("out_invoice", "out_refund"):
+            return result
+        if move.price_unit > 0.0:
+            # price informed by the user on the move has priority
+            return result
+        if move._is_kit_component():
+            # component of a phantom kit: its share of the kit price
+            return move._get_kit_component_price_unit()
+        return line.price_unit
