@@ -442,7 +442,9 @@ class Document(models.Model):
             if document.issuer != DOCUMENT_ISSUER_COMPANY:
                 continue
             doc_type = document.document_type_id
-            lines = document.fiscal_line_ids.filtered("product_id")
+            lines = document.fiscal_line_ids.filtered(
+                lambda ln: ln.product_id or ln.service_type_id
+            )
             groups = lines.grouped(
                 lambda ln, dt=doc_type: ln._get_document_split_key(dt)
             )
@@ -460,7 +462,10 @@ class Document(models.Model):
                     f"{field.convert_to_display_name(group[:1][field.name], group[:1])}"
                     for field in fields
                 )
-                rows.append(f"- {', '.join(group.mapped('name'))} ({codes})")
+                names = [
+                    ln.name or ln.service_type_id.display_name or "" for ln in group
+                ]
+                rows.append(f"- {', '.join(names)} ({codes})")
             raise UserError(
                 self.env._(
                     "The lines of the fiscal document %(document)s must be issued in "

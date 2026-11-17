@@ -70,12 +70,19 @@ class TestFiscalDocumentNFSe(TransactionCase):
         nfe = self.env.ref("l10n_br_fiscal.document_55")
         self.assertEqual(line._get_document_split_key(nfe), (nfe.id,))
 
-        same.service_type_id = self.env["l10n_br_fiscal.service.type"].search(
+        other_service = self.env["l10n_br_fiscal.service.type"].search(
             [("id", "!=", line.service_type_id.id), ("internal_type", "=", "normal")],
             limit=1,
         )
+        same.service_type_id = other_service
         with self.assertRaises(UserError):
             document.action_document_confirm()
+
+        # a line without product still declares its service
+        same.product_id = False
+        same.service_type_id = other_service
+        with self.assertRaises(UserError):
+            document._check_document_split()
 
         document.issuer = "partner"
         document._check_document_split()
