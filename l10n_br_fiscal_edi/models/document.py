@@ -784,6 +784,7 @@ class Document(models.Model):
         for doc in self:
             if doc.state_edoc != DOCUMENT_STATE_DRAFT:
                 continue  # idempotent: already confirmed
+            doc._check_document_split()
             if doc.document_electronic and doc.issuer == DOCUMENT_ISSUER_COMPANY:
                 doc._trigger_fsm("action_validate")
                 if doc._direct_draft_send():
