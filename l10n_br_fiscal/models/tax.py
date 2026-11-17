@@ -719,7 +719,7 @@ class Tax(models.Model):
     def _compute_ibs(self, tax, taxes_dict, **kwargs):
         """The IBS (Tax on Goods and Services) must have the
         following taxes removed from its calculation base:
-        ICMS, PIS, and COFINS."""
+        ICMS (with DIFAL and FCP), ISSQN, PIS, and COFINS."""
         cfop = kwargs.get("cfop")
         operation_line = kwargs.get("operation_line")
         fiscal_operation_type = operation_line.fiscal_operation_type or FISCAL_OUT
@@ -743,6 +743,8 @@ class Tax(models.Model):
         else:
             tax_dict["remove_from_base"] += (
                 tax_dict_icms.get("tax_value", 0.00)
+                + tax_dict_icms.get("icms_dest_value", 0.00)
+                + taxes_dict.get("icmsfcp", {}).get("tax_value", 0.00)
                 + tax_dict_issqn.get("tax_value", 0.00)
                 + tax_dict_pis.get("tax_value", 0.00)
                 + tax_dict_cofins.get("tax_value", 0.00)
@@ -753,7 +755,7 @@ class Tax(models.Model):
     def _compute_cbs(self, tax, taxes_dict, **kwargs):
         """The CBS (Contribution on Goods and Services) must have the
         following taxes removed from its calculation base:
-        ICMS, PIS, and COFINS."""
+        ICMS (with DIFAL and FCP), ISSQN, PIS, and COFINS."""
         cfop = kwargs.get("cfop")
         operation_line = kwargs.get("operation_line")
         fiscal_operation_type = operation_line.fiscal_operation_type or FISCAL_OUT
@@ -777,6 +779,8 @@ class Tax(models.Model):
         else:
             tax_dict["remove_from_base"] += (
                 tax_dict_icms.get("tax_value", 0.00)
+                + tax_dict_icms.get("icms_dest_value", 0.00)
+                + taxes_dict.get("icmsfcp", {}).get("tax_value", 0.00)
                 + tax_dict_issqn.get("tax_value", 0.00)
                 + tax_dict_pis.get("tax_value", 0.00)
                 + tax_dict_cofins.get("tax_value", 0.00)
