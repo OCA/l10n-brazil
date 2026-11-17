@@ -727,6 +727,7 @@ class TestL10nBrNfseFocus(common.TransactionCase):
         self.assertIn("cnpj_prestador", payload)
         self.assertIn("cnpj_tomador", payload)
         self.assertIn("codigo_tributacao_nacional_iss", payload)
+        self.assertNotIn("indicador_destinatario", payload)
         self.assertIn("valor_servico", payload)
 
     def test_prepare_payload_nacional_sends_desconto_incondicionado(self):
@@ -992,6 +993,7 @@ class TestL10nBrNfseFocus(common.TransactionCase):
         payload = nfse_nacional._prepare_payload_nacional(edoc, self.company)
 
         self.assertEqual(payload.get("codigo_indicador_operacao"), "030102")
+        self.assertEqual(payload.get("indicador_destinatario"), "0")
         self.assertEqual(payload.get("ibs_cbs_classificacao_tributaria"), "000001")
         self.assertEqual(payload.get("ibs_cbs_situacao_tributaria"), "000")
         self.assertEqual(payload.get("ibs_cbs_base_calculo"), 91.35)

@@ -469,6 +469,11 @@ class FocusnfeNfseNacional(FocusnfeNfseBase):
             "tipo_retencao_iss": service_basic["tipo_retencao_iss"],
             "consumidor_final": service_basic["consumidor_final"],
             "codigo_indicador_operacao": service_basic["codigo_indicador_operacao"],
+            **(
+                {"indicador_destinatario": "0"}
+                if service_basic["codigo_indicador_operacao"]
+                else {}
+            ),
             "ibs_cbs_classificacao_tributaria": service_basic[
                 "ibs_cbs_classificacao_tributaria"
             ],
