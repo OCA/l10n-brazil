@@ -52,11 +52,11 @@ class Document(models.Model):
     )
     operation_nature = fields.Selection(
         selection=OPERATION_NATURE,
-        default="1",
+        default=lambda self: self.env.company.operation_nature,
     )
     taxation_special_regime = fields.Selection(
         selection=TAXATION_SPECIAL_REGIME,
-        default="1",
+        default=lambda self: self.env.company.taxation_special_regime,
     )
     verify_code = fields.Char(
         copy=False,
