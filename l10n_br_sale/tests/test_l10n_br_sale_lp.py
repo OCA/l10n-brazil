@@ -91,3 +91,23 @@ class TestL10nBrSale(L10nBrSaleBaseTest, TransactionCase):
                     f"{f} differs after recompute: stored={stored}, "
                     f"recomputed={fdl[f]}",
                 )
+
+    def test_l10n_br_sale_two_services(self):
+        """Services with different codes are invoiced in one document each."""
+        self._change_user_company(self.company)
+        sale_order = self.so_services
+        self._run_sale_order_onchanges(sale_order)
+        other_service = sale_order.order_line[1]
+        other_service.product_id = self.env.ref("product.product_product_1")
+        for line in sale_order.order_line:
+            self._run_sale_line_onchanges(line)
+        self.assertNotEqual(
+            sale_order.order_line[0]._get_document_split_key(),
+            other_service._get_document_split_key(),
+        )
+
+        sale_order.action_confirm()
+        sale_order._create_invoices(final=True)
+        self.assertEqual(2, sale_order.invoice_count)
+        for invoice in sale_order.invoice_ids:
+            self.assertEqual(1, len(invoice.invoice_line_ids.mapped("product_id")))
