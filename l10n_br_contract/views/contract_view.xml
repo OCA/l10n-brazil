@@ -23,7 +23,7 @@
                 />
                 <field
                     name="contract_recalculate_taxes_before_invoice"
-                    attrs="{'invisible': [('country_id', '!=', %(base.br)d)]}"
+                    invisible="country_id != %(base.br)d"
                 />
             </field>
             <xpath
@@ -41,7 +41,7 @@
             </xpath>
             <!-- Fixed lines tree: fiscal placeholders for onchanges -->
             <xpath
-                expr="//field[@name='contract_line_fixed_ids']/tree"
+                expr="//field[@name='contract_line_fixed_ids']/list"
                 position="inside"
             >
                 <control name="fiscal_fields" invisible="1" />
@@ -79,7 +79,7 @@
                 />
             </xpath>
             <!-- Recurring lines tree: same fiscal placeholders -->
-            <xpath expr="//field[@name='contract_line_ids']/tree" position="inside">
+            <xpath expr="//field[@name='contract_line_ids']/list" position="inside">
                 <control name="fiscal_fields" invisible="1" />
                 <control name="fiscal_taxes_fields" string="Taxes" invisible="1" />
                 <field name="fiscal_operation_type" invisible="1" />

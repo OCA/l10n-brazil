@@ -60,7 +60,7 @@
                     />
                     <field
                         name="nbs_id"
-                        attrs="{'invisible': ['|', '|', ('tax_icms_or_issqn', '=', 'icms'), ('country_id', '!=', %(base.br)d), ('fiscal_operation_id', '=', False)]}"
+                        invisible="tax_icms_or_issqn == 'icms' or country_id != %(base.br)d or not fiscal_operation_id"
                         options="{'no_create': True}"
                     />
                     <field

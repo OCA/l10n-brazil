@@ -2,6 +2,7 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 import base64
+
 from erpbrasil.base.misc import punctuation_rm
 from erpbrasil.transmissao import TransmissaoSOAP
 from nfelib.nfe.client.v4_0.nfce import NfceClient
@@ -9,7 +10,9 @@ from nfelib.nfe.client.v4_0.nfe import NfeClient
 from nfelib.nfe.ws.edoc_legacy import NFCeAdapter as edoc_nfce
 from nfelib.nfe.ws.edoc_legacy import NFeAdapter as edoc_nfe
 from requests import Session
+
 from odoo import models
+
 from odoo.addons.l10n_br_fiscal.constants.fiscal import EVENT_ENV_HML, EVENT_ENV_PROD
 from odoo.addons.l10n_br_fiscal_edi.tools import tax_authority_date_to_utc
 

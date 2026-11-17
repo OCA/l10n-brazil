@@ -23,7 +23,7 @@ from nfelib.nfe.ws.edoc_legacy import NFeAdapter as edoc_nfe
 from requests import Session
 from xsdata.formats.dataclass.parsers import XmlParser
 
-from odoo import _, api, fields
+from odoo import Command, _, api, fields
 from odoo.exceptions import UserError, ValidationError
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
 
@@ -165,7 +165,7 @@ class NFe(spec_models.StackedModel):
     # (+ content of the m2o is stacked in the parent / - standard m2o /
     # ≡ o2m; the mapped Odoo model may follow the tag)
     INFNFE_TREE = """
-    + <infnfe>
++ <infnfe>
     + <ide>
         ≡ <NFref> l10n_br_fiscal.document.related
         - <gPagAntecipado>
