@@ -137,6 +137,63 @@ class TestNFCePosOrder(TestNFCePosOrderCommon):
         # the receipt shows the local time of the protocol, not the stored UTC
         self.assertEqual(document_values["authorization_date"], "07/05/2023 16:52:52")
 
+    def _set_operation_taxes(self):
+        """Operation lines taxing ICMS 12%, PIS 1.65% and COFINS 7.6%."""
+        Tax = self.env["l10n_br_fiscal.tax"]
+        Cst = self.env["l10n_br_fiscal.cst"]
+        Group = self.env["l10n_br_fiscal.tax.group"]
+        operation = self.env.ref("l10n_br_fiscal.fo_venda")
+        definitions = (
+            ("icms", "ICMS 12%", "00"),
+            ("pis", "PIS 1,65%", "01"),
+            ("cofins", "COFINS 7,6%", "01"),
+        )
+        for line in operation.line_ids:
+            for domain, tax_name, cst_code in definitions:
+                self.env["l10n_br_fiscal.tax.definition"].create(
+                    {
+                        "fiscal_operation_line_id": line.id,
+                        "tax_group_id": Group.search([("tax_domain", "=", domain)]).id,
+                        "tax_id": Tax.search([("name", "=", tax_name)]).id,
+                        "cst_id": Cst.search(
+                            [("tax_domain", "=", domain), ("code", "=", cst_code)]
+                        ).id,
+                        "custom_tax": True,
+                        "is_taxed": True,
+                        "state": "approved",
+                    }
+                )
+        self.company.tax_framework = "3"
+        self.company.partner_id.ind_ie_dest = "9"
+        self.product1.fiscal_type = "04"
+        self.product1.ncm_id = self.env["l10n_br_fiscal.ncm"].search([], limit=1)
+        self.config.partner_id = self.company.partner_id
+        self.config.out_pos_fiscal_operation_id = operation
+        self.product1.pos_fiscal_map_ids.unlink()
+        self.product1.update_pos_fiscal_map()
+
+    def test_nfce_line_taxes_use_the_real_price(self):
+        """The fiscal map is computed for a unit price of 1; the NFC-e line
+        must compute base and value from the real price and quantity."""
+        self.env = self.env(user=self.env.ref("base.user_admin"))
+        self.env.user.company_ids = [(4, self.company.id)]
+        self.env.user.company_id = self.company
+
+        self._set_operation_taxes()
+        self.open_new_session()
+        order_data = self._prepare_order_data()
+        result = self.env["pos.order"].create_from_ui([order_data])
+        order = self.env["pos.order"].browse(result[0]["id"])
+
+        fiscal_line = order.account_move.invoice_line_ids.fiscal_document_line_id
+        self.assertEqual(fiscal_line.price_gross, 50.0)
+        for tax, percent in (("icms", 12.0), ("pis", 1.65), ("cofins", 7.6)):
+            self.assertEqual(fiscal_line[f"{tax}_percent"], percent)
+            self.assertEqual(fiscal_line[f"{tax}_base"], 50.0)
+            self.assertAlmostEqual(
+                fiscal_line[f"{tax}_value"], 50.0 * percent / 100, delta=0.01
+            )
+
     def test_cancel_nfce_from_ui(self):
         self.env = self.env(user=self.env.ref("base.user_admin"))
         self.env.user.company_ids = [(4, self.company.id)]
