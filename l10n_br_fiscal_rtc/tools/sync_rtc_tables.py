@@ -80,6 +80,7 @@ CLASSIFICATION_UPDATE_FIELDS = [
     "rtc_prior_credit",
     "rtc_nomenclature",
     "rtc_legal_basis_id:id",
+    "rtc_sn_revenue_type",
 ]
 
 CLASSIFICATION_NEW_FIELDS = [
@@ -346,6 +347,9 @@ def sync_classifications(con, fiscal_ids, reference_date):
             ),
             "rtc_nomenclature": NOMENCLATURE_MAP.get(row["CLTR_NOMENCLATURA"], ""),
             "rtc_legal_basis_id:id": f"rtc_legal_basis_{basis_id}" if basis_id else "",
+            "rtc_sn_revenue_type": row["CLTR_TPRBSN"]
+            if row["CLTR_TPRBSN"] is not None
+            else "",
         }
         if code in fiscal_ids:
             # Enrich the record already shipped by l10n_br_fiscal: never
@@ -407,6 +411,96 @@ def sync_nomenclature(con, kind):
                 "annex": annex.get(row[annex_col]) or "",
                 "date_start": start,
                 "date_end": fmt_date(row[end_col]),
+            }
+        )
+    return out
+
+
+def sync_sn_activities(con):
+    """Simples Nacional activities (cAtivSN) with their annex."""
+    out = []
+    for row in rows(
+        con, "SELECT * FROM ATIVIDADE_SIMPLES_NACIONAL ORDER BY ATSN_ORDEM"
+    ):
+        out.append(
+            {
+                "id": f"rtc_sn_activity_{row['ATSN_ID']}",
+                "code": f"{int(row['ATSN_CATIVSN']):02d}"
+                if row["ATSN_CATIVSN"] is not None
+                else "",
+                "name": row["ATSN_DESCRICAO"] or "",
+                "annex": row["ATSN_ANEXO_SEM_FATOR_R"] or "",
+                "annex_with_factor_r": row["ATSN_ANEXO_COM_FATOR_R"] or "",
+                "label": row["ATSN_ROTULO"] or "",
+                "short_label": row["ATSN_ROTULO_CURTO"] or "",
+                "not_taxable": fmt_bool(row["ATSN_IN_NAO_TRIBUTAVEL"]),
+                "date_start": fmt_date(row["ATSN_INICIO_VIGENCIA"]),
+                "date_end": fmt_date(row["ATSN_FIM_VIGENCIA"]),
+            }
+        )
+    return out
+
+
+def sync_sn_regimes(con):
+    """Simples Nacional apuration matrix, by CRT."""
+    out = []
+    for row in rows(
+        con, "SELECT * FROM REGIME_APURACAO_SIMPLES_NACIONAL ORDER BY RASN_CRT"
+    ):
+        out.append(
+            {
+                "id": f"rtc_sn_regime_{row['RASN_CRT']}",
+                "crt": f"{row['RASN_CRT']}",
+                "name": row["RASN_DESCRICAO"] or "",
+                "generates_ibs": fmt_bool(row["RASN_IN_GERA_IBS"]),
+                "destination_due": row["RASN_DESTINO_DEVIDO"] or "",
+                "destination_pending": row["RASN_DESTINO_PENDENTE_SUSPENSO"] or "",
+                "date_start": fmt_date(row["RASN_INICIO_VIGENCIA"]),
+                "date_end": fmt_date(row["RASN_FIM_VIGENCIA"]),
+            }
+        )
+    return out
+
+
+def sync_sn_revenue_types(con):
+    """Effect of the type of gross revenue (tpRBSN) on the Simples calculation."""
+    out = []
+    for row in rows(
+        con, "SELECT * FROM TIPO_RECEITA_BRUTA_SIMPLES_NACIONAL ORDER BY TRBS_CD"
+    ):
+        out.append(
+            {
+                "id": f"rtc_sn_revenue_type_{row['TRBS_CD']}",
+                "code": f"{row['TRBS_CD']}",
+                "name": row["TRBS_DESCRICAO"] or "",
+                "composes_revenue": fmt_bool(row["TRBS_IN_COMPOE_RECEITA"]),
+                "is_composes_revenue": fmt_bool(row["TRBS_IN_IS_COMPOE_RECEITA"]),
+                "revenue_factor": num(row["TRBS_FATOR_RECEITA"]),
+                "pending": fmt_bool(row["TRBS_IN_PENDENTE_SUSPENSO"]),
+                "requires_rate": fmt_bool(row["TRBS_IN_EXIGE_ALIQUOTA"]),
+                "forbids_not_taxable": fmt_bool(row["TRBS_IN_VEDADO_NAO_TRIBUTAVEL"]),
+                "date_start": fmt_date(row["TRBS_INICIO_VIGENCIA"]),
+                "date_end": fmt_date(row["TRBS_FIM_VIGENCIA"]),
+            }
+        )
+    return out
+
+
+def sync_sn_transitions(con):
+    """CBS->IBS shift factor on public purchases, per period."""
+    out = []
+    for row in rows(
+        con,
+        "SELECT * FROM TRANSICAO_ALIQUOTA_COMPRA_GOV_SIMPLES_NACIONAL"
+        " ORDER BY TACG_INICIO_VIGENCIA",
+    ):
+        start = fmt_date(row["TACG_INICIO_VIGENCIA"])
+        out.append(
+            {
+                "id": f"rtc_sn_transition_{start.replace('-', '')}",
+                "factor": num(row["TACG_FATOR"]),
+                "date_start": start,
+                "date_end": fmt_date(row["TACG_FIM_VIGENCIA"]),
             }
         )
     return out
@@ -474,6 +568,10 @@ def main():
         )
         ncm = sync_nomenclature(con, "ncm")
         nbs = sync_nomenclature(con, "nbs")
+        sn_activities = sync_sn_activities(con)
+        sn_regimes = sync_sn_regimes(con)
+        sn_revenue_types = sync_sn_revenue_types(con)
+        sn_transitions = sync_sn_transitions(con)
 
         files = {
             "l10n_br_fiscal.rtc.treatment.csv": (
@@ -517,6 +615,54 @@ def main():
             "l10n_br_fiscal.tax.classification.csv": (
                 CLASSIFICATION_UPDATE_FIELDS,
                 classifications,
+            ),
+            "l10n_br_fiscal.rtc.sn.activity.csv": (
+                [
+                    "id",
+                    "code",
+                    "name",
+                    "annex",
+                    "annex_with_factor_r",
+                    "label",
+                    "short_label",
+                    "not_taxable",
+                    "date_start",
+                    "date_end",
+                ],
+                sn_activities,
+            ),
+            "l10n_br_fiscal.rtc.sn.regime.csv": (
+                [
+                    "id",
+                    "crt",
+                    "name",
+                    "generates_ibs",
+                    "destination_due",
+                    "destination_pending",
+                    "date_start",
+                    "date_end",
+                ],
+                sn_regimes,
+            ),
+            "l10n_br_fiscal.rtc.sn.revenue.type.csv": (
+                [
+                    "id",
+                    "code",
+                    "name",
+                    "composes_revenue",
+                    "is_composes_revenue",
+                    "revenue_factor",
+                    "pending",
+                    "requires_rate",
+                    "forbids_not_taxable",
+                    "date_start",
+                    "date_end",
+                ],
+                sn_revenue_types,
+            ),
+            "l10n_br_fiscal.rtc.sn.transition.csv": (
+                ["id", "factor", "date_start", "date_end"],
+                sn_transitions,
             ),
             "l10n_br_fiscal.rtc.nomenclature.csv": (
                 [
@@ -562,6 +708,9 @@ def main():
             f"{len(classifications) + len(new_classifications)}"
             f" ({len(classifications)} enrich, {len(new_classifications)} create)",
             f"- nomenclature rows: ncm={len(ncm)}, nbs={len(nbs)}",
+            f"- Simples Nacional: activities={len(sn_activities)},"
+            f" regimes={len(sn_regimes)}, revenue types={len(sn_revenue_types)},"
+            f" transition factors={len(sn_transitions)}",
             "",
             "## cClassTrib already in l10n_br_fiscal",
             "",

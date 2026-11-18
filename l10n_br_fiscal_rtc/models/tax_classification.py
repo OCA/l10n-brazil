@@ -52,6 +52,11 @@ class TaxClassification(models.Model):
         ],
         string="Nomenclature",
     )
+    rtc_sn_revenue_type = fields.Integer(
+        string="Simples Nacional revenue type (tpRBSN)",
+        help="Tipo de Receita Bruta do Simples Nacional associado ao "
+        "cClassTrib, usado pelo cálculo do Simples (NT 2026.005).",
+    )
     rtc_legal_basis_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.rtc.legal.basis",
         string="RTC legal basis",

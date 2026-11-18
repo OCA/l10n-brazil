@@ -8,6 +8,7 @@
 - rates: 3
 - classifications (current): 161 (161 enrich, 0 create)
 - nomenclature rows: ncm=1135, nbs=109
+- Simples Nacional: activities=15, regimes=3, revenue types=7, transition factors=6
 
 ## cClassTrib already in l10n_br_fiscal
 
