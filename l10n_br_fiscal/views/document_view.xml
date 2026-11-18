@@ -25,6 +25,7 @@
                     date="document_date"
                 />
                 <filter name="date_in_out" string="Date In/Out" date="date_in_out" />
+                <separator name="l10n_br_fiscal_report_filters" />
                 <group expand="0" string="Group By...">
                     <filter
                         string="Month"
