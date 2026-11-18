@@ -349,10 +349,19 @@ class RtcEngine(models.AbstractModel):
                     deferral_value = self._evaluate(
                         treatment.expr_deferral_value, variables
                     )
-                    # Upstream subtracts the deferral from both ``computed``
-                    # and ``due``; we keep one subtraction and clamp at zero,
-                    # which is equivalent for the full-deferral treatments in
-                    # force.
+                    # Only the full deferral (100%) is in force.  Upstream
+                    # subtracts the deferred value from both ``computed`` and
+                    # ``due``; with 100% both formulas land on zero, but with a
+                    # partial deferral they diverge (upstream subtracts twice).
+                    # Rather than guessing, refuse the partial case.
+                    if deferral_percent not in (Decimal("0"), Decimal("1")):
+                        return self._fail(
+                            result,
+                            "RTC-006",
+                            f"partial deferral ({deferral_percent}) is not "
+                            f"implemented for treatment {treatment.code}",
+                            status="not_implemented",
+                        )
                     computed = max(computed - deferral_value, Decimal("0"))
                     due = max(due - deferral_value, Decimal("0"))
 

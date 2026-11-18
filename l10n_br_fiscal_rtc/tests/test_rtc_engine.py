@@ -141,6 +141,28 @@ class TestRtcEngine(TransactionCase):
         self.assertEqual(engine._r2(Decimal("0.015")), Decimal("0.02"))
         self.assertEqual(engine._r2(Decimal("0.025")), Decimal("0.02"))
 
+    def test_partial_deferral_is_refused(self):
+        """Upstream subtracts a partial deferral twice: refuse instead."""
+        treatment = self.env["l10n_br_fiscal.rtc.treatment"].create(
+            {
+                "code": 999,
+                "name": "Partial deferral (test)",
+                "expr_rate": "aliquota",
+                "expr_effective_rate": "aliquota",
+                "expr_base": "baseCalculoInformada",
+                "expr_tax_computed": "baseCalculo*aliquotaEfetiva",
+                "expr_tax_due": "tributoCalculado",
+                "expr_deferral_percent": "0.3",
+                "expr_deferral_value": "tributoCalculado*0.3",
+                "date_start": "2026-01-01",
+            }
+        )
+        classification = self.env.ref("l10n_br_fiscal.tax_classification_000001")
+        classification.rtc_treatment_id = treatment
+        result = self.engine.compute_item("000001", 1000.0, date=date(2026, 6, 1))
+        self.assertEqual(result["status"], "not_implemented")
+        self.assertEqual(result["errors"][0]["code"], "RTC-006")
+
     def test_unknown_cclass(self):
         result = self.engine.compute_item("999999", 10.0, date=date(2026, 6, 1))
         self.assertEqual(result["status"], "error")

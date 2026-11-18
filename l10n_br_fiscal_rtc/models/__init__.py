@@ -4,3 +4,4 @@ from . import rtc_rate
 from . import rtc_treatment
 from . import tax_classification
 from . import rtc_engine
+from . import document_line_mixin
