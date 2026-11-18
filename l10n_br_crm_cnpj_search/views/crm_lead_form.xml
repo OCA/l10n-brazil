@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="crm_lead_cnpj_search_form_view" model="ir.ui.view">
+        <field name="name">crm.lead.cnpj.search.form</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="l10n_br_crm.l10n_br_crm_leads_form" />
+        <field name="priority" eval="100" />
+        <field name="arch" type="xml">
+            <xpath
+                expr="//group[@name='lead_partner']/field[@name='vat']"
+                position="replace"
+            >
+                <label for="vat" string="CNPJ/CPF" invisible="show_l10n_br == False" />
+                <div class="o_row" invisible="show_l10n_br == False">
+                    <field name="vat" nolabel="1" />
+                    <button
+                        name="action_open_cnpj_search_wizard"
+                        type="object"
+                        invisible="country_id != %(base.br)d"
+                        class="btn-sm btn-link oe_inline"
+                        icon="search"
+                        aria-label="Pesquisar CNPJ"
+                        title="Pesquisar CNPJ"
+                    />
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="crm_lead_fiscal_page_view_form" model="ir.ui.view">
+        <field name="name">Add fiscal page</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_lead_view_form" />
+        <field name="arch" type="xml">
+            <page name="extra" position="inside">
+                <group string="Fiscal">
+                    <group>
+                        <field name="legal_nature_id" string="Natureza jurídica" />
+                        <field name="equity_capital" string="Capital social" />
+                    </group>
+                    <group>
+                        <field name="cnae_main_id" string="CNAE Principal" />
+                        <field name="cnae_secondary_ids" widget="many2many_tags" />
+                    </group>
+                </group>
+            </page>
+        </field>
+    </record>
+</odoo>
