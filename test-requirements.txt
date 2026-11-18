@@ -1,0 +1,4 @@
+# [DON'T MERGE] Temporary dependency on the l10n_br_base 20.0 migration PR.
+# Remove this file (and this commit) once
+# https://github.com/OCA/l10n-brazil/pull/5246 is merged in 20.0.
+odoo-addon-l10n_br_base @ git+https://github.com/OCA/l10n-brazil.git@refs/pull/5246/head#subdirectory=l10n_br_base
