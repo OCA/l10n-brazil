@@ -4,7 +4,6 @@
 # @author Luis Felipe Mileo <mileo@kmee.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-import base64
 import json
 import logging
 import tempfile
@@ -12,7 +11,7 @@ import tempfile
 import requests
 from erpbrasil.base import misc
 
-from odoo import _, fields, models
+from odoo import _, models
 from odoo.exceptions import ValidationError
 
 from ..constants.br_cobranca import (
@@ -89,10 +88,6 @@ class PaymentOrder(models.Model):
         bank_account_id = self.journal_id.bank_account_id
         remessa_values.update(
             {
-                # Manual Sicredi CNAB 240 -posição 20 do código de barras:
-                # "1" – Com Registro, "3" – Sem Registro.
-                # O boleto deve ser "Com Registro" (1) para aptidão ao pagamento.
-                "carteira": "1",
                 # Aparentemente a validação do BRCobranca nesse caso gera erro
                 # quando é feito o int(misc.punctuation_rm(bank_account_id.acc_number))
                 "conta_corrente": misc.punctuation_rm(bank_account_id.acc_number),
@@ -156,26 +151,17 @@ class PaymentOrder(models.Model):
 
         return remessa_values, bank_brcobranca, cnab_config
 
-    def _get_file_number(self):
-        """Próximo número sequencial a ser usado no arquivo.
-
-        Na geração o file_number é um placeholder (0) e a sequência só é
-        consumida na confirmação de envio. Retorna o próximo número da
-        sequência sem consumí-lo, para que o nome do arquivo e o header do
-        CNAB já reflitam o valor real (ex.: 8 -> extensão .008 e sequencial
-        do header 000008).
-        """
-        file_number = self.file_number
-        if not file_number:
-            cnab_config = self.payment_mode_id.cnab_config_id
-            if cnab_config and cnab_config.cnab_sequence_id:
-                file_number = int(cnab_config.cnab_sequence_id.number_next_actual)
-        return file_number
-
     def generate_payment_file(self):
         """Returns (payment file as string, filename)"""
         self.ensure_one()
         cnab_config = self.payment_mode_id.cnab_config_id
+        # The file sequence is consumed when the file is generated: CNAB 240
+        # header field 19.0 / Manual Sicredi CNAB 240 item 6.5 require the
+        # first file to be "000001", the second "000002", and so on. Consuming
+        # it only in generated2uploaded would make every order generated
+        # before upload show the same number. This applies to all banks
+        # handled by BRCobranca, not only Sicredi.
+        self.file_number = cnab_config.cnab_sequence_id.next_by_id()
 
         # see remessa fields here:
         # https://github.com/kivanio/brcobranca/blob/master/lib/brcobranca/remessa/base.rb
@@ -193,13 +179,6 @@ class PaymentOrder(models.Model):
             or cnab_config.cnab_processor != "brcobranca"
         ):
             return super().generate_payment_file()
-
-        # A sequencia sera consumida apenas na confirmacao de envio
-        # (generated2uploaded) para evitar gaps e permitir que o usuario
-        # edite o numero antes de confirmar. Aqui usamos 0 como placeholder,
-        # mas o nome do arquivo e o sequencial do header usam o proximo
-        # numero da sequencia (sem consumir).
-        self.file_number = 0
 
         bank_account_id = self.journal_id.bank_account_id
         bank_brcobranca = get_brcobranca_bank(bank_account_id, cnab_type)
@@ -222,7 +201,7 @@ class PaymentOrder(models.Model):
             )
 
         remessa_values, bank_brcobranca, cnab_config = self._build_remessa_values(
-            self._get_file_number()
+            self.file_number
         )
         remessa = self._get_brcobranca_remessa(
             bank_brcobranca, remessa_values, cnab_type
@@ -269,14 +248,6 @@ class PaymentOrder(models.Model):
         else:
             raise ValidationError(self._get_brcobranca_error_message(res))
 
-        # O BRCobranca (API Ruby) grava no header a data de geração usando
-        # o fuso do servidor da API, que pode ser diferente do fuso do
-        # usuário do Odoo, fazendo a data do arquivo (ex.: nome do arquivo
-        # e data de processamento) não conferir com o header, caso do
-        # Manual Sicredi CNAB 240 itens 6.1 (Nomenclatura dos arquivos) e
-        # 6.4 (Data de Geração do Arquivo).
-        remessa = self._fix_remessa_header_date(remessa, cnab_type)
-
         return remessa
 
     def _get_brcobranca_error_message(self, response):
@@ -297,81 +268,7 @@ class PaymentOrder(models.Model):
             return error_body["erro"]
         return response.text
 
-    def _fix_remessa_header_date(self, remessa, cnab_type):
-        """Corrige a data de geração do header do arquivo CNAB 240.
-
-        A API BRCobranca preenche o campo 'Data de Geração do Arquivo'
-        (posições 144-151 do registro header) com a data do fuso do
-        servidor onde ela roda, que pode divergir da data do usuário do
-        Odoo usada no nome do arquivo (Manual Sicredi CNAB 240 - item 6.1)
-        e na data de processamento, fazendo o banco rejeitar o arquivo.
-        """
-        if cnab_type != "240" or not remessa:
-            return remessa
-        context_today = fields.Date.context_today(self)
-        header_date = context_today.strftime("%d%m%Y").encode()
-        if len(remessa) >= 151:
-            # Registro header do arquivo é a primeira linha do CNAB 240,
-            # com a data de geração nas posições 144-151 (1-based).
-            remessa = remessa[:143] + header_date + remessa[151:]
-        return remessa
-
-    def _regenerate_cnab_attachment(self):
-        """Regenerate the CNAB file with the current file_number and update
-        the attachment."""
-        cnab_config = self.payment_mode_id.cnab_config_id
-        cnab_type = cnab_config.payment_method_id.code
-        remessa_values, bank_brcobranca, cnab_config = self._build_remessa_values(
-            self._get_file_number()
-        )
-        remessa = self._get_brcobranca_remessa(
-            bank_brcobranca, remessa_values, cnab_type
-        )
-        new_filename = self.get_file_name(cnab_type)
-        attachment = self.env["ir.attachment"].search(
-            [
-                ("res_model", "=", "account.payment.order"),
-                ("res_id", "=", self.id),
-            ],
-            order="create_date desc",
-            limit=1,
-        )
-        if attachment:
-            attachment.write(
-                {
-                    "datas": base64.b64encode(remessa),
-                    "name": new_filename,
-                }
-            )
-        self.cnab_file = base64.b64encode(remessa)
-        self.cnab_filename = new_filename
-
-    def write(self, vals):
-        result = super().write(vals)
-        if "file_number" in vals:
-            for record in self:
-                cnab_config = record.payment_mode_id.cnab_config_id
-                if (
-                    cnab_config
-                    and cnab_config.cnab_processor == "brcobranca"
-                    and record.state == "generated"
-                    and vals.get("file_number")
-                ):
-                    record._regenerate_cnab_attachment()
-        return result
-
     def generated2uploaded(self):
-        cnab_config = self.payment_mode_id.cnab_config_id
-        if (
-            cnab_config
-            and cnab_config.cnab_processor == "brcobranca"
-            and cnab_config.cnab_sequence_id
-        ):
-            if not self.file_number:
-                self.file_number = cnab_config.cnab_sequence_id.next_by_id()
-
-            self._regenerate_cnab_attachment()
-
         result = super().generated2uploaded()
         for payment_line in self.payment_line_ids:
             # No caso de Cancelamento da Invoice a AML é apagada

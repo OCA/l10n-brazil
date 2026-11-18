@@ -2,10 +2,7 @@
 # @author Magno Costa <magno.costa@akretion.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-import base64
 import os
-from datetime import timedelta
-from unittest.mock import patch
 
 from odoo import fields
 from odoo.exceptions import UserError, ValidationError
@@ -45,75 +42,6 @@ class TestPaymentOrder(TestBRCobrancaCommon):
         """Teste Boleto e Remessa Banco SICREDI - CNAB 240"""
         self._run_invoice_and_order_brcobranca(self.invoice_sicredi_240)
 
-    def test_banco_sicred_cnab_240_file_name_update_header(self):
-        """Alterar o nome do arquivo deve regenerar o header do CNAB.
-
-        Mantém o comportamento anterior em que, ao alterar o nome do arquivo
-        (nº sequencial / file_number), o header do arquivo CNAB e o anexo
-        são regenerados com o novo número.
-        """
-        self.invoice_sicredi_240.action_post()
-        payment_order = self._get_draft_payment_order(self.invoice_sicredi_240)
-
-        def _fake_remessa(bank_brcobranca, remessa_values, cnab_type):
-            return str(remessa_values["sequencial_remessa"]).zfill(6).encode()
-
-        with patch.object(
-            type(payment_order),
-            "_get_brcobranca_remessa",
-            side_effect=_fake_remessa,
-        ):
-            payment_order.draft2open()
-            payment_order.with_context(test_not_create_file=False).open2generated()
-            self.assertEqual(payment_order.state, "generated")
-            # A sequência é consumida apenas na confirmação de envio,
-            # permitindo que o usuário edite o número antes de confirmar.
-            self.assertEqual(payment_order.file_number, 0)
-
-            # Ao alterar o nome do arquivo (file_number) o header do
-            # CNAB e o anexo são regenerados com o novo número.
-            payment_order.file_number = 7
-
-            self.assertEqual(payment_order.cnab_file, base64.b64encode(b"000007"))
-            self.assertRegex(
-                payment_order.cnab_filename, r"^\d{5}[1-9OND]\d{2}\.(REM|RM\d+)$"
-            )
-
-    def test_banco_sicred_cnab_240_header_date(self):
-        """A data de geração do header do CNAB 240 deve usar a data do usuário.
-
-        A API BRCobranca grava a data de geração usando o fuso do servidor
-        onde ela roda, que pode ser diferente do fuso do usuário do Odoo,
-        fazendo o header não conferir com o nome do arquivo e a data de
-        processamento (Manual Sicredi CNAB 240 - itens 6.1 e 6.4).
-        """
-        self.invoice_sicredi_240.action_post()
-        payment_order = self._get_draft_payment_order(self.invoice_sicredi_240)
-        context_today = fields.Date.context_today(payment_order)
-
-        # Simula a data gerada pela API BRCobranca no fuso do servidor,
-        # um dia à frente da data do usuário.
-        wrong_date = (context_today + timedelta(days=1)).strftime("%d%m%Y")
-        header = b"X" * 143 + wrong_date.encode() + b"Y" * 89
-        fake_remessa = header + b"\r\n"
-
-        fixed = payment_order._fix_remessa_header_date(fake_remessa, "240")
-        expected = (
-            fake_remessa[:143]
-            + context_today.strftime("%d%m%Y").encode()
-            + fake_remessa[151:]
-        )
-        self.assertEqual(fixed, expected)
-
-        # A data corrigida deve ser a data do usuário (posições 144-151).
-        self.assertEqual(fixed[143:151], context_today.strftime("%d%m%Y").encode())
-
-        # CNAB 400 não deve ser alterado.
-        self.assertEqual(
-            payment_order._fix_remessa_header_date(fake_remessa, "400"),
-            fake_remessa,
-        )
-
     def test_banco_sicred_cnab_240_prepare_payment_line(self):
         """Teste da preparação das linhas de pagamento SICREDI - CNAB 240.
 
@@ -133,29 +61,10 @@ class TestPaymentOrder(TestBRCobrancaCommon):
             if not line.date:
                 line.date = fields.Date.context_today(line)
             prepared = line.prepare_bank_payment_line(bank_brcobranca)
-            cnab_config = line.order_id.payment_mode_id.cnab_config_id
-            sequencial = "".join(
-                ch for ch in str(line.own_number) if ch.isdigit()
-            ).zfill(5)[-5:]
-            # Base do DV: agência + posto + beneficiário + ano + byte + sequencial
-            # (5 dígitos, com zeros à esquerda - Manual Sicredi item 4.5)
-            base_dv = (
-                bank_account_id.bra_number
-                + str(cnab_config.boleto_post).zfill(2)
-                + cnab_config.cnab_company_bank_code
-                + self.invoice_sicredi_240.invoice_date.strftime("%y")
-                + str(cnab_config.boleto_byte_idt)
-                + sequencial
-            )
-            expected_nosso_numero = (
-                self.invoice_sicredi_240.invoice_date.strftime("%y")
-                + str(cnab_config.boleto_byte_idt)
-                + sequencial
-                + str(modulo11(base_dv, 9, 0))
-            )
-            # Nosso Número no formato AA/BXXXXX-D (Manual Sicredi itens 4.4 e 4.5),
-            # sem os separadores "/" e "-" que são apenas de apresentação.
-            self.assertEqual(prepared["nosso_numero"], expected_nosso_numero)
+            # Nosso Número no formato AA/BXXXXX-D (Manual Sicredi itens 4.4
+            # e 4.5): 9 dígitos, sem os separadores de apresentação. O valor
+            # exato, obtido do exemplo do manual, é verificado em
+            # test_banco_sicred_cnab_240_nosso_numero_manual_example.
             self.assertRegex(prepared["nosso_numero"], r"^\d{9}$")
             # Multa nunca deve ser preenchida como 0 no Sicredi
             self.assertNotEqual(prepared.get("codigo_multa"), "0")
@@ -165,6 +74,49 @@ class TestPaymentOrder(TestBRCobrancaCommon):
             # Segmento Q: posições 114-128 são CNAB (Manual Sicredi item 8.5),
             # o bairro do pagador deve ser enviado em branco
             self.assertEqual(prepared.get("bairro_sacado"), "")
+
+    def test_banco_sicred_cnab_240_nosso_numero_manual_example(self):
+        """Nosso Número com valor fixo tirado do exemplo do Manual 4.5.
+
+        Cooperativa/Agência 0165, Posto 02, Beneficiário 00623, Ano 07,
+        Byte de geração 2 e sequencial 00003 resultam no DV 1, ou seja
+        07/200003-1 -> "072000031" (sem os separadores de apresentação).
+        """
+        nosso_numero = self.env["account.payment.line"]._get_sicredi_nosso_numero(
+            "0165", "02", "00623", "07", "2", "00003"
+        )
+        self.assertEqual(nosso_numero, "072000031")
+
+    def test_banco_sicred_cnab_240_without_discount(self):
+        """Sem desconto o Sicredi CNAB 240 deve receber cod_desconto "0".
+
+        Manual Sicredi CNAB 240 item 30.3P: código "0" = Sem desconto, com
+        valor e data do desconto zerados.
+        """
+        self.invoice_sicredi_240.action_post()
+        payment_order = self._get_draft_payment_order(self.invoice_sicredi_240)
+        bank_account_id = payment_order.journal_id.bank_account_id
+        bank_brcobranca = get_brcobranca_bank(bank_account_id, "240")
+        line = payment_order.payment_line_ids[0]
+        if not line.date:
+            line.date = fields.Date.context_today(line)
+
+        line.discount_value = 0.0
+        prepared = line.prepare_bank_payment_line(bank_brcobranca)
+        self.assertEqual(prepared.get("cod_desconto"), "0")
+        self.assertNotIn("data_desconto", prepared)
+        self.assertNotIn("valor_desconto", prepared)
+
+    def test_banco_sicred_cnab_240_invalid_wallet(self):
+        """Sicredi CNAB 240 só aceita carteira "1" (Cobrança Simples).
+
+        Manual Sicredi CNAB 240 itens 14.3P e 10.3: a carteira no Segmento P
+        e no campo livre do código de barras é sempre "1" - carteira simples.
+        """
+        cnab_config = self.cnab_config_sicredi
+        self.assertEqual(cnab_config.boleto_wallet, "1")
+        with self.assertRaises(ValidationError):
+            cnab_config.write({"boleto_wallet": "3"})
 
     def test_banco_sicred_cnab_240_prepare_payment_line_fee_perc(self):
         """Teste da multa em percentual na linha de pagamento SICREDI - CNAB 240.
