@@ -122,13 +122,13 @@ class SaleOrder(models.Model):
         if not self.fiscal_operation_id:
             # O caso Brasil se caracteriza por ter a Operação Fiscal
             return lines
-        document_type_id = self._context.get("document_type_id")
+        split_key = self._context.get("document_split_key")
+        if not split_key and self._context.get("document_type_id"):
+            # callers that still pass only the document type
+            split_key = (self._context["document_type_id"],)
         lines_with_fo_line = lines.filtered(lambda ln: ln.fiscal_operation_line_id)
         lines_doc_type = lines_with_fo_line.filtered(
-            lambda ln: (
-                ln.fiscal_operation_line_id.get_document_type(ln.company_id).id
-                == document_type_id
-            )
+            lambda ln: ln._get_document_split_key()[: len(split_key or ())] == split_key
         )
         other_lines = lines.filtered(lambda ln: ln.is_downpayment or ln.display_type)
         lines_doc_type |= other_lines
@@ -140,18 +140,21 @@ class SaleOrder(models.Model):
         lines_with_fiscal_op_line = self.order_line.filtered(
             lambda ln: ln.fiscal_operation_line_id
         )
-        document_types = {
-            line.fiscal_operation_line_id.get_document_type(line.company_id)
-            for line in lines_with_fiscal_op_line
-        }
+        # one invoice per fiscal document key
+        split_keys = []
+        for line in lines_with_fiscal_op_line:
+            split_key = line._get_document_split_key()
+            if split_key not in split_keys:
+                split_keys.append(split_key)
 
         moves = self.env["account.move"]
-        for document_type in document_types:
+        for split_key in split_keys:
             # Um tipo de documento sem nada a faturar deve ser ignorado, e para
             # isso usamos a flag prevista pelo core: comparar a mensagem do
             # UserError nao funciona porque ela e traduzida.
             order = self.with_context(
-                document_type_id=document_type.id,
+                document_type_id=split_key[0],
+                document_split_key=split_key,
                 l10n_br_fiscal_active=True,
                 raise_if_nothing_to_invoice=False,
             )

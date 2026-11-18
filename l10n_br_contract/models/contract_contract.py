@@ -196,7 +196,13 @@ class ContractContract(models.Model):
                 )
                 doc_type_id = fiscal_document_type.id
 
-                key = (invoice_val.get("partner_id"), doc_type_id)
+                # one invoice per fiscal document key
+                split_key = (
+                    contract_line_id._get_document_split_key(fiscal_document_type)
+                    if contract_line_id
+                    else (doc_type_id,)
+                )
+                key = (invoice_val.get("partner_id"),) + split_key
 
                 if key not in groups:
                     inv_to_append = base_header.copy()

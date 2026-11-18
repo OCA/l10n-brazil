@@ -142,3 +142,25 @@ class TestL10nBrContract(TransactionCase):
                     "The products of the Fiscal Document does not"
                     " correspond with the expected",
                 )
+
+    def test_one_document_per_service(self):
+        """Services with different codes are invoiced in one document each."""
+        contract_form = Form(self.env["contract.contract"])
+        contract_form.name = "Contract With Two Services"
+        contract_form.line_recurrence = True
+        contract_form.partner_id = self.env.ref("l10n_br_base.res_partner_kmee")
+        for product in (
+            self.env.ref("l10n_br_fiscal.customized_development_sale"),
+            self.env.ref("product.product_product_1"),
+        ):
+            with contract_form.contract_line_ids.new() as line:
+                line.product_id = product
+                line.fiscal_operation_id = self.env.ref("l10n_br_fiscal.fo_venda")
+                line.price_unit = 100.00
+        contract = contract_form.save()
+
+        contract.recurring_create_invoice()
+        invoices = contract._get_related_invoices()
+        self.assertEqual(2, len(invoices))
+        for invoice in invoices:
+            self.assertEqual(1, len(invoice.invoice_line_ids))

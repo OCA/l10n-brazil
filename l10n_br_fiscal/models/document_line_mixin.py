@@ -2854,3 +2854,39 @@ class FiscalDocumentLineMixin(models.AbstractModel):
             doc_line.currency_id = doc_line._get_company().currency_id or self.env.ref(
                 "base.BRL"
             )
+
+    def _get_document_split_fields(self, document_type):
+        """Fields that must be equal in every line of one fiscal document."""
+        self.ensure_one()
+        if document_type.type != "service":
+            return []
+        # most service layouts (ABRASF, national DPS) declare a single service
+        return [
+            "service_type_id",
+            "city_taxation_code_id",
+            "national_taxation_code_id",
+            "nbs_id",
+            "issqn_fg_city_id",
+            "issqn_eligibility",
+            "issqn_percent",
+            "issqn_wh_percent",
+            "tax_classification_id",
+            "operation_indicator_id",
+            "cbs_cst_id",
+            "ibs_cst_id",
+        ]
+
+    def _get_document_split_key(self, document_type=None):
+        """Lines with different keys need separate fiscal documents."""
+        self.ensure_one()
+        if document_type is None:
+            document_type = self.env["l10n_br_fiscal.document.type"]
+            if self.fiscal_operation_line_id:
+                document_type = self.fiscal_operation_line_id.get_document_type(
+                    self._get_company()
+                )
+        key = [document_type.id]
+        for name in self._get_document_split_fields(document_type):
+            value = self[name]
+            key.append(value.id if isinstance(value, models.BaseModel) else value)
+        return tuple(key)

@@ -1,6 +1,7 @@
 # @ 2020 KMEE - www.kmee.com.br
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
+from odoo.exceptions import UserError
 from odoo.tests.common import TransactionCase
 
 from odoo.addons.l10n_br_base.tests.tools import load_fixture_files
@@ -44,3 +45,44 @@ class TestFiscalDocumentNFSe(TransactionCase):
                 "Error to mapping ICMS CST Tributada com permissão de crédito"
                 " for Venda de Serviço de Contribuinte Dentro do Estado.",
             )
+
+    def test_document_split(self):
+        """One service per service document; a product document keys only its type."""
+        document = self.nfse_same_state
+        line = document.fiscal_line_ids[:1]
+        key = line._get_document_split_key(document.document_type_id)
+        same = line.copy({"name": "Same service"})
+        self.assertEqual(same._get_document_split_key(document.document_type_id), key)
+        document._check_document_split()
+
+        # what the layout declares once: ISS withholding and the IBS/CBS CST
+        for name, value in (
+            ("issqn_wh_percent", line.issqn_wh_percent + 5.0),
+            ("cbs_cst_id", self.env.ref("l10n_br_fiscal.cst_cbs_011").id),
+            ("ibs_cst_id", self.env.ref("l10n_br_fiscal.cst_ibs_011").id),
+        ):
+            other = line.copy({"document_id": False, "name": name})
+            other[name] = value
+            self.assertNotEqual(
+                other._get_document_split_key(document.document_type_id), key, name
+            )
+
+        nfe = self.env.ref("l10n_br_fiscal.document_55")
+        self.assertEqual(line._get_document_split_key(nfe), (nfe.id,))
+
+        other_service = self.env["l10n_br_fiscal.service.type"].search(
+            [("id", "!=", line.service_type_id.id), ("internal_type", "=", "normal")],
+            limit=1,
+        )
+        same.service_type_id = other_service
+        with self.assertRaises(UserError):
+            document.action_document_confirm()
+
+        # a line without product still declares its service
+        same.product_id = False
+        same.service_type_id = other_service
+        with self.assertRaises(UserError):
+            document._check_document_split()
+
+        document.issuer = "partner"
+        document._check_document_split()
