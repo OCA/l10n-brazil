@@ -316,30 +316,43 @@ class ResPartner(spec_models.SpecModel):
         for rec in self:
             rec.cte40_enderFerro = rec.id
 
-    @api.depends("company_type", "vat", "country_id")
+    @api.depends("vat", "country_id", "parent_id.cnpj_cpf_stripped")
     def _compute_cte_stored_data(self):
         """Compute stored CT-e CNPJ/CPF fields."""
         for rec in self:
             cnpj_cpf = rec.cnpj_cpf_stripped
+            if not cnpj_cpf and rec.parent_id and rec.parent_id.country_id.code == "BR":
+                # Addresses without their own document inherit the Brazilian
+                # parent partner's one (see the twin l10n_br_nfe commit).
+                cnpj_cpf = rec.parent_id.cnpj_cpf_stripped
             if cnpj_cpf:
                 if rec.country_id.code != "BR":
                     rec.cte40_CNPJ = ""
                     rec.cte40_CPF = ""
-                elif rec.is_company:
+                elif len(cnpj_cpf) == 14:
+                    # 14 chars: CNPJ (numeric or alphanumeric, NT 2025.001).
+                    # The tag follows the actual document, not is_company:
+                    # a pessoa física may carry a CNPJ (e.g. produtor rural,
+                    # see OCA/l10n-brazil#5580).
                     rec.cte40_CNPJ = cnpj_cpf
                     rec.cte40_CPF = None
                 else:
+                    # 11 digits: CPF
                     rec.cte40_CPF = cnpj_cpf
                     rec.cte40_CNPJ = None
             else:
                 rec.cte40_CNPJ = ""
                 rec.cte40_CPF = ""
 
-    @api.depends("company_type", "l10n_br_ie_code", "vat", "country_id")
+    @api.depends("l10n_br_ie_code", "vat", "country_id", "parent_id.cnpj_cpf_stripped")
     def _compute_cte_data(self):
         """Set schema data which are not just related fields"""
         for rec in self:
             cnpj_cpf = rec.cnpj_cpf_stripped
+            if not cnpj_cpf and rec.parent_id and rec.parent_id.country_id.code == "BR":
+                # Addresses without their own document inherit the Brazilian
+                # parent partner's one (see the twin l10n_br_nfe commit).
+                cnpj_cpf = rec.parent_id.cnpj_cpf_stripped
             if cnpj_cpf:
                 if rec.country_id.code != "BR":
                     rec.cte40_choice_toma = "cte40_idEstrangeiro"
@@ -348,7 +361,7 @@ class ResPartner(spec_models.SpecModel):
                     rec.cte40_choice_receb = "cte40_idEstrangeiro"
                     rec.cte40_choice_exped = "cte40_idEstrangeiro"
                     rec.cte40_choice_tlocal = False
-                elif rec.is_company:
+                elif len(cnpj_cpf) == 14:
                     rec.cte40_choice_tlocal = "cte40_CNPJ"
                     rec.cte40_choice_toma = "cte40_CNPJ"
                     rec.cte40_choice_emit = "cte40_CNPJ"
@@ -487,17 +500,13 @@ class ResPartner(spec_models.SpecModel):
         ):
             return "CTE EMITIDO EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL"
 
-        if xsd_field in ("cte40_CNPJ", "cte40_CPF"):
-            # Caso o CNPJ/CPF esteja em branco e o parceiro tenha um parent_id
-            # É exportado o CNPJ/CPF do parent_id é importate para o endereço
-            # de entrega/retirada
-            if not self.cnpj_cpf_stripped and self.parent_id:
-                cnpj_cpf = self.parent_id.cnpj_cpf_stripped
-            else:
-                cnpj_cpf = self.cnpj_cpf_stripped
-
-            if xsd_field == self.cte40_choice_tlocal:
-                return cnpj_cpf
+        # The CNPJ/CPF tag values are exported from the computed fields
+        # (cte40_CNPJ/cte40_CPF, see _compute_cte_stored_data): the single
+        # source of truth for the document number. The re-derivation from
+        # cnpj_cpf_stripped that used to live here was redundant (for
+        # partners with a document it returned the computed value) and its
+        # parent_id fallback was dead code (cte40_choice_tlocal is always
+        # False for vat-less children).
 
         if self.country_id.code != "BR":
             if xsd_field == "cte40_xBairro":
