@@ -35,3 +35,17 @@ NFSE_NACIONAL_BENEFIT_TYPES = [
 
 # issqn_eligibility (6 and 7: suspended) -> tpSusp of the exigSusp group
 NFSE_NACIONAL_SUSPENSION_TYPES = {"6": "1", "7": "2"}
+
+# cMotivo of the subst group of the DPS (TSCodJustSubst)
+NFSE_NACIONAL_REPLACE_MOTIVES = [
+    ("01", "Desenquadramento de NFS-e do Simples Nacional"),
+    ("02", "Enquadramento de NFS-e no Simples Nacional"),
+    ("03", "Inclusão retroativa de imunidade/isenção para NFS-e"),
+    ("04", "Exclusão retroativa de imunidade/isenção para NFS-e"),
+    (
+        "05",
+        "Rejeição de NFS-e pelo tomador ou pelo intermediário se responsável "
+        "pelo recolhimento do tributo",
+    ),
+    ("99", "Outros"),
+]
