@@ -69,10 +69,11 @@ class TestL10nBr(TransactionCase):
         self.employee.write({"pis_pasep_formatted": "496.85994.95-6"})
         self.assertEqual(self.employee.pis_pasep, "49685994956")
 
-    def test_onchange_cpf_empty(self):
-        self.employee.cpf = ""
-        self.employee.onchange_cpf()
-        self.assertFalse(self.employee.cpf)
+    def test_cpf_emptied(self):
+        """Clearing the CPF stores an empty value instead of the literal
+        'False' string the old onchange produced."""
+        self.employee.write({"vat": False})
+        self.assertFalse(self.employee.vat)
 
     def test_invalid_employee_pis_pasep(self):
         try:
@@ -81,6 +82,46 @@ class TestL10nBr(TransactionCase):
             result = False
 
         self.assertFalse(result, "Error on update invalid employee pis_pasep")
+
+    def test_ctps_sanitized(self):
+        """The CTPS number is stored as plain digits (eSocial nrCtps)."""
+        self.employee.write({"ctps": "123.456.789-01"})
+        self.assertEqual(self.employee.ctps, "12345678901")
+
+    def test_invalid_employee_ctps(self):
+        for value in ("123456789012", "1234567890A"):
+            with self.subTest(value=value), self.assertRaises(ValidationError):
+                self.employee.write({"ctps": value})
+
+    def test_document_fields_stored_as_digits(self):
+        """Every fiscal identification document of the employee is stored
+        as plain digits: this is the contract private modules and the
+        eSocial payloads rely on, whatever the input format."""
+        for fname, value in (
+            ("vat", "780.048.630-35"),
+            ("pis_pasep", "496.85994.95-6"),
+            ("ctps", "123.456.789-01"),
+        ):
+            with self.subTest(field=fname):
+                self.employee.write({fname: value})
+                stored = self.employee[fname]
+                self.assertTrue(
+                    stored.isdigit(), f"{fname} stored as {stored!r}, not digits"
+                )
+
+    def test_formatted_companions_store_digits(self):
+        """Editing through a formatted companion (the mask shown in the
+        view) always writes the unformatted value in the database."""
+        for fname, formatted, digits in (
+            ("vat", "vat_formatted_cnpj", "78004863035"),
+            ("pis_pasep", "pis_pasep_formatted", "49685994956"),
+        ):
+            with self.subTest(field=fname):
+                self.employee.write({fname: digits})
+                masked = self.employee[formatted]
+                self.assertNotEqual(masked, digits, f"{formatted} shows no mask")
+                self.employee.write({formatted: masked})
+                self.assertEqual(self.employee[fname], digits)
 
     def test_l10n_br_hr_cbo(self):
         cbo = self.env.ref("l10n_br_hr.1")
