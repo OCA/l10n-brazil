@@ -258,7 +258,7 @@ class MDFeModalRodoviarioVeiculoCondutor(spec_models.SpecModel):
     def _onchange_partner_id(self):
         if self.partner_id:
             self.mdfe30_xNome = self.partner_id.legal_name or self.partner_id.name
-            self.mdfe30_CPF = self.partner_id.cnpj_cpf
+            self.mdfe30_CPF = self.partner_id.vat
 
 
 class MDFeModalRodoviarioReboque(spec_models.SpecModel):

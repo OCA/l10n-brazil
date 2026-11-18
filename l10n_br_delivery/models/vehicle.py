@@ -16,7 +16,7 @@ VEHICLE_BODY_TYPE = [
     ("00", "Não aplicável"),
     ("01", "Aberta"),
     ("02", "Fechada/Baú"),
-    ("03", "Granelera"),
+    ("03", "Graneleira"),
     ("04", "Porta Container"),
     ("05", "Sider"),
 ]
