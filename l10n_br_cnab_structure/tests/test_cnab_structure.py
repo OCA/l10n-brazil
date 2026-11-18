@@ -407,6 +407,13 @@ class TestCNABStructure(AccountTestInvoicingCommon):
         cnab_data = base64.b64decode(delivery_cnab_file.datas).decode()
         lines = cnab_data.splitlines()
 
+        # The fallback must compare the service type code read from the file
+        # (positions 10-11) with the code declared in the batch header field.
+        service_type_code = lines[1][9:11]
+        self.env.ref(
+            "l10n_br_cnab_structure.cnab_itau_240_pagamentos_header_10_11"
+        ).default_value = service_type_code
+
         lines[1] = replace_chars(lines[1], 11, "  ")
         lines[2] = replace_chars(lines[2], 154, "10112022")
         lines[2] = replace_chars(lines[2], 172, "300")
@@ -488,6 +495,50 @@ class TestCNABStructure(AccountTestInvoicingCommon):
             }
         )
         self.assertFalse(no_match_wizard._get_batch_by_service_type("X" * 240))
+
+    def test_get_batch_by_service_type_matches_code(self):
+        """The fallback selects the batch whose declared service type matches.
+
+        A structure with several batches must not simply return the first
+        batch with a payment_type_code field at positions 10-11: the code
+        read from the return file has to be compared with the code declared
+        in each batch header field.
+        """
+        structure = self._create_cnab_structure(name="Service Type Match")
+        batch_01 = self._create_batch(structure, "Batch 01")
+        batch_20 = self._create_batch(structure, "Batch 20")
+        for batch, code in ((batch_01, "01"), (batch_20, "20")):
+            line = self._create_line_with_field(
+                structure, batch, line_type="header", start_pos=10, end_pos=11
+            )
+            line.field_ids.write(
+                {
+                    "sending_dynamic_content": "payment_type_code",
+                    "default_value": code,
+                }
+            )
+
+        wizard = self.env["cnab.import.wizard"].create(
+            {
+                "journal_id": self.bank_journal_itau.id,
+                "return_file": False,
+                "filename": "TEST.RET",
+                "type": "outbound",
+                "cnab_structure_id": structure.id,
+            }
+        )
+        blank_header = " " * 240
+        self.assertEqual(
+            wizard._get_batch_by_service_type(replace_chars(blank_header, 9, "01")),
+            batch_01,
+        )
+        self.assertEqual(
+            wizard._get_batch_by_service_type(replace_chars(blank_header, 9, "20")),
+            batch_20,
+        )
+        self.assertFalse(
+            wizard._get_batch_by_service_type(replace_chars(blank_header, 9, "99"))
+        )
 
     def test_cnab_yaml_output(self):
         invoice = self._create_test_invoice()

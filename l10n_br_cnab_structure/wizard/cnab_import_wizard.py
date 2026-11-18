@@ -260,9 +260,15 @@ class CNABImportWizard(models.TransientModel):
 
     def _get_batch_by_service_type(self, batch_header_raw_line):
         """
-        Fallback: when payment way code is empty, try to find the batch
-        template by matching the service type code (positions 10-11)
-        against the batch's line field definitions.
+        Fallback: when the payment way code (positions 12-13) is empty, find
+        the batch template by the service type code (positions 10-11).
+
+        In Sicredi CNAB 240 return files positions 12-13 are blank (Manual
+        item 9.3) and the batch is identified by the "Tipo de Serviço" at
+        positions 10-11 (e.g. "01" for Cobrança). The expected code is the
+        default_value of the batch header field at positions 10-11 whose
+        sending content is the payment_type_code; a batch is only returned
+        when that code matches the one read from the file.
         """
         batches = self.env["l10n_br_cnab.batch"].search(
             [("cnab_structure_id", "=", self.cnab_structure_id.id)]
@@ -278,14 +284,16 @@ class CNABImportWizard(models.TransientModel):
             header_fields = batch.line_ids.filtered(
                 lambda line: line.type == "header"
             ).mapped("field_ids")
-            for fld in header_fields:
-                if (
-                    fld.sending_dynamic_content
-                    and "payment_type_code" in fld.sending_dynamic_content
-                    and fld.start_pos == 10
-                    and fld.end_pos == 11
-                ):
-                    return batch
+            service_type_fields = header_fields.filtered(
+                lambda fld: fld.start_pos == 10
+                and fld.end_pos == 11
+                and "payment_type_code" in (fld.sending_dynamic_content or "")
+            )
+            if any(
+                (fld.default_value or "").strip() == service_type_code
+                for fld in service_type_fields
+            ):
+                return batch
         return self.env["l10n_br_cnab.batch"]
 
     def _get_batch_template(self, payment_way_code, batch_header_raw_line=None):
