@@ -1,0 +1,5 @@
+id,name,model_id,group_id/id,operation,domain
+access_l10n_br_cnpj_search_webservice,access_l10n_br_cnpj_search_webservice,l10n_br_cnpj_search.webservice.abstract,base.group_user,crud,
+l10n_br_fiscal_partner_profile_user,l10n_br_fiscal.partner_profile,l10n_br_fiscal.partner.profile,base.group_user,r,
+l10n_br_fiscal_cnae,l10n_br_fiscal.cnae,l10n_br_fiscal.cnae,base.group_user,r,
+access_partner_search_wizard,res_partner_wizard,partner.search.wizard,base.group_user,crud,

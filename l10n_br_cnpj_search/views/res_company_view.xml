@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="l10n_br_cnpj_search_fiscal_company_form" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal.company.form (in l10n_br_cnpj_search)</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="l10n_br_fiscal.fiscal_res_company_form" />
+        <field name="priority" eval="99" />
+        <field name="arch" type="xml">
+            <field name="cnae_secondary_ids" position="after">
+                <field name="equity_capital" widget="monetary" />
+            </field>
+            <field name="vat" position="replace">
+                <label for="vat" string="CNPJ" />
+                <div class="o_row" colspan="1">
+                    <field name="vat" />
+                    <button
+                        name="action_open_cnpj_search_wizard"
+                        type="object"
+                        class="btn-sm btn-link oe_inline"
+                        icon="search"
+                        aria-label="Pesquisar CNPJ"
+                        title="Pesquisar CNPJ"
+                    />
+                </div>
+            </field>
+        </field>
+    </record>
+</odoo>

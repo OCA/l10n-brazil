@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- Copyright 2022 KMEE - Luis Felipe Mileo
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="l10n_br_cnpj_search_fiscal_partner_form" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal.partner.form (in l10n_br_cnpj_search)</field>
+        <field name="model">res.partner</field>
+        <field name="priority" eval="99" />
+        <field name="inherit_id" ref="l10n_br_fiscal.partner_form" />
+        <field name="arch" type="xml">
+            <field name="cnae_secondary_ids" position="after">
+                <field name="equity_capital" widget="monetary" />
+                <field name="company_size" readonly="False" />
+                <field name="cnpj_status" readonly="False" />
+                <field name="cnpj_status_date" readonly="False" />
+                <field name="cnpj_status_reason" readonly="False" />
+                <field name="opening_date" readonly="False" />
+                <field name="cnpj_branch_type" readonly="False" />
+                <field name="simples_option_date" readonly="False" />
+                <field name="legal_responsible_name" readonly="False" />
+                <field name="legal_responsible_function" readonly="False" />
+            </field>
+            <field name="vat" position="replace">
+                <div class="o_row" colspan="4">
+                    <field name="vat" nolabel="1" />
+                    <button
+                        name="action_open_cnpj_search_wizard"
+                        type="object"
+                        invisible="country_id != %(base.br)d and is_company != True"
+                        class="btn-sm btn-link oe_inline"
+                        icon="search"
+                        aria-label="Pesquisar CNPJ"
+                        title="Pesquisar CNPJ"
+                    />
+                </div>
+            </field>
+        </field>
+    </record>
+</odoo>
