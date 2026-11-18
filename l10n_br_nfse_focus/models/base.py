@@ -50,7 +50,11 @@ class FocusnfeNfseBase(models.AbstractModel):
                 payload = response.json()
                 msg = payload.get("mensagem") or ""
                 raise UserError(
-                    f"Error communicating with {service_name} service: {msg}"
+                    _(
+                        "Error communicating with %(service)s service: %(error)s",
+                        service=service_name,
+                        error=msg,
+                    )
                 )
             response.raise_for_status()  # Raises an error for 4xx/5xx responses
             return response

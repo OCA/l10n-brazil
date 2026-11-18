@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="Docutils: https://docutils.sourceforge.io/" />
-<title>NFS-e (FocusNFE)</title>
+<title>README.rst</title>
 <style type="text/css">
 
 /*
@@ -374,7 +374,7 @@ ul.auto-toc {
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !! source digest: sha256:bfc119441a5dc5a7e45864ed62dca7954d838ab97ff0cade60f09176240de780
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
-<p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Beta" src="https://img.shields.io/badge/maturity-Beta-yellow.png" /></a> <a class="reference external image-reference" href="http://www.gnu.org/licenses/agpl-3.0-standalone.html"><img alt="License: AGPL-3" src="https://img.shields.io/badge/license-AGPL--3-blue.png" /></a> <a class="reference external image-reference" href="https://github.com/OCA/l10n-brazil/tree/18.0/l10n_br_nfse_focus"><img alt="OCA/l10n-brazil" src="https://img.shields.io/badge/github-OCA%2Fl10n--brazil-lightgray.png?logo=github" /></a> <a class="reference external image-reference" href="https://translation.odoo-community.org/projects/l10n-brazil-18-0/l10n-brazil-18-0-l10n_br_nfse_focus"><img alt="Translate me on Weblate" src="https://img.shields.io/badge/weblate-Translate%20me-F47D42.png" /></a> <a class="reference external image-reference" href="https://runboat.odoo-community.org/builds?repo=OCA/l10n-brazil&amp;target_branch=18.0"><img alt="Try me on Runboat" src="https://img.shields.io/badge/runboat-Try%20me-875A7B.png" /></a></p>
+<p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Beta" src="https://img.shields.io/badge/maturity-Beta-yellow.png" /></a> <a class="reference external image-reference" href="http://www.gnu.org/licenses/agpl-3.0-standalone.html"><img alt="License: AGPL-3" src="https://img.shields.io/badge/license-AGPL--3-blue.png" /></a> <a class="reference external image-reference" href="https://github.com/OCA/l10n-brazil/tree/19.0/l10n_br_nfse_focus"><img alt="OCA/l10n-brazil" src="https://img.shields.io/badge/github-OCA%2Fl10n--brazil-lightgray.png?logo=github" /></a> <a class="reference external image-reference" href="https://translation.odoo-community.org/projects/l10n-brazil-19-0/l10n-brazil-19-0-l10n_br_nfse_focus"><img alt="Translate me on Weblate" src="https://img.shields.io/badge/weblate-Translate%20me-F47D42.png" /></a> <a class="reference external image-reference" href="https://runboat.odoo-community.org/builds?repo=OCA/l10n-brazil&amp;target_branch=19.0"><img alt="Try me on Runboat" src="https://img.shields.io/badge/runboat-Try%20me-875A7B.png" /></a></p>
 <p>Esse módulo integra a emissão de Notas Fiscais de Serviços (NFSe) com a
 API da FocusNFE permitindo assim, a criação, transmissão, consulta e
 cancelamento de documentos fiscais do tipo NFSe.</p>
@@ -382,7 +382,8 @@ cancelamento de documentos fiscais do tipo NFSe.</p>
 <ul class="simple">
 <li><strong>NFSe Municipal:</strong> Emissão de NFSe através da API municipal da
 FocusNFE</li>
-<li><strong>NFSe Nacional:</strong> Emissão de NFSe através da API nacional da FocusNFE</li>
+<li><strong>NFSe Nacional:</strong> Emissão de NFSe através da API nacional da
+FocusNFE</li>
 </ul>
 <p>Para mais informações, acesse: <a class="reference external" href="https://focusnfe.com.br/">https://focusnfe.com.br/</a></p>
 <p><strong>Table of contents</strong></p>
@@ -430,7 +431,8 @@ Este token é obtido através da plataforma da FocusNFE<ul>
 (visível quando Ambiente NFS-e = Homologação)</li>
 </ul>
 </li>
-<li><strong>Tipo FocusNFe NFSe:</strong> Selecione o tipo de API a ser utilizada:<ul>
+<li><strong>Tipo FocusNFe NFSe:</strong> Selecione o tipo de API a ser
+utilizada:<ul>
 <li><strong>NFSe:</strong> Para emissão de NFSe Municipal (padrão)</li>
 <li><strong>NFSe Nacional:</strong> Para emissão de NFSe Nacional</li>
 </ul>
@@ -451,10 +453,10 @@ DANFSE do Odoo ao invés do DANFSE da FocusNFE</li>
 <li><strong>Enviar Inscrição Municipal do Prestador (NFSe Nacional):</strong>
 Visível quando Tipo FocusNFe NFSe = NFSe Nacional. Por padrão a
 Inscrição Municipal cadastrada na empresa é enviada na DPS.
-Alguns municípios (ex.: Porto Alegre/RS) não possuem a Inscrição
-Municipal do prestador registrada no CNC NFS-e nacional; nesses
-casos, desmarque esta opção para que o campo seja omitido e
-evitar a rejeição da DPS.</li>
+Alguns municípios (ex.: Porto Alegre/RS) não possuem a
+Inscrição Municipal do prestador registrada no CNC NFS-e
+nacional; nesses casos, desmarque esta opção para que o campo
+seja omitido e evitar a rejeição da DPS.</li>
 </ul>
 </blockquote>
 </li>
@@ -489,7 +491,7 @@ Serviço Eletrônica) será gerado automaticamente, a menos que a opção
 <p>Bugs are tracked on <a class="reference external" href="https://github.com/OCA/l10n-brazil/issues">GitHub Issues</a>.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
-<a class="reference external" href="https://github.com/OCA/l10n-brazil/issues/new?body=module:%20l10n_br_nfse_focus%0Aversion:%2018.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**">feedback</a>.</p>
+<a class="reference external" href="https://github.com/OCA/l10n-brazil/issues/new?body=module:%20l10n_br_nfse_focus%0Aversion:%2019.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**">feedback</a>.</p>
 <p>Do not contact contributors directly about support or help with technical issues.</p>
 </div>
 <div class="section" id="credits">
@@ -526,7 +528,7 @@ mission is to support the collaborative development of Odoo features and
 promote its widespread use.</p>
 <p>Current <a class="reference external" href="https://odoo-community.org/page/maintainer-role">maintainers</a>:</p>
 <p><a class="reference external image-reference" href="https://github.com/mileo"><img alt="mileo" src="https://github.com/mileo.png?size=40px" /></a> <a class="reference external image-reference" href="https://github.com/marcelsavegnago"><img alt="marcelsavegnago" src="https://github.com/marcelsavegnago.png?size=40px" /></a></p>
-<p>This module is part of the <a class="reference external" href="https://github.com/OCA/l10n-brazil/tree/18.0/l10n_br_nfse_focus">OCA/l10n-brazil</a> project on GitHub.</p>
+<p>This module is part of the <a class="reference external" href="https://github.com/OCA/l10n-brazil/tree/19.0/l10n_br_nfse_focus">OCA/l10n-brazil</a> project on GitHub.</p>
 <p>You are welcome to contribute. To learn how please visit <a class="reference external" href="https://odoo-community.org/page/Contribute">https://odoo-community.org/page/Contribute</a>.</p>
 </div>
 </div>

@@ -13,6 +13,7 @@ from odoo.exceptions import UserError
 from odoo.tests import common
 
 # Importing constants for Brazilian fiscal documents
+from odoo.addons.l10n_br_base.tests.tools import load_fixture_files
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     MODELO_FISCAL_NFE,
     MODELO_FISCAL_NFSE,
@@ -22,6 +23,7 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     SITUACAO_EDOC_ENVIADA,
     SITUACAO_EDOC_REJEITADA,
 )
+from odoo.addons.l10n_br_fiscal.tests.tools import load_fiscal_fixture_files
 from odoo.addons.l10n_br_nfse.models.document import filter_processador_edoc_nfse
 
 # Importing necessary models and functions for NFSe processing
@@ -154,6 +156,23 @@ class TestL10nBrNfseFocus(common.TransactionCase):
         """Sets up test environment."""
         super().setUpClass()
         cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
+        if not cls.env.ref(
+            "l10n_br_fiscal.demo_nfse_same_state", raise_if_not_found=False
+        ):
+            # Odoo 19 installs no demo data by default: load the demo NFS-e
+            # as fixtures, as the l10n_br_nfse tests do
+            load_fiscal_fixture_files(cls.env)
+            load_fixture_files(
+                cls.env,
+                "l10n_br_fiscal",
+                file_names=[
+                    "city_taxation_code_demo.xml",
+                    "fiscal_document_nfse_demo.xml",
+                ],
+            )
+            load_fixture_files(
+                cls.env, "l10n_br_nfse", file_names=["fiscal_document_demo.xml"]
+            )
         cls.tpAmb = "2"  # Environment type: 1 for production, 2 for test
         cls.token = "123456789"  # Example token for authentication
         cls.company = cls.env.ref("base.main_company")  # Reference to main company
