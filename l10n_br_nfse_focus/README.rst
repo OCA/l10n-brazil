@@ -21,13 +21,13 @@ NFS-e (FocusNFE)
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fl10n--brazil-lightgray.png?logo=github
-    :target: https://github.com/OCA/l10n-brazil/tree/18.0/l10n_br_nfse_focus
+    :target: https://github.com/OCA/l10n-brazil/tree/19.0/l10n_br_nfse_focus
     :alt: OCA/l10n-brazil
 .. |badge4| image:: https://img.shields.io/badge/weblate-Translate%20me-F47D42.png
-    :target: https://translation.odoo-community.org/projects/l10n-brazil-18-0/l10n-brazil-18-0-l10n_br_nfse_focus
+    :target: https://translation.odoo-community.org/projects/l10n-brazil-19-0/l10n-brazil-19-0-l10n_br_nfse_focus
     :alt: Translate me on Weblate
 .. |badge5| image:: https://img.shields.io/badge/runboat-Try%20me-875A7B.png
-    :target: https://runboat.odoo-community.org/builds?repo=OCA/l10n-brazil&target_branch=18.0
+    :target: https://runboat.odoo-community.org/builds?repo=OCA/l10n-brazil&target_branch=19.0
     :alt: Try me on Runboat
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
@@ -38,9 +38,10 @@ cancelamento de documentos fiscais do tipo NFSe.
 
 O módulo suporta dois tipos de emissão:
 
-- **NFSe Municipal:** Emissão de NFSe através da API municipal da
-  FocusNFE
-- **NFSe Nacional:** Emissão de NFSe através da API nacional da FocusNFE
+-  **NFSe Municipal:** Emissão de NFSe através da API municipal da
+   FocusNFE
+-  **NFSe Nacional:** Emissão de NFSe através da API nacional da
+   FocusNFE
 
 Para mais informações, acesse: https://focusnfe.com.br/
 
@@ -69,42 +70,43 @@ para a empresa desejada:
 
 4. Na subseção NFS-e, configure os seguintes campos:
 
-      - **Ambiente NFS-e:** Selecione a opção a ser usada no ambiente
-        (Produção, Homologação)
-      - **Provedor NFS-e:** Selecione a opção FocusNFE
-      - **FocusNFe Token:** Informe o token de acesso da empresa. Obs.
-        Este token é obtido através da plataforma da FocusNFE
+      -  **Ambiente NFS-e:** Selecione a opção a ser usada no ambiente
+         (Produção, Homologação)
+      -  **Provedor NFS-e:** Selecione a opção FocusNFE
+      -  **FocusNFe Token:** Informe o token de acesso da empresa. Obs.
+         Este token é obtido através da plataforma da FocusNFE
 
-        - **Token de Produção:** Token para ambiente de produção
-          (visível quando Ambiente NFS-e = Produção)
-        - **Token de Homologação:** Token para ambiente de homologação
-          (visível quando Ambiente NFS-e = Homologação)
+         -  **Token de Produção:** Token para ambiente de produção
+            (visível quando Ambiente NFS-e = Produção)
+         -  **Token de Homologação:** Token para ambiente de homologação
+            (visível quando Ambiente NFS-e = Homologação)
 
-      - **Tipo FocusNFe NFSe:** Selecione o tipo de API a ser utilizada:
+      -  **Tipo FocusNFe NFSe:** Selecione o tipo de API a ser
+         utilizada:
 
-        - **NFSe:** Para emissão de NFSe Municipal (padrão)
-        - **NFSe Nacional:** Para emissão de NFSe Nacional
+         -  **NFSe:** Para emissão de NFSe Municipal (padrão)
+         -  **NFSe Nacional:** Para emissão de NFSe Nacional
 
-      - **Valor Tipo de Serviço:** Se necessário configure o campo que
-        deve preencher o valor de tipo de serviço (Service Type ou City
-        Taxation Code)
-      - **Valor Código CNAE:** Se necessário configure o campo que deve
-        preencher o valor do Código CNAE (CNAE Code ou City Taxation
-        Code)
-      - **Formato Taxa:** Selecione o formato da taxa (Decimal ou
-        Percentage)
-      - **Incluir Documentos Autorizados na Verificação de Status:** Se
-        marcado, documentos autorizados serão incluídos na verificação
-        de status
-      - **Forçar DANFSE Odoo:** Se marcado, o sistema sempre usará o
-        DANFSE do Odoo ao invés do DANFSE da FocusNFE
-      - **Enviar Inscrição Municipal do Prestador (NFSe Nacional):**
-        Visível quando Tipo FocusNFe NFSe = NFSe Nacional. Por padrão a
-        Inscrição Municipal cadastrada na empresa é enviada na DPS.
-        Alguns municípios (ex.: Porto Alegre/RS) não possuem a Inscrição
-        Municipal do prestador registrada no CNC NFS-e nacional; nesses
-        casos, desmarque esta opção para que o campo seja omitido e
-        evitar a rejeição da DPS.
+      -  **Valor Tipo de Serviço:** Se necessário configure o campo que
+         deve preencher o valor de tipo de serviço (Service Type ou City
+         Taxation Code)
+      -  **Valor Código CNAE:** Se necessário configure o campo que deve
+         preencher o valor do Código CNAE (CNAE Code ou City Taxation
+         Code)
+      -  **Formato Taxa:** Selecione o formato da taxa (Decimal ou
+         Percentage)
+      -  **Incluir Documentos Autorizados na Verificação de Status:** Se
+         marcado, documentos autorizados serão incluídos na verificação
+         de status
+      -  **Forçar DANFSE Odoo:** Se marcado, o sistema sempre usará o
+         DANFSE do Odoo ao invés do DANFSE da FocusNFE
+      -  **Enviar Inscrição Municipal do Prestador (NFSe Nacional):**
+         Visível quando Tipo FocusNFe NFSe = NFSe Nacional. Por padrão a
+         Inscrição Municipal cadastrada na empresa é enviada na DPS.
+         Alguns municípios (ex.: Porto Alegre/RS) não possuem a
+         Inscrição Municipal do prestador registrada no CNC NFS-e
+         nacional; nesses casos, desmarque esta opção para que o campo
+         seja omitido e evitar a rejeição da DPS.
 
 Usage
 =====
@@ -117,11 +119,11 @@ Para usar este módulo:
 
 3. Preencha os detalhes necessários:
 
-   - Para **NFSe Municipal:** Preencha o código tributário municipal,
-     impostos e informações correlatas
-   - Para **NFSe Nacional:** Preencha o código tributário nacional
-     (NBS), código tributário municipal (se aplicável), impostos e
-     informações correlatas
+   -  Para **NFSe Municipal:** Preencha o código tributário municipal,
+      impostos e informações correlatas
+   -  Para **NFSe Nacional:** Preencha o código tributário nacional
+      (NBS), código tributário municipal (se aplicável), impostos e
+      informações correlatas
 
 4. Valide o documento fiscal.
 
@@ -141,7 +143,7 @@ Bug Tracker
 Bugs are tracked on `GitHub Issues <https://github.com/OCA/l10n-brazil/issues>`_.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
-`feedback <https://github.com/OCA/l10n-brazil/issues/new?body=module:%20l10n_br_nfse_focus%0Aversion:%2018.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
+`feedback <https://github.com/OCA/l10n-brazil/issues/new?body=module:%20l10n_br_nfse_focus%0Aversion:%2019.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
 
 Do not contact contributors directly about support or help with technical issues.
 
@@ -157,14 +159,14 @@ Authors
 Contributors
 ------------
 
-- `KMEE <https://www.kmee.com.br>`__:
+-  `KMEE <https://www.kmee.com.br>`__:
 
-  - André Marcos <andre.marcos@kmee.com.br>
+   -  André Marcos <andre.marcos@kmee.com.br>
 
-- `Escodoo <https://www.escodoo.com.br>`__:
+-  `Escodoo <https://www.escodoo.com.br>`__:
 
-  - Marcel Savegnago <marcel.savegnago@escodoo.com.br>
-  - Kaynnan Lemes <kaynnan.lemes@escodoo.com.br>
+   -  Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+   -  Kaynnan Lemes <kaynnan.lemes@escodoo.com.br>
 
 Maintainers
 -----------
@@ -190,6 +192,6 @@ Current `maintainers <https://odoo-community.org/page/maintainer-role>`__:
 
 |maintainer-mileo| |maintainer-marcelsavegnago| 
 
-This module is part of the `OCA/l10n-brazil <https://github.com/OCA/l10n-brazil/tree/18.0/l10n_br_nfse_focus>`_ project on GitHub.
+This module is part of the `OCA/l10n-brazil <https://github.com/OCA/l10n-brazil/tree/19.0/l10n_br_nfse_focus>`_ project on GitHub.
 
 You are welcome to contribute. To learn how please visit https://odoo-community.org/page/Contribute.
