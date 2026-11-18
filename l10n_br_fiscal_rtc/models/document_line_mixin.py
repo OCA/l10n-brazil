@@ -30,7 +30,10 @@ class DocumentLineMixin(models.AbstractModel):
             ("error", "RTC error, legacy values kept"),
             ("not_implemented", "RTC rule not implemented"),
             ("not_applicable", "Not an IBS/CBS classification"),
-            ("simples_nacional", "Simples Nacional, other rule set"),
+            ("calculated_sn", "Calculated with the Simples Nacional rules"),
+            ("not_calculated", "Not calculated by the official rule"),
+            ("simples_nacional", "Simples Nacional, rates or activity missing"),
+            ("simples_nacional_activity", "Simples activity (cAtivSN) missing"),
         ],
         string="RTC status",
         readonly=True,
@@ -71,6 +74,35 @@ class DocumentLineMixin(models.AbstractModel):
     )
     rtc_cbs_value = fields.Float(
         string="CBS value", digits=(16, 2), readonly=True, copy=False
+    )
+    rtc_sn_activity_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.rtc.sn.activity",
+        string="Simples Nacional activity (cAtivSN)",
+        help="Official Simples activity; without it the official rule does "
+        "not calculate the IBS/CBS of the line.",
+    )
+    rtc_sn_ibs_percent = fields.Float(string="Simples IBS rate (%)", digits=(16, 4))
+    rtc_sn_cbs_percent = fields.Float(string="Simples CBS rate (%)", digits=(16, 4))
+    rtc_sn_revenue_type = fields.Integer(
+        string="Simples revenue type (tpRBSN)", readonly=True, copy=False
+    )
+    rtc_sn_ibs_value = fields.Float(
+        string="Simples IBS due", digits=(16, 2), readonly=True, copy=False
+    )
+    rtc_sn_cbs_value = fields.Float(
+        string="Simples CBS due", digits=(16, 2), readonly=True, copy=False
+    )
+    rtc_sn_ibs_pending = fields.Float(
+        string="Simples IBS pending/suspended",
+        digits=(16, 2),
+        readonly=True,
+        copy=False,
+    )
+    rtc_sn_cbs_pending = fields.Float(
+        string="Simples CBS pending/suspended",
+        digits=(16, 2),
+        readonly=True,
+        copy=False,
     )
     rtc_memoria = fields.Text(
         string="RTC calculation memory", readonly=True, copy=False
@@ -142,10 +174,9 @@ class DocumentLineMixin(models.AbstractModel):
 
         # Simples Nacional does not compute IBS/CBS from the cClassTrib
         # treatment: it applies its own effective rate on the gross revenue,
-        # with its own matrices (regime x type of revenue).  See the
-        # calculadora-rtc-simples-nacional project.
+        # with its own matrices (regime x type of revenue).
         if self.company_id.tax_framework in TAX_FRAMEWORK_SIMPLES_ALL:
-            return False, "simples_nacional"
+            return self._rtc_compute_sn(date=self._rtc_tax_date())
 
         classification = self.tax_classification_id
         if not classification or not classification.rtc_treatment_id:
@@ -173,11 +204,95 @@ class DocumentLineMixin(models.AbstractModel):
             return False, result["status"]
         return result, "calculated"
 
+    def _rtc_compute_sn(self, date=None):
+        """Simples Nacional branch: own rates, own matrices.
+
+        The result is normalised to the shape of the regular regime so the
+        same field mapping applies; the IBS is not split between State and
+        Municipality here, which is why ``rtc_status`` stays ``calculated_sn``
+        and the NF-e keeps the historical export.
+        """
+        self.ensure_one()
+        classification = self.tax_classification_id
+        if not classification or not classification.rtc_sn_revenue_type:
+            return False, "no_treatment"
+        if not self.rtc_sn_activity_id:
+            return False, "simples_nacional_activity"
+        if not (self.rtc_sn_ibs_percent or self.rtc_sn_cbs_percent):
+            return False, "simples_nacional"
+
+        date = fields.Date.to_date(date) or fields.Date.context_today(self)
+        try:
+            result = self.env["l10n_br_fiscal.rtc.engine"].compute_simples_nacional(
+                cclass=classification.code,
+                base=self._rtc_base_amount(),
+                crt=self.company_id.tax_framework,
+                date=date,
+                p_ibs=self.rtc_sn_ibs_percent,
+                p_cbs=self.rtc_sn_cbs_percent,
+                activity_code=self.rtc_sn_activity_id.code,
+            )
+        except Exception:  # noqa: BLE001 - never block an invoice
+            _logger.exception(
+                "RTC Simples Nacional computation failed for cClassTrib %s",
+                classification.code,
+            )
+            return False, "error"
+
+        if result["status"] != "calculated":
+            return False, result["status"]
+
+        normalised = {
+            "base": result["base"],
+            "taxes": {
+                "ibs_uf": {
+                    "rate": result["p_ibs"],
+                    "reduction": 0.0,
+                    "effective_rate": result["p_ibs"],
+                    "value": result["ibs"]["due"],
+                    "due": result["ibs"]["due"],
+                    "deferral_percent": 0.0,
+                    "deferral_value": 0.0,
+                },
+                "ibs_mun": {
+                    "rate": 0.0,
+                    "reduction": 0.0,
+                    "effective_rate": 0.0,
+                    "value": 0.0,
+                    "due": 0.0,
+                    "deferral_percent": 0.0,
+                    "deferral_value": 0.0,
+                },
+                "cbs": {
+                    "rate": result["p_cbs"],
+                    "reduction": 0.0,
+                    "effective_rate": result["p_cbs"],
+                    "value": result["cbs"]["due"],
+                    "due": result["cbs"]["due"],
+                    "deferral_percent": 0.0,
+                    "deferral_value": 0.0,
+                },
+            },
+            "memoria": (
+                f"SN tpRBSN {result['revenue_type']} | annex {result['annex']}"
+                f" | IBS {result['p_ibs']}% -> {result['ibs']['due']:.2f}"
+                f" | CBS {result['p_cbs']}% -> {result['cbs']['due']:.2f}"
+            ),
+            "legal_basis": "",
+            "sn": {
+                "revenue_type": result["revenue_type"],
+                "ibs_pending": result["ibs"]["pending"],
+                "cbs_pending": result["cbs"]["pending"],
+            },
+        }
+        return normalised, "calculated_sn"
+
     def _rtc_common_values(self, result):
         """Technical fields, whatever the tax being prepared."""
         self.ensure_one()
+        # ``rtc_status`` is set by _prepare_fields_* (it is "calculated" for
+        # the regular regime and "calculated_sn" for the Simples Nacional)
         return {
-            "rtc_status": "calculated",
             "rtc_base": result["base"],
             "rtc_ibs_uf_percent": result["taxes"]["ibs_uf"]["rate"],
             "rtc_ibs_uf_reduction": result["taxes"]["ibs_uf"]["reduction"],
@@ -198,6 +313,16 @@ class DocumentLineMixin(models.AbstractModel):
         ibs_uf = result["taxes"]["ibs_uf"]
         ibs_mun = result["taxes"]["ibs_mun"]
         values = self._rtc_common_values(result)
+        if result.get("sn"):
+            values.update(
+                {
+                    "rtc_sn_revenue_type": result["sn"]["revenue_type"],
+                    "rtc_sn_ibs_value": result["taxes"]["ibs_uf"]["value"],
+                    "rtc_sn_cbs_value": result["taxes"]["cbs"]["value"],
+                    "rtc_sn_ibs_pending": result["sn"]["ibs_pending"],
+                    "rtc_sn_cbs_pending": result["sn"]["cbs_pending"],
+                }
+            )
         values.update(
             {
                 "ibs_base": result["base"],

@@ -448,3 +448,170 @@ class RtcEngine(models.AbstractModel):
         for key in totals:
             totals[key] = self._money(self._to_decimal(totals[key]))
         return {"items": results, "totals": totals}
+
+    # ------------------------------------------------------------------
+    # Simples Nacional
+    # ------------------------------------------------------------------
+    @api.model
+    def _sn_destination(self, destination, due, pending):
+        """Apply the apuration matrix: DEVIDO, PENDENTE_SUSPENSO or ZERO."""
+        if destination == "DEVIDO":
+            return due, Decimal("0")
+        if destination == "PENDENTE_SUSPENSO":
+            return Decimal("0"), pending
+        return Decimal("0"), Decimal("0")
+
+    @api.model
+    def compute_simples_nacional(
+        self,
+        cclass,
+        base,
+        crt,
+        date=None,
+        is_value=0.0,
+        p_ibs=0.0,
+        p_cbs=0.0,
+        gov_entity_type=None,
+        activity_code=None,
+    ):
+        """Compute IBS/CBS of a Simples Nacional operation (NT 2026.005).
+
+        Differs from the regular regime on every axis: the rate is not derived
+        from the cClassTrib but received from the Simples effective rate
+        (``p_ibs``/``p_cbs``), the cClassTrib only resolves the type of gross
+        revenue (``tpRBSN``), and two matrices decide the destination of the
+        amounts (due, or pending/suspended).
+
+        :param cclass: cClassTrib, used to resolve ``tpRBSN``
+        :param base: operation value, without the Imposto Seletivo
+        :param crt: company regime (1, 2 or 3)
+        :param is_value: Imposto Seletivo, already computed and passed through
+        :param p_ibs: Simples effective rate for IBS, in percent
+        :param p_cbs: Simples effective rate for CBS, in percent
+        :param gov_entity_type: ``tpEnteGov`` of the gCompraGov group
+        :param activity_code: ``cAtivSN``; without it the official rule does
+            not calculate (and this is not an error)
+        """
+        date = fields.Date.to_date(date) or fields.Date.context_today(self)
+        result = {
+            "status": "calculated",
+            "errors": [],
+            "revenue_type": False,
+            "revenue": 0.0,
+            "base": 0.0,
+            "p_ibs": 0.0,
+            "p_cbs": 0.0,
+            "generates_ibs": True,
+            "ibs": {"due": 0.0, "pending": 0.0},
+            "cbs": {"due": 0.0, "pending": 0.0},
+            "is": float(self._to_decimal(is_value)),
+            "total": 0.0,
+            "annex": "",
+        }
+
+        classification = self._classification(cclass, date)
+        if not classification:
+            return self._fail(
+                result, "RTC-101", f"unknown cClassTrib {cclass} at {date}"
+            )
+        revenue_type = self.env["l10n_br_fiscal.rtc.sn.revenue.type"].find(
+            classification.rtc_sn_revenue_type, date
+        )
+        if not revenue_type:
+            return self._fail(
+                result,
+                "RTC-102",
+                f"cClassTrib {cclass} has no Simples revenue type",
+            )
+        regime = self.env["l10n_br_fiscal.rtc.sn.regime"].find(crt, date)
+        if not regime:
+            return self._fail(
+                result, "RTC-103", f"no Simples apuration regime for CRT {crt}"
+            )
+
+        # gross revenue of the item: zero when the revenue type does not
+        # compose revenue, plus the IS when the type says so (currently never
+        # in the official load, kept as a per-period parameter)
+        is_decimal = self._to_decimal(is_value)
+        base_decimal = self._to_decimal(base)
+        if revenue_type.composes_revenue:
+            revenue = base_decimal + (
+                is_decimal if revenue_type.is_composes_revenue else Decimal("0")
+            )
+        else:
+            revenue = Decimal("0")
+
+        result["revenue_type"] = revenue_type.code
+        result["revenue"] = self._money(revenue)
+
+        activity = self.env["l10n_br_fiscal.rtc.sn.activity"].find(activity_code, date)
+        if not activity:
+            # NT 2026.005 s. 5.3.4: cAtivSN absent or invalid means "not
+            # calculated", and it is not an error.
+            result["status"] = "not_calculated"
+            return result
+        result["annex"] = activity.annex or ""
+
+        # public purchase: the CBS gives part of its rate to the IBS
+        p_ibs_decimal = self._to_decimal(p_ibs)
+        p_cbs_decimal = self._to_decimal(p_cbs)
+        if gov_entity_type:
+            entity = int(gov_entity_type)
+            if entity == 1:
+                p_cbs_decimal = self._r8(p_cbs_decimal + p_ibs_decimal)
+                p_ibs_decimal = Decimal("0")
+            elif entity in (2, 3, 4):
+                transition = self.env["l10n_br_fiscal.rtc.sn.transition"].find(date)
+                if not transition:
+                    return self._fail(
+                        result,
+                        "RTC-104",
+                        f"no Simples transition factor at {date}",
+                    )
+                factor = self._to_decimal(transition.factor)
+                p_ibs_decimal = self._r8(p_ibs_decimal + factor * p_cbs_decimal)
+                p_cbs_decimal = self._r8((Decimal("1") - factor) * p_cbs_decimal)
+
+        result["p_ibs"] = float(p_ibs_decimal)
+        result["p_cbs"] = float(p_cbs_decimal)
+        result["generates_ibs"] = regime.generates_ibs
+
+        factor = self._to_decimal(revenue_type.revenue_factor)
+        result["base"] = self._money(revenue * factor)
+
+        def tax_value(rate):
+            if factor == 0:
+                return Decimal("0")
+            return self._r8(revenue * factor * self._r8(rate / HUNDRED))
+
+        ibs_due, ibs_pending = self._sn_destination(
+            regime.destination_pending
+            if revenue_type.pending
+            else regime.destination_due,
+            tax_value(p_ibs_decimal),
+            tax_value(p_ibs_decimal),
+        )
+        cbs_due, cbs_pending = self._sn_destination(
+            regime.destination_pending
+            if revenue_type.pending
+            else regime.destination_due,
+            tax_value(p_cbs_decimal),
+            tax_value(p_cbs_decimal),
+        )
+        if not regime.generates_ibs:
+            # CRT=2: the IBS is declared by the issuer outside this event
+            ibs_due = Decimal("0")
+            ibs_pending = Decimal("0")
+
+        result["ibs"] = {
+            "due": self._money(ibs_due),
+            "pending": self._money(ibs_pending),
+        }
+        result["cbs"] = {
+            "due": self._money(cbs_due),
+            "pending": self._money(cbs_pending),
+        }
+        result["total"] = self._money(
+            ibs_due + cbs_due + self._to_decimal(result["is"])
+        )
+        return result
