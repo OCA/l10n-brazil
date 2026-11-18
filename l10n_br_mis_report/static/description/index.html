@@ -1,0 +1,569 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils: https://docutils.sourceforge.io/" />
+<title>Relatórios contábeis brasileiros: Balanço Patrimonial e DRE</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 9511 2024-01-13 09:50:07Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+Despite the name, some widely supported CSS2 features are used.
+
+See https://docutils.sourceforge.io/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+.subscript {
+  vertical-align: sub;
+  font-size: smaller }
+
+.superscript {
+  vertical-align: super;
+  font-size: smaller }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left, table.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right, table.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: gray; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic, pre.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document">
+
+
+<a class="reference external image-reference" href="https://odoo-community.org/get-involved?utm_source=readme">
+<img alt="Odoo Community Association" src="https://odoo-community.org/readme-banner-image" />
+</a>
+<div class="section" id="relatorios-contabeis-brasileiros-balanco-patrimonial-e-dre">
+<h1>Relatórios contábeis brasileiros: Balanço Patrimonial e DRE</h1>
+<!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!! This file is generated by oca-gen-addon-readme !!
+!! changes will be overwritten.                   !!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!! source digest: sha256:4e5a873a24468803f615087ca733e4d4b26f3afb394df69a56feec53b1662227
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+<p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Beta" src="https://img.shields.io/badge/maturity-Beta-yellow.png" /></a> <a class="reference external image-reference" href="http://www.gnu.org/licenses/agpl-3.0-standalone.html"><img alt="License: AGPL-3" src="https://img.shields.io/badge/license-AGPL--3-blue.png" /></a> <a class="reference external image-reference" href="https://github.com/OCA/l10n-brazil/tree/20.0/l10n_br_mis_report"><img alt="OCA/l10n-brazil" src="https://img.shields.io/badge/github-OCA%2Fl10n--brazil-lightgray.png?logo=github" /></a> <a class="reference external image-reference" href="https://translation.odoo-community.org/projects/l10n-brazil-20-0/l10n-brazil-20-0-l10n_br_mis_report"><img alt="Translate me on Weblate" src="https://img.shields.io/badge/weblate-Translate%20me-F47D42.png" /></a> <a class="reference external image-reference" href="https://runboat.odoo-community.org/builds?repo=OCA/l10n-brazil&amp;target_branch=20.0"><img alt="Try me on Runboat" src="https://img.shields.io/badge/runboat-Try%20me-875A7B.png" /></a></p>
+<p>Balanço Patrimonial e Demonstração do Resultado do Exercício brasileiros
+para o mis_builder, com os relatórios já montados e os períodos em que a
+legislação brasileira manda apurar e demonstrar.</p>
+<p>O Balanço segue a ordem do art. 178 da Lei 6.404/76 e a DRE a do art.
+187. As contas são selecionadas pela classificação contábil, então os
+mesmos relatórios servem qualquer plano de contas.</p>
+<p><strong>Table of contents</strong></p>
+<div class="contents local topic" id="contents">
+<ul class="simple">
+<li><a class="reference internal" href="#installation" id="toc-entry-1">Installation</a></li>
+<li><a class="reference internal" href="#configuration" id="toc-entry-2">Configuration</a></li>
+<li><a class="reference internal" href="#usage" id="toc-entry-3">Usage</a><ul>
+<li><a class="reference internal" href="#periodos" id="toc-entry-4">Períodos</a></li>
+<li><a class="reference internal" href="#montar-um-relatorio-proprio" id="toc-entry-5">Montar um relatório próprio</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#known-issues-roadmap" id="toc-entry-6">Known issues / Roadmap</a></li>
+<li><a class="reference internal" href="#changelog" id="toc-entry-7">Changelog</a><ul>
+<li><a class="reference internal" href="#section-1" id="toc-entry-8">16.0.2.0.0</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#bug-tracker" id="toc-entry-9">Bug Tracker</a></li>
+<li><a class="reference internal" href="#credits" id="toc-entry-10">Credits</a><ul>
+<li><a class="reference internal" href="#authors" id="toc-entry-11">Authors</a></li>
+<li><a class="reference internal" href="#contributors" id="toc-entry-12">Contributors</a></li>
+<li><a class="reference internal" href="#maintainers" id="toc-entry-13">Maintainers</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="installation">
+<h2><a class="toc-backref" href="#toc-entry-1">Installation</a></h2>
+<p>Este módulo tem como dependência o módulo <tt class="docutils literal">mis_builder</tt>, que pode ser
+encontrado nos seguintes locais:</p>
+<ul class="simple">
+<li><a class="reference external" href="https://odoo-community.org/shop">Odoo Community Association (OCA)
+Shop</a></li>
+<li><a class="reference external" href="https://github.com/OCA/mis-builder">Repositório no GitHub</a></li>
+</ul>
+</div>
+<div class="section" id="configuration">
+<h2><a class="toc-backref" href="#toc-entry-2">Configuration</a></h2>
+<p>Os relatórios selecionam as contas pela <strong>classificação contábil
+brasileira</strong> (as etiquetas de conta do <tt class="docutils literal">l10n_br_coa</tt>), não pelo código
+da conta. Quem usa os planos <tt class="docutils literal">l10n_br_coa_generic</tt> ou
+<tt class="docutils literal">l10n_br_coa_simple</tt> não precisa configurar nada: eles já vêm
+classificados.</p>
+<p>Num <strong>plano de contas próprio</strong>, classifique as contas para que elas
+apareçam: vá em <strong>Faturamento &gt; Configuração &gt; Plano de Contas</strong>, abra a
+conta e preencha <strong>Etiquetas</strong> com a linha de relatório correspondente
+(por exemplo “Ativo / Circulante / Estoques” ou “Resultado / (-)
+Despesas Administrativas”).</p>
+<p>Toda conta de resultado leva <strong>duas</strong> etiquetas: a da sua linha na DRE e
+a etiqueta guarda-chuva “Resultado / Contas de Resultado (todas)”. É
+essa segunda que alimenta a linha “Resultado do Exercício” do Balanço,
+que é o que faz o ativo fechar com o passivo mais o patrimônio líquido.</p>
+<p>Conta sem etiqueta simplesmente não entra nos relatórios legais, que é o
+comportamento desejado para contas de controle interno.</p>
+</div>
+<div class="section" id="usage">
+<h2><a class="toc-backref" href="#toc-entry-3">Usage</a></h2>
+<p>O módulo já instala os relatórios prontos. Acesse <strong>Faturamento &gt;
+Relatórios &gt; Relatórios SIG</strong> (em inglês, <em>Invoicing &gt; Reporting &gt; MIS
+Reporting &gt; MIS Reports</em>) e escolha um deles:</p>
+<ul class="simple">
+<li><strong>Balanço Patrimonial - exercício atual e anterior</strong>: a apresentação
+comparativa que a Lei 6.404/76 manda publicar (art. 176, § 1º), com a
+coluna de variação.</li>
+<li><strong>DRE - exercício atual e anterior</strong>: a mesma comparação, para o
+resultado.</li>
+<li><strong>DRE - mês e acumulado no exercício</strong>: o acompanhamento gerencial
+corrente, com o mês, o acumulado desde 1º de janeiro e as duas colunas
+equivalentes do exercício anterior.</li>
+<li><strong>DRE - trimestral</strong>: o trimestre em que se apura o IRPJ e a CSLL no
+lucro presumido e no lucro real trimestral (Lei 9.430/96, art. 1º),
+com o trimestre anterior e o mesmo trimestre do exercício passado.</li>
+</ul>
+<p>Para ver outro período, mude a <strong>data base</strong> do relatório: todas as
+colunas se reposicionam juntas, porque são declaradas relativas a ela,
+não por data fixa.</p>
+<p>Depois clique em <strong>Visualizar</strong>, <strong>Imprimir</strong> ou <strong>Exportar</strong>. No modo
+de visualização, clicar no valor de uma linha detalhada abre os
+lançamentos que a compõem.</p>
+<p><img alt="DRE - exercício atual e anterior" src="https://raw.githubusercontent.com/OCA/l10n-brazil/20.0/l10n_br_mis_report/static/img/l10n_br_mis_report_dre.png" /></p>
+<div class="section" id="periodos">
+<h3><a class="toc-backref" href="#toc-entry-4">Períodos</a></h3>
+<p>O módulo instala três tipos de período (<strong>Faturamento &gt; Configuração &gt;
+Intervalos de Datas</strong>), que se geram sozinhos daí em diante:</p>
+<ul class="simple">
+<li><strong>Mês de competência</strong>, que é o período da apuração de ICMS, IPI, PIS
+e COFINS e da escrituração mensal do SPED;</li>
+<li><strong>Trimestre de apuração</strong>, o trimestre civil do IRPJ e da CSLL;</li>
+<li><strong>Exercício social</strong>, de um ano (Lei 6.404/76, art. 175).</li>
+</ul>
+</div>
+<div class="section" id="montar-um-relatorio-proprio">
+<h3><a class="toc-backref" href="#toc-entry-5">Montar um relatório próprio</a></h3>
+<p>Duplique um dos prontos e ajuste as colunas, ou crie um novo escolhendo
+o modelo BP ou DRE. Em <strong>Colunas</strong>, cada coluna pode ser uma data fixa
+ou um período relativo à data base: “Tipo de período” Ano com
+“Deslocamento” 0 é o exercício corrente, -1 o anterior. Marque
+<strong>Acumulado no ano</strong> para a coluna começar em 1º de janeiro.</p>
+<p>Uma ressalva do Balanço: a coluna precisa cobrir o exercício (o
+exercício inteiro ou um acumulado desde 1º de janeiro), porque o
+resultado do período é lido do movimento das contas de resultado. Numa
+coluna de mês isolado, o patrimônio líquido exibiria só o resultado
+daquele mês.</p>
+</div>
+</div>
+<div class="section" id="known-issues-roadmap">
+<h2><a class="toc-backref" href="#toc-entry-6">Known issues / Roadmap</a></h2>
+<p>Fornecer modelos de <strong>Balanço Patrimonial (BP)</strong> e <strong>Demonstrativo de
+Resultados do Exercício (DRE)</strong> conforme a norma <strong>ITG 1000</strong>, com
+versões para:</p>
+<ul class="simple">
+<li><strong>Pequenas Empresas</strong></li>
+<li><strong>Microentidades</strong></li>
+</ul>
+</div>
+<div class="section" id="changelog">
+<h2><a class="toc-backref" href="#toc-entry-7">Changelog</a></h2>
+<div class="section" id="section-1">
+<h3><a class="toc-backref" href="#toc-entry-8">16.0.2.0.0</a></h3>
+<ul class="simple">
+<li>O Balanço e a DRE deixam de ser quatro modelos por prefixo de conta
+(um par por plano) e passam a ser <strong>um Balanço e uma DRE</strong> que
+selecionam as contas pela classificação contábil, valendo para
+qualquer plano, inclusive customizado. Até a versão 14.0 esse papel
+era dos tipos de conta brasileiros, que a versão 16.0 do Odoo
+eliminou.</li>
+<li>O Balanço ganha a linha <strong>Resultado do Exercício</strong>. Sem ela o
+resultado do período não aparecia em lugar nenhum e o balanço fechava
+com o ativo maior que o passivo mais o patrimônio líquido, pela
+diferença exata do lucro.</li>
+<li>Correções de seleção de conta que vinham desde a migração para a 16.0:
+os Lucros Acumulados apontavam para uma conta de compensação
+inexistente, o grupo de Lucros e Prejuízos Acumulados era contado duas
+vezes no patrimônio líquido, e as linhas de IRPJ e de CSLL apontavam
+para prefixos que não existem em nenhum dos dois planos.</li>
+<li>O módulo passa a instalar <strong>relatórios prontos</strong> e os <strong>períodos
+fiscais brasileiros</strong> (mês de competência, trimestre de apuração e
+exercício social), em vez de entregar só os modelos.</li>
+</ul>
+<p>Os modelos antigos (<tt class="docutils literal">balanco_patrimonial_generic</tt>,
+<tt class="docutils literal">balanco_patrimonial_simple</tt>, <tt class="docutils literal">dre_generic</tt> e <tt class="docutils literal">dre_simple</tt>) foram
+removidos. Relatórios montados sobre eles precisam ser refeitos sobre os
+novos.</p>
+</div>
+</div>
+<div class="section" id="bug-tracker">
+<h2><a class="toc-backref" href="#toc-entry-9">Bug Tracker</a></h2>
+<p>Bugs are tracked on <a class="reference external" href="https://github.com/OCA/l10n-brazil/issues">GitHub Issues</a>.
+In case of trouble, please check there if your issue has already been reported.
+If you spotted it first, help us to smash it by providing a detailed and welcomed
+<a class="reference external" href="https://github.com/OCA/l10n-brazil/issues/new?body=module:%20l10n_br_mis_report%0Aversion:%2020.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**">feedback</a>.</p>
+<p>Do not contact contributors directly about support or help with technical issues.</p>
+</div>
+<div class="section" id="credits">
+<h2><a class="toc-backref" href="#toc-entry-10">Credits</a></h2>
+<div class="section" id="authors">
+<h3><a class="toc-backref" href="#toc-entry-11">Authors</a></h3>
+<ul class="simple">
+<li>KMEE</li>
+</ul>
+</div>
+<div class="section" id="contributors">
+<h3><a class="toc-backref" href="#toc-entry-12">Contributors</a></h3>
+<ul class="simple">
+<li>Luis Felipe Mileo &lt;<a class="reference external" href="mailto:mileo&#64;kmee.com.br">mileo&#64;kmee.com.br</a>&gt;</li>
+<li>Diego Paradeda &lt;<a class="reference external" href="mailto:diego.paradeda&#64;kmee.com.br">diego.paradeda&#64;kmee.com.br</a>&gt;</li>
+<li>Antônio S. Pereira Neto &lt;<a class="reference external" href="mailto:neto&#64;engenere.one">neto&#64;engenere.one</a>&gt;</li>
+</ul>
+</div>
+<div class="section" id="maintainers">
+<h3><a class="toc-backref" href="#toc-entry-13">Maintainers</a></h3>
+<p>This module is maintained by the OCA.</p>
+<a class="reference external image-reference" href="https://odoo-community.org">
+<img alt="Odoo Community Association" src="https://odoo-community.org/logo.png" />
+</a>
+<p>OCA, or the Odoo Community Association, is a nonprofit organization whose
+mission is to support the collaborative development of Odoo features and
+promote its widespread use.</p>
+<p>Current <a class="reference external" href="https://odoo-community.org/page/maintainer-role">maintainer</a>:</p>
+<p><a class="reference external image-reference" href="https://github.com/mileo"><img alt="mileo" src="https://github.com/mileo.png?size=40px" /></a></p>
+<p>This module is part of the <a class="reference external" href="https://github.com/OCA/l10n-brazil/tree/20.0/l10n_br_mis_report">OCA/l10n-brazil</a> project on GitHub.</p>
+<p>You are welcome to contribute. To learn how please visit <a class="reference external" href="https://odoo-community.org/page/Contribute">https://odoo-community.org/page/Contribute</a>.</p>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>
