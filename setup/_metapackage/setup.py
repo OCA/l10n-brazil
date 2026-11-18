@@ -81,6 +81,7 @@ setuptools.setup(
         'odoo-addon-l10n_br_stock_account>=16.0dev,<16.1dev',
         'odoo-addon-l10n_br_stock_account_report>=16.0dev,<16.1dev',
         'odoo-addon-l10n_br_zip>=16.0dev,<16.1dev',
+        'odoo-addon-payment_cielo>=16.0dev,<16.1dev',
         'odoo-addon-spec_driven_model>=16.0dev,<16.1dev',
     ],
     classifiers=[
