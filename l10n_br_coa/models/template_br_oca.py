@@ -190,7 +190,9 @@ class AccountChartTemplate(models.AbstractModel):
         ):
             tags |= self.env.ref(xmlid, raise_if_not_found=False) or tags
         if accounts and tags:
-            accounts.write({"tag_ids": [Command.link(tag.id) for tag in tags]})
+            # sudo: a company created from the form is not yet in the allowed
+            # companies of the session, so the write would raise AccessError.
+            accounts.sudo().write({"tag_ids": [Command.link(tag.id) for tag in tags]})
         self.env["account.journal"].search(
             [("company_id", "=", company.id), ("type", "in", ("bank", "cash"))]
         )._l10n_br_link_outstanding_accounts()
