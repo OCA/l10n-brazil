@@ -570,3 +570,42 @@ class TestSaleStock(TestBrPickingInvoicingCommon):
         self.assertEqual(
             picking.document_number, invoice.fiscal_document_id.document_number
         )
+
+    def test_analytic_distribution_not_doubled_on_picking_invoice(self):
+        """The invoice line's analytic_distribution must stay at 100%.
+
+        When the sale order has its own analytic_account_id and the sale
+        order line already carries an analytic_distribution pointing to that
+        same account, the invoice line generated from the picking must not
+        end up with 200% on that account.
+        """
+        self._change_user_company(self.env.ref("l10n_br_base.empresa_simples_nacional"))
+        sale_order_1 = self.env.ref("l10n_br_sale_stock.main_company-sale_order_1")
+
+        analytic_plan = self.env["account.analytic.plan"].create(
+            {"name": "Test Analytic Plan"}
+        )
+        analytic_account = self.env["account.analytic.account"].create(
+            {"name": "Test Analytic Account", "plan_id": analytic_plan.id}
+        )
+        sale_order_1.analytic_account_id = analytic_account
+        sale_order_line = sale_order_1.order_line.filtered(
+            lambda ln: ln.product_id.type == "product"
+        )[:1]
+        sale_order_line.analytic_distribution = {str(analytic_account.id): 100}
+
+        sale_order_1.action_confirm()
+        picking = sale_order_1.picking_ids
+        self.picking_move_state(picking)
+        invoice = self.create_invoice_wizard(picking)
+        invoice_line = invoice.invoice_line_ids.filtered(
+            lambda ln: ln.product_id == sale_order_line.product_id
+        )
+
+        self.assertEqual(
+            invoice_line.analytic_distribution,
+            {str(analytic_account.id): 100},
+            "A distribuição analítica da linha da fatura não deveria somar "
+            "200%% quando a conta do pedido já está presente na distribuição "
+            "da linha de venda.",
+        )
