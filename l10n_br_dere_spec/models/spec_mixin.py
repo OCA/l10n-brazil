@@ -8,7 +8,9 @@ class DereSpecMixin(models.AbstractModel):
     _name = "spec.mixin.dere"
     _description = "DeRE spec mixin"
 
-    _dere12_odoo_module = "odoo.addons.l10n_br_dere_spec.models.v1_2.evt_info_contrib"
+    _dere12_odoo_module = (
+        "odoo.addons.l10n_br_dere_spec.models.v1_2.evt_info_contrib_v1_0_1"
+    )
 
     def _valid_field_parameter(self, field, name):
         if name in (
