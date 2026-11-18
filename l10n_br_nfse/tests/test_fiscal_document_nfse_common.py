@@ -7,6 +7,7 @@ from odoo.addons.l10n_br_base.tests.tools import load_fixture_files
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     PROCESSADOR_NENHUM,
     PROCESSADOR_OCA,
+    TAX_FRAMEWORK_NORMAL,
 )
 from odoo.addons.l10n_br_fiscal.tests.tools import load_fiscal_fixture_files
 
@@ -270,3 +271,59 @@ class TestFiscalDocumentNFSeCommon(TransactionCase):
         self.assertEqual(
             fiscal_document._prepare_dados_servico()["codigo_tributacao_iss"], "1"
         )
+
+    def test_export_ibscbs_needs_the_cst_and_the_operation_indicator(self):
+        """The IBSCBS group goes out only with cClassTrib, CST and cIndOp; a line
+        with the classification alone skips the group and logs why."""
+        document = self.nfse_same_state
+        line = document.fiscal_line_ids[0]
+        line.tax_classification_id = False
+        self.assertFalse(document._nfse_export_ibscbs())
+
+        line.tax_classification_id = self.env.ref(
+            "l10n_br_fiscal.tax_classification_000001"
+        )
+        line.ibs_cst_id = False
+        line.cbs_cst_id = False
+        line.operation_indicator_id = False
+        with self.assertLogs("odoo.addons.l10n_br_nfse.models.document", "WARNING"):
+            self.assertFalse(document._nfse_export_ibscbs())
+
+        line.ibs_cst_id = self.env.ref("l10n_br_fiscal.cst_ibs_000")
+        line.operation_indicator_id = self.env.ref(
+            "l10n_br_fiscal.operation_indicator_030101"
+        )
+        self.assertTrue(document._nfse_export_ibscbs())
+
+    def test_approximate_tax_burden_from_taxes_by_regime(self):
+        """Only the keys of the regime of the company carry a value."""
+        line = self.nfse_same_state.fiscal_line_ids[0]
+        burden = line._nfse_approximate_tax_burden_from_taxes()
+        self.assertTrue(burden["simples"])
+        self.assertEqual(
+            burden["simples_percent"],
+            self.company.simplified_tax_range_id.total_tax_percent,
+        )
+        self.assertEqual(burden["federal_percent"], 0.0)
+        self.assertEqual(burden["state_percent"], 0.0)
+        self.assertEqual(burden["municipal_percent"], 0.0)
+
+        self.company.tax_framework = TAX_FRAMEWORK_NORMAL
+        burden = line._nfse_approximate_tax_burden_from_taxes()
+        self.assertFalse(burden["simples"])
+        self.assertEqual(burden["simples_percent"], 0.0)
+        self.assertEqual(
+            burden["federal_percent"],
+            sum(
+                line[fname]
+                for fname in (
+                    "pis_percent",
+                    "cofins_percent",
+                    "irpj_percent",
+                    "csll_percent",
+                    "inss_percent",
+                )
+            ),
+        )
+        self.assertEqual(burden["state_percent"], 0.0)
+        self.assertEqual(burden["municipal_percent"], line.issqn_percent)

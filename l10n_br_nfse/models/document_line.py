@@ -8,6 +8,8 @@ from lxml import etree
 
 from odoo import api, fields, models
 
+from odoo.addons.l10n_br_fiscal.constants.fiscal import TAX_FRAMEWORK_SIMPLES_ALL
+
 _logger = logging.getLogger(__name__)
 
 
@@ -64,6 +66,51 @@ class DocumentLine(models.Model):
                     self._name,
                 )
         return arch, view
+
+    def _nfse_approximate_tax_burden_from_taxes(self):
+        """Approximate tax burden of the service (Lei 12.741/2012), computed
+        from the taxes of the line.
+
+        This is what the pTotTrib group of the DPS needs on the layouts that do
+        not declare the IBPT table as the source of the figures. The IBPT
+        estimate by NBS, which the layouts declaring that source send, stays in
+        the ``percentual_total_tributos_*`` keys of
+        ``l10n_br_fiscal.document._prepare_dados_servico``: the two figures can
+        differ for the same document.
+
+        The two regimes are exclusive, so only the keys of the regime of the
+        company carry a value, the others are 0.0. A company of the Simples
+        Nacional informs the percentage of its range. The others inform the
+        federal, state and municipal percentages: the federal one adds the
+        withheld IRPJ, CSLL and INSS to PIS and COFINS, the municipal one is the
+        ISSQN and a service has no state tax.
+        """
+        self.ensure_one()
+        company = self.company_id
+        if company.tax_framework in TAX_FRAMEWORK_SIMPLES_ALL:
+            return {
+                "simples": True,
+                "simples_percent": company.simplified_tax_range_id.total_tax_percent,
+                "federal_percent": 0.0,
+                "state_percent": 0.0,
+                "municipal_percent": 0.0,
+            }
+        return {
+            "simples": False,
+            "simples_percent": 0.0,
+            "federal_percent": sum(
+                self[fname] or 0.0
+                for fname in (
+                    "pis_percent",
+                    "cofins_percent",
+                    "irpj_percent",
+                    "csll_percent",
+                    "inss_percent",
+                )
+            ),
+            "state_percent": 0.0,
+            "municipal_percent": self.issqn_percent or 0.0,
+        }
 
     def _prepare_line_service(self):
         return {
