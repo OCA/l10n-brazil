@@ -1,0 +1,2 @@
+# spec_driven_model tests: xsdata bindings of the fake purchase order schema
+xsdata
