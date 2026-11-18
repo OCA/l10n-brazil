@@ -114,6 +114,25 @@ class L10nBRCNABConfig(models.Model):
             ):
                 raise ValidationError(_("Carteira no banco Itaú é obrigatória"))
 
+            # Manual Sicredi CNAB 240, items 14.3P and 10.3: the wallet is
+            # always "1" (Cobrança Simples / carteira simples), both in the
+            # Segment P of the remittance and in the barcode free field.
+            # Validating the configuration avoids generating a boleto and a
+            # remittance with different wallets.
+            if (
+                record.bank_code_bc == "748"
+                and record.payment_method_code == "240"
+                and record.payment_type == "inbound"
+                and record.boleto_wallet != "1"
+            ):
+                raise ValidationError(
+                    _(
+                        "Sicredi CNAB 240 only accepts the wallet '1' "
+                        "(Cobrança Simples). Please set the Boleto Wallet "
+                        "to '1' in the CNAB configuration."
+                    )
+                )
+
     @api.constrains("boleto_discount_perc")
     def _check_discount_perc(self):
         for record in self:
