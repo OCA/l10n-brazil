@@ -95,11 +95,9 @@ class StockInvoiceOnshipping(models.TransientModel):
             values["analytic_distribution"] = sale_line_id.analytic_distribution
         if analytic_account_id and not sale_line_id.display_type:
             analytic_account_id = str(analytic_account_id)
-            if "analytic_distribution" in values:
-                values["analytic_distribution"][analytic_account_id] = (
-                    values["analytic_distribution"].get(analytic_account_id, 0) + 100
-                )
-            else:
-                values["analytic_distribution"] = {analytic_account_id: 100}
+            distribution = values.get("analytic_distribution") or {}
+            if analytic_account_id not in distribution:
+                distribution[analytic_account_id] = 100
+            values["analytic_distribution"] = distribution
 
         return values
