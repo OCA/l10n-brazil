@@ -1,0 +1,137 @@
+# @ 2018 Akretion - www.akretion.com.br -
+#   Magno Costa <magno.costa@akretion.com.br>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+
+import logging
+
+from psycopg2 import IntegrityError
+
+from odoo.exceptions import ValidationError
+from odoo.tests import TransactionCase
+from odoo.tools import mute_logger
+
+_logger = logging.getLogger(__name__)
+
+
+class OtherIETest(TransactionCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.company_model = cls.env["res.company"]
+        cls.company = cls.company_model.with_context(tracking_disable=True).create(
+            {
+                "name": "Akretion Sao Paulo",
+                "legal_name": "Akretion Sao Paulo",
+                "vat": "26.905.703/0001-52",
+                "l10n_br_ie_code": "932.446.119.086",
+                "street": "Rua Paulo Dias",
+                "street_number": "586",
+                "district": "Alumínio",
+                "state_id": cls.env.ref("base.state_br_sp").id,
+                "city_id": cls.env.ref("l10n_br_base.city_3501152").id,
+                "country_id": cls.env.ref("base.br").id,
+                "city": "Alumínio",
+                "zip": "18125-000",
+                "phone": "+55 (21) 3010 9965",
+                "email": "contact@companytest.com.br",
+                "website": "www.companytest.com.br",
+            }
+        )
+
+    @mute_logger("odoo.sql_db")
+    def test_included_valid_ie_in_company(self):
+        result = self.company.write(
+            {
+                "state_tax_number_ids": [
+                    (
+                        0,
+                        0,
+                        {
+                            "state_id": self.env.ref("base.state_br_ba").id,
+                            "l10n_br_ie_code": 41902653,
+                        },
+                    )
+                ]
+            }
+        )
+        self.assertTrue(result, "Error to included valid IE.")
+        for line in self.company.partner_id.state_tax_number_ids:
+            result = False
+            if line.l10n_br_ie_code == "41902653":
+                result = True
+            self.assertTrue(result, "Error in method to update other IE(s) on partner.")
+
+        # A second State Tax Number for a State the partner already has is
+        # rejected by the model constraint (unique State/partner), whereas the
+        # Python check above only covers the State of the partner address.
+        with self.assertRaises(IntegrityError):
+            self.company.write(
+                {
+                    "state_tax_number_ids": [
+                        (
+                            0,
+                            0,
+                            {
+                                "state_id": self.env.ref("base.state_br_ba").id,
+                                "l10n_br_ie_code": 67729139,
+                            },
+                        )
+                    ]
+                }
+            )
+
+    def test_included_invalid_ie(self):
+        with self.assertRaises(ValidationError):
+            self.company.write(
+                {
+                    "state_tax_number_ids": [
+                        (
+                            0,
+                            0,
+                            {
+                                "state_id": self.env.ref("base.state_br_am").id,
+                                "l10n_br_ie_code": "042933681",
+                            },
+                        )
+                    ]
+                }
+            )
+
+    def test_included_other_valid_ie_to_same_state_of_company(self):
+        with self.assertRaises(ValidationError):
+            self.company.write(
+                {
+                    "state_tax_number_ids": [
+                        (
+                            0,
+                            0,
+                            {
+                                "state_id": self.env.ref("base.state_br_sp").id,
+                                "l10n_br_ie_code": 692015742119,
+                            },
+                        )
+                    ]
+                }
+            )
+
+    def test_included_valid_ie_on_partner(self):
+        result = self.company.partner_id.write(
+            {
+                "state_tax_number_ids": [
+                    (
+                        0,
+                        0,
+                        {
+                            "state_id": self.env.ref("base.state_br_ba").id,
+                            "l10n_br_ie_code": 41902653,
+                        },
+                    )
+                ]
+            }
+        )
+        self.assertTrue(result, "Error to included valid IE.")
+        for line in self.company.state_tax_number_ids:
+            result = False
+            if line.l10n_br_ie_code == "41902653":
+                result = True
+            self.assertTrue(result, "Error in method to update other IE(s) on Company.")

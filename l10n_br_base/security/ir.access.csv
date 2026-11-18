@@ -1,0 +1,5 @@
+id,name,model_id,group_id/id,operation,domain
+state_tax_numbers_user,State Tax Numbers for User,state.tax.numbers,base.group_user,r,
+state_tax_numbers_manager,State Tax Numbers for Manager,state.tax.numbers,base.group_system,crud,
+res_partner_pix_user,Partner PIX for User,res.partner.pix,base.group_user,r,
+res_partner_pix_manager,Partner PIX for Partner Manager,res.partner.pix,base.group_partner_manager,crud,
