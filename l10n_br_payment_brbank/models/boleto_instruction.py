@@ -213,12 +213,24 @@ class BoletoInstruction(models.Model):
                     transaction.due_date = self.new_due_date
                 elif self.command == "abatimento":
                     transaction.amount -= self.amount
-                if registered:
-                    transaction._brbank_apply_registered(registered)
+        except Exception as error:
+            return self._report_local_failure(error)
+        # Invoice effect first: a title answered as paid would close the installment
+        # before the rebate credit note.
+        invoice_error = None
+        try:
             with self.env.cr.savepoint():
                 self._apply_to_invoice()
         except Exception as error:
+            invoice_error = error
+        try:
+            with self.env.cr.savepoint():
+                if registered:
+                    transaction._brbank_apply_registered(registered)
+        except Exception as error:
             return self._report_local_failure(error)
+        if invoice_error:
+            return self._report_local_failure(invoice_error)
         if not registered:
             transaction._brbank_cron_step(lambda tx: tx._brbank_sync_from_bank())
         if self.command == "baixa" and transaction.state == "authorized":

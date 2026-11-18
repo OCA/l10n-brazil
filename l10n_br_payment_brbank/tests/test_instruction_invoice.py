@@ -184,6 +184,24 @@ class TestInstructionOnInvoice(BrbankTransactionCase):
         self.assertTrue(line.reconciled)
         self.assertEqual(invoice.amount_residual, 700.0)
 
+    def test_rebate_when_the_bank_answers_the_title_as_paid(self):
+        """The rebate credit note reconciles before the payment closes the line."""
+        invoice = self._create_invoice()
+        tx = self._brbank_txs(invoice)[0]
+        line = tx.move_line_id
+        self._set_bank_status(tx, StatusCanonico.LIQUIDADO, Decimal("400.00"))
+        instruction, action = self._send(tx, command="abatimento", amount=50.0)
+        self.assertIs(action, True)
+        self.assertEqual(instruction.state, "done")
+        self.assertEqual(instruction.result_message, "Accepted by the bank.")
+        self.assertNotIn("by hand", self._messages(invoice))
+        credit_note = line.matched_credit_ids.credit_move_id.move_id.filtered(
+            lambda move: move.move_type == "out_refund"
+        )
+        self.assertEqual(credit_note.amount_total, 50.0)
+        self.assertEqual(credit_note.payment_state, "paid")
+        self.assertTrue(line.reconciled)
+
     def test_rebate_refused_before_the_bank(self):
         invoice = self._create_invoice()
         tx = self._brbank_txs(invoice)[0]
