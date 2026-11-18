@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 {
-    "name": "L10n Br Website Sale",
+    "name": "L10n Br Website Sale OCA",
     "summary": """
         Website sale localização brasileira.""",
     "version": "16.0.2.1.0",
@@ -21,10 +21,10 @@
     ],
     "assets": {
         "web.assets_frontend": [
-            "/l10n_br_website_sale/static/src/js/l10n_br_address.js",
+            "/l10n_br_website_sale_oca/static/src/js/l10n_br_address.js",
         ],
         "web.assets_tests": [
-            "/l10n_br_website_sale/static/src/js/l10n_br_website_sale_tour.js",
+            "/l10n_br_website_sale_oca/static/src/js/l10n_br_website_sale_oca_tour.js",
         ],
     },
     "external_dependencies": {

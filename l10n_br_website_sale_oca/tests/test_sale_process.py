@@ -58,7 +58,7 @@ class TestUi(HttpCase):
                 "complement": "",
             },
         ) as cep:
-            self.start_tour(self.product.website_url, "l10n_br_website_sale_tour")
+            self.start_tour(self.product.website_url, "l10n_br_website_sale_oca_tour")
         self.assertTrue(cep.called)
         self.assertEqual(cep.call_args.args[0], "12246250")
         order = self._get_checkout_order("checkout-br@example.com")
@@ -82,10 +82,10 @@ class TestUi(HttpCase):
         country = self.env.ref("base.fr")
         self.start_tour(
             self.product.website_url,
-            "l10n_br_website_sale_foreign_tour",
+            "l10n_br_website_sale_oca_foreign_tour",
             code=(
                 f"sessionStorage.setItem('l10n_br_checkout_country', '{country.id}');"
-                "odoo.startTour('l10n_br_website_sale_foreign_tour');"
+                "odoo.startTour('l10n_br_website_sale_oca_foreign_tour');"
             ),
         )
         partner = self._get_checkout_order("checkout-fr@example.com").partner_invoice_id
