@@ -3,13 +3,13 @@
     <!-- João Carlos da Silva — CLT regular, 2 dep. IRRF -->
     <record id="demo_employee_joao" model="hr.employee">
         <field name="name">João Carlos da Silva</field>
+        <field name="vat">52998224725</field>
         <field name="gender">male</field>
         <field name="birthday">1985-03-15</field>
         <field name="marital">married</field>
         <field name="country_id" ref="base.br" />
         <field name="department_id" ref="demo_department_administrativo" />
         <field name="job_id" ref="demo_job_analista_admin" />
-        <field name="cnpj_cpf">529.982.247-25</field>
         <field name="pis_pasep">12345678900</field>
         <field name="ctps">12345</field>
         <field name="ctps_series">0001</field>
@@ -26,13 +26,13 @@
     <!-- Maria Fernanda Santos — CLT periculosidade -->
     <record id="demo_employee_maria" model="hr.employee">
         <field name="name">Maria Fernanda Santos</field>
+        <field name="vat">45317828791</field>
         <field name="gender">female</field>
         <field name="birthday">1990-07-22</field>
         <field name="marital">single</field>
         <field name="country_id" ref="base.br" />
         <field name="department_id" ref="demo_department_operacional" />
         <field name="job_id" ref="demo_job_tecnico_seguranca" />
-        <field name="cnpj_cpf">453.178.287-91</field>
         <field name="pis_pasep">23456789013</field>
         <field name="ctps">23456</field>
         <field name="ctps_series">0002</field>
@@ -49,13 +49,13 @@
     <!-- Pedro Henrique Oliveira — CLT insalubridade -->
     <record id="demo_employee_pedro" model="hr.employee">
         <field name="name">Pedro Henrique Oliveira</field>
+        <field name="vat">11122233396</field>
         <field name="gender">male</field>
         <field name="birthday">1988-11-05</field>
         <field name="marital">married</field>
         <field name="country_id" ref="base.br" />
         <field name="department_id" ref="demo_department_operacional" />
         <field name="job_id" ref="demo_job_operador_industrial" />
-        <field name="cnpj_cpf">111.444.777-35</field>
         <field name="pis_pasep">34567890125</field>
         <field name="ctps">34567</field>
         <field name="ctps_series">0003</field>
@@ -72,13 +72,13 @@
     <!-- Ana Beatriz Souza — Estatutário/RPPS -->
     <record id="demo_employee_ana" model="hr.employee">
         <field name="name">Ana Beatriz Souza</field>
+        <field name="vat">98765432100</field>
         <field name="gender">female</field>
         <field name="birthday">1978-01-30</field>
         <field name="marital">married</field>
         <field name="country_id" ref="base.br" />
         <field name="department_id" ref="demo_department_ti" />
         <field name="job_id" ref="demo_job_analista_sistemas" />
-        <field name="cnpj_cpf">987.654.321-00</field>
         <field name="pis_pasep">45678901236</field>
         <field name="ctps">45678</field>
         <field name="ctps_series">0004</field>
@@ -95,13 +95,13 @@
     <!-- Lucas Gabriel Costa — CLT aprendiz -->
     <record id="demo_employee_lucas" model="hr.employee">
         <field name="name">Lucas Gabriel Costa</field>
+        <field name="vat">32165498791</field>
         <field name="gender">male</field>
         <field name="birthday">2005-06-12</field>
         <field name="marital">single</field>
         <field name="country_id" ref="base.br" />
         <field name="department_id" ref="demo_department_administrativo" />
         <field name="job_id" ref="demo_job_aprendiz_admin" />
-        <field name="cnpj_cpf">321.654.987-91</field>
         <field name="pis_pasep">56789012346</field>
         <field name="ctps">56789</field>
         <field name="ctps_series">0005</field>
@@ -118,13 +118,13 @@
     <!-- Carla Regina Pereira — CLT PCD + moléstia grave -->
     <record id="demo_employee_carla" model="hr.employee">
         <field name="name">Carla Regina Pereira</field>
+        <field name="vat">74185296355</field>
         <field name="gender">female</field>
         <field name="birthday">1982-09-18</field>
         <field name="marital">single</field>
         <field name="country_id" ref="base.br" />
         <field name="department_id" ref="demo_department_administrativo" />
         <field name="job_id" ref="demo_job_analista_rh" />
-        <field name="cnpj_cpf">741.852.963-55</field>
         <field name="pis_pasep">67890123455</field>
         <field name="ctps">67890</field>
         <field name="ctps_series">0006</field>
