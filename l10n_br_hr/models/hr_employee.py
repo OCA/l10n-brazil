@@ -15,9 +15,6 @@ from odoo.addons.l10n_br_base.tools import check_cnpj_cpf
 class HrEmployee(models.Model):
     _inherit = "hr.employee"
 
-    def _default_country(self):
-        return self.env["res.country"].search([("code", "=", "BR")])
-
     birth_city_id = fields.Many2one(comodel_name="res.city", groups="hr.group_hr_user")
 
     pis_pasep = fields.Char(string="PIS/PASEP", groups="hr.group_hr_user")
@@ -165,10 +162,6 @@ class HrEmployee(models.Model):
     alternate_email = fields.Char(groups="hr.group_hr_user")
 
     registration = fields.Char(string="Registration number", groups="hr.group_hr_user")
-
-    country_id = fields.Many2one(
-        comodel_name="res.country", default=lambda self: self._default_country()
-    )
 
     employee_relationship_type = fields.Selection(
         string="Tipo de Colaborador",

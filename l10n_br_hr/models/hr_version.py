@@ -3,11 +3,16 @@
 # (c) 2016 KMEE Informática - Daniel Sadamo <daniel.sadamo@kmee.com.br>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import api, models
+from odoo import api, fields, models
 
 
 class HrVersion(models.Model):
     _inherit = "hr.version"
+
+    def _default_country(self):
+        return self.env["res.country"].search([("code", "=", "BR")])
+
+    country_id = fields.Many2one(default=lambda self: self._default_country())
 
     @api.model
     def _get_marital_status_selection(self):
