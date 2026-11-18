@@ -578,7 +578,32 @@ class MDFe(spec_models.StackedModel):
                 {"document_id": self.id}
             )
 
-        return self.mdfe_modal_rodoviario_id._build_binding("mdfe", "30")
+        binding = self.mdfe_modal_rodoviario_id._build_binding("mdfe", "30")
+        return self._mdfe_remove_infantt_vazio(binding)
+
+    def _mdfe_remove_infantt_vazio(self, binding):
+        """Tira do XML os grupos infANTT e valePed quando nascem vazios."""
+        inf_antt = getattr(binding, "infANTT", None)
+        if inf_antt is None:
+            return binding
+
+        vale_pedagio = getattr(inf_antt, "valePed", None)
+        if vale_pedagio is not None and not getattr(vale_pedagio, "disp", None):
+            inf_antt.valePed = None
+
+        if not any(
+            getattr(inf_antt, field_name, None)
+            for field_name in (
+                "RNTRC",
+                "infCIOT",
+                "valePed",
+                "infContratante",
+                "infPag",
+            )
+        ):
+            binding.infANTT = None
+
+        return binding
 
     ##########################
     # MDF-e tag: seg
