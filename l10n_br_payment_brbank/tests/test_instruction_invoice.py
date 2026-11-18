@@ -1,7 +1,6 @@
 # Copyright 2026 KMEE
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from datetime import date
 from decimal import Decimal
 from unittest.mock import patch
 
@@ -15,7 +14,7 @@ from odoo.tools import mute_logger
 
 from odoo.addons.l10n_br_payment_brbank.models import payment_transaction
 
-from .common import FAKE, FAKE_BASIC, BrbankTransactionCase
+from .common import FAKE, FAKE_BASIC, BrbankTransactionCase, in_days
 
 MODULE_LOG = "odoo.addons.l10n_br_payment_brbank.models.boleto_instruction"
 
@@ -25,6 +24,7 @@ class TestInstructionOnInvoice(BrbankTransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        cls.new_date = in_days(120)
         cls.provider.brbank_rebate_account_id = cls.env["account.account"].create(
             {"name": "Abatimentos", "code": "399001", "account_type": "expense"}
         )
@@ -65,19 +65,19 @@ class TestInstructionOnInvoice(BrbankTransactionCase):
         txs = self._brbank_txs(invoice)
         first, last = txs[0], txs[2]
         first_date = first.move_line_id.date_maturity
-        self._send(last, command="prorrogacao", new_due_date=date(2026, 12, 20))
-        self.assertEqual(last.due_date, date(2026, 12, 20))
-        self.assertEqual(last.move_line_id.date_maturity, date(2026, 12, 20))
+        self._send(last, command="prorrogacao", new_due_date=self.new_date)
+        self.assertEqual(last.due_date, self.new_date)
+        self.assertEqual(last.move_line_id.date_maturity, self.new_date)
         self.assertEqual(first.move_line_id.date_maturity, first_date)
-        self.assertEqual(invoice.invoice_date_due, date(2026, 12, 20))
+        self.assertEqual(invoice.invoice_date_due, self.new_date)
         self.assertEqual(len(invoice.due_line_ids), 3)
         self.assertIn(last.reference, self._messages(invoice))
         # Core would read the payment term again on the next reconciliation.
         self._set_bank_status(first, StatusCanonico.LIQUIDADO, Decimal("300.00"))
         first._brbank_sync_from_bank()
         self.assertTrue(first.move_line_id.reconciled)
-        self.assertEqual(invoice.invoice_date_due, date(2026, 12, 20))
-        self.assertEqual(last.move_line_id.date_maturity, date(2026, 12, 20))
+        self.assertEqual(invoice.invoice_date_due, self.new_date)
+        self.assertEqual(last.move_line_id.date_maturity, self.new_date)
 
     def test_extension_refused_keeps_the_date(self):
         invoice = self._create_invoice()
@@ -94,7 +94,7 @@ class TestInstructionOnInvoice(BrbankTransactionCase):
                     set() if error else {TipoInstrucao.PRORROGACAO}
                 )
                 instruction, _action = self._send(
-                    tx, command="prorrogacao", new_due_date=date(2026, 12, 20)
+                    tx, command="prorrogacao", new_due_date=self.new_date
                 )
                 self.assertEqual(instruction.state, command_state)
                 self.assertEqual(tx.due_date, line_date)
@@ -106,10 +106,10 @@ class TestInstructionOnInvoice(BrbankTransactionCase):
         tx = self._brbank_txs(invoice)[0]
         self.bank["instruction_error"] = Duplicado("fake: already applied")
         instruction, _action = self._send(
-            tx, command="prorrogacao", new_due_date=date(2026, 12, 20)
+            tx, command="prorrogacao", new_due_date=self.new_date
         )
         self.assertEqual(instruction.state, "done")
-        self.assertEqual(tx.move_line_id.date_maturity, date(2026, 12, 20))
+        self.assertEqual(tx.move_line_id.date_maturity, self.new_date)
 
     def test_txid_reaches_the_bank(self):
         invoice = self._create_invoice()

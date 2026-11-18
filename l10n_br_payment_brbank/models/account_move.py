@@ -86,6 +86,32 @@ class AccountMove(models.Model):
                 move.invoice_date_due = max(dates)
         return res
 
+    def button_draft(self):
+        """A draft or canceled invoice charges nothing: its boletos leave the bank.
+        Core's `button_cancel` of a posted invoice passes here too."""
+        transactions = (
+            self.sudo()
+            .mapped("transaction_ids")
+            .filtered(
+                lambda t: t.provider_code == BRBANK
+                and t.state in ("draft", "authorized")
+            )
+        )
+        res = super().button_draft()
+        transactions._brbank_queue_write_off(_("Invoice reset to draft or canceled."))
+        return res
+
+    def _boleto_get_active_transactions(self, moveline):
+        """A boleto with its write-off queued no longer charges the installment:
+        posting again issues a new one."""
+        return (
+            super()
+            ._boleto_get_active_transactions(moveline)
+            .filtered(
+                lambda t: t.provider_code != BRBANK or not t._brbank_pending_write_off()
+            )
+        )
+
     def generate_boletos(self):
         provider = self.payment_mode_id.payment_provider_id.sudo()
         if provider.code == BRBANK:

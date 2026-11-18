@@ -3,7 +3,6 @@
 """Nosso numero of the banks whose adapter takes `gerar_nosso_numero`."""
 
 import json
-from datetime import date
 
 import httpx
 
@@ -11,7 +10,7 @@ from odoo.exceptions import UserError
 from odoo.tests import tagged
 
 from ..models.payment_provider import NOSSO_NUMERO_DIGITS
-from .common import BrbankTransactionCase
+from .common import BrbankTransactionCase, in_days
 
 # Adapters that take `gerar_nosso_numero`, with their digits: the module map follows.
 NUMBER_DIGITS = {
@@ -65,7 +64,7 @@ class TestNossoNumero(BrbankTransactionCase):
                 "currency_id": self.env.ref("base.BRL").id,
                 "operation": "offline",
                 "is_boleto_payment": True,
-                "due_date": date(2026, 2, 1),
+                "due_date": in_days(30),
                 "brbank_seu_numero": reference,
             }
         )

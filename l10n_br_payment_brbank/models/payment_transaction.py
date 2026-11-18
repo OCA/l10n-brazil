@@ -14,7 +14,7 @@ from pydantic import ValidationError as PydanticValidationError
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
-from odoo.tools import float_round
+from odoo.tools import float_round, format_date
 
 from .payment_provider import BRBANK, NOSSO_NUMERO_CONTEXT
 
@@ -244,6 +244,7 @@ class PaymentTransaction(models.Model):
                 f"tx{self.id}"
             )
         try:
+            self._brbank_check_due_date()
             self._brbank_reserve_nosso_numero()
             titulo = self._brbank_prepare_titulo()
         except UserError as error:
@@ -293,6 +294,22 @@ class PaymentTransaction(models.Model):
             return False
         self._brbank_apply_registered(registered)
         return True
+
+    def _brbank_check_due_date(self):
+        """Banks refuse a title already past due (the BB answers HTTP 500), and
+        a retry would never pass: refuse it here, with the way out."""
+        self.ensure_one()
+        if self._boleto_is_overdue():
+            raise UserError(
+                _(
+                    "The due date of the boleto %(ref)s (%(date)s) has passed and "
+                    "the bank does not register an overdue boleto. Change the due "
+                    "date of the installment, or issue a new boleto from the "
+                    "Boleto actions of the installment.",
+                    ref=self.reference,
+                    date=format_date(self.env, self.due_date),
+                )
+            )
 
     def _brbank_reserve_nosso_numero(self):
         """Keep the nosso numero on the transaction, so a retry sends the same one."""
@@ -513,6 +530,52 @@ class PaymentTransaction(models.Model):
             commands.append("baixa")
         return commands
 
+    def _brbank_is_live(self):
+        """Registered and open at the bank: the boleto can still be paid."""
+        self.ensure_one()
+        return bool(
+            self.provider_code == BRBANK
+            and self.provider_reference
+            and self.state == "authorized"
+        )
+
+    def _brbank_pending_write_off(self):
+        """The write-off queued for this boleto, not sent yet."""
+        self.ensure_one()
+        return self.brbank_instruction_ids.filtered(
+            lambda i: i.command == "baixa" and i.state == "draft" and i.idempotency_key
+        )
+
+    def _brbank_queue_write_off(self, reason):
+        """Take the boleto off the bank once the invoice no longer charges it.
+
+        Sent after the commit, never inside the transaction that decided it: a
+        rollback would leave the bank without its boleto and Odoo unaware of it.
+        A title never registered is just canceled here.
+        """
+        instructions = self.env["l10n_br.boleto.instruction"]
+        for tx in self.filtered(lambda t: t.provider_code == BRBANK):
+            if tx.state == "draft" and not tx.provider_reference:
+                tx.sudo().with_context(payment_backend_action=True)._set_canceled(
+                    reason
+                )
+                continue
+            if (
+                not tx._brbank_is_live()
+                or not tx.brbank_supports_write_off
+                or tx._brbank_pending_write_off()
+            ):
+                continue
+            instruction = instructions.sudo().create(
+                {"transaction_id": tx.id, "command": "baixa", "result_message": reason}
+            )
+            instruction.idempotency_key = tx._brbank_new_idempotency_key(
+                f"instr{instruction.id}"
+            )
+            instructions |= instruction
+        instructions._send_after_commit()
+        return instructions
+
     # === CRON === #
 
     def _cron_brbank_reconcile(self, limit=200):
@@ -547,6 +610,11 @@ class PaymentTransaction(models.Model):
             error = tx._brbank_cron_step(lambda t: t._brbank_sync_from_bank())
             tx._brbank_count_sync(results, error)
         self._brbank_report_sync(results)
+        # Instructions queued (automatic write-offs) or left by an unavailable bank.
+        self.env["l10n_br.boleto.instruction"].search(
+            [("state", "=", "draft"), ("idempotency_key", "!=", False)],
+            limit=limit,
+        )._send_queued()
 
     def _brbank_cron_step(self, step):
         """Run one step of the cron; return the error, if any."""

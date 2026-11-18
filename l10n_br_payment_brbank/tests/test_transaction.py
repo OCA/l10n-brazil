@@ -2,7 +2,6 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 import base64
-from datetime import date
 from decimal import Decimal
 from unittest.mock import AsyncMock, patch
 
@@ -13,7 +12,7 @@ from lxml import etree
 from odoo.exceptions import UserError
 from odoo.tests import tagged
 
-from .common import FAKE_BASIC, BrbankTransactionCase
+from .common import FAKE_BASIC, BrbankTransactionCase, in_days
 from .fake_bank import FakeAdapter
 
 
@@ -32,7 +31,7 @@ class TestBrbankTransaction(BrbankTransactionCase):
                 "currency_id": self.env.ref("base.BRL").id,
                 "operation": "offline",
                 "is_boleto_payment": True,
-                "due_date": date(2026, 2, 1),
+                "due_date": in_days(30),
             }
         )
         tx._brbank_register()
@@ -81,14 +80,14 @@ class TestBrbankTransaction(BrbankTransactionCase):
             {
                 "transaction_id": tx.id,
                 "command": "prorrogacao",
-                "new_due_date": date(2026, 3, 1),
+                "new_due_date": in_days(60),
             }
         )
         self.assertTrue(instruction.action_send())
         self.assertEqual(instruction.state, "done")
         self.assertTrue(instruction.idempotency_key)
-        self.assertEqual(tx.due_date, date(2026, 3, 1))
-        self.assertEqual(self._bank_title(tx)["vencimento"], date(2026, 3, 1))
+        self.assertEqual(tx.due_date, in_days(60))
+        self.assertEqual(self._bank_title(tx)["vencimento"], in_days(60))
         self.assertIn(("instrucao", "PRORROGACAO"), self.bank["calls"])
 
     def test_instruction_not_supported_by_the_bank(self):
@@ -231,8 +230,11 @@ class TestBrbankTransaction(BrbankTransactionCase):
             (Indisponivel("fake: fora do ar"), "warning"),
         )
         for error, state in cases:
-            with self.subTest(state=state), patch.object(
-                FakeAdapter, "consultar_titulo", new=AsyncMock(side_effect=error)
+            with (
+                self.subTest(state=state),
+                patch.object(
+                    FakeAdapter, "consultar_titulo", new=AsyncMock(side_effect=error)
+                ),
             ):
                 cron.method_direct_trigger()
                 self.assertEqual(status().state, state)

@@ -43,3 +43,25 @@ class AccountMoveLine(models.Model):
         if not transaction:
             raise UserError(_("This installment has no registered boleto."))
         return transaction.action_brbank_new_instruction()
+
+    def _reconcile_post_hook(self, data):
+        res = super()._reconcile_post_hook(data)
+        self._brbank_write_off_paid_installments()
+        return res
+
+    def _brbank_write_off_paid_installments(self):
+        """An installment paid by other means (cash, a Pix to the company key)
+        must not stay payable by boleto. A boleto paid at the bank is `done`
+        before its own payment reconciles, so it is not touched here."""
+        installments = self.filtered(
+            lambda line: line.display_type == "payment_term" and line.reconciled
+        )
+        if not installments:
+            return
+        self.env["payment.transaction"].sudo().search(
+            [
+                ("move_line_id", "in", installments.ids),
+                ("provider_code", "=", BRBANK),
+                ("state", "in", ("draft", "authorized")),
+            ]
+        )._brbank_queue_write_off(_("Installment paid by other means."))

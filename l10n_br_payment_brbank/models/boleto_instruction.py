@@ -53,6 +53,7 @@ class BoletoInstruction(models.Model):
             ("done", "Accepted"),
             ("rejected", "Rejected"),
             ("error", "Error"),
+            ("cancel", "Not Needed"),
         ],
         default="draft",
         required=True,
@@ -188,7 +189,9 @@ class BoletoInstruction(models.Model):
                 }
             )
         except Indisponivel as error:
-            self.result_message = _("Bank unavailable, send it again later: %s", error)
+            self.result_message = _(
+                "Bank unavailable, Odoo sends it again by itself: %s", error
+            )
             return self._notify(self.result_message, "warning")
         except (NaoSuportado, Validacao) as error:
             self._record_failure("rejected", error)
@@ -221,6 +224,13 @@ class BoletoInstruction(models.Model):
             return self._report_local_failure(error)
         if not registered:
             transaction._brbank_cron_step(lambda tx: tx._brbank_sync_from_bank())
+        if self.command == "baixa" and transaction.state == "authorized":
+            # Some banks (the BB) report the write-off only on the next day: the
+            # boleto leaves the invoice and the portal now, as the bank accepted it.
+            transaction.sudo().with_context(payment_backend_action=True)._set_canceled(
+                _("Write-off accepted by the bank.")
+            )
+            transaction._brbank_post_written_off()
         return True
 
     def _apply_to_invoice(self):
@@ -347,3 +357,90 @@ class BoletoInstruction(models.Model):
             "tag": "display_notification",
             "params": {"message": message, "type": kind, "sticky": False},
         }
+
+    # === QUEUE === #
+
+    def _send_after_commit(self):
+        """Send the queued instructions once the decision that queued them is
+        committed; the reconciliation cron sends what this misses."""
+        if not self:
+            return
+        ids = self.ids
+        uid = self.env.uid
+        context = dict(self.env.context)
+        registry = self.env.registry
+
+        @self.env.cr.postcommit.add
+        def send_queued():
+            with registry.cursor() as cr:
+                env = api.Environment(cr, uid, context)
+                env[self._name].browse(ids).exists()._send_queued()
+
+    def _send_queued(self):
+        """Send each queued instruction, unless the boleto already left the bank."""
+        for instruction in self.filtered(
+            lambda i: i.state == "draft" and i.idempotency_key
+        ):
+            transaction = instruction.transaction_id
+            if instruction.command == "baixa" and transaction._brbank_is_live():
+                # Paid at the bank in the meantime? Then there is nothing to write off.
+                error = transaction._brbank_cron_step(
+                    lambda tx: tx._brbank_sync_from_bank()
+                )
+                if isinstance(error, Indisponivel):
+                    continue
+            if not transaction._brbank_is_live():
+                instruction._cancel_not_needed()
+                continue
+            try:
+                with self.env.cr.savepoint():
+                    instruction.action_send()
+            except (ErroBrbank, UserError) as error:
+                _logger.info(
+                    "brbank: queued instruction %s not sent (%s)",
+                    instruction.id,
+                    type(error).__name__,
+                )
+                instruction._record_failure("error", error)
+            if instruction.command == "baixa" and instruction.state in (
+                "rejected",
+                "error",
+            ):
+                transaction._brbank_ask_a_person(
+                    _(
+                        "The bank did not write off the boleto %(ref)s (%(error)s): "
+                        "it can still be paid. Write it off at the bank.",
+                        ref=transaction.reference,
+                        error=instruction.result_message,
+                    ),
+                    _("Boleto still open at the bank"),
+                )
+
+    def _cancel_not_needed(self):
+        """The boleto left the bank before the instruction: record why, and ask a
+        person when an invoice paid by other means was also paid at the bank."""
+        self.ensure_one()
+        transaction = self.transaction_id
+        self.write(
+            {
+                "state": "cancel",
+                "result_message": _("The boleto is no longer open at the bank."),
+            }
+        )
+        installment = transaction.move_line_id
+        if (
+            self.command == "baixa"
+            and transaction.state == "done"
+            and installment.reconciled
+            and transaction.payment_id
+            not in installment.matched_credit_ids.credit_move_id.payment_id
+        ):
+            transaction._brbank_ask_a_person(
+                _(
+                    "The boleto %s was paid at the bank, and the installment had "
+                    "already been paid by other means: the customer paid twice. "
+                    "Refund the customer or keep the amount as a credit.",
+                    transaction.reference,
+                ),
+                _("Installment paid twice"),
+            )

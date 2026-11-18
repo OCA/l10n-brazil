@@ -2,6 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 import json
+from datetime import date, timedelta
 from unittest import SkipTest
 
 from brbank import StatusCanonico, registro
@@ -28,6 +29,13 @@ DUMMY_BY_ADAPTER = {
     "santander": {"tipo_chave_pix": "EVP"},
     "sicoob": {"codigo_especie_documento": "DM"},
 }
+
+
+def in_days(days):
+    """A date counted from today: banks refuse a boleto already past due."""
+    return date.today() + timedelta(days=days)
+
+
 # A random Pix key (EVP): the C6 refuses any other kind.
 PIX_KEY = "123e4567-e89b-42d3-a456-426614174000"
 
@@ -196,7 +204,7 @@ class BrbankCommon:
             {
                 "move_type": "out_invoice",
                 "partner_id": self.partner.id,
-                "invoice_date": "2026-01-05",
+                "invoice_date": in_days(-5),
                 "invoice_payment_term_id": self.payment_term.id,
                 "payment_mode_id": self.payment_mode.id,
                 "invoice_line_ids": [
