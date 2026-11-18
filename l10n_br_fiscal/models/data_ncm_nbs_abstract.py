@@ -1,0 +1,222 @@
+# Copyright (C) 2019  Renato Lima - Akretion <renato.lima@akretion.com.br>
+# License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
+
+import json
+import logging
+from datetime import timedelta
+
+from erpbrasil.base import misc
+
+from odoo import api, fields, models
+from odoo.tools import config as odooconfig
+
+from .ibpt import DeOlhoNoImposto
+
+_logger = logging.getLogger(__name__)
+
+OBJECT_NAMES = {"l10n_br_fiscal.ncm": "NCM", "l10n_br_fiscal.nbs": "NBS"}
+
+OBJECT_FIELDS = {"l10n_br_fiscal.ncm": "ncm_id", "l10n_br_fiscal.nbs": "nbs_id"}
+
+
+class DataNcmNbsAbstract(models.AbstractModel):
+    _name = "l10n_br_fiscal.data.ncm.nbs.abstract"
+    _inherit = "l10n_br_fiscal.data.product.abstract"
+    _description = "Fiscal NCM and NBS Data Abstract"
+
+    tax_estimate_ids = fields.One2many(
+        comodel_name="l10n_br_fiscal.tax.estimate",
+        string="Estimate Taxes",
+        readonly=True,
+    )
+
+    estimate_tax_national = fields.Float(
+        string="Estimate Tax Nacional Percent",
+        store=True,
+        readonly=True,
+        digits="Fiscal Tax Percent",
+        compute="_compute_amount",
+    )
+
+    estimate_tax_imported = fields.Float(
+        string="Estimate Tax Imported Percent",
+        store=True,
+        readonly=True,
+        digits="Fiscal Tax Percent",
+        compute="_compute_amount",
+    )
+
+    @api.depends("tax_estimate_ids")
+    def _compute_amount(self):
+        for record in self:
+            object_field = OBJECT_FIELDS.get(record._name)
+            last_estimated = record.env["l10n_br_fiscal.tax.estimate"].search(
+                [
+                    (object_field, "=", record.id),
+                    ("company_id", "=", record.env.company.id),
+                ],
+                order="create_date DESC",
+                limit=1,
+            )
+
+            if last_estimated:
+                record.estimate_tax_imported = (
+                    last_estimated.federal_taxes_import
+                    + last_estimated.state_taxes
+                    + last_estimated.municipal_taxes
+                )
+
+                record.estimate_tax_national = (
+                    last_estimated.federal_taxes_national
+                    + last_estimated.state_taxes
+                    + last_estimated.municipal_taxes
+                )
+
+    def _get_ibpt(self, config, code_unmasked):
+        return False
+
+    def action_ibpt_inquiry(self):
+        if not self.env.company.ibpt_api:
+            return False
+
+        object_name = OBJECT_NAMES.get(self._name)
+        object_field = OBJECT_FIELDS.get(self._name)
+
+        for record in self:
+            try:
+                company = self.env.company
+
+                config = DeOlhoNoImposto(
+                    company.ibpt_token,
+                    misc.punctuation_rm(company.vat),
+                    company.partner_id.state_id.code,
+                    odooconfig.get("ibpt_request_timeout")
+                    or self.env["ir.config_parameter"]
+                    .sudo()
+                    .get_int("ibpt_request_timeout"),
+                )
+
+                result = self._get_ibpt(config, record.code_unmasked)
+
+                if result:
+                    values = {
+                        object_field: record.id,
+                        "key": result.chave,
+                        "origin": result.fonte,
+                        "version": result.versao,
+                        "state_id": company.partner_id.state_id.id,
+                        "state_taxes": result.estadual,
+                        "federal_taxes_national": result.nacional,
+                        "federal_taxes_import": result.importado,
+                    }
+
+                    self.env["l10n_br_fiscal.tax.estimate"].create(values)
+
+                    record.message_post(
+                        body=self.env._(
+                            "%(name)s Tax Estimate Updated",
+                            name=object_name,
+                        ),
+                        subject=self.env._(
+                            "%(name)s Tax Estimate Updated",
+                            name=object_name,
+                        ),
+                    )
+
+            except Exception as e:  # noqa: BLE001 - one record must not stop the rest
+                _logger.warning(
+                    self.env._(
+                        "%(name)s Tax Estimate Failure: %(error)s",
+                        name=object_name,
+                        error=e,
+                    )
+                )
+                record.message_post(
+                    body=str(e),
+                    subject=self.env._(
+                        "%(name)s Tax Estimate Failure", name=object_name
+                    ),
+                )
+                continue
+
+    @api.model
+    def _scheduled_update(self):
+        object_name = OBJECT_NAMES.get(self._name)
+
+        _logger.info(
+            self.env._("Scheduled %(name)s estimate taxes update...", name=object_name)
+        )
+
+        config_date = self.env.company.ibpt_update_days
+        today = fields.Date.today()
+        data_max = today - timedelta(days=config_date)
+
+        # NCM/NBS with at least one related product and no tax estimate yet.
+        # `product_tmpl_qty` is a non-stored computed field, so it cannot appear
+        # in a search domain; filter it in Python instead.
+        not_estimated = (
+            self.env[self._name]
+            .search([("tax_estimate_ids", "=", False)])
+            .filtered("product_tmpl_qty")
+        )
+
+        query = f"""
+            WITH {object_name.lower()}_max_date AS (
+               SELECT
+                   {object_name.lower()}_id,
+                   max(create_date)
+               FROM
+                   l10n_br_fiscal_tax_estimate
+               GROUP BY {object_name.lower()}_id)
+               SELECT {object_name.lower()}_id
+               FROM {object_name.lower()}_max_date
+            WHERE max < %(create_date)s
+            """
+
+        query_params = {"create_date": data_max.strftime("%Y-%m-%d")}
+
+        self.env.cr.execute(self.env.cr.mogrify(query, query_params))
+        past_estimated = self.env.cr.fetchall()
+
+        ids = [estimate[0] for estimate in past_estimated]
+
+        record_past_estimated = self.env[self._name].browse(ids)
+
+        for record in not_estimated + record_past_estimated:
+            try:
+                record.action_ibpt_inquiry()
+            except Exception as e:  # noqa: BLE001 - one record must not stop the rest
+                _logger.warning(
+                    self.env._(
+                        "%(name)s Tax Estimate Failure: %(error)s",
+                        name=object_name,
+                        error=e,
+                    )
+                )
+
+        _logger.info(
+            self.env._(
+                "Scheduled %(name)s estimate taxes update complete.",
+                name=object_name,
+            )
+        )
+
+    @api.model
+    def _get_view(self, view_id=None, view_type="form", **options):
+        arch, view = super()._get_view(view_id, view_type, **options)
+        if view_type == "form":
+            xml_button = arch.xpath("//button[@name='action_ibpt_inquiry']")
+            if xml_button and not self.env.company.ibpt_api:
+                modifiers = json.loads(xml_button[0].get("modifiers", "{}"))
+                modifiers["invisible"] = 1
+                xml_button[0].set("modifiers", json.dumps(modifiers))
+        return arch, view
+
+    @api.model
+    def get_views(self, views, options=None):
+        res = super().get_views(views, options)
+        if not self.env.company.ibpt_api:
+            for view in res.get("views", {}).values():
+                if view.get("toolbar"):
+                    view["toolbar"]["action"] = []
+        return res
