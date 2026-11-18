@@ -209,12 +209,11 @@ class HrEmployee(models.Model):
     def _sanitize_document_fields(self, vals):
         """Store identification documents as plain digits, as required by
         the eSocial layouts; formatted values are exposed by the
-        pis_pasep_formatted field and by the work contact
-        vat_formatted_cnpj field. The employee vat (CPF) is sanitized
-        here and not only on the work contact, because the res.partner
-        vat normalization of l10n_br_base is skipped for non-Brazilian
-        contacts."""
-        for fname in ("vat", "pis_pasep"):
+        pis_pasep_formatted and vat_formatted_cnpj fields. The employee
+        vat (CPF) is sanitized here and not only on the work contact,
+        because the res.partner vat normalization of l10n_br_base is
+        skipped for non-Brazilian contacts."""
+        for fname in ("vat", "pis_pasep", "ctps"):
             if vals.get(fname):
                 vals[fname] = misc.punctuation_rm(str(vals[fname]))
 
@@ -243,6 +242,18 @@ class HrEmployee(models.Model):
         for record in self:
             if record.pis_pasep and not pis.validar(record.pis_pasep):
                 raise ValidationError(_("Invalid PIS/PASEP"))
+
+    @api.constrains("ctps")
+    def _validate_ctps(self):
+        for record in self:
+            ctps = record.ctps
+            if ctps and (not ctps.isdigit() or len(ctps) > 11):
+                raise ValidationError(
+                    _(
+                        "The CTPS number must hold up to 11 digits, without"
+                        " punctuation."
+                    )
+                )
 
     @api.constrains("vat")
     def _check_cpf(self):
