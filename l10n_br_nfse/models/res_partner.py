@@ -52,7 +52,8 @@ class ResPartner(models.Model):
             or None,
             "inscricao_estadual": misc.punctuation_rm(self.l10n_br_ie_code or "")
             or None,
-            "razao_social": str(self.legal_name[:60] or ""),
+            # the legal name is hidden for a partner abroad: fall back on the name
+            "razao_social": (self.legal_name or self.name or "")[:60],
             "endereco": str(self.street_name or self.street or ""),
             "numero": self.street_number or "",
             "bairro": str(self.district or "Sem Bairro"),
