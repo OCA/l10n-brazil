@@ -1,4 +1,4 @@
-odoo.define("l10n_br_website_sale.l10n_br_address", function (require) {
+odoo.define("l10n_br_website_sale_oca.l10n_br_address", function (require) {
     "use strict";
 
     const ajax = require("web.ajax");

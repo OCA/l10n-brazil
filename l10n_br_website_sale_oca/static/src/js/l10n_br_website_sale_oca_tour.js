@@ -1,4 +1,4 @@
-odoo.define("l10n_br_website_sale.tour", function (require) {
+odoo.define("l10n_br_website_sale_oca.tour", function (require) {
     "use strict";
 
     const tour = require("web_tour.tour");
@@ -31,7 +31,7 @@ odoo.define("l10n_br_website_sale.tour", function (require) {
         ];
     }
 
-    tour.register("l10n_br_website_sale_tour", {test: true}, [
+    tour.register("l10n_br_website_sale_oca_tour", {test: true}, [
         ...addToCart,
         ...fillContact("checkout-br@example.com"),
         fill("zip", "12246250"),
@@ -65,7 +65,7 @@ odoo.define("l10n_br_website_sale.tour", function (require) {
         payment,
     ]);
 
-    tour.register("l10n_br_website_sale_foreign_tour", {test: true}, [
+    tour.register("l10n_br_website_sale_oca_foreign_tour", {test: true}, [
         ...addToCart,
         ...fillContact("checkout-fr@example.com"),
         {
