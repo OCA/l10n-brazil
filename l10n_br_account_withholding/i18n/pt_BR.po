@@ -38,6 +38,12 @@ msgid "Is City Hall?"
 msgstr ""
 
 #. module: l10n_br_account_withholding
+#: model:ir.model.fields,field_description:l10n_br_account_withholding.field_res_partner__wh_state_treasury
+#: model:ir.model.fields,field_description:l10n_br_account_withholding.field_res_users__wh_state_treasury
+msgid "Is State Treasury?"
+msgstr ""
+
+#. module: l10n_br_account_withholding
 #: model:ir.model,name:l10n_br_account_withholding.model_account_move
 msgid "Journal Entry"
 msgstr "Lançamento de Diário"
@@ -52,6 +58,23 @@ msgstr "Item de Diário"
 #: code:addons/l10n_br_account_withholding/models/res_partner.py:0
 #, python-format
 msgid "Only one partner with the same City Hall can exist in the same city."
+msgstr ""
+
+#. module: l10n_br_account_withholding
+#. odoo-python
+#: code:addons/l10n_br_account_withholding/models/res_partner.py:0
+#, python-format
+msgid ""
+"Only one partner with the same State Treasury can exist in the same state."
+msgstr ""
+
+#. module: l10n_br_account_withholding
+#: model:ir.model.fields,help:l10n_br_account_withholding.field_res_partner__wh_state_treasury
+#: model:ir.model.fields,help:l10n_br_account_withholding.field_res_users__wh_state_treasury
+msgid ""
+"Partner that collects state taxes withheld in this state, such as ICMS. Used "
+"to fill the vendor of the withholding invoice when the fiscal tax group "
+"scope is 'State'."
 msgstr ""
 
 #. module: l10n_br_account_withholding
