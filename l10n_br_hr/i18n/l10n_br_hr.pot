@@ -116,12 +116,8 @@ msgid "CNPJ/CEI Tomadora/Obra"
 msgstr ""
 
 #. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__cnpj_cpf
-msgid "CNPJ/CPF"
-msgstr ""
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__cpf
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__vat
+#: model_terms:ir.ui.view,arch_db:l10n_br_hr.view_l10n_br_hr_employee_form
 msgid "CPF"
 msgstr ""
 
@@ -389,7 +385,7 @@ msgid "Identidade"
 msgstr ""
 
 #. module: l10n_br_hr
-#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee__cpf
+#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee__vat
 msgid "Identification Number for selected type"
 msgstr ""
 
@@ -512,6 +508,18 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__pis_pasep
 #: model_terms:ir.ui.view,arch_db:l10n_br_hr.view_l10n_br_hr_employee_form
 msgid "PIS/PASEP"
+msgstr ""
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__pis_pasep_formatted
+msgid "PIS/PASEP Formatted"
+msgstr ""
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee__pis_pasep_formatted
+msgid ""
+"PIS/PASEP displayed with punctuation (XXX.XXXXX.XX-X); it is stored "
+"unformatted in the pis_pasep field."
 msgstr ""
 
 #. module: l10n_br_hr
