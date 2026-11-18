@@ -81,26 +81,149 @@ row {
                     <p t-field="o.justification" />
                 </div>
             </div>
-            <div id="cce_notes" class="row bb bl br">
-                <div class="col-12" style="font-size:10px;" t-if="o.type == '14'">
-                  A Carta de Correção é disciplinada pelo parágrafo 1o-A do artigo 7o do Convênio S/N, de 15 de dezembro de 1970 e pode ser utilizada para regularização de erro ocorrido na emissão de documento fiscal, desde que o erro não seja relacionado com:<br
-                />
-                  <br />
-                  I - as variáveis que determinam o valor do imposto tais como: base de cálculo, alíquota, diferença de preço, quantidade, valor da operação ou da prestação;<br
-                />
-                  II - a correção de dados cadastrais que impliquem mudança do remetente ou do destinatário;<br
-                />
-                  III - a data de emissão ou de saída.<br />
-              </div>
+        </div>
+    </template>
+    <template id="report_document_event_cce">
+        <t t-set="o" t-value="doc" />
+        <t t-set="v" t-value="o._get_cce_report_values()" />
+        <div class="page" style="font-size:12px; position: relative;">
+            <style type="text/css">
+.cce td {
+    border: 1px solid black;
+    padding: 4px 6px;
+    vertical-align: top;
+}
+.cce table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 6px;
+}
+.cce .label {
+    font-weight: bold;
+    font-size: 10px;
+    text-transform: uppercase;
+}
+.cce .title {
+    font-weight: bold;
+    font-size: 14px;
+}
+.cce .subtitle {
+    font-style: italic;
+}
+.cce .watermark {
+    position: absolute;
+    top: 300px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    font-size: 90px;
+    font-weight: bold;
+    color: rgba(160, 160, 160, 0.3);
+    transform: rotate(-30deg);
+    z-index: -1;
+}
+            </style>
+            <div class="cce">
+                <div t-if="v['homologation']" class="watermark">NO FISCAL VALUE</div>
+                <table>
+                    <tr>
+                        <td style="width: 55%;">
+                            <div class="label">Issuer</div>
+                            <strong t-out="v['issuer_name']" />
+                            <div>CNPJ/CPF: <span t-out="v['issuer_cnpj_cpf']" /></div>
+                            <div t-if="v['issuer_ie']">State registration: <span
+                                t-out="v['issuer_ie']"
+                            /></div>
+                            <div t-out="v['issuer_address']" />
+                            <div t-if="v['issuer_phone']" t-out="v['issuer_phone']" />
+                        </td>
+                        <td style="text-align: center;">
+                            <div class="title">Graphic representation of the CC-e</div>
+                            <div class="subtitle">(Electronic Correction Letter)</div>
+                            <div style="margin-top: 6px; text-align: left;">
+                                <div>Event ID: <span t-out="v['event_id']" /></div>
+                                <div>Sequence: <span t-out="v['sequence']" /></div>
+                                <div>Created on: <span t-out="v['event_date']" /></div>
+                                <div>Protocol: <span t-out="o.protocol_number" /></div>
+                                <div>Registered at: <span
+                                    t-out="v['registration_date']"
+                                /></div>
+                                <div t-if="v['status']">Status: <span
+                                    t-out="v['status']"
+                                /></div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <table>
+                    <tr>
+                        <td>
+                            <div class="label">Recipient</div>
+                            <strong t-out="v['recipient_name']" />
+                            <div>CNPJ/CPF: <span
+                                t-out="v['recipient_cnpj_cpf']"
+                            /></div>
+                        </td>
+                        <td style="width: 45%;">
+                            <div class="label">NF-e</div>
+                            <div>Model: <span t-out="v['nfe_model']" /> Number: <span
+                                t-out="v['nfe_number']"
+                            /> Series: <span t-out="v['nfe_serie']" /></div>
+                            <div>Issue date: <span t-out="v['nfe_date']" /></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div class="label">Access key</div>
+                            <div t-out="v['access_key_text']" />
+                            <img
+                                t-if="v['access_key']"
+                                alt="Barcode"
+                                t-att-src="'/report/barcode/?barcode_type=Code128&amp;value=%s&amp;width=600&amp;height=60' % v['access_key']"
+                                style="width: 100%; max-height: 60px;"
+                            />
+                        </td>
+                    </tr>
+                </table>
+                <table>
+                    <tr>
+                        <td>
+                            <div class="label">Conditions of use</div>
+                            <div
+                                style="font-size: 10px;"
+                                t-out="v['condition_of_use']"
+                            />
+                        </td>
+                    </tr>
+                </table>
+                <table>
+                    <tr>
+                        <td style="height: 380px;">
+                            <div class="label">Corrections to be considered</div>
+                            <div
+                                style="white-space: pre-line; margin-top: 4px;"
+                                t-out="v['correction']"
+                            />
+                        </td>
+                    </tr>
+                </table>
+                <div
+                    style="text-align: center; font-size: 10px;"
+                >This document is a graphic representation of the CC-e, printed only for information, and has no fiscal validity. The CC-e must be received and kept as an XML file and can be consulted on the SEFAZ portals.</div>
             </div>
         </div>
     </template>
-
     <template id="main_report_document_event">
         <t t-call="web.html_container">
             <div class="article">
                 <t t-foreach="docs" t-as="doc">
                     <t
+                        t-if="doc.type == '14'"
+                        t-call="l10n_br_fiscal_edi.report_document_event_cce"
+                        t-lang="doc._get_cce_report_lang()"
+                    />
+                    <t
+                        t-else=""
                         t-call="l10n_br_fiscal_edi.report_document_event"
                         t-lang="doc.document_id.partner_id.lang"
                     />
