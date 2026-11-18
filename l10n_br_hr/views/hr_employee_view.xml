@@ -16,7 +16,7 @@
                 />
             </field>
             <xpath expr="//field[@name='identification_id']" position="replace">
-                <field name="vat" string="CPF" />
+                <field name="vat_formatted_cnpj" string="CPF" />
             </xpath>
             <xpath expr="//page[@name='personal_information']" position="inside">
                 <group name="characteristics" string="Characteristics">

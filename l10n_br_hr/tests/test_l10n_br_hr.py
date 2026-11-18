@@ -32,10 +32,13 @@ class TestL10nBr(TransactionCase):
 
         self.assertFalse(result, "Error on update invalid employee cpf")
 
-    def test_onchange_cpf(self):
-        self.employee.write({"vat": "780.048.630-35"})
-        self.employee.onchange_vat()
+    def test_cpf_formatted(self):
+        """The masked CPF is exposed by vat_formatted_cnpj while vat keeps
+        the plain digits (l10n_br_base convention, eSocial ready)."""
+        self.employee.write({"vat_formatted_cnpj": "780.048.630-35"})
         self.assertEqual(self.employee.vat, "78004863035")
+        self.assertEqual(self.employee.vat_formatted_cnpj, "780.048.630-35")
+        self.assertEqual(self.employee.work_contact_id.vat, "78004863035")
 
     def test_cpf_stored_unformatted(self):
         """The employee vat (CPF) is stored as plain digits and lands on
