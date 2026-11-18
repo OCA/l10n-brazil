@@ -338,6 +338,77 @@ class TestL10nBrNfseFocus(common.TransactionCase):
             str(e.exception),
         )
 
+    @patch("odoo.addons.l10n_br_nfse_focus.models.base.requests.request")
+    def test_make_focus_nfse_http_request_422_xsd_validation(self, mock_request):
+        """Tests that raw XSD validation errors are formatted for the user."""
+        mock_request.return_value.status_code = 422
+        mock_request.return_value.json.return_value = {
+            "mensagem": (
+                "42:0: ERROR: Element "
+                "'{http://www.sped.fazenda.gov.br/nfse}xDescServ': "
+                "This element is not expected. Expected is "
+                "( {http://www.sped.fazenda.gov.br/nfse}cTribNac ). "
+                "-- xpath: /DPS/infDPS/serv/cServ/xDescServ\n"
+                "74:0: ERROR: Element "
+                "'{http://www.sped.fazenda.gov.br/nfse}IBSCBS': "
+                "Missing child element(s). "
+                "-- xpath: /DPS/infDPS/IBSCBS"
+            )
+        }
+
+        with self.assertRaises(UserError) as e:
+            self.nfse_focus._make_focus_nfse_http_request(
+                "POST", "https://api.focusnfe.com.br/v2/nfse", self.token, PAYLOAD
+            )
+
+        message = str(e.exception)
+        self.assertIn(
+            "Error: Element '{http://www.sped.fazenda.gov.br/nfse}xDescServ': "
+            "This element is not expected. Expected is "
+            "( {http://www.sped.fazenda.gov.br/nfse}cTribNac ).",
+            message,
+        )
+        self.assertIn("Field: /DPS/infDPS/serv/cServ/xDescServ", message)
+        self.assertIn(
+            "Error: Element '{http://www.sped.fazenda.gov.br/nfse}IBSCBS': "
+            "Missing child element(s).",
+            message,
+        )
+        self.assertIn("Field: /DPS/infDPS/IBSCBS", message)
+
+    def test_format_focus_nfse_message_fallback(self):
+        """Tests that a plain message is returned unchanged."""
+        raw = "CNPJ do emitente não autorizado."
+        self.assertEqual(
+            self.nfse_focus._format_focus_nfse_message(raw),
+            raw,
+        )
+
+    def test_format_focus_nfse_message_single_line_with_xpath(self):
+        """Tests formatting of a single XSD error line with xpath."""
+        raw = (
+            "42:0: ERROR: Element 'xDescServ': This element is not expected. "
+            "-- xpath: /DPS/infDPS/serv/cServ/xDescServ"
+        )
+        formatted = self.nfse_focus._format_focus_nfse_message(raw)
+        self.assertEqual(
+            formatted,
+            "Error: Element 'xDescServ': This element is not expected.\n"
+            "Field: /DPS/infDPS/serv/cServ/xDescServ",
+        )
+
+    def test_format_focus_nfse_message_multiple_lines(self):
+        """Tests formatting of multiple XSD error lines."""
+        raw = (
+            "42:0: ERROR: Primeiro erro. -- xpath: /DPS/a\n"
+            "74:0: ERROR: Segundo erro sem xpath."
+        )
+        formatted = self.nfse_focus._format_focus_nfse_message(raw)
+        self.assertEqual(
+            formatted,
+            "Error: Primeiro erro.\nField: /DPS/a\n\nError: Segundo erro sem xpath.",
+        )
+
     def test_make_focus_nfse_pdf(self):
         """Tests generation of NFSe PDF."""
         record = self.nfse_demo
@@ -1566,7 +1637,48 @@ class TestL10nBrNfseFocus(common.TransactionCase):
         ) as mock_trigger_fsm:
             document._process_error_status(document, json_data)
 
-            self.assertEqual(document.edoc_error_message, "Error message")
+            self.assertEqual(document.edoc_error_message, "Message: Error message")
+            mock_trigger_fsm.assert_called_once_with("action_reject")
+
+    def test_process_error_status_multiple_errors(self):
+        """Tests that all errors are captured with codigo, correcao and mensagem."""
+        document = self.nfse_demo
+        json_data = {
+            "erros": [
+                {
+                    "codigo": "Erro",
+                    "mensagem": (
+                        "PROTOCOLO [69418A4FEE659A3C09B7] RPS [35] "
+                        "SERIE [1] STATUS [Rejeitado]"
+                    ),
+                },
+                {
+                    "codigo": "2",
+                    "correcao": "Verifique o CTN cadastrado no serviço.",
+                    "mensagem": (
+                        "Rps [35]. CTN 07.10.01.000 (07.10) Difere do "
+                        "Serviço (07.02) da Nota. Verifique com a Prefeitura!"
+                    ),
+                },
+            ]
+        }
+
+        with patch(
+            "odoo.addons.l10n_br_fiscal_edi.models.document.Document._trigger_fsm"
+        ) as mock_trigger_fsm:
+            document._process_error_status(document, json_data)
+
+            expected = (
+                "Code: Erro\n"
+                "Message: PROTOCOLO [69418A4FEE659A3C09B7] RPS [35] "
+                "SERIE [1] STATUS [Rejeitado]"
+                "\n\n"
+                "Code: 2\n"
+                "Correction: Verifique o CTN cadastrado no serviço.\n"
+                "Message: Rps [35]. CTN 07.10.01.000 (07.10) Difere do "
+                "Serviço (07.02) da Nota. Verifique com a Prefeitura!"
+            )
+            self.assertEqual(document.edoc_error_message, expected)
             mock_trigger_fsm.assert_called_once_with("action_reject")
 
     def test_process_error_status_no_errors(self):
