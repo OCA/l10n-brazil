@@ -8,7 +8,7 @@ from unicodedata import normalize
 
 from erpbrasil.base.fiscal.edoc import ChaveEdoc
 from erpbrasil.base.misc import punctuation_rm
-from erpbrasil.transmissao import TransmissaoSOAP
+from erpbrasil.edoc.mdfe import TransmissaoMDFE
 from nfelib.mdfe.bindings.v3_0.mdfe_v3_00 import Mdfe
 from nfelib.nfe.ws.edoc_legacy import MDFeAdapter as edoc_mdfe
 from requests import Session
@@ -960,10 +960,10 @@ class MDFe(spec_models.StackedModel):
         session.verify = False
 
         params = {
-            "transmissao": TransmissaoSOAP(certificado, session),
+            "transmissao": TransmissaoMDFE(certificado, session),
             "uf": self.company_id.state_id.ibge_code,
             "versao": self.mdfe_version,
-            "ambiente": self.mdfe_environment,
+            "ambiente": int(self.mdfe_environment),
         }
         return edoc_mdfe(**params)
 
