@@ -8,7 +8,7 @@ from odoo.exceptions import UserError, ValidationError
 class DereReserveLine(models.Model):
     _name = "l10n_br_dere.reserve.line"
     _description = "DeRE technical-reserve investment line"
-    _inherit = "dere.12.detativo"
+    _inherit = ["dere.12.d1106.detativo", "spec.mixin.dere.currency"]
     _order = "dere12_cCta, dere12_idAtivo"
 
     declaration_id = fields.Many2one(

@@ -8,8 +8,24 @@ from odoo.tools import float_is_zero
 class DereEventTotal(models.Model):
     _name = "l10n_br_dere.event.total"
     _description = "DeRE assessed total returned by the RFB"
-    _inherit = "dere.12.gtotalcodtrib"
+    _inherit = ["dere.12.d9101.gtotalcodtrib", "spec.mixin.dere.currency"]
     _order = "event_id, dere12_codTrib, dere12_indTribISS"
+
+    dere12_vApurTot = fields.Monetary(
+        string="Assessed total",
+        currency_field="brl_currency_id",
+        help="Official DeRE field vApurTot.",
+    )
+    dere12_vTotSaldoInic = fields.Monetary(
+        string="Opening balance total",
+        currency_field="brl_currency_id",
+        help="Official DeRE field vTotSaldoInic.",
+    )
+    dere12_vTotSaldoFinal = fields.Monetary(
+        string="Closing balance total",
+        currency_field="brl_currency_id",
+        help="Official DeRE field vTotSaldoFinal.",
+    )
 
     event_id = fields.Many2one(
         comodel_name="l10n_br_dere.event",

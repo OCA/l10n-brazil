@@ -381,9 +381,9 @@ Development
 O XML é montado por ``models/xml_builder.py`` a partir de dicionários
 preparados pelos modelos e conferido contra o XSD oficial pelo
 ``l10n_br_dere_spec``. As linhas de grade (PGCC, balancete, reserva,
-deduções e retornos) herdam os mixins planos do spec
-(``dere.12.infoconta``, ``dere.12.balanceteconta``, …), então os campos
-``dere12_*`` têm o mesmo nome das tags do XSD.
+deduções e retornos) herdam os mixins gerados do spec
+(``dere.12.d1011.infoconta``, ``dere.12.d1101.infoconta``, …), então os
+campos ``dere12_*`` têm o mesmo nome das tags do XSD.
 
 Decisões de design:
 

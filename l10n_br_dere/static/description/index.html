@@ -718,9 +718,9 @@ gerados.</p>
 <p>O XML é montado por <tt class="docutils literal">models/xml_builder.py</tt> a partir de dicionários
 preparados pelos modelos e conferido contra o XSD oficial pelo
 <tt class="docutils literal">l10n_br_dere_spec</tt>. As linhas de grade (PGCC, balancete, reserva,
-deduções e retornos) herdam os mixins planos do spec
-(<tt class="docutils literal">dere.12.infoconta</tt>, <tt class="docutils literal">dere.12.balanceteconta</tt>, …), então os campos
-<tt class="docutils literal">dere12_*</tt> têm o mesmo nome das tags do XSD.</p>
+deduções e retornos) herdam os mixins gerados do spec
+(<tt class="docutils literal">dere.12.d1011.infoconta</tt>, <tt class="docutils literal">dere.12.d1101.infoconta</tt>, …), então os
+campos <tt class="docutils literal">dere12_*</tt> têm o mesmo nome das tags do XSD.</p>
 <p>Decisões de design:</p>
 <ul class="simple">
 <li><tt class="docutils literal">l10n_br_dere.declaration</tt>, <tt class="docutils literal">l10n_br_dere.table.period</tt> e

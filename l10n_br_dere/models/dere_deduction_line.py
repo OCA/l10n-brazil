@@ -10,7 +10,7 @@ from odoo.addons.l10n_br_dere_spec.models.v1_2.types import TP_ATIV, TP_DFE
 class DereDeductionLine(models.Model):
     _name = "l10n_br_dere.deduction.line"
     _description = "DeRE deduction line"
-    _inherit = "dere.12.infodeducao"
+    _inherit = ["dere.12.d1121.infodeducao", "spec.mixin.dere.currency"]
     _order = "dere12_dtEmi, dere12_chDFe"
 
     declaration_id = fields.Many2one(
@@ -171,7 +171,7 @@ class DereDeductionLine(models.Model):
 class DereDeductionItem(models.Model):
     _name = "l10n_br_dere.deduction.item"
     _description = "DeRE deduction item"
-    _inherit = "dere.12.itemdfe"
+    _inherit = ["dere.12.d1121.itemdfe", "spec.mixin.dere.currency"]
     _order = "dere12_nItem"
 
     line_id = fields.Many2one(

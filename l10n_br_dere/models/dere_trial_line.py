@@ -10,7 +10,7 @@ from odoo.addons.l10n_br_dere_spec.models.v1_2.types import NAT_SALDO
 class DereTrialLine(models.Model):
     _name = "l10n_br_dere.trial.line"
     _description = "DeRE trial-balance line"
-    _inherit = "dere.12.balanceteconta"
+    _inherit = ["dere.12.d1101.infoconta", "spec.mixin.dere.currency"]
 
     declaration_id = fields.Many2one(
         comodel_name="l10n_br_dere.declaration",

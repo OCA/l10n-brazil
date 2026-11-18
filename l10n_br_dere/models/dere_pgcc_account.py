@@ -15,7 +15,7 @@ from odoo.addons.l10n_br_dere_spec.models.v1_2.types import (
 class DerePgccAccount(models.Model):
     _name = "l10n_br_dere.pgcc.account"
     _description = "DeRE PGCC snapshot account"
-    _inherit = "dere.12.infoconta"
+    _inherit = "dere.12.d1011.infoconta"
     _rec_name = "dere12_cCta"
     _order = "dere12_cCta"
 

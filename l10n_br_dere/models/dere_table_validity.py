@@ -14,7 +14,7 @@ TABLE_EVENT_TYPES = [
 class DereTableValidity(models.Model):
     _name = "l10n_br_dere.table.validity"
     _description = "DeRE table validity in force at the RFB"
-    _inherit = "dere.12.detevento"
+    _inherit = "dere.12.d9001.detevento"
     _order = "event_type, dere12_iniValid, id"
 
     company_id = fields.Many2one(
@@ -42,7 +42,7 @@ class DereTableValidity(models.Model):
 class DereTableGap(models.Model):
     _name = "l10n_br_dere.table.gap"
     _description = "DeRE table period without validity at the RFB"
-    _inherit = "dere.12.detlacuna"
+    _inherit = "dere.12.d9001.detlacuna"
     _order = "event_type, dere12_iniLacuna, id"
 
     company_id = fields.Many2one(
