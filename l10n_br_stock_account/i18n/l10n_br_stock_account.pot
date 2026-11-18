@@ -422,6 +422,11 @@ msgid "Customhouse Charges"
 msgstr ""
 
 #. module: l10n_br_stock_account
+#: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_move_fiscal_report_search
+msgid "Date"
+msgstr ""
+
+#. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking_type__fiscal_operation_id
 msgid "Default Fiscal Operation"
 msgstr ""
@@ -495,6 +500,11 @@ msgstr ""
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__document_serie_id
 msgid "Document Serie"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_move_fiscal_report_search
+msgid "Done"
 msgstr ""
 
 #. module: l10n_br_stock_account
@@ -619,6 +629,15 @@ msgid "Fiscal Quantity"
 msgstr ""
 
 #. module: l10n_br_stock_account
+#: model:ir.actions.act_window,name:l10n_br_stock_account.stock_move_fiscal_report_action
+#: model:ir.ui.menu,name:l10n_br_stock_account.stock_move_fiscal_report_menu
+#: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_move_fiscal_report_graph
+#: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_move_fiscal_report_pivot
+#: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_move_fiscal_report_search
+msgid "Fiscal Stock Moves"
+msgstr ""
+
+#. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__fiscal_tax_ids
 msgid "Fiscal Taxes"
 msgstr ""
@@ -647,6 +666,11 @@ msgstr ""
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_invoice_onshipping__group
 msgid "Group"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_move_fiscal_report_search
+msgid "Group By"
 msgstr ""
 
 #. module: l10n_br_stock_account
@@ -1487,6 +1511,11 @@ msgid "Percentual de mercadoria devolvida"
 msgstr ""
 
 #. module: l10n_br_stock_account
+#: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_move_fiscal_report_search
+msgid "Picking"
+msgstr ""
+
+#. module: l10n_br_stock_account
 #: model:ir.model,name:l10n_br_stock_account.model_stock_picking_type
 msgid "Picking Type"
 msgstr ""
@@ -1498,6 +1527,7 @@ msgstr ""
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__product_id
+#: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_move_fiscal_report_search
 msgid "Product"
 msgstr ""
 
@@ -1804,6 +1834,11 @@ msgstr ""
 #. module: l10n_br_stock_account
 #: model:ir.model.fields.selection,name:l10n_br_stock_account.selection__stock_rule__invoice_state__2binvoiced
 msgid "To Be Invoiced"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_move_fiscal_report_list
+msgid "Total"
 msgstr ""
 
 #. module: l10n_br_stock_account
