@@ -1,0 +1,34 @@
+# Tipos de norma aceitos no campo `tipo` de docs/normas/*.yaml.
+# "Norma" aqui é qualquer fonte que fixa um comportamento esperado: ato legal,
+# nota técnica, manual, leiaute, pronunciamento contábil ou tabela oficial.
+tipos_norma:
+  - codigo: emenda
+    descricao: "Emenda constitucional (ex. EC 132/2023)."
+  - codigo: lei
+    descricao: "Lei ordinária federal, estadual ou municipal."
+  - codigo: lei-complementar
+    descricao: "Lei complementar (ex. LC 214/2025)."
+  - codigo: decreto
+    descricao: "Decreto regulamentador."
+  - codigo: resolucao
+    descricao: "Resolução de órgão colegiado (CGSN, CGIBS, CFC, Senado)."
+  - codigo: ato
+    descricao: "Ato declaratório, ato conjunto ou portaria (RFB, RFB/CGIBS, ENCAT)."
+  - codigo: convenio-ajuste
+    descricao: "Convênio ou ajuste SINIEF do CONFAZ."
+  - codigo: instrucao-normativa
+    descricao: "Instrução normativa (RFB, INSS)."
+  - codigo: nota-tecnica
+    descricao: "Nota técnica de documento fiscal eletrônico (NF-e, CT-e, MDF-e, NFS-e) ou do SPED."
+  - codigo: manual
+    descricao: "Manual de orientação (MOC, Guia Prático da EFD, manual do PVA)."
+  - codigo: leiaute
+    descricao: "Leiaute legível por máquina (XSD, schematron, descritor do PVA)."
+  - codigo: pronunciamento
+    descricao: "Pronunciamento ou norma contábil (CPC, NBC TG, ITG)."
+  - codigo: tabela
+    descricao: "Tabela oficial (NCM, CEST, cClassTrib, CFOP, CST, municípios do IBGE)."
+  - codigo: perguntas-e-respostas
+    descricao: "Perguntas e respostas ou orientação oficial publicada pelo órgão, sem força de ato."
+  - codigo: comunicado
+    descricao: "Comunicado, notícia ou aviso do órgão (confiança secundária até virar ato)."

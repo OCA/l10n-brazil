@@ -1,0 +1,99 @@
+# Vocabulários fechados. O validador recusa qualquer valor fora destes.
+# Mudar um vocabulário é PR em docs/ com revisão do PSC; nunca se renomeia um
+# código em uso sem migrar os arquivos que o usam.
+
+# Status de uma norma: o quanto o texto já vale.
+status_norma:
+  norma: ato publicado e vigente ou com vigência marcada
+  nt: nota técnica, manual ou leiaute publicado pelo órgão operador (ENCAT, SPED, CGNFS-e)
+  rito-legal: depende de ato ainda não publicado (projeto, resolução pendente, consulta pública)
+  comunicado: só comunicado ou notícia oficial; sem texto normativo
+  incerto: fonte secundária ou contraditória; precisa de confirmação
+
+# Confiança da fonte citada.
+confianca:
+  oficial: publicação do próprio órgão (gov.br, portal do DF-e, CONFAZ, CFC)
+  secundaria: imprensa especializada, fornecedor, fórum; não sustenta sozinha um estado pronto
+
+# Firmeza da data de um marco.
+status_data:
+  norma: data fixada em ato publicado
+  rito-legal: data depende de ato pendente
+  incerto: data estimada ou divergente entre fontes
+
+# Estado de um requisito na branch em que a spec está escrita.
+estado:
+  pronto: implementado nesta série, com teste nomeado e SHA em que passou
+  pr: há PR aberto nesta série (ou na biblioteca de que depende) que implementa
+  parcial: parte do comportamento existe; evidência do que existe e nota do que falta
+  nada: não implementado nesta série
+  nao-se-aplica: o requisito não vale para esta série (motivo obrigatório na spec)
+  desconhecido: ninguém verificou ainda; é dívida, não é ausência
+
+# Tipo de requisito.
+tipo_requisito:
+  normativo: deriva de norma citada com trecho
+  qualidade: regra de engenharia sem norma (ex. cálculo não falha em silêncio)
+
+# Severidade derivada (marco mais próximo x impacto); usada nas visões, não gravada.
+severidade:
+  S1: obrigação vigente ou que vence no próximo marco, com risco de documento errado ou rejeitado
+  S2: vence no próximo marco, mas com contorno manual ou segmento restrito
+  S3: depois do próximo marco, ou facultativo
+
+# Status de uma spec.
+status_spec:
+  rascunho: estrutura ou requisitos incompletos; não exige cenário com números
+  em-revisao: completa, em revisão pela comunidade
+  aprovada: aceita pelo PSC como comportamento esperado
+  implementada: todos os requisitos pronto ou nao-se-aplica nesta série
+  obsoleta: substituída ou sem objeto; mantida pelo histórico
+
+# Status de uma capacidade.
+status_capacidade:
+  rascunho: descrita, sem requisito ainda
+  ativa: com ao menos um requisito
+  obsoleta: sem objeto; mantida pelo histórico
+
+# Status de um ADR.
+status_adr:
+  proposta: em discussão
+  aceita: decisão vigente
+  substituida: substituída por outro ADR (citar)
+  rejeitada: discutida e recusada; mantida pelo histórico
+
+# Status de um trecho de norma.
+status_trecho:
+  vigente: em vigor
+  implementacao-futura: publicado, com validação ou vigência futura
+  revogado: revogado ou substituído
+
+# Camada de um caso de QA (herdada do catálogo existente).
+camada_caso:
+  base: cadastro e base
+  fiscal: motor fiscal
+  edi: documentos eletrônicos em geral
+  nfe: NF-e e NFC-e
+  account: contabilidade e faturas
+  sale: vendas
+  purchase: compras
+  pos: ponto de venda
+  payment: pagamentos e cobrança
+  outros: dependências e demais módulos
+
+# Estado de um caso de QA.
+estado_caso:
+  coberto: jornada executada e assertivas verdes na série (visto_em obrigatório)
+  pendente: roteiro escrito, ainda não executado ou não ratificado
+
+# Nível de um caso de QA.
+nivel_caso:
+  L0: fumaça (instala e abre)
+  L1: unidade de comportamento
+  L2: jornada
+  L3: ciclo completo
+
+# Tipo de guideline nas skills.
+tipo_guideline:
+  convencao: cabe em uma linha e se segue como está
+  regra: precisa do porquê e das exceções; promovida de convenção quando continua sendo violada

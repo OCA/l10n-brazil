@@ -10,7 +10,15 @@
 
 <!-- /!\ do not modify above this line -->
 
-l10n-brazil
+Localização brasileira do Odoo: cadastro, motor fiscal, documentos eletrônicos
+(NF-e, NFC-e, CT-e, MDF-e, NFS-e), apuração e obrigações acessórias,
+contabilidade e financeiro.
+
+Especificações vivas (norma -> requisito -> teste -> estado nesta série), casos
+de QA e decisões de arquitetura: [`docs/README.md`](docs/README.md). Skills para
+agentes de desenvolvimento, no formato das skills do Odoo:
+[`skills/README.md`](skills/README.md). Regras para quem (ou o que) escreve
+código aqui: [`AGENTS.md`](AGENTS.md).
 
 <!-- /!\ do not modify below this line -->
 

@@ -87,10 +87,24 @@ repos:
           - --ignore-unknown
         types: [text]
         files: \.(css|htm|html|js|json|jsx|less|md|scss|toml|ts|xml|yaml|yml)$
+        # Specs, normas e casos em docs/ sao editados por gente nao tecnica,
+        # pelo mesmo motivo que readme/*.md fica fora do prettier
+        exclude: ^docs/
         language: node
         additional_dependencies:
           - "prettier@3.9.7"
           - "@prettier/plugin-xml@3.4.2"
+  - repo: local
+    hooks:
+      - id: docs-validar
+        name: docs - validar normas, marcos, capacidades, specs, casos e links
+        entry: python docs/scripts/validar.py
+        language: python
+        additional_dependencies:
+          - "pyyaml>=6"
+          - "jsonschema>=4"
+        pass_filenames: false
+        files: ^(docs/|AGENTS\.md|skills/|[^/]+/readme/DEVELOP\.md)
   - repo: local
     hooks:
       - id: eslint

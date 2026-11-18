@@ -1,0 +1,62 @@
+# Casos de QA do domínio CAD (cadastro). Mesmo formato do catálogo de QA já em
+# uso; a série é a branch, por isso não há campo "series".
+
+- id: BR-BASE-CNPJALFA-001
+  titulo: "O cadastro aceita um CNPJ alfanumérico válido e mostra a máscara"
+  camada: base
+  modulo: l10n_br_base
+  nivel: L1
+  familia: cnpjalfa
+  nucleo: true
+  gatilhos:
+    - {tipo: caminho, ref: "l10n_br_base/models/party_mixin.py"}
+    - {tipo: caminho, ref: "l10n_br_base/models/res_partner.py"}
+  precondicoes:
+    - {descricao: "Banco com l10n_br_base instalado e um usuário com acesso a contatos"}
+  execucao:
+    ui:
+      passos_humanos: |
+        1. Em Contatos, criar um contato do tipo Empresa, país Brasil.
+        2. No campo CNPJ, digitar 99.XYZ.888/0001-50 e salvar.
+        3. Conferir que o contato foi salvo e que o CNPJ aparece com a máscara
+           99.XYZ.888/0001-50.
+  asserts:
+    - {via: rpc, modelo: "res.partner", campo: "vat_formatted_cnpj", esperado: "99.XYZ.888/0001-50"}
+    - {via: rpc, modelo: "res.partner", campo: "cnpj_cpf_stripped", esperado: "99XYZ888000150"}
+  evidencia: "l10n_br_base/tests/test_cnpj_alfanumerico.py::CNPJAlfanumericoTest::test_partner_valid_alphanumeric_cnpj"
+  fonte:
+    - "N-RFB-PR-CNPJ-ALFANUMERICO#q2"
+    - "OCA/l10n-brazil#5246 (migração do l10n_br_base para a 20.0, inclui o teste)"
+  estado: pendente
+  ratificado_por: null
+  requisitos: [REQ-cnpj-alfanumerico-01]
+  notas: "Pendente até o módulo ser mesclado nesta série e a jornada ser executada."
+
+- id: BR-BASE-CNPJALFA-002
+  titulo: "Um CNPJ alfanumérico com dígito verificador errado é recusado"
+  camada: base
+  modulo: l10n_br_base
+  nivel: L1
+  familia: cnpjalfa
+  nucleo: true
+  gatilhos:
+    - {tipo: caminho, ref: "l10n_br_base/models/res_partner.py"}
+    - {tipo: caminho, ref: "l10n_br_base/tools.py"}
+  precondicoes:
+    - {descricao: "Banco com l10n_br_base instalado e um usuário com acesso a contatos"}
+  execucao:
+    ui:
+      passos_humanos: |
+        1. Em Contatos, criar um contato do tipo Empresa, país Brasil.
+        2. No campo CNPJ, digitar 99.XYZ.888/0001-51 e salvar.
+        3. Conferir que aparece a mensagem de CNPJ inválido e que o contato não
+           foi salvo.
+  asserts:
+    - {via: ui, ref: "Mensagem de erro de validação citando o CNPJ inválido"}
+    - {via: rpc, modelo: "res.partner", campo: "cnpj_cpf_stripped", esperado: null}
+  evidencia: "l10n_br_base/tests/test_cnpj_alfanumerico.py::CNPJAlfanumericoTest::test_company_invalid_alphanumeric_cnpj"
+  fonte:
+    - "N-RFB-PR-CNPJ-ALFANUMERICO#q14"
+  estado: pendente
+  ratificado_por: null
+  requisitos: [REQ-cnpj-alfanumerico-02]

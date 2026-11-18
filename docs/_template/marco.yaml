@@ -1,0 +1,12 @@
+# Nome do arquivo = id + .yaml; a data do id e o campo data coincidem. Só na branch canônica.
+id: M-2026-01-01-slug
+data: 2026-01-01
+fase: "2026"
+o_que_muda: >-
+  O que passa a valer ou deixa de valer nesta data, em duas ou três frases.
+normas:
+  - N-SLUG-DA-NORMA#art-1
+status_data: norma # norma | rito-legal | incerto
+dominios: [DOM]
+observacoes: >-
+  De onde veio a data e o que pode movê-la.

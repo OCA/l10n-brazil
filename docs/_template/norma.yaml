@@ -1,0 +1,30 @@
+# Nome do arquivo = id + .yaml. Só na branch canônica.
+id: N-SLUG-DA-NORMA
+tipo: nota-tecnica # ver docs/taxonomia/tipos-norma.yaml
+orgao: Órgão que publicou
+titulo: Título oficial, com número e data
+status: nt # norma | nt | rito-legal | comunicado | incerto
+confianca: oficial # oficial | secundaria
+publicacao: 2026-01-01
+vigencia:
+  inicio: 2026-01-01
+url: https://exemplo.gov.br/texto-oficial
+versoes:
+  - versao: "1.00"
+    data: 2026-01-01
+    url: https://exemplo.gov.br/versao-1.00.pdf
+    confianca: oficial
+trechos:
+  - ref: art-1 # citável como N-SLUG-DA-NORMA#art-1
+    descricao: O que o trecho fixa, em uma ou duas frases, sem interpretar.
+    status: vigente # vigente | implementacao-futura | revogado
+artefatos:
+  - nome: leiaute.zip
+    url: https://exemplo.gov.br/leiaute.zip
+    sha256: 0000000000000000000000000000000000000000000000000000000000000000
+    tamanho: 0
+    descricao: Para que serve e quando foi baixado. O arquivo fica fora do git.
+supersede: []
+dominios: [DOM]
+observacoes: >-
+  TODO(mantenedor): o que ainda falta conferir no texto oficial.

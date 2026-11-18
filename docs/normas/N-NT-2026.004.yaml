@@ -1,0 +1,37 @@
+id: N-NT-2026.004
+tipo: nota-tecnica
+orgao: ENCAT (Portal da NF-e)
+titulo: >-
+  Nota Técnica 2026.004: atualização do schema da NF-e e da NFC-e para o CNPJ
+  alfanumérico
+status: nt
+confianca: secundaria
+versoes:
+  - versao: "1.00"
+    data: 2026-05-04
+    confianca: secundaria
+    observacoes: Data da divulgação por fornecedores de software; conferir no Portal da NF-e.
+  - versao: "1.01"
+    data: 2026-06-01
+    confianca: secundaria
+    observacoes: Complementa os campos que ficaram de fora da 1.00; data aproximada.
+vigencia:
+  inicio: 2026-07-01
+trechos:
+  - ref: schema
+    descricao: >-
+      Campos do tipo CNPJ e chaves de acesso de DF-e nos leiautes da NF-e (55) e
+      da NFC-e (65) deixam de ser numéricos e passam a aceitar caracteres
+      alfanuméricos, conforme a NT Conjunta 2025.001.
+    status: implementacao-futura
+  - ref: prazos
+    descricao: >-
+      Ambiente de homologação a partir de 01/06/2026; produção a partir de
+      01/07/2026.
+    status: implementacao-futura
+supersede: []
+dominios: [EDI]
+observacoes: >-
+  Confiança secundária até alguém conferir o PDF no Portal da NF-e e registrar o
+  hash em artefatos. As datas vêm de comunicados de fornecedores (TecnoSpeed,
+  Senior, Inventti), consistentes entre si.
