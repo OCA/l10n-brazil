@@ -9748,6 +9748,14 @@ msgid "The fiscal operation {} has no return Fiscal Operation defined"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#. odoo-python
+#: code:addons/l10n_br_fiscal/models/document.py:0
+msgid ""
+"The lines of the fiscal document %(document)s must be issued in separate documents, because they differ in the service:\n"
+"%(groups)s"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_tax__compute_sequence
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_tax_group__compute_sequence
 msgid ""
