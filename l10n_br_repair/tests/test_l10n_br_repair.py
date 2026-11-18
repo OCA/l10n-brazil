@@ -38,6 +38,11 @@ class TestL10nBrRepair(TransactionCase):
         # The quotation must take the operation from the repair, not from
         # the default sale operation of the company.
         cls.company.sale_fiscal_operation_id = False
+        # The test invoices the Sale Order of the repair. When
+        # sale_stock_picking_invoicing is installed (by l10n_br_sale_stock),
+        # its default policy without demo data only invoices from the Picking.
+        if "sale_invoicing_policy" in cls.company._fields:
+            cls.company.sale_invoicing_policy = "sale_order"
 
     def _create_repair(self, **vals):
         values = {
