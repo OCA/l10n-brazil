@@ -69,6 +69,26 @@ class TestImportedMoveTerms(AccountMoveBRCommon):
         move.invoice_payment_term_id = payment_term
         return move
 
+    def _wh_taxes(self):
+        return {
+            "issqn_wh_tax_id": self.env.ref("l10n_br_fiscal.tax_issqn_wh_5").id,
+            "issqn_wh_base": 1000.0,
+            "issqn_wh_percent": 5.0,
+            "issqn_wh_value": 50.0,
+            "pis_wh_tax_id": self.env.ref("l10n_br_fiscal.tax_pis_wh_0_65").id,
+            "pis_wh_base": 1000.0,
+            "pis_wh_percent": 0.65,
+            "pis_wh_value": 6.5,
+            "cofins_wh_tax_id": self.env.ref("l10n_br_fiscal.tax_cofins_wh_3").id,
+            "cofins_wh_base": 1000.0,
+            "cofins_wh_percent": 3.0,
+            "cofins_wh_value": 30.0,
+            "csll_wh_tax_id": self.env.ref("l10n_br_fiscal.tax_csll_wh_1").id,
+            "csll_wh_base": 1000.0,
+            "csll_wh_percent": 1.0,
+            "csll_wh_value": 10.0,
+        }
+
     def _assert_balanced(self, move):
         self.assertAlmostEqual(sum(move.line_ids.mapped("balance")), 0.0, places=2)
 
@@ -98,3 +118,28 @@ class TestImportedMoveTerms(AccountMoveBRCommon):
         self.assertEqual(len(due_lines), 1)
         self.assertEqual(due_lines.date_maturity, move.invoice_date_due)
         self.assertAlmostEqual(due_lines.credit, 1000.0, places=2)
+
+    def test_withholdings_of_the_document_reduce_the_amount_to_pay(self):
+        move = self._import_move(self._wh_taxes())
+        self._assert_balanced(move)
+        due_lines = move.line_ids.filtered(
+            lambda line: line.display_type == "payment_term"
+        )
+        self.assertAlmostEqual(sum(due_lines.mapped("credit")), 903.5, places=2)
+        withheld = move.line_ids.filtered(
+            lambda line: line.display_type == "tax"
+            and line.tax_line_id.tax_group_id.fiscal_tax_group_id.tax_withholding
+        )
+        self.assertEqual(len(withheld), 4)
+        self.assertAlmostEqual(sum(withheld.mapped("balance")), -96.5, places=2)
+        self.assertAlmostEqual(move.amount_total, 903.5, places=2)
+
+    def test_document_without_withholding_is_untouched(self):
+        move = self._import_move()
+        self._assert_balanced(move)
+        withheld = move.line_ids.filtered(
+            lambda line: line.display_type == "tax"
+            and line.tax_line_id.tax_group_id.fiscal_tax_group_id.tax_withholding
+        )
+        self.assertFalse(withheld)
+        self.assertAlmostEqual(move.amount_total, 1000.0, places=2)
