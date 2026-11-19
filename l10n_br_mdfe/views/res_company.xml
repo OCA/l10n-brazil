@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2023 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record model="ir.ui.view" id="res_company_form_view">
+        <field name="name">res.company.form (in l10n_br_mdfe)</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="l10n_br_fiscal.fiscal_res_company_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//notebook/page[@name='fiscal']/notebook" position="inside">
+                <page name="mdfe" string="MDF-e">
+                    <group name="mdfe_settings" string="MDF-e Default Settings">
+                        <group>
+                            <field name="mdfe_version" required="1" />
+                            <field name="mdfe_environment" required="1" />
+                        </group>
+                    </group>
+                    <group name="damdfe_settings" string="DAMDFE Settings">
+                        <group>
+                            <field name="damdfe_margin_top" string="Margin Top" />
+                            <field name="damdfe_margin_right" string="Margin Right" />
+                            <field name="damdfe_margin_bottom" string="Margin Bottom" />
+                            <field name="damdfe_margin_left" string="Margin Left" />
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>
