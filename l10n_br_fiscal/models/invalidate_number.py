@@ -2,6 +2,8 @@
 # Copyright (C) 2014  KMEE - www.kmee.com.br
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
+import re
+
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError, ValidationError
 
@@ -111,18 +113,34 @@ class InvalidateNumber(models.Model):
         return super().unlink()
 
     def _get_existing_documents(self):
-        """Company documents already using a number of the range."""
+        """Company documents already using a number of the range.
+
+        The numbers are not expanded from the range, so a very wide range
+        (e.g. 1 - 999999999) costs the same as a short one: the candidates
+        of the company, type and series are read and filtered by value.
+        """
         self.ensure_one()
-        numbers = [str(n) for n in range(self.number_start, self.number_end + 1)]
-        return self.env["l10n_br_fiscal.document"].search(
+        Document = self.env["l10n_br_fiscal.document"]
+        candidates = Document.search_read(
             [
                 ("company_id", "=", self.company_id.id),
                 ("issuer", "=", "company"),
                 ("document_type_id", "=", self.document_type_id.id),
                 ("document_serie", "=", self.document_serie_id.code),
-                ("document_number", "in", numbers),
-            ]
+                ("document_number", "!=", False),
+            ],
+            ["document_number"],
         )
+        start, end = self.number_start, self.number_end
+        ids = [
+            candidate["id"]
+            for candidate in candidates
+            # Same equality as the document number constraint: only the
+            # canonical form of the number ("1", not "001") collides.
+            if re.fullmatch(r"0|[1-9][0-9]*", candidate["document_number"])
+            and start <= int(candidate["document_number"]) <= end
+        ]
+        return Document.browse(ids)
 
     def _check_existing_documents(self):
         """Refuse the range before anything is sent to the tax authority.
