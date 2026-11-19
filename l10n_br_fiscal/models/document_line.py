@@ -151,6 +151,7 @@ class DocumentLine(models.Model):
     )
 
     partner_quantity = fields.Float(
+        string="Quantity Declared by Partner",
         digits="Product Unit of Measure",
         readonly=True,
         copy=False,
