@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template
+        id="address_form_fields"
+        inherit_id="portal.address_form_fields"
+        priority="100"
+    >
+        <!-- o_city must remain in the DOM: the base portal JS relies on it. -->
+        <div id="div_street" position="attributes">
+            <attribute name="class" separator=" " add="o_standard_address" />
+        </div>
+        <div id="div_city" position="attributes">
+            <attribute name="class" separator=" " add="o_standard_address" />
+        </div>
+        <div id="div_city" position="after">
+            <div id="div_street_name" t-attf-class="col-lg-8 mb-2 o_extended_address">
+                <label class="col-form-label" for="o_street_name">Street</label>
+                <input
+                    id="o_street_name"
+                    type="text"
+                    name="street_name"
+                    class="form-control"
+                    t-att-value="partner_sudo.street_name"
+                />
+            </div>
+            <div id="div_street_number" t-attf-class="col-lg-4 mb-2 o_extended_address">
+                <label class="col-form-label" for="o_street_number">Nº</label>
+                <input
+                    id="o_street_number"
+                    type="text"
+                    name="street_number"
+                    class="form-control"
+                    t-att-value="partner_sudo.street_number"
+                />
+            </div>
+            <div id="div_district" t-attf-class="col-lg-6 mb-2 o_extended_address">
+                <label class="col-form-label" for="o_district">District</label>
+                <input
+                    id="o_district"
+                    type="text"
+                    name="district"
+                    class="form-control"
+                    t-att-value="partner_sudo.district"
+                />
+            </div>
+            <div id="div_city_id" class="col-lg-6 mb-2 o_extended_address">
+                <label class="col-form-label" for="o_city_id">City</label>
+                <select id="o_city_id" name="city_id" class="form-select">
+                    <option value="">City...</option>
+                    <option
+                        t-foreach="cities or []"
+                        t-as="city"
+                        t-att-value="city.id"
+                        t-att-selected="city.id == partner_sudo.city_id.id"
+                        t-att-data-state_id="city.state_id.id"
+                        t-out="city.name"
+                    />
+                </select>
+            </div>
+        </div>
+        <t name="b2b_fields" position="inside">
+            <t t-if="is_used_as_billing">
+                <div id="div_legal_name" class="col-lg-6 mb-2">
+                    <label
+                        class="col-form-label fw-normal label-optional"
+                        for="o_legal_name"
+                    >Legal Name</label>
+                    <input
+                        id="o_legal_name"
+                        type="text"
+                        name="legal_name"
+                        class="form-control"
+                        t-att-value="current_partner.legal_name"
+                    />
+                </div>
+                <div id="div_l10n_br_ie_code" class="col-lg-6 mb-2">
+                    <label
+                        class="col-form-label fw-normal label-optional"
+                        for="o_l10n_br_ie_code"
+                    >State Tax Number</label>
+                    <input
+                        id="o_l10n_br_ie_code"
+                        type="text"
+                        name="l10n_br_ie_code"
+                        class="form-control"
+                        t-att-value="current_partner.l10n_br_ie_code"
+                    />
+                </div>
+                <div id="div_l10n_br_im_code" class="col-lg-6 mb-2">
+                    <label
+                        class="col-form-label fw-normal label-optional"
+                        for="o_l10n_br_im_code"
+                    >Municipal Tax Number</label>
+                    <input
+                        id="o_l10n_br_im_code"
+                        type="text"
+                        name="l10n_br_im_code"
+                        class="form-control"
+                        t-att-value="current_partner.l10n_br_im_code"
+                    />
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>
