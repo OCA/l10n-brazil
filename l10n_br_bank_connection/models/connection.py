@@ -29,7 +29,7 @@ WEBHOOK_ROUTE = "/l10n_br_bank_connection/webhook"
 OAUTH_START_ROUTE = "/l10n_br_bank_connection/oauth/start"
 OAUTH_CALLBACK_ROUTE = "/l10n_br_bank_connection/oauth/callback"
 ADMIN_GROUP = "l10n_br_bank_connection.group_bank_connection_admin"
-SECRET_GROUP = "base.group_system"
+SECRET_GROUP = "l10n_br_bank_connection.group_bank_connection_admin"
 OAUTH_VALIDITY = timedelta(minutes=10)
 # Lock timeout (ms) of a write made apart: the caller waits for it.
 APART_LOCK_TIMEOUT_MS = 5000
