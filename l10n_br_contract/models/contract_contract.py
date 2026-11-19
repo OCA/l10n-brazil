@@ -24,8 +24,8 @@ class ContractContract(models.Model):
     )
 
     contract_recalculate_taxes_before_invoice = fields.Boolean(
-        string="Recalculate taxes before invoicing",
-        default="company.contract_recalculate_taxes_before_invoice",
+        string="Recalculate Fiscal Operation Line Before Invoicing",
+        default=True,
     )
 
     @api.model
@@ -90,6 +90,13 @@ class ContractContract(models.Model):
     @api.model
     def _get_fiscal_lines_field_name(self):
         return "contract_line_ids"
+
+    @api.model
+    def _get_view(self, view_id=None, view_type="form", **options):
+        arch, view = super()._get_view(view_id, view_type, **options)
+        if view_type == "form" and self.env.company.country_id.code == "BR":
+            arch = self.env["contract.line"].inject_fiscal_fields(arch)
+        return arch, view
 
     def _prepare_invoice(self, date_invoice, journal=None):
         self.ensure_one()

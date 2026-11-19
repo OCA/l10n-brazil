@@ -4,6 +4,7 @@
 import logging
 from datetime import datetime
 from os import environ
+from unittest.mock import patch
 
 from decorator import decorate
 from erpbrasil.base import misc
@@ -159,3 +160,24 @@ class TestIbpt(TransactionCase):
         """Create services related with NBS"""
         product = cls.product_tmpl_model.create({"name": name, "nbs_id": nbs.id})
         return product
+
+
+class TestIbptRequestTimeout(TransactionCase):
+    def setUp(self):
+        super().setUp()
+        self.ncm_model = self.env["l10n_br_fiscal.ncm"]
+        patcher = patch.dict(odooconfig.options, {"ibpt_request_timeout": None})
+        patcher.start()
+        self.addCleanup(patcher.stop)
+
+    def test_ibpt_request_timeout_parameter(self):
+        self.env["ir.config_parameter"].sudo().set_param("ibpt_request_timeout", "45")
+        self.assertEqual(self.ncm_model._get_ibpt_request_timeout(), "45")
+
+    def test_ibpt_request_timeout_without_parameter(self):
+        """A database updated from a version without the parameter does not
+        get it: the requests wait 30 seconds instead of not waiting at all."""
+        self.env["ir.config_parameter"].sudo().search(
+            [("key", "=", "ibpt_request_timeout")]
+        ).unlink()
+        self.assertEqual(self.ncm_model._get_ibpt_request_timeout(), 30)

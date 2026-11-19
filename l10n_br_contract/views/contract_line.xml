@@ -12,11 +12,13 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='discount']/.." position="after">
                 <group name="fiscal_fields" invisible="1">
+                    <!-- Dynamic fiscal fields placeholder (replaced by inject) -->
                     <field name="fiscal_operation_type" invisible="1" readonly="1" />
                     <field name="fiscal_genre_code" invisible="1" />
                     <field name="tax_framework" invisible="1" />
-                    <field name="tax_icms_or_issqn" invisible="1" />
                 </group>
+                <!-- Kept outside fiscal_fields so attrs still work after inject -->
+                <field name="tax_icms_or_issqn" invisible="1" />
                 <group
                     name="fiscal"
                     invisible="display_type == 'line_section' or (display_type == 'line_note' and note_invoicing_mode != False)"
@@ -37,11 +39,6 @@
                         invisible="tax_icms_or_issqn == 'issqn' or country_id != %(base.br)d or not fiscal_operation_id"
                     />
                     <field
-                        name="service_type_id"
-                        options="{'no_create': True}"
-                        invisible="tax_icms_or_issqn == 'icms' or country_id != %(base.br)d or not fiscal_operation_id"
-                    />
-                    <field
                         name="city_taxation_code_id"
                         invisible="tax_icms_or_issqn == 'icms' or country_id != %(base.br)d or not fiscal_operation_id"
                         options="{'no_create': True}"
@@ -52,9 +49,24 @@
                         options="{'no_create': True}"
                     />
                     <field
+                        name="service_type_id"
+                        options="{'no_create': True}"
+                        invisible="tax_icms_or_issqn == 'icms' or country_id != %(base.br)d or not fiscal_operation_id"
+                    />
+                    <field
                         name="cnae_id"
                         invisible="tax_icms_or_issqn == 'icms' or country_id != %(base.br)d or not fiscal_operation_id"
                         options="{'no_create': True}"
+                    />
+                    <field
+                        name="nbs_id"
+                        invisible="tax_icms_or_issqn == 'icms' or country_id != %(base.br)d or not fiscal_operation_id"
+                        options="{'no_create': True}"
+                    />
+                    <field
+                        name="operation_indicator_id"
+                        options="{'no_create': True}"
+                        invisible="tax_icms_or_issqn == 'icms' or country_id != %(base.br)d or not fiscal_operation_id"
                     />
                 </group>
             </xpath>

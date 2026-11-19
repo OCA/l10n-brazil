@@ -107,14 +107,14 @@
                     name="document_serie"
                     invisible="not document_type_id or issuer == 'company'"
                     readonly="state != 'draft'"
-                    required="issuer == 'partner' and document_type_id"
+                    required="issuer == 'partner' and document_type_id and state == 'draft'"
                 />
                 <field
                     name="document_number"
                     force_save="1"
                     readonly="state != 'draft'"
                     invisible="not document_type_id or issuer == 'company'"
-                    required="issuer == 'partner' and document_type_id"
+                    required="issuer == 'partner' and document_type_id and state == 'draft'"
                 />
                 <field
                     name="document_key"

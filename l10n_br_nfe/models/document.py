@@ -22,7 +22,6 @@ from nfelib.nfe.ws.edoc_legacy import NFCeAdapter as edoc_nfce
 from nfelib.nfe.ws.edoc_legacy import NFeAdapter as edoc_nfe
 from requests import Session
 from xsdata.formats.dataclass.parsers import XmlParser
-from xsdata.models.datatype import XmlDateTime
 
 from odoo import Command, _, api, fields
 from odoo.exceptions import UserError, ValidationError
@@ -58,6 +57,7 @@ from odoo.addons.l10n_br_fiscal_edi.constants.fiscal import (
     DOCUMENT_STATE_REJECTED,
     DOCUMENT_STATE_SENDING,
 )
+from odoo.addons.l10n_br_fiscal_edi.tools import tax_authority_date_to_utc
 from odoo.addons.spec_driven_model.models import spec_models
 
 from ..constants.nfe import (
@@ -921,36 +921,44 @@ class NFe(spec_models.StackedModel):
 
     ##########################
     # NF-e tag: autXML
-    # Compute Methods
-    ##########################
-
-    def _default_nfe40_autxml(self):
-        company = self.env.company
-        authorized_partners = []
-        if company.accountant_id and company.nfe_authorize_accountant_download_xml:
-            authorized_partners.append(company.accountant_id.id)
-        if (
-            company.technical_support_id
-            and company.nfe_authorize_technical_download_xml
-        ):
-            authorized_partners.append(company.technical_support_id.id)
-        return [
-            Command.create({"partner_id": partner_id})
-            for partner_id in authorized_partners
-        ]
-
-    ##########################
-    # NF-e tag: autXML
     ##########################
 
     # The comodel is declared here instead of being left to the spec remapping
     # done at setup time: account.move copies this field through _inherits and,
     # when it is set up first (it depends on the module loading order), the
     # copy keeps pointing to the abstract nfe.40.autxml, which has no partner.
-    nfe40_autXML = fields.One2many(
-        comodel_name="l10n_br_nfe.autxml",
-        default=_default_nfe40_autxml,
-    )
+    nfe40_autXML = fields.One2many(comodel_name="l10n_br_nfe.autxml")
+
+    def _get_nfe40_autxml_partners(self):
+        """Partners the company of the document authorizes to download the XML."""
+        self.ensure_one()
+        company = self.company_id
+        partners = self.env["res.partner"]
+        if company.accountant_id and company.nfe_authorize_accountant_download_xml:
+            partners |= company.accountant_id
+        if (
+            company.technical_support_id
+            and company.nfe_authorize_technical_download_xml
+        ):
+            partners |= company.technical_support_id
+        return partners
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        documents = super().create(vals_list)
+        # Done after create, not as a field default: a default can only read
+        # the company the user is working on, and the company of the document
+        # is only settled here (through account.move it comes as
+        # proxy_company_id). Documents created with their own autXML keep it.
+        self.env["l10n_br_nfe.autxml"].create(
+            [
+                {"nfe40_autXML_infNFe_id": document.id, "partner_id": partner.id}
+                for document in documents
+                if not document.nfe40_autXML
+                for partner in document._get_nfe40_autxml_partners()
+            ]
+        )
+        return documents
 
     ################################
     # Framework Spec model's methods
@@ -1307,7 +1315,7 @@ class NFe(spec_models.StackedModel):
 
         if self.document_type == MODELO_FISCAL_NFCE:
             params.update(
-                csc_token=self.company_id.nfce_csc_token,
+                csc_token=self.company_id._get_nfce_csc_token(),
                 csc_code=self.company_id.nfce_csc_code,
             )
             return edoc_nfce(**params)
@@ -1335,7 +1343,7 @@ class NFe(spec_models.StackedModel):
         if self.document_type == MODELO_FISCAL_NFCE:
             return NfceClient(
                 **common_params,
-                csc_token=self.company_id.nfce_csc_token,
+                csc_token=self.company_id._get_nfce_csc_token(),
                 csc_code=self.company_id.nfce_csc_code,
             )
 
@@ -1489,16 +1497,7 @@ class NFe(spec_models.StackedModel):
         if not self.authorization_event_id:
             # TODO: create new event.
             pass
-        if type(inf_prot.dhRecbto) is datetime:
-            protocol_date = fields.Datetime.to_string(inf_prot.dhRecbto)
-        # When the bidding comes from xsdata, the date comes as XmlDateTime
-        elif type(inf_prot.dhRecbto) is XmlDateTime:
-            dt = inf_prot.dhRecbto.to_datetime()
-            protocol_date = fields.Datetime.to_string(dt)
-        else:
-            protocol_date = fields.Datetime.to_string(
-                datetime.fromisoformat(inf_prot.dhRecbto)
-            )
+        protocol_date = tax_authority_date_to_utc(inf_prot.dhRecbto)
         self.authorization_event_id.set_done(
             status_code=inf_prot.cStat,
             response=inf_prot.xMotivo,
@@ -2001,8 +2000,8 @@ class NFe(spec_models.StackedModel):
                 self.cancel_event_id.set_done(
                     status_code=retevento.infEvento.cStat,
                     response=retevento.infEvento.xMotivo,
-                    protocol_date=fields.Datetime.to_string(
-                        datetime.fromisoformat(retevento.infEvento.dhRegEvento)
+                    protocol_date=tax_authority_date_to_utc(
+                        retevento.infEvento.dhRegEvento
                     ),
                     protocol_number=retevento.infEvento.nProt,
                     file_response_xml=processo.retorno.content.decode("utf-8"),
@@ -2073,8 +2072,8 @@ class NFe(spec_models.StackedModel):
             event_id.set_done(
                 status_code=retevento.infEvento.cStat,
                 response=retevento.infEvento.xMotivo,
-                protocol_date=fields.Datetime.to_string(
-                    datetime.fromisoformat(retevento.infEvento.dhRegEvento)
+                protocol_date=tax_authority_date_to_utc(
+                    retevento.infEvento.dhRegEvento
                 ),
                 protocol_number=retevento.infEvento.nProt,
                 file_response_xml=processo.retorno.content.decode("utf-8"),
