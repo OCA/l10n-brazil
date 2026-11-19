@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <!--
+        ** Attention **
+        This file is loaded by hooks with default user company "Simples Nacional"
+        This is important to maintain multi-company data consistency.
+        Do not include data from another company here,
+        if necessary, do it in a separate file.
+    -->
+    <!-- Payment Terms -->
+    <record id="account_payment_term_30_60_90" model="account.payment.term">
+        <field name="name">30/60/90</field>
+        <field name="note">Payment terms: 30/60/90</field>
+        <field name="company_id" ref="l10n_br_base.empresa_simples_nacional" />
+        <field
+            name="line_ids"
+            eval="[Command.clear(),
+               Command.create({'value': 'percent', 'value_amount': 33, 'delay_type': 'days_after', 'nb_days': 30}),
+               Command.create({'value': 'percent', 'value_amount': 33, 'delay_type': 'days_after', 'nb_days': 60}),
+               Command.create({'value': 'percent', 'value_amount': 34, 'delay_type': 'days_after', 'nb_days': 90})
+               ]"
+        />
+    </record>
+
+    <!-- Account Journal for Simples Nacional -->
+    <record id="demo_simples_nacional_sale_journal" model="account.journal">
+        <field name="name">Diário de Venda - Simples Nacional</field>
+        <field name="code">DVSN</field>
+        <field name="type">sale</field>
+        <field name="company_id" ref="l10n_br_base.empresa_simples_nacional" />
+    </record>
+
+    <record id="demo_simples_nacional_bank_journal" model="account.journal">
+        <field name="name">Diário de Boleto - Simples Nacional</field>
+        <field name="code">TPO</field>
+        <field name="type">bank</field>
+        <field name="company_id" ref="l10n_br_base.empresa_simples_nacional" />
+    </record>
+
+    <!-- Payment Mode -->
+    <record id="demo_payment_mode_boleto" model="account.payment.mode">
+        <field name="name">Boleto</field>
+        <field name="company_id" ref="l10n_br_base.empresa_simples_nacional" />
+        <field
+            name="payment_method_id"
+            ref="account.account_payment_method_manual_in"
+        />
+        <field name="fiscal_payment_mode">15</field>
+        <field name="bank_account_link">fixed</field>
+        <field name="fixed_journal_id" ref="demo_simples_nacional_bank_journal" />
+    </record>
+</odoo>
