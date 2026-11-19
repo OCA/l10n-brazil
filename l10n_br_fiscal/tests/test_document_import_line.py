@@ -327,13 +327,6 @@ class TestDocumentImportLine(TransactionCase):
         )
         self.assertEqual(self.document._suggest_fiscal_operation(), suggested)
 
-        # the wizard lookup goes through the same inverse path now
-        wizard = self.env["l10n_br_fiscal.document.import.wizard"].create({})
-        self.assertEqual(
-            wizard._find_fiscal_operation("6102", "Compra para revenda (teste)", "in"),
-            operation,
-        )
-
     def test_cfop_warning_on_line(self):
         """The declared CFOP is checked against the real geography."""
         # issuer MG x company SP with an intrastate CFOP -> warn

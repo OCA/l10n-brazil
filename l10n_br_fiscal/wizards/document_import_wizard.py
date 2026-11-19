@@ -245,30 +245,12 @@ class DocumentImportWizard(models.TransientModel):
         )
 
     def _find_fiscal_operation(self, cfop, nat_op, fiscal_operation_type):
-        """try to find a matching fiscal operation via an operation line
-
-        On an inbound document the file declares the counterparty OUTBOUND
-        CFOP (5xxx/6xxx/7xxx), while the company operation lines reference
-        inbound CFOPs (1xxx/2xxx/3xxx): the lookup goes through the inverse
-        CFOP. On an outbound document the declared CFOP is the company one
-        and is looked up directly.
-        """
-        cfop_record = self.env["l10n_br_fiscal.cfop"].search(
-            [("code", "=", cfop)], limit=1
-        )
-        if fiscal_operation_type == "in":
-            cfop_record = cfop_record.cfop_inverse_id
-        if not cfop_record:
-            return self.env["l10n_br_fiscal.operation"]
+        """try to find a matching fiscal operation via an operation line"""
         operation_lines = self.env["l10n_br_fiscal.operation.line"].search(
             [
                 ("state", "=", "approved"),
-                ("fiscal_operation_type", "=", fiscal_operation_type),
-                "|",
-                "|",
-                ("cfop_internal_id", "=", cfop_record.id),
-                ("cfop_external_id", "=", cfop_record.id),
-                ("cfop_export_id", "=", cfop_record.id),
+                ("fiscal_type", "=", fiscal_operation_type),
+                ("cfop_external_id", "=", cfop),
             ],
         )
         for line in operation_lines:
