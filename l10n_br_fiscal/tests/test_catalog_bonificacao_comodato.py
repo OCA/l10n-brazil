@@ -15,6 +15,8 @@ CFOP_CASES = [
     ("fo_ent_bonif_line", "1910", "2910", None),
     ("fo_ent_amostra_line", "1911", "2911", None),
     ("fo_remessa_comodato_line", "5908", "6908", None),
+    ("fo_remessa_garantia_line", "5949", "6949", "7949"),
+    ("fo_remessa_garantia_line_sn", "5949", "6949", "7949"),
     ("fo_entrada_retorno_comodato_line", "1909", "2909", None),
     ("fo_entrada_comodato_line", "1908", "2908", None),
     ("fo_devolucao_comodato_line", "5909", "6909", None),
@@ -33,6 +35,7 @@ TAX_DEF_CASES = [
     ("fo_amostra_line", {"ICMS": "40", "IPI": "52", "PIS": "08"}, [], []),
     ("fo_bonificacao_bonificacao", {"PIS": "08", "COFINS": "08"}, [], []),
     ("fo_remessa_comodato_line", {"ICMS": "41", "PIS": "08"}, [], ["ICMS"]),
+    ("fo_remessa_garantia_line", {"ICMS": "40", "IPI": "53", "PIS": "08"}, [], []),
     ("fo_locacao_line", {}, ["ICMS", "PIS", "COFINS"], ["ISSQN"]),
 ]
 

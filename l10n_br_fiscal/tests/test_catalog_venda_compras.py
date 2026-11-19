@@ -13,6 +13,7 @@ CFOP_CASES = [
     ("fo_complementar_valor_producao", "5101", "6101", "7101"),
     ("fo_compras_servico_icms", "1126", "2126", None),
     ("fo_compras_servico_iss", "1128", "2128", None),
+    ("fo_compra_combustivel_line", "1653", "2653", None),
     ("fo_devolucao_compras_servico", "5210", "6210", None),
     ("fo_venda_ativo_line_sn", "5551", "6551", None),
     ("fo_complementar_valor_revenda", "5102", "6102", "7102"),
@@ -39,6 +40,7 @@ TAX_DEF_CASES = [
         [],
     ),
     ("fo_complementar_valor_revenda", {"IPI": "53"}, [], []),
+    ("fo_compra_combustivel_line", {"PIS": "70", "COFINS": "70"}, ["ICMS"], []),
 ]
 
 ATTR_CASES = [

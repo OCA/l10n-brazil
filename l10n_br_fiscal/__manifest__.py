@@ -71,6 +71,7 @@
         "data/fiscal_operation_venda_fora_estabelecimento.xml",
         "data/fiscal_operation_importacao.xml",
         "data/fiscal_operation_importacao_especiais.xml",
+        "data/fiscal_operation_garantia.xml",
         "data/l10n_br_fiscal_tax_icms_data.xml",
         # the following csv data files will be loaded as noupdate=True
         # and will be trimmed down when demo mode is True (faster):
