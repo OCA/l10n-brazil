@@ -1,6 +1,7 @@
 # Copyright 2025 - TODAY Akretion - Raphael Valyi <raphael.valyi@akretion.com.br>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
+from . import trigger_tree
 from . import models
 from .hooks import post_init_hook
 from . import wizards
