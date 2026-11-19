@@ -293,8 +293,14 @@ class AccountMove(models.Model):
         return result
 
     def _compute_imported_terms(self):
+        """Fill needed_terms from the installments declared by the imported
+        document. Meant to be overriden by the document type modules.
+
+        :return: True when the document declared its installments and
+            needed_terms was filled, False to let the payment term apply.
+        """
         self.ensure_one()
-        pass  # meant to be overriden
+        return False
 
     @api.depends(
         "invoice_payment_term_id",
@@ -322,8 +328,8 @@ class AccountMove(models.Model):
             invoice.needed_terms_dirty = True
             sign = 1 if invoice.is_inbound(include_receipts=True) else -1
             if invoice.is_invoice(True) and invoice.invoice_line_ids:
-                if invoice.imported_document:
-                    invoice._compute_imported_terms()
+                if invoice.imported_document and invoice._compute_imported_terms():
+                    pass
                 elif invoice.invoice_payment_term_id:
                     if is_draft:
                         tax_amount_currency = 0.0
