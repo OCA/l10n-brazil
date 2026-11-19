@@ -2,6 +2,8 @@
 # Copyright (C) 2014  KMEE - www.kmee.com.br
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
+import re
+
 from odoo import api, fields, models
 from odoo.exceptions import UserError, ValidationError
 
@@ -114,7 +116,60 @@ class InvalidateNumber(models.Model):
             )
         return super().unlink()
 
+    def _get_existing_documents(self):
+        """Company documents already using a number of the range.
+
+        The numbers are not expanded from the range, so a very wide range
+        (e.g. 1 - 999999999) costs the same as a short one: the candidates
+        of the company, type and series are read and filtered by value.
+        """
+        self.ensure_one()
+        Document = self.env["l10n_br_fiscal.document"]
+        candidates = Document.search_read(
+            [
+                ("company_id", "=", self.company_id.id),
+                ("issuer", "=", "company"),
+                ("document_type_id", "=", self.document_type_id.id),
+                ("document_serie", "=", self.document_serie_id.code),
+                ("document_number", "!=", False),
+            ],
+            ["document_number"],
+        )
+        start, end = self.number_start, self.number_end
+        ids = [
+            candidate["id"]
+            for candidate in candidates
+            # Same equality as the document number constraint: only the
+            # canonical form of the number ("1", not "001") collides.
+            if re.fullmatch(r"0|[1-9][0-9]*", candidate["document_number"])
+            and start <= int(candidate["document_number"]) <= end
+        ]
+        return Document.browse(ids)
+
+    def _check_existing_documents(self):
+        """Refuse the range before anything is sent to the tax authority.
+
+        Creating the invalidated documents afterwards would fail on the
+        document number constraint and roll back the whole transaction, while
+        the numbers would stay invalidated at the tax authority.
+        """
+        for record in self:
+            documents = record._get_existing_documents()
+            if documents:
+                raise UserError(
+                    self.env._(
+                        "It is not possible to invalidate this range: there "
+                        "are already fiscal documents using the numbers: "
+                        "%(numbers)s. Adjust the range, or invalidate the "
+                        "existing document from the document itself.",
+                        numbers=", ".join(
+                            sorted(set(documents.mapped("document_number")), key=int)
+                        ),
+                    )
+                )
+
     def action_invalidate(self):
+        self._check_existing_documents()
         for record in self:
             record._invalidate()
 
