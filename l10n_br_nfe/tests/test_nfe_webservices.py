@@ -137,6 +137,20 @@ class TestNFeWebServices(TestNFeExport):
             documents.mapped("state_edoc"), [SITUACAO_EDOC_INUTILIZADA] * 2
         )
 
+    def test_inutilizar_wide_range_is_checked_by_value(self):
+        """A range as wide as the number field allows is checked without
+        building the list of its numbers (it used to exhaust the memory)."""
+        nfe = self.nfe_list[0]["nfe"]
+        number = int(nfe.document_number)
+        wide = self._create_invalidate_number(1, 999999999)
+        self.assertIn(nfe, wide._get_existing_documents())
+        with self.assertRaises(UserError):
+            wide._check_existing_documents()
+        wide.unlink()  # ranges of the same series cannot overlap
+        beyond = self._create_invalidate_number(900000000, 999999999)
+        self.assertFalse(beyond._get_existing_documents())
+        beyond._check_existing_documents()
+
     @nfe_mock(
         {
             "nfeAutorizacaoLote": "retEnviNFe/lote_recebido.xml",
