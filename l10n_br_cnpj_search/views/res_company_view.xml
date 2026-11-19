@@ -26,9 +26,6 @@
                     />
                 </div>
             </field>
-            <field name="phone" position="before">
-                <field name="mobile" widget="phone" />
-            </field>
         </field>
     </record>
 </odoo>
