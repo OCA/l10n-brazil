@@ -1,0 +1,523 @@
+# Copyright 2023 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+
+"""NFSe Nacional integration with FocusNFE."""
+
+import json
+
+from odoo import api
+
+from .base import FocusnfeNfseBase
+from .constants import API_ENDPOINT_NACIONAL, NFSE_URL
+from .helpers import _identify_cpf_cnpj
+
+
+class FocusnfeNfseNacional(FocusnfeNfseBase):
+    """FocusNFE NFSe Nacional implementation."""
+
+    _name = "focusnfe.nfse.nacional"
+    _description = "FocusNFE NFSe Nacional"
+
+    def _make_focus_nfse_http_request(self, method, url, token, data=None, params=None):
+        """Perform a generic HTTP request.
+
+        Args:
+            method (str): The HTTP method to use (e.g., 'GET', 'POST').
+            url (str): The URL to which the request is sent.
+            token (str): The authentication token for the service.
+            data (dict, optional): The payload to send in the request body.
+                Defaults to None.
+            params (dict, optional): The URL parameters to append to the URL.
+                Defaults to None.
+
+        Returns:
+            requests.Response: The response object from the requests library.
+
+        Raises:
+            UserError: If the HTTP request fails with a 4xx/5xx response.
+        """
+        return super()._make_focus_nfse_http_request(
+            method, url, token, data, params, service_name="NFSe Nacional"
+        )
+
+    @api.model
+    def process_focus_nfse_nacional_document(self, edoc, ref, company, environment):
+        """Process the electronic fiscal document for NFSe Nacional.
+
+        Args:
+            edoc (dict): The electronic document data.
+            ref (str): The document reference.
+            company (recordset): The company record.
+            environment (str): The environment (1=production, 2=homologation).
+
+        Returns:
+            requests.Response: The response from the NFSe Nacional service.
+        """
+        token = company.get_focusnfe_token()
+        data = self._prepare_payload_nacional(edoc, company)
+        payload = json.dumps(data)
+        url = f"{NFSE_URL[environment]}{API_ENDPOINT_NACIONAL['envio']}"
+        ref_params = {"ref": ref}
+        return self._make_focus_nfse_http_request(
+            "POST", url, token, data=payload, params=ref_params
+        )
+
+    def _prepare_dates_nacional(self, rps_info):
+        """Prepare emission and competence dates for NFSe Nacional.
+
+        Args:
+            rps_info (dict): RPS information.
+
+        Returns:
+            tuple: (emission_date, competence_date)
+        """
+        emission_date = rps_info.get("data_emissao", "")
+        if emission_date and not emission_date.endswith(("-0300", "-0200", "+0000")):
+            # Add timezone if not present (assuming -0300 for Brazil)
+            emission_date = emission_date + "-0300"
+
+        competence_date = (
+            rps_info.get("data_emissao", "")[:10]
+            if rps_info.get("data_emissao")
+            else ""
+        )
+
+        return emission_date, competence_date
+
+    def _prepare_provider_nacional(self, rps_info, company):
+        """Prepare provider data for NFSe Nacional.
+
+        Args:
+            rps_info (dict): RPS information.
+            company (recordset): The company record.
+
+        Returns:
+            dict: Provider data with CPF/CNPJ identification.
+        """
+        cnpj_prestador = rps_info.get("cnpj", "")
+        cpf_prestador = rps_info.get("cpf", "")
+        (
+            is_cpf_prestador,
+            is_cnpj_prestador,
+            cpf_prestador_limpo,
+            cnpj_prestador_limpo,
+        ) = _identify_cpf_cnpj(cpf_prestador, cnpj_prestador)
+
+        optante_simples = rps_info.get("optante_simples_nacional") or "1"
+        codigo_opcao_simples_nacional = "2" if optante_simples == "1" else "1"
+
+        regime_especial_tributacao = rps_info.get("regime_especial_tributacao") or 0
+
+        inscricao_municipal = ""
+        if company.focusnfe_nfse_nacional_send_im_prestador:
+            inscricao_municipal = rps_info.get("inscricao_municipal") or ""
+
+        return {
+            "is_cpf": is_cpf_prestador,
+            "is_cnpj": is_cnpj_prestador,
+            "cpf_limpo": cpf_prestador_limpo,
+            "cnpj_limpo": cnpj_prestador_limpo,
+            "inscricao_municipal": inscricao_municipal,
+            "codigo_opcao_simples_nacional": int(codigo_opcao_simples_nacional),
+            "regime_especial_tributacao": int(regime_especial_tributacao),
+            "codigo_municipio_emissora": int(company.city_id.ibge_code or 0),
+            "telefone": company.partner_id.phone or "",
+            "email": company.partner_id.email or "",
+        }
+
+    def _prepare_recipient_nacional(self, recipient_info):
+        """Prepare recipient data for NFSe Nacional.
+
+        Args:
+            recipient_info (dict): Recipient information.
+
+        Returns:
+            dict: Recipient data with CPF/CNPJ identification.
+        """
+        cnpj_tomador = recipient_info.get("cnpj", "")
+        cpf_tomador = recipient_info.get("cpf", "")
+        is_cpf, is_cnpj, cpf_limpo, cnpj_limpo = _identify_cpf_cnpj(
+            cpf_tomador, cnpj_tomador
+        )
+
+        cep_tomador = recipient_info.get("cep", "")
+        if isinstance(cep_tomador, int):
+            cep_tomador = str(cep_tomador)
+
+        return {
+            "is_cpf": is_cpf,
+            "is_cnpj": is_cnpj,
+            "cpf_limpo": cpf_limpo,
+            "cnpj_limpo": cnpj_limpo,
+            "razao_social": recipient_info.get("razao_social", ""),
+            "codigo_municipio": int(recipient_info.get("codigo_municipio") or 0),
+            "cep": cep_tomador or "",
+            "logradouro": recipient_info.get("endereco", ""),
+            "numero": recipient_info.get("numero", ""),
+            "complemento": recipient_info.get("complemento", ""),
+            "bairro": recipient_info.get("bairro", ""),
+            "telefone": recipient_info.get("telefone", ""),
+            "email": recipient_info.get("email", ""),
+        }
+
+    def _prepare_service_basic_nacional(self, service_info):
+        """Prepare basic service data for NFSe Nacional.
+
+        Args:
+            service_info (dict): Service information.
+
+        Returns:
+            dict: Basic service data.
+        """
+        codigo_municipio_prestacao = (
+            service_info.get("municipio_prestacao_servico") or 0
+        )
+
+        codigo_tributacao_nacional = service_info.get("codigo_tributacao_nacional", "")
+
+        codigo_tributacao_municipio = service_info.get(
+            "codigo_tributacao_municipio", ""
+        )
+
+        tributacao_iss = service_info.get("codigo_tributacao_iss") or 1
+
+        # TODO: improve logic to get ISS retention code
+        tipo_retencao_iss = "2" if service_info.get("iss_retido") == "1" else "1"
+        if int(tributacao_iss) in (2, 3, 4):
+            tipo_retencao_iss = "1"
+
+        percentual_total_tributos_federais = service_info.get(
+            "percentual_total_tributos_federais", 0.0
+        )
+        percentual_total_tributos_estaduais = service_info.get(
+            "percentual_total_tributos_estaduais", 0.0
+        )
+        percentual_total_tributos_municipais = service_info.get(
+            "percentual_total_tributos_municipais", 0.0
+        )
+
+        return {
+            "codigo_municipio_prestacao": int(codigo_municipio_prestacao),
+            "codigo_tributacao_nacional": codigo_tributacao_nacional,
+            "codigo_tributacao_municipio": codigo_tributacao_municipio,
+            "codigo_nbs_unmasked": ""
+            if self.env.company.city_id.ibge_code == "3516200"
+            else service_info.get("codigo_nbs_unmasked", ""),
+            "descricao": service_info.get("discriminacao", ""),
+            "valor": round(service_info.get("valor_servicos", 0), 2),
+            "valor_desconto_incondicionado": round(
+                service_info.get("valor_desconto_incondicionado", 0), 2
+            ),
+            "tributacao_iss": int(tributacao_iss),
+            "tipo_retencao_iss": int(tipo_retencao_iss),
+            "aliquota_iss": round(service_info.get("aliquota", 0) * 100, 2),
+            "percentual_total_tributos_federais": (
+                f"{round(percentual_total_tributos_federais, 2):.2f}"
+            ),
+            "percentual_total_tributos_estaduais": (
+                f"{round(percentual_total_tributos_estaduais, 2):.2f}"
+            ),
+            "percentual_total_tributos_municipais": (
+                f"{round(percentual_total_tributos_municipais, 2):.2f}"
+            ),
+            "consumidor_final": service_info.get("consumidor_final") or "0",
+            "codigo_indicador_operacao": service_info.get("codigo_indicador_operacao"),
+            "ibs_cbs_classificacao_tributaria": service_info.get(
+                "ibs_cbs_classificacao_tributaria"
+            ),
+            "ibs_cbs_situacao_tributaria": service_info.get(
+                "ibs_cbs_situacao_tributaria"
+            ),
+            "ibs_cbs_base_calculo": service_info.get("ibs_cbs_base_calculo"),
+            "ibs_uf_aliquota": round(service_info.get("ibs_uf_aliquota", 0), 2)
+            if service_info.get("ibs_uf_aliquota")
+            else None,
+            "ibs_mun_aliquota": 0.0,
+            "cbs_aliquota": round(service_info.get("cbs_aliquota", 0), 2)
+            if service_info.get("cbs_aliquota")
+            else None,
+            "ibs_uf_valor": round(service_info.get("ibs_uf_valor", 0), 2)
+            if service_info.get("ibs_uf_valor")
+            else None,
+            "ibs_mun_valor": 0.0,
+            "cbs_valor": round(service_info.get("cbs_valor", 0), 2)
+            if service_info.get("cbs_valor")
+            else None,
+        }
+
+    def _prepare_tax_data_nacional(self, service_info, valor_servico):
+        """Prepare tax data (PIS/COFINS, etc.) for NFSe Nacional.
+
+        Args:
+            service_info (dict): Service information.
+            valor_servico (float): Service value.
+
+        Returns:
+            dict: Tax data.
+        """
+        # PIS/COFINS tax situation
+        situacao_tributaria_pis_cofins = (
+            service_info.get("situacao_tributaria_pis", "")
+            or service_info.get("situacao_tributaria_cofins", "")
+            or ""
+        )
+        if situacao_tributaria_pis_cofins == "99":
+            situacao_tributaria_pis_cofins = "00"
+
+        # PIS/COFINS calculation base
+        base_calculo_pis = service_info.get("base_calculo_pis", 0)
+        base_calculo_cofins = service_info.get("base_calculo_cofins", 0)
+        base_calculo_pis_cofins = round(
+            base_calculo_pis if base_calculo_pis else base_calculo_cofins, 2
+        )
+
+        if situacao_tributaria_pis_cofins:
+            if situacao_tributaria_pis_cofins in ["00", "08", "09"]:
+                base_calculo_pis_cofins = 0.0
+            else:
+                if not base_calculo_pis_cofins or base_calculo_pis_cofins == 0:
+                    base_calculo_pis_cofins = round(valor_servico, 2)
+
+        valor_pis = round(service_info.get("valor_pis", 0), 2)
+        valor_cofins = round(service_info.get("valor_cofins", 0), 2)
+        if base_calculo_pis_cofins:
+            aliquota_pis = f"{round(valor_pis / base_calculo_pis_cofins * 100, 2):.2f}"
+            aliquota_cofins = (
+                f"{round(valor_cofins / base_calculo_pis_cofins * 100, 2):.2f}"
+            )
+        else:
+            aliquota_pis = "0.00"
+            aliquota_cofins = "0.00"
+        valor_pis_retido = round(service_info.get("valor_pis_retido", 0), 2)
+        valor_cofins_retido = round(service_info.get("valor_cofins_retido", 0), 2)
+        valor_csll_retido = round(service_info.get("valor_csll_retido", 0), 2)
+        tipo_retencao_pis_cofins = self._compute_tipo_retencao_pis_cofins(
+            bool(valor_pis_retido), bool(valor_cofins_retido), bool(valor_csll_retido)
+        )
+
+        return {
+            **(
+                {"situacao_tributaria_pis_cofins": situacao_tributaria_pis_cofins}
+                if situacao_tributaria_pis_cofins
+                else {}
+            ),
+            "base_calculo_pis_cofins": round(base_calculo_pis_cofins, 2),
+            "aliquota_pis": aliquota_pis,
+            "aliquota_cofins": aliquota_cofins,
+            "valor_pis": valor_pis,
+            "valor_cofins": valor_cofins,
+            "tipo_retencao_pis_cofins": tipo_retencao_pis_cofins,
+            "valor_cp": round(service_info.get("valor_inss_retido", 0), 2),
+            "valor_irrf": round(service_info.get("valor_ir_retido", 0), 2),
+            "valor_csll": round(
+                valor_pis_retido + valor_cofins_retido + valor_csll_retido, 2
+            ),
+            "valor_iss": round(service_info.get("valor_iss", 0), 2),
+        }
+
+    @staticmethod
+    def _compute_tipo_retencao_pis_cofins(pis_retido, cofins_retido, csll_retido):
+        """Map PIS/COFINS/CSLL retention flags to the NT 007 tpRetPisCofins code.
+
+        Legacy codes "1" and "2" are no longer accepted by NFSe Nacional.
+        Codes "0" and "3"-"9" cover every combination of retained taxes.
+        """
+        tipo_retencao_map = {
+            (False, False, False): "0",
+            (True, True, True): "3",
+            (True, True, False): "4",
+            (True, False, False): "5",
+            (False, True, False): "6",
+            (False, True, True): "7",
+            (False, False, True): "8",
+            (True, False, True): "9",
+        }
+        return tipo_retencao_map[(pis_retido, cofins_retido, csll_retido)]
+
+    def _prepare_payload_nacional(self, edoc, company):
+        """Construct the NFSe Nacional payload.
+
+        Args:
+            edoc (dict): The electronic document data containing rps,
+                service, recipient.
+            company (recordset): The company record.
+
+        Returns:
+            dict: The complete payload for the NFSe Nacional request.
+        """
+        rps_info = edoc.get("rps", {})
+        service_info = edoc.get("service", {})
+        recipient_info = edoc.get("recipient", {})
+
+        # Prepare dates
+        emission_date, competence_date = self._prepare_dates_nacional(rps_info)
+
+        # Prepare provider data
+        provider_data = self._prepare_provider_nacional(rps_info, company)
+
+        # Prepare recipient data
+        recipient_data = self._prepare_recipient_nacional(recipient_info)
+
+        # Prepare service data
+        service_basic = self._prepare_service_basic_nacional(service_info)
+        tax_data = self._prepare_tax_data_nacional(service_info, service_basic["valor"])
+
+        regime_especial_tributacao = provider_data["regime_especial_tributacao"]
+        if service_basic["tributacao_iss"] in (2, 3, 4):
+            regime_especial_tributacao = 0
+
+        # Build payload
+        payload = {
+            "data_emissao": emission_date,
+            "data_competencia": competence_date,
+            "codigo_municipio_emissora": provider_data["codigo_municipio_emissora"],
+            "finalidade_emissao": rps_info.get("finalidade_emissao", "0"),
+            **(
+                {"cnpj_prestador": provider_data["cnpj_limpo"]}
+                if provider_data["is_cnpj"]
+                else {}
+            ),
+            **(
+                {"cpf_prestador": provider_data["cpf_limpo"]}
+                if provider_data["is_cpf"]
+                else {}
+            ),
+            **(
+                {"inscricao_municipal_prestador": provider_data["inscricao_municipal"]}
+                if provider_data["inscricao_municipal"]
+                else {}
+            ),
+            **(
+                {"telefone_prestador": provider_data["telefone"]}
+                if provider_data["telefone"]
+                else {}
+            ),
+            **(
+                {"email_prestador": provider_data["email"]}
+                if provider_data["email"]
+                else {}
+            ),
+            "codigo_opcao_simples_nacional": provider_data[
+                "codigo_opcao_simples_nacional"
+            ],
+            "regime_especial_tributacao": regime_especial_tributacao,
+            **(
+                {"cnpj_tomador": recipient_data["cnpj_limpo"]}
+                if recipient_data["is_cnpj"]
+                else {}
+            ),
+            **(
+                {"cpf_tomador": recipient_data["cpf_limpo"]}
+                if recipient_data["is_cpf"]
+                else {}
+            ),
+            "razao_social_tomador": recipient_data["razao_social"],
+            "codigo_municipio_tomador": recipient_data["codigo_municipio"],
+            "cep_tomador": recipient_data["cep"],
+            "logradouro_tomador": recipient_data["logradouro"],
+            "numero_tomador": recipient_data["numero"],
+            "complemento_tomador": recipient_data["complemento"],
+            "bairro_tomador": recipient_data["bairro"],
+            "telefone_tomador": recipient_data["telefone"],
+            "email_tomador": recipient_data["email"],
+            "codigo_municipio_prestacao": service_basic["codigo_municipio_prestacao"],
+            **(
+                {
+                    "codigo_municipio_incidencia": service_basic[
+                        "codigo_municipio_prestacao"
+                    ]
+                }
+                if service_basic["tributacao_iss"] == "1"
+                else {}
+            ),
+            "codigo_tributacao_nacional_iss": service_basic[
+                "codigo_tributacao_nacional"
+            ],
+            "codigo_tributacao_municipal_iss": service_basic[
+                "codigo_tributacao_municipio"
+            ],
+            "codigo_nbs": service_basic["codigo_nbs_unmasked"],
+            "descricao_servico": service_basic["descricao"],
+            "valor_servico": service_basic["valor"],
+            "desconto_incondicionado": service_basic["valor_desconto_incondicionado"],
+            "tributacao_iss": service_basic["tributacao_iss"],
+            "tipo_retencao_iss": service_basic["tipo_retencao_iss"],
+            "consumidor_final": service_basic["consumidor_final"],
+            "codigo_indicador_operacao": service_basic["codigo_indicador_operacao"],
+            "ibs_cbs_classificacao_tributaria": service_basic[
+                "ibs_cbs_classificacao_tributaria"
+            ],
+            "ibs_cbs_situacao_tributaria": service_basic["ibs_cbs_situacao_tributaria"],
+            "ibs_cbs_base_calculo": service_basic["ibs_cbs_base_calculo"],
+            "ibs_uf_aliquota": service_basic["ibs_uf_aliquota"],
+            "ibs_mun_aliquota": service_basic["ibs_mun_aliquota"],
+            "cbs_aliquota": service_basic["cbs_aliquota"],
+            "ibs_uf_valor": service_basic["ibs_uf_valor"],
+            "ibs_mun_valor": service_basic["ibs_mun_valor"],
+            "cbs_valor": service_basic["cbs_valor"],
+            **(
+                {
+                    "percentual_aliquota_relativa_municipio": service_basic[
+                        "aliquota_iss"
+                    ]
+                }
+                if provider_data["codigo_opcao_simples_nacional"] == 2
+                and service_basic["tributacao_iss"] not in (2, 3, 4)
+                else {}
+            ),
+            "percentual_total_tributos_federais": service_basic[
+                "percentual_total_tributos_federais"
+            ],
+            "percentual_total_tributos_estaduais": service_basic[
+                "percentual_total_tributos_estaduais"
+            ],
+            "percentual_total_tributos_municipais": service_basic[
+                "percentual_total_tributos_municipais"
+            ],
+            "informacoes_complementares": (
+                rps_info.get("customer_additional_data", False)[:2000]
+                if rps_info.get("customer_additional_data")
+                else False
+            ),
+            **tax_data,
+        }
+
+        return payload
+
+    @api.model
+    def query_focus_nfse_nacional_by_ref(self, ref, company, environment):
+        """Query NFSe Nacional by reference.
+
+        Args:
+            ref (str): The document reference.
+            company (recordset): The company record.
+            environment (str): The environment (1=production, 2=homologation).
+
+        Returns:
+            requests.Response: The response from the NFSe Nacional service.
+        """
+        token = company.get_focusnfe_token()
+        url = f"{NFSE_URL[environment]}{API_ENDPOINT_NACIONAL['status']}{ref}"
+        return self._make_focus_nfse_http_request("GET", url, token)
+
+    @api.model
+    def cancel_focus_nfse_nacional_document(
+        self, ref, cancel_reason, company, environment
+    ):
+        """Cancel an electronic fiscal document for NFSe Nacional.
+
+        Args:
+            ref (str): The document reference.
+            cancel_reason (str): The reason for cancellation.
+            company (recordset): The company record.
+            environment (str): The environment (1=production, 2=homologation).
+
+        Returns:
+            requests.Response: The response from the NFSe Nacional service.
+        """
+        token = company.get_focusnfe_token()
+        data = {"justificativa": cancel_reason}
+        url = f"{NFSE_URL[environment]}{API_ENDPOINT_NACIONAL['cancelamento']}{ref}"
+        return self._make_focus_nfse_http_request(
+            "DELETE", url, token, data=json.dumps(data)
+        )
