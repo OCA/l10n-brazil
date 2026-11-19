@@ -308,6 +308,11 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_autxml__partner_id
+msgid "Authorized Partner"
+msgstr ""
+
+#. module: l10n_br_mdfe
 #: model:ir.model.fields,help:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_autXML
 #: model:ir.model.fields,help:l10n_br_mdfe.field_account_move__mdfe30_autXML
 #: model:ir.model.fields,help:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_autXML
@@ -831,7 +836,6 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_br_mdfe.selection__l10n_br_mdfe_modal_rodoviario_pagamento__mdfe30_choice_tpayment__mdfe30_cnpjipef
 #: model:ir.model.fields.selection,name:l10n_br_mdfe.selection__l10n_br_mdfe_modal_rodoviario_pagamento__mdfe30_choice_tresponsible__mdfe30_cnpj
 #: model:ir.model.fields.selection,name:l10n_br_mdfe.selection__res_company__mdfe30_choice_emit__mdfe30_cnpj
-#: model:ir.model.fields.selection,name:l10n_br_mdfe.selection__res_partner__mdfe30_choice_autxml__mdfe30_cnpj
 #: model:ir.model.fields.selection,name:l10n_br_mdfe.selection__res_partner__mdfe30_choice_contractor__mdfe30_cnpj
 #: model:ir.model.fields.selection,name:l10n_br_mdfe.selection__res_partner__mdfe30_choice_emit__mdfe30_cnpj
 #: model:ir.model.fields.selection,name:l10n_br_mdfe.selection__res_partner__mdfe30_choice_insurer__mdfe30_cnpj
@@ -877,6 +881,18 @@ msgstr ""
 #. module: l10n_br_mdfe
 #: model:ir.model.fields,help:l10n_br_mdfe.field_mdfe_30_tmdfe_infpaa__mdfe30_CNPJPAA
 msgid "CNPJ do Provedor de Assinatura e Autorização"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_autxml__mdfe30_CNPJ
+msgid "CNPJ do autorizado"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#: model:ir.model.fields,help:l10n_br_mdfe.field_l10n_br_mdfe_autxml__mdfe30_CNPJ
+msgid ""
+"CNPJ do autorizado\n"
+"Informar zeros não significativos"
 msgstr ""
 
 #. module: l10n_br_mdfe
@@ -931,12 +947,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_partner__mdfe30_choice_emit
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_users__mdfe30_choice_emit
 msgid "CNPJ/CPF do Emitente - MDFe"
-msgstr ""
-
-#. module: l10n_br_mdfe
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_partner__mdfe30_choice_autxml
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_users__mdfe30_choice_autxml
-msgid "CNPJ/CPF do Parceiro Autorizado - MDFe"
 msgstr ""
 
 #. module: l10n_br_mdfe
@@ -1003,7 +1013,6 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_br_mdfe.selection__l10n_br_mdfe_modal_rodoviario_ciot__mdfe30_choice_responsible__mdfe30_cpf
 #: model:ir.model.fields.selection,name:l10n_br_mdfe.selection__l10n_br_mdfe_modal_rodoviario_pagamento__mdfe30_choice_tresponsible__mdfe30_cpf
 #: model:ir.model.fields.selection,name:l10n_br_mdfe.selection__res_company__mdfe30_choice_emit__mdfe30_cpf
-#: model:ir.model.fields.selection,name:l10n_br_mdfe.selection__res_partner__mdfe30_choice_autxml__mdfe30_cpf
 #: model:ir.model.fields.selection,name:l10n_br_mdfe.selection__res_partner__mdfe30_choice_contractor__mdfe30_cpf
 #: model:ir.model.fields.selection,name:l10n_br_mdfe.selection__res_partner__mdfe30_choice_emit__mdfe30_cpf
 #: model:ir.model.fields.selection,name:l10n_br_mdfe.selection__res_partner__mdfe30_choice_insurer__mdfe30_cpf
@@ -1029,6 +1038,18 @@ msgstr ""
 msgid ""
 "CPF do Destinatário\n"
 "Informar os zeros não significativos."
+msgstr ""
+
+#. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_autxml__mdfe30_CPF
+msgid "CPF do autorizado"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#: model:ir.model.fields,help:l10n_br_mdfe.field_l10n_br_mdfe_autxml__mdfe30_CPF
+msgid ""
+"CPF do autorizado\n"
+"Informar zeros não significativos"
 msgstr ""
 
 #. module: l10n_br_mdfe
@@ -1330,6 +1351,7 @@ msgid "Country state"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_autxml__create_uid
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_aereo__create_uid
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_aquaviario__create_uid
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_aquaviario_carga_vazia__create_uid
@@ -1362,6 +1384,7 @@ msgid "Created by"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_autxml__create_date
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_aereo__create_date
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_aquaviario__create_date
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_aquaviario_carga_vazia__create_date
@@ -1893,6 +1916,7 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_autxml__display_name
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_aereo__display_name
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_aquaviario__display_name
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_aquaviario_carga_vazia__display_name
@@ -2489,6 +2513,7 @@ msgid "IAURETÊ"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_autxml__id
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_aereo__id
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_aquaviario__id
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_aquaviario_carga_vazia__id
@@ -3340,6 +3365,7 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_autxml__write_uid
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_aereo__write_uid
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_aquaviario__write_uid
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_aquaviario_carga_vazia__write_uid
@@ -3372,6 +3398,7 @@ msgid "Last Updated by"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_autxml__write_date
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_aereo__write_date
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_aquaviario__write_date
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_aquaviario_carga_vazia__write_date
@@ -3883,7 +3910,7 @@ msgid "Mdfe Modal Rodoviario"
 msgstr ""
 
 #. module: l10n_br_mdfe
-#: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_partner__mdfe30_autXML_infMDFe_id
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_autxml__mdfe30_autXML_infMDFe_id
 msgid "Mdfe30 Autxml Infmdfe"
 msgstr ""
 
@@ -4252,6 +4279,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document_related__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document_supplement__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_autxml__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_aereo__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_aquaviario__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_aquaviario_carga_vazia__brl_currency_id
@@ -5175,6 +5203,11 @@ msgstr ""
 msgid ""
 "Payment information (infPag) must be provided when the MDF-e contains only "
 "one DF-e (full load)."
+msgstr ""
+
+#. module: l10n_br_mdfe
+#: model:ir.model,name:l10n_br_mdfe.model_l10n_br_mdfe_autxml
+msgid "Person Authorized to Download the MDF-e XML"
 msgstr ""
 
 #. module: l10n_br_mdfe
@@ -6312,6 +6345,11 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_br_mdfe/models/document.py:0
 msgid "The field %(label)s must contain only numbers. Found: '%(value)s'"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#: model:ir.model.constraint,message:l10n_br_mdfe.constraint_l10n_br_mdfe_autxml_autxml_partner_document_uniq
+msgid "This partner is already authorized to download this document XML."
 msgstr ""
 
 #. module: l10n_br_mdfe
