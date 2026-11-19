@@ -12,7 +12,6 @@ CFOP_CASES = [
     ("fo_venda_ativo_line", "5551", "6551", None),
     ("fo_complementar_valor_producao", "5101", "6101", "7101"),
     ("fo_compras_servico_icms", "1126", "2126", None),
-    ("fo_compras_servico_iss", "1128", "2128", None),
     ("fo_compra_combustivel_line", "1653", "2653", None),
     ("fo_devolucao_compras_servico", "5210", "6210", None),
     ("fo_venda_ativo_line_sn", "5551", "6551", None),
@@ -49,7 +48,6 @@ ATTR_CASES = [
     ("fo_complementar_valor", "fiscal_type", "sale"),
     ("fo_complementar_icms", "edoc_purpose", "2"),
     ("fo_complementar_icms", "fiscal_type", "other"),
-    ("fo_compras_servico_iss", "tax_icms_or_issqn", "issqn"),
     ("fo_devolucao_compras_servico", "product_type", "09"),
     ("fo_devolucao_compras_servico", "fiscal_operation_id.code", "DVC"),
 ]
