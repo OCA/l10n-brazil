@@ -1402,6 +1402,20 @@ class NFe(spec_models.StackedModel):
             self._validate_xml(signed_xml)
         return result
 
+    def _before_document_send(self):
+        # A schema validation failure at confirm time is stored in
+        # ``xml_error_message`` and the base guard raises on it. When the
+        # document is corrected afterwards that stored outcome is stale and the
+        # guard would keep blocking an already valid document, forcing a manual
+        # back-to-draft/confirm. Re-export only the documents that carry a
+        # stored error, so their validation is refreshed before the guard in
+        # ``super()`` decides. Documents without a stored error (the normal,
+        # asynchronous-receipt and contingency send paths) are left untouched.
+        for record in self.filtered(filter_processador_edoc_nfe):
+            if record.xml_error_message:
+                record._document_export()
+        return super()._before_document_send()
+
     def _nfe_update_status_and_save_data(self, process):
         """
         Updates the NFe status based on the webservice response,
