@@ -167,13 +167,24 @@ class CNABLine(models.Model):
             add_field(field_id)
         return line
 
-    @api.depends("segment_code", "cnab_structure_id", "cnab_structure_id.name", "type")
+    @api.depends(
+        "segment_code",
+        "cnab_structure_id",
+        "cnab_structure_id.name",
+        "type",
+        "batch_id",
+        "batch_id.name",
+    )
     def _compute_name(self):
         for line in self:
             if line.type == "segment":
-                name = f"{line.type} {line.segment_code}"
+                name = f"Segmento {line.segment_code or ''}".strip()
+            elif line.type == "header":
+                name = "Header de lote" if line.batch_id else "Header de arquivo"
+            elif line.type == "trailer":
+                name = "Trailer de lote" if line.batch_id else "Trailer de arquivo"
             else:
-                name = line.type
+                name = line.type or ""
 
             if line.batch_id:
                 line.name = (
