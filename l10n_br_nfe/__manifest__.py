@@ -1,0 +1,68 @@
+# Copyright (C) 2019  Renato Lima - Akretion
+# License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
+
+
+{
+    "name": "NF-e",
+    "summary": "Eletronic Invoicing for Brazil / NF-e",
+    "category": "Localisation",
+    "license": "AGPL-3",
+    "author": "Akretion, KMEE, Odoo Community Association (OCA)",
+    "maintainers": ["rvalyi", "renatonlima"],
+    "website": "https://github.com/OCA/l10n-brazil",
+    "development_status": "Beta",
+    "version": "19.0.1.0.0",
+    "depends": [
+        "l10n_br_fiscal_edi",
+        "l10n_br_fiscal_certificate",
+        "l10n_br_nfe_spec",
+        "spec_driven_model",
+    ],
+    "data": [
+        # Data
+        "data/ir_config_parameter.xml",
+        # Security
+        "security/nfe_security.xml",
+        "security/ir.model.access.csv",
+        "data/danfe_profile_data.xml",
+        # Views
+        "views/danfe_profile_view.xml",
+        "views/res_company_view.xml",
+        "views/nfe_document_view.xml",
+        "views/nfe_document_line_view.xml",
+        "views/nfe_di_view.xml",
+        "views/res_config_settings_view.xml",
+        "views/nfe_md_event_view.xml",
+        "views/supplier_info_view.xml",
+        # Report
+        "report/reports.xml",
+        "report/danfe_nfce.xml",
+        "report/danfe_report.xml",
+        # Wizards
+        "wizards/document_import_wizard.xml",
+        "wizards/nfe_md_event_wizard.xml",
+        # Actions,
+        "views/nfe_action.xml",
+        # Menus
+        "views/nfe_menu.xml",
+    ],
+    "demo": [
+        "demo/res_users_demo.xml",
+        "demo/fiscal_document_demo.xml",
+        "demo/company_demo.xml",
+    ],
+    "post_init_hook": "post_init_hook",
+    "installable": True,
+    "auto_install": False,
+    "external_dependencies": {
+        "python": [
+            "nfelib[soap]>=3.2.0",
+            "brazil_fiscal_client",
+            "erpbrasil.assinatura",
+            "erpbrasil.transmissao",
+            "erpbrasil.edoc",
+            "erpbrasil-base>=2.4.2",
+            "brazilfiscalreport>=1.3.0",
+        ],
+    },
+}

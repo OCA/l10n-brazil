@@ -1,0 +1,330 @@
+import base64
+import os
+import re
+from unittest.mock import MagicMock, patch
+
+from odoo import Command
+from odoo.exceptions import UserError
+from odoo.tests import TransactionCase
+from odoo.tools import mute_logger
+
+from odoo.addons import l10n_br_nfe
+
+from ..wizards.document_import_wizard import DocumentImportWizard
+from .tools import load_nfe_fixture_files
+
+
+class NFeImportWizardTest(TransactionCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        load_nfe_fixture_files(cls.env)
+
+        def test_xml_path(filename):
+            return os.path.join(
+                l10n_br_nfe.__path__[0],
+                "tests",
+                "nfe",
+                "v4_00",
+                "leiauteNFe",
+                filename,
+            )
+
+        path_1 = test_xml_path("NFe35200181583054000129550010000000052062777166.xml")
+        with open(path_1, "rb") as f:
+            cls.xml_1 = f.read()
+
+        cls.wizard = False
+        cls.product_1 = cls.env["product.product"].create({"name": "Product Test 1"})
+        cls.partner_1 = cls.env["res.partner"].create({"name": "Partner Test 1"})
+
+    def _prepare_wizard(self, xml):
+        self.wizard = self.env["l10n_br_fiscal.document.import.wizard"].create(
+            {
+                "company_id": self.env.ref("base.main_company").id,
+                "file": base64.b64encode(xml),
+            }
+        )
+        self.wizard._onchange_file()
+
+    def check_edoc(self, edoc):
+        self.assertEqual(
+            len(self.wizard.imported_products_ids),
+            len(edoc.fiscal_line_ids),
+        )
+        self.assertTrue(edoc.partner_id)
+        self.assertEqual(
+            self.wizard.issuer_partner_id.vat,
+            edoc.partner_id.vat,
+        )
+        self.assertEqual(
+            self.wizard.issuer_partner_id.name,
+            edoc.partner_id.name,
+        )
+
+    def test_import_nfe_xml(self):
+        xml = "dummy"
+        with (
+            self.assertRaises(UserError),
+            mute_logger("odoo.addons.l10n_br_fiscal.wizards.document_import_wizard"),
+        ):
+            self._prepare_wizard(xml.encode("utf-8"))
+
+        mock_document = MagicMock(spec=["modelo_documento"])
+        mock_document.modelo_documento = "65"
+        with (
+            patch.object(
+                DocumentImportWizard,
+                "_extract_binding_data",
+                return_value=mock_document,
+            ),
+            self.assertRaises(TypeError),
+        ):
+            self.wizard._check_xml_data(self.wizard._parse_file())
+
+        self._prepare_wizard(self.xml_1)
+        self.wizard._import_edoc()
+
+        self.check_edoc(self.wizard.document_id)
+
+        first_imported_product = self.wizard.imported_products_ids[0]
+
+        self.assertEqual(
+            self.wizard.document_key,
+            "3520 0181 5830 5400 0129 5500 1000 0000 0520 6277 7166",
+        )
+        self.assertEqual(self.wizard.document_number, "5")
+        self.assertEqual(self.wizard.document_serie, "1")
+        self.assertEqual(self.wizard.issuer_partner_id.vat, "81583054000129")
+        self.assertEqual(
+            self.wizard.issuer_partner_id.vat_formatted_cnpj, "81.583.054/0001-29"
+        )
+        self.assertEqual(self.wizard.issuer_partner_id.name, "Empresa Lucro Presumido")
+        self.assertEqual(
+            self.wizard.partner_id,
+            self.env.ref("l10n_br_base.lucro_presumido_partner"),
+        )
+        self.assertEqual(
+            f"[{first_imported_product.product_code}] "
+            f"{first_imported_product.product_name}",
+            "[E-COM11] Cabinet with Doors",
+        )
+        self.assertEqual(first_imported_product.uom_com, "UNID")
+        self.assertEqual(first_imported_product.quantity_com, 1)
+        self.assertEqual(first_imported_product.price_unit_com, 14)
+        self.assertEqual(first_imported_product.uom_trib, "UNID")
+        self.assertEqual(first_imported_product.quantity_trib, 1)
+        self.assertEqual(first_imported_product.price_unit_trib, 14)
+        self.assertEqual(first_imported_product.total, 14)
+
+    def test_create_edoc_from_xml(self):
+        self._prepare_wizard(self.xml_1)
+
+        self.wizard.partner_id = False
+        binding, edoc = self.wizard._create_edoc_from_file()
+        self.assertEqual(self.wizard.partner_id, edoc.partner_id)
+
+        self.check_edoc(edoc)
+
+    def test_imported_document_view_xml_and_pdf(self):
+        """Ver XML and Ver PDF must work on a document imported from a
+        supplier XML, without an authorization event."""
+        self._prepare_wizard(self.xml_1)
+        binding, edoc = self.wizard._create_edoc_from_file()
+
+        self.assertFalse(edoc.authorization_event_id)
+        self.assertTrue(edoc.original_xml_file_id)
+        self.assertEqual(
+            base64.b64decode(edoc.original_xml_file_id.datas),
+            self.xml_1,
+        )
+        state_edoc = edoc.state_edoc
+
+        action = edoc.view_xml()
+        self.assertIn(str(edoc.original_xml_file_id.id), action["url"])
+
+        action = edoc.view_pdf()
+        self.assertTrue(edoc.file_report_id)
+        self.assertIn(str(edoc.file_report_id.id), action["url"])
+        self.assertTrue(base64.b64decode(edoc.file_report_id.datas).startswith(b"%PDF"))
+
+        self.assertFalse(edoc.authorization_event_id)
+        self.assertEqual(edoc.state_edoc, state_edoc)
+
+    def FIXME_test_set_fiscal_operation_type(self):
+        self._prepare_wizard(self.xml_1)
+
+        doc = self.wizard._document_key_from_binding(self.wizard._parse_file())
+        origin_company = self.wizard.company_id
+
+        doc_company_id = self.env["res.company"].search(
+            [("cnpj_cpf_stripped", "=", re.sub("[^0-9]", "", doc.cnpj_cpf_emitente))],
+            limit=1,
+        )
+        self.wizard.company_id = doc_company_id
+        self.wizard._set_fiscal_operation_type()
+        self.assertEqual(self.wizard.fiscal_operation_type, "out")
+
+        self.wizard.company_id = origin_company
+        self.wizard._set_fiscal_operation_type()
+        self.assertEqual(self.wizard.fiscal_operation_type, "in")
+
+    def test_imported_products(self):
+        self._prepare_wizard(self.xml_1)
+        self.wizard._import_edoc()
+        first_product = self.wizard.imported_products_ids[0]
+        old_product_id = first_product.product_id
+
+        first_product.product_id = False
+        first_product.product_name = False
+        first_product.product_code = "???"
+        first_product.product_supplier_id = False
+        first_product._find_or_create_product_supplierinfo()
+        self.assertFalse(first_product.product_supplier_id)
+
+        first_product.product_id = old_product_id
+        self.assertNotEqual(first_product.product_id, self.product_1)
+        # The fiscal profile imports the XML without purchase access rights
+        fiscal_user = self.env["res.users"].create(
+            {
+                "name": "Fiscal importer",
+                "login": "fiscal_importer",
+                "group_ids": [
+                    Command.set(
+                        [
+                            self.env.ref("base.group_user").id,
+                            self.env.ref("l10n_br_fiscal.group_manager").id,
+                            self.env.ref("l10n_br_nfe.group_manager").id,
+                        ]
+                    )
+                ],
+            }
+        )
+        first_product.with_user(fiscal_user)._find_or_create_product_supplierinfo()
+        self.assertIn(first_product.product_supplier_id, old_product_id.seller_ids)
+
+        self.wizard.partner_id = self.partner_1
+        first_product.product_supplier_id = self.env["product.supplierinfo"].create(
+            {
+                "product_id": self.product_1.id,
+                "partner_id": self.partner_1.id,
+                "partner_uom_id": self.env["uom.uom"].search([], limit=1).id,
+                "price": 100,
+            }
+        )
+        wiz_supplier_id = first_product.product_supplier_id
+
+        first_product.with_user(fiscal_user)._find_or_create_product_supplierinfo()
+        self.assertEqual(wiz_supplier_id.product_id, first_product.product_id)
+        self.assertEqual(wiz_supplier_id.partner_uom_id, first_product.uom_internal)
+        self.assertEqual(wiz_supplier_id.product_name, first_product.product_name)
+
+    def test_match_xml_product(self):
+        self._prepare_wizard(self.xml_1)
+
+        xml = self.wizard._parse_file()
+        xml_product_1 = xml.infNFe.det[0].prod
+        prod_id = self.wizard._match_product(xml_product_1)
+        self.assertEqual(prod_id, self.env.ref("product.product_product_10"))
+
+        prod_code = self.env["product.product"].create(
+            {
+                "name": "TEST1",
+                "default_code": "TEST123",
+            }
+        )
+
+        mock_code = MagicMock(spec=["cProd"])
+        mock_code.cProd = "TEST123"
+        prod_id = self.wizard._match_product(mock_code)
+
+        mock_code = MagicMock(spec=["cProd"])
+        mock_code.cProd = "TEST123"
+        prod_id = self.wizard._match_product(mock_code)
+        self.assertEqual(prod_id, prod_code)
+
+        prod_code.unlink()
+        prod_barcode = self.env["product.product"].create(
+            {"name": "TEST2", "barcode": "123456789123"}
+        )
+        mock_barcode = MagicMock(spec=["cEANTrib"])
+        mock_barcode.cProd = False
+        mock_barcode.cEANTrib = "123456789123"
+        prod_id = self.wizard._match_product(mock_barcode)
+        self.assertEqual(prod_id, prod_barcode)
+
+        prod_barcode.unlink()
+        prod_id = self.wizard._match_product(MagicMock())
+        self.assertFalse(prod_id)
+
+    def test_match_product_by_purchase(self):
+        """The purchase-order priority match is a soft dependency on
+        l10n_br_purchase (which adds partner_order/partner_order_line to
+        purchase.order.line). It must be a no-op when those fields are absent,
+        so _match_product falls back to supplierinfo/default_code/barcode."""
+        self._prepare_wizard(self.xml_1)
+        pol = self.env.get("purchase.order.line")
+        has_fields = pol is not None and "partner_order" in pol._fields
+        mock = MagicMock()
+        mock.xPed = "NONEXISTENT-PO-REF"
+        mock.nItemPed = "999"
+        # No PO references this xPed (and/or l10n_br_purchase absent) -> no
+        # match, and crucially no crash on a missing field.
+        self.assertFalse(self.wizard._match_product_by_purchase(mock))
+        if not has_fields:
+            # guard short-circuits before any purchase.order.line search
+            self.assertFalse(
+                self.wizard._match_product_by_purchase(
+                    self.wizard._parse_file().infNFe.det[0].prod
+                )
+            )
+
+    def test_import_nfe_created_product_uom_from_xml(self):
+        """A product created during import gets its unit from the XML uCom.
+
+        The fiscal line's uom is computed from the product, but for a product
+        created during the import that computation runs before the product's
+        units are resolved, so the wizard must fall back to the unit it
+        matched from the XML uCom/uTrib. Otherwise ``_check_document_import``
+        rejects the document with "no unit of measure".
+        """
+        self._prepare_wizard(self.xml_1)
+        self.wizard.allow_product_creation = True
+        self.wizard.fiscal_operation_id = self.env.ref("l10n_br_fiscal.fo_compras")
+        _binding, edoc = self.wizard._import_edoc()
+        if hasattr(edoc, "_check_document_import"):
+            # integrity guard lives in l10n_br_account, which l10n_br_nfe
+            # does not depend on: skip it when the module is not installed
+            edoc._check_document_import()  # must not raise
+        self.assertTrue(edoc.fiscal_line_ids)
+        for line in edoc.fiscal_line_ids:
+            self.assertTrue(
+                line.uom_id, "created-product line must get a uom from the XML"
+            )
+            self.assertTrue(
+                line.product_id.uom_id,
+                "product created during import must get the XML unit",
+            )
+
+    def test__parse_xml(self):
+        self._prepare_wizard(self.xml_1)
+
+        first_product = self.wizard.imported_products_ids[0]
+        first_product.new_cfop_id = self.env.ref("l10n_br_fiscal.cfop_5111").id
+
+        xml = self.wizard._parse_file()
+        first_xml_product = xml.infNFe.det[0].prod
+        self.assertEqual(first_xml_product.CFOP, "5111")
+
+        mock_prod = MagicMock(spec=["imposto"])
+        mock_prod.imposto.ICMS.ICMS60.pICMS = 60
+        mock_prod.imposto.ICMS.ICMS60.vICMS = 100
+        mock_prod.imposto.IPI.IPITrib.pIPI = 5
+        mock_prod.imposto.IPI.IPITrib.vIPI = 100
+        taxes = self.wizard._get_taxes_from_xml_product(mock_prod)
+
+        self.assertEqual(taxes["pICMS"], 60)
+        self.assertEqual(taxes["vICMS"], 100)
+        self.assertEqual(taxes["pIPI"], 5)
+        self.assertEqual(taxes["vIPI"], 100)
+        self.assertEqual(self.wizard.amount_total, 14.00)
