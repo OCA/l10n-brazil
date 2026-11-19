@@ -6,5 +6,6 @@ from . import test_valid_pix
 from . import test_partner_bank
 from . import test_cnpj_alfanumerico
 from . import test_duplicate_cnpj
+from . import test_vat_normalize
 from . import test_vat_search
 from . import test_partner_constraints_query_count
