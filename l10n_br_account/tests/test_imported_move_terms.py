@@ -143,3 +143,23 @@ class TestImportedMoveTerms(AccountMoveBRCommon):
         )
         self.assertFalse(withheld)
         self.assertAlmostEqual(move.amount_total, 1000.0, places=2)
+
+    def test_withheld_value_without_withholding_tax_is_not_discounted(self):
+        """A withheld value whose domain has no withholding tax in the line
+        generates no tax line, so it must stay in the amount to pay."""
+        tax_values = {
+            "issqn_wh_tax_id": self.env.ref("l10n_br_fiscal.tax_issqn_wh_5").id,
+            "issqn_wh_base": 1000.0,
+            "issqn_wh_percent": 5.0,
+            "issqn_wh_value": 50.0,
+            "pis_wh_base": 1000.0,
+            "pis_wh_percent": 0.65,
+            "pis_wh_value": 6.5,
+        }
+        move = self._import_move(tax_values, payment_term=self.payment_term)
+        self._assert_balanced(move)
+        due_lines = move.line_ids.filtered(
+            lambda line: line.display_type == "payment_term"
+        )
+        self.assertEqual(len(due_lines), 2)
+        self.assertAlmostEqual(sum(due_lines.mapped("credit")), 950.0, places=2)

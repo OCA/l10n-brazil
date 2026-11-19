@@ -343,8 +343,13 @@ class AccountMove(models.Model):
                         tax_amount = tax_amount_currency
                     else:
                         tax_amount_currency = tax_amount = 0.0
-                        untaxed_amount_currency = invoice.amount_financial_total * sign
-                        untaxed_amount = invoice.amount_financial_total * sign
+                        amount_to_pay = invoice.amount_financial_total + sum(
+                            invoice.invoice_line_ids.mapped(
+                                lambda line: line._get_imported_unbilled_withholding()
+                            )
+                        )
+                        untaxed_amount_currency = amount_to_pay * sign
+                        untaxed_amount = amount_to_pay * sign
                     invoice_payment_terms = (
                         invoice.invoice_payment_term_id._compute_terms(
                             date_ref=invoice.invoice_date

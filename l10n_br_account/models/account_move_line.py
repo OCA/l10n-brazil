@@ -461,6 +461,25 @@ class AccountMoveLine(models.Model):
                 tax["amount"] = sign * fiscal_value * factor
                 tax["base"] = sign * (getattr(fiscal_line, field_names[1]) or 0.0)
 
+    def _get_imported_unbilled_withholding(self):
+        """Withheld value of the imported fiscal line whose domain has no
+        withholding tax in the move line: no tax line is generated for it,
+        so it is not taken off the amount to pay."""
+        self.ensure_one()
+        fiscal_line = self.fiscal_document_line_id
+        if not fiscal_line.document_id.imported_document:
+            return 0.0
+        billed_domains = set(
+            self.tax_ids.mapped("tax_group_id.fiscal_tax_group_id.tax_domain")
+        )
+        return sum(
+            fiscal_line[value_field] or 0.0
+            for domain, (value_field, _base_field) in (
+                self._IMPORTED_TAX_FIELD_MAP.items()
+            )
+            if domain.endswith("_wh") and domain not in billed_domains
+        )
+
     @api.depends(
         "tax_ids",
         "currency_id",
