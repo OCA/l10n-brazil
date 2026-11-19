@@ -143,6 +143,12 @@ msgstr ""
 "O certificado da empresa %(company)s não é válido (validade: %(start)s a %"
 "(end)s)."
 
+#. module: l10n_br_fiscal_certificate
+#. odoo-python
+#: code:addons/l10n_br_fiscal_certificate/models/certificate.py:0
+msgid "Valid: %s"
+msgstr ""
+
 #~ msgid "A1"
 #~ msgstr "A1"
 
