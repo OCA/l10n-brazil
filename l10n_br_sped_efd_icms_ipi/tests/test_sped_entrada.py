@@ -1,6 +1,7 @@
 # Copyright 2026 KMEE
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl-3.0.html).
 
+import calendar
 from datetime import date, datetime
 
 from odoo.tests.common import tagged
@@ -20,6 +21,61 @@ class EntradaHelpers:
         records = self._sped_records(declaration, "C170")
         self.assertEqual(len(records), 1)
         return records[0]
+
+    def _opt_in(self, value=True):
+        """The company books its entries by the creditability map."""
+        if "stock_valuation_via_stock_price" not in self.company._fields:
+            self.skipTest("l10n_br_stock_account is not installed")
+        self.company.stock_valuation_via_stock_price = value
+
+    def _assess_icms_of_july(self, month=7, post=True):
+        """The assessment of the month by the normal path: compute from the ledger,
+        post."""
+        group = self.env["account.tax.group"].search(
+            [
+                (
+                    "fiscal_tax_group_id",
+                    "=",
+                    self.env.ref("l10n_br_fiscal.tax_group_icms").id,
+                )
+            ],
+            limit=1,
+        )
+        if not group.with_company(self.company).property_tax_payable_account_id:
+            payable = self.env["account.account"].create(
+                {
+                    "name": "ICMS a recolher",
+                    "code": "ICMSPAY",
+                    "account_type": "liability_current",
+                    "company_id": self.company.id,
+                }
+            )
+            receivable = self.env["account.account"].create(
+                {
+                    "name": "ICMS a recuperar",
+                    "code": "ICMSREC",
+                    "account_type": "asset_current",
+                    "company_id": self.company.id,
+                }
+            )
+            group.with_company(self.company).write(
+                {
+                    "property_tax_payable_account_id": payable.id,
+                    "property_tax_receivable_account_id": receivable.id,
+                }
+            )
+        assessment = self.env["l10n_br_tax.assessment"].create(
+            {
+                "company_id": self.company.id,
+                "tax_group_id": group.id,
+                "date_from": date(2026, month, 1),
+                "date_to": date(2026, month, calendar.monthrange(2026, month)[1]),
+            }
+        )
+        assessment.action_compute()
+        if post:
+            assessment.action_post()
+        return assessment
 
     @staticmethod
     def _number(text):

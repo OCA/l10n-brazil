@@ -2,7 +2,6 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl-3.0.html).
 
 import base64
-import calendar
 from datetime import date
 
 from odoo.exceptions import UserError
@@ -32,55 +31,6 @@ class TestSpedEfdIcmsIpiApuracao(EntradaHelpers, SpedEntradaCommon):
                 "city_id": city.id,
             }
         )
-
-    def _assess_icms_of_july(self, month=7, post=True):
-        """The assessment of the month by the normal path: compute from the ledger,
-        post."""
-        group = self.env["account.tax.group"].search(
-            [
-                (
-                    "fiscal_tax_group_id",
-                    "=",
-                    self.env.ref("l10n_br_fiscal.tax_group_icms").id,
-                )
-            ],
-            limit=1,
-        )
-        if not group.with_company(self.company).property_tax_payable_account_id:
-            payable = self.env["account.account"].create(
-                {
-                    "name": "ICMS a recolher",
-                    "code": "ICMSPAY",
-                    "account_type": "liability_current",
-                    "company_id": self.company.id,
-                }
-            )
-            receivable = self.env["account.account"].create(
-                {
-                    "name": "ICMS a recuperar",
-                    "code": "ICMSREC",
-                    "account_type": "asset_current",
-                    "company_id": self.company.id,
-                }
-            )
-            group.with_company(self.company).write(
-                {
-                    "property_tax_payable_account_id": payable.id,
-                    "property_tax_receivable_account_id": receivable.id,
-                }
-            )
-        assessment = self.env["l10n_br_tax.assessment"].create(
-            {
-                "company_id": self.company.id,
-                "tax_group_id": group.id,
-                "date_from": date(2026, month, 1),
-                "date_to": date(2026, month, calendar.monthrange(2026, month)[1]),
-            }
-        )
-        assessment.action_compute()
-        if post:
-            assessment.action_post()
-        return assessment
 
     def test_generation_stops_without_the_posted_icms_assessment(self):
         """No assessment, no E110, and the PVA refuses the file: the generation

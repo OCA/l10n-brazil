@@ -1090,7 +1090,8 @@ class RegistroC100(models.Model):
 
         ind_pgto = record._get_sped_ind_pgto()
 
-        # the PIS and the COFINS of the items, as the C170 carry them
+        # the taxes of the items, as the C170 carry them
+        icms_base, icms_value = record._get_sped_icms_amounts()
         pis_value, cofins_value = record._get_sped_pis_cofins_values()
         cod_sit = record._get_sped_cod_sit()
         if record._is_sped_cancelled():
@@ -1133,11 +1134,11 @@ class RegistroC100(models.Model):
             "VL_FRT": record.amount_freight_value,
             "VL_SEG": record.amount_insurance_value,
             "VL_OUT_DA": record.amount_other_value,
-            "VL_BC_ICMS": record.amount_icms_base,
-            "VL_ICMS": record.amount_icms_value,
+            "VL_BC_ICMS": icms_base,
+            "VL_ICMS": icms_value,
             "VL_BC_ICMS_ST": record.amount_icmsst_base,
             "VL_ICMS_ST": record.amount_icmsst_value,
-            "VL_IPI": record.amount_ipi_value,
+            "VL_IPI": record._get_sped_ipi_value(),
             "VL_PIS": pis_value,
             "VL_COFINS": cofins_value,
             # "VL_PIS_ST": record.amount_pisst_value,  # don't we have a field?
@@ -1476,8 +1477,9 @@ class RegistroC170(models.Model):
 
     @api.model
     def _map_from_odoo(self, record, parent_record, declaration, index=0):
-        # Format the 3-digit CST (Origin + CST code)
-        cst_icms = f"{record.icms_origin or '0'}{record.icms_cst_code or '00'}"
+        # an entry without credit right: CST 90 and 49, no base, rate or value
+        icms = record._get_sped_icms_values()
+        ipi = record._get_sped_ipi_values()
         # an entry booked without PIS/COFINS credit right carries no base, rate
         # or value for the tax
         pis_no_credit = record._entry_piscofins_without_credit("pis")
@@ -1494,28 +1496,28 @@ class RegistroC170(models.Model):
             "VL_ITEM": record.price_gross or 0.0,
             "VL_DESC": record.discount_value,
             "IND_MOV": "0" if record.cfop_id.stock_move else "1",
-            "CST_ICMS": cst_icms,
+            "CST_ICMS": icms["cst"],
             "CFOP": str(record.cfop_id.code),
             "COD_NAT": record.fiscal_operation_id.code
             or str(record.fiscal_operation_id.id),
-            "VL_BC_ICMS": record.icms_base,
-            "ALIQ_ICMS": record.icms_percent,
-            "VL_ICMS": record.icms_value,
+            "VL_BC_ICMS": icms["base"],
+            "ALIQ_ICMS": icms["percent"],
+            "VL_ICMS": icms["value"],
             "VL_BC_ICMS_ST": record.icmsst_base,
             "ALIQ_ST": record.icmsst_percent,
             "VL_ICMS_ST": record.icmsst_value,
             "IND_APUR": declaration.ind_apur,
             # the CST the company books for the entry when there is one; else
             # the one of the document
-            "CST_IPI": record.entry_ipi_cst_id.code or record.ipi_cst_code,
+            "CST_IPI": ipi["cst"],
             # "999" (generic, "Tributacao normal IPI; Outros") is not in the
             # table of legal classification of the IPI: it goes out blank
             "COD_ENQ": ""
             if record.ipi_guideline_id.code in (False, "", "999")
             else record.ipi_guideline_id.code,
-            "VL_BC_IPI": record.ipi_base,
-            "ALIQ_IPI": record.ipi_percent,
-            "VL_IPI": record.ipi_value,
+            "VL_BC_IPI": ipi["base"],
+            "ALIQ_IPI": ipi["percent"],
+            "VL_IPI": ipi["value"],
             "CST_PIS": record.entry_pis_cst_id.code or record.pis_cst_code,
             "VL_BC_PIS": 0.0 if pis_no_credit else record.pis_base,
             "ALIQ_PIS": 0.0 if pis_no_credit else record.pis_percent,
@@ -1841,24 +1843,42 @@ class RegistroC190(models.Model):
         # SPED requires grouping by CST, CFOP, and ICMS Aliquot
         if parent_record._is_sped_cancelled():
             return "SELECT NULL WHERE FALSE", []
+        # an entry without credit right is grouped apart, as the C170 carries
+        # it: CST of the origin plus 90 and no ICMS, no IPI
+        lines = parent_record.fiscal_line_ids
+        no_icms = lines.filtered(lambda line: line._sped_icms_without_credit()).ids
+        no_ipi = lines.filtered(lambda line: line._sped_ipi_without_credit()).ids
         query = """
             SELECT
-                CONCAT(COALESCE(fdl.icms_origin, '0'), cst.code) AS cst_icms,
+                CONCAT(
+                    COALESCE(fdl.icms_origin, '0'),
+                    CASE WHEN fdl.id = ANY(%s) THEN '90' ELSE cst.code END
+                ) AS cst_icms,
                 cfop.code AS cfop,
-                fdl.icms_percent AS aliq_icms,
+                CASE WHEN fdl.id = ANY(%s) THEN 0 ELSE fdl.icms_percent END
+                    AS aliq_icms,
                 SUM(fdl.amount_tax_not_included) AS vl_opr,
-                SUM(fdl.icms_base) AS vl_bc_icms,
-                SUM(fdl.icms_value) AS vl_icms,
+                SUM(CASE WHEN fdl.id = ANY(%s) THEN 0 ELSE fdl.icms_base END)
+                    AS vl_bc_icms,
+                SUM(CASE WHEN fdl.id = ANY(%s) THEN 0 ELSE fdl.icms_value END)
+                    AS vl_icms,
                 SUM(fdl.icmsst_base) AS vl_bc_icms_st,
                 SUM(fdl.icmsst_value) AS vl_icms_st,
-                SUM(fdl.ipi_value) AS vl_ipi
+                SUM(CASE WHEN fdl.id = ANY(%s) THEN 0 ELSE fdl.ipi_value END)
+                    AS vl_ipi
             FROM l10n_br_fiscal_document_line fdl
             LEFT JOIN l10n_br_fiscal_cst cst ON cst.id = fdl.icms_cst_id
             LEFT JOIN l10n_br_fiscal_cfop cfop ON cfop.id = fdl.cfop_id
             WHERE fdl.document_id = %s
-            GROUP BY cst.code, cfop.code, fdl.icms_percent, fdl.icms_origin
+            GROUP BY
+                CONCAT(
+                    COALESCE(fdl.icms_origin, '0'),
+                    CASE WHEN fdl.id = ANY(%s) THEN '90' ELSE cst.code END
+                ),
+                cfop.code,
+                CASE WHEN fdl.id = ANY(%s) THEN 0 ELSE fdl.icms_percent END
         """
-        return query, [parent_record.id]
+        return query, [no_icms] * 4 + [no_ipi, parent_record.id] + [no_icms] * 2
 
     @api.model
     def _get_operation_total(self, record, parent_record):
@@ -1866,11 +1886,14 @@ class RegistroC190(models.Model):
         CFOP and rate), summed by the same key the query groups by."""
         total = 0.0
         for line in parent_record.fiscal_line_ids:
+            without_credit = line._sped_icms_without_credit()
             origin = line.icms_origin or "0"
+            cst = "90" if without_credit else (line.icms_cst_code or "")
+            rate = 0.0 if without_credit else line.icms_percent
             if (
-                f"{origin}{line.icms_cst_code or ''}" == record.get("cst_icms")
+                f"{origin}{cst}" == record.get("cst_icms")
                 and (line.cfop_id.code or None) == record.get("cfop")
-                and (line.icms_percent or 0.0) == (record.get("aliq_icms") or 0.0)
+                and (rate or 0.0) == (record.get("aliq_icms") or 0.0)
             ):
                 total += line.fiscal_amount_total
         return total
@@ -4543,21 +4566,27 @@ class RegistroE510(models.Model):
         documents = declaration.fiscal_document_ids.filtered(
             lambda doc: not doc._is_sped_cancelled()
         )
+        # an entry without IPI credit right is CST 49 with no base or value
+        no_ipi = documents.fiscal_line_ids.filtered(
+            lambda line: line._sped_ipi_without_credit()
+        ).ids
         query = """
             SELECT
                 cfop.code AS cfop,
-                cst.code AS cst_ipi,
+                CASE WHEN fdl.id = ANY(%s) THEN '49' ELSE cst.code END AS cst_ipi,
                 SUM(fdl.amount_tax_not_included) AS vl_cont_ipi,
-                SUM(fdl.ipi_base) AS vl_bc_ipi,
-                SUM(fdl.ipi_value) AS vl_ipi
+                SUM(CASE WHEN fdl.id = ANY(%s) THEN 0 ELSE fdl.ipi_base END)
+                    AS vl_bc_ipi,
+                SUM(CASE WHEN fdl.id = ANY(%s) THEN 0 ELSE fdl.ipi_value END)
+                    AS vl_ipi
             FROM l10n_br_fiscal_document_line fdl
             JOIN l10n_br_fiscal_cst cst ON cst.id = fdl.ipi_cst_id
             LEFT JOIN l10n_br_fiscal_cfop cfop ON cfop.id = fdl.cfop_id
             WHERE fdl.document_id IN %s
-            GROUP BY cfop.code, cst.code
-            ORDER BY cfop.code, cst.code
+            GROUP BY cfop.code, CASE WHEN fdl.id = ANY(%s) THEN '49' ELSE cst.code END
+            ORDER BY cfop.code, 2
         """
-        return query, [tuple(documents.ids) or (0,)]
+        return query, [no_ipi] * 3 + [tuple(documents.ids) or (0,), no_ipi]
 
     @api.model
     def _get_operation_total(self, record, declaration):
@@ -4568,10 +4597,11 @@ class RegistroE510(models.Model):
             if document._is_sped_cancelled():
                 continue
             for line in document.fiscal_line_ids:
+                cst = "49" if line._sped_ipi_without_credit() else line.ipi_cst_code
                 if (
                     line.ipi_cst_id
                     and (line.cfop_id.code or None) == record.get("cfop")
-                    and line.ipi_cst_code == record.get("cst_ipi")
+                    and cst == record.get("cst_ipi")
                 ):
                     total += line.fiscal_amount_total
         return total
