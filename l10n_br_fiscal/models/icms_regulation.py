@@ -159,6 +159,24 @@ class ICMSRegulation(models.Model):
 
         return view_arch
 
+    @api.model
+    def _is_partner_state_origin(self, operation_line):
+        """True when the ICMS rate follows the partner -> company direction.
+
+        Entry operations (purchases and the like) have the partner's state as
+        origin, and a purchase return keeps the rate of the original purchase.
+        Sale returns and "return in" keep the direction of the original sale
+        (company -> partner).
+        """
+        if not operation_line:
+            return False
+        fiscal_type = operation_line.fiscal_operation_id.fiscal_type
+        if fiscal_type == "purchase_refund":
+            return True
+        return operation_line.fiscal_operation_type == FISCAL_IN and (
+            fiscal_type not in ("sale_refund", "return_in")
+        )
+
     def _build_map_tax_def_domain(
         self,
         company,
@@ -168,8 +186,16 @@ class ICMSRegulation(models.Model):
         nbm=None,
         cest=None,
         ind_final=None,
+        operation_line=None,
     ):
         self.ensure_one()
+        # The ICMS rate follows the direction of the purchase: the origin state
+        # is the supplier's and the destination is the company's (e.g. GO -> SP
+        # is 12%, not the 7% of SP -> GO).
+        if self._is_partner_state_origin(operation_line):
+            company_state, partner_state = partner.state_id, company.state_id
+        else:
+            company_state, partner_state = company.state_id, partner.state_id
         domain = [
             ("icms_regulation_id", "=", self.id),
             ("state", "=", "approved"),
@@ -181,8 +207,8 @@ class ICMSRegulation(models.Model):
 
         if tax_group_icms.tax_domain in (TAX_DOMAIN_ICMS, TAX_DOMAIN_ICMS_ST):
             domain += [
-                ("state_from_id", "=", company.state_id.id),
-                ("state_to_ids", "=", partner.state_id.id),
+                ("state_from_id", "=", company_state.id),
+                ("state_to_ids", "=", partner_state.id),
             ]
 
         if tax_group_icms.tax_domain == TAX_DOMAIN_ICMS_ST:
@@ -293,7 +319,11 @@ class ICMSRegulation(models.Model):
         if (
             product.icms_origin in ICMS_ORIGIN_TAX_IMPORTED
             and company.state_id != partner.state_id
-            and operation_line.fiscal_operation_type == FISCAL_OUT
+            and (
+                operation_line.fiscal_operation_type == FISCAL_OUT
+                or self._is_partner_state_origin(operation_line)
+                and partner.country_id == company.country_id
+            )
             or operation_line.fiscal_operation_id.fiscal_type == "return_in"
             and operation_line.fiscal_operation_type == FISCAL_IN
         ):
@@ -301,7 +331,14 @@ class ICMSRegulation(models.Model):
         else:
             # ICMS
             domain = self._build_map_tax_def_domain(
-                company, partner, tax_group_icms, ncm, nbm, cest, ind_final
+                company,
+                partner,
+                tax_group_icms,
+                ncm,
+                nbm,
+                cest,
+                ind_final,
+                operation_line,
             )
 
             tax_definitions = self._tax_definition_search(
