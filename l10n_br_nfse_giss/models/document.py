@@ -2,6 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 import logging
+import time
 from datetime import datetime
 from decimal import Decimal
 
@@ -26,7 +27,7 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
 )
 from odoo.addons.l10n_br_nfse.models.document import filter_processador_edoc_nfse
 
-from ..constants import COUNTRY_ISO_NUMERIC, HOMOLOGATION_CITY_IBGE
+from ..constants import COUNTRY_ISO_NUMERIC
 
 _logger = logging.getLogger(__name__)
 
@@ -60,6 +61,13 @@ PIS_COFINS_CSLL_WITHHOLDING = {
     (False, False, True): "8",
     (True, False, True): "9",
 }
+# nfse_incidence_location of the operation indicators whose IBS/CBS is due in
+# the city of the customer
+INCIDENCE_AT_CUSTOMER = ("Endereço do Tomador/Adquirente", "Endereço do Destinatário")
+# A02: the city hall is still busy with the previous request of the company
+GISS_BUSY = "A02"
+GISS_BUSY_ATTEMPTS = 3
+GISS_BUSY_WAIT = 3.0
 
 
 def filter_giss(record):
@@ -320,10 +328,15 @@ class Document(models.Model):
         if not self._nfse_export_ibscbs():
             return None
         line = self._nfse_ibscbs_line()
+        # the operation indicator says where the IBS/CBS is due (E160 when the
+        # city differs); a customer abroad has no city code
+        indicator = line.operation_indicator_id
+        if indicator.nfse_incidence_location in INCIDENCE_AT_CUSTOMER:
+            municipio = self.partner_id.city_id.ibge_code or municipio
         return tipos.TcrtcinfoIbscbs(
             fin_nfse=tipos.TsrtcfinNfse("0"),
             ind_final=tipos.TsrtcindFinal("1" if self.ind_final == "1" else "0"),
-            c_ind_op=line.operation_indicator_id.code,
+            c_ind_op=indicator.code,
             ind_dest=tipos.TsrtcindDest("0"),
             valores=tipos.TcrtcinfoValoresIbscbs(
                 trib=tipos.TcrtcinfoTributosIbscbs(
@@ -332,11 +345,7 @@ class Document(models.Model):
                         c_class_trib=line.tax_classification_id.code,
                     )
                 ),
-                c_localidade_incid=str(
-                    HOMOLOGATION_CITY_IBGE
-                    if self.nfse_environment == "2"
-                    else municipio
-                ).zfill(7),
+                c_localidade_incid=str(municipio).zfill(7),
                 p_redutor=_decimal(0),
                 # until 2026 the base leaves out the ISS, PIS and COFINS
                 v_bc=_decimal(
@@ -512,6 +521,17 @@ class Document(models.Model):
         else:
             self._giss_reject(retorno)
 
+    def _giss_send_lot(self, provider, xml):
+        """Send the lot, again while the city hall answers it is still busy
+        with the query by RPS made just before."""
+        for attempt in range(GISS_BUSY_ATTEMPTS):
+            if attempt:
+                time.sleep(GISS_BUSY_WAIT)
+            retorno = provider.recepcionar_lote_rps(xml)
+            if GISS_BUSY not in [m.codigo for m in retorno.mensagens + retorno.alertas]:
+                break
+        return retorno
+
     def _eletronic_document_send(self):
         result = super()._eletronic_document_send()
         for record in self.filtered(filter_processador_edoc_nfse).filtered(filter_giss):
@@ -527,7 +547,7 @@ class Document(models.Model):
                     record._giss_authorize(anterior)
                     continue
                 xml = XmlSerializer().render(record._serialize_nfse_giss())
-                envio_lote = provider.recepcionar_lote_rps(xml)
+                envio_lote = record._giss_send_lot(provider, xml)
                 if not envio_lote.sucesso or not envio_lote.protocolo:
                     record._giss_reject(envio_lote)
                     continue

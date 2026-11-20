@@ -99,6 +99,14 @@ LOTE_RECUSADO = soap(
         mensagem("E160", "Arquivo em desacordo com o XML Schema"),
     ),
 )
+LOTE_OCUPADO = soap(
+    "RecepcionarLoteRps",
+    resposta(
+        "enviar-lote-rps-resposta",
+        "EnviarLoteRpsResposta",
+        mensagem("A02", "Empresa ja esta com uma consulta em andamento"),
+    ),
+)
 LOTE_PROCESSADO = soap(
     "ConsultarLoteRps",
     resposta(
@@ -299,15 +307,21 @@ class TestNFSeGiss(TestFiscalDocumentNFSeCommon):
 
     def test_homologation_rps(self):
         """The homologation environment does not know the codes of taxation of
-        the city and takes one city of its own as the place of IBS and CBS."""
+        the city."""
         self.nfse.nfse_environment = "2"
         servico = self._rps().find(f".//{T}Servico")
         self.assertEqual(
             servico.findtext(f"{T}CodigoTributacaoMunicipio"),
             self.line.service_type_id.code,
         )
+
+    def test_ibscbs_due_in_the_city_of_the_customer(self):
+        self.line.operation_indicator_id = self.env.ref(
+            "l10n_br_fiscal.operation_indicator_100301"
+        )
+        self.nfse.partner_id.city_id = self.env.ref("l10n_br_base.city_3547304")
         self.assertEqual(
-            servico.findtext(f"{T}Valores/{T}IBSCBS/{T}valores/{T}cLocalidadeIncid"),
+            self._rps().findtext(f".//{T}IBSCBS/{T}valores/{T}cLocalidadeIncid"),
             "3547304",
         )
 
@@ -473,6 +487,11 @@ class TestNFSeGiss(TestFiscalDocumentNFSeCommon):
         self.assertEqual(self.nfse.state_edoc, "rejeitada")
         self.assertIn("E160", self.nfse.edoc_error_message)
         self.assertFalse(self.nfse.authorization_protocol)
+
+    def test_send_again_while_the_city_hall_is_busy(self):
+        self._send(RPS_NAO_ENCONTRADO, LOTE_OCUPADO, PROTOCOLO, LOTE_PROCESSADO)
+        self.assertEqual(self.session.operacoes.count("RecepcionarLoteRps"), 2)
+        self.assertEqual(self.nfse.state_edoc, "autorizada")
 
     def test_send_lot_with_error(self):
         self._send(RPS_NAO_ENCONTRADO, PROTOCOLO, LOTE_COM_ERRO)
