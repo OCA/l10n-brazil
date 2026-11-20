@@ -6,7 +6,7 @@ import inspect
 import itertools
 import logging
 import re
-from datetime import datetime
+from datetime import datetime, timedelta
 from enum import Enum
 
 from odoo import Command, api, models
@@ -14,7 +14,42 @@ from odoo import Command, api, models
 _logger = logging.getLogger(__name__)
 
 
-tz_datetime = re.compile(r".*[-+]0[0-9]:00$")
+# ISO 8601 datetime as found in the fiscal XML files: optional fraction of a
+# second and optional offset (Z, -03:00, +0000 ...).
+iso_datetime = re.compile(
+    r"^(?P<datetime>\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2})"
+    r"(?:\.\d+)?"
+    r"(?P<offset>Z|[-+]\d{2}:?\d{2})?$"
+)
+
+
+def datetime_to_utc(value):
+    """Convert an imported XML datetime to a naive UTC datetime.
+
+    The XML carries the local time with its offset (for example
+    2026-11-01T01:00:00-03:00) while the Odoo Datetime fields keep naive UTC.
+    A value with an offset is converted to UTC. A value without offset is kept
+    as it is. The fraction of a second is dropped, as Odoo does not keep it.
+    Anything this function does not know how to read is returned untouched.
+    """
+    if hasattr(value, "to_datetime"):  # xsdata XmlDateTime
+        value = value.to_datetime()
+    if isinstance(value, datetime):
+        if value.tzinfo is not None:
+            value = (value - value.utcoffset()).replace(tzinfo=None)
+        return value.replace(microsecond=0)
+    if not isinstance(value, str) or "T" not in value:
+        return value
+    match = iso_datetime.match(value)
+    if not match:
+        return datetime.strptime(value, "%Y-%m-%dT%H:%M:%S")
+    result = datetime.strptime(match["datetime"], "%Y-%m-%dT%H:%M:%S")
+    offset = match["offset"]
+    if offset and offset != "Z":
+        sign = -1 if offset[0] == "-" else 1
+        digits = offset[1:].replace(":", "")
+        result -= sign * timedelta(hours=int(digits[:2]), minutes=int(digits[2:]))
+    return result
 
 
 class SpecMixinImport(models.AbstractModel):
@@ -102,12 +137,7 @@ class SpecMixinImport(models.AbstractModel):
             if isinstance(value, Enum):
                 value = value.value
             if fields.get(key) and fields[key].type == "datetime":
-                if "T" in value:
-                    if tz_datetime.match(value):
-                        old_value = value
-                        value = old_value[:19]
-                        # TODO see python3/pysped/xml_sped/base.py#L692
-                    value = datetime.strptime(value, "%Y-%m-%dT%H:%M:%S")
+                value = datetime_to_utc(value)
             vals[key] = value
 
         else:
