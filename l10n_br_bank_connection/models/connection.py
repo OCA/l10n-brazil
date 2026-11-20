@@ -29,7 +29,7 @@ WEBHOOK_ROUTE = "/l10n_br_bank_connection/webhook"
 OAUTH_START_ROUTE = "/l10n_br_bank_connection/oauth/start"
 OAUTH_CALLBACK_ROUTE = "/l10n_br_bank_connection/oauth/callback"
 ADMIN_GROUP = "l10n_br_bank_connection.group_bank_connection_admin"
-SECRET_GROUP = "base.group_system"
+SECRET_GROUP = "l10n_br_bank_connection.group_bank_connection_admin"
 OAUTH_VALIDITY = timedelta(minutes=10)
 # Lock timeout (ms) of a write made apart: the caller waits for it.
 APART_LOCK_TIMEOUT_MS = 5000
@@ -721,7 +721,9 @@ class BankConnection(models.Model):
             auth = getattr(transport, "_auth", None)
             if auth is None:
                 return False
-            await auth.cabecalhos(None, transport.client)
+            # Banks such as Banco do Brasil refuse a token asked without a scope.
+            scope = next(iter(getattr(auth, "_escopos", None) or {}), None)
+            await auth.cabecalhos(scope, transport.client)
             return True
 
         got_token = self._l10n_br_bank_run(probe)

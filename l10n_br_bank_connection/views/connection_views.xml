@@ -172,7 +172,7 @@
                         <page
                             string="Credentials"
                             name="credentials"
-                            groups="base.group_system"
+                            groups="l10n_br_bank_connection.group_bank_connection_admin"
                         >
                             <group>
                                 <group>
@@ -221,7 +221,7 @@
                         <page
                             string="Bank Settings"
                             name="settings"
-                            groups="base.group_system"
+                            groups="l10n_br_bank_connection.group_bank_connection_admin"
                         >
                             <group>
                                 <field name="settings_help" />
@@ -247,7 +247,7 @@
                         <page
                             string="Webhook"
                             name="webhook"
-                            groups="base.group_system"
+                            groups="l10n_br_bank_connection.group_bank_connection_admin"
                         >
                             <group>
                                 <field name="webhook_url" widget="CopyClipboardChar" />

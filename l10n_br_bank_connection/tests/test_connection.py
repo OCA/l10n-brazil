@@ -2,6 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 import json
+from types import SimpleNamespace
 from unittest.mock import patch
 
 from brbank.erros import Indisponivel, Validacao
@@ -11,7 +12,7 @@ from odoo.tests import TransactionCase, new_test_user, tagged
 
 from ..utils.token_store import OdooTokenStore
 from .common import ConnectionCommon
-from .fake_bank import FAKE, FAKE_NO_SANDBOX, STATE, reset_state
+from .fake_bank import FAKE, FAKE_NO_SANDBOX, STATE, FakeAdapter, reset_state
 
 SECRET_FIELDS = (
     "client_id",
@@ -223,6 +224,21 @@ class TestConnection(ConnectionCommon, TransactionCase):
         self.assertEqual(notification["params"]["type"], "danger")
         self.assertIn("refused", notification["params"]["message"])
 
+    def test_test_connection_asks_the_token_with_a_scope(self):
+        asked = []
+
+        class Auth:
+            _escopos = {"cobranca": "cobrancas.boletos-info"}
+
+            async def cabecalhos(self, escopo, client):
+                asked.append(escopo)
+
+        transport = SimpleNamespace(_auth=Auth(), client=None)
+        with patch.object(FakeAdapter, "_transporte", transport, create=True):
+            lines = self.connection._l10n_br_bank_test_connection()
+        self.assertEqual(asked, ["cobranca"])
+        self.assertEqual(lines, ["Access token obtained."])
+
     # === security === #
 
     def test_secrets_hidden_from_account_managers(self):
@@ -241,7 +257,7 @@ class TestConnection(ConnectionCommon, TransactionCase):
             with self.assertRaises(AccessError):
                 connection.read([field_name])
 
-    def test_tokens_have_no_access_outside_the_system_group(self):
+    def test_connection_admin_enters_the_credentials_but_not_the_tokens(self):
         user = new_test_user(
             self.env,
             login="conn-admin",
@@ -249,7 +265,9 @@ class TestConnection(ConnectionCommon, TransactionCase):
         )
         with self.assertRaises(AccessError):
             self.env["l10n_br_bank_connection.token"].with_user(user).search([])
-        # The administrator group edits connections, secrets stay hidden.
+        # The person the company appoints enters the bank keys without being a
+        # system administrator.
         connection = self.connection.with_user(user)
-        connection.write({"name": "Renamed"})
-        self.assertNotIn("client_secret", connection.fields_get())
+        connection.write({"name": "Renamed", "client_secret": "new-secret"})
+        self.assertIn("client_secret", connection.fields_get())
+        self.assertEqual(connection.client_secret, "new-secret")

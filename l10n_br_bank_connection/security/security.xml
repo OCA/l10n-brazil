@@ -5,8 +5,10 @@
     <record id="group_bank_connection_admin" model="res.groups">
         <field name="name">Bank connections: administrator</field>
         <field name="category_id" ref="base.module_category_accounting_accounting" />
-        <field name="comment">Creates and edits bank connections and starts the consent
-            at the bank. Credentials stay readable by system administrators only.</field>
+        <field
+            name="comment"
+        >Creates and edits bank connections, enters their credentials
+            and starts the consent at the bank.</field>
     </record>
     <record id="base.group_system" model="res.groups">
         <field name="implied_ids" eval="[(4, ref('group_bank_connection_admin'))]" />
