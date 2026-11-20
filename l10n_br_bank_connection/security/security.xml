@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="group_bank_connection_admin" model="res.groups">
+        <field name="name">Bank connections: administrator</field>
+        <field name="category_id" ref="base.module_category_accounting_accounting" />
+        <field name="comment">Creates and edits bank connections and starts the consent
+            at the bank. Credentials stay readable by system administrators only.</field>
+    </record>
+    <record id="base.group_system" model="res.groups">
+        <field name="implied_ids" eval="[(4, ref('group_bank_connection_admin'))]" />
+    </record>
+
+    <record id="connection_company_rule" model="ir.rule">
+        <field name="name">Bank connection: multi-company</field>
+        <field name="model_id" ref="model_l10n_br_bank_connection_connection" />
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+</odoo>
