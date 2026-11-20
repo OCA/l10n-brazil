@@ -44,6 +44,7 @@ from . import partner_profile
 from . import res_partner
 from . import res_company
 from . import document
+from . import document_entry_cst
 from . import document_related
 from . import document_line
 from . import res_config_settings

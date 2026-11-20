@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl-3.0.html). -->
+<odoo>
+    <record id="document_form_entry_cst" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal.document.form.entry.cst</field>
+        <field name="model">l10n_br_fiscal.document</field>
+        <field name="inherit_id" ref="l10n_br_fiscal.document_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//form/field[@name='document_type']" position="after">
+                <field name="imported_document" invisible="1" />
+            </xpath>
+            <button name="action_document_confirm" position="after">
+                <button
+                    name="action_recompute_entry_cst"
+                    type="object"
+                    string="Recalculate Entry CST"
+                    groups="l10n_br_fiscal.group_user"
+                    help="Recalculates the entry CST of IPI, PIS and COFINS of the lines by the current rule and logs in the history what changed. Only for an imported document still in typing."
+                    attrs="{'invisible': ['|', ('imported_document', '=', False), ('state_edoc', '!=', 'em_digitacao')]}"
+                />
+            </button>
+        </field>
+    </record>
+
+    <record id="document_recompute_entry_cst_action" model="ir.actions.server">
+        <field name="name">Recalculate Entry CST</field>
+        <field name="model_id" ref="l10n_br_fiscal.model_l10n_br_fiscal_document" />
+        <field
+            name="binding_model_id"
+            ref="l10n_br_fiscal.model_l10n_br_fiscal_document"
+        />
+        <field name="binding_view_types">list</field>
+        <field name="state">code</field>
+        <field
+            name="code"
+        >action = records.action_recompute_entry_cst_selection()</field>
+    </record>
+</odoo>
