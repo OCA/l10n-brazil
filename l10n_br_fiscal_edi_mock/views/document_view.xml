@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="document_form_edoc_mock" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal.document.form.edoc.mock</field>
+        <field name="model">l10n_br_fiscal.document</field>
+        <field name="inherit_id" ref="l10n_br_fiscal.document_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="before">
+                <field name="edoc_mock_mode" invisible="1" />
+                <div
+                    class="alert alert-warning mb-0"
+                    role="alert"
+                    attrs="{'invisible': [('edoc_mock_mode', '=', False)]}"
+                >
+                    <strong
+                    >SEFAZ simulada:</strong> a autorizacao deste documento e respondida
+                    por um simulador local, sem comunicacao com a SEFAZ e sem valor fiscal.
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>
