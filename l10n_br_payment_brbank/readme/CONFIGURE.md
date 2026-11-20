@@ -11,10 +11,13 @@
    JSON of *Extra Settings* and *Extra Secrets* (*Fill settings template* lists
    the keys), and the consent at the bank where the adapter needs one (BTG).
    The webhook URL to register at the bank is on the connection.
-3. Go to *Invoicing > Configuration > Payment Providers* and open the provider
-   of the bank (for instance *Sicoob (Boleto)* or *Pix Itaú*): the bank
-   adapter (and the Pix profile) are already set by the data; choose the
-   *Bank Connection*. One connection can serve several providers.
+3. Saving the connection gives it a payment provider of its bank: the
+   provider shipped by the module for that bank (for instance *Sicoob
+   (Boleto)* or *Pix Itaú*) when it has no connection yet, or a new one named
+   after the bank and the connection (any bank of the brbank library, Asaas and
+   Safrapay included). It is born disabled and unpublished. Open it in
+   *Invoicing > Configuration > Payment Providers*; one connection can also
+   serve other providers, chosen in their *Bank Connection* field.
 4. Set the provider to *Test Mode* or *Enabled* and choose its journal in the
    *Configuration* tab. The provider refuses to leave *Disabled* without a
    connection of the same adapter, or while a required key is missing. Test

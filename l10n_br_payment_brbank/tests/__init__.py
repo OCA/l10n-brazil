@@ -6,3 +6,4 @@ from . import test_webhook
 from . import test_refresh_token
 from . import test_nosso_numero
 from . import test_boleto_action
+from . import test_connection_provider

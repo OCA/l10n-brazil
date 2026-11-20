@@ -446,11 +446,14 @@ bank sandbox), CNPJ, credentials, the JSON of <em>Extra Settings</em> and
 <em>Extra Secrets</em> (<em>Fill settings template</em> lists the keys), and the
 consent at the bank where the adapter needs one (BTG). The webhook
 URL to register at the bank is on the connection.</li>
-<li>Go to <em>Invoicing &gt; Configuration &gt; Payment Providers</em> and open the
-provider of the bank (for instance <em>Sicoob (Boleto)</em> or <em>Pix Itaú</em>):
-the bank adapter (and the Pix profile) are already set by the data;
-choose the <em>Bank Connection</em>. One connection can serve several
-providers.</li>
+<li>Saving the connection gives it a payment provider of its bank: the
+provider shipped by the module for that bank (for instance <em>Sicoob
+(Boleto)</em> or <em>Pix Itaú</em>) when it has no connection yet, or a new one
+named after the bank and the connection (any bank of the brbank
+library, Asaas and Safrapay included). It is born disabled and
+unpublished. Open it in <em>Invoicing &gt; Configuration &gt; Payment
+Providers</em>; one connection can also serve other providers, chosen in
+their <em>Bank Connection</em> field.</li>
 <li>Set the provider to <em>Test Mode</em> or <em>Enabled</em> and choose its journal
 in the <em>Configuration</em> tab. The provider refuses to leave <em>Disabled</em>
 without a connection of the same adapter, or while a required key is
