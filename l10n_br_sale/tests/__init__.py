@@ -8,4 +8,5 @@ from . import test_sale_order_report
 from . import test_sale_order_ind_final
 from . import test_sale_order_amount
 from . import test_sale_order_edition
+from . import test_sale_order_copy
 from . import test_sale_portal_taxes
