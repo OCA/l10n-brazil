@@ -17,9 +17,6 @@
 - Webhooks are only parsed for the banks whose adapter declares them (Inter,
   Sicredi, BTG Pactual, C6 Bank, Unicred and the Pix profiles); the others
   rely on the reconciliation cron.
-- The digits of the nosso numero of each bank are a map in the module
-  (`NOSSO_NUMERO_DIGITS`), checked by a test against the adapters that take
-  `gerar_nosso_numero`; the library does not publish them in a uniform way.
 - BTG Pactual: the authorization code flow (consent at the BTG Id) is done
   outside Odoo. Two calls renewing the same refresh token at the same time
   (two workers) may leave one of them with a token the bank already replaced.

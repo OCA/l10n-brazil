@@ -540,6 +540,9 @@ installments without a live title.</li>
 reason and the reconciliation cron registers it later with the same
 idempotency key. If the bank refuses the data, the posting stops with
 the reason, naming the missing customer fields.</li>
+<li>An installment already past due is not sent: banks refuse an overdue
+boleto. Posting stops with the reason, and a transaction waiting for a
+retry goes to error instead of being retried forever.</li>
 <li>A title the bank has not confirmed yet (the Itaú Bolecode may answer
 “in progress”) stays pending, takes no instruction and is not shown to
 the customer, until the reconciliation cron reads it as registered.</li>
@@ -550,10 +553,11 @@ the customer, until the reconciliation cron reads it as registered.</li>
 <li><em>Check at the bank</em> reads the title back and applies its status. The
 <em>Capture</em> button of <tt class="docutils literal">payment</tt> does the same, and <em>Void</em> writes the
 title off.</li>
-<li><em>Bank instruction</em> sends a due date extension, a rebate or a protest;
-<em>Write off at the bank</em> cancels the title. The buttons only show when
-the bank declares the capability; a command the bank refuses stays
-recorded as rejected, with the reason.</li>
+<li><em>Boleto actions</em> opens one dialog: choose what to do, fill only what
+that action needs and send it to the bank. It lists only what the bank
+declares (the BB and the Sicredi do not protest, the C6 only extends
+the due date). A command the bank refuses stays recorded as rejected,
+with the reason.</li>
 <li>For BTG Pactual, the <em>Refresh Token</em> of the provider changes by itself
 after the calls to the bank: the provider keeps the last token the
 bank returned.</li>
@@ -561,9 +565,10 @@ bank returned.</li>
 and <em>Invoicing &gt; Configuration &gt; Payments &gt; Bank Webhook Events</em> every
 event received (managers only).</li>
 </ul>
-<p>From the invoice: the <em>Receivables</em> tab has a <em>Bank instruction</em> button
-on each open installment with a registered boleto, offering only what
-the bank accepts. After the bank accepts:</p>
+<p>From the invoice: the <em>Receivables</em> tab has a <em>Boleto actions</em> button on
+each open installment, with the same dialog: extend the due date, grant
+a rebate, protest, write off at the bank, or issue a new boleto. After
+the bank accepts:</p>
 <ul class="simple">
 <li>Due date extension: the due date of the installment and of the invoice
 change.</li>
@@ -574,8 +579,24 @@ the reason goes to the invoice and an activity asks the salesperson
 (or the sender, when the salesperson has no access to invoices) to do
 it by hand.</li>
 <li>Write-off: the invoice only receives a message. The title remains
-open, since the customer still owes the amount.</li>
+open, since the customer still owes the amount. The boleto leaves the
+invoice and the portal at once, even when the bank (the BB) reports it
+only on the next day.</li>
+<li>New boleto: the current boleto is written off at the bank (when still
+open there) and a new one is registered for the open amount, due on
+the new date, with or without fine and interest. The installment moves
+to that date. The new title is checked before the write-off, so
+missing customer data stops it with nothing done at the bank; if the
+bank keeps the old boleto, no new one is issued.</li>
 </ul>
+<p>Automatic write-off: a boleto leaves the bank, after the commit, when
+its installment is fully paid by other means (cash, a Pix to the company
+key) and when the invoice is reset to draft or canceled; posting again
+issues new boletos. If the bank is unavailable, the reconciliation cron
+sends it later. Before writing off, the title is read back: one paid at
+the bank in the meantime is not written off, and if the installment was
+also paid by other means, the invoice receives a message and an activity
+(the customer paid twice).</p>
 <p>Santander: a boleto the bank reports as written off, with no write-off
 sent from Odoo, is not canceled: it may have been paid by Pix. The
 transaction stays open with <em>Review Needed</em> filled, and the invoice
@@ -611,10 +632,6 @@ gives a number twice).</li>
 <li>Webhooks are only parsed for the banks whose adapter declares them
 (Inter, Sicredi, BTG Pactual, C6 Bank, Unicred and the Pix profiles);
 the others rely on the reconciliation cron.</li>
-<li>The digits of the nosso numero of each bank are a map in the module
-(<tt class="docutils literal">NOSSO_NUMERO_DIGITS</tt>), checked by a test against the adapters that
-take <tt class="docutils literal">gerar_nosso_numero</tt>; the library does not publish them in a
-uniform way.</li>
 <li>BTG Pactual: the authorization code flow (consent at the BTG Id) is
 done outside Odoo. Two calls renewing the same refresh token at the
 same time (two workers) may leave one of them with a token the bank

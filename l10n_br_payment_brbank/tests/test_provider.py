@@ -11,7 +11,6 @@ from brbank.erros import NaoSuportado
 from odoo.exceptions import AccessError, UserError, ValidationError
 from odoo.tests import new_test_user, tagged
 
-from ..models.payment_provider import NOSSO_NUMERO_DIGITS
 from .common import FAKE, BrbankTransactionCase
 
 # The 22 providers delivered as data: one per bank adapter and Pix profile.
@@ -89,7 +88,7 @@ class TestBrbankProvider(BrbankTransactionCase):
                 _adapter_class, config = provider._brbank_prepare_adapter()
                 # The nosso numero comes from the sequence of the provider.
                 if hasattr(config, "gerar_nosso_numero"):
-                    self.assertIn(bank, NOSSO_NUMERO_DIGITS)
+                    self.assertTrue(provider._brbank_nosso_numero_digits())
                     self.assertTrue(callable(config.gerar_nosso_numero))
                 if hasattr(config, "ao_renovar_refresh_token"):
                     self.assertTrue(callable(config.ao_renovar_refresh_token))

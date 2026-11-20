@@ -9,10 +9,9 @@ import httpx
 from odoo.exceptions import UserError
 from odoo.tests import tagged
 
-from ..models.payment_provider import NOSSO_NUMERO_DIGITS
 from .common import BrbankTransactionCase, in_days
 
-# Adapters that take `gerar_nosso_numero`, with their digits: the module map follows.
+# Adapters that take `gerar_nosso_numero`, with the digits they declare.
 NUMBER_DIGITS = {
     "bb": 10,
     "bradesco": 11,
@@ -95,7 +94,7 @@ class TestNossoNumero(BrbankTransactionCase):
                 self.assertEqual(tx.brbank_nosso_numero, "4321")
                 self.assertNumberSent("4321", sent[0])
 
-    def test_map_follows_the_library(self):
+    def test_digits_come_from_the_library(self):
         from brbank import registro
 
         from odoo.addons.l10n_br_bank_connection.utils import config as brbank_config
@@ -107,7 +106,9 @@ class TestNossoNumero(BrbankTransactionCase):
             if "gerar_nosso_numero" in keys:
                 takes_generator.add(name)
         self.assertEqual(takes_generator, set(NUMBER_DIGITS))
-        self.assertEqual(NOSSO_NUMERO_DIGITS, NUMBER_DIGITS)
+        for name, digits in NUMBER_DIGITS.items():
+            provider = self._bank_provider(name)
+            self.assertEqual(provider._brbank_nosso_numero_digits(), digits)
 
     def test_retry_sends_the_same_number(self):
         provider = self._bank_provider("itau")

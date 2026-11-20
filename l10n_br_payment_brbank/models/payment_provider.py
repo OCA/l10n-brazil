@@ -10,9 +10,9 @@ from odoo import _, api, fields, models
 from odoo.exceptions import UserError, ValidationError
 
 from odoo.addons.l10n_br_bank_connection.models.connection import (
-    ADAPTER_LABELS,
-    PIX_PROFILE_LABELS,
+    adapter_label,
     capability_flag_labels,
+    pix_profile_label,
 )
 from odoo.addons.l10n_br_bank_connection.utils import config as brbank_config
 
@@ -21,16 +21,6 @@ _logger = logging.getLogger(__name__)
 BRBANK = "brbank"
 # Alias route, for URLs already registered at the banks.
 WEBHOOK_ROUTE = "/payment/brbank/webhook"
-# Digits of the nosso numero each adapter accepts in `gerar_nosso_numero`.
-NOSSO_NUMERO_DIGITS = {
-    "banrisul": 8,
-    "bb": 10,
-    "bradesco": 11,
-    "caixa": 15,
-    "itau": 8,
-    "safra": 9,
-    "santander": 12,
-}
 # Context key: nosso numero reserved per title, by idempotency key.
 NOSSO_NUMERO_CONTEXT = "brbank_nosso_numeros"
 # Context key: txid of a title by its id at the bank (Bradesco hybrid boleto).
@@ -103,10 +93,7 @@ class PaymentProvider(models.Model):
     @api.model
     def _selection_brbank_adapter(self):
         """Adapters installed in the brbank library (entry points)."""
-        return [
-            (name, ADAPTER_LABELS.get(name, name))
-            for name in registro.listar_adapters()
-        ]
+        return [(name, adapter_label(name)) for name in registro.listar_adapters()]
 
     @api.model
     def _selection_brbank_pix_perfil(self):
@@ -114,7 +101,7 @@ class PaymentProvider(models.Model):
             from brbank.adapters.pix_bacen import PERFIS
         except ImportError:  # pragma: no cover
             return []
-        return [(name, PIX_PROFILE_LABELS.get(name, name)) for name in sorted(PERFIS)]
+        return [(name, pix_profile_label(name)) for name in sorted(PERFIS)]
 
     # === COMPUTE METHODS === #
 
@@ -285,10 +272,15 @@ class PaymentProvider(models.Model):
     # === BUSINESS METHODS: NOSSO NUMERO === #
 
     def _brbank_nosso_numero_digits(self):
-        """Digits of the nosso numero the provider generates, or None."""
+        """Digits of the nosso numero the provider generates, or None.
+
+        The adapter declares them (`digitos_nosso_numero`); None when the bank or
+        the gateway generates the number.
+        """
         self.ensure_one()
         adapter_class = self._brbank_adapter_class()
-        if not adapter_class or self.brbank_adapter not in NOSSO_NUMERO_DIGITS:
+        digits = getattr(adapter_class, "digitos_nosso_numero", None)
+        if not digits:
             return None
         try:
             config_cls = brbank_config.config_class(adapter_class)
@@ -297,7 +289,7 @@ class PaymentProvider(models.Model):
         keys = {key["name"] for key in brbank_config.describe(config_cls)}
         if "gerar_nosso_numero" not in keys:
             return None
-        return NOSSO_NUMERO_DIGITS[self.brbank_adapter]
+        return digits
 
     def _brbank_nosso_numero_start(self, digits):
         """First number of a new sequence, after every number already sent."""
