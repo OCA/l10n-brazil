@@ -387,3 +387,41 @@ class TestFiscalTax(TransactionCase):
         )
 
         self.assertEqual(compute_result["taxes"]["icms"]["cst_id"].code, "10")
+
+    def test_icmsfcp_does_not_require_icms_cst_id(self):
+        """O FCP tem de ser calculado pela entrada contábil.
+
+        `account.tax.compute_all` não tem `icms_cst_id` na assinatura, então
+        toda chamada vinda da contabilidade chega ao método específico sem ele.
+        O despacho de `compute_taxes` engole o `AttributeError` e cai no cálculo
+        genérico, por isso o método específico é chamado direto aqui.
+        """
+        kwargs = self._create_compute_taxes_kwargs()
+        kwargs.pop("icms_cst_id", None)
+        fiscal_tax = self.env.ref("l10n_br_fiscal.tax_icmsfcp_2")
+        tax_dict = fiscal_tax.compute_taxes(**kwargs)["taxes"]["icmsfcp"]
+
+        result = fiscal_tax._compute_icmsfcp(
+            fiscal_tax, {"icmsfcp": dict(tax_dict)}, **kwargs
+        )
+
+        self.assertEqual(result["tax_domain"], "icmsfcp")
+
+    def test_icmsfcp_agrees_with_and_without_icms_cst_id(self):
+        """As duas entradas do motor têm de chegar ao mesmo FCP.
+
+        A da linha fiscal passa `icms_cst_id`, a contábil não. Se o resultado
+        depender disso, o mesmo documento sai com FCP diferente conforme quem
+        o calculou.
+        """
+        fiscal_taxes = self.env.ref("l10n_br_fiscal.tax_icms_7") + self.env.ref(
+            "l10n_br_fiscal.tax_icmsfcp_2"
+        )
+        with_cst = self._create_compute_taxes_kwargs()
+        with_cst["icms_cst_id"] = self.env.ref("l10n_br_fiscal.cst_icms_00")
+        without_cst = self._create_compute_taxes_kwargs()
+
+        self.assertEqual(
+            fiscal_taxes.compute_taxes(**with_cst)["taxes"]["icmsfcp"]["tax_value"],
+            fiscal_taxes.compute_taxes(**without_cst)["taxes"]["icmsfcp"]["tax_value"],
+        )
