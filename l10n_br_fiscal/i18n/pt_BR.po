@@ -2702,6 +2702,22 @@ msgid "Default Taxes"
 msgstr "Impostos Padrão"
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_nbs__operation_indicator_id
+msgid ""
+"Default cIndOp (Operation Indicator) for this NBS, according to Annex VII of "
+"Technical Note No. 004/2025. Automatically propagated to products linked to "
+"this NBS and, from there, to their fiscal document lines."
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,help:l10n_br_fiscal.field_product_product__operation_indicator_id
+#: model:ir.model.fields,help:l10n_br_fiscal.field_product_template__operation_indicator_id
+msgid ""
+"Defaults from the NBS' Operation Indicator when the NBS is set. Can still be "
+"selected manually when the NBS has none."
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.fiscal_res_company_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.l10n_br_fiscal_res_config_settings_form
 msgid ""
@@ -7287,6 +7303,7 @@ msgstr "Tipo fiscal da operação"
 #: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_operation_indicator
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__operation_indicator_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__operation_indicator_id
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_nbs__operation_indicator_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_product_product__operation_indicator_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_product_template__operation_indicator_id
 #: model:ir.ui.menu,name:l10n_br_fiscal.operation_indicator_menu
