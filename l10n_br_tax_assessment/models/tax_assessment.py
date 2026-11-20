@@ -1,6 +1,8 @@
 # Copyright 2026 KMEE
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
+from datetime import timedelta
+
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError, ValidationError
 
@@ -133,6 +135,12 @@ class TaxAssessment(models.Model):
         readonly=True,
         help="Saldo credor transportado do período anterior. Positivo quando "
         "há crédito a aproveitar. É o campo 10 do E110.",
+    )
+    previous_periods_warning = fields.Char(
+        string="Aviso de períodos anteriores",
+        compute="_compute_previous_periods_warning",
+        help="Aviso quando há período anterior com movimento deste imposto e sem "
+        "apuração lançada: o saldo anterior desta apuração nasce errado.",
     )
 
     # Totals in E110 order. See `_compute_totals` for the formula.
@@ -278,6 +286,15 @@ class TaxAssessment(models.Model):
             if regime == "not_applicable" and record.tax_domain in ("pis", "cofins"):
                 regime = by_profit.get(record.company_id.profit_calculation, regime)
             record.regime = regime
+
+    @api.depends("date_from", "tax_group_id", "company_id", "state")
+    def _compute_previous_periods_warning(self):
+        for record in self:
+            record.previous_periods_warning = (
+                record._unassessed_previous_periods_message()
+                if record.id and record.state in ("draft", "computed")
+                else False
+            )
 
     @api.depends("tax_group_id", "date_from", "date_to")
     def _compute_name(self):
@@ -488,6 +505,81 @@ class TaxAssessment(models.Model):
         if self._has_earlier_movement():
             raise UserError(self._define_start_message())
         self.company_id.sudo().tax_assessment_start = self.date_from.replace(day=1)
+
+    def _get_unassessed_previous_periods(self):
+        """The earlier months with movement of the tax and no posted assessment,
+        from the start of the assessment by the system, oldest first.
+
+        Such a month breaks the chain of the credit balance: the balance of the
+        next one is born wrong. The cumulative PIS/COFINS carries no balance.
+        """
+        self.ensure_one()
+        if self.regime == "cumulative" or not self.date_from:
+            return []
+        first_system = self._get_first_period_date()
+        if not first_system:
+            return []
+        groups = (
+            self.env["account.move.line"]
+            .sudo()
+            .read_group(
+                [
+                    ("company_id", "=", self.company_id.id),
+                    ("parent_state", "=", "posted"),
+                    ("tax_line_id", "in", self._get_taxes().ids),
+                    ("date", ">=", first_system),
+                    ("date", "<", self.date_from),
+                ],
+                ["date"],
+                ["date:month"],
+                lazy=False,
+            )
+        )
+        moved = {
+            fields.Date.to_date(group["__range"]["date:month"]["from"])
+            for group in groups
+        }
+        covered = set()
+        for assessment in self.search(
+            [
+                ("company_id", "=", self.company_id.id),
+                ("tax_group_id", "=", self.tax_group_id.id),
+                ("regime", "=", self.regime),
+                ("state", "=", "posted"),
+                ("date_to", "<", self.date_from),
+            ]
+        ):
+            month = assessment.date_from.replace(day=1)
+            while month <= assessment.date_to:
+                covered.add(month)
+                month = (month + timedelta(days=32)).replace(day=1)
+        return sorted(moved - covered)
+
+    def _unassessed_previous_periods_message(self):
+        self.ensure_one()
+        if self.regime == "cumulative" or not self.date_from:
+            return False
+        if not self._get_first_period_date():
+            return (
+                self._define_start_message() if self._has_earlier_movement() else False
+            )
+        months = self._get_unassessed_previous_periods()
+        if not months:
+            return False
+        return _(
+            "Faltam as apurações lançadas de períodos anteriores com movimento: "
+            "%(months)s. Apure e lance cada período, em ordem: sem elas o saldo "
+            "de crédito de que este período parte fica errado e o crédito dos "
+            "meses que faltam se perde."
+        ) % {"months": ", ".join(month.strftime("%m/%Y") for month in months)}
+
+    def _check_previous_periods(self):
+        """Stop on the months that are missing, for whoever reads the assessment
+        to declare it (the tax books)."""
+        for record in self:
+            message = record._unassessed_previous_periods_message()
+            if message:
+                raise UserError(message)
 
     def _find_previous_assessment(self):
         self.ensure_one()

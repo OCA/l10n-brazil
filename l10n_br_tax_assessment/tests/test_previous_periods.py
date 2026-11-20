@@ -151,6 +151,64 @@ class TestPreviousPeriods(AccountMoveBRCommon):
         self.assertEqual(july.previous_assessment_id, june)
         self.assertEqual(july.previous_balance, june.amount_carried_forward)
 
+    def test_the_assessment_warns_of_an_earlier_month_with_movement(self):
+        self.company.tax_assessment_start = date(2026, 6, 1)
+        self._purchase("601", date(2026, 6, 10))
+        self._purchase("602", date(2026, 7, 10))
+        july = self._assess(7, post=False)
+        self.assertIn("06/2026", july.previous_periods_warning)
+        with self.assertRaises(UserError) as error:
+            july._check_previous_periods()
+        self.assertIn("06/2026", error.exception.args[0])
+
+    def test_there_is_no_warning_when_the_earlier_month_is_posted(self):
+        self.company.tax_assessment_start = date(2026, 6, 1)
+        self._purchase("601", date(2026, 6, 10))
+        self._purchase("602", date(2026, 7, 10))
+        self._assess(6)
+        july = self._assess(7, post=False)
+        self.assertFalse(july.previous_periods_warning)
+        july._check_previous_periods()
+
+    def test_a_computed_earlier_month_is_not_enough(self):
+        self.company.tax_assessment_start = date(2026, 6, 1)
+        self._purchase("601", date(2026, 6, 10))
+        self._purchase("602", date(2026, 7, 10))
+        self._assess(6, post=False)
+        july = self._assess(7, post=False)
+        self.assertIn("06/2026", july.previous_periods_warning)
+
+    def test_a_month_without_movement_does_not_have_to_be_assessed(self):
+        self.company.tax_assessment_start = date(2026, 6, 1)
+        self._purchase("602", date(2026, 7, 10))
+        july = self._assess(7, post=False)
+        self.assertFalse(july.previous_periods_warning)
+        july._check_previous_periods()
+
+    def test_with_the_start_only_the_months_from_it_are_listed(self):
+        self._old_base()
+        self.company.tax_assessment_start = date(2026, 6, 1)
+        july = self._assess(7, post=False)
+        self.assertIn("06/2026", july.previous_periods_warning)
+        self.assertNotIn("2024", july.previous_periods_warning)
+        self.assertNotIn("2025", july.previous_periods_warning)
+
+    def test_without_the_start_the_check_asks_for_it(self):
+        self._old_base()
+        july = self.env["l10n_br_tax.assessment"].create(
+            {
+                "company_id": self.company.id,
+                "tax_group_id": self.icms_group.id,
+                "date_from": date(2026, 7, 1),
+                "date_to": date(2026, 7, 28),
+            }
+        )
+        self.assertIn(
+            "Defina o início da apuração pelo sistema", july.previous_periods_warning
+        )
+        with self.assertRaises(UserError):
+            july._check_previous_periods()
+
     def test_the_company_form_shows_the_start(self):
         view = self.env["res.company"].get_view(
             self.env.ref("l10n_br_fiscal.fiscal_res_company_form").id
