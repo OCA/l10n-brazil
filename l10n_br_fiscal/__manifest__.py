@@ -101,6 +101,7 @@
         "views/res_partner_view.xml",
         "views/res_company_view.xml",
         "views/document_view.xml",
+        "views/document_entry_cst_view.xml",
         "views/document_related_view.xml",
         "views/document_line_view.xml",
         "views/document_line_mixin_view.xml",
