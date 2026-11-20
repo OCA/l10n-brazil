@@ -3,7 +3,7 @@
 
 import base64
 from collections import defaultdict
-from datetime import date
+from datetime import date, datetime
 from io import StringIO
 from os import path
 from unittest import mock
@@ -21,8 +21,10 @@ from odoo.tools.translate import code_translations
 from odoo.addons import l10n_br_sped_base
 from odoo.addons.l10n_br_sped_base.models.sped_mixin import SPED_ENCODING
 
+from .test_sped_document import SpedDocumentCommon
 
-class TestSpedBase(TransactionCase, FakeModelLoader):
+
+class TestSpedBase(SpedDocumentCommon, TransactionCase, FakeModelLoader):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -1061,3 +1063,78 @@ class TestSpedBase(TransactionCase, FakeModelLoader):
         # what the user typed by hand is never overwritten
         self.assertEqual(declaration.NOME, "typed by the user")
         self.assertEqual(declaration.CNPJ, "00000000000000")
+
+    def _fake_declaration(self, dt_ini, dt_fin):
+        source = self.declaration
+        return self.env["l10n_br_sped.fake.0000"].create(
+            {
+                "company_id": self.env.ref("l10n_br_base.empresa_lucro_presumido").id,
+                "DT_INI": dt_ini,
+                "DT_FIN": dt_fin,
+                "LECD": source.LECD,
+                "NOME": source.NOME,
+                "CNPJ": source.CNPJ,
+                "UF": source.UF,
+                "IND_SIT_INI_PER": source.IND_SIT_INI_PER,
+                "IND_NIRE": source.IND_NIRE,
+                "IND_FIN_ESC": source.IND_FIN_ESC,
+                "IND_GRANDE_PORTE": source.IND_GRANDE_PORTE,
+                "TIP_ECD": source.TIP_ECD,
+                "IDENT_MF": source.IDENT_MF,
+                "IND_ESC_CONS": source.IND_ESC_CONS,
+                "IND_CENTRALIZADA": source.IND_CENTRALIZADA,
+                "IND_MUDANC_PC": source.IND_MUDANC_PC,
+            }
+        )
+
+    def test_an_entry_is_in_the_period_it_came_in(self):
+        """Emitted in June and received in July, an entry is in the July
+        declaration; an outgoing document stays in the month of its emission,
+        and an entry without entry date too."""
+        june_emission = datetime(2026, 6, 28, 12, 0)
+        july_entry = datetime(2026, 7, 3, 12, 0)
+        entry = self._sped_document(
+            901, document_date=june_emission, date_in_out=july_entry
+        )
+        out = self._sped_document(
+            902,
+            operation="fo_venda",
+            document_date=june_emission,
+            date_in_out=july_entry,
+        )
+        no_entry_date = self._sped_document(
+            903, document_date=june_emission, date_in_out=False
+        )
+        june = self._fake_declaration("2026-06-01", "2026-06-30")
+        july = self._fake_declaration("2026-07-01", "2026-07-31")
+        self.assertIn(entry, july.fiscal_document_ids)
+        self.assertNotIn(entry, june.fiscal_document_ids)
+        self.assertIn(out, june.fiscal_document_ids)
+        self.assertNotIn(out, july.fiscal_document_ids)
+        self.assertIn(no_entry_date, june.fiscal_document_ids)
+
+    def test_an_nfe_without_access_key_is_left_out_and_listed(self):
+        """The C100 of an NF-e without a key goes out with an empty CHV_NFE and
+        the PVA refuses the file: the document stays out of the declaration and
+        the pull lists it in the history."""
+        keyed = self._sped_document(911)
+        keyless = self._sped_document(912, document_key=False)
+        declaration = self._fake_declaration("2026-07-01", "2026-07-31")
+        self.assertIn(keyed, declaration.fiscal_document_ids)
+        self.assertNotIn(keyless, declaration.fiscal_document_ids)
+        self.assertEqual(declaration._get_documents_without_access_key(), keyless)
+        declaration.button_populate_sped_from_odoo()
+        self.assertIn("1/912", " ".join(declaration.message_ids.mapped("body")))
+
+    def test_the_history_link_needs_no_access_to_the_actions(self):
+        """A fiscal user cannot read the window actions: the link of the pull
+        history to the registers must not need it."""
+        action = self.env["ir.actions.act_window"].create(
+            {"name": "Fake I010", "res_model": "l10n_br_sped.fake.i010"}
+        )
+        user = self._user_of(self.declaration.company_id)
+        log_msg = StringIO()
+        self.env["l10n_br_sped.fake.i010"].with_user(user)._log_chatter_sped_item(
+            log_msg, 1
+        )
+        self.assertIn(f"/web#action={action.id}", log_msg.getvalue())
