@@ -124,6 +124,20 @@ class FiscalDocument(models.Model):
             return self.document_date
         return entry
 
+    def _get_sped_pis_cofins_values(self):
+        """(VL_PIS, VL_COFINS) of the document as the books carry them: what the
+        C170 of its lines carry, so the header equals the items. An entry booked
+        without credit right (CST 70 to 75) carries no value in the C170, and so
+        none in the total."""
+        self.ensure_one()
+        pis = cofins = 0.0
+        for line in self.fiscal_line_ids:
+            if not line._entry_piscofins_without_credit("pis"):
+                pis += line.pis_value
+            if not line._entry_piscofins_without_credit("cofins"):
+                cofins += line.cofins_value
+        return pis, cofins
+
     def _is_sped_own_issue(self):
         """NF-e or NFC-e issued by the company: the books carry the C100 and
         the C190 only, never the items (C170), as the Guia Pratico says."""
