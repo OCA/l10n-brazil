@@ -211,6 +211,7 @@ class TestMoveEdition(TransactionCase):
                 tax_classification=self.env.ref(
                     "l10n_br_fiscal.fo_venda_revenda"
                 )._get_tax_classification(move_form.company_id),
+                reference_date=False,
             )
 
             # ensure manually setting a product_uom_id is properly sync'ed:

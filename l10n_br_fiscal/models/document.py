@@ -340,6 +340,20 @@ class Document(models.Model):
                     )
                 )
 
+    @api.onchange("document_date")
+    def _onchange_document_date(self):
+        """Map the lines again on the rules in force on the new date.
+
+        The mapping reads the document date to choose the rules by validity, so a
+        date typed after the lines were added would keep the taxes of the previous
+        date. It is an onchange and not a dependency of the compute methods because
+        the date is also written by code (the invoice date drives it in
+        l10n_br_account) and the lines must not be mapped again by those writes.
+        """
+        for line in self._get_amount_lines():
+            line._compute_fiscal_operation_line_id()
+            line._compute_fiscal_tax_ids()
+
     @api.onchange("fiscal_operation_type")
     def _onchange_fiscal_operation_type(self):
         domain = [("state", "=", "approved")]
