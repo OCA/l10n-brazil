@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE - Luis Felipe Mileo <mileo@kmee.com.br>
+     License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html -->
+<odoo>
+
+    <record id="reinf_r1000_form" model="ir.ui.view">
+        <field name="model">l10n_br_reinf.r1000</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="reinf21_id" />
+                        </h1>
+                    </div>
+                    <group>
+                        <group name="event" string="Event">
+                            <field name="event_id" />
+                            <field
+                                name="company_id"
+                                groups="base.group_multi_company"
+                            />
+                            <field name="reinf21_tpAmb" />
+                            <field name="reinf21_procEmi" />
+                            <field name="reinf21_verProc" />
+                        </group>
+                        <group name="taxpayer" string="Taxpayer">
+                            <field name="reinf21_tpInsc" />
+                            <field name="reinf21_nrInsc" />
+                            <field name="reinf21_iniValid" />
+                            <field name="reinf21_fimValid" />
+                        </group>
+                    </group>
+                    <group name="registration" string="Registration">
+                        <group>
+                            <field name="reinf21_classTrib" />
+                            <field name="reinf21_indEscrituracao" />
+                            <field name="reinf21_indDesoneracao" />
+                        </group>
+                        <group>
+                            <field name="reinf21_indAcordoIsenMulta" />
+                            <field name="reinf21_indSitPJ" />
+                        </group>
+                    </group>
+                    <group name="contact" string="Contact">
+                        <group>
+                            <field name="reinf21_nmCtt" />
+                            <field name="reinf21_cpfCtt" />
+                        </group>
+                        <group>
+                            <field name="reinf21_foneFixo" />
+                            <field name="reinf21_foneCel" />
+                            <field name="reinf21_email" />
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+</odoo>
