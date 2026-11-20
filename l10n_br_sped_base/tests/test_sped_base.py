@@ -1134,3 +1134,57 @@ class TestSpedBase(SpedDocumentCommon, TransactionCase, FakeModelLoader):
             log_msg, 1
         )
         self.assertIn(f"/web#action={action.id}", log_msg.getvalue())
+
+    def _attachments(self, declaration):
+        return self.env["ir.attachment"].search(
+            [("res_model", "=", declaration._name), ("res_id", "=", declaration.id)]
+        )
+
+    def test_the_file_is_made_of_the_registers_of_the_generation(self):
+        """The registers are pulled again when the file is generated: a
+        declaration never pulled still goes out with what Odoo has."""
+        declaration = self._fake_declaration("2026-07-01", "2026-07-31")
+        self.assertFalse(declaration.IE)
+        declaration.button_create_sped_files()
+        company = declaration.company_id
+        self.assertEqual(declaration.IE, misc.punctuation_rm(company.l10n_br_ie_code))
+        self.assertEqual(len(self._attachments(declaration)), 1)
+
+    def test_a_register_that_cannot_be_pulled_stops_the_generation(self):
+        declaration = self._fake_declaration("2026-07-01", "2026-07-31")
+        i010 = self.env["l10n_br_sped.fake.i010"]
+        with (
+            patch.object(
+                type(self.env["l10n_br_sped.mixin"]),
+                "_get_top_registers",
+                return_value=[i010],
+            ),
+            patch.object(
+                type(i010),
+                "_pull_records_from_odoo",
+                side_effect=ValueError("broken mapping"),
+            ),
+        ):
+            with self.assertRaisesRegex(UserError, "I010: broken mapping"):
+                declaration.button_create_sped_files()
+        self.assertFalse(self._attachments(declaration))
+
+    def test_the_generation_says_what_the_accountant_lacks(self):
+        declaration = self._fake_declaration("2026-07-01", "2026-07-31")
+        company = declaration.company_id
+        company.accountant_id = False
+        with patch.object(
+            type(declaration),
+            "_get_accountant_required",
+            return_value=[("crc_code", "CRC")],
+        ):
+            with self.assertRaisesRegex(UserError, "accountant of the company"):
+                declaration.button_create_sped_files()
+            company.accountant_id = self.env["res.partner"].create(
+                {"name": "Accountant"}
+            )
+            with self.assertRaisesRegex(UserError, "lacks CRC"):
+                declaration.button_create_sped_files()
+            company.accountant_id.crc_code = "1SP123456/O-0"
+            declaration.button_create_sped_files()
+        self.assertEqual(len(self._attachments(declaration)), 1)
