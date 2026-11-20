@@ -68,14 +68,19 @@ class TaxAssessment(models.Model):
         "procura pis e cofins.",
     )
     regime = fields.Selection(
-        related="tax_group_id.regime",
+        selection=lambda self: (
+            self.env["account.tax.group"]._fields["regime"].selection
+        ),
+        compute="_compute_regime",
         store=True,
         readonly=True,
         help="Regime apurado, herdado do grupo de imposto (critério de "
         "partição: um grupo por regime, então uma apuração nunca mistura "
         "regimes nem conta a mesma linha duas vezes). PIS e COFINS têm "
         "apuração separada por regime, como o M200 da EFD Contribuições "
-        "pede; ICMS e IPI usam 'Não se aplica'.\n"
+        "pede; ICMS e IPI usam 'Não se aplica'. Quando o grupo de PIS ou "
+        "COFINS não informa o regime, vale o da empresa: cumulativo no Lucro "
+        "Presumido e Arbitrado, não cumulativo no Lucro Real.\n"
         "O campo é armazenado porque entra na chave única do período, e o "
         "grupo o declara obrigatório: um regime nulo faria a chave deixar "
         "de valer, porque no Postgres NULL nunca é igual a NULL.",
@@ -258,6 +263,21 @@ class TaxAssessment(models.Model):
                         "período sobreposto nesta empresa."
                     )
                 )
+
+    @api.depends("tax_group_id.regime", "tax_domain", "company_id.profit_calculation")
+    def _compute_regime(self):
+        """The regime of the group; for PIS and COFINS, when the group does not
+        say it, the one of the company (the group is shared by every company)."""
+        by_profit = {
+            "real": "non_cumulative",
+            "presumed": "cumulative",
+            "arbitrary": "cumulative",
+        }
+        for record in self:
+            regime = record.tax_group_id.regime
+            if regime == "not_applicable" and record.tax_domain in ("pis", "cofins"):
+                regime = by_profit.get(record.company_id.profit_calculation, regime)
+            record.regime = regime
 
     @api.depends("tax_group_id", "date_from", "date_to")
     def _compute_name(self):

@@ -18,6 +18,7 @@
         "security/tax_assessment_security.xml",
         "security/ir.model.access.csv",
         "views/tax_assessment_views.xml",
+        "views/account_tax_group_views.xml",
     ],
     "demo": [
         "demo/tax_assessment_demo.xml",

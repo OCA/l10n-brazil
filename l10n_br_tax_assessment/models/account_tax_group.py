@@ -14,6 +14,7 @@ class AccountTaxGroup(models.Model):
     _inherit = "account.tax.group"
 
     regime = fields.Selection(
+        string="Regime de apuração",
         selection=[
             ("not_applicable", "Não se aplica"),
             ("non_cumulative", "Não cumulativo"),
@@ -24,5 +25,8 @@ class AccountTaxGroup(models.Model):
         help="Regime de apuração dos impostos deste grupo. PIS e COFINS têm "
         "apuração separada por regime, como o M200 da EFD Contribuições "
         "pede: contribuinte com receita mista configura um grupo por "
-        "regime. ICMS e IPI usam 'Não se aplica'.",
+        "regime. ICMS e IPI usam 'Não se aplica'. Quando o grupo de PIS ou "
+        "COFINS fica em 'Não se aplica', a apuração usa o regime da empresa: "
+        "cumulativo no Lucro Presumido e Arbitrado, não cumulativo no Lucro "
+        "Real.",
     )
