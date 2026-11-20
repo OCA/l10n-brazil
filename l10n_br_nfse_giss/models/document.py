@@ -26,7 +26,7 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
 )
 from odoo.addons.l10n_br_nfse.models.document import filter_processador_edoc_nfse
 
-from ..constants import COUNTRY_ISO_NUMERIC
+from ..constants import COUNTRY_ISO_NUMERIC, HOMOLOGATION_CITY_IBGE
 
 _logger = logging.getLogger(__name__)
 
@@ -240,7 +240,7 @@ class Document(models.Model):
                 (line.service_type_id.code or "").zfill(5)
             ),
             codigo_cnae=int(dados["codigo_cnae"]) if dados["codigo_cnae"] else None,
-            codigo_tributacao_municipio=dados["codigo_tributacao_municipio"],
+            codigo_tributacao_municipio=self._giss_city_taxation_code(dados),
             # 9 digits on the way in, dotted on the way back
             codigo_nbs=dados["codigo_nbs_unmasked"] or None,
             discriminacao=self._giss_discriminacao(),
@@ -264,6 +264,13 @@ class Document(models.Model):
             line.name for line in self.fiscal_line_ids if line.product_id and line.name
         )[:2000]
 
+    def _giss_city_taxation_code(self, dados):
+        """The code of taxation of the city, or the item of the service list in
+        homologation, which does not know the codes of each city."""
+        if self.nfse_environment == "2":
+            return self.fiscal_line_ids[:1].service_type_id.code or None
+        return dados["codigo_tributacao_municipio"]
+
     def _giss_trib(self, dados):
         """Federal taxes and the approximate tax burden (group ``trib``)."""
         line = self.fiscal_line_ids[:1]
@@ -276,13 +283,16 @@ class Document(models.Model):
             )
             pis_cofins = tipos.TctribOutrosPisCofins(
                 cst=tipos.TstipoCst(dados["situacao_tributaria_pis"]),
-                v_bcpis_cofins=_optional(
+                # with a CST the city hall wants base, rates and values even when
+                # they are zero, as in a service without incidence (CST 08):
+                # E160 "Aliquota ou Valor de PIS/COFINS sem informação"
+                v_bcpis_cofins=_decimal(
                     dados["base_calculo_pis"] or dados["base_calculo_cofins"]
                 ),
-                p_aliq_pis=_optional(dados["aliquota_pis"]),
-                p_aliq_cofins=_optional(dados["aliquota_cofins"]),
-                v_pis=_optional(dados["valor_pis"]),
-                v_cofins=_optional(dados["valor_cofins"]),
+                p_aliq_pis=_decimal(dados["aliquota_pis"]),
+                p_aliq_cofins=_decimal(dados["aliquota_cofins"]),
+                v_pis=_decimal(dados["valor_pis"]),
+                v_cofins=_decimal(dados["valor_cofins"]),
                 tp_ret_pis_cofins=tipos.TstipoRetPiscofins(
                     PIS_COFINS_CSLL_WITHHOLDING[withheld]
                 ),
@@ -322,7 +332,11 @@ class Document(models.Model):
                         c_class_trib=line.tax_classification_id.code,
                     )
                 ),
-                c_localidade_incid=str(municipio).zfill(7),
+                c_localidade_incid=str(
+                    HOMOLOGATION_CITY_IBGE
+                    if self.nfse_environment == "2"
+                    else municipio
+                ).zfill(7),
                 p_redutor=_decimal(0),
                 # until 2026 the base leaves out the ISS, PIS and COFINS
                 v_bc=_decimal(

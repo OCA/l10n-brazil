@@ -297,6 +297,52 @@ class TestNFSeGiss(TestFiscalDocumentNFSeCommon):
         self.assertEqual(classificacao.findtext(f"{T}cClassTrib"), "000001")
         self.assertEqual(grupo.findtext(f"{T}valores/{T}cLocalidadeIncid"), "3518800")
 
+    def test_homologation_rps(self):
+        """The homologation environment does not know the codes of taxation of
+        the city and takes one city of its own as the place of IBS and CBS."""
+        self.nfse.nfse_environment = "2"
+        servico = self._rps().find(f".//{T}Servico")
+        self.assertEqual(
+            servico.findtext(f"{T}CodigoTributacaoMunicipio"),
+            self.line.service_type_id.code,
+        )
+        self.assertEqual(
+            servico.findtext(f"{T}Valores/{T}IBSCBS/{T}valores/{T}cLocalidadeIncid"),
+            "3547304",
+        )
+
+    def test_production_rps_keeps_the_city_code_of_taxation(self):
+        dados = self.nfse._prepare_dados_servico()
+        servico = self._rps().find(f".//{T}Servico")
+        self.assertEqual(
+            servico.findtext(f"{T}CodigoTributacaoMunicipio"),
+            dados["codigo_tributacao_municipio"] or None,
+        )
+        self.assertEqual(
+            servico.findtext(f"{T}Valores/{T}IBSCBS/{T}valores/{T}cLocalidadeIncid"),
+            "3518800",
+        )
+
+    def test_pis_cofins_without_incidence_goes_with_zeros(self):
+        """CST 08 (an export): the city hall wants base, rates and values even
+        when they are zero."""
+        self.line.pis_cst_id = self.env.ref("l10n_br_fiscal.cst_pis_08")
+        self.line.cofins_cst_id = self.env.ref("l10n_br_fiscal.cst_cofins_08")
+        self.line.write(
+            {
+                "pis_base": 0.0,
+                "pis_percent": 0.0,
+                "pis_value": 0.0,
+                "cofins_base": 0.0,
+                "cofins_percent": 0.0,
+                "cofins_value": 0.0,
+            }
+        )
+        piscofins = self._rps().find(f".//{T}trib/{T}tribFed/{T}piscofins")
+        self.assertEqual(piscofins.findtext(f"{T}CST"), "08")
+        for tag in ("vBCPisCofins", "pAliqPis", "pAliqCofins", "vPis", "vCofins"):
+            self.assertEqual(piscofins.findtext(f"{T}{tag}"), "0.00", tag)
+
     @mute_logger("odoo.addons.l10n_br_nfse.models.document")
     def test_rps_with_partial_tax_reform_data_has_no_ibscbs_group(self):
         self.line.operation_indicator_id = False

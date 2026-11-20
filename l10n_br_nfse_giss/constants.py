@@ -27,3 +27,11 @@ _ISO_3166_NUMERIC = """
     ZM894 ZW716
 """
 COUNTRY_ISO_NUMERIC = {pair[:2]: pair[2:] for pair in _ISO_3166_NUMERIC.split()}
+
+# The homologation web service is a single environment shared by every city,
+# with rules of its own (Manual Técnico Serviços Prestados V1.8, section 4): it
+# does not know the codes of taxation of each city, so the RPS takes the item of
+# the service list as CodigoTributacaoMunicipio there (guidance of the city hall
+# of Guarulhos), and it only accepts this city as the place where IBS and CBS
+# are due (E160 "A localidade de incidência do IBS/CBS deve ser 3547304").
+HOMOLOGATION_CITY_IBGE = 3547304
