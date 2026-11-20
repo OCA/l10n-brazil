@@ -188,6 +188,37 @@ class TestSpedEcdGenerate(AccountTestInvoicingCommon):
         self.assertAlmostEqual(vendas.VL_SLD_FIN, 700.0, places=2)
         self.assertEqual(vendas.IND_DC_FIN, "C")
 
+    def test_file_records_follow_the_layout(self):
+        """What the PVA refuses: functional currency fields in a bookkeeping
+        without one, a mandatory zero left blank, the SCP and replaced hash
+        filled with a zero, an untimely date in an ordinary entry, an item
+        without history and a missing 0007."""
+        self._post("2026-02-10", 1500.0)
+        self.declaration.button_populate_sped_from_odoo()
+        lines = self.declaration._generate_sped_text().split("\n")
+
+        def fields_of(code):
+            return [line.split("|")[1:-1] for line in lines if line[1:5] == code]
+
+        # without IDENT_MF = S the I155 has 9 fields, the I200 6, the I250 9,
+        # the REG included
+        caixa = next(f for f in fields_of("I155") if f[1] == "ECD10")
+        self.assertEqual(len(caixa), 9)
+        self.assertEqual(caixa[3:8], ["0", "D", "1500,00", "0", "1500,00"])
+        self.assertEqual({len(f) for f in fields_of("I200")}, {6})
+        self.assertEqual({len(f) for f in fields_of("I250")}, {9})
+        # no untimely entry, so no DT_LCTO_EXT; every item carries a history
+        self.assertEqual({f[5] for f in fields_of("I200")}, {""})
+        self.assertTrue(all(f[7] for f in fields_of("I250")))
+        self.assertEqual(fields_of("I010")[0][2], "9.00")
+        # the 0007 is mandatory: 00 when there is no other registration
+        self.assertEqual(fields_of("0007"), [["0007", "00", ""]])
+        header = fields_of("0000")[0]
+        # TIP_ECD (17) is mandatory, COD_HASH_SUB (15) and COD_SCP (18) are not
+        self.assertEqual(header[16], "0")
+        self.assertEqual(header[14], "")
+        self.assertEqual(header[17], "")
+
     def test_result_accounts_open_the_fiscal_year_at_zero(self):
         """Last year's revenue does not carry over, the cash balance does."""
         self._post("2025-12-20", 500.0)

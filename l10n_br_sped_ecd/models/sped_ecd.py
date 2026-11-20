@@ -15,6 +15,8 @@ from odoo.addons.l10n_br_sped_base.models.sped_mixin import (
     LAYOUT_VERSIONS,
 )
 
+from .sped_mixin_ecd import format_zero
+
 
 class Registro0000(models.Model):
     """ABERTURA DO ARQUIVO DIGITAL E IDENTIFICAÇÃO DO EMPRESÁRIO OU DA SOCIEDADE
@@ -99,16 +101,29 @@ class Registro0000(models.Model):
             # "IND_SIT_INI_PER": (will use the declaration field directly),
             "IND_NIRE": 0,  # TODO
             # "IND_FIN_ESC"
-            "COD_HASH_SUB": 0,  # TODO
+            # hash of the replaced bookkeeping and CNPJ of the SCP: only for a
+            # replacement and for a SCP, blank otherwise
+            "COD_HASH_SUB": "",
             "IND_GRANDE_PORTE": 0,  # TODO
             "TIP_ECD": 0,  # TODO
-            "COD_SCP": 0,  # TODO
-            "IDENT_MF": 0,  # TODO
-            "IND_ESC_CONS": 0,  # TODO
+            "COD_SCP": "",
+            "IDENT_MF": "N",
+            "IND_ESC_CONS": "N",
             "IND_CENTRALIZADA": 0,  # TODO
             "IND_MUDANC_PC": 0,  # TODO
-            "COD_PLAN_REF": 0,  # TODO
+            # the referential chart the I051 maps to: 1 for the general
+            # company in the lucro real, 2 in the lucro presumido
+            "COD_PLAN_REF": {"real": "1", "presumed": "2"}.get(
+                record.profit_calculation, ""
+            ),
         }
+
+    def _format_field_value(self, field, value):
+        # the 0000 is the declaration and does not inherit the ECD mixin
+        zero = format_zero(field, value)
+        if zero is not None:
+            return zero
+        return super()._format_field_value(field, value)
 
 
 class Registro0007(models.Model):
@@ -118,12 +133,15 @@ class Registro0007(models.Model):
     _name = "l10n_br_sped.ecd.0007"
     _inherit = "l10n_br_sped.ecd.9.0007"
 
-    # @api.model
-    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
-    #     return {
-    #         "COD_ENT_REF": 0,  # Código da instituição responsável pela administr...
-    #         "COD_INSCR": 0,  # Código cadastral da pessoa jurídica na instituição...
-    #     }
+    @api.model
+    def _map_from_odoo(self, record, parent_record, declaration, index=0):
+        # the record is mandatory: the state registration of the company, or
+        # 00 (no registration in another entity) of the table of the PVA
+        company = declaration.company_id
+        ie = misc.punctuation_rm(company.l10n_br_ie_code or "")
+        if ie and company.state_id.code:
+            return {"COD_ENT_REF": company.state_id.code, "COD_INSCR": ie}
+        return {"COD_ENT_REF": "00", "COD_INSCR": ""}
 
 
 class Registro0020(models.Model):
@@ -239,8 +257,9 @@ class RegistroI010(models.Model):
 
     @api.model
     def _map_from_odoo(self, record, parent_record, declaration, index=0):
+        # the code of the layout version, 9.00 for the layout 9
         return {
-            "COD_VER_LC": LAYOUT_VERSIONS["ecd"],
+            "COD_VER_LC": f"{LAYOUT_VERSIONS['ecd']}.00",
         }
 
 
@@ -665,7 +684,7 @@ class RegistroI200(models.Model):
             "DT_LCTO": record.date,
             "VL_LCTO": amount,  # Valor do lançamento.
             "IND_LCTO": "N",
-            "DT_LCTO_EXT": record.date,  # O Data de ocorrência dos fatos
+            # DT_LCTO_EXT is only for an untimely entry (IND_LCTO X)
             # Valor do lançamento em moeda funcional
             "VL_LCTO_MF": amount,
         }
@@ -701,7 +720,8 @@ class RegistroI250(models.Model):
             or "C",  # Indicador da natureza da partida: D - Débito; C - Cré...
             # "NUM_ARQ": 0,  # Número, Código ou caminho de localização dos documen...
             # "COD_HIST_PAD": 0,  # Código do histórico padronizado, conforme tabel...
-            # "HIST": 0,  # O Histórico completo da partida ou histórico complement...
+            # the PVA requires the history or a standard history code
+            "HIST": record.name or record.move_id.ref or record.move_id.name,
             # o 0150 identifica o participante pelo id do parceiro
             "COD_PART": record.partner_id.id or "",
             "VL_DC_MF": abs(record.debit or record.credit),
