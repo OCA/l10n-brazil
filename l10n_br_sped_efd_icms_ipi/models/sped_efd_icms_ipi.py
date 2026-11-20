@@ -18,6 +18,7 @@ from odoo.tools.misc import format_date
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     DOCUMENT_ISSUER_COMPANY,
     FISCAL_IN,
+    SITUACAO_FISCAL_INUTILIZADO,
 )
 from odoo.addons.l10n_br_sped_base.models.sped_mixin import (
     EDITABLE_ON_DRAFT,
@@ -338,7 +339,7 @@ class Registro0150(models.Model):
     @api.model
     def _map_from_odoo(self, record, parent_record, declaration, index=0):
         vals = {
-            "COD_PART": misc.punctuation_rm(record.cnpj_cpf),
+            "COD_PART": record._get_sped_cod_part(),
             "NOME": record.legal_name or record.name,
             "COD_PAIS": record.country_id.bc_code,
             "IE": misc.punctuation_rm(record.inscr_est),
@@ -601,9 +602,15 @@ class Registro0400(models.Model):
 
     @api.model
     def _odoo_domain(self, parent_record, declaration):
-        return [
-            ("id", "in", declaration.fiscal_operation_ids.ids),
-        ]
+        # only the natures a C170 points to (COD_NAT): the PVA refuses one that
+        # no register refers to, as the sale of an own issue, which has no items
+        documents = declaration.fiscal_document_ids.filtered(
+            lambda doc: doc._has_sped_c100()
+            and not doc._is_sped_cancelled()
+            and not doc._is_sped_own_issue()
+        )
+        operations = documents.fiscal_line_ids.mapped("fiscal_operation_id")
+        return [("id", "in", operations.ids)]
 
     @api.model
     def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -624,9 +631,10 @@ class Registro0450(models.Model):
 
     @api.model
     def _odoo_domain(self, parent_record, declaration):
-        return [
-            ("id", "in", declaration.fiscal_comment_ids.ids),
-        ]
+        # The PVA refuses a 0450 that no register points to (C110 is not
+        # generated yet), and the comments carry unrendered templates: none
+        # goes out until the C110 refers to them.
+        return [("id", "=", False)]
 
     @api.model
     def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -937,8 +945,11 @@ class RegistroC100(models.Model):
 
     @api.model
     def _odoo_domain(self, parent_record, declaration):
+        documents = declaration.fiscal_document_ids.filtered(
+            lambda document: document._has_sped_c100()
+        )
         return [
-            ("id", "in", declaration.fiscal_document_ids.ids),
+            ("id", "in", documents.ids),
             ("document_type_id.code", "in", ("01", "1B", "04", "55", "65")),
         ]
 
@@ -966,37 +977,48 @@ class RegistroC100(models.Model):
         #     self.limpa_formatacao(nfe.partner_id.company_id.cnpj_cpf):
         #     cod_sit = '08'
 
-        ind_pgto = "1"  # TODO ATS-TI code is commented as follow:
-        # if nfe.nfe40_pag:
-        #     if len(nfe.duplicata_ids) == 1:
-        #         if nfe.duplicata_ids.data_vencimento == nfe.data_agendada:
-        #             ind_pgto = '0'
-        #         else:
-        #             ind_pgto = '1'
-        #     else:
-        #         ind_pgto = '1'
-        # else:
-        #     ind_pgto = '2'
+        ind_pgto = record._get_sped_ind_pgto()
+
+        # the PIS and the COFINS of the items, as the C170 carry them
+        pis_value, cofins_value = record._get_sped_pis_cofins_values()
+        cod_sit = record._get_sped_cod_sit()
+        if record._is_sped_cancelled():
+            # cancelled, denied and unused numbers only carry what the Guia
+            # Pratico allows: no partner, no dates, no values
+            return {
+                "IND_OPER": ind_oper,
+                "IND_EMIT": ind_emit,
+                "COD_MOD": record.document_type_id.code,
+                "COD_SIT": cod_sit,
+                "SER": ""
+                if cod_sit == SITUACAO_FISCAL_INUTILIZADO
+                else record.document_serie,
+                "NUM_DOC": misc.punctuation_rm(str(record.document_number)),
+                "CHV_NFE": ""
+                if cod_sit == SITUACAO_FISCAL_INUTILIZADO
+                else record.document_key,
+            }
 
         return {
             "IND_OPER": ind_oper,
             "IND_EMIT": ind_emit,
-            "COD_PART": str(record.partner_id.id),
+            "COD_PART": record.partner_id._get_sped_cod_part(),
             "COD_MOD": record.document_type_id.code,
-            "COD_SIT": record.state_fiscal,
+            "COD_SIT": cod_sit,
             "SER": record.document_serie,
             "NUM_DOC": misc.punctuation_rm(str(record.document_number)),
             "CHV_NFE": record.document_key,
             "DT_DOC": record.document_date,
-            "DT_E_S": record.date_in_out,
+            "DT_E_S": record._get_sped_entry_date()
+            if record.fiscal_operation_type == FISCAL_IN
+            else record.date_in_out,
             "VL_DOC": record.fiscal_amount_total,
             "IND_PGTO": ind_pgto,
             "VL_DESC": record.amount_discount_value,
             "VL_ABAT_NT": record.amount_financial_discount_value,
             "VL_MERC": record.amount_price_gross,
-            "IND_FRT": str(record.nfe40_modFrete)
-            if hasattr(record, "nfe40_modFrete")
-            else "",
+            # mandatory in the layout: without a freight mode it is 9 (no freight)
+            "IND_FRT": getattr(record, "nfe40_modFrete", False) or "9",
             "VL_FRT": record.amount_freight_value,
             "VL_SEG": record.amount_insurance_value,
             "VL_OUT_DA": record.amount_other_value,
@@ -1005,8 +1027,8 @@ class RegistroC100(models.Model):
             "VL_BC_ICMS_ST": record.amount_icmsst_base,
             "VL_ICMS_ST": record.amount_icmsst_value,
             "VL_IPI": record.amount_ipi_value,
-            "VL_PIS": record.amount_pis_value,
-            "VL_COFINS": record.amount_cofins_value,
+            "VL_PIS": pis_value,
+            "VL_COFINS": cofins_value,
             # "VL_PIS_ST": record.amount_pisst_value,  # don't we have a field?
             # "VL_COFINS_ST": record.amount_cofinsst_value,  # idem
         }
@@ -1019,10 +1041,15 @@ class RegistroC101(models.Model):
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_icms_ipi.c101"
     _inherit = "l10n_br_sped.efd_icms_ipi.20.c101"
+    # without it the pull makes one register per parent with no record behind
+    # it, and the domain below never runs: an empty C101 under every document
+    _odoo_model = "l10n_br_fiscal.document"
 
     @api.model
     def _odoo_domain(self, parent_record, declaration):
         # Only output C101 if there is actually DIFAL or FCP
+        if parent_record._is_sped_cancelled():
+            return [("id", "=", False)]
         return [
             ("id", "=", parent_record.id),
             "|",
@@ -1328,6 +1355,10 @@ class RegistroC170(models.Model):
 
     @api.model
     def _odoo_domain(self, parent_record, declaration):
+        if parent_record._is_sped_cancelled() or parent_record._is_sped_own_issue():
+            # a cancelled document and an NF-e issued by the company go out
+            # without items: C100 and C190 only
+            return [("id", "=", False)]
         return [
             ("document_id", "=", parent_record.id),
         ]
@@ -1336,13 +1367,19 @@ class RegistroC170(models.Model):
     def _map_from_odoo(self, record, parent_record, declaration, index=0):
         # Format the 3-digit CST (Origin + CST code)
         cst_icms = f"{record.icms_origin or '0'}{record.icms_cst_code or '00'}"
+        # an entry booked without PIS/COFINS credit right carries no base, rate
+        # or value for the tax
+        pis_no_credit = record._entry_piscofins_without_credit("pis")
+        cofins_no_credit = record._entry_piscofins_without_credit("cofins")
 
         return {
             "NUM_ITEM": index + 1,
-            "COD_ITEM": record.nfe40_cProd if hasattr(record, "nfe40_pag") else "",
+            # the code and the unit of the company: the ones of the 0200 and
+            # of the 0190, never the ones of the supplier (nfe40_cProd, nfe40_uCom)
+            "COD_ITEM": record.product_id.default_code or record.product_id.id,
             "DESCR_COMPL": record.name,
-            "QTD": record.fiscal_quantity,
-            "UNID": record.nfe40_uCom if hasattr(record, "nfe40_uCom") else "",
+            "QTD": record.quantity,
+            "UNID": record.uom_id.code,
             "VL_ITEM": record.price_gross or 0.0,
             "VL_DESC": record.discount_value,
             "IND_MOV": "0" if record.cfop_id.stock_move else "1",
@@ -1357,27 +1394,33 @@ class RegistroC170(models.Model):
             "ALIQ_ST": record.icmsst_percent,
             "VL_ICMS_ST": record.icmsst_value,
             "IND_APUR": declaration.ind_apur,
-            "CST_IPI": record.ipi_cst_code,
-            "COD_ENQ": record.ipi_guideline_id.code,
+            # the CST the company books for the entry when there is one; else
+            # the one of the document
+            "CST_IPI": record.entry_ipi_cst_id.code or record.ipi_cst_code,
+            # "999" (generic, "Tributacao normal IPI; Outros") is not in the
+            # table of legal classification of the IPI: it goes out blank
+            "COD_ENQ": ""
+            if record.ipi_guideline_id.code in (False, "", "999")
+            else record.ipi_guideline_id.code,
             "VL_BC_IPI": record.ipi_base,
             "ALIQ_IPI": record.ipi_percent,
             "VL_IPI": record.ipi_value,
-            "CST_PIS": record.pis_cst_code,
-            "VL_BC_PIS": record.pis_base,
-            "ALIQ_PIS": record.pis_percent,
+            "CST_PIS": record.entry_pis_cst_id.code or record.pis_cst_code,
+            "VL_BC_PIS": 0.0 if pis_no_credit else record.pis_base,
+            "ALIQ_PIS": 0.0 if pis_no_credit else record.pis_percent,
             "QUANT_BC_PIS": record.qBCProd
             if hasattr(record, "qBCProd")
             else record.fiscal_quantity,  # TODO sure?
             # "ALIQ_PIS_INDEX_29": 0,  # Alíquota do PIS (em reais)
-            "VL_PIS": record.pis_value,
-            "CST_COFINS": record.cofins_cst_code,
-            "VL_BC_COFINS": record.cofins_base,
-            "ALIQ_COFINS": record.cofins_percent,
+            "VL_PIS": 0.0 if pis_no_credit else record.pis_value,
+            "CST_COFINS": record.entry_cofins_cst_id.code or record.cofins_cst_code,
+            "VL_BC_COFINS": 0.0 if cofins_no_credit else record.cofins_base,
+            "ALIQ_COFINS": 0.0 if cofins_no_credit else record.cofins_percent,
             "QUANT_BC_COFINS": record.qBCProd
             if hasattr(record, "qBCProd")
             else record.fiscal_quantity,  # TODO sure?
             # "ALIQ_COFINS_INDEX_35": 0,  # Alíquota da COFINS (em reais)
-            "VL_COFINS": record.cofins_value,
+            "VL_COFINS": 0.0 if cofins_no_credit else record.cofins_value,
             "COD_CTA": "",  # TODO Código da conta analítica contábil debitada/creditad...
             "VL_ABAT_NT": record.financial_discount_value,
         }
@@ -1674,6 +1717,8 @@ class RegistroC190(models.Model):
     @api.model
     def _odoo_query(self, parent_record, declaration):
         # SPED requires grouping by CST, CFOP, and ICMS Aliquot
+        if parent_record._is_sped_cancelled():
+            return "SELECT NULL WHERE FALSE", []
         query = """
             SELECT
                 CONCAT(COALESCE(fdl.icms_origin, '0'), cst.code) AS cst_icms,
@@ -1694,12 +1739,27 @@ class RegistroC190(models.Model):
         return query, [parent_record.id]
 
     @api.model
+    def _get_operation_total(self, record, parent_record):
+        """VL_OPR: the total of the operation of the lines of the group (CST,
+        CFOP and rate), summed by the same key the query groups by."""
+        total = 0.0
+        for line in parent_record.fiscal_line_ids:
+            origin = line.icms_origin or "0"
+            if (
+                f"{origin}{line.icms_cst_code or ''}" == record.get("cst_icms")
+                and (line.cfop_id.code or None) == record.get("cfop")
+                and (line.icms_percent or 0.0) == (record.get("aliq_icms") or 0.0)
+            ):
+                total += line.fiscal_amount_total
+        return total
+
+    @api.model
     def _map_from_odoo(self, record, parent_record, declaration, index=0):
         return {
             "CST_ICMS": record.get("cst_icms") or "",
             "CFOP": record.get("cfop") or "",
             "ALIQ_ICMS": record.get("aliq_icms") or 0.0,
-            "VL_OPR": record.get("vl_opr") or 0.0,
+            "VL_OPR": self._get_operation_total(record, parent_record),
             "VL_BC_ICMS": record.get("vl_bc_icms") or 0.0,
             "VL_ICMS": record.get("vl_icms") or 0.0,
             "VL_BC_ICMS_ST": record.get("vl_bc_icms_st") or 0.0,
@@ -2232,15 +2292,17 @@ class RegistroC500(models.Model):
         return {
             "IND_OPER": ind_oper,
             "IND_EMIT": ind_emit,
-            "COD_PART": str(record.partner_id.id),
+            "COD_PART": record.partner_id._get_sped_cod_part(),
             "COD_MOD": record.document_type_id.code,
-            "COD_SIT": record.state_fiscal,
+            "COD_SIT": record._get_sped_cod_sit(),
             "SER": record.document_serie or "",
             "SUB": "",  # Rarely used nowadays
             "COD_CONS": getattr(record, "consumption_class_code", ""),  # MISSING FIELD
             "NUM_DOC": punctuation_rm(str(record.document_number)),
             "DT_DOC": record.document_date,
-            "DT_E_S": record.date_in_out,
+            "DT_E_S": record._get_sped_entry_date()
+            if record.fiscal_operation_type == FISCAL_IN
+            else record.date_in_out,
             "VL_DOC": record.fiscal_amount_total or 0.0,
             "VL_DESC": record.amount_discount_value or 0.0,
             "VL_FORN": record.amount_price_gross or 0.0,
@@ -2314,6 +2376,8 @@ class RegistroC590(models.Model):
     @api.model
     def _odoo_query(self, parent_record, declaration):
         # We group lines by CST, CFOP and ICMS % exactly as we do for C190
+        if parent_record._is_sped_cancelled():
+            return "SELECT NULL WHERE FALSE", []
         query = """
             SELECT
                 CONCAT(COALESCE(fdl.icms_origin, '0'), cst.code) AS cst_icms,
@@ -2829,9 +2893,9 @@ class RegistroD100(models.Model):
         return {
             "IND_OPER": "0" if record.fiscal_operation_type == FISCAL_IN else "1",
             "IND_EMIT": "0" if record.issuer == DOCUMENT_ISSUER_COMPANY else "1",
-            "COD_PART": misc.punctuation_rm(record.partner_id.cnpj_cpf),
+            "COD_PART": record.partner_id._get_sped_cod_part(),
             "COD_MOD": record.document_type_id.code or "",
-            "COD_SIT": record.state_fiscal,
+            "COD_SIT": record._get_sped_cod_sit(),
             "SER": record.document_serie or "",
             "SUB": "",
             "NUM_DOC": record.document_number or "",
