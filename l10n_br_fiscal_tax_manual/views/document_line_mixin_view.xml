@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 - TODAY, Cristiano Mafra Junior <cristiano.mafra@escodoo.com.br>
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="document_fiscal_line_mixin_form_manual" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal.document.line.mixin.form.manual</field>
+        <field name="model">l10n_br_fiscal.document.line</field>
+        <field name="inherit_id" ref="l10n_br_fiscal.document_fiscal_line_mixin_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='icms_value']" position="after">
+                <field
+                    name="icms_base_manual"
+                    attrs="{'invisible': [('icms_tax_id', '=', False)]}"
+                />
+                <field
+                    name="icms_value_manual"
+                    attrs="{'invisible': [('icms_tax_id', '=', False)]}"
+                />
+            </xpath>
+            <xpath expr="//field[@name='icmsst_value']" position="after">
+                <field
+                    name="icmsst_base_manual"
+                    attrs="{'invisible': [('icmsst_tax_id', '=', False)]}"
+                />
+                <field
+                    name="icmsst_value_manual"
+                    attrs="{'invisible': [('icmsst_tax_id', '=', False)]}"
+                />
+            </xpath>
+            <xpath expr="//field[@name='issqn_value']" position="after">
+                <field
+                    name="issqn_base_manual"
+                    attrs="{'invisible': [('issqn_tax_id', '=', False)]}"
+                />
+                <field
+                    name="issqn_value_manual"
+                    attrs="{'invisible': [('issqn_tax_id', '=', False)]}"
+                />
+            </xpath>
+            <xpath expr="//field[@name='issqn_wh_value']" position="after">
+                <field
+                    name="issqn_wh_base_manual"
+                    attrs="{'invisible': [('issqn_wh_tax_id', '=', False)]}"
+                />
+                <field
+                    name="issqn_wh_value_manual"
+                    attrs="{'invisible': [('issqn_wh_tax_id', '=', False)]}"
+                />
+            </xpath>
+            <xpath expr="//field[@name='ipi_value']" position="after">
+                <field
+                    name="ipi_base_manual"
+                    attrs="{'invisible': [('ipi_tax_id', '=', False)]}"
+                />
+                <field
+                    name="ipi_value_manual"
+                    attrs="{'invisible': [('ipi_tax_id', '=', False)]}"
+                />
+            </xpath>
+            <xpath expr="//field[@name='ii_value']" position="after">
+                <field
+                    name="ii_base_manual"
+                    attrs="{'invisible': [('ii_tax_id', '=', False)]}"
+                />
+                <field
+                    name="ii_value_manual"
+                    attrs="{'invisible': [('ii_tax_id', '=', False)]}"
+                />
+            </xpath>
+            <xpath expr="//field[@name='pis_value']" position="after">
+                <field
+                    name="pis_base_manual"
+                    attrs="{'invisible': [('pis_tax_id', '=', False)]}"
+                />
+                <field
+                    name="pis_value_manual"
+                    attrs="{'invisible': [('pis_tax_id', '=', False)]}"
+                />
+            </xpath>
+            <xpath expr="//field[@name='pisst_value']" position="after">
+                <field
+                    name="pisst_base_manual"
+                    attrs="{'invisible': [('pisst_tax_id', '=', False)]}"
+                />
+                <field
+                    name="pisst_value_manual"
+                    attrs="{'invisible': [('pisst_tax_id', '=', False)]}"
+                />
+            </xpath>
+            <xpath expr="//field[@name='pis_wh_value']" position="after">
+                <field
+                    name="pis_wh_base_manual"
+                    attrs="{'invisible': [('pis_wh_tax_id', '=', False)]}"
+                />
+                <field
+                    name="pis_wh_value_manual"
+                    attrs="{'invisible': [('pis_wh_tax_id', '=', False)]}"
+                />
+            </xpath>
+            <xpath expr="//field[@name='cofins_value']" position="after">
+                <field
+                    name="cofins_base_manual"
+                    attrs="{'invisible': [('cofins_tax_id', '=', False)]}"
+                />
+                <field
+                    name="cofins_value_manual"
+                    attrs="{'invisible': [('cofins_tax_id', '=', False)]}"
+                />
+            </xpath>
+            <xpath expr="//field[@name='cofinsst_value']" position="after">
+                <field
+                    name="cofinsst_base_manual"
+                    attrs="{'invisible': [('cofinsst_tax_id', '=', False)]}"
+                />
+                <field
+                    name="cofinsst_value_manual"
+                    attrs="{'invisible': [('cofinsst_tax_id', '=', False)]}"
+                />
+            </xpath>
+            <xpath expr="//field[@name='cofins_wh_value']" position="after">
+                <field
+                    name="cofins_wh_base_manual"
+                    attrs="{'invisible': [('cofins_wh_tax_id', '=', False)]}"
+                />
+                <field
+                    name="cofins_wh_value_manual"
+                    attrs="{'invisible': [('cofins_wh_tax_id', '=', False)]}"
+                />
+            </xpath>
+            <xpath expr="//field[@name='csll_value']" position="after">
+                <field
+                    name="csll_base_manual"
+                    attrs="{'invisible': [('csll_tax_id', '=', False)]}"
+                />
+                <field
+                    name="csll_value_manual"
+                    attrs="{'invisible': [('csll_tax_id', '=', False)]}"
+                />
+            </xpath>
+            <xpath expr="//field[@name='csll_wh_value']" position="after">
+                <field
+                    name="csll_wh_base_manual"
+                    attrs="{'invisible': [('csll_wh_tax_id', '=', False)]}"
+                />
+                <field
+                    name="csll_wh_value_manual"
+                    attrs="{'invisible': [('csll_wh_tax_id', '=', False)]}"
+                />
+            </xpath>
+            <xpath expr="//field[@name='irpj_value']" position="after">
+                <field
+                    name="irpj_base_manual"
+                    attrs="{'invisible': [('irpj_tax_id', '=', False)]}"
+                />
+                <field
+                    name="irpj_value_manual"
+                    attrs="{'invisible': [('irpj_tax_id', '=', False)]}"
+                />
+            </xpath>
+            <xpath expr="//field[@name='irpj_wh_value']" position="after">
+                <field
+                    name="irpj_wh_base_manual"
+                    attrs="{'invisible': [('irpj_wh_tax_id', '=', False)]}"
+                />
+                <field
+                    name="irpj_wh_value_manual"
+                    attrs="{'invisible': [('irpj_wh_tax_id', '=', False)]}"
+                />
+            </xpath>
+            <xpath expr="//field[@name='inss_value']" position="after">
+                <field
+                    name="inss_base_manual"
+                    attrs="{'invisible': [('inss_tax_id', '=', False)]}"
+                />
+                <field
+                    name="inss_value_manual"
+                    attrs="{'invisible': [('inss_tax_id', '=', False)]}"
+                />
+            </xpath>
+            <xpath expr="//field[@name='inss_wh_value']" position="after">
+                <field
+                    name="inss_wh_base_manual"
+                    attrs="{'invisible': [('inss_wh_tax_id', '=', False)]}"
+                />
+                <field
+                    name="inss_wh_value_manual"
+                    attrs="{'invisible': [('inss_wh_tax_id', '=', False)]}"
+                />
+            </xpath>
+            <xpath expr="//field[@name='cbs_value']" position="after">
+                <field
+                    name="cbs_base_manual"
+                    attrs="{'invisible': [('cbs_tax_id', '=', False)]}"
+                />
+                <field
+                    name="cbs_value_manual"
+                    attrs="{'invisible': [('cbs_tax_id', '=', False)]}"
+                />
+            </xpath>
+            <xpath expr="//field[@name='ibs_value']" position="after">
+                <field
+                    name="ibs_base_manual"
+                    attrs="{'invisible': [('ibs_tax_id', '=', False)]}"
+                />
+                <field
+                    name="ibs_value_manual"
+                    attrs="{'invisible': [('ibs_tax_id', '=', False)]}"
+                />
+            </xpath>
+        </field>
+    </record>
+</odoo>
