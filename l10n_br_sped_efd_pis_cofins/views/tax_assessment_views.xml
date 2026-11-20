@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl-3.0.html). -->
+<odoo>
+    <record id="view_tax_assessment_form_opening" model="ir.ui.view">
+        <field name="name">l10n_br_tax.assessment.form.opening.balance</field>
+        <field name="model">l10n_br_tax.assessment</field>
+        <field
+            name="inherit_id"
+            ref="l10n_br_tax_assessment.view_tax_assessment_form"
+        />
+        <field name="arch" type="xml">
+            <xpath expr="//sheet/div[hasclass('oe_title')]" position="before">
+                <div
+                    class="alert alert-warning"
+                    role="alert"
+                    attrs="{'invisible': [('opening_balance_warning', '=', False)]}"
+                >
+                    <field name="opening_balance_warning" />
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

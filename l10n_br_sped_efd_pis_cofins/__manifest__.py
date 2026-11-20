@@ -23,7 +23,10 @@
     },
     "data": [
         "security/ir.model.access.csv",
+        "security/credit_opening_security.xml",
         "views/sped_efd_pis_cofins.xml",
+        "views/credit_opening_views.xml",
+        "views/tax_assessment_views.xml",
     ],
     "demo": [],
     "application": True,

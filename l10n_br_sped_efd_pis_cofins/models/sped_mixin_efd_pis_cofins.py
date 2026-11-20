@@ -22,5 +22,7 @@ class SpecMixinEFDPISCOFINS(models.AbstractModel):
         # A zero is written only where the layout requires the field
         # (out_required); an optional numeric field is left blank.
         if field.type in ("integer", "float", "monetary") and not value:
+            if self.env.context.get("sped_blank_zero"):
+                return ""
             return "0" if getattr(field, "out_required", False) else ""
         return super()._format_field_value(field, value)

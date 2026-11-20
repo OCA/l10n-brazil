@@ -7,8 +7,14 @@ import textwrap
 
 from erpbrasil.base import misc
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError
+from odoo.tools.misc import formatLang
 
+from odoo.addons.l10n_br_fiscal.constants.fiscal import (
+    SITUACAO_FISCAL_INUTILIZADO,
+    SITUACAO_FISCAL_SPED_CONSIDERA_CANCELADO,
+)
 from odoo.addons.l10n_br_sped_base.models.sped_mixin import LAYOUT_VERSIONS
 
 
@@ -42,11 +48,13 @@ COD_CONT_BY_REGIME = {
 # 6912 (non-cumulative) / 8109 (cumulative), COFINS 5856 / 2172. M205/M605
 # break the amount due by these codes; a company under a special code books
 # it as a manual detail.
+# Table 4.4.1 (PIS/Pasep) and 4.4.2 (Cofins) of the Guia: the six positions of the
+# revenue code (the DARF code and the sequence), not the four of the DARF
 COD_REC = {
-    ("pis", "non_cumulative"): "6912",
-    ("pis", "cumulative"): "8109",
-    ("cofins", "non_cumulative"): "5856",
-    ("cofins", "cumulative"): "2172",
+    ("pis", "non_cumulative"): "691201",
+    ("pis", "cumulative"): "810902",
+    ("cofins", "non_cumulative"): "585601",
+    ("cofins", "cumulative"): "217201",
 }
 # M200/M600 field the M205/M605 detail points at: 08 is the non-cumulative
 # amount due (VL_CONT_NC_REC), 12 the cumulative one (VL_CONT_CUM_REC)
@@ -82,8 +90,10 @@ def _consolidation_vals(env, declaration, tax_domain):
     return {
         # non-cumulative regime, fields 02 to 08
         "VL_TOT_CONT_NC_PER": non_cumulative.debit_total,
-        "VL_TOT_CRED_DESC": non_cumulative.credit_total,
-        "VL_TOT_CRED_DESC_ANT": non_cumulative.previous_balance,
+        "VL_TOT_CRED_DESC": round(
+            sum(g["desc"] for g in _credit_groups(env, declaration, tax_domain)), 2
+        ),
+        "VL_TOT_CRED_DESC_ANT": _previous_credit(env, declaration, tax_domain)[1],
         "VL_TOT_CONT_NC_DEV": non_cumulative.assessed_balance,
         "VL_RET_NC": non_cumulative.withholding_total,
         "VL_OUT_DED_NC": non_cumulative.deduction_total,
@@ -100,6 +110,308 @@ def _consolidation_vals(env, declaration, tax_domain):
     }
 
 
+def _credit_rows(declaration, tax_domain):
+    """The credit that the C170 lines of the declaration book (see
+    ``_sped_credit``)."""
+    lines = declaration.fiscal_document_line_ids.filtered(
+        lambda line: not line.document_id._is_sped_cancelled()
+    )
+    return [row for row in (line._sped_credit(tax_domain) for line in lines) if row]
+
+
+def _opening_layers(env, declaration, tax_domain):
+    """The credit of the earlier periods that is still to be used when the period
+    of the declaration begins, one layer by period of origin and type of credit
+    (what the register 1100 and the 1500 control).
+
+    It is replayed from the posted assessments of the non-cumulative regime that
+    come before the period, which is the same chain that carries the credit balance
+    from an assessment to the next (``previous_balance``): each period adds the
+    credit of its documents, by type, and the contribution of the period uses the
+    oldest credit first. The layers that are left are the opening balance, and its
+    total has to be the balance the assessment of the period starts from.
+    """
+    company = declaration.company_id
+    # the credit that came from another system is the oldest: the opening balance
+    # registered by period of origin and type of credit, valid from its cut-off
+    openings = env["l10n_br_pis_cofins.credit.opening"].search(
+        [
+            ("company_id", "=", company.id),
+            ("tax_domain", "=", tax_domain),
+            ("cutoff_date", "<=", declaration.DT_INI),
+        ],
+        order="origin_period, cod_cred, id",
+    )
+    layers = [
+        {
+            "period": opening.origin_period,
+            "cod_cred": opening.cod_cred,
+            "orig_cred": opening.orig_cred,
+            "cnpj_suc": opening.cnpj_suc or "",
+            "original": opening.amount,
+            "used_before": opening.used_before,
+        }
+        for opening in openings
+    ]
+    domain = [
+        ("company_id", "=", company.id),
+        ("tax_domain", "=", tax_domain),
+        ("regime", "=", "non_cumulative"),
+        ("state", "=", "posted"),
+        ("date_to", "<", declaration.DT_INI),
+    ]
+    if openings:
+        # what the system assessed before the cut-off is not part of the chain
+        domain.append(("date_from", ">=", min(openings.mapped("cutoff_date"))))
+    earlier = env["l10n_br_tax.assessment"].search(domain, order="date_from")
+    for assessment in earlier:
+        # the documents of that period, as the declaration of the period would
+        # take them
+        period = env[declaration._name].new(
+            {
+                "company_id": company.id,
+                "DT_INI": assessment.date_from,
+                "DT_FIN": assessment.date_to,
+            }
+        )
+        by_type = {}
+        for row in _credit_rows(period, tax_domain):
+            by_type[row["cod_cred"]] = by_type.get(row["cod_cred"], 0.0) + row["value"]
+        for cod_cred in sorted(by_type):
+            layers.append(
+                {
+                    "period": assessment.date_from,
+                    "cod_cred": cod_cred,
+                    "original": round(by_type[cod_cred], 2),
+                    "used_before": 0.0,
+                }
+            )
+        # the contribution of the period uses the oldest credit first
+        remaining = max(assessment.debit_total, 0.0)
+        for layer in layers:
+            take = round(min(layer["original"] - layer["used_before"], remaining), 2)
+            layer["used_before"] = round(layer["used_before"] + take, 2)
+            remaining = round(remaining - take, 2)
+    return layers
+
+
+def _previous_credit(env, declaration, tax_domain):
+    """The credit of earlier periods for the register 1100 (PIS) or 1500 (COFINS)
+    and for the M200 or the M600: the layers that still have balance when the
+    period begins, each with what the contribution of this period uses of it
+    (``desc_now``, oldest first), and the total used.
+
+    The balance has to be the one the assessment of the period starts from: when
+    the assessments before it do not give it (a period not assessed, or credit
+    from before the system), the file is not generated and the message says so.
+    """
+    assessment = _find_assessment(env, declaration, tax_domain, "non_cumulative")
+    # `_()` finds the language in a `context` of the caller
+    context = env.context  # noqa: F841
+    if not assessment:
+        return [], 0.0
+    # a month with movement that was never assessed breaks the chain of the balance
+    assessment._check_previous_periods()
+    layers = _opening_layers(env, declaration, tax_domain)
+    open_layers = [
+        layer for layer in layers if layer["original"] - layer["used_before"] > 0.004
+    ]
+    opening = round(
+        sum(layer["original"] - layer["used_before"] for layer in open_layers), 2
+    )
+    if abs(opening - assessment.previous_balance) > 0.01:
+        raise UserError(
+            _(
+                "The %(tax)s credit balance that the assessment of the period "
+                "starts from (%(balance)s) is not what the posted assessments of "
+                "the earlier periods give (%(layers)s): assess and post the "
+                "earlier periods, in order, before generating the file. If the "
+                "credit comes from before the system, register it as the opening "
+                "balance (menu Invoicing > Accounting > Actions > Saldo inicial "
+                "de crédito de PIS/COFINS).",
+                tax=tax_domain.upper(),
+                balance=formatLang(env, assessment.previous_balance, digits=2),
+                layers=formatLang(env, opening, digits=2),
+            )
+        )
+    remaining = max(assessment.debit_total, 0.0)
+    for layer in open_layers:
+        available = round(layer["original"] - layer["used_before"], 2)
+        layer["desc_now"] = round(min(available, remaining), 2)
+        remaining = round(remaining - layer["desc_now"], 2)
+    return open_layers, round(sum(layer["desc_now"] for layer in open_layers), 2)
+
+
+def _credit_groups(env, declaration, tax_domain):
+    """The credit of the period for the M100 (PIS) or the M500 (COFINS), grouped
+    by type and rate, with its detail by nature of the base (M105, M505).
+
+    The values come from the lines of the C170, because the PVA crosses the
+    M105 with the documents. The assessment of the ledger closes the chain
+    (M200 and M600): the two have to agree, and when they do not the file is not
+    generated instead of going out with a credit that the PVA refuses.
+
+    ``desc`` is the part of the credit discounted from the contribution of the
+    period: the credit is used in the period up to the contribution due, in the
+    order of the groups, and the rest is the balance for the next periods.
+    """
+    rows = _credit_rows(declaration, tax_domain)
+    assessment = _find_assessment(env, declaration, tax_domain, "non_cumulative")
+    if not rows and not assessment.credit_total:
+        return []
+    label = tax_domain.upper()
+    # `_()` finds the language of the message in a `context` of the caller, or in
+    # the `self` of a method: in a function of the module it is this one, or the
+    # message goes out in the language of the user of the session, not the one of
+    # the declaration
+    context = env.context  # noqa: F841
+    if not assessment:
+        raise UserError(
+            _(
+                "The documents of the period book %(tax)s credit (CST 50 to 66), "
+                "so the file needs the %(tax)s assessment of the non-cumulative "
+                "regime of the period, posted. Assess it and generate the file "
+                "again.",
+                tax=label,
+            )
+        )
+    total = round(sum(row["value"] for row in rows), 2)
+    if abs(total - assessment.credit_total) > 0.01:
+        raise UserError(
+            _(
+                "The %(tax)s credit of the documents (%(documents)s) is not the "
+                "credit of the posted assessment (%(assessment)s): assess the "
+                "period again before generating the file.",
+                tax=label,
+                documents=formatLang(env, total, digits=2),
+                assessment=formatLang(env, assessment.credit_total, digits=2),
+            )
+        )
+    groups = {}
+    for row in rows:
+        key = (row["cod_cred"], row["rate"])
+        group = groups.setdefault(
+            key,
+            {
+                "cod_cred": row["cod_cred"],
+                "rate": row["rate"],
+                "base": 0.0,
+                "value": 0.0,
+                "rows": [],
+            },
+        )
+        group["base"] += row["base"]
+        group["value"] += row["value"]
+        group["rows"].append(row)
+    # the contribution uses the credit of the earlier periods first (oldest
+    # first), and the credit of this period only what is left of it
+    used_before = _previous_credit(env, declaration, tax_domain)[1]
+    remaining = max(
+        min(assessment.credit_total, assessment.debit_total - used_before), 0.0
+    )
+    result = []
+    for key in sorted(groups):
+        group = groups[key]
+        group["base"] = round(group["base"], 2)
+        group["value"] = round(group["value"], 2)
+        group["desc"] = round(min(group["value"], remaining), 2)
+        remaining = round(remaining - group["desc"], 2)
+        result.append(group)
+    return result
+
+
+def _previous_credit_vals(layer):
+    """Values of the register 1100 (PIS/PASEP) and of the 1500 (COFINS), which
+    share every field: a layer of credit of an earlier period, with what was used
+    before, what this period uses and what is left."""
+    available = round(layer["original"] - layer["used_before"], 2)
+    return {
+        "PER_APU_CRED": f"{layer['period'].month:02d}{layer['period'].year}",
+        # 01: credit of the operations of the company itself
+        "ORIG_CRED": layer.get("orig_cred", "01"),
+        "CNPJ_SUC": layer.get("cnpj_suc", ""),
+        "COD_CRED": layer["cod_cred"],
+        "VL_CRED_APU": layer["original"],
+        "VL_TOT_CRED_APU": layer["original"],
+        "VL_CRED_DESC_PA_ANT": layer["used_before"],
+        "SD_CRED_DISP_EFD": available,
+        "VL_CRED_DESC_EFD": layer["desc_now"],
+        "SLD_CRED_FIM": round(available - layer["desc_now"], 2),
+    }
+
+
+def _credit_details(group):
+    """The M105 / M505 of a group: the base by nature and CST."""
+    details = {}
+    for row in group["rows"]:
+        key = (row["nat_bc"], row["cst"])
+        detail = details.setdefault(
+            key, {"nat_bc": row["nat_bc"], "cst": row["cst"], "base": 0.0}
+        )
+        detail["base"] += row["base"]
+    return [
+        {**details[key], "base": round(details[key]["base"], 2)}
+        for key in sorted(details)
+    ]
+
+
+def _credit_vals(group, rate_field):
+    """Values of M100 (PIS/PASEP) and M500 (COFINS), which share every field but
+    the name of the rate."""
+    return {
+        "COD_CRED": group["cod_cred"],
+        # 0: credit of the own operations of the company in the domestic market
+        "IND_CRED_ORI": "0",
+        "VL_BC_CRED": group["base"],
+        rate_field: group["rate"],
+        "VL_CRED": group["value"],
+        "VL_AJUS_ACRES": 0.0,
+        "VL_AJUS_REDUC": 0.0,
+        "VL_CRED_DIF": 0.0,
+        "VL_CRED_DISP": group["value"],
+        # 0: the whole available credit is discounted in the period; 1: only a
+        # part (up to the contribution due) and the rest is the balance, which
+        # the PVA tells apart by this indicator
+        "IND_DESC_CRED": "0" if group["desc"] == group["value"] else "1",
+        "VL_CRED_DESC": group["desc"],
+        "SLD_CRED": round(group["value"] - group["desc"], 2),
+    }
+
+
+def _credit_detail_vals(detail, field_prefix):
+    """Values of M105 (PIS/PASEP) and M505 (COFINS): the base of the credit by
+    nature. There is no cumulative revenue in this regime (the cumulative parcel
+    is zero), so the base of the credit is the whole base of the documents."""
+    return {
+        "NAT_BC_CRED": detail["nat_bc"],
+        f"CST_{field_prefix}": detail["cst"],
+        f"VL_BC_{field_prefix}_TOT": detail["base"],
+        f"VL_BC_{field_prefix}_CUM": 0.0,
+        f"VL_BC_{field_prefix}_NC": detail["base"],
+        f"VL_BC_{field_prefix}": detail["base"],
+        "DESC_CRED": "",
+    }
+
+
+def _check_regime(assessment):
+    """The contribution code (table 4.3.5) and the field of the M200 the detail
+    points at come from the regime of the assessment: without it the register
+    would go out with a blank code, which the PVA refuses."""
+    env = getattr(assessment, "env", None)  # a plain object in a unit test
+    context = env.context if env else {}  # noqa: F841
+    if assessment.regime not in COD_CONT_BY_REGIME:
+        raise UserError(
+            _(
+                "The contribution code (table 4.3.5) of the assessment "
+                "%(assessment)s cannot be determined: its tax group does not "
+                "say the PIS/COFINS regime and the company does not tell it "
+                "(Lucro Real or Presumido). Set the regime in the tax group "
+                "(Accounting > Configuration > Tax groups).",
+                assessment=assessment.display_name,
+            )
+        )
+
+
 def _detail_domain(declaration, tax_domain):
     """Assessed debit lines, which is one per tax and therefore one per rate."""
     return [
@@ -113,26 +425,44 @@ def _detail_domain(declaration, tax_domain):
     ]
 
 
-def _detail_vals(record, rate_field):
+def _detail_vals(record, rate_field, declaration):
     """Values of M210 (PIS/PASEP) and M610 (COFINS).
 
     The breakdown comes from the assessment for the same reason the
     consolidation does: recomputing it here would let the detail drift away
     from the total right above it.
     """
+    # The rate of the tax (the percent of the fiscal tax of the company's PIS/COFINS
+    # regime: the account tax carries none) and the base that gives the contribution of the
+    # assessment at that rate. The PVA demands VL_CONT_APUR = base x rate, and
+    # the ledger base of the line is not the base the contribution was
+    # computed on (the ICMS and the tax included are taken out of it).
+    pis_cofins = declaration.company_id.piscofins_id
+    fiscal_tax = (
+        pis_cofins.tax_pis_id if rate_field == "ALIQ_PIS" else pis_cofins.tax_cofins_id
+    )
+    rate = (
+        record.tax_id.fiscal_tax_ids[:1].percent_amount
+        or fiscal_tax.percent_amount
+        or record.tax_id.amount
+    )
+    base_amount = (
+        round(record.tax_amount / rate * 100, 2) if rate else record.base_amount
+    )
+    _check_regime(record.assessment_id)
     vals = {
-        "COD_CONT": COD_CONT_BY_REGIME.get(record.assessment_id.regime, ""),
+        "COD_CONT": COD_CONT_BY_REGIME[record.assessment_id.regime],
         # Gross revenue and tax base are reported as the same amount while the
         # exclusions from the base are not written: inventing a split between
         # them would be worse than stating they were not computed.
-        "VL_REC_BRT": record.base_amount,
-        "VL_BC_CONT": record.base_amount,
+        "VL_REC_BRT": base_amount,
+        "VL_BC_CONT": base_amount,
         # Base adjustments (fields 5 to 7, layout in force) live in M215/M615,
         # which are not written yet, so the adjusted base equals the base.
         # The validator checks VL_BC_CONT_AJUS = VL_BC_CONT + acres - reduc.
         "VL_AJUS_ACRES_BC": 0.0,
         "VL_AJUS_REDUC_BC": 0.0,
-        "VL_BC_CONT_AJUS": record.base_amount,
+        "VL_BC_CONT_AJUS": base_amount,
         "VL_CONT_APUR": record.tax_amount,
         # Value adjustments live at the assessment level, not at the line:
         # they are reported in M220/M620, which are not written yet.
@@ -140,7 +470,7 @@ def _detail_vals(record, rate_field):
         "VL_AJUS_REDUC": 0.0,
         "VL_CONT_PER": record.tax_amount,
     }
-    vals[rate_field] = record.tax_id.amount
+    vals[rate_field] = rate
     return vals
 
 
@@ -151,6 +481,26 @@ class Registro0000(models.Model):
     _name = "l10n_br_sped.efd_pis_cofins.0000"
     _inherit = ["l10n_br_sped.efd_pis_cofins.6.0000"]
     _odoo_model = "res.company"
+
+    def _get_accountant_required(self):
+        # what the layout marks as mandatory in the 0100 (the descriptor of the PVA)
+        return [("cnpj_cpf", _("CPF")), ("crc_code", _("CRC"))]
+
+    def button_create_sped_files(self):
+        """The credit block (M100 to M505) and the M200/M600 come from the
+        documents and from the assessment of the period, and the pull of a
+        register that fails only leaves a note in the history, so the file would
+        go out without the block. The generation stops here instead, with the
+        message that says what to do."""
+        for declaration in self:
+            if declaration.debug:
+                continue
+            declaration._check_accountant()
+            declaration = declaration._in_company_context()
+            for tax_domain in ("pis", "cofins"):
+                _credit_groups(declaration.env, declaration, tax_domain)
+                _previous_credit(declaration.env, declaration, tax_domain)
+        return super().button_create_sped_files()
 
     IND_ATIV = fields.Selection(
         [
@@ -339,7 +689,7 @@ class Registro0150(models.Model):
     @api.model
     def _map_from_odoo(self, record, parent_record, declaration, index=0):
         return {
-            "COD_PART": record.id,
+            "COD_PART": record._get_sped_cod_part(),
             "NOME": record.legal_name or record.name,
             "COD_PAIS": record.country_id.ibge_code or "01058",
             "CNPJ": record.is_company
@@ -505,19 +855,35 @@ class Registro0500(models.Model):
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.efd_pis_cofins.0500"
     _inherit = "l10n_br_sped.efd_pis_cofins.6.0500"
+    _odoo_model = "account.account"
 
-    # @api.model
-    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
-    #     return {
-    #         "DT_ALT": 0,  # Data da inclusão/alteração
-    #         "COD_NAT_CC": 0,  # Código da natureza da conta/grupo de contas: 01 -...
-    #         "IND_CTA": 0,  # Indicador do tipo de conta: S - Sintética (grupo de ...
-    #         "NIVEL": 0,  # Nível da conta analítica/grupo de contas.
-    #         "COD_CTA": 0,  # Código da conta analítica/grupo de contas.
-    #         "NOME_CTA": 0,  # Nome da conta analítica/grupo de contas.
-    #         "COD_CTA_REF": 0,  # Código da conta correlacionada no Plano de Conta...
-    #         "CNPJ_EST": 0,  # CNPJ do estabelecimento, no caso da conta informada...
-    #     }
+    # natureza da conta (tabela do Guia): by the type of the Odoo account
+    _COD_NAT_CC_BY_TYPE = {
+        "asset": "01",
+        "liability": "02",
+        "equity": "03",
+        "income": "04",
+        "expense": "04",
+    }
+
+    @api.model
+    def _odoo_domain(self, parent_record, declaration):
+        accounts = declaration.fiscal_document_line_ids._get_sped_credit_accounts()
+        return [("id", "in", accounts.ids)]
+
+    @api.model
+    def _map_from_odoo(self, record, parent_record, declaration, index=0):
+        account_type = (record.account_type or "").split("_")[0]
+        return {
+            "DT_ALT": declaration.DT_INI,
+            "COD_NAT_CC": self._COD_NAT_CC_BY_TYPE.get(account_type, "09"),
+            "IND_CTA": "A",
+            "NIVEL": "1",
+            "COD_CTA": record.code,
+            "NOME_CTA": record.name,
+            "COD_CTA_REF": "",
+            "CNPJ_EST": "",
+        }
 
 
 class Registro0600(models.Model):
@@ -586,13 +952,6 @@ class RegistroA100(models.Model):
 
     _odoo_model = "l10n_br_fiscal.document"
 
-    _STATUS_MAP = {
-        "autorizada": "00",
-        "cancelada": "02",
-        "denegada": "04",
-        "inutilizada": "05",
-    }
-
     @api.model
     def _odoo_domain(self, parent_record, declaration):
         return [
@@ -605,8 +964,8 @@ class RegistroA100(models.Model):
         return {
             "IND_OPER": "0" if record.fiscal_operation_type == "in" else "1",
             "IND_EMIT": "0" if record.issuer == "company" else "1",
-            "COD_PART": record.partner_id.id,
-            "COD_SIT": self._STATUS_MAP.get(record.state_edoc, "00"),
+            "COD_PART": record.partner_id._get_sped_cod_part(),
+            "COD_SIT": record._get_sped_cod_sit(),
             "SER": record.document_serie or "",
             "SUB": "",
             "NUM_DOC": record.document_number or "",
@@ -614,7 +973,7 @@ class RegistroA100(models.Model):
             "DT_DOC": record.document_date,
             "DT_EXE_SERV": record.document_date,
             "VL_DOC": record.fiscal_amount_total or 0,
-            "IND_PGTO": "0",
+            "IND_PGTO": record._get_sped_ind_pgto(),
             "VL_DESC": record.amount_discount_value or 0,
             "VL_BC_PIS": record.amount_pis_base or 0,
             "VL_PIS": record.amount_pis_value or 0,
@@ -737,35 +1096,66 @@ class RegistroC100(models.Model):
 
     _odoo_model = "l10n_br_fiscal.document"
 
-    _STATUS_MAP = {
-        "autorizada": "00",
-        "cancelada": "02",
-        "denegada": "04",
-        "inutilizada": "05",
-    }
+    def _write_register_line(self, sped, code, rec, keys, line_count, register_spec):
+        # a cancelled, denied or unused number carries no value, not even a zero
+        blank = self.env.context.get("sped_blank_zero")
+        if not blank and rec.COD_SIT in SITUACAO_FISCAL_SPED_CONSIDERA_CANCELADO:
+            return self.with_context(sped_blank_zero=True)._write_register_line(
+                sped, code, rec, keys, line_count, register_spec
+            )
+        return super()._write_register_line(
+            sped, code, rec, keys, line_count, register_spec
+        )
 
     @api.model
     def _odoo_domain(self, parent_record, declaration):
+        documents = declaration.fiscal_document_ids.filtered(
+            lambda document: document._has_sped_c100()
+        )
         return [
-            ("id", "in", declaration.fiscal_document_ids.ids),
+            ("id", "in", documents.ids),
             ("document_type_id.code", "in", ("01", "1B", "04", "55", "65")),
         ]
 
     @api.model
     def _map_from_odoo(self, record, parent_record, declaration, index=0):
+        cod_sit = record._get_sped_cod_sit()
+        if record._is_sped_cancelled():
+            # cancelled, denied and unused numbers only carry what the Guia
+            # Pratico allows: no partner, no dates, no values
+            unused = cod_sit == SITUACAO_FISCAL_INUTILIZADO
+            return {
+                "IND_OPER": "0" if record.fiscal_operation_type == "in" else "1",
+                "IND_EMIT": "0" if record.issuer == "company" else "1",
+                "COD_MOD": record.document_type_id.code or "",
+                "COD_SIT": cod_sit,
+                "SER": "" if unused else record.document_serie or "",
+                "NUM_DOC": record.document_number or "",
+                "CHV_NFE": "" if unused else record.document_key or "",
+            }
+        # the ICMS and the IPI of the document as the books carry them, the
+        # same functions as the EFD ICMS/IPI (an entry without credit right
+        # carries none)
+        icms_base, icms_value = record._get_sped_icms_amounts()
+        # the PIS and the COFINS of the items, as the C170 carry them
+        pis_value, cofins_value = record._get_sped_pis_cofins_values()
         return {
             "IND_OPER": "0" if record.fiscal_operation_type == "in" else "1",
             "IND_EMIT": "0" if record.issuer == "company" else "1",
-            "COD_PART": record.partner_id.id,
+            "COD_PART": record.partner_id._get_sped_cod_part(),
             "COD_MOD": record.document_type_id.code or "",
-            "COD_SIT": self._STATUS_MAP.get(record.state_edoc, "00"),
+            "COD_SIT": cod_sit,
             "SER": record.document_serie or "",
             "NUM_DOC": record.document_number or "",
             "CHV_NFE": record.document_key or "",
             "DT_DOC": record.document_date,
-            "DT_E_S": record.document_date,
+            # an entry comes in on its entry date, not on the emission one;
+            # the outgoing documents keep the emission date
+            "DT_E_S": record._get_sped_entry_date()
+            if record.fiscal_operation_type == "in"
+            else record.document_date,
             "VL_DOC": record.fiscal_amount_total or 0,
-            "IND_PGTO": "0",
+            "IND_PGTO": record._get_sped_ind_pgto(),
             "VL_DESC": record.amount_discount_value or 0,
             "VL_ABAT_NT": 0,
             "VL_MERC": record.amount_price_gross or 0,
@@ -774,13 +1164,13 @@ class RegistroC100(models.Model):
             "VL_FRT": record.amount_freight_value or 0,
             "VL_SEG": record.amount_insurance_value or 0,
             "VL_OUT_DA": record.amount_other_value or 0,
-            "VL_BC_ICMS": record.amount_icms_base or 0,
-            "VL_ICMS": record.amount_icms_value or 0,
+            "VL_BC_ICMS": icms_base,
+            "VL_ICMS": icms_value,
             "VL_BC_ICMS_ST": record.amount_icmsst_base or 0,
             "VL_ICMS_ST": record.amount_icmsst_value or 0,
-            "VL_IPI": record.amount_ipi_value or 0,
-            "VL_PIS": record.amount_pis_value or 0,
-            "VL_COFINS": record.amount_cofins_value or 0,
+            "VL_IPI": record._get_sped_ipi_value(),
+            "VL_PIS": pis_value,
+            "VL_COFINS": cofins_value,
             "VL_PIS_ST": record.amount_pis_wh_value or 0,
             "VL_COFINS_ST": record.amount_cofins_wh_value or 0,
         }
@@ -845,10 +1235,19 @@ class RegistroC170(models.Model):
 
     @api.model
     def _odoo_domain(self, parent_record, declaration):
+        if parent_record._is_sped_cancelled():
+            # a cancelled document goes out without items
+            return [("id", "=", False)]
         return [("document_id", "=", parent_record.id)]
 
     @api.model
     def _map_from_odoo(self, record, parent_record, declaration, index=0):
+        pis_no_credit = record._entry_piscofins_without_credit("pis")
+        cofins_no_credit = record._entry_piscofins_without_credit("cofins")
+        # the ICMS and the IPI of the line, the same function as the EFD
+        # ICMS/IPI uses: the two files carry the same note the same way
+        icms = record._get_sped_icms_values()
+        ipi = record._get_sped_ipi_values()
         return {
             "NUM_ITEM": str(index + 1),
             "COD_ITEM": record.product_id.default_code or str(record.product_id.id),
@@ -859,40 +1258,38 @@ class RegistroC170(models.Model):
             "VL_DESC": record.discount_value or 0,
             "IND_MOV": "0",
             # 3 positions: the origin digit prefixes the 2-digit CST, as the
-            # ICMS book writes it. A line without a 2-digit CST (unconfigured
-            # demo document, or a CSOSN from the Simples) has nothing valid to
-            # write in this optional field, and a truncated code would be a lie
-            "CST_ICMS": (record.icms_origin or "0") + record.icms_cst_code
-            if record.icms_cst_code and len(record.icms_cst_code) == 2
-            else "",
+            # ICMS book writes it
+            "CST_ICMS": icms["cst"],
             "CFOP": record.cfop_id.code or "",
             "COD_NAT": record.fiscal_operation_id.code
             or str(record.fiscal_operation_id.id or ""),
-            "VL_BC_ICMS": record.icms_base or 0,
-            "ALIQ_ICMS": record.icms_percent or 0,
-            "VL_ICMS": record.icms_value or 0,
+            "VL_BC_ICMS": icms["base"] or 0,
+            "ALIQ_ICMS": icms["percent"] or 0,
+            "VL_ICMS": icms["value"] or 0,
             "VL_BC_ICMS_ST": record.icmsst_base or 0,
             "ALIQ_ST": record.icmsst_percent or 0,
             "VL_ICMS_ST": record.icmsst_value or 0,
             "IND_APUR": "0",  # 0=Mensal
-            "CST_IPI": record.ipi_cst_code or "",
+            "CST_IPI": ipi["cst"] or "",
             "COD_ENQ": "",
-            "VL_BC_IPI": record.ipi_base or 0,
-            "ALIQ_IPI": record.ipi_percent or 0,
-            "VL_IPI": record.ipi_value or 0,
-            "CST_PIS": record.pis_cst_code or "",
-            "VL_BC_PIS": record.pis_base or 0,
-            "ALIQ_PIS": record.pis_percent or 0,
+            "VL_BC_IPI": ipi["base"] or 0,
+            "ALIQ_IPI": ipi["percent"] or 0,
+            "VL_IPI": ipi["value"] or 0,
+            "CST_PIS": record.entry_pis_cst_id.code or record.pis_cst_code or "",
+            "VL_BC_PIS": 0 if pis_no_credit else record.pis_base or 0,
+            "ALIQ_PIS": 0 if pis_no_credit else record.pis_percent or 0,
             "QUANT_BC_PIS": 0,
             "ALIQ_PIS_QUANT": 0,
-            "VL_PIS": record.pis_value or 0,
-            "CST_COFINS": record.cofins_cst_code or "",
-            "VL_BC_COFINS": record.cofins_base or 0,
-            "ALIQ_COFINS": record.cofins_percent or 0,
+            "VL_PIS": 0 if pis_no_credit else record.pis_value or 0,
+            "CST_COFINS": record.entry_cofins_cst_id.code
+            or record.cofins_cst_code
+            or "",
+            "VL_BC_COFINS": 0 if cofins_no_credit else record.cofins_base or 0,
+            "ALIQ_COFINS": 0 if cofins_no_credit else record.cofins_percent or 0,
             "QUANT_BC_COFINS": 0,
             "ALIQ_COFINS_QUANT": 0,
-            "VL_COFINS": record.cofins_value or 0,
-            "COD_CTA": "",
+            "VL_COFINS": 0 if cofins_no_credit else record.cofins_value or 0,
+            "COD_CTA": record._get_sped_credit_accounts().code or "",
         }
 
 
@@ -1667,13 +2064,6 @@ class RegistroD100(models.Model):
 
     _odoo_model = "l10n_br_fiscal.document"
 
-    _STATUS_MAP = {
-        "autorizada": "00",
-        "cancelada": "02",
-        "denegada": "04",
-        "inutilizada": "05",
-    }
-
     @api.model
     def _odoo_domain(self, parent_record, declaration):
         return [
@@ -1690,9 +2080,9 @@ class RegistroD100(models.Model):
         return {
             "IND_OPER": "0" if record.fiscal_operation_type == "in" else "1",
             "IND_EMIT": "0" if record.issuer == "company" else "1",
-            "COD_PART": record.partner_id.id,
+            "COD_PART": record.partner_id._get_sped_cod_part(),
             "COD_MOD": record.document_type_id.code or "",
-            "COD_SIT": self._STATUS_MAP.get(record.state_edoc, "00"),
+            "COD_SIT": record._get_sped_cod_sit(),
             "SER": record.document_serie or "",
             "SUB": "",
             "NUM_DOC": record.document_number or "",
@@ -2803,24 +3193,21 @@ class RegistroM100(models.Model):
     _name = "l10n_br_sped.efd_pis_cofins.m100"
     _inherit = "l10n_br_sped.efd_pis_cofins.6.m100"
 
-    # @api.model
-    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
-    #     return {
-    #         "COD_CRED": 0,  # Código de Tipo de Crédito apurado no período, confo...
-    #         "IND_CRED_ORI": 0,  # Indicador de Crédito Oriundo de: 0 – Operações ...
-    #         "VL_BC_PIS": 0,  # Valor da Base de Cálculo do Crédito
-    #         "ALIQ_PIS": 0,  # Alíquota do PIS/PASEP (em percentual)
-    #         "QUANT_BC_PIS": 0,  # Quantidade – Base de cálculo PIS
-    #         "ALIQ_PIS_QUANT": 0,  # Alíquota do PIS (em reais)
-    #         "VL_CRED": 0,  # Valor total do crédito apurado no período
-    #         "VL_AJUS_ACRES": 0,  # Valor total dos ajustes de acréscimo
-    #         "VL_AJUS_REDUC": 0,  # Valor total dos ajustes de redução
-    #         "VL_CRED_DIF": 0,  # Valor total do crédito diferido no período
-    #         "VL_CRED_DISP": 0,  # Valor Total do Crédito Disponível relativo ao P...
-    #         "IND_DESC_CRED": 0,  # Indicador de opção de utilização do crédito di...
-    #         "VL_CRED_DESC": 0,  # Valor do Crédito disponível, descontado da cont...
-    #         "SLD_CRED": 0,  # Saldo de créditos a utilizar em períodos futuros (1...
-    #     }
+    # The descriptor marks the values obrigatorio=1: a zero is written "0".
+    VL_CRED = fields.Monetary(out_required=True, currency_field="brl_currency_id")
+    VL_AJUS_ACRES = fields.Monetary(out_required=True, currency_field="brl_currency_id")
+    VL_AJUS_REDUC = fields.Monetary(out_required=True, currency_field="brl_currency_id")
+    VL_CRED_DIF = fields.Monetary(out_required=True, currency_field="brl_currency_id")
+    VL_CRED_DISP = fields.Monetary(out_required=True, currency_field="brl_currency_id")
+    SLD_CRED = fields.Monetary(out_required=True, currency_field="brl_currency_id")
+
+    @api.model
+    def _odoo_records(self, parent_record, declaration):
+        return _credit_groups(self.env, declaration, "pis")
+
+    @api.model
+    def _map_from_odoo(self, record, parent_record, declaration, index=0):
+        return _credit_vals(record, "ALIQ_PIS")
 
 
 class RegistroM105(models.Model):
@@ -2830,19 +3217,13 @@ class RegistroM105(models.Model):
     _name = "l10n_br_sped.efd_pis_cofins.m105"
     _inherit = "l10n_br_sped.efd_pis_cofins.6.m105"
 
-    # @api.model
-    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
-    #     return {
-    #         "NAT_BC_CRED": 0,  # Código da Base de Cálculo do Crédito apurado no ...
-    #         "CST_PIS": 0,  # Código da Situação Tributária referente ao crédito d...
-    #         "VL_BC_PIS_TOT": 0,  # Valor Total da Base de Cálculo escriturada nos...
-    #         "VL_BC_PIS_CUM": 0,  # Parcela do Valor Total da Base de Cálculo info...
-    #         "VL_BC_PIS_NC": 0,  # Valor Total da Base de Cálculo do Crédito, vinc...
-    #         "VL_BC_PIS": 0,  # O Valor da Base de Cálculo do Crédito, vinculada a...
-    #         "QUANT_BC_PIS_TOT": 0,  # Quantidade Total da Base de Cálculo do Créd...
-    #         "QUANT_BC_PIS": 0,  # O Parcela da base de cálculo do crédito em quan...
-    #         "DESC_CRED": 0,  # Descrição do crédito
-    #     }
+    @api.model
+    def _odoo_records(self, parent_record, declaration):
+        return _credit_details(parent_record)
+
+    @api.model
+    def _map_from_odoo(self, record, parent_record, declaration, index=0):
+        return _credit_detail_vals(record, "PIS")
 
 
 class RegistroM110(models.Model):
@@ -2944,6 +3325,7 @@ class RegistroM205(models.Model):
 
     @api.model
     def _map_from_odoo(self, record, parent_record, declaration, index=0):
+        _check_regime(record)
         return {
             "NUM_CAMPO": NUM_CAMPO_BY_REGIME[record.regime],
             "COD_REC": COD_REC[("pis", record.regime)],
@@ -2988,7 +3370,7 @@ class RegistroM210(models.Model):
 
     @api.model
     def _map_from_odoo(self, record, parent_record, declaration, index=0):
-        return _detail_vals(record, "ALIQ_PIS")
+        return _detail_vals(record, "ALIQ_PIS", declaration)
 
 
 class RegistroM211(models.Model):
@@ -3169,24 +3551,21 @@ class RegistroM500(models.Model):
     _name = "l10n_br_sped.efd_pis_cofins.m500"
     _inherit = "l10n_br_sped.efd_pis_cofins.6.m500"
 
-    # @api.model
-    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
-    #     return {
-    #         "COD_CRED": 0,  # Código de Tipo de Crédito apurado no período, confo...
-    #         "IND_CRED_ORI": 0,  # Indicador de Crédito Oriundo de: 0 – Operações ...
-    #         "VL_BC_COFINS": 0,  # Valor da Base de Cálculo do Crédito
-    #         "ALIQ_COFINS": 0,  # Alíquota da COFINS (em percentual)
-    #         "QUANT_BC_COFINS": 0,  # Quantidade – Base de cálculo COFINS
-    #         "ALIQ_COFINS_QUANT": 0,  # Alíquota da COFINS (em reais)
-    #         "VL_CRED": 0,  # Valor total do crédito apurado no período
-    #         "VL_AJUS_ACRES": 0,  # Valor total dos ajustes de acréscimo
-    #         "VL_AJUS_REDUC": 0,  # Valor total dos ajustes de redução
-    #         "VL_CRED_DIFER": 0,  # Valor total do crédito diferido no período
-    #         "VL_CRED_DISP": 0,  # Valor Total do Crédito Disponível relativo ao P...
-    #         "IND_DESC_CRED": 0,  # Indicador de utilização do crédito disponível ...
-    #         "VL_CRED_DESC": 0,  # Valor do Crédito disponível, descontado da cont...
-    #         "SLD_CRED": 0,  # Saldo de créditos a utilizar em períodos futuros (1...
-    #     }
+    # The descriptor marks the values obrigatorio=1: a zero is written "0".
+    VL_CRED = fields.Monetary(out_required=True, currency_field="brl_currency_id")
+    VL_AJUS_ACRES = fields.Monetary(out_required=True, currency_field="brl_currency_id")
+    VL_AJUS_REDUC = fields.Monetary(out_required=True, currency_field="brl_currency_id")
+    VL_CRED_DIF = fields.Monetary(out_required=True, currency_field="brl_currency_id")
+    VL_CRED_DISP = fields.Monetary(out_required=True, currency_field="brl_currency_id")
+    SLD_CRED = fields.Monetary(out_required=True, currency_field="brl_currency_id")
+
+    @api.model
+    def _odoo_records(self, parent_record, declaration):
+        return _credit_groups(self.env, declaration, "cofins")
+
+    @api.model
+    def _map_from_odoo(self, record, parent_record, declaration, index=0):
+        return _credit_vals(record, "ALIQ_COFINS")
 
 
 class RegistroM505(models.Model):
@@ -3196,19 +3575,13 @@ class RegistroM505(models.Model):
     _name = "l10n_br_sped.efd_pis_cofins.m505"
     _inherit = "l10n_br_sped.efd_pis_cofins.6.m505"
 
-    # @api.model
-    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
-    #     return {
-    #         "NAT_BC_CRED": 0,  # Código da Base de Cálculo do Crédito apurado no ...
-    #         "CST_COFINS": 0,  # Código da Situação Tributária referente ao crédit...
-    #         "VL_BC_COFINS_TOT": 0,  # Valor Total da Base de Cálculo escriturada ...
-    #         "VL_BC_COFINS_CUM": 0,  # Parcela do Valor Total da Base de Cálculo i...
-    #         "VL_BC_COFINS_NC": 0,  # Valor Total da Base de Cálculo do Crédito, v...
-    #         "VL_BC_COFINS": 0,  # Valor da Base de Cálculo do Crédito, vinculada ...
-    #         "QUANT_BC_COFINS_TOT": 0,  # Quantidade Total da Base de Cálculo do C...
-    #         "QUANT_BC_COFINS": 0,  # O Parcela da base de cálculo do crédito em q...
-    #         "DESC_CRED": 0,  # Descrição do crédito
-    #     }
+    @api.model
+    def _odoo_records(self, parent_record, declaration):
+        return _credit_details(parent_record)
+
+    @api.model
+    def _map_from_odoo(self, record, parent_record, declaration, index=0):
+        return _credit_detail_vals(record, "COFINS")
 
 
 class RegistroM510(models.Model):
@@ -3310,6 +3683,7 @@ class RegistroM605(models.Model):
 
     @api.model
     def _map_from_odoo(self, record, parent_record, declaration, index=0):
+        _check_regime(record)
         return {
             "NUM_CAMPO": NUM_CAMPO_BY_REGIME[record.regime],
             "COD_REC": COD_REC[("cofins", record.regime)],
@@ -3354,7 +3728,7 @@ class RegistroM610(models.Model):
 
     @api.model
     def _map_from_odoo(self, record, parent_record, declaration, index=0):
-        return _detail_vals(record, "ALIQ_COFINS")
+        return _detail_vals(record, "ALIQ_COFINS", declaration)
 
 
 class RegistroM611(models.Model):
@@ -3621,27 +3995,26 @@ class Registro1100(models.Model):
     _name = "l10n_br_sped.efd_pis_cofins.1100"
     _inherit = "l10n_br_sped.efd_pis_cofins.6.1100"
 
-    # @api.model
-    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
-    #     return {
-    #         "PER_APU_CRED": 0,  # Período de Apuração do Crédito (MM/AAAA)
-    #         "ORIG_CRED": 0,  # Indicador da origem do crédito: 01 – Crédito decor...
-    #         "CNPJ_SUC": 0,  # CNPJ da pessoa jurídica cedente do crédito (se ORIG...
-    #         "COD_CRED": 0,  # Código do Tipo do Crédito, conforme Tabela 4.3.6.
-    #         "VL_CRED_APU": 0,  # Valor total do crédito apurado na Escrituração F...
-    #         "VL_CRED_EXT_APU": 0,  # Valor de Crédito Extemporâneo Apurado (Regis...
-    #         "VL_TOT_CRED_APU": 0,  # Valor Total do Crédito Apurado (06 + 07)
-    #         "VL_CRED_DESC_PA_ANT": 0,  # Valor do Crédito utilizado mediante Desc...
-    #         "VL_CRED_PER_PA_ANT": 0,  # Valor do Crédito utilizado mediante Pedid...
-    #         "VL_CRED_DCOMP_PA_ANT": 0,  # Valor do Crédito utilizado mediante Dec...
-    #         "SD_CRED_DISP_EFD": 0,  # Saldo do Crédito Disponível para Utilização...
-    #         "VL_CRED_DESC_EFD": 0,  # Valor do Crédito descontado neste período d...
-    #         "VL_CRED_PER_EFD": 0,  # Valor do Crédito objeto de Pedido de Ressarc...
-    #         "VL_CRED_DCOMP_EFD": 0,  # Valor do Crédito utilizado mediante Declar...
-    #         "VL_CRED_TRANS": 0,  # Valor do crédito transferido em evento de cisã...
-    #         "VL_CRED_OUT": 0,  # Valor do crédito utilizado por outras formas.
-    #         "SLD_CRED_FIM": 0,  # Saldo de créditos a utilizar em período de apur...
-    #     }
+    # The descriptor marks these values obrigatorio=1: a zero is written "0".
+    VL_CRED_APU = fields.Monetary(out_required=True, currency_field="brl_currency_id")
+    VL_TOT_CRED_APU = fields.Monetary(
+        out_required=True, currency_field="brl_currency_id"
+    )
+    VL_CRED_DESC_PA_ANT = fields.Monetary(
+        out_required=True, currency_field="brl_currency_id"
+    )
+    SD_CRED_DISP_EFD = fields.Monetary(
+        out_required=True, currency_field="brl_currency_id"
+    )
+    SLD_CRED_FIM = fields.Monetary(out_required=True, currency_field="brl_currency_id")
+
+    @api.model
+    def _odoo_records(self, parent_record, declaration):
+        return _previous_credit(self.env, declaration, "pis")[0]
+
+    @api.model
+    def _map_from_odoo(self, record, parent_record, declaration, index=0):
+        return _previous_credit_vals(record)
 
 
 class Registro1300(models.Model):
@@ -3671,27 +4044,26 @@ class Registro1500(models.Model):
     _name = "l10n_br_sped.efd_pis_cofins.1500"
     _inherit = "l10n_br_sped.efd_pis_cofins.6.1500"
 
-    # @api.model
-    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
-    #     return {
-    #         "PER_APU_CRED": 0,  # Período de Apuração do Crédito (MM/AAAA)
-    #         "ORIG_CRED": 0,  # Indicador da origem do crédito: 01 – Crédito decor...
-    #         "CNPJ_SUC": 0,  # CNPJ da pessoa jurídica cedente do crédito (se ORIG...
-    #         "COD_CRED": 0,  # Código do Tipo do Crédito, conforme Tabela 4.3.6.
-    #         "VL_CRED_APU": 0,  # Valor Total do crédito apurado na Escrituração F...
-    #         "VL_CRED_EXT_APU": 0,  # Valor de Crédito Extemporâneo Apurado (Regis...
-    #         "VL_TOT_CRED_APU": 0,  # Valor Total do Crédito Apurado (06 + 07)
-    #         "VL_CRED_DESC_PA_ANT": 0,  # Valor do Crédito utilizado mediante Desc...
-    #         "VL_CRED_PER_PA_ANT": 0,  # Valor do Crédito utilizado mediante Pedid...
-    #         "VL_CRED_DCOMP_PA_ANT": 0,  # Valor do Crédito utilizado mediante Dec...
-    #         "SD_CRED_DISP_EFD": 0,  # Saldo do Crédito Disponível para Utilização...
-    #         "VL_CRED_DESC_EFD": 0,  # Valor do Crédito descontado neste período d...
-    #         "VL_CRED_PER_EFD": 0,  # Valor do Crédito objeto de Pedido de Ressarc...
-    #         "VL_CRED_DCOMP_EFD": 0,  # Valor do Crédito utilizado mediante Declar...
-    #         "VL_CRED_TRANS": 0,  # Valor do crédito transferido em evento de cisã...
-    #         "VL_CRED_OUT": 0,  # Valor do crédito utilizado por outras formas
-    #         "SLD_CRED_FIM": 0,  # Saldo de créditos a utilizar em período de apur...
-    #     }
+    # The descriptor marks these values obrigatorio=1: a zero is written "0".
+    VL_CRED_APU = fields.Monetary(out_required=True, currency_field="brl_currency_id")
+    VL_TOT_CRED_APU = fields.Monetary(
+        out_required=True, currency_field="brl_currency_id"
+    )
+    VL_CRED_DESC_PA_ANT = fields.Monetary(
+        out_required=True, currency_field="brl_currency_id"
+    )
+    SD_CRED_DISP_EFD = fields.Monetary(
+        out_required=True, currency_field="brl_currency_id"
+    )
+    SLD_CRED_FIM = fields.Monetary(out_required=True, currency_field="brl_currency_id")
+
+    @api.model
+    def _odoo_records(self, parent_record, declaration):
+        return _previous_credit(self.env, declaration, "cofins")[0]
+
+    @api.model
+    def _map_from_odoo(self, record, parent_record, declaration, index=0):
+        return _previous_credit_vals(record)
 
 
 class Registro1700(models.Model):
