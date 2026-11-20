@@ -3778,8 +3778,8 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_nfe_danfe_profile__display_partner_order
 msgid ""
-"Print the partner's order number and item (xPed and nItemPed) in the product"
-" description."
+"Print the partner's order number and item (xPed and nItemPed) in the product "
+"description."
 msgstr ""
 "Imprime o número e o item do pedido do parceiro (xPed e nItemPed) na "
 "descrição do produto."
