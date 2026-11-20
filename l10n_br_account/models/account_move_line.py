@@ -16,6 +16,7 @@ class AccountMoveLine(models.Model):
     _inherit = [
         _name,
         "l10n_br_account.decorator.mixin",
+        "l10n_br_fiscal.report.filter.mixin",
     ]
     _inherits = {_fiscal_decorator_model: "fiscal_document_line_id"}
 
