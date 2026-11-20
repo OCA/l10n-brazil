@@ -351,4 +351,12 @@ class SaleOrderLine(models.Model):
 
     @api.model
     def _get_total_for_tax_totals(self):
-        return self.order_id.amount_total
+        # Not order_id.amount_total: the tax totals are also computed inside
+        # the computation of the order amounts, where reading that field gives
+        # back its old value (0 on a new order) and it ends up as the amount
+        # of the order, for ever. Orders without fiscal operation have nothing
+        # to adjust: their total is the standard one.
+        order = self.order_id
+        if not order.fiscal_operation_id:
+            return None
+        return sum(order.order_line.mapped("fiscal_amount_total"))
