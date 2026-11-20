@@ -213,6 +213,10 @@ class BoletoInstruction(models.Model):
                     transaction.due_date = self.new_due_date
                 elif self.command == "abatimento":
                     transaction.amount -= self.amount
+                if self.command in ("prorrogacao", "abatimento"):
+                    # The stored PDF shows the old due date or amount: the next
+                    # print fetches it from the bank or draws it again.
+                    transaction.boleto_pdf = False
         except Exception as error:
             return self._report_local_failure(error)
         # Invoice effect first: a title answered as paid would close the installment

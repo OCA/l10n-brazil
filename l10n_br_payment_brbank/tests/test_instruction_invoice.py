@@ -1,6 +1,7 @@
 # Copyright 2026 KMEE
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
+import base64
 from decimal import Decimal
 from unittest.mock import patch
 
@@ -65,8 +66,11 @@ class TestInstructionOnInvoice(BrbankTransactionCase):
         txs = self._brbank_txs(invoice)
         first, last = txs[0], txs[2]
         first_date = first.move_line_id.date_maturity
+        last.boleto_pdf = base64.b64encode(b"%PDF-1.4 old due date")
         self._send(last, command="prorrogacao", new_due_date=self.new_date)
         self.assertEqual(last.due_date, self.new_date)
+        # The stored PDF had the old due date: the next print makes a new one.
+        self.assertFalse(last.boleto_pdf)
         self.assertEqual(last.move_line_id.date_maturity, self.new_date)
         self.assertEqual(first.move_line_id.date_maturity, first_date)
         self.assertEqual(invoice.invoice_date_due, self.new_date)
@@ -84,6 +88,8 @@ class TestInstructionOnInvoice(BrbankTransactionCase):
         tx = self._brbank_txs(invoice)[0]
         line_date = tx.move_line_id.date_maturity
         invoice_date = invoice.invoice_date_due
+        stored_pdf = base64.b64encode(b"%PDF-1.4 current")
+        tx.boleto_pdf = stored_pdf
         for command_state, error in (
             ("draft", Indisponivel("fora")),
             ("rejected", None),
@@ -100,6 +106,8 @@ class TestInstructionOnInvoice(BrbankTransactionCase):
                 self.assertEqual(tx.due_date, line_date)
                 self.assertEqual(tx.move_line_id.date_maturity, line_date)
                 self.assertEqual(invoice.invoice_date_due, invoice_date)
+                # Nothing changed at the bank: the stored PDF still holds.
+                self.assertEqual(tx.boleto_pdf, stored_pdf)
 
     def test_answer_lost_still_reaches_the_invoice(self):
         invoice = self._create_invoice()
@@ -157,7 +165,9 @@ class TestInstructionOnInvoice(BrbankTransactionCase):
         line = tx.move_line_id
         self.payment_mode.refund_payment_mode_id = self.payment_mode
         self.partner.customer_payment_mode_id = self.payment_mode
+        tx.boleto_pdf = base64.b64encode(b"%PDF-1.4 old amount")
         self._send(tx, command="abatimento", amount=50.0)
+        self.assertFalse(tx.boleto_pdf)
         credit_note = line.matched_credit_ids.credit_move_id.move_id
         self.assertEqual(credit_note.move_type, "out_refund")
         self.assertEqual(credit_note.state, "posted")
