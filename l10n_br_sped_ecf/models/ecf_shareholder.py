@@ -5,16 +5,27 @@ from erpbrasil.base import misc
 
 from odoo import api, fields, models
 
-# Qualificacao do socio ou titular no registro Y600. Sao os codigos de uso
-# corrente; a tabela completa esta no Guia Pratico da ECF.
+# Qualificacao do socio ou titular no registro Y600: a tabela que o programa
+# da ECF confere (SPEDECF_QUALIF_SOCIO_TITULAR).
 QUALIFICACAO_SOCIO = [
-    ("01", "01 - Socio ou acionista pessoa fisica residente no Brasil"),
-    ("02", "02 - Socio ou acionista pessoa fisica residente no exterior"),
-    ("03", "03 - Socio ou acionista pessoa juridica domiciliada no Brasil"),
-    ("04", "04 - Socio ou acionista pessoa juridica domiciliada no exterior"),
-    ("05", "05 - Titular de empresa individual"),
-    ("06", "06 - Socio ostensivo de SCP"),
-    ("07", "07 - Socio participante de SCP"),
+    ("01", "01 - Acionista Pessoa Fisica Domiciliado no Brasil"),
+    ("02", "02 - Socio Pessoa Fisica Domiciliado no Brasil"),
+    ("03", "03 - Acionista Pessoa Juridica Domiciliado no Brasil"),
+    ("04", "04 - Socio Pessoa Juridica Domiciliado no Brasil"),
+    ("05", "05 - Acionista Pessoa Fisica Residente ou Domiciliado no Exterior"),
+    ("06", "06 - Socio Pessoa Fisica Residente ou Domiciliado no Exterior"),
+    ("07", "07 - Acionista Pessoa Juridica Residente ou Domiciliado no Exterior"),
+    ("08", "08 - Socio Pessoa Juridica Residente ou Domiciliado no Exterior"),
+    ("09", "09 - Titular"),
+    ("10", "10 - Administrador sem Vinculo Empregaticio"),
+    ("11", "11 - Diretor sem Vinculo Empregaticio"),
+    ("12", "12 - Presidente sem Vinculo Empregaticio"),
+    ("13", "13 - Administrador com Vinculo Empregaticio"),
+    ("14", "14 - Conselheiro de Administracao ou Fiscal"),
+    ("15", "15 - Diretor com Vinculo Empregaticio"),
+    ("16", "16 - Fundador"),
+    ("17", "17 - Presidente com Vinculo Empregaticio"),
+    ("18", "18 - Usufrutuario de Quotas ou Acoes"),
 ]
 
 # Codigo do Brasil na tabela de paises do Sped (registro Y600).
@@ -53,7 +64,7 @@ class EcfShareholder(models.Model):
         selection=QUALIFICACAO_SOCIO,
         string="Qualificacao",
         required=True,
-        default="01",
+        default="02",
     )
     date_start = fields.Date(string="Data de entrada")
     date_end = fields.Date(string="Data de saida")
@@ -86,14 +97,16 @@ class EcfShareholder(models.Model):
     def _sped_values(self, declaration):
         """Valores do registro Y600 deste socio."""
         self.ensure_one()
+        documento = misc.punctuation_rm(self.cpf_cnpj or "")
         return {
             "DT_ALT_SOC": self.date_start or declaration.DT_INI,
             "DT_FIM_SOC": self.date_end or False,
             "PAIS": self.country_id.l10n_br_ibge_code or PAIS_BRASIL
             if hasattr(self.country_id, "l10n_br_ibge_code")
             else PAIS_BRASIL,
-            "IND_QUALIF": self.qualification,
-            "CPF_CNPJ": misc.punctuation_rm(self.cpf_cnpj or ""),
+            # PF ou PJ, pelo documento; a qualificacao e o QUALIF
+            "IND_QUALIF": "PF" if len(documento) == 11 else "PJ",
+            "CPF_CNPJ": documento,
             "NOM_EMP": self.name,
             "QUALIF": self.qualification,
             "PERC_CAP_TOT": self.capital_share,

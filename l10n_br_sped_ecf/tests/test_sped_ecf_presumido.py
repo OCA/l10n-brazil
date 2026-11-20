@@ -161,6 +161,29 @@ class TestEcfPresumido(common.TransactionCase):
         self.assertIn("|9900|K030|4|", texto)
         self.assertIn("|9900|P030|4|", texto)
 
+    def test_saldo_sem_movimento_segue_no_balanco(self):
+        """O capital integralizado em janeiro segue nos quatro trimestres.
+
+        Sem movimento depois do primeiro trimestre ele sumia do K155 e do
+        P100, e o PVA recusava o saldo inicial do segundo trimestre por nao
+        ser o final do primeiro.
+        """
+        linhas = self.cenario.declaracao()._generate_sped_text().split("\n")
+        k155 = [linha for linha in linhas if linha.startswith("|K155|2.03.01.01|")]
+        self.assertEqual(len(k155), 4)
+        for linha in k155[1:]:
+            self.assertTrue(linha.endswith("|500000,00|C|"), linha)
+        p100 = [linha for linha in linhas if linha.startswith("|P100|2.03.01.01.01|")]
+        self.assertEqual(len(p100), 4)
+
+    def test_y600_indicador_e_qualificacao_do_socio(self):
+        """O Y600 separa a pessoa (PF ou PJ) da qualificacao (tabela 01 a 18)."""
+        linhas = self.cenario.declaracao()._generate_sped_text().split("\n")
+        for linha in (lin for lin in linhas if lin.startswith("|Y600|")):
+            campos = linha.split("|")
+            self.assertEqual(campos[5], "PF", linha)
+            self.assertEqual(campos[8], "02", linha)
+
     def test_validador_reprova_arquivo_adulterado(self):
         """O validador nao passa a mao: valor calculado errado e reprovado."""
         texto = self.cenario.declaracao()._generate_sped_text()

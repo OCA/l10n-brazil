@@ -28,6 +28,9 @@ COD_NAT_POR_GRUPO = {
     "off_balance": "05",
 }
 
+# Grupos contabeis do Odoo que vao para o balanco (K155, P100).
+PATRIMONIAIS = ("asset", "liability", "equity")
+
 
 def formata_valor(valor):
     """Valor decimal como o Sped o escreve: virgula e sem separador de milhar."""
@@ -823,28 +826,38 @@ class RegistroK030(models.Model):
             balance[0] += line.debit
             balance[1] += line.credit
 
+        # a conta patrimonial com saldo segue no balanco mesmo sem movimento
+        # no periodo: o PVA confere o saldo inicial contra o final anterior
         opening = dict.fromkeys(movement, 0.0)
-        if movement:
-            prior = aml_model.search(
-                [
-                    ("company_id", "=", company.id),
-                    ("parent_state", "=", "posted"),
-                    ("account_id", "in", [a.id for a in movement]),
-                    ("date", "<", dt_ini),
-                ]
+        prior = aml_model.search(
+            [
+                ("company_id", "=", company.id),
+                ("parent_state", "=", "posted"),
+                ("date", "<", dt_ini),
+                "|",
+                ("account_id", "in", [a.id for a in movement]),
+                ("account_id.internal_group", "in", PATRIMONIAIS),
+            ]
+        )
+        for line in prior:
+            opening[line.account_id] = opening.get(line.account_id, 0.0) + (
+                line.balance
             )
-            for line in prior:
-                opening[line.account_id] += line.balance
+        accounts = set(movement) | {
+            account
+            for account, balance in opening.items()
+            if not company.currency_id.is_zero(balance)
+        }
 
         for account in sorted(
-            movement, key=lambda a: a.with_company(company).code or ""
+            accounts, key=lambda a: a.with_company(company).code or ""
         ):
             # o K155 detalha o saldo das contas PATRIMONIAIS: a conta usada
             # aqui tem de ser de natureza 1, 2 ou 3 conforme o J050, e a de
             # resultado e detalhada no K355
-            if account.internal_group not in ("asset", "liability", "equity"):
+            if account.internal_group not in PATRIMONIAIS:
                 continue
-            debit, credit = movement[account]
+            debit, credit = movement.get(account, (0.0, 0.0))
             sld_ini = opening.get(account, 0.0)
             sld_fin = sld_ini + debit - credit
             k155 = k155_model.create(
@@ -1667,21 +1680,24 @@ class RegistroP030(models.Model):
             saldos = movimento.setdefault(linha.account_id, [0.0, 0.0, 0.0])
             saldos[0] += linha.debit
             saldos[1] += linha.credit
-        if movimento:
-            anteriores = (
-                self.env["account.move.line"]
-                .with_company(company)
-                .search(
-                    [
-                        ("company_id", "=", company.id),
-                        ("parent_state", "=", "posted"),
-                        ("account_id", "in", [conta.id for conta in movimento]),
-                        ("date", "<", self.DT_INI),
-                    ]
-                )
+        # a conta patrimonial com saldo entra mesmo sem movimento no trimestre
+        anteriores = (
+            self.env["account.move.line"]
+            .with_company(company)
+            .search(
+                [
+                    ("company_id", "=", company.id),
+                    ("parent_state", "=", "posted"),
+                    ("date", "<", self.DT_INI),
+                    "|",
+                    ("account_id", "in", [conta.id for conta in movimento]),
+                    ("account_id.internal_group", "in", PATRIMONIAIS),
+                ]
             )
-            for linha in anteriores:
-                movimento[linha.account_id][2] += linha.balance
+        )
+        for linha in anteriores:
+            saldos = movimento.setdefault(linha.account_id, [0.0, 0.0, 0.0])
+            saldos[2] += linha.balance
         return movimento
 
     def _apurar(self):
