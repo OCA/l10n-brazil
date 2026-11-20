@@ -13,16 +13,16 @@ from odoo.exceptions import UserError
 from odoo.tools import config
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import EVENT_ENV_PROD
-from odoo.addons.l10n_br_nfse.tests.test_fiscal_document_nfse_common import (
-    TestFiscalDocumentNFSeCommon,
-)
+from odoo.addons.l10n_br_nfse.tests import test_fiscal_document_nfse_common
 
 from ... import l10n_br_nfse_paulistana
 
 _logger = logging.getLogger(__name__)
 
 
-class TestFiscalDocumentNFSePaulistana(TestFiscalDocumentNFSeCommon):
+class TestFiscalDocumentNFSePaulistana(
+    test_fiscal_document_nfse_common.TestFiscalDocumentNFSeCommon
+):
     def setUp(self):
         super().setUp()
         self.company.provedor_nfse = "paulistana"

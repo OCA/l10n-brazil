@@ -785,15 +785,16 @@ class InvoicingPickingTest(TestBrPickingInvoicingCommon):
         # Testa os Impostos Dedutiveis
         picking.fiscal_operation_id.deductible_taxes = True
         nb_invoice_before = self.env["account.move"].search_count([])
-        picking.picking_type_id.pre_generate_fiscal_document_number = "validate"
+        picking.picking_type_id.pre_generate_fiscal_document_number = "invoice_wizard"
         for line in picking.move_ids:
             line.price_unit = 100
 
         self.picking_move_state(picking)
         picking.set_to_be_invoiced()
-        self.assertTrue(picking.document_number)
+        self.assertFalse(picking.document_number)
 
         invoice = self.create_invoice_wizard(picking)
+        self.assertTrue(picking.document_number)
         self.assertTrue(invoice, "Invoice is not created.")
         self.assertEqual(picking.invoice_state, "invoiced")
         self.assertEqual(
