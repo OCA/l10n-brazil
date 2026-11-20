@@ -57,6 +57,12 @@ class SaleOrderLine(models.Model):
         related="product_uom",
     )
 
+    # A duplicated sale order is another order from the customer: like the
+    # customer reference of the order, the partner order is not copied
+    partner_order = fields.Char(copy=False)
+
+    partner_order_line = fields.Char(copy=False)
+
     tax_framework = fields.Selection(
         related="order_id.company_id.tax_framework",
         string="Tax Framework",
