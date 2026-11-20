@@ -257,7 +257,7 @@ class TestConnection(ConnectionCommon, TransactionCase):
             with self.assertRaises(AccessError):
                 connection.read([field_name])
 
-    def test_tokens_have_no_access_outside_the_system_group(self):
+    def test_connection_admin_enters_the_credentials_but_not_the_tokens(self):
         user = new_test_user(
             self.env,
             login="conn-admin",
@@ -265,7 +265,9 @@ class TestConnection(ConnectionCommon, TransactionCase):
         )
         with self.assertRaises(AccessError):
             self.env["l10n_br_bank_connection.token"].with_user(user).search([])
-        # The administrator group edits connections, secrets stay hidden.
+        # The person the company appoints enters the bank keys without being a
+        # system administrator.
         connection = self.connection.with_user(user)
-        connection.write({"name": "Renamed"})
-        self.assertNotIn("client_secret", connection.fields_get())
+        connection.write({"name": "Renamed", "client_secret": "new-secret"})
+        self.assertIn("client_secret", connection.fields_get())
+        self.assertEqual(connection.client_secret, "new-secret")
