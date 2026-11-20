@@ -19,7 +19,7 @@ const L10nBrPosNfceReceiptScreen = (OriginalReceiptScreen) =>
         isNFCe() {
             return (
                 this.env.pos.config.simplified_document_type === "65" &&
-                this.currentOrder.to_invoice
+                !this.currentOrder.is_detailed_invoice()
             );
         }
     };

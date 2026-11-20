@@ -26,6 +26,19 @@ class PosOrder(models.Model):
 
         nfce_vals = self._prepare_nfce_vals(pos_config)
 
+        if self._is_detailed_invoice():
+            detailed_type = pos_config.detailed_document_type_id
+            nfce_vals.update(
+                {
+                    "document_type_id": detailed_type.id,
+                    "document_serie_id": detailed_type.get_document_serie(
+                        self.company_id, pos_config.out_pos_fiscal_operation_id
+                    ).id,
+                }
+            )
+            vals.update(nfce_vals)
+            return vals
+
         if self.document_key and not self.authorization_protocol:
             self.is_contingency = True
 
@@ -64,6 +77,35 @@ class PosOrder(models.Model):
             "payment_mode_id": payment_mode_id.id,
             "nfe40_vTroco": self.amount_return,
         }
+
+    def _is_detailed_invoice(self):
+        detailed_type = self.config_id.detailed_document_type_id
+        return bool(detailed_type) and self.document_type_id == detailed_type
+
+    @api.model
+    def _order_fields(self, ui_order):
+        order_fields = super()._order_fields(ui_order)
+        config = self.env["pos.session"].browse(ui_order["pos_session_id"]).config_id
+        if (
+            config.simplified_document_type != MODELO_FISCAL_NFCE
+            or order_fields["amount_total"] <= 0
+        ):
+            return order_fields
+        partner = self.env["res.partner"].browse(order_fields["partner_id"])
+        if (
+            order_fields["to_invoice"]
+            and config.detailed_document_type_id
+            and partner
+            and not partner.is_anonymous_consumer
+            and not order_fields["document_key"]
+        ):
+            # "Invoice" button: the customer asked for the detailed document
+            order_fields["document_type_id"] = config.detailed_document_type_id.id
+        else:
+            # every other sale issues the NFC-e
+            order_fields["to_invoice"] = True
+            order_fields["partner_id"] = partner.id or config.partner_id.id
+        return order_fields
 
     @api.model
     def _process_order(self, pos_order_vals, draft, existing_order):
