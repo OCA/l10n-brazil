@@ -92,6 +92,16 @@ class SpedMixin(models.AbstractModel):
                 )
             res.reference = f"{model.model},{res.res_id}"
 
+    @api.model_create_multi
+    def create(self, vals_list):
+        # a register created while pulling from Odoo is a pulled one, also when
+        # the layout creates it in its own code: the next pull drops it, or it
+        # goes out twice in the file
+        if self.env.context.get("sped_pull_from_odoo"):
+            for vals in vals_list:
+                vals.setdefault("is_generated_from_odoo", True)
+        return super().create(vals_list)
+
     def _compute_currency_id(self):
         for item in self:
             item.brl_currency_id = self.env.ref("base.BRL").id

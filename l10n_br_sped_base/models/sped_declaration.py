@@ -279,6 +279,7 @@ class SpedDeclaration(models.AbstractModel):
             company_id=self.company_id.id,
             declaration=self,
             default_declaration_id=self.id,
+            sped_pull_from_odoo=True,
         )
         top_registers = mixin_env._get_top_registers(kind)
 
