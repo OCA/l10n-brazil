@@ -436,6 +436,59 @@ class TaxAssessment(models.Model):
             line.factor_percent < 0 for line in repartition
         )
 
+    def _get_opening_balance(self):
+        """The credit balance the first assessment of the company starts from,
+        informed for the tax when it comes from another system."""
+        self.ensure_one()
+        openings = self.env["l10n_br_tax.assessment.opening"].search(
+            [
+                ("company_id", "=", self.company_id.id),
+                ("tax_group_id", "=", self.tax_group_id.id),
+            ]
+        )
+        return round(sum(openings.mapped("amount")), 2)
+
+    def _get_first_period_date(self):
+        """First day of the first month the system assesses for this tax, or
+        False while the company does not say it."""
+        self.ensure_one()
+        return self.company_id.tax_assessment_start or False
+
+    def _has_earlier_movement(self):
+        self.ensure_one()
+        return bool(
+            self.env["account.move.line"]
+            .sudo()
+            .search_count(
+                [
+                    ("company_id", "=", self.company_id.id),
+                    ("parent_state", "=", "posted"),
+                    ("tax_line_id", "in", self._get_taxes().ids),
+                    ("date", "<", self.date_from),
+                ]
+            )
+        )
+
+    def _define_start_message(self):
+        return _(
+            "Defina o início da apuração pelo sistema desta empresa (Configurações "
+            "> Usuários e Empresas > Empresas > aba Fiscal > Impostos > Início da "
+            "apuração pelo sistema). É o primeiro mês em que o sistema leva o "
+            "saldo credor de um mês para o seguinte: os meses anteriores com "
+            "movimento deixam de ser exigidos, e o saldo credor que vem de antes "
+            "dessa data é informado como saldo inicial (menu de apuração)."
+        )
+
+    def _ensure_assessment_start(self):
+        """A base with movement before the period is asked for the start; a
+        company without it starts in this month."""
+        self.ensure_one()
+        if self.regime == "cumulative" or self._get_first_period_date():
+            return
+        if self._has_earlier_movement():
+            raise UserError(self._define_start_message())
+        self.company_id.sudo().tax_assessment_start = self.date_from.replace(day=1)
+
     def _find_previous_assessment(self):
         self.ensure_one()
         return self.search(
@@ -458,10 +511,15 @@ class TaxAssessment(models.Model):
                     _("Só é possível apurar uma apuração em rascunho ou já apurada.")
                 )
             record.line_ids.filtered(lambda line: line.source == "computed").unlink()
+            record._ensure_assessment_start()
 
             previous = record._find_previous_assessment()
             record.previous_assessment_id = previous
-            record.previous_balance = previous.amount_carried_forward
+            record.previous_balance = (
+                previous.amount_carried_forward
+                if previous
+                else record._get_opening_balance()
+            )
 
             taxes = record._get_taxes().with_context(**record._get_period_context())
             discarded = self.env["account.tax"]
