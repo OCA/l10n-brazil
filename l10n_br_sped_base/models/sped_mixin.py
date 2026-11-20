@@ -712,6 +712,13 @@ class SpedMixin(models.AbstractModel):
             self._cr.execute(*self._odoo_query(parent_record, declaration))
             records = self._cr.dictfetchall()
 
+        elif hasattr(self, "_odoo_records"):
+            # the records are built in Python (an aggregation that the SQL of
+            # `_odoo_query` cannot express, such as the credit of the PIS/COFINS
+            # that follows the C170 line by line): any list of dict, and each one
+            # is the `parent_record` of the registers below
+            records = self._odoo_records(parent_record, declaration)
+
         elif hasattr(self, "_map_from_odoo"):
             # in this case we will generate a register without any
             # specific Odoo record. Example: ECD I010
