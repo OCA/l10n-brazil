@@ -31,4 +31,5 @@ from . import (
     test_document_entry_cst,
     test_entry_cst_screen,
     test_stock_price_mixin,
+    test_tax_creditability,
 )

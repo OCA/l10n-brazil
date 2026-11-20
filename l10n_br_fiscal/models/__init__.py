@@ -5,6 +5,7 @@ from . import data_product_abstract
 from . import data_ncm_nbs_abstract
 from . import report_mixin
 from . import document_mixin
+from . import tax_creditability_mixin
 from . import document_line_mixin
 from . import invalidate_number
 from . import comment
