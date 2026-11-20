@@ -445,8 +445,15 @@ class TaxAssessment(models.Model):
 
             taxes = record._get_taxes().with_context(**record._get_period_context())
             discarded = self.env["account.tax"]
+            no_credit = self.env["account.tax"]
             vals_list = []
             for tax in taxes:
+                if tax.type_tax_use == "purchase" and record.regime == "cumulative":
+                    # the cumulative PIS/COFINS has no input credit
+                    # (Lei 9.718/1998); withholding and deduction still apply
+                    if tax.balance_regular or tax.balance_refund:
+                        no_credit |= tax
+                    continue
                 # `type_tax_use` decides the side of the running account: a
                 # sale tax is a debit (owed) and a purchase tax is a credit
                 # (recoverable). `account_tax_balance` returns both with a
@@ -521,6 +528,14 @@ class TaxAssessment(models.Model):
                         "venda nem de compra (type_tax_use): %s"
                     )
                     % ", ".join(discarded.mapped("name"))
+                )
+            if no_credit:
+                record.message_post(
+                    body=_(
+                        "Impostos de entrada ignorados na apuração: o regime "
+                        "cumulativo não dá direito a crédito (Lei 9.718/1998): %s"
+                    )
+                    % ", ".join(no_credit.mapped("name"))
                 )
             record.state = "computed"
         return True
