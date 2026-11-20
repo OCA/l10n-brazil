@@ -343,11 +343,33 @@ class SpecMixin(models.AbstractModel):
         return not set(concrete_tables).issubset(existing)
 
     @classmethod
+    def _spec_access_group(cls, env, module_name, suffix):
+        """
+        XML id of the group_<suffix> of the module, or of the nearest dependency
+        that has one (l10n_br_nfse has no group, l10n_br_fiscal has). A group that
+        does not exist makes the access load fail and, during an update, hangs it.
+        """
+        Module = env["ir.module.module"]
+        todo, seen = [module_name], set()
+        while todo:
+            name = todo.pop(0)
+            if name in seen:
+                continue
+            seen.add(name)
+            xmlid = f"{name}.group_{suffix}"
+            if env.ref(xmlid, raise_if_not_found=False):
+                return xmlid
+            todo += Module.search([("name", "=", name)]).dependencies_id.mapped("name")
+        return "base.group_user" if suffix == "user" else "base.group_system"
+
+    @classmethod
     def _auto_fill_access_data(cls, env, module_name: str, access_data: list):
         """
         Fill access_data with a default user and a default manager access.
         """
 
+        user_group = cls._spec_access_group(env, module_name, "user")
+        manager_group = cls._spec_access_group(env, module_name, "manager")
         underline_name = cls._name.replace(".", "_")
         if module_name == "spec_driven_model":
             model_id = f"spec_driven_model.model_{underline_name}"
@@ -366,7 +388,7 @@ class SpecMixin(models.AbstractModel):
                     user_access_name,
                     user_access_name,
                     model_id,
-                    f"{module_name}.group_user",
+                    user_group,
                     "1",
                     "0",
                     "0",
@@ -385,7 +407,7 @@ class SpecMixin(models.AbstractModel):
                     manager_access_name,
                     manager_access_name,
                     model_id,
-                    f"{module_name}.group_manager",
+                    manager_group,
                     "1",
                     "1",
                     "1",

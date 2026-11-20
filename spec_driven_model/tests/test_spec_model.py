@@ -644,3 +644,20 @@ class TestSpecModel(TransactionCase, FakeModelLoader):
         access_data = []
         mixin._auto_fill_access_data(self.env, "spec_driven_model", access_data)
         self.assertEqual([row[0] for row in access_data], ["access_spec_mixin_manager"])
+
+    def test_access_group_falls_back_to_a_dependency(self):
+        mixin = type(self.env["spec.mixin"])
+        # spec_driven_model has no group: base, its dependency, has group_user
+        self.assertEqual(
+            mixin._spec_access_group(self.env, "spec_driven_model", "user"),
+            "base.group_user",
+        )
+        # no module in the chain has group_manager
+        self.assertEqual(
+            mixin._spec_access_group(self.env, "spec_driven_model", "manager"),
+            "base.group_system",
+        )
+        access_data = []
+        mixin._auto_fill_access_data(self.env, "spec_driven_model", access_data)
+        for row in access_data:
+            self.assertTrue(self.env.ref(row[3], raise_if_not_found=False), row)
