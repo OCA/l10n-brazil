@@ -2,3 +2,4 @@
 odoo-test-helper  # Needed by spec_driven_model
 pyopenssl==22.1.0
 xmldiff
+odoo-addon-sale_rental_contract @ git+https://github.com/OCA/vertical-rental@refs/pull/90/head#subdirectory=setup/sale_rental_contract
