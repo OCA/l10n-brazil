@@ -124,6 +124,28 @@ class FiscalDocument(models.Model):
             return self.document_date
         return entry
 
+    def _get_sped_icms_amounts(self):
+        """(VL_BC_ICMS, VL_ICMS) of the document as the books carry them: the
+        ones of the document less the lines of an entry without credit right,
+        which carry none in the C170."""
+        self.ensure_one()
+        lines = self.fiscal_line_ids.filtered(
+            lambda line: line._sped_icms_without_credit()
+        )
+        return (
+            self.amount_icms_base - sum(lines.mapped("icms_base")),
+            self.amount_icms_value - sum(lines.mapped("icms_value")),
+        )
+
+    def _get_sped_ipi_value(self):
+        """VL_IPI of the document as the books carry it: the one of the document
+        less the lines of an entry without credit right."""
+        self.ensure_one()
+        lines = self.fiscal_line_ids.filtered(
+            lambda line: line._sped_ipi_without_credit()
+        )
+        return self.amount_ipi_value - sum(lines.mapped("ipi_value"))
+
     def _get_sped_pis_cofins_values(self):
         """(VL_PIS, VL_COFINS) of the document as the books carry them: what the
         C170 of its lines carry, so the header equals the items. An entry booked
