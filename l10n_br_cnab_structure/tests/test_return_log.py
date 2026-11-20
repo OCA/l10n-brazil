@@ -149,3 +149,20 @@ class TestReturnLog(AccountTestInvoicingCommon):
         self.assertEqual(sum_balance(rebate_moves), 2.00)
         self.assertEqual(sum_balance(discount_moves), 10.00)
         self.assertEqual(sum_balance(tariff_moves), 5.00)
+
+    def test_batch_create_processes_only_events_with_structure(self):
+        """Creating events in a single call handles each one by its own log."""
+        structure = self.env["l10n_br_cnab.structure"].create({"name": "Test"})
+        vals = {"journal_id": self.bank_journal_itau.id, "type": "inbound"}
+        log_with_structure = self.return_log_obj.create(
+            dict(vals, cnab_structure_id=structure.id)
+        )
+        log_without_structure = self.return_log_obj.create(vals)
+        events = self.event_obj.create(
+            [
+                {"cnab_return_log_id": log_with_structure.id},
+                {"cnab_return_log_id": log_without_structure.id},
+            ]
+        )
+        self.assertEqual(events[0].state, "confirmed")
+        self.assertFalse(events[1].state)
