@@ -9,6 +9,7 @@ from io import StringIO
 from lxml.builder import E
 
 from odoo import _, api, fields, models
+from odoo.exceptions import UserError
 
 from .sped_mixin import LAYOUT_VERSIONS, SPED_ENCODING
 
@@ -154,9 +155,35 @@ class SpedDeclaration(models.AbstractModel):
             # TODO: Complementar com unidades de medidas de outros blocos!!!
             record.fiscal_uom_ids = record.fiscal_document_line_ids.mapped("uom_id")
 
+    def _in_company_context(self):
+        """The declaration in the environment of its own company.
+
+        The access rules by company hide the documents of every company that is
+        not active in the session, so a declaration of the company B pulled with
+        the company A active went out without documents and without a warning.
+        Pulling the registers and generating the file run as the company of the
+        declaration, which the user has to have access to.
+        """
+        self.ensure_one()
+        company = self.company_id
+        if not self.env.su and company not in self.env.user.company_ids:
+            raise UserError(
+                _(
+                    "You have no access to the company %(company)s of this "
+                    "declaration, so its registers cannot be pulled or its "
+                    "file generated.",
+                    company=company.sudo().display_name,
+                )
+            )
+        return self.with_company(company).with_context(allowed_company_ids=company.ids)
+
     def button_populate_sped_from_odoo(self):
         """Populate SPED registers from Odoo."""
         # TODO add cron pulling from Odoo for open declarations
+        self.ensure_one()
+        self._in_company_context()._populate_sped_from_odoo()
+
+    def _populate_sped_from_odoo(self):
         self.ensure_one()
         log_msg = StringIO()
         log_msg.write(f"<h3>{_('Pulled from Odoo')}</h3>")
@@ -181,6 +208,9 @@ class SpedDeclaration(models.AbstractModel):
             default_declaration_id=self.id,
         )
         top_registers = mixin_env._get_top_registers(kind)
+
+        # pulling twice must not duplicate: drop what an earlier pull created
+        mixin_env._flush_generated_registers(kind, self.id)
 
         for register_model in top_registers:  # Iterate over models, not instances
             try:
@@ -246,6 +276,13 @@ class SpedDeclaration(models.AbstractModel):
 
         return attachments_vals
 
+    @staticmethod
+    def _to_crlf(text):
+        """Every line of a SPED file ends in CR LF, the last one included (the
+        layout and the PVA demand it). The text is built with LF only."""
+        text = text.replace("\r\n", "\n").replace("\n", "\r\n")
+        return text if text.endswith("\r\n") else text + "\r\n"
+
     def _create_sped_attachment(self, text, bloco=None):
         kind = self._get_kind()
         if bloco:
@@ -261,7 +298,9 @@ class SpedDeclaration(models.AbstractModel):
             # encode(); errors="replace" keeps a character outside Latin-1
             # pasted in some journal item label from aborting the whole
             # file generation
-            "datas": base64.b64encode(text.encode(SPED_ENCODING, errors="replace")),
+            "datas": base64.b64encode(
+                self._to_crlf(text).encode(SPED_ENCODING, errors="replace")
+            ),
             "mimetype": "application/txt",
             "type": "binary",
         }
@@ -357,6 +396,10 @@ class SpedDeclaration(models.AbstractModel):
 
     def _generate_sped_text(self, version=None):
         """Generate SPED text from Odoo declaration records."""
+        self.ensure_one()
+        return self._in_company_context()._generate_sped_text_in_company(version)
+
+    def _generate_sped_text_in_company(self, version=None):
         self.ensure_one()
         kind = self._get_kind()
         if version is None:
