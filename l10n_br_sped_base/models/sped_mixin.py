@@ -773,8 +773,11 @@ class SpedMixin(models.AbstractModel):
 
     @api.model
     def _log_chatter_sped_item(self, log_msg, level, records=None):
-        action = self.env["ir.actions.act_window"].search(
-            [("res_model", "=", self._name)], limit=1
+        # only the link of the history: a fiscal user cannot read the actions
+        action = (
+            self.env["ir.actions.act_window"]
+            .sudo()
+            .search([("res_model", "=", self._name)], limit=1)
         )
         if action:
             record_count = f" ({len(records)} records)" if records else ""
