@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright (C) 2026 – TODAY, KMEE (<https://kmee.com.br>)
+     License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html -->
+<odoo>
+    <!-- DUIMP Menu (parent for all DUIMP related items) -->
+    <menuitem
+        id="l10n_br_duimp_menu"
+        name="DUIMP"
+        parent="l10n_br_fiscal.document_menu"
+        sequence="100"
+        groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager"
+    />
+
+</odoo>
