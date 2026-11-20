@@ -28,7 +28,7 @@
         "views/credit_opening_views.xml",
         "views/tax_assessment_views.xml",
     ],
-    "demo": [],
+    "demo": ["demo/efd_pis_cofins_demo.xml"],
     "application": True,
     "post_init_hook": "post_init_hook",
 }

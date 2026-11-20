@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html). -->
+<odoo>
+    <!--
+      The whole routine on the demo company of the assessment demo
+      (l10n_br_tax_assessment), on top of the accountant and the supplier
+      invoice of the l10n_br_sped_base demo: the PIS and COFINS assessments of
+      the month closed and the EFD Contribuicoes of the month. The pull and the
+      file are made by the post_init_hook, after it imports the sample file,
+      because that import flushes the registers of every declaration first.
+    -->
+    <function
+        model="l10n_br_tax.assessment"
+        name="action_post"
+        eval="[[ref('l10n_br_tax_assessment.demo_assessment_pis'), ref('l10n_br_tax_assessment.demo_assessment_cofins')]]"
+    />
+
+    <record id="demo_declaration" model="l10n_br_sped.efd_pis_cofins.0000">
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+        <field
+            name="DT_INI"
+            eval="(DateTime.today() + relativedelta(day=1)).strftime('%Y-%m-%d')"
+        />
+        <field
+            name="DT_FIN"
+            eval="(DateTime.today() + relativedelta(day=31)).strftime('%Y-%m-%d')"
+        />
+    </record>
+
+    <!--
+      A company of the non cumulative regime that starts using the system with
+      credit of earlier periods: the opening balance feeds the 1100 and the
+      1500 of its first month.
+    -->
+    <record id="demo_credit_opening_pis" model="l10n_br_pis_cofins.credit.opening">
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_real" />
+        <field name="tax_domain">pis</field>
+        <field
+            name="cutoff_date"
+            eval="(DateTime.today() + relativedelta(day=1)).strftime('%Y-%m-%d')"
+        />
+        <field
+            name="origin_period"
+            eval="(DateTime.today() + relativedelta(day=1, months=-3)).strftime('%Y-%m-%d')"
+        />
+        <field name="cod_cred">101</field>
+        <field name="amount">412.50</field>
+        <field name="used_before">150.00</field>
+    </record>
+    <record id="demo_credit_opening_cofins" model="l10n_br_pis_cofins.credit.opening">
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_real" />
+        <field name="tax_domain">cofins</field>
+        <field
+            name="cutoff_date"
+            eval="(DateTime.today() + relativedelta(day=1)).strftime('%Y-%m-%d')"
+        />
+        <field
+            name="origin_period"
+            eval="(DateTime.today() + relativedelta(day=1, months=-3)).strftime('%Y-%m-%d')"
+        />
+        <field name="cod_cred">101</field>
+        <field name="amount">1900.00</field>
+        <field name="used_before">690.91</field>
+    </record>
+</odoo>

@@ -14,3 +14,11 @@ def post_init_hook(cr, registry):
         file_path = parent_dir / "demo" / "demo_efd_pis_cofins_multi.txt"
         env["l10n_br_sped.mixin"]._flush_registers("efd_pis_cofins")
         env["l10n_br_sped.mixin"]._import_file(file_path, "efd_pis_cofins")
+        # the demo declaration of the month is pulled and generated only now:
+        # the import above flushes the registers of every declaration
+        declaration = env.ref(
+            "l10n_br_sped_efd_pis_cofins.demo_declaration", raise_if_not_found=False
+        )
+        if declaration:
+            declaration.button_populate_sped_from_odoo()
+            declaration.button_create_sped_files()
