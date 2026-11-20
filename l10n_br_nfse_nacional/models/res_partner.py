@@ -16,6 +16,7 @@ class ResPartner(spec_models.SpecModel):
         "nfse.10.tcinfopessoa",
         "nfse.10.tcendereco",
         "nfse.10.tcenderecosimples",
+        "nfse.10.tcenderext",
     ]
 
     _nfse10_binding_type_end = "Tcendereco"  # ", 'TcenderecoSimples', 'TcinfoPessoa'
@@ -35,10 +36,10 @@ class ResPartner(spec_models.SpecModel):
     )
 
     # Address mapping (from tcendereco / tcenderecosimples)
-    nfse10_xLgr = fields.Char(related="street_name")
-    nfse10_nro = fields.Char(related="street_number")
+    nfse10_xLgr = fields.Char(compute="_compute_nfse10_address")
+    nfse10_nro = fields.Char(compute="_compute_nfse10_address")
     nfse10_xCpl = fields.Char(related="street2")
-    nfse10_xBairro = fields.Char(related="district")
+    nfse10_xBairro = fields.Char(compute="_compute_nfse10_address")
     nfse10_cMun = fields.Char(related="city_id.ibge_code")
     nfse10_CEP = fields.Char(
         compute="_compute_nfse10_data", store=True, compute_sudo=True
@@ -46,6 +47,13 @@ class ResPartner(spec_models.SpecModel):
 
     nfse10_end = fields.Many2one("res.partner", compute="_compute_nfse10_end")
     nfse10_endNac = fields.Many2one("res.partner", compute="_compute_nfse10_end")
+    # Address abroad (TCEnderExt): the choice of the leiaute is endNac or endExt,
+    # never both, and a taker abroad has no municipality code to put in endNac.
+    nfse10_endExt = fields.Many2one("res.partner", compute="_compute_nfse10_end")
+    nfse10_cPais = fields.Char(related="country_id.code")
+    nfse10_cEndPost = fields.Char(compute="_compute_nfse10_address")
+    nfse10_xCidade = fields.Char(compute="_compute_nfse10_address")
+    nfse10_xEstProvReg = fields.Char(compute="_compute_nfse10_address")
     nfse10_cNaoNIF = fields.Selection(compute="_compute_nfse10_cNaoNIF")
     nfse10_NIF = fields.Char(compute="_compute_nfse10_NIF")
 
@@ -75,7 +83,44 @@ class ResPartner(spec_models.SpecModel):
         for rec in self:
             rec.nfse10_xNome = rec.legal_name or rec.name
 
-    @api.depends("street_name", "street_number", "district", "city_id")
+    @api.depends(
+        "street_name",
+        "street_number",
+        "district",
+        "city_id",
+        "city",
+        "country_id",
+        "zip",
+        "state_id",
+    )
+    def _compute_nfse10_address(self):
+        for rec in self:
+            rec.nfse10_xLgr = rec.street_name
+            rec.nfse10_nro = rec.street_number
+            rec.nfse10_xBairro = rec.district
+            rec.nfse10_cEndPost = False
+            rec.nfse10_xCidade = False
+            rec.nfse10_xEstProvReg = False
+            if rec._nfse10_is_abroad():
+                # The leiaute asks for number and district even abroad, where
+                # many addresses have neither: "S/N" is the usual way to say
+                # there is no number and the district falls back to the city.
+                rec.nfse10_nro = rec.street_number or "S/N"
+                rec.nfse10_xBairro = rec.district or rec.city
+                rec.nfse10_cEndPost = (rec.zip or "").strip()[:11]
+                rec.nfse10_xCidade = rec.city
+                rec.nfse10_xEstProvReg = rec.state_id.name or rec.state_id.code
+
+    @api.depends(
+        "street_name",
+        "street_number",
+        "district",
+        "city_id",
+        "city",
+        "zip",
+        "country_id",
+        "state_id",
+    )
     def _compute_nfse10_end(self):
         for rec in self:
             # `toma/end` is optional in the leiaute (nfelib TcinfoPessoa.end has
@@ -84,9 +129,21 @@ class ResPartner(spec_models.SpecModel):
             # ("endNac: Missing child element(s). Expected is (cMun)", "end:
             # Missing child element(s). Expected is (xLgr)"). A taker identified
             # only by its CNPJ is common, so leave the group out instead.
+            if rec._nfse10_is_abroad():
+                # A taker abroad is declared with endExt (country, postal code,
+                # city and state or province), never with endNac, which asks
+                # for the municipality code (E0242, EM033).
+                has_address = bool(
+                    rec.street_name and rec.city and rec.zip and rec.nfse10_xEstProvReg
+                )
+                rec.nfse10_end = rec.id if has_address else False
+                rec.nfse10_endNac = False
+                rec.nfse10_endExt = rec.id if has_address else False
+                continue
             has_address = bool(rec.street_name and rec.city_id)
             rec.nfse10_end = rec.id if has_address else False
             rec.nfse10_endNac = rec.id if has_address else False
+            rec.nfse10_endExt = False
 
     def _nfse10_is_abroad(self):
         return bool(self.country_id) and self.country_id.code != "BR"
@@ -106,7 +163,7 @@ class ResPartner(spec_models.SpecModel):
             rec.nfse10_NIF = rec.vat if rec._nfse10_is_abroad() else False
 
     def _export_many2one(self, field_name, xsd_required, class_obj=None):
-        if field_name in ("nfse10_end", "nfse10_endNac"):
+        if field_name in ("nfse10_end", "nfse10_endNac", "nfse10_endExt"):
             # Extract flattened address fields from self when exporting <end>
             return self._build_binding(
                 class_name=class_obj._fields[field_name].comodel_name,
