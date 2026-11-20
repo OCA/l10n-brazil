@@ -94,20 +94,35 @@ class AccountMove(models.Model):
         self.load_cnab_info()
         return result
 
-    def load_cnab_info(self):
+    def _is_cnab_inbound(self):
+        self.ensure_one()
+        payment_mode = self.payment_mode_id
         # Se não possui Modo de Pagto não há nada a ser feito
-        if not self.payment_mode_id:
-            return
+        if not payment_mode:
+            return False
         # Se o Modo de Pagto é de saída (pgto fornecedor) não há nada a ser feito.
-        if self.payment_mode_id.payment_type == "outbound":
-            return
+        if payment_mode.payment_type == "outbound":
+            return False
         # Se não gera Ordem de Pagto não há nada a ser feito
-        if not self.payment_mode_id.payment_order_ok:
-            return
+        if not payment_mode.payment_order_ok:
+            return False
         # Podem existir Modo de Pagto q geram Ordens mas não são CNAB
         # por isso nesse caso tbm nada a ser feito
-        if self.payment_mode_id.payment_method_code not in BR_CODES_PAYMENT_ORDER:
-            return
+        return payment_mode.payment_method_code in BR_CODES_PAYMENT_ORDER
+
+    def load_cnab_info(self):
+        cnab_moves = self.filtered(lambda move: move._is_cnab_inbound())
+        for move in cnab_moves:
+            move._load_cnab_info_due_lines()
+        filtered_invoice_ids = cnab_moves.filtered(
+            lambda s: s.payment_mode_id.auto_create_payment_order
+        )
+        if filtered_invoice_ids:
+            # Criação das Linha na Ordem de Pagamento
+            filtered_invoice_ids.create_account_payment_line()
+
+    def _load_cnab_info_due_lines(self):
+        self.ensure_one()
         for index, interval in enumerate(self.due_line_ids):
             inv_number = self.get_invoice_fiscal_number().split("/")[-1]
             numero_documento = inv_number + "/" + str(index + 1).zfill(2)
@@ -126,14 +141,6 @@ class AccountMove(models.Model):
             # Codigo de Instrução do Movimento pode variar,
             # mesmo no CNAB 240
             interval.instruction_move_code_id = cnab_config.sending_code_id
-        filtered_invoice_ids = self.filtered(
-            lambda s: (
-                s.payment_mode_id and s.payment_mode_id.auto_create_payment_order
-            )
-        )
-        if filtered_invoice_ids:
-            # Criação das Linha na Ordem de Pagamento
-            filtered_invoice_ids.create_account_payment_line()
 
     def unlink(self):
         # Verificar se é necessário solicitar a Baixa no caso de CNAB

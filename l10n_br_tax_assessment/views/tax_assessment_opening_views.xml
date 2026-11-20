@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html). -->
+<odoo>
+    <record id="view_tax_assessment_opening_tree" model="ir.ui.view">
+        <field name="name">l10n_br_tax.assessment.opening.tree</field>
+        <field name="model">l10n_br_tax.assessment.opening</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="company_id" groups="base.group_multi_company" />
+                <field name="tax_group_id" />
+                <field name="amount" />
+                <field name="informed_by" />
+                <field name="informed_on" />
+                <field name="currency_id" invisible="1" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_tax_assessment_opening_form" model="ir.ui.view">
+        <field name="name">l10n_br_tax.assessment.opening.form</field>
+        <field name="model">l10n_br_tax.assessment.opening</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="alert alert-info" role="alert">
+                        Informe o saldo credor de ICMS ou de IPI que a empresa já
+                        tinha antes do início da apuração pelo sistema: é o saldo do
+                        fim do mês anterior ao início, o campo 10 do E110 (ou o
+                        saldo credor anterior do E520) da primeira apuração. Quem
+                        informou fica registrado. O sistema não faz lançamento
+                        contábil: o saldo de impostos a recuperar deve estar no
+                        balanço de abertura.
+                    </div>
+                    <group>
+                        <field name="company_id" groups="base.group_multi_company" />
+                        <field name="tax_group_id" />
+                        <field name="currency_id" invisible="1" />
+                        <field name="amount" />
+                        <field name="informed_by" />
+                        <field name="informed_on" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_tax_assessment_opening" model="ir.actions.act_window">
+        <field name="name">Saldo credor inicial da apuração</field>
+        <field name="res_model">l10n_br_tax.assessment.opening</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem
+        id="menu_tax_assessment_opening"
+        name="Saldo credor inicial (ICMS e IPI)"
+        parent="account.menu_finance_entries_actions"
+        action="action_tax_assessment_opening"
+        groups="account.group_account_manager"
+        sequence="94"
+    />
+</odoo>

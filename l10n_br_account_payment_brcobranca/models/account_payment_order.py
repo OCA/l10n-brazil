@@ -210,9 +210,27 @@ class PaymentOrder(models.Model):
             # https://github.com/kivanio/brcobranca/tree/master/spec/fixtures/remessa
             remessa = res.content
         else:
-            raise ValidationError(res.text)
+            raise ValidationError(self._get_brcobranca_error_message(res))
 
         return remessa
+
+    def _get_brcobranca_error_message(self, response):
+        """Mensagem de erro do BRCobranca que deve ser mostrada ao usuário.
+
+        A API responde as recusas de payload em JSON, com o texto para o
+        usuário na chave `erro` e as chaves recusadas em
+        `campos_desconhecidos`; as demais falhas (a validação do próprio
+        BRCobranca, por exemplo) voltam em texto, e é o texto que vale. Por
+        isso o JSON é tentado primeiro e o corpo original é o fallback.
+        """
+        try:
+            error_body = response.json()
+        except ValueError:
+            # Corpo que não é JSON: a mensagem é o próprio texto do BRCobranca
+            return response.text
+        if isinstance(error_body, dict) and error_body.get("erro"):
+            return error_body["erro"]
+        return response.text
 
     def generated2uploaded(self):
         result = super().generated2uploaded()

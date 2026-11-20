@@ -6,13 +6,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"Last-Translator: \n"
+"PO-Revision-Date: 2026-10-19 07:09+0000\n"
+"Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: \n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 5.15.2\n"
 
 #. module: l10n_br_fiscal_dfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.dfe_document_banner
@@ -263,6 +265,11 @@ msgid "Created on"
 msgstr "Criado em"
 
 #. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_document__currency_id
+msgid "Currency"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
 #: model:ir.model,name:l10n_br_fiscal_dfe.model_l10n_br_fiscal_dfe_dfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.dfe_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.dfe_res_company_form
@@ -396,8 +403,8 @@ msgid ""
 "Document situation code as received from the distribution service (semantics "
 "depend on the fiscal document type)."
 msgstr ""
-"Código de situação do documento conforme recebido do serviço de "
-"distribuição (o significado depende do tipo de documento fiscal)."
+"Código de situação do documento conforme recebido do serviço de distribuição "
+"(o significado depende do tipo de documento fiscal)."
 
 #. module: l10n_br_fiscal_dfe
 #: model:ir.actions.server,name:l10n_br_fiscal_dfe.action_server_download_xmls_zip
@@ -464,6 +471,11 @@ msgid "Event Type"
 msgstr "Tipo de Evento"
 
 #. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_document__fiscal_document_id
+msgid "Fiscal Document"
+msgstr "Documento Fiscal"
+
+#. module: l10n_br_fiscal_dfe
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_dfe_specific_search_wizard__fiscal_type
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_dfe__fiscal_type
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_distribution_log__fiscal_type
@@ -471,6 +483,11 @@ msgstr "Tipo de Evento"
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.l10n_br_fiscal_dfe_document_search
 msgid "Fiscal Type"
 msgstr "Tipo Fiscal"
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,help:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_document__fiscal_document_id
+msgid "Fiscal document already imported with this access key."
+msgstr ""
 
 #. module: l10n_br_fiscal_dfe
 #: model:ir.model,name:l10n_br_fiscal_dfe.model_l10n_br_fiscal_dfe_document
@@ -637,6 +654,13 @@ msgstr "Tipo de Operação"
 
 #. module: l10n_br_fiscal_dfe
 #. odoo-python
+#: code:addons/l10n_br_fiscal_dfe/models/dfe_document.py:0
+#, python-format
+msgid "Operation not supported"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#. odoo-python
 #: code:addons/l10n_br_fiscal_dfe/models/dfe.py:0
 #, python-format
 msgid "Other (%(code)s)"
@@ -678,8 +702,8 @@ msgid ""
 "Receive Inbox notifications when the DF-e distribution finds new third-party "
 "documents."
 msgstr ""
-"Recebe notificações na Caixa de Entrada quando a distribuição DF-e "
-"encontra novos documentos de terceiros."
+"Recebe notificações na Caixa de Entrada quando a distribuição DF-e encontra "
+"novos documentos de terceiros."
 
 #. module: l10n_br_fiscal_dfe
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_distribution_log__request_xml
@@ -775,6 +799,7 @@ msgid "Specific search triggered successfully"
 msgstr "Pesquisa específica acionada com sucesso"
 
 #. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_document__document_state_label
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.l10n_br_fiscal_dfe_document_tree
 msgid "State"
 msgstr "Estado"
@@ -809,6 +834,11 @@ msgstr "Documentos DF-e de Terceiros"
 #: model:ir.ui.menu,name:l10n_br_fiscal_dfe.dfe_document_menu
 msgid "Third-party Documents"
 msgstr "Documentos de Terceiros"
+
+#. module: l10n_br_fiscal_dfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.l10n_br_fiscal_dfe_document_search
+msgid "To import"
+msgstr ""
 
 #. module: l10n_br_fiscal_dfe
 #: model:ir.model.fields,help:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_document__is_own_document
@@ -957,9 +987,6 @@ msgstr "XML Formatado"
 
 #~ msgid "Evento da NF-e"
 #~ msgstr "Evento da NF-e"
-
-#~ msgid "Fiscal Document"
-#~ msgstr "Documento Fiscal"
 
 #~ msgid "Homologação"
 #~ msgstr "Homologação"

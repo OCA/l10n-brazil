@@ -99,6 +99,75 @@
                                 <field name="comment_ids" widget="many2many_tags" />
                             </group>
                         </page>
+                        <page name="help" string="Help">
+                            <div class="alert alert-info" role="alert">
+                                <strong>You do not choose the line, the system
+                                does.</strong> Each operation has one or more lines,
+                                and when the document is issued the system picks by
+                                itself the one that best matches the situation.
+                            </div>
+                            <h4>What the system looks at to pick the line</h4>
+                            <table class="table table-sm" style="max-width:720px;">
+                                <tr>
+                                    <td style="width:40%;"><strong>The tax framework of
+                                    your company</strong></td>
+                                    <td>Simples Nacional or normal regime (Presumed
+                                    or Real Profit)?</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Who receives</strong></td>
+                                    <td>is it an ICMS taxpayer, an exempt taxpayer or a
+                                    non-taxpayer? And what is its own tax
+                                    framework?</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>The product</strong></td>
+                                    <td>is it goods for resale, raw material, material
+                                    for use and consumption, a fixed asset or a
+                                    service? Is it domestic or imported?</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Tax substitution</strong></td>
+                                    <td>if the operation has a dedicated line for ICMS
+                                    ST, it is used when the product has ST for the
+                                    destination state.</td>
+                                </tr>
+                            </table>
+                            <p>The line is only used if it is
+                            <strong>approved</strong> and within its validity period
+                            (start and end dates of the line). When more than one
+                            line fits, <strong>the most specific one wins</strong>,
+                            that is, the one with the most conditions filled in.</p>
+                            <h4>Where the goods are going</h4>
+                            <p>The line has three CFOPs: one for inside the state,
+                            one for another state and one for abroad. The system
+                            uses the one that matches the address of the
+                            recipient.</p>
+                            <h4>Lines by tax framework</h4>
+                            <p>A line can be marked to apply only to one company tax
+                            framework (the tax framework field of the company, at
+                            the top of the line). For an operation to serve
+                            companies of different frameworks, create one line for
+                            each framework, each with its own taxes. When the
+                            operation has lines like this, the system uses the one
+                            for the framework of <strong>your company</strong>: the
+                            Simples Nacional one issues with the Simples own codes
+                            (CSOSN) and the normal regime one with the normal
+                            regime codes (CST). <strong>Do not delete these
+                            lines</strong>: if the company changes framework, the
+                            system starts using the other line by itself, with no
+                            reconfiguration.</p>
+                            <h4>Tax definitions of the line</h4>
+                            <p>The tax definitions tab holds
+                            <strong>exceptions</strong>: taxes that, on this line,
+                            differ from the default (e.g. a shipment that does not
+                            pay PIS/COFINS because it is not a sale). If it is
+                            empty, the other layers apply: the default taxes of the
+                            company, the NCM and the ICMS regulation (in normal
+                            regime companies), the CFOP rules and those of the fiscal
+                            profile of the partner. For ordinary sales and
+                            purchases, this is enough.</p>
+                        </page>
                     </notebook>
                 </sheet>
                 <div class="oe_chatter">

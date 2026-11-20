@@ -2,8 +2,9 @@
 # Copyright 2025 - TODAY Akretion - Raphael Valyi <raphael.valyi@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
+import importlib.resources
+
 import nfelib
-import pkg_resources
 from nfelib.mdfe.bindings.v3_0.mdfe_v3_00 import Tmdfe
 
 from odoo.models import NewId
@@ -19,9 +20,12 @@ class MDFeImportTest(TransactionCase):
             "50170876063965000276580010000011311421039568-mdfe.xml",
         )
 
-        resource_path = "/".join(res_items)
-        mdfe_stream = pkg_resources.resource_stream(nfelib.__name__, resource_path)
-        binding = Tmdfe.from_xml(mdfe_stream.read().decode())
+        binding = Tmdfe.from_xml(
+            importlib.resources.files(nfelib.__name__)
+            .joinpath(*res_items)
+            .read_bytes()
+            .decode()
+        )
         mdfe = self.env["l10n_br_fiscal.document"].import_binding_mdfe(
             binding, edoc_type="in", dry_run=True
         )
@@ -35,9 +39,12 @@ class MDFeImportTest(TransactionCase):
             "v3_0",
             "50170876063965000276580010000011311421039568-mdfe.xml",
         )
-        resource_path = "/".join(res_items)
-        mdfe_stream = pkg_resources.resource_stream(nfelib.__name__, resource_path)
-        binding = Tmdfe.from_xml(mdfe_stream.read().decode())
+        binding = Tmdfe.from_xml(
+            importlib.resources.files(nfelib.__name__)
+            .joinpath(*res_items)
+            .read_bytes()
+            .decode()
+        )
         for item in binding.infMDFe.infDoc.infMunDescarga:
             # complete sample data to avoid empty state_id error:
             item.cMunDescarga = "1200013"

@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template
+        id="report_repair_order"
+        inherit_id="repair.report_repairorder"
+        priority="100"
+    >
+
+        <xpath
+            expr="//table[hasclass('table', 'table-sm', 'o_main_table')]//tbody//t[1]/tr[1]"
+            position="replace"
+        >
+            <tr class="bg-200 o_line_section"><td colspan="6"><strong
+                    >Parts</strong></td></tr>
+        </xpath>
+
+        <xpath
+            expr="//table[hasclass('table', 'table-sm', 'o_main_table')]//tbody//t[2]/tr[1]"
+            position="replace"
+        >
+            <tr class="bg-200 o_line_section"><td colspan="6"><strong
+                    >Operations</strong></td></tr>
+        </xpath>
+
+        <xpath
+            expr="//table[hasclass('table', 'table-sm', 'o_main_table')]//tbody//t[1]/td[hasclass('text-center')]"
+            position="replace"
+        >
+            <td
+                t-if="o.company_id.country_id.code == 'BR'"
+                name="td_taxes"
+                class="text-end"
+            >
+                <t t-call="l10n_br_fiscal.report_line_fiscal_taxes">
+                    <t t-set="line" t-value="line" />
+                </t>
+            </td>
+            <!-- Orders of companies from other countries keep the standard taxes -->
+            <td
+                t-if="o.company_id.country_id.code != 'BR'"
+                name="td_taxes"
+                class="text-end"
+            >
+                <span
+                    t-esc="', '.join(map(lambda x: (x.description or x.name), line.tax_id))"
+                />
+            </td>
+        </xpath>
+
+        <xpath
+            expr="//table[hasclass('table', 'table-sm', 'o_main_table')]//tbody//t[2]//td[hasclass('text-center')]"
+            position="replace"
+        >
+            <td
+                t-if="o.company_id.country_id.code == 'BR'"
+                name="td_taxes"
+                class="text-end"
+            >
+                <t t-call="l10n_br_fiscal.report_line_fiscal_taxes">
+                    <t t-set="line" t-value="fees" />
+                </t>
+            </td>
+            <!-- Orders of companies from other countries keep the standard taxes -->
+            <td
+                t-if="o.company_id.country_id.code != 'BR'"
+                name="td_taxes"
+                class="text-end"
+            >
+                <span
+                    t-esc="', '.join(map(lambda x: (x.description or x.name), fees.tax_id))"
+                />
+            </td>
+        </xpath>
+
+        <!-- Addresses: the tax ID is left out when it repeats the one of the
+             customer fiscal data -->
+        <xpath expr="//div[@t-field='o.partner_invoice_id']" position="attributes">
+            <attribute
+                name="t-if"
+            >not (o.company_id._get_report_option('report_partner_fiscal_data') and o.partner_invoice_id.vat == o.partner_id.vat)</attribute>
+        </xpath>
+        <xpath expr="//div[@t-field='o.partner_invoice_id']" position="after">
+            <div
+                t-else=""
+                t-field="o.partner_invoice_id"
+                t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}'
+            />
+        </xpath>
+        <xpath expr="//div[@t-field='o.address_id']" position="attributes">
+            <attribute
+                name="t-if"
+            >not (o.company_id._get_report_option('report_partner_fiscal_data') and o.address_id.vat == o.partner_id.vat)</attribute>
+        </xpath>
+        <xpath expr="//div[@t-field='o.address_id']" position="after">
+            <div
+                t-else=""
+                t-field="o.address_id"
+                t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}'
+            />
+        </xpath>
+
+        <!-- Fiscal data of the customer, the operation and the lines -->
+        <xpath
+            expr="//t[@t-set='address']/div[@t-field='o.partner_id']"
+            position="after"
+        >
+            <t t-if="o.company_id._get_report_option('report_partner_fiscal_data')">
+                <t t-call="l10n_br_fiscal.report_partner_fiscal_data">
+                    <t t-set="partner" t-value="o.partner_id" />
+                </t>
+            </t>
+        </xpath>
+        <xpath expr="//div[@id='informations']" position="inside">
+            <t t-call="l10n_br_fiscal.report_fiscal_operation">
+                <t t-set="doc" t-value="o" />
+                <t t-set="col_class" t-value="'col-3 bm-2'" />
+            </t>
+        </xpath>
+        <xpath
+            expr="//p[@t-if=&quot;line.type == 'add'&quot;]/span[@t-field='line.name']"
+            position="before"
+        >
+            <t t-call="l10n_br_fiscal.report_line_product_code" />
+        </xpath>
+        <xpath expr="//tbody//t[1]/tr[2]/td[1]" position="inside">
+            <t
+                t-if="line.type == 'add'"
+                t-call="l10n_br_fiscal.report_line_fiscal_details"
+            />
+        </xpath>
+        <xpath expr="//span[@t-field='fees.name']" position="before">
+            <t t-call="l10n_br_fiscal.report_line_product_code">
+                <t t-set="line" t-value="fees" />
+            </t>
+        </xpath>
+        <xpath expr="//span[@t-field='fees.name']" position="after">
+            <t t-call="l10n_br_fiscal.report_line_fiscal_details">
+                <t t-set="line" t-value="fees" />
+            </t>
+        </xpath>
+
+        <!-- Inclusão de outros Totais usados no Brasil -->
+        <xpath
+            expr="//div[@id='total']/div/table/t/tr[hasclass('border-black', 'o_subtotal')]"
+            position="replace"
+        >
+            <!-- Replace foi necessário para colocar os Totais na ordem desejada. -->
+                <tr
+                t-if="doc.amount_price_gross != doc.amount_untaxed and not fiscal_totals"
+                class="border-black o_subtotal"
+                style=""
+            >
+                    <td name="td_amount_price_gross_label"><strong
+                    >Amount Gross</strong></td>
+                    <td name="td_amount_price_gross" class="text-end">
+                        <span
+                        t-field="doc.amount_price_gross"
+                        t-options='{"widget": "monetary", "display_currency": o.pricelist_id.currency_id}'
+                    />
+                    </td>
+                </tr>
+
+                <tr t-if="not fiscal_totals" style="">
+                    <td name="td_amount_untaxed_label"><strong
+                    >Amount Untaxed</strong></td>
+                    <td name="td_amount_untaxed" class="text-end">
+                        <span
+                        t-field="doc.amount_untaxed"
+                        t-options='{"widget": "monetary", "display_currency": o.pricelist_id.currency_id}'
+                    />
+                    </td>
+                </tr>
+
+                <tr t-if="doc.amount_freight_value and not fiscal_totals" style="">
+                    <td name="td_amount_freight_label"><strong>Freight</strong></td>
+                    <td name="td_amount_freight_value" class="text-end">
+                        <span
+                        t-field="doc.amount_freight_value"
+                        t-options='{"widget": "monetary", "display_currency": o.pricelist_id.currency_id}'
+                    />
+                    </td>
+                </tr>
+
+                <tr t-if="doc.amount_insurance_value and not fiscal_totals" style="">
+                    <td name="td_amount_insurance_label"><strong>Insurance</strong></td>
+                    <td name="td_amount_insurance_value" class="text-end">
+                        <span
+                        t-field="doc.amount_insurance_value"
+                        t-options='{"widget": "monetary", "display_currency": o.pricelist_id.currency_id}'
+                    />
+                    </td>
+                </tr>
+
+                <tr t-if="doc.amount_other_value and not fiscal_totals" style="">
+                    <td name="td_amount_costs_label"><strong>Other Costs</strong></td>
+                    <td name="td_amount_other_value" class="text-end">
+                        <span
+                        t-field="doc.amount_other_value"
+                        t-options='{"widget": "monetary", "display_currency": o.pricelist_id.currency_id}'
+                    />
+                    </td>
+                </tr>
+
+        </xpath>
+
+        <!-- Fiscal summary, closing on the total of the document -->
+        <xpath expr="//div[@id='total']/div/table" position="before">
+            <t
+                t-set="fiscal_totals"
+                t-value="o.invoice_method != 'none' and o._get_report_fiscal_totals()"
+            />
+        </xpath>
+        <xpath
+            expr="//div[@id='total']/div/table/t/tr[td/span[@t-field='o.amount_tax']]"
+            position="attributes"
+        >
+            <attribute name="t-if">not fiscal_totals</attribute>
+        </xpath>
+        <xpath
+            expr="//div[@id='total']/div/table/t/tr[hasclass('o_total')]"
+            position="attributes"
+        >
+            <attribute name="t-if">not fiscal_totals</attribute>
+        </xpath>
+        <xpath expr="//div[@id='total']/div/table/t" position="inside">
+            <t t-if="fiscal_totals" t-call="l10n_br_fiscal.report_fiscal_totals">
+                <t t-set="currency" t-value="o.pricelist_id.currency_id" />
+            </t>
+        </xpath>
+
+    </template>
+</odoo>

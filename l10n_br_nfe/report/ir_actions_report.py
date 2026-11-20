@@ -36,6 +36,8 @@ class IrActionsReport(models.Model):
             nfe_xml = base64.b64decode(nfe.authorization_file_id.datas)
         elif nfe.send_file_id:
             nfe_xml = base64.b64decode(nfe.send_file_id.datas)
+        elif nfe.original_xml_file_id:
+            nfe_xml = base64.b64decode(nfe.original_xml_file_id.datas)
 
         if not nfe_xml:
             raise UserError(_("No xml file was found."))
@@ -46,8 +48,6 @@ class IrActionsReport(models.Model):
         logo = False
         if nfe.issuer == "company" and nfe.company_id.logo:
             logo = base64.b64decode(nfe.company_id.logo)
-        elif nfe.issuer != "company" and nfe.company_id.logo_web:
-            logo = base64.b64decode(nfe.company_id.logo_web)
 
         if logo:
             tmpLogo = BytesIO()

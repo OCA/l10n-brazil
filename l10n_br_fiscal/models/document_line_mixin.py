@@ -6,7 +6,7 @@ from copy import deepcopy
 from lxml import etree
 from lxml.builder import E
 
-from odoo import Command, api, fields, models
+from odoo import Command, _, api, fields, models
 
 from ..constants.fiscal import (
     CFOP_DESTINATION_EXPORT,
@@ -40,8 +40,9 @@ from ..constants.fiscal import (
     TAX_DOMAIN_PIS,
     TAX_DOMAIN_PIS_ST,
     TAX_DOMAIN_PIS_WH,
-    TAX_FRAMEWORK_SIMPLES_ALL,
     TAX_ICMS_OR_ISSQN,
+    TAX_VALUE_FIELD_NAMES,
+    TAX_VALUE_FIELDS,
 )
 from ..constants.icms import (
     ICMS_BASE_TYPE,
@@ -80,27 +81,52 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     """
 
     _name = "l10n_br_fiscal.document.line.mixin"
+    _inherit = "l10n_br_fiscal.tax.creditability.mixin"
     _description = "Document Fiscal Mixin"
-
-    @api.model
-    def _default_icmssn_range_id(self):
-        company = self.env.company
-        stax_range_id = self.env["l10n_br_fiscal.simplified.tax.range"]
-
-        if self.env.context.get("default_company_id"):
-            company = self.env["res.company"].browse(
-                self.env.context.get("default_company_id")
-            )
-
-        if company.tax_framework in TAX_FRAMEWORK_SIMPLES_ALL:
-            stax_range_id = company.simplified_tax_range_id
-
-        return stax_range_id
 
     @api.model
     def _operation_domain(self):
         domain = [("state", "=", "approved")]
         return domain
+
+    @api.model
+    def _fiscal_view_compute_methods(self):
+        """Compute methods whose (stored) fields must be kept available in the
+        business-document line views (invisible), so the fiscal onchange
+        protocol can round-trip them. Formalizes the implicit triad used by
+        ``inject_fiscal_fields``. A submodule adding a fiscal compute to the
+        line can extend it::
+
+            @api.model
+            def _fiscal_view_compute_methods(self):
+                return super()._fiscal_view_compute_methods() + [
+                    "_compute_my_tax_fields",
+                ]
+        """
+        return [
+            "_compute_tax_fields",
+            "_compute_fiscal_tax_ids",
+            "_compute_tax_classification_id",
+            "_compute_product_fiscal_fields",
+        ]
+
+    @api.model
+    def _fiscal_view_pruned_fields(self):
+        """Stored fiscal computes that no business-document line view reads,
+        displays, edits or references in a modifier/domain (C4 census "dead"):
+        they are *not* injected into the invisible onchange collection. They
+        keep being recomputed server-side on write, so dropping them from the
+        view is value-preserving. Override to force one back in::
+
+            @api.model
+            def _fiscal_view_pruned_fields(self):
+                return super()._fiscal_view_pruned_fields() - {"ii_percent"}
+        """
+        return {
+            "ii_percent",
+            "cofins_wh_base_type",
+            "pis_wh_base_type",
+        }
 
     @api.model
     def inject_fiscal_fields(
@@ -115,20 +141,15 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         """
 
         # the list of computed fields we will add to the view when missing
-        missing_line_fields = set(
-            [
-                fname
-                for fname, _field in filter(
-                    lambda item: item[1].compute
-                    in (
-                        "_compute_tax_fields",
-                        "_compute_fiscal_tax_ids",
-                        "_compute_product_fiscal_fields",
-                    ),
-                    self.env["l10n_br_fiscal.document.line.mixin"]._fields.items(),
-                )
-            ]
-        )
+        compute_methods = tuple(self._fiscal_view_compute_methods())
+        pruned_fields = self._fiscal_view_pruned_fields()
+        missing_line_fields = {
+            fname
+            for fname, _field in self.env[
+                "l10n_br_fiscal.document.line.mixin"
+            ]._fields.items()
+            if _field.compute in compute_methods and fname not in pruned_fields
+        }
 
         fiscal_view = self.env.ref(
             "l10n_br_fiscal.document_fiscal_line_mixin_form"
@@ -180,6 +201,9 @@ class FiscalDocumentLineMixin(models.AbstractModel):
                     for fiscal_node in fiscal_nodes:
                         if fiscal_node.attrib["name"] in missing_line_fields:
                             missing_line_fields.remove(fiscal_node.attrib["name"])
+                        if fiscal_node.attrib["name"] in pruned_fields:
+                            # dead fiscal computes never belong in the views
+                            continue
                         if fiscal_node.attrib["name"] in existing_fields:
                             continue
                         field = deepcopy(fiscal_node)
@@ -303,6 +327,16 @@ class FiscalDocumentLineMixin(models.AbstractModel):
                     )
                 )
 
+    @api.depends("fiscal_operation_line_id")
+    def _compute_tax_classification_id(self):
+        for line in self:
+            if line.fiscal_operation_line_id:
+                line.tax_classification_id = (
+                    line.fiscal_operation_line_id._get_tax_classification(
+                        line.company_id
+                    )
+                )
+
     @api.depends(
         "partner_id",
         "fiscal_operation_line_id",
@@ -315,35 +349,41 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         "national_taxation_code_id",
         "service_type_id",
         "ind_final",
+        "tax_classification_id",
     )
     def _compute_fiscal_tax_ids(self):
         for line in self:
             if line.fiscal_operation_line_id:
-                mapping_result = line.fiscal_operation_line_id.map_fiscal_taxes(
-                    company=line.company_id,
-                    partner=line._get_fiscal_partner(),
-                    product=line.product_id,
-                    ncm=line.ncm_id,
-                    nbm=line.nbm_id,
-                    nbs=line.nbs_id,
-                    cest=line.cest_id,
-                    city_taxation_code=line.city_taxation_code_id,
-                    national_taxation_code=line.national_taxation_code_id,
-                    service_type=line.service_type_id,
-                    ind_final=line.ind_final,
-                )
+                mapping_result = line._map_fiscal_taxes_of_line()
                 line.cfop_id = mapping_result["cfop"]
                 line.ipi_guideline_id = mapping_result["ipi_guideline"]
-                line.tax_classification_id = mapping_result["tax_classification"]
                 line.icms_tax_benefit_id = mapping_result["icms_tax_benefit_id"]
 
                 if line._is_imported():
+                    line._apply_entry_cfop_safeguard()
                     continue
 
                 taxes = line.env["l10n_br_fiscal.tax"]
                 for tax in mapping_result["taxes"].values():
                     taxes |= tax
                 line.fiscal_tax_ids = taxes
+
+    def _map_fiscal_taxes_of_line(self):
+        self.ensure_one()
+        return self.fiscal_operation_line_id.map_fiscal_taxes(
+            company=self.company_id,
+            partner=self._get_fiscal_partner(),
+            product=self.product_id,
+            ncm=self.ncm_id,
+            nbm=self.nbm_id,
+            nbs=self.nbs_id,
+            cest=self.cest_id,
+            city_taxation_code=self.city_taxation_code_id,
+            national_taxation_code=self.national_taxation_code_id,
+            service_type=self.service_type_id,
+            ind_final=self.ind_final,
+            tax_classification=self.tax_classification_id,
+        )
 
     @api.depends("fiscal_operation_line_id")
     def _compute_comment_ids(self):
@@ -377,6 +417,12 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         if tax_fields_in_vals:
             # Por segurança, sempre recalcula se um campo relevante mudou.
             self._update_fiscal_tax_ids()
+
+        imported = self.filtered(lambda line: line._is_imported())
+        if imported and TAX_VALUE_FIELD_NAMES.intersection(vals):
+            tax_groups = imported._tax_groups_by_domain()
+            for line in imported:
+                line._update_imported_tax_amounts(tax_groups)
 
         return res
 
@@ -422,18 +468,24 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         "cest_id",
         "fiscal_operation_line_id",
         "cfop_id",
-        "icmssn_range_id",
         "icms_origin",
         "icms_cst_id",
         "ind_final",
         "icms_relief_id",
+        "tax_classification_id",
     )
     def _compute_tax_fields(self):
         """
         Compute base, percent, value... tax fields for ICMS, IPI, PIS, COFINS... taxes.
         """
         null_mask = None
-        for line in self.filtered(lambda line: not line._is_imported()):
+        tax_groups = None
+        for line in self:
+            if line._is_imported():
+                if tax_groups is None:
+                    tax_groups = line._tax_groups_by_domain()
+                line._update_imported_tax_amounts(tax_groups)
+                continue
             if null_mask is None:
                 null_mask = self._build_null_mask_dict()
             to_update = null_mask.copy()
@@ -476,7 +528,6 @@ class FiscalDocumentLineMixin(models.AbstractModel):
                     cest=line.cest_id,
                     operation_line=line.fiscal_operation_line_id,
                     cfop=line.cfop_id,
-                    icmssn_range=line.icmssn_range_id,
                     icms_origin=line.icms_origin,
                     icms_cst_id=line.icms_cst_id,
                     ind_final=line.ind_final,
@@ -502,6 +553,38 @@ class FiscalDocumentLineMixin(models.AbstractModel):
                 line.update(to_update)
             else:
                 line.write(to_update)
+
+    def _tax_groups_by_domain(self):
+        groups = self.env["l10n_br_fiscal.tax.group"].search([])
+        return {group.tax_domain: group for group in groups}
+
+    def _update_imported_tax_amounts(self, tax_groups):
+        self.ensure_one()
+        empty_group = self.env["l10n_br_fiscal.tax.group"]
+        amount_included = amount_not_included = amount_withholding = 0.0
+        for tax_field in FISCAL_TAX_ID_FIELDS:
+            tax_domain = tax_field[: -len("_tax_id")]
+            tax_value = self[TAX_VALUE_FIELDS[tax_domain]]
+            if not tax_value:
+                continue
+            tax_group = self[tax_field].tax_group_id or tax_groups.get(
+                tax_domain, empty_group
+            )
+            if tax_group.tax_withholding:
+                amount_withholding += tax_value
+            elif tax_group.tax_include:
+                amount_included += tax_value
+            else:
+                amount_not_included += tax_value
+        to_update = {
+            "amount_tax_included": amount_included,
+            "amount_tax_not_included": amount_not_included,
+            "amount_tax_withholding": amount_withholding,
+        }
+        if self != self._origin:
+            self.update(to_update)
+        else:
+            self.write(to_update)
 
     def _prepare_tax_fields(self, compute_result):
         self.ensure_one()
@@ -729,16 +812,13 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         cst_id = tax_dict.get("cst_id").id if tax_dict.get("cst_id") else False
         icmssn_base = tax_dict.get("base", 0.0)
         icmssn_credit_value = tax_dict.get("tax_value", 0.0)
-        simple_value = icmssn_base * self.icmssn_range_id.total_tax_percent
-        simple_without_icms_value = simple_value - icmssn_credit_value
         return {
             "icms_cst_id": cst_id,
             "icmssn_base": icmssn_base,
             "icmssn_percent": tax_dict.get("percent_amount"),
             "icmssn_reduction": tax_dict.get("percent_reduction"),
             "icmssn_credit_value": icmssn_credit_value,
-            "simple_value": simple_value,
-            "simple_without_icms_value": simple_without_icms_value,
+            "icmssn_range_id": tax_dict.get("icmssn_range_id", False),
         }
 
     def _prepare_fields_icmsst(self, tax_dict):
@@ -790,9 +870,20 @@ class FiscalDocumentLineMixin(models.AbstractModel):
             "ii_value": tax_dict.get("tax_value", 0.00),
         }
 
+    def _get_ibscbs_cst_id(self, tax_dict, tax_domain):
+        """CST of IBS/CBS: derived from the cClassTrib, the tax CST is only
+        the fallback (a classification can point to a tax of another CST)."""
+        self.ensure_one()
+        cst = False
+        if self.tax_classification_id:
+            cst = self.tax_classification_id._get_cst(tax_domain)
+        if not cst:
+            cst = tax_dict.get("cst_id")
+        return cst.id if cst else False
+
     def _prepare_fields_cbs(self, tax_dict):
         self.ensure_one()
-        cst_id = tax_dict.get("cst_id").id if tax_dict.get("cst_id") else False
+        cst_id = self._get_ibscbs_cst_id(tax_dict, TAX_DOMAIN_CBS)
         return {
             "cbs_cst_id": cst_id,
             "cbs_base_type": tax_dict.get("base_type", False),
@@ -804,7 +895,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
 
     def _prepare_fields_ibs(self, tax_dict):
         self.ensure_one()
-        cst_id = tax_dict.get("cst_id").id if tax_dict.get("cst_id") else False
+        cst_id = self._get_ibscbs_cst_id(tax_dict, TAX_DOMAIN_IBS)
         return {
             "ibs_cst_id": cst_id,
             "ibs_base_type": tax_dict.get("base_type", False),
@@ -926,11 +1017,50 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     def _rm_fields_to_amount(self):
         return ["icms_relief_value"]
 
+    def _get_report_product_code(self):
+        """Product reference printed before the description, as the product
+        display name does, unless the description already starts with it."""
+        self.ensure_one()
+        code = self.product_id.default_code
+        if code and not (self.name or "").startswith(f"[{code}]"):
+            return f"[{code}] "
+        return ""
+
+    def _get_report_fiscal_details(self):
+        """Fiscal classification printed below the line description."""
+        self.ensure_one()
+        company = self.company_id
+        details = []
+        if company.report_line_classification:
+            if self.service_type_id:
+                details.append(_("Service %s") % self.service_type_id.code)
+                if self.nbs_id:
+                    details.append(f"NBS {self.nbs_id.code}")
+            elif self.ncm_id and (self.ncm_id.code_unmasked or "").strip("0"):
+                details.append(f"NCM {self.ncm_id.code}")
+        if company.report_line_cfop and self.cfop_id:
+            details.append(f"CFOP {self.cfop_id.code}")
+        if company.report_line_operation_line and self.fiscal_operation_line_id:
+            details.append(self.fiscal_operation_line_id.name)
+        return " | ".join(details)
+
     def _is_imported(self):
         # When the mixin is used for instance
         # in a PO line or SO line, there is no document_id
         # and we consider the document is not imported
         return hasattr(self, "document_id") and self.document_id.imported_document
+
+    def _apply_entry_cfop_safeguard(self):
+        """An imported entry line never keeps an empty or outgoing CFOP: it
+        takes the inverse of the CFOP declared by the supplier."""
+        self.ensure_one()
+        if self.fiscal_operation_type != FISCAL_IN:
+            return
+        if self.cfop_id and self.cfop_id.code[:1] not in ("5", "6", "7"):
+            return
+        inverse = self.partner_cfop_id.cfop_inverse_id
+        if inverse:
+            self.cfop_id = inverse
 
     currency_id = fields.Many2one(
         comodel_name="res.currency",
@@ -1096,6 +1226,14 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         help="CFOP as declared by the counterparty in the imported document. "
         "It is preserved as-is for fiscal bookkeeping / SPED (e.g. C197), "
         "while cfop_id reflects the company's own operation after the de-para.",
+    )
+
+    partner_icms_tax_benefit_code = fields.Char(
+        string="Supplier Fiscal Benefit Code (cBenef)",
+        help="Fiscal benefit code (<cBenef>) declared by the counterparty in "
+        "the imported document. Preserved verbatim for SPED C197 (COD_AJ), "
+        "while icms_tax_benefit_id/code reflects the company's own de-para "
+        "mapping.",
     )
 
     fiscal_price = fields.Float(
@@ -1715,7 +1853,12 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     icmssn_range_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.simplified.tax.range",
         string="Simplified Range Tax",
-        default=_default_icmssn_range_id,
+        help="Range of the Simples Nacional annex that taxes the operation, "
+        "the one the company was in when the taxes of the line were computed.",
+        compute="_compute_tax_fields",
+        store=True,
+        precompute=True,
+        readonly=False,
     )
 
     icmssn_tax_id = fields.Many2one(
@@ -1883,7 +2026,9 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     cbs_cst_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cst",
         string="CST CBS",
-        domain="[('cst_type', '=', fiscal_operation_type),('tax_domain', '=', 'cbs')]",
+        domain="['|', ('cst_type', '=', fiscal_operation_type),"
+        "('cst_type', '=', 'all'),"
+        "('tax_domain', '=', 'cbs')]",
         compute="_compute_tax_fields",
         store=True,
         precompute=True,
@@ -1953,7 +2098,9 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     ibs_cst_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cst",
         string="CST IBS",
-        domain="[('cst_type', '=', fiscal_operation_type),('tax_domain', '=', 'ibs')]",
+        domain="['|', ('cst_type', '=', fiscal_operation_type),"
+        "('cst_type', '=', 'all'),"
+        "('tax_domain', '=', 'ibs')]",
         compute="_compute_tax_fields",
         store=True,
         precompute=True,
@@ -2009,7 +2156,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     tax_classification_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax.classification",
         string="Tax Classification",
-        compute="_compute_fiscal_tax_ids",
+        compute="_compute_tax_classification_id",
         store=True,
         precompute=True,
         readonly=False,
@@ -2707,22 +2854,6 @@ class FiscalDocumentLineMixin(models.AbstractModel):
 
     inss_wh_value = fields.Monetary(
         string="INSS RET Value",
-        compute="_compute_tax_fields",
-        store=True,
-        precompute=True,
-        readonly=False,
-    )
-
-    simple_value = fields.Monetary(
-        string="National Simple Taxes",
-        compute="_compute_tax_fields",
-        store=True,
-        precompute=True,
-        readonly=False,
-    )
-
-    simple_without_icms_value = fields.Monetary(
-        string="National Simple Taxes without ICMS",
         compute="_compute_tax_fields",
         store=True,
         precompute=True,

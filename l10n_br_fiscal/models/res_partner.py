@@ -2,12 +2,15 @@
 # Copyright (C) 2020 - TODAY Luis Felipe Mileo - KMEE
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import api, fields, models
+from erpbrasil.base.fiscal import cnpj_cpf
+
+from odoo import _, api, fields, models
 
 from ..constants.fiscal import (
     FINAL_CUSTOMER,
     FINAL_CUSTOMER_NO,
     NFE_IND_IE_DEST,
+    NFE_IND_IE_DEST_2,
     NFE_IND_IE_DEST_9,
     NFE_IND_IE_DEST_DEFAULT,
     PUBLIC_ENTIRY_TYPE,
@@ -151,6 +154,33 @@ class ResPartner(models.Model):
             if p.ind_ie_dest == NFE_IND_IE_DEST_9:
                 p.l10n_br_ie_code = False
                 p.state_tax_number_ids = False
+
+    def _get_report_fiscal_data(self, tax_framework=False):
+        """Lines with the fiscal identification printed on the reports."""
+        self.ensure_one()
+        lines = []
+        if self.legal_name and self.legal_name != self.name:
+            lines.append(self.legal_name)
+        numbers = []
+        if self.vat:
+            label = "CNPJ" if self.is_company else "CPF"
+            numbers.append(f"{label} {cnpj_cpf.formata(self.vat)}")
+        if self.l10n_br_ie_code:
+            numbers.append(f"IE {self.l10n_br_ie_code}")
+        elif self.ind_ie_dest == NFE_IND_IE_DEST_2:
+            numbers.append(_("IE: exempt"))
+        elif self.ind_ie_dest == NFE_IND_IE_DEST_9:
+            numbers.append(_("ICMS non-taxpayer"))
+        if self.l10n_br_im_code:
+            numbers.append(f"IM {self.l10n_br_im_code}")
+        if numbers:
+            lines.append(" | ".join(numbers))
+        if tax_framework and self.tax_framework:
+            label = dict(self._fields["tax_framework"]._description_selection(self.env))
+            lines.append(
+                _("Tax framework: %s") % label[self.tax_framework].split(" - ", 1)[-1]
+            )
+        return lines
 
     @api.model
     def _commercial_fields(self):

@@ -30,12 +30,19 @@ class HrExpense(models.Model):
 
     def _prepare_invoice_values(self):
         res = super()._prepare_invoice_values()
+        operation = self.fiscal_operation_id
+        # Same source as the purchase flow: the document type of the fiscal
+        # operation, falling back to the company default.
+        document_type = (
+            operation.document_type_ids[:1].document_type_id
+            or self.company_id.document_type_id
+        )
         res.update(
             {
                 "company_id": self.company_id.id,
                 "fiscal_operation_id": self.fiscal_operation_id.id,
                 "fiscal_operation_type": "in",
-                "document_type_id": self.fiscal_operation_id.id,
+                "document_type_id": document_type.id,
                 "user_id": self.env.user.id,
             }
         )

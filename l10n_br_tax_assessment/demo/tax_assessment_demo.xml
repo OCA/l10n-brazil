@@ -2,6 +2,14 @@
 <!-- Copyright 2026 KMEE
      License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html). -->
 <odoo>
+    <!-- the demo company starts the assessment by the system this month -->
+    <record id="l10n_br_base.empresa_lucro_presumido" model="res.company">
+        <field
+            name="tax_assessment_start"
+            eval="(DateTime.today() + relativedelta(day=1)).strftime('%Y-%m-%d')"
+        />
+    </record>
+
     <!--
       Draft ICMS assessment for the current month.
 

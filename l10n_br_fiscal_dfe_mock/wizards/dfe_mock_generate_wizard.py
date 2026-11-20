@@ -3,7 +3,8 @@
 
 import random
 import re
-from datetime import datetime, timedelta
+from datetime import timedelta
+from xml.sax.saxutils import escape
 
 from odoo import _, fields, models
 from odoo.exceptions import UserError
@@ -50,6 +51,13 @@ _UF_CODES = {
 }
 
 
+def format_nfe_datetime(record, value):
+    """Format a naive UTC datetime the way NF-e expects (``dhEmi`` & friends)."""
+    local = fields.Datetime.context_timestamp(record, value)
+    offset = local.strftime("%z") or "+0000"
+    return f"{local.strftime('%Y-%m-%dT%H:%M:%S')}{offset[:3]}:{offset[3:]}"
+
+
 def _compute_access_key_check_digit(key_43):
     """Compute the check digit (mod 11) for a 43-char NF-e access key."""
     weights = [2, 3, 4, 5, 6, 7, 8, 9]
@@ -81,6 +89,34 @@ def _generate_access_key(uf_code, year_month, cnpj_digits, serie, number, cnf=No
     return key_43 + _compute_access_key_check_digit(key_43)
 
 
+_NFSE_NS = "http://www.sped.fazenda.gov.br/nfse"
+_NFSE_AMB_GER = "2"  # SEFIN Nacional, the only one the ADN distributes
+_NFSE_TP_INSC = "2"  # CNPJ
+_NFSE_FALLBACK_IBGE = "3550308"  # Sao Paulo
+_NFSE_ISSQN_RATE = 2.0
+
+
+def _generate_nfse_access_key(ibge_code, cnpj_digits, number, year_month, cnf=None):
+    """Generate a valid 50-digit national NFS-e access key.
+
+    IBGE city code (7), ambiente gerador (1), type of the federal
+    registration (1), the registration (14), nNFSe (13), AAMM (4), numeric
+    code (9) and the check digit, the same mod 11 as the NF-e one.
+    """
+    if cnf is None:
+        cnf = str(random.randint(100000000, 999999999))
+    key_49 = (
+        f"{ibge_code}"
+        f"{_NFSE_AMB_GER}"
+        f"{_NFSE_TP_INSC}"
+        f"{cnpj_digits.zfill(14)}"
+        f"{str(number).zfill(13)}"
+        f"{year_month}"
+        f"{cnf}"
+    )
+    return key_49 + _compute_access_key_check_digit(key_49)
+
+
 class DfeMockGenerateWizard(models.TransientModel):
     _name = "dfe.mock.generate.wizard"
     _description = "Generate Mock NSU Records"
@@ -91,6 +127,11 @@ class DfeMockGenerateWizard(models.TransientModel):
         default=lambda self: self.env.company,
     )
     quantity = fields.Integer(default=5)
+    fiscal_type = fields.Selection(
+        selection=[("nfe", "NF-e"), ("nfse", "NFS-e")],
+        required=True,
+        default="nfe",
+    )
     generate_res_nfe = fields.Boolean(default=True, string="Generate resNFe")
     generate_proc_nfe = fields.Boolean(default=True, string="Generate procNFe")
     generate_res_evento = fields.Boolean(default=False, string="Generate resEvento")
@@ -132,13 +173,16 @@ class DfeMockGenerateWizard(models.TransientModel):
             "ie": ie_raw or "ISENTO",
         }
 
-    def _next_nsu(self, company):
-        """Calculate the next NSU number for a company."""
+    def _next_nsu(self, company, fiscal_type="nfe"):
+        """Calculate the next NSU number for a company, per fiscal type."""
         last = (
             self.env["dfe.mock.nsu"]
             .sudo()
             .search(
-                [("company_id", "=", company.id)],
+                [
+                    ("company_id", "=", company.id),
+                    ("fiscal_type", "=", fiscal_type),
+                ],
                 order="nsu desc",
                 limit=1,
             )
@@ -344,6 +388,171 @@ class DfeMockGenerateWizard(models.TransientModel):
             "</procEventoNFe>"
         )
 
+    # ── NFS-e (national) ────────────────────────────────────────────
+
+    def _get_nfse_party_data(self, partner):
+        """Provider or taker data, as the national NFS-e XML needs it."""
+        city = partner.city_id
+        ibge = re.sub(r"[^0-9]", "", city.ibge_code or "") or _NFSE_FALLBACK_IBGE
+        return {
+            "cnpj": re.sub(r"[^0-9]", "", partner.vat or ""),
+            "name": partner.name or "Prestador Mock",
+            "ibge": ibge,
+            "city": city.name or "Cidade Mock",
+            "uf": partner.state_id.code or "SP",
+            "street": partner.street_name or partner.street or "Rua Mock",
+            "number": partner.street_number or "100",
+            "district": partner.district or "Centro",
+            "zip": re.sub(r"[^0-9]", "", partner.zip or "") or "01000000",
+            "phone": re.sub(r"[^0-9]", "", partner.phone or "") or "1130000000",
+            "email": partner.email or "mock@example.com",
+        }
+
+    def _nfse_emit_block(self, provider):
+        return (
+            "<emit>"
+            f"<CNPJ>{provider['cnpj']}</CNPJ>"
+            f"<xNome>{escape(provider['name'])}</xNome>"
+            "<enderNac>"
+            f"<xLgr>{escape(provider['street'])}</xLgr>"
+            f"<nro>{escape(provider['number'])}</nro>"
+            f"<xBairro>{escape(provider['district'])}</xBairro>"
+            f"<cMun>{provider['ibge']}</cMun>"
+            f"<UF>{provider['uf']}</UF>"
+            f"<CEP>{provider['zip']}</CEP>"
+            "</enderNac>"
+            f"<fone>{provider['phone']}</fone>"
+            f"<email>{escape(provider['email'])}</email>"
+            "</emit>"
+        )
+
+    def _nfse_toma_block(self, taker):
+        return (
+            "<toma>"
+            f"<CNPJ>{taker['cnpj']}</CNPJ>"
+            f"<xNome>{escape(taker['name'])}</xNome>"
+            "<end>"
+            f"<endNac><cMun>{taker['ibge']}</cMun><CEP>{taker['zip']}</CEP></endNac>"
+            f"<xLgr>{escape(taker['street'])}</xLgr>"
+            f"<nro>{escape(taker['number'])}</nro>"
+            f"<xBairro>{escape(taker['district'])}</xBairro>"
+            "</end>"
+            "</toma>"
+        )
+
+    def _nfse_dps_block(self, access_key, provider, taker, amount, emission_dt):
+        """The DPS the provider declared, embedded in the authorized NFS-e."""
+        number = str(int(access_key[23:36]))
+        return (
+            "<DPS>"
+            f'<infDPS Id="DPS{access_key[:45]}">'
+            "<tpAmb>2</tpAmb>"
+            f"<dhEmi>{format_nfe_datetime(self, emission_dt)}</dhEmi>"
+            "<verAplic>MockDFe_1.0.0</verAplic>"
+            "<serie>00001</serie>"
+            f"<nDPS>{number}</nDPS>"
+            f"<dCompet>{emission_dt.strftime('%Y-%m-%d')}</dCompet>"
+            "<tpEmit>1</tpEmit>"
+            f"<cLocEmi>{provider['ibge']}</cLocEmi>"
+            "<prest>"
+            f"<CNPJ>{provider['cnpj']}</CNPJ>"
+            f"<xNome>{escape(provider['name'])}</xNome>"
+            "</prest>"
+            f"{self._nfse_toma_block(taker)}"
+            "<serv>"
+            f"<locPrest><cLocPrestacao>{provider['ibge']}</cLocPrestacao></locPrest>"
+            "<cServ>"
+            "<cTribNac>010101</cTribNac>"
+            "<cNBS>123456789</cNBS>"
+            "<xDescServ>SERVICO MOCK</xDescServ>"
+            "</cServ>"
+            "</serv>"
+            "<valores>"
+            f"<vServPrest><vServ>{amount:.2f}</vServ></vServPrest>"
+            "<trib><tribMun>"
+            "<tribISSQN>1</tribISSQN>"
+            f"<pAliq>{_NFSE_ISSQN_RATE:.2f}</pAliq>"
+            "<tpRetISSQN>1</tpRetISSQN>"
+            "</tribMun></trib>"
+            "</valores>"
+            "</infDPS>"
+            "</DPS>"
+        )
+
+    def _build_nfse_xml(self, access_key, provider, taker, amount, emission_dt):
+        """Build an authorized national NFS-e, the ``NFSe`` document type."""
+        number = str(int(access_key[23:36]))
+        timestamp = format_nfe_datetime(self, emission_dt)
+        issqn_value = round(amount * _NFSE_ISSQN_RATE / 100, 2)
+        return (
+            '<?xml version="1.0" encoding="UTF-8"?>'
+            f'<NFSe xmlns="{_NFSE_NS}" versao="1.00">'
+            f'<infNFSe Id="NFS{access_key}">'
+            f"<xLocEmi>{escape(provider['city'])}</xLocEmi>"
+            f"<xLocPrestacao>{escape(provider['city'])}</xLocPrestacao>"
+            f"<nNFSe>{number}</nNFSe>"
+            f"<cLocIncid>{provider['ibge']}</cLocIncid>"
+            f"<xLocIncid>{escape(provider['city'])}</xLocIncid>"
+            "<xTribNac>Servicos de informatica</xTribNac>"
+            "<xNBS>Outros fornecimentos</xNBS>"
+            "<verAplic>MockDFe_1.0.0</verAplic>"
+            f"<ambGer>{_NFSE_AMB_GER}</ambGer>"
+            "<tpEmis>1</tpEmis>"
+            "<procEmi>2</procEmi>"
+            "<cStat>100</cStat>"
+            f"<dhProc>{timestamp}</dhProc>"
+            f"<nDFSe>{number}</nDFSe>"
+            f"{self._nfse_emit_block(provider)}"
+            "<valores>"
+            f"<vBC>{amount:.2f}</vBC>"
+            f"<pAliqAplic>{_NFSE_ISSQN_RATE:.2f}</pAliqAplic>"
+            f"<vISSQN>{issqn_value:.2f}</vISSQN>"
+            "<vTotalRet>0.00</vTotalRet>"
+            f"<vLiq>{amount:.2f}</vLiq>"
+            "</valores>"
+            f"{self._nfse_dps_block(access_key, provider, taker, amount, emission_dt)}"
+            "</infNFSe>"
+            "</NFSe>"
+        )
+
+    def _generate_nfse(self, partner_list, starting_nsu, now):
+        """Create the NFS-e rows of the pool and return their ids."""
+        company = self.company_id
+        taker = self._get_nfse_party_data(company.partner_id)
+        created_ids = []
+        current_nsu = starting_nsu
+        for _idx in range(self.quantity):
+            provider = self._get_nfse_party_data(random.choice(partner_list))
+            if not provider["cnpj"]:
+                continue
+            emission_dt = now - timedelta(days=random.randint(1, 30))
+            amount = round(random.uniform(100, 20000), 2)
+            access_key = _generate_nfse_access_key(
+                provider["ibge"],
+                provider["cnpj"],
+                random.randint(1, 9999999),
+                emission_dt.strftime("%y%m"),
+            )
+            record = self.env["dfe.mock.nsu"].create(
+                {
+                    "nsu": str(current_nsu).zfill(15),
+                    "fiscal_type": "nfse",
+                    "schema_type": "NFSe",
+                    "xml_content": self._build_nfse_xml(
+                        access_key, provider, taker, amount, emission_dt
+                    ),
+                    "access_key": access_key,
+                    "company_id": company.id,
+                }
+            )
+            created_ids.append(record.id)
+            current_nsu += 1
+        if not created_ids:
+            raise UserError(
+                self.env._("No demo partner has a CNPJ to issue a mock NFS-e with.")
+            )
+        return created_ids
+
     def action_generate(self):
         self.ensure_one()
         if self.quantity < 1:
@@ -351,8 +560,18 @@ class DfeMockGenerateWizard(models.TransientModel):
 
         partners = self._get_demo_partners()
         partner_list = list(partners)
+        now = fields.Datetime.now()
+
+        if self.fiscal_type == "nfse":
+            return self._action_generate_result(
+                self._generate_nfse(
+                    partner_list,
+                    self._next_nsu(self.company_id, "nfse"),
+                    now,
+                )
+            )
+
         starting_nsu = self._next_nsu(self.company_id)
-        now = datetime.now()
 
         enabled_types = []
         if self.generate_res_nfe:
@@ -447,6 +666,9 @@ class DfeMockGenerateWizard(models.TransientModel):
                     created_ids.append(record.id)
                     current_nsu += 1
 
+        return self._action_generate_result(created_ids)
+
+    def _action_generate_result(self, created_ids):
         return {
             "name": _("Generated Mock NSUs"),
             "type": "ir.actions.act_window",

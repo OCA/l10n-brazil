@@ -137,7 +137,13 @@ class DfeDocumentBannerController(http.Controller):
                     "dfe_log_action_id": dfe_log_action.id if dfe_log_action else False,
                     "auto_fetch": typed("auto_fetch"),
                     "next_query_str": next_query_str,
-                    "is_homologation": typed("environment") == "2",
+                    # NF-e/CT-e use "{type}_environment" ("2" = homologation).
+                    # NFS-e ADN uses "{type}_dfe_environment"
+                    # ("producao_restrita").
+                    "is_homologation": (
+                        typed("dfe_environment") or typed("environment")
+                    )
+                    in ("2", "producao_restrita"),
                     "inactivity_warning": inactivity_warning,
                     "inactivity_message": inactivity_message,
                 },

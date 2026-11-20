@@ -50,12 +50,6 @@ class L10nBrFiscalDfeDocument(models.Model):
         compute="_compute_manifestation_status",
     )
 
-    fiscal_document_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.document",
-        string="Imported Document",
-        readonly=True,
-    )
-
     @api.depends("manifestations_ids.state")
     def _compute_manifestation_status(self):
         """Compute manifestation status efficiently with batched queries."""
@@ -121,6 +115,7 @@ class L10nBrFiscalDfeDocument(models.Model):
             "target": "new",
             "context": {
                 "default_access_key": self.access_key,
+                "default_dfe_document_id": self.id,
             },
         }
 

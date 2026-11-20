@@ -18,12 +18,14 @@
         "security/tax_assessment_security.xml",
         "security/ir.model.access.csv",
         "views/tax_assessment_views.xml",
+        "views/account_tax_group_views.xml",
+        "views/res_company_views.xml",
+        "views/tax_assessment_opening_views.xml",
     ],
     "demo": [
         "demo/tax_assessment_demo.xml",
     ],
-    # The invoices the demo assessment computes from are loaded by the hook,
-    # not from here: they need the demo company active and its chart loaded.
+    # The demo invoices are loaded by the hook: they need the demo company active.
     "post_init_hook": "post_init_hook",
     "installable": True,
 }

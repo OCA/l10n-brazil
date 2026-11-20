@@ -83,9 +83,11 @@ class NFeLine(spec_models.StackedModel):
     _nfe40_stacking_skip_paths = ("nfe40_det_infNFe_id",)
 
     # When dynamic stacking is applied, the NFe line has the following structure:
+    # (+ content of the m2o is stacked in the parent / - standard m2o /
+    # ≡ o2m; the mapped Odoo model may follow the tag)
     DET_TREE = """
-> <det>
-    > <prod>
++ <det>
+    + <prod>
         ≡ <gCred>
         ≡ <DI>
         ≡ <detExport>
@@ -96,28 +98,28 @@ class NFeLine(spec_models.StackedModel):
         - <med>
         ≡ <arma>
         - <comb>
-    > <imposto>
-        > <ICMS>
-            > <ICMSPart>
-            > <ICMSST>
-        > <IPI>
-            > <IPITrib>
-            > <IPINT>
-        > <II>
-        > <ISSQN>
-        > <PIS>
-            > <PISAliq>
-            > <PISQtde>
-            > <PISNT>
-            > <PISOutr>
-        > <PISST>
-        > <COFINS>
-            > <COFINSAliq>
-            > <COFINSQtde>
-            > <COFINSNT>
-            > <COFINSOutr>
-        > <COFINSST>
-        > <ICMSUFDest>
+    + <imposto>
+        + <ICMS>
+            + <ICMSPart>
+            + <ICMSST>
+        + <IPI>
+            + <IPITrib>
+            + <IPINT>
+        + <II>
+        + <ISSQN>
+        + <PIS>
+            + <PISAliq>
+            + <PISQtde>
+            + <PISNT>
+            + <PISOutr>
+        + <PISST>
+        + <COFINS>
+            + <COFINSAliq>
+            + <COFINSQtde>
+            + <COFINSNT>
+            + <COFINSOutr>
+        + <COFINSST>
+        + <ICMSUFDest>
     - <impostoDevol>
     - <obsItem>
     - <DFeReferenciado>"""
@@ -251,7 +253,8 @@ class NFeLine(spec_models.StackedModel):
             or self.name
             or ""
         )
-        export_dict["xProd"] = nfe40_xProd[:120].replace("\n", " ").strip()
+        # the 120 characters the schema allows are cut generically on export
+        export_dict["xProd"] = nfe40_xProd.replace("\n", " ").strip()
 
         nfe40_cEAN = self.product_id.barcode or "SEM GTIN"
         export_dict["cEAN"] = export_dict["cEANTrib"] = nfe40_cEAN
@@ -1545,9 +1548,14 @@ class NFeLine(spec_models.StackedModel):
         import (idempotent via the earlier search on percent_reduction).
         """
         cst_field = "cst_{}_id".format(self.env.context.get("edoc_type", "in"))
+        name = _("ICMS %(percent)s%% Com Red. %(red)s%%") % {
+            "percent": percent,
+            "red": percent_reduction,
+        }
+        # the CST is part of the lookup, so it is part of the unique name too
+        cst_code = self.env["l10n_br_fiscal.cst"].browse(cst_id).code
         vals = {
-            "name": _("ICMS %(percent)s%% Com Red. %(red)s%%")
-            % {"percent": percent, "red": percent_reduction},
+            "name": f"{name} CST {cst_code}" if cst_code else name,
             "tax_group_id": tax_group_id,
             "percent_amount": percent,
             "percent_reduction": percent_reduction,

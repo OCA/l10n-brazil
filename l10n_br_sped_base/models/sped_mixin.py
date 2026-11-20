@@ -314,7 +314,9 @@ class SpedMixin(models.AbstractModel):
                             field.comodel_name
                         ]._get_default_form_view()
                         field_tag.append(field_form)
-                wide_fields.append(E.separator(string=field.string))
+                wide_fields.append(
+                    E.separator(string=field._description_string(self.env))
+                )
                 wide_fields.append(field_tag)
             elif fname.isupper():
                 # alternate between left and right inner groups
@@ -373,6 +375,30 @@ class SpedMixin(models.AbstractModel):
         for register_class in register_classes:
             registers = register_class.search(domain)
             registers.unlink()
+
+    @api.model
+    def _flush_generated_registers(self, kind, declaration_id):
+        """Delete what a previous pull from Odoo created in the declaration.
+
+        Only the registers flagged ``is_generated_from_odoo`` go: the ones typed
+        by hand or imported from a file are kept. Registers pulled before the
+        flag was written are not flagged: they stay until a ``Flush Registers``.
+        """
+        prefix = f"l10n_br_sped.{kind}."
+        for name, model in self.env.registry.items():
+            if (
+                not name.startswith(prefix)
+                or model._abstract
+                or "declaration_id" not in model._fields
+                or "is_generated_from_odoo" not in model._fields
+            ):
+                continue
+            self.env[name].search(
+                [
+                    ("declaration_id", "=", declaration_id),
+                    ("is_generated_from_odoo", "=", True),
+                ]
+            ).unlink()
 
     @api.model
     def _import_file(self, filename, kind, version=None, declaration=None):
@@ -690,6 +716,7 @@ class SpedMixin(models.AbstractModel):
             # in this case we will generate a register without any
             # specific Odoo record. Example: ECD I010
             register_vals = self._map_from_odoo(None, parent_record, declaration)
+            register_vals["is_generated_from_odoo"] = True
             if parent_register:
                 register_vals[parent_field] = parent_register.id
             register = self.create(register_vals)
@@ -722,6 +749,7 @@ class SpedMixin(models.AbstractModel):
             register_vals = self._map_from_odoo(
                 record, parent_record, declaration, index=index
             )
+            register_vals["is_generated_from_odoo"] = True
             if self._odoo_model:
                 register_vals["res_model"] = self._odoo_model
                 register_vals["res_id"] = record.id
@@ -745,8 +773,11 @@ class SpedMixin(models.AbstractModel):
 
     @api.model
     def _log_chatter_sped_item(self, log_msg, level, records=None):
-        action = self.env["ir.actions.act_window"].search(
-            [("res_model", "=", self._name)], limit=1
+        # only the link of the history: a fiscal user cannot read the actions
+        action = (
+            self.env["ir.actions.act_window"]
+            .sudo()
+            .search([("res_model", "=", self._name)], limit=1)
         )
         if action:
             record_count = f" ({len(records)} records)" if records else ""

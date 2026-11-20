@@ -76,8 +76,8 @@ class TaxAssessmentLine(models.Model):
         selection=[
             ("debit", "Débito (saídas)"),
             ("credit", "Crédito (entradas)"),
-            ("credit_reversal", "Estorno de crédito (devolução de compra)"),
-            ("debit_reversal", "Estorno de débito (devolução de venda)"),
+            ("credit_reversal", "Estorno de crédito (ajuste E111)"),
+            ("debit_reversal", "Estorno de débito (ajuste E111)"),
             ("deduction", "Dedução"),
             ("withholding", "Retenção na fonte"),
             ("special_debit", "Débito especial (extra-apuração)"),
@@ -98,6 +98,14 @@ class TaxAssessmentLine(models.Model):
         required=True,
         help="Ajuste manual sobrevive ao recálculo da apuração; linha apurada "
         "é refeita a cada apuração.",
+    )
+    is_return = fields.Boolean(
+        string="Devolução",
+        readonly=True,
+        help="Linha apurada de devolução: devolução de compra soma ao débito "
+        "(campo 02 do E110) e devolução de venda soma ao crédito (campo 06), "
+        "como qualquer nota fiscal. Os estornos (campos 05 e 09) são só os "
+        "ajustes do E111.",
     )
     description = fields.Char(
         help="Obrigatório no ajuste manual: é o que justifica a linha para o "

@@ -10,7 +10,7 @@
     "maintainers": ["renatonlima", "rvalyi"],
     "website": "https://github.com/OCA/l10n-brazil",
     "development_status": "Production/Stable",
-    "version": "16.0.24.1.0",
+    "version": "16.0.26.6.3",
     "depends": [
         "product",
         "uom_alias",
@@ -36,6 +36,7 @@
         "data/l10n_br_fiscal.tax.pis.cofins.csv",
         "data/l10n_br_fiscal_server_action.xml",
         "data/ir_cron.xml",
+        "data/ir_config_parameter.xml",
         "data/l10n_br_fiscal_comment_data.xml",
         "data/l10n_br_fiscal.legal.nature.csv",
         "data/l10n_br_fiscal.cnae.csv",
@@ -49,6 +50,7 @@
         "data/l10n_br_fiscal.tax.classification.csv",
         "data/l10n_br_fiscal.service.type.csv",
         "data/l10n_br_fiscal.operation.indicator.csv",
+        "data/l10n_br_fiscal_operation_indicator_data.xml",
         "data/simplified_tax_data.xml",
         "data/operation_data.xml",
         "data/l10n_br_fiscal_tax_icms_data.xml",
@@ -67,6 +69,7 @@
         "views/cfop_view.xml",
         "views/comment_view.xml",
         "views/cst_view.xml",
+        "views/creditability_reason_view.xml",
         "views/tax_group_view.xml",
         "views/tax_view.xml",
         "views/tax_definition_view.xml",
@@ -98,10 +101,12 @@
         "views/res_partner_view.xml",
         "views/res_company_view.xml",
         "views/document_view.xml",
+        "views/document_entry_cst_view.xml",
         "views/document_related_view.xml",
         "views/document_line_view.xml",
         "views/document_line_mixin_view.xml",
         "views/res_config_settings_view.xml",
+        "views/report_templates.xml",
         "views/uom_uom.xml",
         "views/invalidate_number_view.xml",
         "views/city_taxation_code.xml",
@@ -135,7 +140,7 @@
     "auto_install": False,
     "external_dependencies": {
         "python": [
-            "erpbrasil-base>=2.4.2",
+            "erpbrasil-base>=2.5.0",
         ]
     },
 }

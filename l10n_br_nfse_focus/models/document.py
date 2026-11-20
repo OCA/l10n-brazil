@@ -56,6 +56,31 @@ class Document(models.Model):
             return None
         return super()._processador_erpbrasil_nfse()
 
+    def _prepare_dados_servico(self):
+        """Add withholding bases and rates needed by the NFSe Nacional payload."""
+        service_data = super()._prepare_dados_servico()
+        if self.company_id.focusnfe_nfse_type != "nfse_nacional":
+            return service_data
+
+        lines = self.fiscal_line_ids.filtered(lambda line: line.product_id)
+        if not lines:
+            return service_data
+
+        last_line = lines[-1]
+        for tax_name in ("pis", "cofins"):
+            service_data.update(
+                {
+                    f"base_calculo_{tax_name}_retido": round(
+                        sum(lines.mapped(f"{tax_name}_wh_base")), 2
+                    ),
+                    f"aliquota_{tax_name}_retido": round(
+                        last_line[f"{tax_name}_wh_percent"], 2
+                    ),
+                }
+            )
+
+        return service_data
+
     def make_focus_nfse_pdf(self, content):
         """Generate a PDF for a NFSe document using Focus NFSe service.
 
@@ -321,7 +346,23 @@ class Document(models.Model):
     def _process_error_status(self, record, json_data):
         """Process error authorization status."""
         erros = json_data.get("erros", [])
-        error_msg = erros[0]["mensagem"] if erros else _("Authorization error")
+        error_blocks = []
+        for erro in erros:
+            mensagem = erro.get("mensagem")
+            if not mensagem:
+                continue
+            codigo = erro.get("codigo")
+            correcao = erro.get("correcao")
+            lines = []
+            if codigo:
+                lines.append(_("Code: %s") % codigo)
+            if correcao:
+                lines.append(_("Correction: %s") % correcao)
+            lines.append(_("Message: %s") % mensagem)
+            error_blocks.append("\n".join(lines))
+        error_msg = (
+            "\n\n".join(error_blocks) if error_blocks else _("Authorization error")
+        )
         record.write(
             {
                 "edoc_error_message": error_msg,
@@ -390,12 +431,7 @@ class Document(models.Model):
                 ):
                     self._process_authorized_status_municipal(record, json)
                 elif json["status"] == STATUS_ERRO_AUTORIZACAO:
-                    record.write(
-                        {
-                            "edoc_error_message": json["erros"][0]["mensagem"],
-                        }
-                    )
-                    record._change_state(SITUACAO_EDOC_REJEITADA)
+                    self._process_error_status(record, json)
                 elif json["status"] == STATUS_CANCELADO:
                     if record.state_edoc != SITUACAO_EDOC_CANCELADA:
                         record._document_cancel(record.cancel_reason)

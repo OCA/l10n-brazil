@@ -51,11 +51,59 @@
                                     <field name="payroll_amount" />
                                 </group>
                                 <group>
-                                    <field name="simplified_tax_id" />
-                                    <field name="simplified_tax_range_id" />
                                     <field name="coefficient_r" />
                                     <field name="coefficient_r_percent" />
-                                    <field name="simplified_tax_percent" />
+                                    <field name="simplified_tax_id" />
+                                    <field name="simplified_tax_range_id" />
+                                </group>
+                                <group
+                                    colspan="2"
+                                    string="Current Effective Taxes for Simples Nacional"
+                                >
+                                    <field
+                                        colspan="2"
+                                        nolabel="1"
+                                        name="simplified_tax_ids"
+                                        context="{'simplified_tax_company_id': id}"
+                                    >
+                                        <tree create="0" delete="0">
+                                            <field name="name" string="Annex" />
+                                            <field name="current_range_id" />
+                                            <field name="current_effective_tax" />
+                                            <field
+                                                name="tax_irpj_percent"
+                                                digits="[16, 2]"
+                                            />
+                                            <field
+                                                name="tax_csll_percent"
+                                                digits="[16, 2]"
+                                            />
+                                            <field
+                                                name="tax_cofins_percent"
+                                                digits="[16, 2]"
+                                            />
+                                            <field
+                                                name="tax_pis_percent"
+                                                digits="[16, 2]"
+                                            />
+                                            <field
+                                                name="tax_cpp_percent"
+                                                digits="[16, 2]"
+                                            />
+                                            <field
+                                                name="tax_icms_percent"
+                                                digits="[16, 2]"
+                                            />
+                                            <field
+                                                name="tax_iss_percent"
+                                                digits="[16, 2]"
+                                            />
+                                            <field
+                                                name="tax_ipi_percent"
+                                                digits="[16, 2]"
+                                            />
+                                        </tree>
+                                    </field>
                                 </group>
                             </group>
                             <group
@@ -170,6 +218,56 @@
                                 </group>
                                 <group />
                             </group>
+                        </page>
+                        <page name="fiscal_help" string="Help">
+                            <div class="alert alert-info" role="alert">
+                                <strong>The tax framework of the company is the
+                                central key of the tax calculation.</strong>
+                                Everything that depends on the framework (the invoice
+                                codes, CST or CSOSN, PIS/COFINS and ICMS) adjusts
+                                itself from what is configured here.
+                            </div>
+                            <h4>Changed framework? The change is made here</h4>
+                            <div
+                                style="display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin:12px 0;"
+                            >
+                                <div
+                                    style="border:1px solid #ccc; border-radius:8px; padding:10px 14px; background:#f8f9fa;"
+                                >
+                                    Moved from <strong>Simples</strong> to
+                                    <strong>Presumed Profit</strong>?<br />
+                                    <small class="text-muted">Change the tax
+                                    framework to "3 - Regime Normal" and the profit
+                                    calculation to Presumed.</small>
+                                </div>
+                                <div
+                                    style="border:1px solid #ccc; border-radius:8px; padding:10px 14px; background:#f8f9fa;"
+                                >
+                                    From <strong>Presumed Profit</strong> to
+                                    <strong>Real Profit</strong>?<br />
+                                    <small class="text-muted">Change only the profit
+                                    calculation to Real. The default PIS/COFINS of
+                                    the company switches by itself from cumulative to
+                                    non-cumulative.</small>
+                                </div>
+                            </div>
+                            <p>Operations that have lines by tax framework
+                            <strong>do not need to be reconfigured</strong>: they
+                            recognize the framework of the company and start issuing
+                            with the right codes (CSOSN in the Simples, CST in the
+                            normal regime) from the next invoice. Review with the
+                            accountant only the operations created for a specific
+                            framework.</p>
+                            <ul>
+                                <li><strong>Simples Nacional</strong> company: fill
+                                in the gross revenue of the last 12 months and the
+                                payroll. With them and the main CNAE, the system
+                                computes the annex, the range and the R factor, and
+                                the DAS percentage comes from them.</li>
+                                <li>Confirm the change of framework with your
+                                accountant: the cutoff date matters, and invoices
+                                already issued are not recalculated.</li>
+                            </ul>
                         </page>
                     </notebook>
                 </page>

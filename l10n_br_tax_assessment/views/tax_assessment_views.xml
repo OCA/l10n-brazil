@@ -31,6 +31,13 @@
                     <field name="state" widget="statusbar" />
                 </header>
                 <sheet>
+                    <div
+                        class="alert alert-warning"
+                        role="alert"
+                        attrs="{'invisible': [('previous_periods_warning', '=', False)]}"
+                    >
+                        <field name="previous_periods_warning" />
+                    </div>
                     <div class="oe_title">
                         <h1><field name="name" readonly="1" /></h1>
                     </div>
@@ -83,6 +90,7 @@
                                     <field name="tax_id" />
                                     <field name="kind" />
                                     <field name="source" />
+                                    <field name="is_return" />
                                     <field name="adjustment_code" />
                                     <field name="adjustment_kind" />
                                     <field name="description" />

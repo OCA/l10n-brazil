@@ -5,9 +5,9 @@
 import dataclasses
 import re
 from datetime import datetime
+from importlib import resources
 
 import nfelib
-import pkg_resources
 from nfelib.nfe.bindings.v4_0.leiaute_nfe_v4_00 import TnfeProc
 
 from odoo import Command, api, fields, models
@@ -269,9 +269,9 @@ class NFeImportTest(TransactionCase):
             "leiauteNFe",
             "26180875335849000115550010000016871192213331-nfe.xml",
         )
-        resource_path = "/".join(res_items)
-        nfe_stream = pkg_resources.resource_stream(nfelib.__name__, resource_path)
-        binding = TnfeProc.from_xml(nfe_stream.read().decode())
+        binding = TnfeProc.from_xml(
+            resources.files(nfelib.__name__).joinpath(*res_items).read_bytes().decode()
+        )
         nfe = (
             self.env["nfe.40.infnfe"]
             .with_context(tracking_disable=True, edoc_type="in", lang="pt_BR")
@@ -289,9 +289,9 @@ class NFeImportTest(TransactionCase):
             "leiauteNFe",
             "35180834128745000152550010000476491552806942-nfe.xml",
         )
-        resource_path = "/".join(res_items)
-        nfe_stream = pkg_resources.resource_stream(nfelib.__name__, resource_path)
-        binding = TnfeProc.from_xml(nfe_stream.read().decode())
+        binding = TnfeProc.from_xml(
+            resources.files(nfelib.__name__).joinpath(*res_items).read_bytes().decode()
+        )
         nfe = (
             self.env["nfe.40.infnfe"]
             .with_context(tracking_disable=True, edoc_type="in", lang="pt_BR")

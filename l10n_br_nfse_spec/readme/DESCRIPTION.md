@@ -1,6 +1,6 @@
 Este módulo é a fundação para a emissão da Nota Fiscal de Serviços Eletrônica
 de padrão nacional (`NFS-e`, Sistema Nacional NFS-e) no Odoo, fornecendo uma
-estrutura de dados completa e fiel ao leiaute oficial 1.00.
+estrutura de dados completa e fiel ao leiaute oficial 1.01.
 
 É importante entender que este módulo atua como uma biblioteca de modelos
 abstratos (mixins) e não realiza a emissão da NFS-e por si só. Sua finalidade é
@@ -58,7 +58,7 @@ Links:
   using xsdata](https://github.com/akretion/xsdata-odoo)
 - [GitHub - akretion/nfelib](https://github.com/akretion/nfelib)
 
-O comando utilizado para gerar os modelos da versão 1.00 da NFS-e foi:
+O comando utilizado para gerar os modelos da versão 1.01 da NFS-e foi:
 
 ```bash
 git clone https://github.com/akretion/nfelib
@@ -89,3 +89,11 @@ resolver a migração. Enquanto que para uma mudança maior de versão, seria
 assumido de usar novos campos e novas tabelas (para os objetos não Odoo) e que
 a lib nfelib iria trabalhar com os campos da versão maior do documento fiscal
 considerado.
+
+É o caso da atualização do leiaute 1.00 para o 1.01 (grupos IBSCBS da reforma
+tributária): o leiaute novo entra na mesma pasta `v1_0` da nfelib (um leiaute
+por pasta, como para NF-e/CT-e/MDF-e) e o prefixo continua `nfse10_`, então os
+campos e as tabelas já existentes são reusados e a atualização é um simples
+`-u l10n_br_nfse_spec`. Os modelos da reforma tributária (IBSCBS, CBS, IBS)
+entram como modelos novos, e os grupos que o 1.01 abandonou (`serv/explRod` e o
+`infRej` dos eventos) somem dos modelos.

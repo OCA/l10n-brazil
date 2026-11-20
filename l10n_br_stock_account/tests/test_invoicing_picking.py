@@ -562,6 +562,43 @@ class InvoicingPickingTest(TestBrPickingInvoicingCommon):
 
         picking.button_validate()
 
+    def test_move_inherits_picking_fiscal_operation(self):
+        """A move created in, or attached to, a picking with a fiscal operation
+        takes that operation; the operation line comes from the regular compute."""
+        self._change_user_company(self.env.ref("base.main_company"))
+        picking = self.env.ref("l10n_br_stock_account.main_company-picking_2")
+        self.assertTrue(picking.fiscal_operation_id)
+        template = picking.move_ids[0]
+        vals = {
+            "name": template.product_id.name,
+            "product_id": template.product_id.id,
+            "product_uom": template.product_uom.id,
+            "product_uom_qty": 1,
+            "location_id": picking.location_id.id,
+            "location_dest_id": picking.location_dest_id.id,
+            "company_id": picking.company_id.id,
+        }
+        created_in_picking = self.env["stock.move"].create(
+            dict(vals, picking_id=picking.id)
+        )
+        self.assertEqual(
+            created_in_picking.fiscal_operation_id, picking.fiscal_operation_id
+        )
+        self.assertEqual(
+            created_in_picking.fiscal_operation_line_id,
+            picking.fiscal_operation_id.line_definition(
+                company=created_in_picking.company_id,
+                partner=created_in_picking.partner_id,
+                product=created_in_picking.product_id,
+            ),
+        )
+        attached_later = self.env["stock.move"].create(vals)
+        self.assertFalse(attached_later.fiscal_operation_id)
+        attached_later.picking_id = picking
+        self.assertEqual(
+            attached_later.fiscal_operation_id, picking.fiscal_operation_id
+        )
+
     def test_form_stock_picking(self):
         """Test Stock Picking with Form"""
 

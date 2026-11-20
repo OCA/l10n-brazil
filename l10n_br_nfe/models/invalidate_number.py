@@ -1,41 +1,65 @@
 # Copyright (C) 2020  KMEE - www.kmee.com.br
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from datetime import datetime
-
 from erpbrasil.base.misc import punctuation_rm
 from erpbrasil.transmissao import TransmissaoSOAP
+from nfelib.nfe.client.v4_0.nfce import NfceClient
+from nfelib.nfe.client.v4_0.nfe import NfeClient
 from nfelib.nfe.ws.edoc_legacy import NFCeAdapter as edoc_nfce
 from nfelib.nfe.ws.edoc_legacy import NFeAdapter as edoc_nfe
 from requests import Session
 
-from odoo import fields, models
+from odoo import models
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import EVENT_ENV_HML, EVENT_ENV_PROD
+from odoo.addons.l10n_br_fiscal_edi.tools import tax_authority_date_to_utc
+
+from ..models.document import nfelib_soap_transmission_enabled
 
 
 class InvalidateNumber(models.Model):
     _inherit = "l10n_br_fiscal.invalidate.number"
 
     def _edoc_processor(self):
-        certificado = self.env.company._get_br_ecertificate()
-        session = Session()
-        session.verify = False
-        params = {
-            "transmissao": TransmissaoSOAP(certificado, session),
-            "uf": self.company_id.state_id.ibge_code,
-            "versao": "4.00",
-            "ambiente": self.company_id.nfe_environment,
-        }
+        if not nfelib_soap_transmission_enabled(self.env):
+            certificado = self.env.company._get_br_ecertificate()
+            session = Session()
+            session.verify = False
+            params = {
+                "transmissao": TransmissaoSOAP(certificado, session),
+                "uf": self.company_id.state_id.ibge_code,
+                "versao": "4.00",
+                "ambiente": self.company_id.nfe_environment,
+            }
+            if self.document_type_id.code == "65":
+                params.update(
+                    csc_token=self.company_id._get_nfce_csc_token(),
+                    csc_code=self.company_id.nfce_csc_code,
+                )
+                return edoc_nfce(**params)
 
+            return edoc_nfe(**params)
+
+        common_params = {
+            "ambiente": self.company_id.nfe_environment,
+            "uf": self.company_id.state_id.ibge_code,
+            # nb: base64 value as stored in the Binary field: nfelib's
+            # CommonMixin.sign_xml base64-decodes it itself.
+            "pkcs12_data": self.company_id.certificate.file,
+            # brazil_fiscal_client's FiscalClient.__init__ normalizes
+            # `pkcs12_data` for the requests_pkcs12 adapter, so the base64
+            # Binary value works for both signing and mTLS transmission.
+            "fake_certificate": False,
+            "pkcs12_password": self.company_id.certificate.password,
+            "wrap_response": True,
+        }
         if self.document_type_id.code == "65":
-            params.update(
-                csc_token=self.company_id.nfce_csc_token,
+            return NfceClient(
+                **common_params,
+                csc_token=self.company_id._get_nfce_csc_token(),
                 csc_code=self.company_id.nfce_csc_code,
             )
-            return edoc_nfce(**params)
-
-        return edoc_nfe(**params)
+        return NfeClient(**common_params)
 
     def _invalidate(self, document_id=False):
         processador = self._edoc_processor()
@@ -48,7 +72,11 @@ class InvalidateNumber(models.Model):
             justificativa=self.justification.replace("\n", "\\n"),
         )
 
-        processo = processador.envia_inutilizacao(evento=evento)
+        if nfelib_soap_transmission_enabled(self.env):
+            # nfelib's envia_inutilizacao takes the event positionally
+            processo = processador.envia_inutilizacao(evento)
+        else:
+            processo = processador.envia_inutilizacao(evento=evento)
 
         event_id = self.event_ids.create_event_save_xml(
             company_id=self.company_id,
@@ -75,9 +103,7 @@ class InvalidateNumber(models.Model):
         event_id.set_done(
             status_code=processo.resposta.infInut.cStat,
             response=processo.resposta.infInut.xMotivo,
-            protocol_date=fields.Datetime.to_string(
-                datetime.fromisoformat(date_response)
-            ),
+            protocol_date=tax_authority_date_to_utc(date_response),
             protocol_number=processo.resposta.infInut.nProt,
             file_response_xml=processo.retorno.content.decode("utf-8"),
         )

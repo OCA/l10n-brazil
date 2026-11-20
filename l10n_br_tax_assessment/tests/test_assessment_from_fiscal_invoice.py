@@ -188,3 +188,53 @@ class TestAssessmentFromFiscalInvoice(AccountMoveBRCommon):
             lambda tax: assessment._is_counterpart_tax(tax)
         )
         self.assertFalse(counterparts, "the counterpart tax is still being assessed")
+
+    def _pis_booked(self, move, type_tax_use):
+        """Signed PIS the move booked on the taxes the assessment reads (the
+        counterpart of a deductible input left out)."""
+        model = self.env["l10n_br_tax.assessment"]
+        taxes = self.env["account.tax"].search(
+            [
+                ("tax_group_id", "=", self.env.ref("l10n_br_coa.tax_group_pis").id),
+                ("company_id", "=", self.company.id),
+                ("type_tax_use", "=", type_tax_use),
+            ]
+        )
+        taxes = taxes.filtered(lambda tax: not model._is_counterpart_tax(tax))
+        lines = move.line_ids.filtered(lambda ml: ml.tax_line_id in taxes)
+        return sum(lines.mapped("debit")) - sum(lines.mapped("credit"))
+
+    def test_the_cumulative_regime_takes_no_input_credit(self):
+        """The cumulative PIS has no input credit: what is due is the PIS of the
+        sale, whatever the purchase booked."""
+        self.env.ref("l10n_br_coa.tax_group_pis").regime = "cumulative"
+        sale_pis = -self._pis_booked(self.invoice, "sale")
+        purchase_pis = self._pis_booked(self.purchase, "purchase")
+        self.assertGreater(sale_pis, 0.0, "the sale booked no PIS")
+        self.assertGreater(purchase_pis, 0.0, "the purchase booked no input PIS")
+
+        assessment = self._assessment("l10n_br_coa.tax_group_pis")
+        assessment.action_compute()
+
+        self.assertEqual(assessment.regime, "cumulative")
+        self.assertEqual(assessment.credit_total, 0.0)
+        self.assertFalse(
+            assessment.line_ids.filtered(lambda line: line.kind == "credit")
+        )
+        self.assertAlmostEqual(assessment.debit_total, sale_pis, places=2)
+        self.assertAlmostEqual(assessment.amount_payable, sale_pis, places=2)
+        self.assertIn(
+            "regime cumulativo",
+            " ".join(assessment.message_ids.mapped("body")),
+        )
+
+    def test_the_non_cumulative_regime_takes_the_input_credit(self):
+        self.env.ref("l10n_br_coa.tax_group_pis").regime = "non_cumulative"
+        purchase_pis = self._pis_booked(self.purchase, "purchase")
+        self.assertGreater(purchase_pis, 0.0, "the purchase booked no input PIS")
+
+        assessment = self._assessment("l10n_br_coa.tax_group_pis")
+        assessment.action_compute()
+
+        self.assertEqual(assessment.regime, "non_cumulative")
+        self.assertAlmostEqual(assessment.credit_total, purchase_pis, places=2)

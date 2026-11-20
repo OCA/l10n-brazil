@@ -7,7 +7,7 @@
     "license": "AGPL-3",
     "author": "Akretion, " "Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-brazil",
-    "version": "16.0.8.1.5",
+    "version": "16.0.8.2.3",
     "depends": ["sale_management", "l10n_br_account"],
     "data": [
         # Data
@@ -19,6 +19,7 @@
         "views/res_config_settings_view.xml",
         "views/res_company_view.xml",
         "views/sale_view.xml",
+        "views/sale_portal_templates.xml",
         # Report
         "report/sale_report_view.xml",
         "report/sale_report_templates.xml",

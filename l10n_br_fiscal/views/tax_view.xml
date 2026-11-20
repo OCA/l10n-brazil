@@ -107,6 +107,32 @@
                             options="{'no_create': True, 'no_create_edit': True}"
                         />
                     </group>
+                    <notebook>
+                        <page name="help" string="Help">
+                            <div class="alert alert-info" role="alert">
+                                <strong>This record is a tax rate</strong>: a
+                                percentage (or an amount per unit) with the entry and
+                                exit tax codes (CST) already defined. Rules and
+                                operations point to the rates registered here.
+                            </div>
+                            <div class="alert alert-warning" role="alert">
+                                <strong>Be careful when editing:</strong> changing the
+                                percentage here changes the calculation in
+                                <em>every</em> place that uses this rate. If the change
+                                applies to a single case, the right way is to create a
+                                new rate and point the specific rule to it.
+                            </div>
+                            <ul>
+                                <li>The default Brazilian rates (ICMS by state, IPI,
+                                PIS/COFINS by regime) are already registered and
+                                maintained by the community. You normally do not need
+                                to create any.</li>
+                                <li>A rate with a zero percentage does not mean "no
+                                rule": its tax code (exempt, suspended, not taxed...)
+                                is what goes on the invoice.</li>
+                            </ul>
+                        </page>
+                    </notebook>
                 </sheet>
             </form>
         </field>

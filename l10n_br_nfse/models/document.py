@@ -52,11 +52,11 @@ class Document(models.Model):
     )
     operation_nature = fields.Selection(
         selection=OPERATION_NATURE,
-        default="1",
+        default=lambda self: self.env.company.operation_nature,
     )
     taxation_special_regime = fields.Selection(
         selection=TAXATION_SPECIAL_REGIME,
-        default="1",
+        default=lambda self: self.env.company.taxation_special_regime,
     )
     verify_code = fields.Char(
         copy=False,
@@ -266,6 +266,7 @@ class Document(models.Model):
             "valor_desconto_incondicionado": valor_desconto_incondicionado,
             "codigo_nbs": self.fiscal_line_ids[0].nbs_id.code,
             "codigo_nbs_unmasked": self.fiscal_line_ids[0].nbs_id.code_unmasked,
+            "consumidor_final": self.ind_final,
             "codigo_indicador_operacao": self.fiscal_line_ids[
                 0
             ].operation_indicator_id.code,

@@ -82,6 +82,14 @@
                     name="statusbar_visible"
                 >em_digitacao,a_enviar,enviada,autorizada</attribute>
             </field>
+            <xpath expr="//strong[field[@name='state_edoc']]" position="after">
+                <span attrs="{'invisible': [('status_code', '=', False)]}">:
+                    <field name="status_code" readonly="1" /> - <field
+                        name="status_name"
+                        readonly="1"
+                    />
+                </span>
+            </xpath>
             <xpath expr="//page[@name='delivery']" position="after">
                 <page name="others" string="EDI">
                     <group>

@@ -66,8 +66,31 @@ class TestNFeWebServices(TestNFeExport):
             )
             self.assertEqual(
                 Datetime.to_string(nfe.cancel_event_id.protocol_date),
-                "2023-07-05 16:52:52",
+                "2023-07-05 19:52:52",
             )
+
+    @nfe_mock(
+        {
+            "nfeAutorizacaoLote": "retEnviNFe/lote_recebido.xml",
+            "nfeRetAutorizacaoLote": "retConsReciNFe/autorizada.xml",
+            "nfeRecepcaoEvento": "retEnvEvento/nfe_cancelamento_mt.xml",
+        }
+    )
+    def test_cancel_protocol_date_other_timezone(self):
+        """dhRegEvento at -04:00 (MT/AM) is stored in UTC, not as local time."""
+        nfe = self.nfe_list[0]["nfe"]
+        nfe.action_document_send()
+        cancel_wizard = (
+            self.env["l10n_br_fiscal.document.cancel.wizard"]
+            .with_context(active_model="l10n_br_fiscal.document", active_id=nfe.id)
+            .create({"document_id": nfe.id, "justification": "Era apenas um teste."})
+        )
+        cancel_wizard.doit()
+        self.assertEqual(nfe.cancel_event_id.state, "done")
+        self.assertEqual(
+            Datetime.to_string(nfe.cancel_event_id.protocol_date),
+            "2023-07-05 19:52:52",
+        )
 
     @nfe_mock({"nfeInutilizacaoNF": "retInutNFe/nfe_inutilizacao.xml"})
     def test_inutilizar(self):
@@ -78,6 +101,31 @@ class TestNFeWebServices(TestNFeExport):
             .create({"document_id": nfe.id, "justification": "Era apenas um teste."})
         )
         inutilizar_wizard.doit()
+
+    def test_inutilizar_client_certificate(self):
+        """The NF-e and NFC-e number invalidation clients present the company
+        certificate on the TLS connection, like the transmission ones: with
+        `fake_certificate` the SEFAZ refuses the connection (HTTP 403)."""
+        self.env["ir.config_parameter"].sudo().set_param(
+            "l10n_br_nfe.nfelib_soap_transmission", "True"
+        )
+        company = self.nfe_list[0]["nfe"].company_id
+        module = "odoo.addons.l10n_br_nfe.models.invalidate_number"
+        for code, client_name in (("55", "NfeClient"), ("65", "NfceClient")):
+            invalidate = self.env["l10n_br_fiscal.invalidate.number"].new(
+                {
+                    "company_id": company.id,
+                    "document_type_id": self.env.ref(
+                        f"l10n_br_fiscal.document_{code}"
+                    ).id,
+                }
+            )
+            with mock.patch(f"{module}.{client_name}") as client:
+                invalidate._edoc_processor()
+            kwargs = client.call_args.kwargs
+            self.assertIs(kwargs["fake_certificate"], False, client_name)
+            self.assertEqual(kwargs["pkcs12_data"], company.certificate.file)
+            self.assertEqual(kwargs["pkcs12_password"], company.certificate.password)
 
     @nfe_mock(
         {

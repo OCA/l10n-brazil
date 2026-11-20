@@ -8,9 +8,9 @@ class NfseSpecMixin(models.AbstractModel):
     _description = "Abstract Model"
     _name = "spec.mixin.nfse"
     _nfse10_odoo_module = (
-        "odoo.addons.l10n_br_nfse_spec.models.v1_0.tipos_complexos_v1_00"
+        "odoo.addons.l10n_br_nfse_spec.models.v1_0.tipos_complexos_v1_01"
     )
-    _nfse10_binding_module = "nfelib.nfse.bindings.v1_0.tipos_complexos_v1_00"
+    _nfse10_binding_module = "nfelib.nfse.bindings.v1_0.tipos_complexos_v1_01"
 
     brl_currency_id = fields.Many2one(
         comodel_name="res.currency",

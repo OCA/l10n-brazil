@@ -8,10 +8,11 @@ import logging
 import re
 import string
 import sys
-from datetime import datetime
 
 from erpbrasil.base.fiscal import cnpj_cpf
 from erpbrasil.base.fiscal.edoc import ChaveEdoc
+from erpbrasil.base.misc import punctuation_rm
+from erpbrasil.edoc.cte import TransmissaoCTE
 
 # TODO: precisa tratar
 from lxml import etree
@@ -20,8 +21,10 @@ from nfelib.cte.bindings.v4_0.dfe_tipos_basicos_v1_00 import Tcibs as CTeTcibs
 from nfelib.cte.bindings.v4_0.dfe_tipos_basicos_v1_00 import TtribCte
 from nfelib.cte.bindings.v4_0.proc_cte_v4_00 import CteProc
 
-# TODO: precisa tratar nfelib
-# from nfelib.nfe.ws.edoc_legacy import CTeAdapter as edoc_cte
+# erpbrasil.edoc.cte.CTe only renders generateDS objects, this adapter makes it
+# render, sign and post the xsdata bindings that nfelib and this module use
+from nfelib.nfe.ws.edoc_legacy import CTeAdapter as edoc_cte
+from requests import Session
 from xsdata.formats.dataclass.parsers import XmlParser
 
 from odoo import Command, _, api, fields
@@ -59,11 +62,13 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     SITUACAO_FISCAL_CANCELADO_EXTEMPORANEO,
 )
 from odoo.addons.l10n_br_fiscal.constants.icms import ICMS_CST, ICMS_SN_CST
+from odoo.addons.l10n_br_fiscal_edi.tools import tax_authority_date_to_utc
 from odoo.addons.spec_driven_model.models import spec_models
 
 from ..constants.cte import (
     CTE_CST,
     CTE_ENVIRONMENTS,
+    CTE_IBSCBS_IN_VTPREST_DATE,
     CTE_ICMS_SELECTION,
     CTE_INDIETOMA,
     CTE_INDIETOMA_DEFAULT,
@@ -78,6 +83,16 @@ from ..constants.cte import (
     CTE_TYPE_DEFAULT,
 )
 from ..constants.modal import CTE_MODAL_VERSION_DEFAULT
+
+TOMA4_PARTNER_FIELDS = (
+    "cte40_CNPJ",
+    "cte40_CPF",
+    "cte40_IE",
+    "cte40_xNome",
+    "cte40_xFant",
+    "cte40_fone",
+    "cte40_email",
+)
 
 CTE_XML_NAMESPACE = {"cte": "http://www.portalfiscal.inf.br/cte"}
 
@@ -129,36 +144,39 @@ class CTe(spec_models.StackedModel):
     )
     _cte_search_keys = ["cte40_Id"]
 
+    # When dynamic stacking is applied the CTe structure is:
+    # (+ content of the m2o is stacked in the parent / - standard m2o /
+    # ≡ o2m; the mapped Odoo model may follow the tag)
     INFCTE_TREE = """
-    > infCte
-        > <ide>
-            > <toma> res.partner
-        > <compl>
-            > <Entrega>
+    + infCte
+        + <ide>
+            + <toma> res.partner
+        + <compl>
+            + <Entrega>
             - <xObs>
             ≡ <ObsCont>
             ≡ <ObsFisco>
 
-        > <emit> res.company
-        > <rem> res.company
-        > <exped> res.partner
-        > <receb> res.partner
-        > <vPrest>
+        + <emit> res.company
+        + <rem> res.company
+        + <exped> res.partner
+        + <receb> res.partner
+        + <vPrest>
             ≡ <comp>
-        > <imp>
-            > <ICMS>
-            > <ICMSUFFim>
-        > <infCTeNorm>
-            > <infCarga>
+        + <imp>
+            + <ICMS>
+            + <ICMSUFFim>
+        + <infCTeNorm>
+            + <infCarga>
                 ≡ <infQ>
-            > <infDoc>
+            + <infDoc>
                 ≡ <infNF>
                 ≡ <infNFe>
                 ≡ <infOutros>
-        -   > <infModal>
-        > <autXML>
-        > <infRespTec>
-    > <infCTeSupl>"""
+        -   + <infModal>
+        ≡ <autXML> l10n_br_cte.autxml
+        + <infRespTec>
+    + <infCTeSupl>"""
 
     cte40_versao = fields.Char(related="document_version")
 
@@ -600,7 +618,17 @@ class CTe(spec_models.StackedModel):
     # CT-e tag: vPrest
     ##########################
 
-    cte40_vTPrest = fields.Monetary(related="fiscal_amount_total")
+    cte40_vTPrest = fields.Monetary(compute="_compute_cte40_vprest_totals")
+
+    # NT CT-e 2026.004: net amount of the service, without IBS/CBS. The tag is
+    # not in the nfelib schema yet (PL_CTe_400_NT2026.002_RTC), so it only
+    # reaches the XML once l10n_br_cte_spec is regenerated with that package.
+    cte40_vTPrestLiq = fields.Monetary(
+        string="Valor Líquido da Prestação",
+        compute="_compute_cte40_vprest_totals",
+        currency_field="brl_currency_id",
+        help="Valor líquido total da prestação, sem IBS e CBS (NT CT-e 2026.004).",
+    )
 
     cte40_vRec = fields.Monetary(related="amount_price_gross")
 
@@ -782,7 +810,7 @@ class CTe(spec_models.StackedModel):
     )
     cte40_vTotDFe = fields.Monetary(
         string="Valor total do documento fiscal",
-        compute="_compute_cte40_ibscbs_fields",
+        compute="_compute_cte40_vprest_totals",
         currency_field="brl_currency_id",
     )
 
@@ -809,7 +837,6 @@ class CTe(spec_models.StackedModel):
                 record.cte40_pIBSUF = 0.0
                 record.cte40_pIBSMun = 0.0
                 record.cte40_pCBS = 0.0
-                record.cte40_vTotDFe = 0.0
                 continue
 
             first = lines[0]
@@ -838,19 +865,72 @@ class CTe(spec_models.StackedModel):
             record.cte40_pIBSMun = p_ibs_mun
             record.cte40_pCBS = p_cbs
 
-            year = datetime.now().year
-            if record.cte40_vIBS or record.cte40_vCBS:
-                if year <= 2026:
-                    # Exceção: em 2026 não soma IBS e CBS
-                    record.cte40_vTotDFe = record.fiscal_amount_total or 0.0
-                else:
-                    record.cte40_vTotDFe = (
-                        (record.fiscal_amount_total or 0.0)
-                        + record.cte40_vIBS
-                        + record.cte40_vCBS
-                    )
-            else:
-                record.cte40_vTotDFe = 0.0
+    def _get_cte_reference_date(self):
+        """Date that decides the yearly rule of the CT-e: the local issue date.
+
+        Uses the same timezone as the exported dhEmi (context_timestamp), so a
+        CT-e issued at 22:00 of 2026-12-31 in Sao Paulo (2027-01-01 in UTC)
+        follows the 2026 rule. The server clock is only a fallback for drafts
+        without an issue date.
+        """
+        self.ensure_one()
+        if self.document_date:
+            return fields.Datetime.context_timestamp(self, self.document_date).date()
+        return fields.Date.context_today(self)
+
+    def _get_cte_ibscbs_in_amount_total(self):
+        """IBS/CBS already added to fiscal_amount_total by the fiscal engine.
+
+        With the default tax groups (tax_include) IBS and CBS stay out of the
+        total; if the setup adds them, they must not enter vTPrest twice.
+        """
+        self.ensure_one()
+        amount = 0.0
+        for line in self.fiscal_line_ids:
+            if line.ibs_tax_id and not line.ibs_tax_id.tax_group_id.tax_include:
+                amount += line.ibs_value
+            if line.cbs_tax_id and not line.cbs_tax_id.tax_group_id.tax_include:
+                amount += line.cbs_value
+        return amount
+
+    @api.depends(
+        "fiscal_amount_total",
+        "document_date",
+        "fiscal_line_ids.ibs_value",
+        "fiscal_line_ids.cbs_value",
+        "fiscal_line_ids.ibs_tax_id",
+        "fiscal_line_ids.cbs_tax_id",
+        "cte40_vIBS",
+        "cte40_vCBS",
+    )
+    @api.depends_context("tz")
+    def _compute_cte40_vprest_totals(self):
+        """vTPrest, vTPrestLiq and vTotDFe as in NT CT-e 2026.004.
+
+        - vTPrestLiq: amount of the service without IBS/CBS.
+        - vTPrest: the net amount in 2026; from 2027 on (by the issue date)
+          the net amount plus IBS and CBS.
+        - vTotDFe: repeats vTPrest (rule 365), IBS/CBS are never added again.
+          Only informed when the CT-e has IBS/CBS, as before.
+        """
+        for record in self:
+            currency = record.brl_currency_id or record.currency_id
+            net_amount = (
+                record.fiscal_amount_total or 0.0
+            ) - record._get_cte_ibscbs_in_amount_total()
+            ibscbs_amount = record.cte40_vIBS + record.cte40_vCBS
+            total = net_amount
+            if (
+                ibscbs_amount
+                and record._get_cte_reference_date() >= CTE_IBSCBS_IN_VTPREST_DATE
+            ):
+                total += ibscbs_amount
+            if currency:
+                net_amount = currency.round(net_amount)
+                total = currency.round(total)
+            record.cte40_vTPrestLiq = net_amount
+            record.cte40_vTPrest = total
+            record.cte40_vTotDFe = total if ibscbs_amount else 0.0
 
     # ##########################
     # # CT-e tag: ICMSUFFim
@@ -979,23 +1059,35 @@ class CTe(spec_models.StackedModel):
 
     ##########################
     # CT-e tag: autXML
-    # Compute Methods
     ##########################
 
-    def _default_cte40_autxml(self):
-        company = self.env.company
-        authorized_partners = []
-        if company.accountant_id:
-            authorized_partners.append(company.accountant_id.id)
-        if company.technical_support_id:
-            authorized_partners.append(company.technical_support_id.id)
-        return authorized_partners
+    # The comodel is declared here instead of being left to the spec remapping
+    # done at setup time: account.move copies this field through _inherits and,
+    # when it is set up first (it depends on the module loading order), the
+    # copy keeps pointing to the abstract spec model, which has no partner.
+    cte40_autXML = fields.One2many(comodel_name="l10n_br_cte.autxml")
 
-    ##########################
-    # CT-e tag: autXML
-    ##########################
+    def _get_cte40_autxml_partners(self):
+        """Partners of the company of the document allowed to download the XML."""
+        self.ensure_one()
+        return self.company_id.accountant_id | self.company_id.technical_support_id
 
-    cte40_autXML = fields.One2many(default=_default_cte40_autxml)
+    @api.model_create_multi
+    def create(self, vals_list):
+        documents = super().create(vals_list)
+        # Done after create, not as a field default: a default can only read
+        # the company the user is working on, and the company of the document
+        # is only settled here (through account.move it comes as
+        # proxy_company_id). Documents created with their own autXML keep it.
+        self.env["l10n_br_cte.autxml"].create(
+            [
+                {"cte40_autXML_infCte_id": document.id, "partner_id": partner.id}
+                for document in documents
+                if not document.cte40_autXML
+                for partner in document._get_cte40_autxml_partners()
+            ]
+        )
+        return documents
 
     ##########################
     # CT-e tag: infCTeSupl
@@ -1317,7 +1409,31 @@ class CTe(spec_models.StackedModel):
             "imported_document": True,
         }
 
+    def _export_toma4_field(self, xsd_field):
+        """The "Outros" service taker (toma4) is identified by partner_id."""
+        partner = self.partner_id
+        cnpj_cpf_number = punctuation_rm(partner.cnpj_cpf or "")
+        if xsd_field == "cte40_CNPJ":
+            return cnpj_cpf_number if len(cnpj_cpf_number) == 14 else False
+        if xsd_field == "cte40_CPF":
+            return cnpj_cpf_number if len(cnpj_cpf_number) == 11 else False
+        if xsd_field == "cte40_IE":
+            return partner.cte40_IE or False
+        if xsd_field == "cte40_xNome":
+            if self.env.context.get("tpAmb") == "2":
+                return "CTE EMITIDO EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL"
+            return partner.legal_name or partner.name
+        if xsd_field == "cte40_xFant":
+            return partner.name if partner.legal_name else False
+        if xsd_field == "cte40_fone":
+            return partner.cte40_fone or False
+        if xsd_field == "cte40_email":
+            return partner.email or False
+        return False
+
     def _export_field(self, xsd_field, class_obj, member_spec, export_value=None):
+        if class_obj._name == "cte.40.tcte_toma4" and xsd_field in TOMA4_PARTNER_FIELDS:
+            return self._export_toma4_field(xsd_field)
         if xsd_field == "cte40_tpAmb":
             self.env.context = dict(self.env.context)
             self.env.context.update({"tpAmb": self[xsd_field]})
@@ -1540,33 +1656,30 @@ class CTe(spec_models.StackedModel):
             edocs.append(cte)
         return edocs
 
-    # def _edoc_processor(self):
-    #     if self.document_type != MODELO_FISCAL_CTE:
-    #         return super()._edoc_processor()
-
-    #     if not self.company_id.certificate_nfe_id:
-    #         raise UserError(_("Certificado não encontrado"))
-
-    #     certificado = self.env.company._get_br_ecertificate()
-    #     session = Session()
-    #     session.verify = False
-
-    #     params = {
-    #         "transmissao": TransmissaoCTE(certificado, session),
-    #         "uf": self.company_id.state_id.ibge_code,
-    #         "versao": self.cte_version,
-    #         "ambiente": self.cte_environment,
-    #     }
-    #     return edoc_cte(**params)
-
     def _edoc_processor(self):
-        pass
+        if not self.filtered(filter_processador_edoc_cte):
+            return super()._edoc_processor()
+
+        certificado = self.company_id._get_br_ecertificate()
+        session = Session()
+        session.verify = False
+
+        params = {
+            "transmissao": TransmissaoCTE(certificado, session),
+            "uf": self.company_id.state_id.ibge_code,
+            "versao": self.cte_version,
+            "ambiente": self.cte_environment,
+            "mod": self.document_type,
+        }
+        return edoc_cte(**params)
 
     def _document_export(self, pretty_print=True):
         result = super()._document_export()
         for record in self.filtered(filter_processador_edoc_cte):
+            # The QR Code goes in infCTeSupl, so it must exist before serializing
+            record._document_qrcode()
             edoc = record.serialize()[0]
-            # processador = record._edoc_processor()
+            processador = record._edoc_processor()
             xml_file = edoc.to_xml()
             event_id = self.event_ids.create_event_save_xml(
                 company_id=self.company_id,
@@ -1579,8 +1692,8 @@ class CTe(spec_models.StackedModel):
             )
             record.authorization_event_id = event_id
 
-            # xml_assinado = processador.assina_raiz(edoc, edoc.infCte.Id)
-            # self._validate_xml(xml_assinado)
+            xml_assinado = processador.assina_raiz(edoc, edoc.infCte.Id)
+            self._validate_xml(xml_assinado)
         return result
 
     def _validate_xml(self, xml_file):
@@ -1609,12 +1722,7 @@ class CTe(spec_models.StackedModel):
         else:
             state = SITUACAO_EDOC_REJEITADA
         if self.authorization_event_id and infProt.nProt:
-            if isinstance(infProt.dhRecbto, datetime):
-                protocol_date = fields.Datetime.to_string(infProt.dhRecbto)
-            else:
-                protocol_date = fields.Datetime.to_string(
-                    datetime.fromisoformat(infProt.dhRecbto)
-                )
+            protocol_date = tax_authority_date_to_utc(infProt.dhRecbto)
 
             self.authorization_event_id.set_done(
                 status_code=infProt.cStat,
@@ -1715,9 +1823,7 @@ class CTe(spec_models.StackedModel):
             self.cancel_event_id.set_done(
                 status_code=resposta.cStat,
                 response=resposta.xMotivo,
-                protocol_date=fields.Datetime.to_string(
-                    datetime.fromisoformat(resposta.dhRegEvento)
-                ),
+                protocol_date=tax_authority_date_to_utc(resposta.dhRegEvento),
                 protocol_number=resposta.nProt,
                 file_response_xml=process.retorno.content.decode("utf-8"),
             )
@@ -1770,24 +1876,23 @@ class CTe(spec_models.StackedModel):
         event_id.set_done(
             status_code=resposta.cStat,
             response=resposta.xMotivo,
-            protocol_date=fields.Datetime.to_string(
-                datetime.fromisoformat(resposta.dhRegEvento)
-            ),
+            protocol_date=tax_authority_date_to_utc(resposta.dhRegEvento),
             protocol_number=resposta.nProt,
             file_response_xml=process.retorno.content.decode("utf-8"),
         )
 
-    # def _document_qrcode(self):
-    #     super()._document_qrcode()
+    def _document_qrcode(self):
+        result = super()._document_qrcode()
 
-    #     for record in self.filtered(filter_processador_edoc_cte):
-    #         record.cte40_infCTeSupl = self.env[
-    #             "l10n_br_fiscal.document.supplement"
-    #         ].create(
-    #             {
-    #                 "qrcode": record.get_cte_qrcode(),
-    #             }
-    #         )
+        for record in self.filtered(filter_processador_edoc_cte):
+            qrcode = record.get_cte_qrcode()
+            if record.cte40_infCTeSupl:
+                record.cte40_infCTeSupl.qrcode = qrcode
+            else:
+                record.cte40_infCTeSupl = self.env[
+                    "l10n_br_fiscal.document.supplement"
+                ].create({"qrcode": qrcode})
+        return result
 
     def get_cte_qrcode(self):
         if self.document_type != MODELO_FISCAL_CTE:

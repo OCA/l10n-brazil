@@ -1,0 +1,276 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* payment_cielo
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: payment_cielo
+#: model:ir.model.fields,field_description:payment_cielo.field_payment_token__cielo_card_brand
+msgid "Card Brand"
+msgstr ""
+
+#. module: payment_cielo
+#: model_terms:ir.ui.view,arch_db:payment_cielo.inline_form
+msgid "Card Code"
+msgstr ""
+
+#. module: payment_cielo
+#: model_terms:ir.ui.view,arch_db:payment_cielo.inline_form
+msgid "Card Holder"
+msgstr ""
+
+#. module: payment_cielo
+#: model_terms:ir.ui.view,arch_db:payment_cielo.inline_form
+msgid "Card Number"
+msgstr ""
+
+#. module: payment_cielo
+#: model:ir.model.fields.selection,name:payment_cielo.selection__payment_provider__code__cielo
+#: model:payment.provider,name:payment_cielo.payment_provider_cielo
+msgid "Cielo"
+msgstr ""
+
+#. module: payment_cielo
+#. odoo-python
+#: code:addons/payment_cielo/models/payment_provider.py:0
+#, python-format
+msgid "Cielo: Could not establish the connection to the API."
+msgstr ""
+
+#. module: payment_cielo
+#. odoo-python
+#: code:addons/payment_cielo/models/payment_transaction.py:0
+#, python-format
+msgid "Cielo: No card details nor card token to process the payment with."
+msgstr ""
+
+#. module: payment_cielo
+#. odoo-python
+#: code:addons/payment_cielo/controllers/main.py:0
+#: code:addons/payment_cielo/models/payment_transaction.py:0
+#, python-format
+msgid "Cielo: No transaction found matching reference %s."
+msgstr ""
+
+#. module: payment_cielo
+#. odoo-python
+#: code:addons/payment_cielo/models/payment_transaction.py:0
+#, python-format
+msgid "Cielo: Received data with invalid status: %s"
+msgstr ""
+
+#. module: payment_cielo
+#. odoo-python
+#: code:addons/payment_cielo/models/payment_transaction.py:0
+#, python-format
+msgid "Cielo: Received data with missing reference."
+msgstr ""
+
+#. module: payment_cielo
+#. odoo-python
+#: code:addons/payment_cielo/models/payment_transaction.py:0
+#, python-format
+msgid "Cielo: Received data with missing status."
+msgstr ""
+
+#. module: payment_cielo
+#. odoo-python
+#: code:addons/payment_cielo/controllers/main.py:0
+#, python-format
+msgid "Cielo: Received tampered payment request data."
+msgstr ""
+
+#. module: payment_cielo
+#. odoo-python
+#: code:addons/payment_cielo/models/payment_provider.py:0
+#, python-format
+msgid "Cielo: The API answered with an unexpected response."
+msgstr ""
+
+#. module: payment_cielo
+#. odoo-python
+#: code:addons/payment_cielo/models/payment_transaction.py:0
+#, python-format
+msgid "Cielo: The brand of the card is not supported."
+msgstr ""
+
+#. module: payment_cielo
+#. odoo-python
+#: code:addons/payment_cielo/models/payment_provider.py:0
+#, python-format
+msgid ""
+"Cielo: The communication with the API failed. Cielo gave us the following "
+"information: %s"
+msgstr ""
+
+#. module: payment_cielo
+#. odoo-python
+#: code:addons/payment_cielo/models/payment_transaction.py:0
+#: code:addons/payment_cielo/models/payment_transaction.py:0
+#, python-format
+msgid "Cielo: The expiration date of the card is invalid."
+msgstr ""
+
+#. module: payment_cielo
+#. odoo-python
+#: code:addons/payment_cielo/models/payment_provider.py:0
+#, python-format
+msgid "Cielo: The merchant credentials are not configured."
+msgstr ""
+
+#. module: payment_cielo
+#. odoo-python
+#: code:addons/payment_cielo/models/payment_transaction.py:0
+#, python-format
+msgid "Cielo: The payment was authorized but could not be captured: %s"
+msgstr ""
+
+#. module: payment_cielo
+#. odoo-python
+#: code:addons/payment_cielo/models/payment_transaction.py:0
+#, python-format
+msgid "Cielo: The payment was refused with the following information: %s"
+msgstr ""
+
+#. module: payment_cielo
+#. odoo-python
+#: code:addons/payment_cielo/models/payment_transaction.py:0
+#, python-format
+msgid "Cielo: The transaction is not linked to a token."
+msgstr ""
+
+#. module: payment_cielo
+#: model:ir.model.fields,field_description:payment_cielo.field_payment_provider__code
+msgid "Code"
+msgstr ""
+
+#. module: payment_cielo
+#: model:payment.provider,display_as:payment_cielo.payment_provider_cielo
+msgid "Credit Card (powered by Cielo)"
+msgstr ""
+
+#. module: payment_cielo
+#: model_terms:ir.ui.view,arch_db:payment_cielo.inline_form
+msgid "Expiration"
+msgstr ""
+
+#. module: payment_cielo
+#: model_terms:ir.ui.view,arch_db:payment_cielo.inline_form
+msgid "MM"
+msgstr ""
+
+#. module: payment_cielo
+#: model:ir.model.fields,field_description:payment_cielo.field_payment_provider__cielo_merchant_id
+msgid "Merchant Id"
+msgstr ""
+
+#. module: payment_cielo
+#: model:ir.model.fields,field_description:payment_cielo.field_payment_provider__cielo_merchant_key
+msgid "Merchant Key"
+msgstr ""
+
+#. module: payment_cielo
+#: model:ir.model,name:payment_cielo.model_payment_provider
+msgid "Payment Provider"
+msgstr ""
+
+#. module: payment_cielo
+#: model:ir.model,name:payment_cielo.model_payment_token
+msgid "Payment Token"
+msgstr ""
+
+#. module: payment_cielo
+#: model:ir.model,name:payment_cielo.model_payment_transaction
+msgid "Payment Transaction"
+msgstr ""
+
+#. module: payment_cielo
+#. odoo-javascript
+#: code:addons/payment_cielo/static/src/js/payment_form.js:0
+#, python-format
+msgid "Server Error"
+msgstr ""
+
+#. module: payment_cielo
+#: model:ir.model.fields,field_description:payment_cielo.field_payment_provider__cielo_soft_descriptor
+msgid "Soft Descriptor"
+msgstr ""
+
+#. module: payment_cielo
+#: model:ir.model.fields,help:payment_cielo.field_payment_provider__cielo_merchant_key
+msgid "The authentication key provided by Cielo, 40 characters long."
+msgstr ""
+
+#. module: payment_cielo
+#: model:ir.model.fields,help:payment_cielo.field_payment_token__cielo_card_brand
+msgid ""
+"The brand of the card, as named by Cielo. It must be sent along with the "
+"card token on every payment request."
+msgstr ""
+
+#. module: payment_cielo
+#: model:ir.model.fields,help:payment_cielo.field_payment_provider__cielo_soft_descriptor
+msgid ""
+"The name that appears on the credit card statement of the customer. Cielo "
+"limits it to 13 characters."
+msgstr ""
+
+#. module: payment_cielo
+#: model:ir.model.fields,help:payment_cielo.field_payment_provider__cielo_merchant_id
+msgid "The store identifier provided by Cielo, in the GUID format."
+msgstr ""
+
+#. module: payment_cielo
+#: model:ir.model.fields,help:payment_cielo.field_payment_provider__code
+msgid "The technical code of this payment provider."
+msgstr ""
+
+#. module: payment_cielo
+#. odoo-javascript
+#: code:addons/payment_cielo/static/src/js/payment_form.js:0
+#, python-format
+msgid "We are not able to process your payment."
+msgstr ""
+
+#. module: payment_cielo
+#: model_terms:ir.ui.view,arch_db:payment_cielo.inline_form
+msgid "YY"
+msgstr ""
+
+#. module: payment_cielo
+#: model_terms:payment.provider,auth_msg:payment_cielo.payment_provider_cielo
+msgid "Your payment has been authorized."
+msgstr ""
+
+#. module: payment_cielo
+#: model_terms:payment.provider,cancel_msg:payment_cielo.payment_provider_cielo
+msgid "Your payment has been cancelled."
+msgstr ""
+
+#. module: payment_cielo
+#: model_terms:payment.provider,pending_msg:payment_cielo.payment_provider_cielo
+msgid ""
+"Your payment has been successfully processed but is waiting for approval."
+msgstr ""
+
+#. module: payment_cielo
+#: model_terms:payment.provider,done_msg:payment_cielo.payment_provider_cielo
+msgid "Your payment has been successfully processed. Thank you!"
+msgstr ""
+
+#. module: payment_cielo
+#. odoo-python
+#: code:addons/payment_cielo/models/payment_transaction.py:0
+#: code:addons/payment_cielo/models/payment_transaction.py:0
+#, python-format
+msgid "no information given"
+msgstr ""

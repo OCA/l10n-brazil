@@ -95,7 +95,6 @@ class TestFiscalTax(TransactionCase):
             "cest": False,
             "operation_line": self.env.ref("l10n_br_fiscal.fo_venda_venda"),
             "cfop": self.env.ref("l10n_br_fiscal.cfop_6101"),
-            "icmssn_range": False,
             "icms_origin": ICMS_ORIGIN_DEFAULT,
             "ind_final": FINAL_CUSTOMER_YES,
         }
@@ -321,6 +320,20 @@ class TestFiscalTax(TransactionCase):
         }
 
         self._check_compute_taxes_result(test_result, compute_result, currency)
+
+    def test_ibs_cbs_rate_reduction(self):
+        """IBS and CBS keep the full base and reduce the rate (cClassTrib 200032
+        case of the official RTC calculator: vBC 200.00, vIBSUF 0.08, vCBS 0.72)"""
+        kwargs = self._create_compute_taxes_kwargs()
+        kwargs.update(fiscal_price=200.0, fiscal_quantity=1.0)
+        fiscal_taxes = self.env.ref("l10n_br_fiscal.tax_ibs_0_1_red_60") + self.env.ref(
+            "l10n_br_fiscal.tax_cbs_0_9_red_60"
+        )
+        taxes = fiscal_taxes.compute_taxes(**kwargs)["taxes"]
+        self.assertEqual(taxes["ibs"]["base"], 200.0)
+        self.assertEqual(taxes["ibs"]["tax_value"], 0.08)
+        self.assertEqual(taxes["cbs"]["base"], 200.0)
+        self.assertEqual(taxes["cbs"]["tax_value"], 0.72)
 
     def test_icmsst_forces_icms_cst_10(self):
         """When ICMS ST also applies to the line, the ICMS tax CST must be

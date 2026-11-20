@@ -2,6 +2,7 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from odoo import api, fields, models
+from odoo.tools.float_utils import float_compare, float_is_zero
 
 USER_TYPE_MAP = {
     ("outgoing", "customer"): ["sale"],
@@ -15,7 +16,11 @@ USER_TYPE_MAP = {
 
 class StockMove(models.Model):
     _name = "stock.move"
-    _inherit = [_name, "l10n_br_fiscal.document.line.mixin"]
+    _inherit = [
+        _name,
+        "l10n_br_fiscal.document.line.mixin",
+        "l10n_br_fiscal.stock.price.mixin",
+    ]
 
     @api.model
     def _default_fiscal_operation(self):
@@ -90,6 +95,24 @@ class StockMove(models.Model):
     def _get_document(self):
         self.ensure_one()
         return self.picking_id
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if vals.get("picking_id") and not vals.get("fiscal_operation_id"):
+                picking = self.env["stock.picking"].browse(vals["picking_id"])
+                if picking.fiscal_operation_id:
+                    vals["fiscal_operation_id"] = picking.fiscal_operation_id.id
+        return super().create(vals_list)
+
+    def write(self, vals):
+        result = super().write(vals)
+        if vals.get("picking_id"):
+            for move in self.filtered(
+                lambda m: not m.fiscal_operation_id and m.picking_id.fiscal_operation_id
+            ):
+                move.fiscal_operation_id = move.picking_id.fiscal_operation_id
+        return result
 
     @api.depends("fiscal_tax_ids", "fiscal_operation_line_id")
     def _compute_tax_ids(self):
@@ -216,8 +239,50 @@ class StockMove(models.Model):
         #  e continua sendo feito abaixo?
         if self.fiscal_operation_id.fiscal_operation_type == "out":
             result = self.product_id.with_company(self.company_id).standard_price
+        elif (
+            self.fiscal_operation_id.fiscal_operation_type == "in"
+            and self.valuation_via_stock_price
+            and self._net_cost_applies(result)
+        ):
+            # Opt-in: net acquisition cost (art. 301 RIR/2018, CPC 16).
+            result = self.cost_unit
 
         return result
+
+    def _net_cost_applies(self, core_price):
+        """Whether the net cost may replace what the core priced this move at.
+
+        The core wins whenever it priced the move from something other than
+        the purchase price (returns, receipts invoiced ahead of delivery),
+        which is detected by comparing it with ``price_unit``. The net cost
+        also abstains on a zero cost and where no entry is posted on receipt
+        (periodic inventory), so the layer and the ledger keep the same value.
+        """
+        self.ensure_one()
+        precision = self.env["decimal.precision"].precision_get("Product Price")
+        if float_is_zero(self.cost_unit, precision_digits=precision):
+            return False
+        if self.product_id.with_company(self.company_id).valuation != "real_time":
+            return False
+        core_kept_price = float_compare(
+            core_price, self.price_unit, precision_digits=precision
+        )
+        return core_kept_price == 0
+
+    def _action_done(self, cancel_backorder=False):
+        """Freeze the net cost of incoming moves before they are valued.
+
+        On the move and not on the picking, because the core also calls it
+        for inventory adjustments, scrap and unbuild orders.
+        """
+        incoming = self.filtered(
+            lambda move: move.state not in ("done", "cancel")
+            and move.fiscal_operation_id.fiscal_operation_type == "in"
+            and move.valuation_via_stock_price
+        )
+        if incoming:
+            incoming._compute_cost_unit()
+        return super()._action_done(cancel_backorder=cancel_backorder)
 
     def _split(self, qty, restrict_partner_id=False):
         new_moves_vals = super()._split(qty, restrict_partner_id)

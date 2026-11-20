@@ -12,6 +12,17 @@ from odoo.tests.common import TransactionCase
 from odoo.addons.l10n_br_fiscal_dfe.tools import utils
 
 
+def _nfe_access_key(body):
+    """43-digit NF-e key body plus the mod-11 check digit."""
+    weights = [2, 3, 4, 5, 6, 7, 8, 9]
+    total = 0
+    for index, digit in enumerate(reversed(body)):
+        total += int(digit) * weights[index % 8]
+    rest = total % 11
+    check = 0 if rest < 2 else 11 - rest
+    return body + str(check)
+
+
 class TestDfeBase(TransactionCase):
     @classmethod
     def setUpClass(cls):
@@ -36,9 +47,11 @@ class TestDfeBase(TransactionCase):
         unique_cnpj_digits = "31282204000196"
         unique_cnpj_formatted = "31.282.204/0001-96"
 
-        # 14-digit CNPJ embedded in the access key (positions 6-20)
+        # 14-digit CNPJ embedded in the access key (positions 6-20).
+        # The key must be exactly 44 digits: a national NFS-e uses 50, and
+        # the partner match only reads the NF-e layout.
         # Key format: 35(UF) + 20(Year) + 01(Month) + CNPJ + 55(Mod) + ...
-        fake_key = f"352001{unique_cnpj_digits}5500100000000012062777161"
+        fake_key = f"352001{unique_cnpj_digits}550010000000001206277716"
 
         doc = self.env["l10n_br_fiscal_dfe.document"].create(
             {
@@ -126,3 +139,43 @@ class TestDfeBase(TransactionCase):
         result.resposta.xMotivo = "Rejection Test"
         with self.assertRaises(ValidationError):
             self.company._dfe_validate_distribution_response(result, raise_message=True)
+
+    def test_fiscal_document_link_follows_the_access_key(self):
+        """An inbox row stays pending until a fiscal document has the same key."""
+        access_key = _nfe_access_key("3524015959431500015755001000000001112345678")
+        inbox = self.env["l10n_br_fiscal_dfe.document"].create(
+            {
+                "access_key": access_key,
+                "company_id": self.company.id,
+                "fiscal_type": "nfe",
+            }
+        )
+        pending = self.env["l10n_br_fiscal_dfe.document"].search(
+            [("id", "=", inbox.id), ("fiscal_document_id", "=", False)]
+        )
+        self.assertFalse(inbox.fiscal_document_id)
+        self.assertEqual(pending, inbox)
+
+        fiscal_document = self.env["l10n_br_fiscal.document"].create(
+            {
+                "company_id": self.company.id,
+                "document_type_id": self.env.ref("l10n_br_fiscal.document_55").id,
+                "partner_id": self.env.ref("l10n_br_base.res_partner_cliente1_sp").id,
+                "document_key": access_key,
+            }
+        )
+        other_company = self.env.ref("l10n_br_base.empresa_simples_nacional")
+        self.env["l10n_br_fiscal.document"].create(
+            {
+                "company_id": other_company.id,
+                "document_type_id": self.env.ref("l10n_br_fiscal.document_55").id,
+                "partner_id": self.env.ref("l10n_br_base.res_partner_cliente1_sp").id,
+                "document_key": access_key,
+            }
+        )
+        inbox.invalidate_recordset()
+        self.assertEqual(inbox.fiscal_document_id, fiscal_document)
+        linked = self.env["l10n_br_fiscal_dfe.document"].search(
+            [("id", "=", inbox.id), ("fiscal_document_id", "=", False)]
+        )
+        self.assertFalse(linked)

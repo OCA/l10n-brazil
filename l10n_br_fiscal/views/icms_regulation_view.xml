@@ -30,7 +30,41 @@
                         <field name="name" required="1" />
                         <field name="icms_imported_tax_id" required="1" />
                     </group>
-                    <notebook />
+                    <!-- The state pages are added after the help page by
+                         _apply_state_tax_definition_tabs (models/icms_regulation.py) -->
+                    <notebook>
+                        <page name="help" string="Help">
+                            <div class="alert alert-info" role="alert">
+                                <strong>The ICMS regulation is the table that answers:
+                                "leaving state X for state Y, what is the ICMS?"</strong>
+                                The ICMS of ordinary sales and purchases comes from
+                                here, with nothing to configure per operation.
+                            </div>
+                            <ul>
+                                <li>The internal and interstate rates of all the
+                                states are already registered and maintained by the
+                                community. Each state has its own tab, with the ICMS,
+                                the ICMS ST, the FCP and the tax benefits.</li>
+                                <li>State benefits (base reduction, exemption for
+                                certain products) enter here as rules by state and
+                                NCM.</li>
+                                <li>Only <strong>approved</strong> rules apply. When
+                                more than one fits, the tax benefit comes first, then
+                                the specific rule of the NCM, CEST or product and,
+                                last, the general rule of the state.</li>
+                                <li><strong>Simples Nacional</strong> companies do not
+                                use this table: their ICMS is paid in the DAS, with
+                                the percentage of the annex and range computed on the
+                                company.</li>
+                            </ul>
+                            <div class="alert alert-warning" role="alert">
+                                Changes here affect <em>all</em> the sales and
+                                purchases of the companies that use this regulation.
+                                When in doubt, confirm with your accountant before
+                                changing.
+                            </div>
+                        </page>
+                    </notebook>
                 </sheet>
                 <div class="oe_chatter">
                     <field name="message_follower_ids" groups="base.group_user" />

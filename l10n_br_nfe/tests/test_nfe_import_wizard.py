@@ -3,6 +3,7 @@ import os
 import re
 from unittest.mock import MagicMock, patch
 
+from odoo import Command
 from odoo.tests import TransactionCase
 
 from odoo.addons import l10n_br_nfe
@@ -106,6 +107,60 @@ class NFeImportWizardTest(TransactionCase):
         self.assertEqual(first_imported_product.price_unit_trib, 14)
         self.assertEqual(first_imported_product.total, 14)
 
+    def test_fiscal_operation_from_issuer_cfop(self):
+        self._prepare_wizard(self.xml_1)
+
+        self.assertEqual(self.wizard.fiscal_operation_type, "in")
+        self.assertTrue(self.wizard.fiscal_operation_id)
+        self.assertEqual(self.wizard.fiscal_operation_id.fiscal_operation_type, "in")
+
+    def test_counterpart_cfop_code(self):
+        wizard = self.env["l10n_br_fiscal.document.import.wizard"]
+        self.assertEqual(wizard._counterpart_cfop_code("5102", "in"), "1102")
+        self.assertEqual(wizard._counterpart_cfop_code("6102", "in"), "2102")
+        self.assertEqual(wizard._counterpart_cfop_code("7102", "in"), "3102")
+        self.assertEqual(wizard._counterpart_cfop_code("5102", "out"), "5102")
+        self.assertFalse(wizard._counterpart_cfop_code("1102", "in"))
+
+    def test_an_inbound_cfop_has_no_counterpart_to_look_for(self):
+        """A note issued against us already carries our own CFOP, and there is no
+        issuer operation to translate: the search has nothing to run on."""
+        wizard = self.env["l10n_br_fiscal.document.import.wizard"]
+
+        self.assertFalse(wizard._find_fiscal_operation_line("1102", "Compra", "in"))
+
+    def test_the_operation_whose_name_matches_the_nature_wins(self):
+        """Several operations can share the CFOP, and the natureza da operacao of
+        the file is what tells them apart."""
+        wizard = self.env["l10n_br_fiscal.document.import.wizard"]
+        first = wizard._find_fiscal_operation_line("5102", False, "in")
+        self.assertTrue(first, "no approved operation line answers CFOP 1102")
+        # A later operation with the same CFOP: the plain search does not
+        # return it, so only the tie-break by name can.
+        operation = self.env["l10n_br_fiscal.operation"].create(
+            {
+                "code": "TEST-IMPORT-IN",
+                "name": "Same CFOP as the first one",
+                "fiscal_operation_type": "in",
+                "fiscal_type": "purchase",
+            }
+        )
+        self.env["l10n_br_fiscal.operation.line"].create(
+            {
+                "fiscal_operation_id": operation.id,
+                "name": "Same CFOP as the first one",
+                "cfop_internal_id": self.env["l10n_br_fiscal.cfop"]
+                .search([("code", "=", "1102")], limit=1)
+                .id,
+            }
+        )
+        operation.action_approve()
+
+        named = wizard._find_fiscal_operation_line("5102", operation.name, "in")
+
+        self.assertNotEqual(first.fiscal_operation_id, operation)
+        self.assertEqual(named.fiscal_operation_id, operation)
+
     def test_create_edoc_from_xml(self):
         self._prepare_wizard(self.xml_1)
 
@@ -114,6 +169,31 @@ class NFeImportWizardTest(TransactionCase):
         self.assertEqual(self.wizard.partner_id, edoc.partner_id)
 
         self.check_edoc(edoc)
+
+    def test_imported_document_view_xml_and_pdf(self):
+        """Ver XML and Ver PDF must work on a document imported from a
+        supplier XML, without an authorization event."""
+        self._prepare_wizard(self.xml_1)
+        binding, edoc = self.wizard._create_edoc_from_file()
+
+        self.assertFalse(edoc.authorization_event_id)
+        self.assertTrue(edoc.original_xml_file_id)
+        self.assertEqual(
+            base64.b64decode(edoc.original_xml_file_id.datas),
+            self.xml_1,
+        )
+        state_edoc = edoc.state_edoc
+
+        action = edoc.view_xml()
+        self.assertIn(str(edoc.original_xml_file_id.id), action["url"])
+
+        action = edoc.view_pdf()
+        self.assertTrue(edoc.file_report_id)
+        self.assertIn(str(edoc.file_report_id.id), action["url"])
+        self.assertTrue(base64.b64decode(edoc.file_report_id.datas).startswith(b"%PDF"))
+
+        self.assertFalse(edoc.authorization_event_id)
+        self.assertEqual(edoc.state_edoc, state_edoc)
 
     def FIXME_test_set_fiscal_operation_type(self):
         self._prepare_wizard(self.xml_1)
@@ -148,6 +228,24 @@ class NFeImportWizardTest(TransactionCase):
 
         first_product.product_id = old_product_id
         self.assertNotEqual(first_product.product_id, self.product_1)
+        # The fiscal profile imports the XML without purchase access rights
+        fiscal_user = self.env["res.users"].create(
+            {
+                "name": "Fiscal importer",
+                "login": "fiscal_importer",
+                "groups_id": [
+                    Command.set(
+                        [
+                            self.env.ref("base.group_user").id,
+                            self.env.ref("l10n_br_fiscal.group_manager").id,
+                            self.env.ref("l10n_br_nfe.group_manager").id,
+                        ]
+                    )
+                ],
+            }
+        )
+        first_product.with_user(fiscal_user)._find_or_create_product_supplierinfo()
+        self.assertIn(first_product.product_supplier_id, old_product_id.seller_ids)
 
         self.wizard.partner_id = self.partner_1
         first_product.product_supplier_id = self.env["product.supplierinfo"].create(
@@ -160,7 +258,7 @@ class NFeImportWizardTest(TransactionCase):
         )
         wiz_supplier_id = first_product.product_supplier_id
 
-        first_product._find_or_create_product_supplierinfo()
+        first_product.with_user(fiscal_user)._find_or_create_product_supplierinfo()
         self.assertEqual(wiz_supplier_id.product_id, first_product.product_id)
         self.assertEqual(wiz_supplier_id.partner_uom_id, first_product.uom_internal)
         self.assertEqual(wiz_supplier_id.product_name, first_product.product_name)

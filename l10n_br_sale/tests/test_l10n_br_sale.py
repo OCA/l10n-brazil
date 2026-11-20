@@ -70,10 +70,12 @@ class L10nBrSaleBaseTest:
             },
         }
 
+        # the demo customer of the Simples Nacional orders is not an ICMS
+        # contributor, so it takes no ICMS credit
         TAXES_SIMPLES = {
             "icms": {
-                "tax": cls.env.ref("l10n_br_fiscal.tax_icms_sn_com_credito"),
-                "cst": cls.env.ref("l10n_br_fiscal.cst_icmssn_101"),
+                "tax": cls.env.ref("l10n_br_fiscal.tax_icms_sn_sem_credito"),
+                "cst": cls.env.ref("l10n_br_fiscal.cst_icmssn_102"),
             },
             "issqn": {
                 "tax": cls.env.ref("l10n_br_fiscal.tax_issqn_5"),
@@ -248,8 +250,10 @@ class L10nBrSaleBaseTest:
                     line.fiscal_operation_line_id,
                     "Error to included Operation Line from Sale Order Line.",
                 )
+                # price_total of the invoice line comes from the account
+                # taxes, not set in the demo data: compare the fiscal total
                 self.assertAlmostEqual(
-                    line.price_total,
+                    line.fiscal_amount_total,
                     line.sale_line_ids[0].price_total,
                     2,
                     "Error field Price Total in Invoice Line"

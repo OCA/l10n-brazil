@@ -6,4 +6,18 @@
         <field name="value">Odoo Brasil OCA v14</field>
       </record>
 
+    <!-- Default False on 16.0: erpbrasil.edoc stays the transmission. Set to
+         True to opt in to the nfelib SOAP transmission. noupdate: a module
+         update keeps the choice made in the database. -->
+    <data noupdate="1">
+        <record
+            id="nfelib_soap_transmission"
+            model="ir.config_parameter"
+            forcecreate="True"
+        >
+            <field name="key">l10n_br_nfe.nfelib_soap_transmission</field>
+            <field name="value">False</field>
+        </record>
+    </data>
+
 </odoo>

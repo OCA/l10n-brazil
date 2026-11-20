@@ -64,3 +64,48 @@ class TestAutXml(TransactionCase):
 
         self.assertEqual(authorization.nfe40_CNPJ, self.partner.nfe40_CNPJ)
         self.assertEqual(authorization.nfe40_CPF, self.partner.nfe40_CPF)
+
+    def _authorize_accountant(self, company, accountant):
+        company.write(
+            {
+                "accountant_id": accountant.id,
+                "nfe_authorize_accountant_download_xml": True,
+            }
+        )
+
+    def test_autxml_comes_from_the_document_company(self):
+        """The accountant authorized is the one of the document company.
+
+        Not the one of the company the user is working on: invoicing an
+        order of a company while another one is active in the company
+        switcher must not issue the NF-e with the other company's
+        authorizations.
+        """
+        company = self.document.company_id
+        other_company = self.env["res.company"].search(
+            [("id", "!=", company.id)], limit=1
+        )
+        other_accountant = self.env["res.partner"].create(
+            {"name": "Other Company Accountant"}
+        )
+        self._authorize_accountant(company, self.partner)
+        self._authorize_accountant(other_company, other_accountant)
+
+        document = self.document.with_context(
+            allowed_company_ids=[other_company.id, company.id]
+        ).copy()
+
+        self.assertEqual(document.env.company, other_company)
+        self.assertIn(self.partner, document.nfe40_autXML.partner_id)
+        self.assertNotIn(other_accountant, document.nfe40_autXML.partner_id)
+
+    def test_document_created_with_autxml_keeps_it(self):
+        """A document created with its own autXML (an import) keeps it."""
+        self._authorize_accountant(self.document.company_id, self.partner)
+        given_partner = self.env["res.partner"].create({"name": "Given Partner"})
+
+        document = self.document.copy(
+            {"nfe40_autXML": [Command.create({"partner_id": given_partner.id})]}
+        )
+
+        self.assertEqual(document.nfe40_autXML.partner_id, given_partner)

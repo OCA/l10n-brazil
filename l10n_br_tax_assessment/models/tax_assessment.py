@@ -1,8 +1,10 @@
 # Copyright 2026 KMEE
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
+from datetime import timedelta
+
 from odoo import _, api, fields, models
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, ValidationError
 
 # Sign convention of the breakdown. OCA's `account_tax_balance` already returns
 # the balance with the sign flipped (`-balance`), so an outbound tax (an
@@ -68,14 +70,19 @@ class TaxAssessment(models.Model):
         "procura pis e cofins.",
     )
     regime = fields.Selection(
-        related="tax_group_id.regime",
+        selection=lambda self: (
+            self.env["account.tax.group"]._fields["regime"].selection
+        ),
+        compute="_compute_regime",
         store=True,
         readonly=True,
         help="Regime apurado, herdado do grupo de imposto (critério de "
         "partição: um grupo por regime, então uma apuração nunca mistura "
         "regimes nem conta a mesma linha duas vezes). PIS e COFINS têm "
         "apuração separada por regime, como o M200 da EFD Contribuições "
-        "pede; ICMS e IPI usam 'Não se aplica'.\n"
+        "pede; ICMS e IPI usam 'Não se aplica'. Quando o grupo de PIS ou "
+        "COFINS não informa o regime, vale o da empresa: cumulativo no Lucro "
+        "Presumido e Arbitrado, não cumulativo no Lucro Real.\n"
         "O campo é armazenado porque entra na chave única do período, e o "
         "grupo o declara obrigatório: um regime nulo faria a chave deixar "
         "de valer, porque no Postgres NULL nunca é igual a NULL.",
@@ -129,13 +136,20 @@ class TaxAssessment(models.Model):
         help="Saldo credor transportado do período anterior. Positivo quando "
         "há crédito a aproveitar. É o campo 10 do E110.",
     )
+    previous_periods_warning = fields.Char(
+        string="Aviso de períodos anteriores",
+        compute="_compute_previous_periods_warning",
+        help="Aviso quando há período anterior com movimento deste imposto e sem "
+        "apuração lançada: o saldo anterior desta apuração nasce errado.",
+    )
 
     # Totals in E110 order. See `_compute_totals` for the formula.
     debit_total = fields.Monetary(
         string="Débitos (saídas)",
         compute="_compute_totals",
         store=True,
-        help="Campo 02 do E110: débitos por saídas com débito do imposto.",
+        help="Campo 02 do E110: débitos por saídas com débito do imposto, "
+        "inclusive a devolução de compra (CFOP 5202/6202).",
     )
     adjustment_debit_total = fields.Monetary(
         string="Ajustes a débito",
@@ -147,13 +161,15 @@ class TaxAssessment(models.Model):
         string="Estornos de crédito",
         compute="_compute_totals",
         store=True,
-        help="Campo 05 do E110.",
+        help="Campo 05 do E110: só a soma dos ajustes de estorno de crédito "
+        "do E111. Devolução de compra não entra aqui, vai ao campo 02.",
     )
     credit_total = fields.Monetary(
         string="Créditos (entradas)",
         compute="_compute_totals",
         store=True,
-        help="Campo 06 do E110: créditos por entradas com crédito do imposto.",
+        help="Campo 06 do E110: créditos por entradas com crédito do imposto, "
+        "inclusive a devolução de venda (CFOP 1202/2202).",
     )
     adjustment_credit_total = fields.Monetary(
         string="Ajustes a crédito",
@@ -165,7 +181,8 @@ class TaxAssessment(models.Model):
         string="Estornos de débito",
         compute="_compute_totals",
         store=True,
-        help="Campo 09 do E110.",
+        help="Campo 09 do E110: só a soma dos ajustes de estorno de débito "
+        "do E111. Devolução de venda não entra aqui, vai ao campo 06.",
     )
     balance = fields.Monetary(
         string="Saldo do período",
@@ -232,9 +249,52 @@ class TaxAssessment(models.Model):
     def _check_period(self):
         for record in self:
             if record.date_to < record.date_from:
-                raise UserError(
+                raise ValidationError(
                     _("A data final da apuração é anterior à data inicial.")
                 )
+
+    @api.constrains("company_id", "tax_group_id", "date_from", "date_to")
+    def _check_overlap(self):
+        for record in self:
+            if self.search_count(
+                [
+                    ("id", "!=", record.id),
+                    ("company_id", "=", record.company_id.id),
+                    ("tax_group_id", "=", record.tax_group_id.id),
+                    ("date_from", "<=", record.date_to),
+                    ("date_to", ">=", record.date_from),
+                ]
+            ):
+                raise ValidationError(
+                    _(
+                        "Já existe uma apuração deste grupo de imposto com "
+                        "período sobreposto nesta empresa."
+                    )
+                )
+
+    @api.depends("tax_group_id.regime", "tax_domain", "company_id.profit_calculation")
+    def _compute_regime(self):
+        """The regime of the group; for PIS and COFINS, when the group does not
+        say it, the one of the company (the group is shared by every company)."""
+        by_profit = {
+            "real": "non_cumulative",
+            "presumed": "cumulative",
+            "arbitrary": "cumulative",
+        }
+        for record in self:
+            regime = record.tax_group_id.regime
+            if regime == "not_applicable" and record.tax_domain in ("pis", "cofins"):
+                regime = by_profit.get(record.company_id.profit_calculation, regime)
+            record.regime = regime
+
+    @api.depends("date_from", "tax_group_id", "company_id", "state")
+    def _compute_previous_periods_warning(self):
+        for record in self:
+            record.previous_periods_warning = (
+                record._unassessed_previous_periods_message()
+                if record.id and record.state in ("draft", "computed")
+                else False
+            )
 
     @api.depends("tax_group_id", "date_from", "date_to")
     def _compute_name(self):
@@ -257,10 +317,12 @@ class TaxAssessment(models.Model):
     def _compute_totals(self):
         """Reproduce the E110 offsetting, field by field.
 
-        What separates a "debit adjustment" from a "credit reversal", and both
-        from a "debit on sales", is only the ORIGIN of the line: assessed from
-        move lines, or a manual adjustment carrying a table 5.1.1 code. They add
-        to the same side, but the tax authority wants to see them apart.
+        What separates a "debit adjustment" from a "debit on sales" is only the
+        ORIGIN of the line: assessed from move lines, or a manual adjustment
+        carrying a table 5.1.1 code. They add to the same side, but the tax
+        authority wants to see them apart. The reversal totals (fields 05 and
+        09) are only the E111 adjustments: a return assessed from move lines is
+        a plain debit (field 02) or credit (field 06).
         """
         for record in self:
             totals = dict.fromkeys(
@@ -317,11 +379,11 @@ class TaxAssessment(models.Model):
         """Which E110 total the line adds to.
 
         Reversals, deductions, withholding and special debits carry their
-        bucket in the KIND itself, whether they were assessed from move lines
-        (a refund) or typed as an adjustment (the table 5.1.1 code enforces
-        the kind). What is left is the plain debit/credit: assessed lines land
-        in the plain totals (fields 02 and 06) and manual ones in the matching
-        adjustment field (04 and 08).
+        bucket in the KIND itself, and only come from a typed adjustment (the
+        table 5.1.1 code enforces the kind). What is left is the plain
+        debit/credit: assessed lines land in the plain totals (fields 02 and
+        06), returns included, and manual ones in the matching adjustment
+        field (04 and 08).
         """
         if line.kind in (
             KIND_CREDIT_REVERSAL,
@@ -391,6 +453,134 @@ class TaxAssessment(models.Model):
             line.factor_percent < 0 for line in repartition
         )
 
+    def _get_opening_balance(self):
+        """The credit balance the first assessment of the company starts from,
+        informed for the tax when it comes from another system."""
+        self.ensure_one()
+        openings = self.env["l10n_br_tax.assessment.opening"].search(
+            [
+                ("company_id", "=", self.company_id.id),
+                ("tax_group_id", "=", self.tax_group_id.id),
+            ]
+        )
+        return round(sum(openings.mapped("amount")), 2)
+
+    def _get_first_period_date(self):
+        """First day of the first month the system assesses for this tax, or
+        False while the company does not say it."""
+        self.ensure_one()
+        return self.company_id.tax_assessment_start or False
+
+    def _has_earlier_movement(self):
+        self.ensure_one()
+        return bool(
+            self.env["account.move.line"]
+            .sudo()
+            .search_count(
+                [
+                    ("company_id", "=", self.company_id.id),
+                    ("parent_state", "=", "posted"),
+                    ("tax_line_id", "in", self._get_taxes().ids),
+                    ("date", "<", self.date_from),
+                ]
+            )
+        )
+
+    def _define_start_message(self):
+        return _(
+            "Defina o início da apuração pelo sistema desta empresa (Configurações "
+            "> Usuários e Empresas > Empresas > aba Fiscal > Impostos > Início da "
+            "apuração pelo sistema). É o primeiro mês em que o sistema leva o "
+            "saldo credor de um mês para o seguinte: os meses anteriores com "
+            "movimento deixam de ser exigidos, e o saldo credor que vem de antes "
+            "dessa data é informado como saldo inicial (menu de apuração)."
+        )
+
+    def _ensure_assessment_start(self):
+        """A base with movement before the period is asked for the start; a
+        company without it starts in this month."""
+        self.ensure_one()
+        if self.regime == "cumulative" or self._get_first_period_date():
+            return
+        if self._has_earlier_movement():
+            raise UserError(self._define_start_message())
+        self.company_id.sudo().tax_assessment_start = self.date_from.replace(day=1)
+
+    def _get_unassessed_previous_periods(self):
+        """The earlier months with movement of the tax and no posted assessment,
+        from the start of the assessment by the system, oldest first.
+
+        Such a month breaks the chain of the credit balance: the balance of the
+        next one is born wrong. The cumulative PIS/COFINS carries no balance.
+        """
+        self.ensure_one()
+        if self.regime == "cumulative" or not self.date_from:
+            return []
+        first_system = self._get_first_period_date()
+        if not first_system:
+            return []
+        groups = (
+            self.env["account.move.line"]
+            .sudo()
+            .read_group(
+                [
+                    ("company_id", "=", self.company_id.id),
+                    ("parent_state", "=", "posted"),
+                    ("tax_line_id", "in", self._get_taxes().ids),
+                    ("date", ">=", first_system),
+                    ("date", "<", self.date_from),
+                ],
+                ["date"],
+                ["date:month"],
+                lazy=False,
+            )
+        )
+        moved = {
+            fields.Date.to_date(group["__range"]["date:month"]["from"])
+            for group in groups
+        }
+        covered = set()
+        for assessment in self.search(
+            [
+                ("company_id", "=", self.company_id.id),
+                ("tax_group_id", "=", self.tax_group_id.id),
+                ("regime", "=", self.regime),
+                ("state", "=", "posted"),
+                ("date_to", "<", self.date_from),
+            ]
+        ):
+            month = assessment.date_from.replace(day=1)
+            while month <= assessment.date_to:
+                covered.add(month)
+                month = (month + timedelta(days=32)).replace(day=1)
+        return sorted(moved - covered)
+
+    def _unassessed_previous_periods_message(self):
+        self.ensure_one()
+        if self.regime == "cumulative" or not self.date_from:
+            return False
+        if not self._get_first_period_date():
+            return (
+                self._define_start_message() if self._has_earlier_movement() else False
+            )
+        months = self._get_unassessed_previous_periods()
+        if not months:
+            return False
+        return _(
+            "Faltam as apurações lançadas de períodos anteriores com movimento: "
+            "%(months)s. Apure e lance cada período, em ordem: sem elas o saldo "
+            "de crédito de que este período parte fica errado e o crédito dos "
+            "meses que faltam se perde."
+        ) % {"months": ", ".join(month.strftime("%m/%Y") for month in months)}
+
+    def _check_previous_periods(self):
+        """Stop on the months that are missing, for whoever reads the assessment
+        to declare it (the tax books)."""
+        for record in self:
+            message = record._unassessed_previous_periods_message()
+            if message:
+                raise UserError(message)
+
     def _find_previous_assessment(self):
         self.ensure_one()
         return self.search(
@@ -413,26 +603,38 @@ class TaxAssessment(models.Model):
                     _("Só é possível apurar uma apuração em rascunho ou já apurada.")
                 )
             record.line_ids.filtered(lambda line: line.source == "computed").unlink()
+            record._ensure_assessment_start()
 
             previous = record._find_previous_assessment()
             record.previous_assessment_id = previous
-            record.previous_balance = previous.amount_carried_forward
+            record.previous_balance = (
+                previous.amount_carried_forward
+                if previous
+                else record._get_opening_balance()
+            )
 
             taxes = record._get_taxes().with_context(**record._get_period_context())
             discarded = self.env["account.tax"]
+            no_credit = self.env["account.tax"]
             vals_list = []
             for tax in taxes:
+                if tax.type_tax_use == "purchase" and record.regime == "cumulative":
+                    # the cumulative PIS/COFINS has no input credit
+                    # (Lei 9.718/1998); withholding and deduction still apply
+                    if tax.balance_regular or tax.balance_refund:
+                        no_credit |= tax
+                    continue
                 # `type_tax_use` decides the side of the running account: a
                 # sale tax is a debit (owed) and a purchase tax is a credit
                 # (recoverable). `account_tax_balance` returns both with a
                 # positive sign, so the classification is ours to make.
                 if tax.type_tax_use == "sale":
                     kind = KIND_DEBIT
-                    reversal_kind = KIND_DEBIT_REVERSAL
+                    return_kind = KIND_CREDIT
                     sign = 1.0
                 elif tax.type_tax_use == "purchase":
                     kind = KIND_CREDIT
-                    reversal_kind = KIND_CREDIT_REVERSAL
+                    return_kind = KIND_DEBIT
                     # `account_tax_balance` flips the accounting sign ONCE, so
                     # a sale tax comes out positive and a purchase tax comes
                     # out NEGATIVE. Without this second flip the credit lines
@@ -443,18 +645,23 @@ class TaxAssessment(models.Model):
                 else:
                     discarded |= tax
                     continue
-                # Refunds must NOT be netted into the plain totals: the layout
-                # wants a sale refund as a debit reversal (E110 field 09) and
-                # a purchase refund as a credit reversal (field 05), each
-                # apart from the gross of fields 02/06. `account_tax_balance`
-                # already splits regular from refund; netting them, as a
-                # first version did, closed on the right total with the wrong
-                # breakdown in every period with a return.
+                # A return is an ordinary fiscal document in the E110: a
+                # purchase return (CFOP 5202/6202) is an outgoing note with
+                # tax debit and lands in field 02, a sale return (1202/2202)
+                # is an incoming note with tax credit and lands in field 06.
+                # The PVA checks those fields against the sum of VL_ICMS of
+                # the C190 (and equivalents). Fields 05 and 09 are only the
+                # sum of the E111 adjustments, so a return never goes there.
+                # The return keeps its own line (`is_return`), on the OPPOSITE
+                # side of the regular movement of the same tax, so the detail
+                # stays traceable and the closing can still tell it apart.
                 regular = sign * tax.balance_regular
                 regular_base = sign * tax.base_balance_regular
-                # the refund comes sign-opposed to the regular movement
-                reversal = -sign * tax.balance_refund
-                reversal_base = -sign * tax.base_balance_refund
+                # `account_tax_balance` returns the refund sign-opposed to the
+                # regular movement, so one more flip makes it a positive
+                # amount of the opposite side.
+                returned = -sign * tax.balance_refund
+                returned_base = -sign * tax.base_balance_refund
                 if regular or regular_base:
                     vals_list.append(
                         {
@@ -466,14 +673,15 @@ class TaxAssessment(models.Model):
                             "source": "computed",
                         }
                     )
-                if reversal or reversal_base:
+                if returned or returned_base:
                     vals_list.append(
                         {
                             "assessment_id": record.id,
                             "tax_id": tax.id,
-                            "kind": reversal_kind,
-                            "base_amount": reversal_base,
-                            "tax_amount": reversal,
+                            "kind": return_kind,
+                            "is_return": True,
+                            "base_amount": returned_base,
+                            "tax_amount": returned,
                             "source": "computed",
                         }
                     )
@@ -490,6 +698,14 @@ class TaxAssessment(models.Model):
                         "venda nem de compra (type_tax_use): %s"
                     )
                     % ", ".join(discarded.mapped("name"))
+                )
+            if no_credit:
+                record.message_post(
+                    body=_(
+                        "Impostos de entrada ignorados na apuração: o regime "
+                        "cumulativo não dá direito a crédito (Lei 9.718/1998): %s"
+                    )
+                    % ", ".join(no_credit.mapped("name"))
                 )
             record.state = "computed"
         return True
@@ -534,7 +750,7 @@ class TaxAssessment(models.Model):
 
         A return is booked BACK into the account it came from: a sale return
         debits the payable account and a purchase return credits the
-        recoverable one. So a reversal SUBTRACTS from its own side, it does not
+        recoverable one. So a return SUBTRACTS from its own side, it does not
         cross to the other side the way the E110 offsetting moves it (that is a
         fiscal presentation, not where the journal item landed). Crossing it
         made the offset consume more than the recoverable account held and left
@@ -553,15 +769,19 @@ class TaxAssessment(models.Model):
         self.ensure_one()
         assessed = self.line_ids.filtered(lambda line: line.source == "computed")
 
-        def total(kind):
+        def total(kind, is_return):
             return sum(
                 line.tax_amount
-                for line in assessed.filtered(lambda ln: ln.kind == kind)
+                for line in assessed.filtered(
+                    lambda ln: ln.kind == kind and ln.is_return == is_return
+                )
             )
 
-        debit_side = total(KIND_DEBIT) - total(KIND_DEBIT_REVERSAL)
+        # a sale return (credit side in the E110) leaves the payable account
+        # and a purchase return (debit side) leaves the recoverable one
+        debit_side = total(KIND_DEBIT, False) - total(KIND_CREDIT, True)
         credit_side = (
-            total(KIND_CREDIT) - total(KIND_CREDIT_REVERSAL) + self.previous_balance
+            total(KIND_CREDIT, False) - total(KIND_DEBIT, True) + self.previous_balance
         )
         return min(debit_side, credit_side)
 
@@ -571,6 +791,10 @@ class TaxAssessment(models.Model):
             if record.state != "computed":
                 raise UserError(_("Apure antes de encerrar."))
             previous = record.previous_assessment_id
+            if previous and previous.state != "posted":
+                raise UserError(
+                    _("Encerre antes a apuração anterior (%s).") % previous.name
+                )
             if previous and record.currency_id.compare_amounts(
                 record.previous_balance, previous.amount_carried_forward
             ):
@@ -672,6 +896,18 @@ class TaxAssessment(models.Model):
 
     def action_draft(self):
         for record in self:
+            following = self.search(
+                [("previous_assessment_id", "=", record.id), ("state", "=", "posted")],
+                limit=1,
+            )
+            if following:
+                raise UserError(
+                    _(
+                        "A apuração %s, já encerrada, transporta o saldo desta. "
+                        "Reabra-a antes."
+                    )
+                    % following.name
+                )
             if record.move_id and record.move_id.state == "posted":
                 raise UserError(
                     _(

@@ -16,4 +16,9 @@
             name="domain_force"
         >['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
     </record>
+    <record id="tax_assessment_opening_company_rule" model="ir.rule">
+        <field name="name">Saldo credor inicial: multi-empresa</field>
+        <field name="model_id" ref="model_l10n_br_tax_assessment_opening" />
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
 </odoo>

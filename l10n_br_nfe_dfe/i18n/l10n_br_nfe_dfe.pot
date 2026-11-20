@@ -67,12 +67,6 @@ msgid "Confirmada operação"
 msgstr ""
 
 #. module: l10n_br_nfe_dfe
-#: model_terms:ir.ui.view,arch_db:l10n_br_nfe_dfe.nfe_dfe_document_tree
-#: model_terms:ir.ui.view,arch_db:l10n_br_nfe_dfe.view_l10n_br_fiscal_dfe_document_form_nfe
-msgid "DANFE"
-msgstr ""
-
-#. module: l10n_br_nfe_dfe
 #: model:ir.actions.server,name:l10n_br_nfe_dfe.ir_cron_search_dfe_documents_ir_actions_server
 #: model:ir.cron,cron_name:l10n_br_nfe_dfe.ir_cron_search_dfe_documents
 msgid "DF-e - Search NF-e Documents"
@@ -95,6 +89,11 @@ msgid "Desconhecimento"
 msgstr ""
 
 #. module: l10n_br_nfe_dfe
+#: model:ir.model.fields,field_description:l10n_br_nfe_dfe.field_nfe_recipient_manifestation_event_wizard__dfe_document_id
+msgid "Dfe Document"
+msgstr ""
+
+#. module: l10n_br_nfe_dfe
 #: model:ir.model,name:l10n_br_nfe_dfe.model_l10n_br_fiscal_dfe_document
 msgid "Fiscal document from distribution service"
 msgstr ""
@@ -105,20 +104,10 @@ msgid "Import"
 msgstr ""
 
 #. module: l10n_br_nfe_dfe
-#: model:ir.model,name:l10n_br_nfe_dfe.model_l10n_br_fiscal_document_import_wizard
-msgid "Import Document Wizard"
-msgstr ""
-
-#. module: l10n_br_nfe_dfe
 #. odoo-python
 #: code:addons/l10n_br_nfe_dfe/models/dfe_document.py:0
 #, python-format
 msgid "Import NF-e XML"
-msgstr ""
-
-#. module: l10n_br_nfe_dfe
-#: model:ir.model.fields,field_description:l10n_br_nfe_dfe.field_l10n_br_fiscal_dfe_document__fiscal_document_id
-msgid "Imported Document"
 msgstr ""
 
 #. module: l10n_br_nfe_dfe
@@ -234,6 +223,11 @@ msgid "Não realizado"
 msgstr ""
 
 #. module: l10n_br_nfe_dfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe_dfe.nfe_dfe_document_tree
+msgid "PDF"
+msgstr ""
+
+#. module: l10n_br_nfe_dfe
 #: model:ir.model.fields,help:l10n_br_nfe_dfe.field_res_company__nfe_auto_fetch
 msgid "Periodically queries DF-e distribution for new NF-e documents"
 msgstr ""
@@ -241,6 +235,13 @@ msgstr ""
 #. module: l10n_br_nfe_dfe
 #: model:ir.model,name:l10n_br_nfe_dfe.model_l10n_br_nfe_md_event
 msgid "Recipient Manifestation"
+msgstr ""
+
+#. module: l10n_br_nfe_dfe
+#. odoo-python
+#: code:addons/l10n_br_nfe_dfe/wizards/nfe_md_event_wizard.py:0
+#, python-format
+msgid "Recipient Manifestation created successfully"
 msgstr ""
 
 #. module: l10n_br_nfe_dfe
@@ -264,8 +265,20 @@ msgid "Status Code"
 msgstr ""
 
 #. module: l10n_br_nfe_dfe
+#. odoo-python
+#: code:addons/l10n_br_nfe_dfe/wizards/nfe_md_event_wizard.py:0
+#, python-format
+msgid "Success"
+msgstr ""
+
+#. module: l10n_br_nfe_dfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe_dfe.nfe_dfe_document_tree
 msgid "Type"
+msgstr ""
+
+#. module: l10n_br_nfe_dfe
+#: model:ir.model,name:l10n_br_nfe_dfe.model_nfe_recipient_manifestation_event_wizard
+msgid "Wizard to manifest"
 msgstr ""
 
 #. module: l10n_br_nfe_dfe

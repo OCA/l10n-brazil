@@ -8,7 +8,8 @@
         <field name="arch" type="xml">
             <form string="Import Document">
                 <group>
-                    <field name="file" required="1" />
+                    <field name="file" filename="file_name" required="1" />
+                    <field name="file_name" invisible="1" />
                     <field
                         name="document_key"
                         attrs="{'invisible': [('file', '=', False)]}"

@@ -3,8 +3,10 @@
 
 from datetime import datetime
 from unittest import mock
+from urllib.parse import parse_qs, urlparse
 
 from erpbrasil.assinatura import misc
+from lxml import html
 
 from odoo import Command
 from odoo.fields import Datetime
@@ -56,6 +58,10 @@ class TestNFCe(TestNFeExport):
         self.document_id.action_document_send()
 
         self.assertEqual(self.document_id.state_edoc, SITUACAO_EDOC_AUTORIZADA)
+        self.assertEqual(
+            Datetime.to_string(self.document_id.authorization_date),
+            "2023-08-07 14:09:08",
+        )
 
         cancel_wizard = (
             self.env["l10n_br_fiscal.document.cancel.wizard"]
@@ -82,7 +88,7 @@ class TestNFCe(TestNFeExport):
         )
         self.assertEqual(
             Datetime.to_string(self.document_id.cancel_event_id.protocol_date),
-            "2023-07-05 16:52:52",
+            "2023-07-05 19:52:52",
         )
 
     @nfe_mock({"nfeAutorizacaoLote": "retEnviNFe/rejeitada.xml"})
@@ -155,6 +161,72 @@ class TestNFCe(TestNFeExport):
         self.assertIsNotNone(qr_code)
         self.assertIsNotNone(qr_code_url)
 
+    def test_qrcode_csc_id_without_leading_zeros(self):
+        self.document_id.company_id.nfce_csc_token = "000001"
+        qr_code = self.document_id.get_nfce_qrcode()
+        self.assertEqual(qr_code.split("|")[3], "1")
+
+    def test_danfce_qrcode_image_url(self):
+        """The DANFCE QR Code image must use the barcode_type parameter
+        expected by the /report/barcode route (web controller)."""
+        report = self.env["ir.actions.report"]._get_report_from_name(
+            "l10n_br_nfe.report_danfe_nfce"
+        )
+        data = self.document_id._prepare_nfce_danfe_values()
+        content = report._render_qweb_html(
+            "l10n_br_nfe.report_danfe_nfce", self.document_id.ids, data=data
+        )[0]
+        sources = html.fromstring(content).xpath("//img/@src")
+        barcode_sources = [src for src in sources if "/report/barcode" in src]
+        self.assertEqual(len(barcode_sources), 1)
+        params = parse_qs(urlparse(barcode_sources[0]).query)
+        self.assertEqual(params.get("barcode_type"), ["QR"])
+        self.assertNotIn("type", params)
+        # The route signature is barcode(barcode_type, value, **kwargs),
+        # so the image is only generated when barcode_type is present.
+        image = report.barcode(
+            params["barcode_type"][0],
+            params["value"][0],
+            width=int(params["width"][0]),
+            height=int(params["height"][0]),
+        )
+        self.assertTrue(image.startswith(b"\x89PNG"))
+
+    def _render_danfce_text(self):
+        report = self.env["ir.actions.report"]._get_report_from_name(
+            "l10n_br_nfe.report_danfe_nfce"
+        )
+        data = self.document_id._prepare_nfce_danfe_values()
+        content = report._render_qweb_html(
+            "l10n_br_nfe.report_danfe_nfce", self.document_id.ids, data=data
+        )[0]
+        return " ".join(html.fromstring(content).text_content().split())
+
+    def test_danfce_identified_consumer(self):
+        """The DANFCE prints the CPF and the name of the recipient."""
+        partner = self.document_id.partner_id
+        partner.is_anonymous_consumer = False
+        partner.cnpj_cpf = "111.444.777-35"
+        text = self._render_danfce_text()
+        self.assertIn(f"Consumidor - CPF: 111.444.777-35 {partner.legal_name}", text)
+        self.assertNotIn("Nao Identificado", text)
+
+    def test_danfce_identified_consumer_cnpj(self):
+        partner = self.document_id.partner_id
+        partner.is_anonymous_consumer = False
+        partner.cnpj_cpf = "11.222.333/0001-81"
+        text = self._render_danfce_text()
+        self.assertIn("Consumidor - CNPJ: 11.222.333/0001-81", text)
+
+    def test_danfce_anonymous_consumer(self):
+        """Without CPF/CNPJ the tag dest is not sent: not identified."""
+        partner = self.document_id.partner_id
+        partner.is_anonymous_consumer = True
+        partner.cnpj_cpf = False
+        text = self._render_danfce_text()
+        self.assertIn("Consumidor Nao Identificado", text)
+        self.assertNotIn("Consumidor - ", text)
+
     @nfe_mock({"nfeAutorizacaoLote": "retEnviNFe/autorizada.xml"})
     def test_prepare_nfce_payment(self):
         amount = self.document_id.amount_financial_total / 2
@@ -215,6 +287,21 @@ class TestNFCe(TestNFeExport):
 
         self.assertEqual(payment["method"], "01 - Dinheiro")
         self.assertEqual(payment["value"], 320)
+
+    def test_nfce_dest_identified_by_document_only(self):
+        """The NFC-e consumer goes by CNPJ or CPF, without punctuation, address
+        or name, and the first item carries the homologation notice."""
+        nfe = self.document_id._serialize([])[0]
+
+        dest = nfe.infNFe.dest
+        self.assertEqual(dest.CNPJ, "81493979000189")
+        self.assertIsNone(dest.CPF)
+        self.assertIsNone(dest.enderDest)
+        self.assertIsNone(dest.xNome)
+        self.assertEqual(
+            nfe.infNFe.det[0].prod.xProd,
+            "NOTA FISCAL EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL",
+        )
 
     def test_compute_fiscal_document_fields(self):
         self.document_id.partner_id.is_anonymous_consumer = True

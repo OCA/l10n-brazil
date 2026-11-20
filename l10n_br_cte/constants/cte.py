@@ -1,6 +1,8 @@
 # Copyright (C) 2024 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
+from datetime import date
+
 CTE_VERSIONS = [("4.00", "4.00")]
 
 CTE_VERSION_DEFAULT = "4.00"
@@ -103,3 +105,8 @@ CTE_CST = [
     ("90", "90 - ICMS Outra UF"),
     ("01", "01 - Simples Nacional"),
 ]
+
+# NT CT-e 2026.004: from 2027 on IBS and CBS are part of vTPrest and vTotDFe
+# repeats vTPrest (rule 365). The year is decided by the issue date (dhEmi),
+# as in rules 316, 321 and 326 of the same NT.
+CTE_IBSCBS_IN_VTPREST_DATE = date(2027, 1, 1)
