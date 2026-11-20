@@ -9,6 +9,7 @@
 # 2026-11-04). Currencies not listed here are exported without the code, so
 # the user is not sent a wrong one.
 CURRENCY_BACEN_CODE = {
+    "BRL": "790",
     "USD": "220",
     "EUR": "978",
     "GBP": "540",
