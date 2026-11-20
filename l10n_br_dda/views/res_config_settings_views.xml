@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <record id="res_config_settings_view_form_dda" model="ir.ui.view">
+        <field name="name">res.config.settings.form.dda</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="account.res_config_settings_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//div[@data-key='account']" position="inside">
+                <div name="dda_settings" groups="l10n_br_dda.group_dda_manager">
+                    <h2>DDA</h2>
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field name="dda_auto_link" />
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="dda_auto_link" />
+                                <div class="text-muted">
+                                    Link a boleto by itself only when the strict
+                                    rule is met (same CNPJ, exact amount, same due
+                                    date, single candidate).
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_right_pane">
+                                <label for="dda_create_bill_mode" />
+                                <div class="text-muted">
+                                    What to recommend for a boleto without a
+                                    title.
+                                </div>
+                                <field name="dda_create_bill_mode" />
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_right_pane">
+                                <label for="dda_date_tolerance" />
+                                <div class="text-muted">
+                                    Days of difference between the boleto and the
+                                    title still suggested.
+                                </div>
+                                <field name="dda_date_tolerance" />
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_right_pane">
+                                <label for="dda_amount_tolerance" />
+                                <div class="text-muted">
+                                    Amount difference still suggested (never
+                                    linked by itself).
+                                </div>
+                                <field name="dda_amount_tolerance" />
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_right_pane">
+                                <label for="dda_payment_mode_id" />
+                                <div class="text-muted">
+                                    Payment mode of the order that receives the
+                                    boletos.
+                                </div>
+                                <field name="dda_payment_mode_id" />
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_right_pane">
+                                <span class="o_form_label">Difference accounts</span>
+                                <div class="text-muted">
+                                    Accounts of the interest, fine and discount that
+                                    differ from the title at the write-off.
+                                </div>
+                                <div class="content-group">
+                                    <div class="row mt16">
+                                        <label
+                                            for="dda_interest_account_id"
+                                            class="col-lg-4 o_light_label"
+                                        />
+                                        <field name="dda_interest_account_id" />
+                                    </div>
+                                    <div class="row">
+                                        <label
+                                            for="dda_fine_account_id"
+                                            class="col-lg-4 o_light_label"
+                                        />
+                                        <field name="dda_fine_account_id" />
+                                    </div>
+                                    <div class="row">
+                                        <label
+                                            for="dda_discount_account_id"
+                                            class="col-lg-4 o_light_label"
+                                        />
+                                        <field name="dda_discount_account_id" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
