@@ -263,6 +263,33 @@ class TestStockPriceMixin(TransactionCase):
         self.assertTrue(line.icms_tax_is_creditable)
 
     # ------------------------------------------------------------------
+    # Shared decision with the fiscal document line
+    # ------------------------------------------------------------------
+
+    def test_stored_flags_follow_the_shared_decision(self):
+        """The stored flags and the fiscal line map come from one rule."""
+        scenarios = (
+            (self.company_real, None),
+            (self.company_presumido, None),
+            (self.company_simples, None),
+            (self.company_real, self.cfop_own_use),
+            (self.company_real, self.cfop_asset),
+        )
+        for company, cfop in scenarios:
+            line = self._make_line(company)
+            if cfop:
+                line.cfop_id = cfop
+            stored = line._get_stock_cost_tax_map()
+            self.assertEqual(stored, line._get_tax_creditability_map())
+            self.assertEqual(
+                stored,
+                {
+                    domain: "credit" if line[f"{domain}_tax_is_creditable"] else "cost"
+                    for domain in ("icms", "ipi", "pis", "cofins")
+                },
+            )
+
+    # ------------------------------------------------------------------
     # cost_unit
     # ------------------------------------------------------------------
 
