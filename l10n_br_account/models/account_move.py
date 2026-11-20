@@ -293,8 +293,14 @@ class AccountMove(models.Model):
         return result
 
     def _compute_imported_terms(self):
+        """Fill needed_terms from the installments declared by the imported
+        document. Meant to be overriden by the document type modules.
+
+        :return: True when the document declared its installments and
+            needed_terms was filled, False to let the payment term apply.
+        """
         self.ensure_one()
-        pass  # meant to be overriden
+        return False
 
     @api.depends(
         "invoice_payment_term_id",
@@ -322,8 +328,8 @@ class AccountMove(models.Model):
             invoice.needed_terms_dirty = True
             sign = 1 if invoice.is_inbound(include_receipts=True) else -1
             if invoice.is_invoice(True) and invoice.invoice_line_ids:
-                if invoice.imported_document:
-                    invoice._compute_imported_terms()
+                if invoice.imported_document and invoice._compute_imported_terms():
+                    pass
                 elif invoice.invoice_payment_term_id:
                     if is_draft:
                         tax_amount_currency = 0.0
@@ -337,8 +343,13 @@ class AccountMove(models.Model):
                         tax_amount = tax_amount_currency
                     else:
                         tax_amount_currency = tax_amount = 0.0
-                        untaxed_amount_currency = invoice.amount_financial_total * sign
-                        untaxed_amount = invoice.amount_financial_total * sign
+                        amount_to_pay = invoice.amount_financial_total + sum(
+                            invoice.invoice_line_ids.mapped(
+                                lambda line: line._get_imported_unbilled_withholding()
+                            )
+                        )
+                        untaxed_amount_currency = amount_to_pay * sign
+                        untaxed_amount = amount_to_pay * sign
                     invoice_payment_terms = (
                         invoice.invoice_payment_term_id._compute_terms(
                             date_ref=invoice.invoice_date
