@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <record id="cron_caepi_refresh" model="ir.cron">
+        <field name="name">CAEPI: refresh CA database (MTE)</field>
+        <field name="model_id" ref="model_caepi_certificate" />
+        <field name="state">code</field>
+        <field name="code">model._cron_refresh()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="numbercall">-1</field>
+        <field name="active">False</field>
+        <field name="doall">False</field>
+    </record>
+</odoo>
