@@ -182,6 +182,8 @@ class DocumentLine(models.Model):
         "partner_id",
         "ncm_id",
         "company_id.profit_calculation",
+        "company_id.piscofins_id",
+        "cfop_id",
         "document_id.imported_document",
     )
     def _compute_entry_cst_ids(self):
@@ -205,17 +207,37 @@ class DocumentLine(models.Model):
             line.entry_cofins_cst_id = cofins
 
     def _get_entry_piscofins_cst(self, tax_domain, tax):
-        """Non-cumulative regime: the credit CST of the mapped tax. Cumulative
-        regime (presumed or arbitrated profit): 70. Simples Nacional keeps the
-        mapped CST."""
+        """Non-cumulative regime: the credit CST of the mapped tax, or 70 when
+        the gates forbid the credit (use and consumption, fixed asset) and the
+        company books its entries by the creditability map, as its ledger
+        does. Cumulative regime (presumed or arbitrated profit): 70. Simples
+        Nacional keeps the mapped CST.
+
+        It reads the gates, never the creditability map: the map reads this
+        CST on an imported entry."""
         self.ensure_one()
         company = self.company_id
-        if (
-            company.tax_framework not in TAX_FRAMEWORK_SIMPLES_ALL
-            and company.profit_calculation != PROFIT_CALCULATION_REAL
+        cst = tax.cst_in_id if tax else self.env["l10n_br_fiscal.cst"]
+        if company.tax_framework in TAX_FRAMEWORK_SIMPLES_ALL:
+            return cst
+        if company.profit_calculation != PROFIT_CALCULATION_REAL or (
+            cst.default_creditable_tax
+            and company._books_entry_by_creditability()
+            and self.cfop_id.type_in_out == FISCAL_IN
+            and not self._tax_credit_gates_allow(tax_domain)
         ):
             return self.env.ref(f"l10n_br_fiscal.cst_{tax_domain}_70")
-        return tax.cst_in_id if tax else self.env["l10n_br_fiscal.cst"]
+        return cst
+
+    def _get_creditability_cst(self, tax_domain):
+        """An imported entry carries the CST of the supplier, which is an
+        outgoing one: the credit is decided by the CST the company books."""
+        entry_field = f"entry_{tax_domain}_cst_id"
+        if entry_field in self._fields and self._is_imported():
+            entry_cst = self[entry_field]
+            if entry_cst:
+                return entry_cst
+        return super()._get_creditability_cst(tax_domain)
 
     def _entry_piscofins_without_credit(self, tax_domain):
         """True when the entry books PIS or COFINS without credit right (CST 70

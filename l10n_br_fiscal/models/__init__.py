@@ -4,11 +4,14 @@ from . import data_abstract
 from . import data_product_abstract
 from . import data_ncm_nbs_abstract
 from . import document_mixin
+from . import tax_creditability_mixin
 from . import document_line_mixin
 from . import invalidate_number
 from . import comment
 from . import ibpt
 from . import cfop
+from . import creditability_reason
+from . import stock_price_mixin
 from . import cst
 from . import legal_nature
 from . import cnae
