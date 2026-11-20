@@ -38,33 +38,25 @@ RENEWED_TOKENS = "l10n_br_bank_renewed_refresh_tokens"
 # The configuration requires a refresh token before the consent is done.
 PENDING_REFRESH_TOKEN = "pending-authorization"
 
-ADAPTER_LABELS = {
-    "banrisul": "Banrisul (041)",
-    "bb": "Banco do Brasil (001)",
-    "bradesco": "Bradesco (237)",
-    "btg": "BTG Pactual (208)",
-    "c6": "C6 Bank (336)",
-    "caixa": "Caixa (104)",
-    "inter": "Banco Inter (077)",
-    "itau": "Itaú (341)",
-    "pinbank": "PinBank",
-    "pix_bacen": "Pix (BACEN API)",
-    "safra": "Safra (422)",
-    "santander": "Santander (033)",
-    "sicoob": "Sicoob (756)",
-    "sicredi": "Sicredi (748)",
-    "unicred": "Unicred (136)",
-}
-PIX_PROFILE_LABELS = {
-    "bb": "Banco do Brasil",
-    "bradesco": "Bradesco",
-    "efi": "Efí",
-    "inter": "Banco Inter",
-    "itau": "Itaú",
-    "santander": "Santander",
-    "sicoob": "Sicoob",
-    "sicredi": "Sicredi",
-}
+
+def adapter_label(name):
+    """Name the brbank adapter declares for screens, or its technical name."""
+    try:
+        adapter_class = registro.obter_classe(name)
+    except (AdapterNaoEncontrado, ImportError):
+        return name
+    return getattr(adapter_class, "nome_exibicao", "") or name
+
+
+def pix_profile_label(name):
+    """Name the brbank Pix profile declares for screens, or its technical name."""
+    try:
+        from brbank.adapters.pix_bacen import PERFIS
+    except ImportError:  # pragma: no cover
+        return name
+    return getattr(PERFIS.get(name), "nome_exibicao", "") or name
+
+
 # Field of the connection -> key used by the adapter configurations.
 GENERIC_FIELDS = {
     "client_id": "client_id",
@@ -282,10 +274,7 @@ class BankConnection(models.Model):
     @api.model
     def _selection_adapter(self):
         """Adapters installed in the brbank library (entry points)."""
-        return [
-            (name, ADAPTER_LABELS.get(name, name))
-            for name in registro.listar_adapters()
-        ]
+        return [(name, adapter_label(name)) for name in registro.listar_adapters()]
 
     @api.model
     def _selection_pix_profile(self):
@@ -293,7 +282,7 @@ class BankConnection(models.Model):
             from brbank.adapters.pix_bacen import PERFIS
         except ImportError:  # pragma: no cover
             return []
-        return [(name, PIX_PROFILE_LABELS.get(name, name)) for name in sorted(PERFIS)]
+        return [(name, pix_profile_label(name)) for name in sorted(PERFIS)]
 
     # === COMPUTE METHODS === #
 
