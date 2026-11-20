@@ -377,6 +377,30 @@ class SpedMixin(models.AbstractModel):
             registers.unlink()
 
     @api.model
+    def _flush_generated_registers(self, kind, declaration_id):
+        """Delete what a previous pull from Odoo created in the declaration.
+
+        Only the registers flagged ``is_generated_from_odoo`` go: the ones typed
+        by hand or imported from a file are kept. Registers pulled before the
+        flag was written are not flagged: they stay until a ``Flush Registers``.
+        """
+        prefix = f"l10n_br_sped.{kind}."
+        for name, model in self.env.registry.items():
+            if (
+                not name.startswith(prefix)
+                or model._abstract
+                or "declaration_id" not in model._fields
+                or "is_generated_from_odoo" not in model._fields
+            ):
+                continue
+            self.env[name].search(
+                [
+                    ("declaration_id", "=", declaration_id),
+                    ("is_generated_from_odoo", "=", True),
+                ]
+            ).unlink()
+
+    @api.model
     def _import_file(self, filename, kind, version=None, declaration=None):
         """
         Import SPED files into Odoo.
@@ -699,6 +723,7 @@ class SpedMixin(models.AbstractModel):
                 # no other registration to declare. Skip it entirely.
                 self._log_chatter_sped_item(log_msg, level)
                 return
+            register_vals["is_generated_from_odoo"] = True
             if parent_register:
                 register_vals[parent_field] = parent_register.id
             register = self.create(register_vals)
@@ -731,6 +756,7 @@ class SpedMixin(models.AbstractModel):
             register_vals = self._map_from_odoo(
                 record, parent_record, declaration, index=index
             )
+            register_vals["is_generated_from_odoo"] = True
             if self._odoo_model:
                 register_vals["res_model"] = self._odoo_model
                 register_vals["res_id"] = record.id

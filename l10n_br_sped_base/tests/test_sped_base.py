@@ -514,7 +514,7 @@ class TestSpedBase(TransactionCase, FakeModelLoader):
                 "|I015|DATA_BLOCO_I_LINE_3|...|",
                 "|I990|CLOSE_BLOCO_I|...|",
             ]
-            self.assertEqual(content_i, "\n".join(expected_content_i_lines))
+            self.assertEqual(content_i, "\r\n".join(expected_content_i_lines))
 
             # Check Bloco J
             att_j = attachments.filtered(
@@ -528,7 +528,7 @@ class TestSpedBase(TransactionCase, FakeModelLoader):
                 "|J930|DATA_BLOCO_J_LINE_2|...|",
                 "|J990|CLOSE_BLOCO_J|...|",
             ]
-            self.assertEqual(content_j, "\n".join(expected_content_j_lines))
+            self.assertEqual(content_j, "\r\n".join(expected_content_j_lines))
 
             # Check Bloco C
             att_c = attachments.filtered(
@@ -543,7 +543,7 @@ class TestSpedBase(TransactionCase, FakeModelLoader):
                 "|C100|DATA_BLOCO_C_LINE_3|...|",
                 "|C990|CLOSE_BLOCO_C|...|",
             ]
-            self.assertEqual(content_c, "\n".join(expected_content_c_lines))
+            self.assertEqual(content_c, "\r\n".join(expected_content_c_lines))
 
             # Test _create_sped_attachment directly
             single_attachment_val = declaration._create_sped_attachment(
@@ -905,17 +905,108 @@ class TestSpedBase(TransactionCase, FakeModelLoader):
         text = "|P200|1|DISCRIMINA\u00c7\u00c3O DA RECEITA BRUTA||\n"
         vals = self.declaration._create_sped_attachment(text)
         stored = base64.b64decode(vals["datas"])
-        self.assertEqual(stored, text.encode("iso-8859-1"))
+        self.assertEqual(stored, text.replace("\n", "\r\n").encode("iso-8859-1"))
         # one byte per accented character, no utf-8 marker in the Latin range
-        self.assertEqual(len(stored), len(text))
+        self.assertEqual(len(stored), len(text) + 1)
         self.assertNotIn(b"\xc3\x87", stored)
+
+    def test_attachment_lines_end_in_crlf(self):
+        """Every line, the last included, ends in CR LF: the layout says so and
+        the PVA refuses a file with bare line feeds."""
+        vals = self.declaration._create_sped_attachment("|0000|A|\n|0001|0|\n|9999|3|")
+        stored = base64.b64decode(vals["datas"])
+        self.assertEqual(stored, b"|0000|A|\r\n|0001|0|\r\n|9999|3|\r\n")
+        self.assertNotIn(b"\n", stored.replace(b"\r\n", b""))
+
+    def _generated_registers(self, declaration):
+        """Count of the registers a pull created, by model."""
+        counts = {}
+        for name, model in self.env.registry.items():
+            if (
+                name.startswith("l10n_br_sped.fake.")
+                and not model._abstract
+                and "declaration_id" in model._fields
+            ):
+                counts[name] = self.env[name].search_count(
+                    [
+                        ("declaration_id", "=", declaration.id),
+                        ("is_generated_from_odoo", "=", True),
+                    ]
+                )
+        return counts
+
+    def test_pulling_twice_does_not_duplicate(self):
+        """A second pull replaces what the first one created and keeps what
+        was typed by hand."""
+        declaration = self.declaration
+        typed = self.env["l10n_br_sped.fake.i010"].search(
+            [("declaration_id", "=", declaration.id)], limit=1
+        )
+        self.assertTrue(typed, "the imported file has no I010")
+        self.assertFalse(typed.is_generated_from_odoo)
+        declaration.button_populate_sped_from_odoo()
+        first = self._generated_registers(declaration)
+        self.assertTrue(sum(first.values()), "the pull created no register")
+        declaration.button_populate_sped_from_odoo()
+        self.assertEqual(self._generated_registers(declaration), first)
+        self.assertTrue(typed.exists())
+
+    def _user_of(self, companies):
+        # the fake register models have no access rule of their own
+        self.env["ir.model.access"].create(
+            {
+                "name": "fake declaration: internal user",
+                "model_id": self.env["ir.model"]._get_id("l10n_br_sped.fake.0000"),
+                "group_id": self.env.ref("base.group_user").id,
+                "perm_read": True,
+            }
+        )
+        return self.env["res.users"].create(
+            {
+                "name": "SPED user of another company",
+                "login": "sped_base_other_company",
+                "email": "sped.other@example.com",
+                "company_id": companies[0].id,
+                "company_ids": [(6, 0, companies.ids)],
+                "groups_id": [
+                    (
+                        6,
+                        0,
+                        [
+                            self.env.ref("base.group_user").id,
+                            self.env.ref("l10n_br_fiscal.group_manager").id,
+                        ],
+                    )
+                ],
+            }
+        )
+
+    def test_declaration_runs_as_its_own_company(self):
+        """The registers are pulled as the company of the declaration, even
+        when another company is the active one of the session."""
+        other = self.env["res.company"].create({"name": "Another company"})
+        company = self.declaration.company_id
+        user = self._user_of(other | company)
+        declaration = self.declaration.with_user(user).with_context(
+            allowed_company_ids=other.ids
+        )
+        in_company = declaration._in_company_context()
+        self.assertEqual(in_company.env.company, company)
+        self.assertEqual(in_company.env.companies, company)
+
+    def test_user_without_the_company_gets_a_clear_error(self):
+        other = self.env["res.company"].create({"name": "Another company"})
+        user = self._user_of(other)
+        declaration = self.declaration.with_user(user)
+        with self.assertRaisesRegex(UserError, "no access to the company"):
+            declaration._in_company_context()
 
     def test_character_outside_latin1_does_not_abort(self):
         """A symbol pasted in some label cannot block the whole file."""
         text = "|I250|Taxa \u20ac de servico|\n"
         vals = self.declaration._create_sped_attachment(text)
         stored = base64.b64decode(vals["datas"])
-        self.assertEqual(len(stored), len(text))
+        self.assertEqual(len(stored), len(text) + 1)
         self.assertIn(b"?", stored)
 
     def test_import_reads_latin1(self):
