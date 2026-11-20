@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <record id="account_payment_mode_form_brbank" model="ir.ui.view">
+        <field name="name">account.payment.mode.form.brbank</field>
+        <field name="model">account.payment.mode</field>
+        <field name="inherit_id" ref="l10n_br_payment.account_payment_mode_form_view" />
+        <field name="arch" type="xml">
+            <field name="payment_provider_id" position="after">
+                <field name="payment_provider_code" invisible="1" />
+                <field name="brbank_sandbox_validated" invisible="1" />
+                <field
+                    name="brbank_capabilities"
+                    attrs="{'invisible': [('payment_provider_code', '!=', 'brbank')]}"
+                />
+                <div
+                    colspan="2"
+                    class="text-warning"
+                    attrs="{'invisible': ['|', ('payment_provider_code', '!=', 'brbank'), ('brbank_sandbox_validated', '=', True)]}"
+                >
+                    The bank adapter of this provider has not been validated in
+                    the bank sandbox yet.
+                </div>
+            </field>
+        </field>
+    </record>
+
+</odoo>

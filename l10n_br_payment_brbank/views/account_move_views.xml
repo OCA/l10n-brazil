@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="invoice_form_brbank" model="ir.ui.view">
+        <field name="name">account.move.form.brbank</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="l10n_br_account_due_list.invoice_form" />
+        <field name="arch" type="xml">
+            <xpath
+                expr="//page[@name='receivable_move_line_tab']/field[@name='due_line_ids']"
+                position="inside"
+            >
+                <tree>
+                    <field name="currency_id" invisible="1" />
+                    <field name="brbank_instruction_available" invisible="1" />
+                    <field name="date_maturity" />
+                    <field name="name" />
+                    <field name="amount_currency" />
+                    <field name="amount_residual_currency" />
+                    <field name="reconciled" />
+                    <button
+                        name="action_brbank_new_instruction"
+                        type="object"
+                        string="Bank instruction"
+                        icon="fa-university"
+                        attrs="{'invisible': [('brbank_instruction_available', '=', False)]}"
+                        groups="account.group_account_invoice"
+                    />
+                </tree>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_move_form_brbank_print" model="ir.ui.view">
+        <field name="name">account.move.form.brbank.print</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <field name="brbank_boleto_printable" invisible="1" />
+                <button
+                    name="action_brbank_print_boletos"
+                    type="object"
+                    string="Boleto"
+                    icon="fa-barcode"
+                    attrs="{'invisible': [('brbank_boleto_printable', '=', False)]}"
+                />
+            </xpath>
+        </field>
+    </record>
+
+    <!-- On a boleto, "capture" reads the bank and "void" writes the title off: the
+         transaction has those actions with their own names. -->
+    <record id="account_invoice_view_form_brbank_capture" model="ir.ui.view">
+        <field name="name">account.move.form.brbank.capture</field>
+        <field name="model">account.move</field>
+        <field
+            name="inherit_id"
+            ref="account_payment.account_invoice_view_form_inherit_payment"
+        />
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='payment_action_capture']" position="before">
+                <field name="brbank_hide_capture" invisible="1" />
+            </xpath>
+            <xpath
+                expr="//button[@name='payment_action_capture']"
+                position="attributes"
+            >
+                <attribute
+                    name="attrs"
+                >{'invisible': ['|', '|', '|', ('move_type', 'not in', ('out_invoice', 'out_refund', 'in_invoice', 'in_refund')), ('state', '!=', 'posted'), ('authorized_transaction_ids', '=', []), ('brbank_hide_capture', '=', True)]}</attribute>
+            </xpath>
+            <xpath expr="//button[@name='payment_action_void']" position="attributes">
+                <attribute
+                    name="attrs"
+                >{'invisible': ['|', '|', '|', ('move_type', 'not in', ('out_invoice', 'out_refund', 'in_invoice', 'in_refund')), ('state', '!=', 'posted'), ('authorized_transaction_ids', '=', []), ('brbank_hide_capture', '=', True)]}</attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>

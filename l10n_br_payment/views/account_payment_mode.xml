@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2025 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <record model="ir.ui.view" id="account_payment_mode_form_view">
+        <field name="model">account.payment.mode</field>
+        <field name="inherit_id" ref="account_payment_mode.account_payment_mode_form" />
+        <field name="arch" type="xml">
+            <group name="note" position="before">
+                <group name="payment_boleto" string="Boleto">
+                    <group name="automatic_boleto">
+                        <field name="generate_boletos_on_invoice" />
+                        <field
+                            name="payment_provider_id"
+                            attrs="{'invisible': [('generate_boletos_on_invoice', '=', False)]}"
+                        />
+                    </group>
+                    <group name="boleto-fees">
+                        <field name="payment_boleto_penalty" widget="percentage" />
+                        <field name="payment_boleto_interest" widget="percentage" />
+                    </group>
+                    <group name="boleto-instructions">
+                        <field name="payment_boleto_instructions" />
+                    </group>
+                </group>
+            </group>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="account_payment_mode_search_view">
+        <field name="model">account.payment.mode</field>
+        <field
+            name="inherit_id"
+            ref="account_payment_mode.account_payment_mode_search"
+        />
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="generate_boletos_on_invoice" />
+                <field
+                    name="payment_provider_id"
+                    attrs="{'invisible': [('generate_boletos_on_invoice', '=', False)]}"
+                />
+            </field>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="account_payment_mode_tree_view">
+        <field name="model">account.payment.mode</field>
+        <field name="inherit_id" ref="account_payment_mode.account_payment_mode_tree" />
+        <field name="arch" type="xml">
+            <field name="payment_type" position="after">
+                <field name="generate_boletos_on_invoice" />
+                <field
+                    name="payment_provider_id"
+                    attrs="{'invisible': [('generate_boletos_on_invoice', '=', False)]}"
+                />
+            </field>
+        </field>
+    </record>
+
+</odoo>
