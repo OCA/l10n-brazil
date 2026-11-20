@@ -469,3 +469,6 @@ class TestDocumentEdition(TransactionCase):
         self.assertEqual(line.icms_origin_percent, 7.0)
         self.assertEqual(line.icms_destination_percent, 20.5)
         self.assertEqual(line.icms_destination_value, 13.5)
+        # 100.00 - ICMS 7.00 - DIFAL 13.50 - FCP 2.00 - PIS 0.65 - COFINS 3.00
+        self.assertAlmostEqual(line.ibs_base, 73.85)
+        self.assertAlmostEqual(line.cbs_base, 73.85)
