@@ -6,7 +6,7 @@ from datetime import date
 from odoo.exceptions import UserError
 from odoo.tests.common import tagged
 
-from .common_entrada import SpedEntradaCommon
+from odoo.addons.l10n_br_tax_assessment.tests.common_entrada import SpedEntradaCommon
 
 
 @tagged("post_install", "-at_install")

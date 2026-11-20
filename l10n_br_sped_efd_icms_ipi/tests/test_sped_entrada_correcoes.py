@@ -5,7 +5,8 @@ from datetime import datetime
 
 from odoo.tests.common import tagged
 
-from .common_entrada import SpedEntradaCommon
+from odoo.addons.l10n_br_tax_assessment.tests.common_entrada import SpedEntradaCommon
+
 from .test_sped_entrada import EntradaHelpers
 
 

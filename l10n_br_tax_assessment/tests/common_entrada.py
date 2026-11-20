@@ -15,9 +15,11 @@ _logger = logging.getLogger(__name__)
 class SpedEntradaCommon(AccountMoveBRCommon):
     """Company, supplier and supplier invoice for the tests of the entry books.
 
-    The document is created straight in ``l10n_br_fiscal.document``, the way
-    the NF-e import leaves it: issued by the partner, ``imported_document`` set
-    and the taxes of the file on the lines.
+    It lives here, the common ancestor of the assessment and of both SPED
+    modules, so the tests of the EFD ICMS/IPI and of the EFD Contribuicoes
+    build the same entry. The document is created straight in
+    ``l10n_br_fiscal.document``, the way the NF-e import leaves it: issued by
+    the partner, ``imported_document`` set and the taxes of the file on the lines.
     """
 
     # "presumed" (cumulative PIS/COFINS) or "real" (non-cumulative)
