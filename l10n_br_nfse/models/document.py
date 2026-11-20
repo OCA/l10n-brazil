@@ -72,6 +72,17 @@ class Document(models.Model):
         string="Civil Construction ART",
     )
 
+    nfse_nacional_municipality_active = fields.Boolean(
+        string="Municipality Active on Sistema Nacional NFS-e",
+        default=True,
+        help=(
+            "Uncheck if the ISSQN municipality of incidence is not yet "
+            "ACTIVE on the Sistema Nacional NFS-e (gov.br/nfse). Affects "
+            "whether the ISSQN rate is sent when issuing the NFS-e "
+            "Nacional for providers opting for Simples Nacional."
+        ),
+    )
+
     def make_pdf(self):
         if not self.filtered(filter_processador_edoc_nfse):
             return super().make_pdf()
@@ -267,6 +278,7 @@ class Document(models.Model):
             "codigo_nbs": self.fiscal_line_ids[0].nbs_id.code,
             "codigo_nbs_unmasked": self.fiscal_line_ids[0].nbs_id.code_unmasked,
             "consumidor_final": self.ind_final,
+            "municipio_ativo_nfse_nacional": self.nfse_nacional_municipality_active,
             "codigo_indicador_operacao": self.fiscal_line_ids[
                 0
             ].operation_indicator_id.code,
