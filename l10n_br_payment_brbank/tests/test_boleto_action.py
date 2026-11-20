@@ -1,6 +1,7 @@
 # Copyright 2026 KMEE
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
+from datetime import timedelta
 from decimal import Decimal
 from unittest.mock import AsyncMock, patch
 
@@ -135,9 +136,10 @@ class TestBoletoAction(BrbankTransactionCase):
         invoice = self._create_invoice()
         old = self._brbank_txs(invoice)[0]
         self.bank["calls"].clear()
-        wizard = self._wizard(
-            old.move_line_id, action="reemissao", new_due_date=in_days(-1)
-        )
+        wizard = self._wizard(old.move_line_id, action="reemissao")
+        # Yesterday at the bank (Brazil), not on the server clock (UTC): between
+        # 21:00 and midnight they are different days.
+        wizard.new_due_date = wizard._today() - timedelta(days=1)
         with self.assertRaisesRegex(UserError, "today or later"):
             wizard.action_confirm()
         self.assertFalse(self.bank["calls"])
