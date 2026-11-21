@@ -1,7 +1,3 @@
-.. image:: https://odoo-community.org/readme-banner-image
-   :target: https://odoo-community.org/get-involved?utm_source=readme
-   :alt: Odoo Community Association
-
 =====================================
 Brazilian Localization Purchase Stock
 =====================================
@@ -17,7 +13,7 @@ Brazilian Localization Purchase Stock
 .. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
-.. |badge2| image:: https://img.shields.io/badge/license-AGPL--3-blue.png
+.. |badge2| image:: https://img.shields.io/badge/licence-AGPL--3-blue.png
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fl10n--brazil-lightgray.png?logo=github
@@ -38,14 +34,14 @@ para ser usado em **Compras** incluindo a possibilidade de criar a
 Fatura de um Pedido de Compra a partir da Ordem de Recebimento/Stock
 Picking, ao definir a **Política de Faturamento de Compras** como:
 
-- **Pedido de Compra / Purchase Order**, mantém o comportamento padrão e
-  a criação da Fatura será feita a partir do **Pedido de
-  Compra/purchase.order**
+-  **Pedido de Compra / Purchase Order**, mantém o comportamento padrão
+   e a criação da Fatura será feita a partir do **Pedido de
+   Compra/purchase.order**
 
-- **Ordem de Recebimento / Stock Picking**, desabilita a criação de
-  Faturas a partir do **Pedido de Compra** para os casos onde o 'Tipo do
-  Produto' é 'Produto', mas no caso de ser 'Serviço' ainda será possível
-  criar a partir do **Pedido de Compra**
+-  **Ordem de Recebimento / Stock Picking**, desabilita a criação de
+   Faturas a partir do **Pedido de Compra** para os casos onde o 'Tipo
+   do Produto' é 'Produto', mas no caso de ser 'Serviço' ainda será
+   possível criar a partir do **Pedido de Compra**
 
 A implementação foi feita para que a Fatura criada a partir do
 'stock.picking' seja a mais similar possível com a que é criada a partir
@@ -68,8 +64,8 @@ Installation
 
 O módulo depende do:
 
-- l10n_br_purchase
-- l10n_br_stock_account
+-  l10n_br_purchase
+-  l10n_br_stock_account
 
 Configuration
 =============
@@ -93,14 +89,14 @@ Se a **Política de Faturamento de Compras** estiver definida como
 para uma Ordem de Recebimento quanto uma Fatura para diversas Ordens de
 Recebimentos:
 
-- Caso uma Fatura para uma Ordem de Recebimento
+-  Caso uma Fatura para uma Ordem de Recebimento
 
 Na **Ordem de Recebimento**, referente ao **Pedido de Compra**, depois
 de **Validar** essa Ordem deverá aparecer o botão **Criar Fatura** onde
 ao clicar será possível criar a Fatura, nesse caso o campo **Grupo**
 estará **Coleta**.
 
-- Caso uma Fatura para diversas Ordens de Recebimento
+-  Caso uma Fatura para diversas Ordens de Recebimento
 
 Por estender o **l10n_br_stock_account** é possível criar uma **Fatura
 Agrupada**, para isso é preciso ir na 'Visão Lista/Tree View' selecionar
@@ -122,18 +118,18 @@ Changelog
 16.0.1.0.0 (2025-01-22)
 -----------------------
 
-- [MIG] Migração para a v16
+-  [MIG] Migração para a v16
 
 14.0.1.0.0 (2022-09-16)
 -----------------------
 
-- [MIG] Migração para a v14
+-  [MIG] Migração para a v14
 
 12.0.1.0.0 (2020-04-27)
 -----------------------
 
-- [REF] Separado o módulo l10n_br_purchase em dois l10n_br_purchase e
-  l10n_br_purchase_stock.
+-  [REF] Separado o módulo l10n_br_purchase em dois l10n_br_purchase e
+   l10n_br_purchase_stock.
 
 Bug Tracker
 ===========
@@ -156,17 +152,17 @@ Authors
 Contributors
 ------------
 
-- `Akretion <https://www.akretion.com/pt-BR>`__:
+-  `Akretion <https://www.akretion.com/pt-BR>`__:
 
-  - Renato Lima <renato.lima@akretion.com.br>
-  - Magno Costa <magno.costa@akretion.com.br>
+   -  Renato Lima <renato.lima@akretion.com.br>
+   -  Magno Costa <magno.costa@akretion.com.br>
 
 Other credits
 -------------
 
 The development of this module has been financially supported by:
 
-- AKRETION LTDA - `www.akretion.com <http://www.akretion.com>`__
+-  AKRETION LTDA - `www.akretion.com <http://www.akretion.com>`__
 
 Maintainers
 -----------

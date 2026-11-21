@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Copyright 2026 KMEE INFORMATICA LTDA
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+
+  CASO 1A - CFOP 1102, compra para revenda, deductible_taxes DESLIGADO.
+
+  O ICMS destacado gera credito, abatido do ICMS devido na saida (LC 87/96,
+  art. 20). O imposto nunca foi custo da empresa: e ativo a recuperar. O
+  estoque deveria valer o preco MENOS o ICMS.
+-->
+<odoo>
+    <function model="l10n_br.creditability.demo" name="generate_case_1a" />
+</odoo>
