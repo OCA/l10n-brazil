@@ -8,9 +8,11 @@ from odoo.tests import TransactionCase
 
 class SpedDocumentCommon:
     @staticmethod
-    def _access_key(number, cnpj="49190159000105"):
-        """A valid 44 digits access key (check digit included) for the number."""
-        base = f"352611{cnpj}55001{number.zfill(9)}1{number.zfill(8)}"
+    def _access_key(number, cnpj="49190159000105", when=None):
+        """A valid 44 digits access key (check digit included) for the number,
+        with the year and month of the document (the NF-e checks them)."""
+        yymm = (when or datetime(2026, 7, 20)).strftime("%y%m")
+        base = f"35{yymm}{cnpj}55001{number.zfill(9)}1{number.zfill(8)}"
         weights = [2, 3, 4, 5, 6, 7, 8, 9]
         total = sum(
             int(digit) * weights[index % 8]
@@ -33,7 +35,6 @@ class SpedDocumentCommon:
             "document_type_id": ref("l10n_br_fiscal.document_55").id,
             "document_number": str(number),
             "document_serie": "1",
-            "document_key": cls._access_key(str(number)),
             "issuer": "partner" if operation_type == "in" else "company",
             "partner_id": ref("l10n_br_base.res_partner_cliente1_sp").id,
             "document_date": datetime(2026, 7, 20, 12, 0),
@@ -41,6 +42,10 @@ class SpedDocumentCommon:
             "state_edoc": "autorizada",
         }
         values.update(vals)
+        if "document_key" not in vals:
+            values["document_key"] = cls._access_key(
+                str(number), when=values["document_date"]
+            )
         return cls.env["l10n_br_fiscal.document"].create(values)
 
 
