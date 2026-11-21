@@ -17,5 +17,7 @@
         "security/ir.model.access.csv",
         "views/sped_base.xml",
         "views/res_partner_view.xml",
+        "views/sped_signer_view.xml",
+        "views/res_company_view.xml",
     ],
 }
