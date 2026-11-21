@@ -411,6 +411,119 @@ class SpedMixin(models.AbstractModel):
             ).unlink()
 
     @api.model
+    def _sped_parent_field(self):
+        """The many2one to the parent register, or None for a top register."""
+        return next(
+            (
+                name
+                for name, field in self._fields.items()
+                if field.type == "many2one"
+                and name.startswith("reg_")
+                and name.endswith("_id")
+            ),
+            None,
+        )
+
+    @api.model
+    def _pulled_register_keys(self, kind, declaration_id):
+        """``{register: key}`` of the pulled registers of the declaration.
+
+        The key finds the same register in the next pull: the Odoo record it
+        came from, or, for a register made of no record (the I010 of the ECD),
+        its position among the pulled registers of its model."""
+        keys = {}
+        prefix = f"l10n_br_sped.{kind}."
+        for name, model in self.env.registry.items():
+            if (
+                not name.startswith(prefix)
+                or model._abstract
+                or "declaration_id" not in model._fields
+                or "is_generated_from_odoo" not in model._fields
+            ):
+                continue
+            registers = self.env[name].search(
+                [
+                    ("declaration_id", "=", declaration_id),
+                    ("is_generated_from_odoo", "=", True),
+                ],
+                order="id",
+            )
+            for position, register in enumerate(registers):
+                if register.res_model and register.res_id:
+                    keys[register] = (name, register.res_model, register.res_id)
+                else:
+                    keys[register] = (name, position)
+        return keys
+
+    def _sped_snapshot(self):
+        """Values of the register and of its children, to create it again."""
+        self.ensure_one()
+        vals = self.copy_data()[0]
+        vals["is_generated_from_odoo"] = False
+        children = []
+        for name, field in self._fields.items():
+            if field.type == "one2many" and name.startswith("reg_"):
+                for child in self[name]:
+                    vals.pop(name, None)
+                    children.append(
+                        (child._sped_parent_field(), child._sped_snapshot())
+                    )
+        return self._name, vals, children
+
+    @api.model
+    def _sped_restore(self, snapshot, parent_field=None, parent_id=None):
+        name, vals, children = snapshot
+        if parent_field:
+            vals[parent_field] = parent_id
+        register = self.env[name].with_context(sped_pull_from_odoo=False).create(vals)
+        for child_parent_field, child in children:
+            self._sped_restore(child, child_parent_field, register.id)
+        return register
+
+    @api.model
+    def _save_typed_under_pulled(self, kind, declaration_id):
+        """The registers typed by hand under a pulled one.
+
+        The parent is required and deleted in cascade, so dropping the pulled
+        registers for a new pull would drop them too. They are saved with the
+        key of their parent, to go back under the same register pulled again.
+        """
+        keys = self._pulled_register_keys(kind, declaration_id)
+        saved = []
+        for parent, key in keys.items():
+            for name, field in parent._fields.items():
+                if field.type != "one2many" or not name.startswith("reg_"):
+                    continue
+                for child in parent[name].filtered(
+                    lambda r: not r.is_generated_from_odoo
+                ):
+                    saved.append(
+                        (key, child._sped_parent_field(), child._sped_snapshot())
+                    )
+        return saved
+
+    @api.model
+    def _restore_typed_under_pulled(self, kind, declaration_id, saved):
+        """Put the saved registers back under their parent pulled again.
+        Returns the keys whose parent the new pull did not create."""
+        if not saved:
+            return []
+        parents = {
+            key: register
+            for register, key in self._pulled_register_keys(
+                kind, declaration_id
+            ).items()
+        }
+        lost = []
+        for key, parent_field, snapshot in saved:
+            parent = parents.get(key)
+            if not parent:
+                lost.append(key)
+                continue
+            self._sped_restore(snapshot, parent_field, parent.id)
+        return lost
+
+    @api.model
     def _import_file(self, filename, kind, version=None, declaration=None):
         """
         Import SPED files into Odoo.
