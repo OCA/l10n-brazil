@@ -11,6 +11,7 @@
          waiver. Set 0,00 on a tax record to withdraw the waiver. -->
     <record id="tax_irpj_wh_1" model="l10n_br_fiscal.tax">
         <field name="withholding_min_value">10.00</field>
+        <field name="revenue_code">1708</field>
     </record>
     <record id="tax_irpj_wh_1_percent" model="l10n_br_fiscal.tax">
         <field name="withholding_min_value">10.00</field>

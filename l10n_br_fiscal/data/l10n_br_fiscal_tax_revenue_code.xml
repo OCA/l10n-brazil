@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- Revenue code of the DARF of the federal taxes withheld at source. The
+         one of the IRPJ RET 1,5% (1708) is in l10n_br_fiscal_tax_withholding_data.xml,
+         with its withholding waiver -->
+    <record id="tax_csll_wh_1" model="l10n_br_fiscal.tax">
+        <field name="revenue_code">5952</field>
+    </record>
+</odoo>

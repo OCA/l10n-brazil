@@ -564,3 +564,12 @@ class TestFiscalTax(TransactionCase):
         self.assertEqual(product.operation_indicator_id, nbs.operation_indicator_id)
         product.nbs_id = nbs_without
         self.assertEqual(product.operation_indicator_id, nbs.operation_indicator_id)
+
+    def test_withholding_revenue_code(self):
+        """The federal taxes withheld at source carry the code of their DARF."""
+        self.assertEqual(
+            self.env.ref("l10n_br_fiscal.tax_irpj_wh_1").revenue_code, "1708"
+        )
+        self.assertEqual(
+            self.env.ref("l10n_br_fiscal.tax_csll_wh_1").revenue_code, "5952"
+        )
