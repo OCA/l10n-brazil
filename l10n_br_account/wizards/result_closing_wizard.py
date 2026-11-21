@@ -3,6 +3,7 @@
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
+from odoo.tools import format_date
 
 
 class ResultClosingWizard(models.TransientModel):
@@ -109,7 +110,11 @@ class ResultClosingWizard(models.TransientModel):
         balances = self._result_balances()
         if not balances:
             raise UserError(_("There is no result to close in this period."))
-        label = _("Closing of the result")
+        label = _(
+            "Closing of the result from %(date_from)s to %(date_to)s",
+            date_from=format_date(self.env, self.date_from),
+            date_to=format_date(self.env, self.date_to),
+        )
         lines = [
             (0, 0, {"account_id": account, "name": label, "balance": -balance})
             for account, balance in balances.items()
