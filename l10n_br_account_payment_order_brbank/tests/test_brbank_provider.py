@@ -608,9 +608,10 @@ class TestBrbankProvider(AccountTestInvoicingCommon):
                 order = self._order(
                     mode,
                     partner_pix_id=self.pix_key.id,
-                    pay_today_in="America/Sao_Paulo"
-                    if adapter == "bradesco"
-                    else "UTC",
+                    # The bank day (Brazil): between 21:00 and midnight the UTC
+                    # date is already tomorrow, a scheduled payment for the banks
+                    # that only pay today.
+                    pay_today_in="America/Sao_Paulo",
                 )
                 transport = httpx.MockTransport(partial(refusing_bank, requests))
                 with mute_logger(LOG_BATCH):
@@ -648,7 +649,9 @@ class TestBrbankProvider(AccountTestInvoicingCommon):
             "santander",
             brbank_payment_settings=json.dumps({"workspace_id": "ws-1"}),
         )
-        order = self._order(mode, partner_pix_id=self.pix_key.id, pay_today_in="UTC")
+        order = self._order(
+            mode, partner_pix_id=self.pix_key.id, pay_today_in="America/Sao_Paulo"
+        )
         order = order.with_context(brbank_http_transport=httpx.MockTransport(bank))
         order._api_send_to_bank()
         line = order.api_line_ids
