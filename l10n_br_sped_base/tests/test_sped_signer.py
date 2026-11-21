@@ -67,6 +67,17 @@ class TestSpedSigner(TransactionCase):
         self.assertEqual(signer.email, "contador@example.com")
         self.assertEqual(signer.phone, "(35) 3333-4444")
 
+    def test_onchange_traz_o_crc_do_contato(self):
+        """O CRC e a UF do CRC do contador vem do contato (J930 da ECD)."""
+        sp = self.env.ref("base.state_br_sp")
+        self.partner.write({"crc_code": "1SP123456O1", "crc_state_id": sp.id})
+        signer = self.env["l10n_br_sped.signer"].new(
+            {"company_id": self.company.id, "partner_id": self.partner.id}
+        )
+        signer._onchange_partner_id()
+        self.assertEqual(signer.crc, "1SP123456O1")
+        self.assertEqual(signer.crc_state_id, sp)
+
     def test_signatarios_da_empresa_e_ordem(self):
         """A escrituracao e assinada por mais de um, na ordem da sequencia."""
         contador = self._criar(
