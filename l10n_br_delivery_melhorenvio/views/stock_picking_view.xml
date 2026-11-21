@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="view_picking_form" model="ir.ui.view">
+        <field name="model">stock.picking</field>
+        <field
+            name="inherit_id"
+            ref="stock_delivery.view_picking_withcarrier_out_form"
+        />
+        <field name="arch" type="xml">
+            <button name="send_to_shipper" position="after">
+                <button
+                    name="action_melhorenvio_buy_label"
+                    type="object"
+                    string="Buy Melhor Envio Label"
+                    class="btn-primary"
+                    invisible="delivery_type != 'melhorenvio' or melhorenvio_label_url or state in ('draft', 'cancel')"
+                />
+                <button
+                    name="action_melhorenvio_print_label"
+                    type="object"
+                    string="Print Melhor Envio Label"
+                    invisible="not melhorenvio_label_url"
+                />
+            </button>
+            <field name="carrier_id" position="after">
+                <field name="melhorenvio_label_url" invisible="1" />
+                <field
+                    name="melhorenvio_protocol"
+                    invisible="not melhorenvio_order_id"
+                />
+                <field name="melhorenvio_status" invisible="not melhorenvio_order_id" />
+                <field name="melhorenvio_order_id" invisible="1" />
+            </field>
+        </field>
+    </record>
+</odoo>

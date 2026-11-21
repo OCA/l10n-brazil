@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo noupdate="1">
+    <record id="melhorenvio_account_company_rule" model="ir.rule">
+        <field name="name">Melhor Envio account: multi-company</field>
+        <field name="model_id" ref="model_melhorenvio_account" />
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+</odoo>

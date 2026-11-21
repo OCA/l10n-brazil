@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="view_delivery_carrier_form" model="ir.ui.view">
+        <field name="model">delivery.carrier</field>
+        <field name="inherit_id" ref="delivery.view_delivery_carrier_form" />
+        <field name="arch" type="xml">
+            <group name="delivery_details" position="after">
+                <group
+                    name="melhorenvio"
+                    string="Melhor Envio"
+                    invisible="delivery_type != 'melhorenvio'"
+                >
+                    <field
+                        name="melhorenvio_account_id"
+                        required="delivery_type == 'melhorenvio'"
+                    />
+                    <field name="melhorenvio_company_name" />
+                    <field name="melhorenvio_service_name" />
+                    <field name="melhorenvio_service_id" />
+                    <field name="melhorenvio_agency_id" />
+                    <field name="melhorenvio_package_length" />
+                    <field name="melhorenvio_package_width" />
+                    <field name="melhorenvio_package_height" />
+                </group>
+            </group>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="melhorenvio_account_view_list" model="ir.ui.view">
+        <field name="model">melhorenvio.account</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name" />
+                <field name="environment" />
+                <field name="token_expiry" />
+                <field name="company_id" groups="base.group_multi_company" />
+            </list>
+        </field>
+    </record>
+
+    <record id="melhorenvio_account_view_form" model="ir.ui.view">
+        <field name="model">melhorenvio.account</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button
+                        name="action_authorize"
+                        type="object"
+                        string="Authorize at Melhor Envio"
+                        class="btn-primary"
+                        invisible="token"
+                        groups="base.group_system"
+                    />
+                    <button
+                        name="action_authorize"
+                        type="object"
+                        string="Authorize Again"
+                        invisible="not token"
+                        groups="base.group_system"
+                    />
+                    <button
+                        name="action_sync_services"
+                        type="object"
+                        string="Synchronize Services"
+                        groups="base.group_system"
+                    />
+                </header>
+                <sheet>
+                    <widget
+                        name="web_ribbon"
+                        title="Archived"
+                        bg_color="text-bg-danger"
+                        invisible="active"
+                    />
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" />
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="active" invisible="1" />
+                            <field name="environment" />
+                            <field name="contact_email" />
+                            <field
+                                name="company_id"
+                                groups="base.group_multi_company"
+                            />
+                        </group>
+                        <group>
+                            <field name="client_id" />
+                            <field name="client_secret" password="True" />
+                            <field name="redirect_uri" />
+                            <field name="token" password="True" />
+                            <field name="token_expiry" />
+                        </group>
+                    </group>
+                    <field name="carrier_ids" context="{'active_test': False}">
+                        <list>
+                            <field name="name" />
+                            <field name="melhorenvio_company_name" />
+                            <field name="melhorenvio_service_name" />
+                            <field name="active" widget="boolean_toggle" />
+                        </list>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="melhorenvio_account_action" model="ir.actions.act_window">
+        <field name="name">Melhor Envio Accounts</field>
+        <field name="res_model">melhorenvio.account</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem
+        id="melhorenvio_account_menu"
+        action="melhorenvio_account_action"
+        parent="stock.menu_delivery"
+        groups="base.group_system"
+        sequence="50"
+    />
+</odoo>
