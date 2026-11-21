@@ -42,6 +42,12 @@ class ResCompany(spec_models.SpecModel):
         "information registered in the CNC NFS-e: otherwise the ADN rejects "
         "the DPS with E0120.",
     )
+    nfse_suspension_process = fields.Char(
+        string="ISSQN Suspension Process",
+        size=30,
+        help="Number of the judicial or administrative process that suspends "
+        "the ISSQN, declared on the lines whose ISSQN eligibility is suspended.",
+    )
 
     # Overriding the inherited fields to make them computed
     nfse10_opSimpNac = fields.Selection(compute="_compute_nfse10_reg_trib")

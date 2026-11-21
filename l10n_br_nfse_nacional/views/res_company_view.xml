@@ -14,6 +14,10 @@
                     name="nfse_nacional_send_im"
                     invisible="provedor_nfse != 'nacional'"
                 />
+                <field
+                    name="nfse_suspension_process"
+                    invisible="provedor_nfse != 'nacional'"
+                />
             </field>
         </field>
     </record>
