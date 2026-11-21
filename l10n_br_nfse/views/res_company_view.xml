@@ -14,6 +14,7 @@
                         <group name="global_nfse_settings">
                             <field name="nfse_environment" />
                             <field name="cultural_sponsor" />
+                            <field name="nfse_foreign_trade_mode" />
                         </group>
                         <group
                             name="city_specific_nfse_settings"
