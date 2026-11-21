@@ -131,6 +131,15 @@ class ResCompany(spec_models.SpecModel):
         comodel_name="l10n_br_fiscal.document.serie",
         string="NF-e Default Serie",
     )
+    nfe_import_fiscal_operation_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.operation",
+        string="Default NF-e Import Operation",
+        domain="[('fiscal_operation_type', '=', 'in'), ('state', '=', 'approved'), "
+        "'|', ('company_id', '=', False), ('company_id', '=', id)]",
+        help="Fiscal operation applied when a received NF-e is imported. "
+        "Leave it empty to keep the match by the most common CFOP. "
+        "An NF-e issued by this company keeps that match.",
+    )
 
     nfe_authorize_accountant_download_xml = fields.Boolean(
         string="Include Accountant Partner data in persons authorized to "

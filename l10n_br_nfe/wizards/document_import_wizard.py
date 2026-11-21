@@ -45,13 +45,25 @@ class DocumentImportWizard(models.TransientModel):
             infNFe = binding.infNFe
             self.nat_op = infNFe.ide.natOp
             self.amount_total = infNFe.total.ICMSTot.vNF
-            self.fiscal_operation_id = self._find_fiscal_operation(
-                self._most_common_cfop(infNFe),
-                self.nat_op,
-                self.fiscal_operation_type,
-            )
+            self.fiscal_operation_id = self._nfe_default_operation(infNFe)
             self._create_imported_products_by_xml(binding)
         return res
+
+    def _nfe_default_operation(self, infNFe):
+        """Use the company operation for a received NF-e.
+
+        An empty company operation, and an NF-e issued by this company,
+        keep the match by the most common CFOP.
+        """
+        self.ensure_one()
+        operation = self.company_id.nfe_import_fiscal_operation_id
+        if operation and self.fiscal_operation_type == "in":
+            return operation
+        return self._find_fiscal_operation(
+            self._most_common_cfop(infNFe),
+            self.nat_op,
+            self.fiscal_operation_type,
+        )
 
     @api.model
     def _most_common_cfop(self, infNFe):
