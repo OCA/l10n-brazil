@@ -8,7 +8,10 @@ from ..constants.fiscal import (
     DOCUMENT_ISSUER,
     DOCUMENT_ISSUER_COMPANY,
     FINAL_CUSTOMER,
+    FINAL_CUSTOMER_YES,
     FISCAL_COMMENT_DOCUMENT,
+    FISCAL_OUT,
+    NFE_IND_IE_DEST_9,
     NFE_IND_PRES,
     NFE_IND_PRES_DEFAULT,
     SIMPLIFIED_TAX_ANNEX_COMMERCE,
@@ -320,15 +323,39 @@ class FiscalDocumentMixin(models.AbstractModel):
         self.ensure_one()
         return self.partner_id
 
-    @api.depends("partner_id")
+    def _is_final_consumer_required(self, partner):
+        self.ensure_one()
+        return (
+            partner.ind_ie_dest == NFE_IND_IE_DEST_9
+            and self.fiscal_operation_type == FISCAL_OUT
+            and partner.country_id == self.company_id.country_id
+            and self.document_type_id.type != "service"
+        )
+
+    # Not on company_id: stock.picking takes it from a related field that is
+    # not precomputed, and ind_final (precomputed) could not depend on it.
+    @api.depends(
+        "partner_id.country_id",
+        "partner_id.ind_final",
+        "partner_id.ind_ie_dest",
+        "document_type_id.type",
+        "fiscal_operation_id",
+    )
     def _compute_ind_final(self):
         for doc in self:
             partner = doc._get_fiscal_partner()
-            if partner:
+            if partner and doc._is_final_consumer_required(partner):
+                # NF-e rule E16a-40 (rejection 696): an outgoing domestic
+                # operation to a non-contributor is always to a final consumer.
+                doc.ind_final = FINAL_CUSTOMER_YES
+            elif partner:
                 doc.ind_final = partner.ind_final
             else:
-                # Default Value
-                doc.ind_final = "1"  # Yes
+                # Default Value. Without a partner keep what is already there:
+                # the delegated fiscal document of an account.move is
+                # recomputed by the operation or the document type before it
+                # sees the partner, and must not overwrite the partner value.
+                doc.ind_final = doc.ind_final or "1"  # Yes
 
     @api.onchange("ind_final")
     def _inverse_ind_final(self):
