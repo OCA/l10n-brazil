@@ -195,69 +195,28 @@ EMPRESAS = {
 
 
 def encerrar_resultado(env, company, journal, conta_pl, dt_ini, dt_fin):
-    """Lanca o encerramento do resultado do periodo, no ultimo dia dele.
+    """Encerra o resultado do periodo pelo assistente, no ultimo dia dele.
 
     Zera cada conta de resultado movimentada no periodo contra a conta do
     patrimonio liquido. A ECF escritura o balanco (K155, P100) depois deste
     lancamento e o resultado (K355, P150) antes dele.
     """
-    linhas = (
-        env["account.move.line"]
-        .with_company(company)
-        .search(
-            [
-                ("company_id", "=", company.id),
-                ("parent_state", "=", "posted"),
-                ("account_id.internal_group", "in", ("income", "expense")),
-                ("date", ">=", dt_ini),
-                ("date", "<=", dt_fin),
-            ]
-        )
-    )
-    saldos = {}
-    for linha in linhas:
-        saldos[linha.account_id] = saldos.get(linha.account_id, 0.0) + linha.balance
-    saldos = {
-        conta: saldo
-        for conta, saldo in saldos.items()
-        if not company.currency_id.is_zero(saldo)
-    }
-    if not saldos:
-        return env["account.move"]
-    resultado = -sum(saldos.values())
-    valores = [
-        (conta.id, max(-saldo, 0.0), max(saldo, 0.0)) for conta, saldo in saldos.items()
-    ]
-    valores.append((conta_pl.id, max(-resultado, 0.0), max(resultado, 0.0)))
-    move = (
-        env["account.move"]
+    wizard = (
+        env["l10n_br_account.result.closing.wizard"]
         .with_company(company)
         .create(
             {
-                "move_type": "entry",
-                "date": dt_fin,
-                "ref": "Encerramento do resultado",
-                "journal_id": journal.id,
                 "company_id": company.id,
-                "l10n_br_sped_result_closing": True,
-                "line_ids": [
-                    (
-                        0,
-                        0,
-                        {
-                            "account_id": conta,
-                            "debit": debito,
-                            "credit": credito,
-                            "name": "Encerramento do resultado",
-                        },
-                    )
-                    for conta, debito, credito in valores
-                ],
+                "date_from": dt_ini,
+                "date_to": dt_fin,
+                "journal_id": journal.id,
+                "equity_account_id": conta_pl.id,
             }
         )
     )
-    move.action_post()
-    return move
+    if not wizard._result_balances():
+        return env["account.move"]
+    return env["account.move"].browse(wizard.action_close()["res_id"])
 
 
 class CenarioPresumido:
