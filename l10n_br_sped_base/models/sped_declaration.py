@@ -280,7 +280,9 @@ class SpedDeclaration(models.AbstractModel):
         )
         top_registers = mixin_env._get_top_registers(kind)
 
-        # pulling twice must not duplicate: drop what an earlier pull created
+        # pulling twice must not duplicate: drop what an earlier pull created,
+        # keeping what was typed by hand under it
+        typed = mixin_env._save_typed_under_pulled(kind, self.id)
         mixin_env._flush_generated_registers(kind, self.id)
 
         ignored = self._get_documents_without_access_key()
@@ -312,6 +314,15 @@ class SpedDeclaration(models.AbstractModel):
                     f"processing {register_model._name}: {e}</p>"
                 )
                 errors.append(f"{register_model._name[-4:].upper()}: {e}")
+        lost = mixin_env._restore_typed_under_pulled(kind, self.id, typed)
+        if lost:
+            title = _("Registers typed under a register the pull did not create again")
+            log_msg.write(
+                f"<p style='color:red;'>{title}: "
+                + ", ".join(str(key[0]) for key in lost)
+                + "</p>"
+            )
+            errors.append(f"{title}: {len(lost)}")
         self.message_post(body=log_msg.getvalue())
         return errors
 
