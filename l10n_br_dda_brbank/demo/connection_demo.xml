@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo noupdate="1">
+    <!-- Turns DDA on in the demo connection to the brbank simulator. -->
+    <record
+        id="l10n_br_bank_connection.connection_demo_btg_simulator"
+        model="l10n_br_bank_connection.connection"
+    >
+        <field name="client_id">sim-client</field>
+        <field name="client_secret">sim-secret</field>
+        <field name="refresh_token">sim-refresh-0</field>
+        <field name="state">connected</field>
+        <field name="dda_enabled" eval="True" />
+    </record>
+</odoo>

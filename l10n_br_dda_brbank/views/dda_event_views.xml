@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <record id="dda_event_tree" model="ir.ui.view">
+        <field name="name">l10n_br_dda.event.tree</field>
+        <field name="model">l10n_br_dda.event</field>
+        <field name="arch" type="xml">
+            <tree
+                create="false"
+                edit="false"
+                decoration-success="state == 'done'"
+                decoration-warning="state == 'error'"
+                decoration-danger="state == 'quarantine'"
+            >
+                <field name="create_date" />
+                <field name="connection_id" />
+                <field name="event_type" />
+                <field name="occurred_at" optional="hide" />
+                <field name="attempts" />
+                <field name="next_attempt_at" optional="show" />
+                <field name="state" />
+                <field name="last_error" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="dda_event_form" model="ir.ui.view">
+        <field name="name">l10n_br_dda.event.form</field>
+        <field name="model">l10n_br_dda.event</field>
+        <field name="arch" type="xml">
+            <form create="false" edit="false">
+                <header>
+                    <button
+                        name="action_requeue"
+                        type="object"
+                        string="Process again"
+                        states="error,quarantine"
+                    />
+                    <field name="state" widget="statusbar" />
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="connection_id" />
+                            <field name="event_id" />
+                            <field name="event_type" />
+                            <field name="occurred_at" />
+                        </group>
+                        <group>
+                            <field name="attempts" />
+                            <field name="next_attempt_at" />
+                            <field name="last_error" />
+                        </group>
+                    </group>
+                    <group string="Masked payload" groups="base.group_no_one">
+                        <field name="payload" nolabel="1" colspan="2" />
+                    </group>
+                    <group string="Boletos of the event" groups="base.group_no_one">
+                        <field name="debits_json" nolabel="1" colspan="2" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="dda_event_search" model="ir.ui.view">
+        <field name="name">l10n_br_dda.event.search</field>
+        <field name="model">l10n_br_dda.event</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="event_id" />
+                <field name="connection_id" />
+                <filter
+                    name="filter_pending"
+                    string="To Process"
+                    domain="[('state', 'in', ('new', 'error'))]"
+                />
+                <filter
+                    name="filter_quarantine"
+                    string="Quarantine"
+                    domain="[('state', '=', 'quarantine')]"
+                />
+                <group expand="0" string="Group By">
+                    <filter
+                        name="group_state"
+                        string="State"
+                        context="{'group_by': 'state'}"
+                    />
+                    <filter
+                        name="group_connection"
+                        string="Connection"
+                        context="{'group_by': 'connection_id'}"
+                    />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="dda_event_action" model="ir.actions.act_window">
+        <field name="name">DDA Bank Events</field>
+        <field name="res_model">l10n_br_dda.event</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Technical menu: only in debug mode. -->
+    <menuitem
+        id="dda_event_menu"
+        action="dda_event_action"
+        parent="account.menu_finance_configuration"
+        sequence="56"
+        groups="base.group_no_one"
+    />
+
+</odoo>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <menuitem
+        id="menu_dda_debit"
+        name="DDA Boletos"
+        parent="account.menu_finance_payables"
+        action="action_dda_debit"
+        sequence="30"
+        groups="l10n_br_dda.group_dda_user"
+    />
+
+    <menuitem
+        id="menu_dda_import"
+        name="Import DDA file"
+        parent="account.menu_finance_payables"
+        action="action_dda_import_wizard"
+        sequence="31"
+        groups="l10n_br_dda.group_dda_user"
+    />
+
+</odoo>

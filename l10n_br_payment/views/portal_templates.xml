@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <template id="portal_invoice_page_boleto" inherit_id="account.portal_invoice_page">
+        <xpath expr="//div[hasclass('o_download_pdf')]/.." position="after">
+            <t
+                t-set="boleto_transactions"
+                t-value="invoice._boleto_report_transactions()"
+            />
+            <li
+                t-foreach="boleto_transactions"
+                t-as="title"
+                class="list-group-item flex-grow-1 o_boleto_title"
+            >
+                <div class="small mb-1">
+                    <strong class="text-muted">Due</strong>
+                    <span t-field="title.due_date" />
+                    -
+                    <span
+                        t-field="title.amount"
+                        t-options='{"widget": "monetary", "display_currency": title.currency_id}'
+                    />
+                </div>
+                <div
+                    t-if="title.digitable_line"
+                    class="small text-break font-monospace"
+                >
+                    <span t-field="title.digitable_line" />
+                </div>
+                <div
+                    t-if="title.pix_copia_cola"
+                    class="small text-break font-monospace"
+                >
+                    <span t-field="title.pix_copia_cola" />
+                </div>
+            </li>
+        </xpath>
+    </template>
+
+</odoo>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo noupdate="1">
+    <!-- The webhook triggers it at once; the period covers lost triggers and retries. -->
+    <record id="ir_cron_dda_process_events" model="ir.cron">
+        <field name="name">DDA bank: process webhook events</field>
+        <field name="model_id" ref="model_l10n_br_dda_event" />
+        <field name="state">code</field>
+        <field name="code">model._cron_process_events()</field>
+        <field name="interval_number">10</field>
+        <field name="interval_type">minutes</field>
+        <field name="numbercall">-1</field>
+        <field name="doall" eval="False" />
+    </record>
+
+    <!-- Safety net of the webhook: what changed since the last pull. -->
+    <record id="ir_cron_dda_incremental" model="ir.cron">
+        <field
+            name="model_id"
+            ref="l10n_br_bank_connection.model_l10n_br_bank_connection_connection"
+        />
+        <field name="name">DDA bank: incremental pull</field>
+        <field name="state">code</field>
+        <field name="code">model._cron_dda_incremental()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">hours</field>
+        <field name="numbercall">-1</field>
+        <field name="doall" eval="False" />
+    </record>
+
+    <!-- The bank is the truth: a full paginated listing once a day. -->
+    <record id="ir_cron_dda_reconcile" model="ir.cron">
+        <field
+            name="model_id"
+            ref="l10n_br_bank_connection.model_l10n_br_bank_connection_connection"
+        />
+        <field name="name">DDA bank: daily reconciliation</field>
+        <field name="state">code</field>
+        <field name="code">model._cron_dda_reconcile()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="numbercall">-1</field>
+        <field name="doall" eval="False" />
+    </record>
+
+    <!-- Days kept: parameter l10n_br_dda_brbank.event_retention_days (30). -->
+    <record id="ir_cron_dda_purge_events" model="ir.cron">
+        <field name="name">DDA bank: purge processed events</field>
+        <field name="model_id" ref="model_l10n_br_dda_event" />
+        <field name="state">code</field>
+        <field name="code">model._cron_purge_events()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="numbercall">-1</field>
+        <field name="doall" eval="False" />
+    </record>
+</odoo>
