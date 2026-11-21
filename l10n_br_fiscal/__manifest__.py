@@ -69,6 +69,7 @@
         "views/cfop_view.xml",
         "views/comment_view.xml",
         "views/cst_view.xml",
+        "views/creditability_reason_view.xml",
         "views/tax_group_view.xml",
         "views/tax_view.xml",
         "views/tax_definition_view.xml",
@@ -100,6 +101,7 @@
         "views/res_partner_view.xml",
         "views/res_company_view.xml",
         "views/document_view.xml",
+        "views/document_entry_cst_view.xml",
         "views/document_related_view.xml",
         "views/document_line_view.xml",
         "views/document_line_mixin_view.xml",
@@ -125,6 +127,7 @@
     "demo": [
         "demo/city_taxation_code_demo.xml",
         "demo/company_demo.xml",
+        "demo/accountant_demo.xml",
         "demo/product_demo.xml",
         "demo/partner_demo.xml",
         "demo/fiscal_document_nfse_demo.xml",

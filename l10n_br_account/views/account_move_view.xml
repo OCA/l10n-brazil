@@ -556,4 +556,18 @@
             </xpath>
         </field>
     </record>
+
+    <record id="view_move_form_result_closing" model="ir.ui.view">
+        <field name="name">l10n_br_account.move.form.result.closing</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form" />
+        <field name="arch" type="xml">
+            <field name="ref" position="after">
+                <field
+                    name="l10n_br_sped_result_closing"
+                    attrs="{'invisible': [('move_type', '!=', 'entry')]}"
+                />
+            </field>
+        </field>
+    </record>
 </odoo>

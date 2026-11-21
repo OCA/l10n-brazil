@@ -5,25 +5,33 @@
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
 
-# Tabela de qualificacao do assinante. Sao os codigos de uso corrente; a
-# tabela completa esta no Guia Pratico de cada escrituracao.
+# Tabela de qualificacao do assinante do Sped, a mesma que os programas da ECD
+# (SPEDCONTABIL_QUALIF_ASSINANTE) e da ECF (SPEDECF_QUALIF_ASSINANTE) conferem.
 QUALIFICACAO_SIGNATARIO = [
-    ("203", "203 - Administrador"),
-    ("204", "204 - Advogado"),
-    ("205", "205 - Diretor"),
-    ("206", "206 - Empresario"),
-    ("207", "207 - Inventariante"),
-    ("208", "208 - Liquidante"),
-    ("209", "209 - Presidente"),
-    ("222", "222 - Procurador"),
-    ("223", "223 - Gestor judicial"),
-    ("226", "226 - Socio"),
-    ("309", "309 - Contador"),
-    ("312", "312 - Tecnico contabil"),
+    ("203", "203 - Diretor"),
+    ("204", "204 - Conselheiro de Administracao"),
+    ("205", "205 - Administrador"),
+    ("206", "206 - Administrador do Grupo"),
+    ("207", "207 - Administrador de Sociedade Filiada"),
+    ("220", "220 - Administrador Judicial - Pessoa Fisica"),
+    (
+        "222",
+        "222 - Administrador Judicial - Pessoa Juridica - Profissional Responsavel",
+    ),
+    ("223", "223 - Administrador Judicial/Gestor"),
+    ("226", "226 - Gestor Judicial"),
+    ("309", "309 - Procurador"),
+    ("312", "312 - Inventariante"),
+    ("313", "313 - Liquidante"),
+    ("315", "315 - Interventor"),
+    ("401", "401 - Titular Pessoa Fisica - EIRELI"),
+    ("801", "801 - Empresario"),
+    ("900", "900 - Contador/Contabilista"),
+    ("999", "999 - Outros"),
 ]
 
 # Qualificacoes que exigem o numero de inscricao no CRC.
-QUALIFICACAO_COM_CRC = ("309", "312")
+QUALIFICACAO_COM_CRC = ("900",)
 
 
 class SpedSigner(models.Model):
@@ -33,8 +41,9 @@ class SpedSigner(models.Model):
     juridica e o contabilista; por isso o registro e obrigatorio e tem mais de
     uma ocorrencia. O cadastro cobre o registro 0930 da ECF. O J930 da ECD
     pede campos alem destes (COD_ASSIN, UF_CRC, NUM_SEQ_CRC, DT_CRC e
-    IND_RESP_LEGAL) e usa outra tabela de qualificacao: quando a geracao do
-    J930 for implementada, esses campos entram aqui.
+    IND_RESP_LEGAL), com a mesma tabela de qualificacao mais o 001 (e-CNPJ) e
+    o 940 (auditor): quando a geracao do J930 for implementada, esses campos
+    entram aqui.
     """
 
     _name = "l10n_br_sped.signer"
@@ -64,7 +73,7 @@ class SpedSigner(models.Model):
     crc = fields.Char(
         string="CRC",
         help="Numero de inscricao no Conselho Regional de Contabilidade, "
-        "obrigatorio para contador e tecnico contabil.",
+        "obrigatorio para o contador.",
     )
     email = fields.Char()
     phone = fields.Char(string="Telefone")
