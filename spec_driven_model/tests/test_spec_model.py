@@ -626,3 +626,27 @@ class TestSpecModel(TransactionCase, FakeModelLoader):
             )
         finally:
             registry.updated_modules = saved_updated_modules
+
+    def test_register_hook_runs_for_every_stacked_schema(self):
+        """The hook also runs for the schemas the MRO does not resolve to."""
+        from odoo.addons.spec_driven_model.models.spec_mixin import SpecMixin
+
+        from .fake_other_schema.fake_purchase_order import PurchaseOrder
+
+        self.loader.update_registry((PurchaseOrder,))
+        order = self.env["fake.purchase.order"]
+        self.assertEqual(order._spec_prefix(), "otherxsd10")
+
+        prefixes = []
+        with patch.object(
+            SpecMixin,
+            "_register_remaining_schema_models_hook",
+            autospec=True,
+            side_effect=lambda rec: prefixes.append(rec._spec_prefix()),
+        ):
+            order._register_hook()
+            self.assertEqual(prefixes, ["otherxsd10", "poxsd10"])
+
+            prefixes.clear()
+            order.with_context(spec_schema="poxsd", spec_version="10")._register_hook()
+            self.assertEqual(prefixes, ["poxsd10"])
