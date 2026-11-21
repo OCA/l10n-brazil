@@ -72,6 +72,23 @@ class AccountChartTemplate(models.AbstractModel):
                 transfer["tag_ids"] = [(4, tag.id)]
         return vals_list
 
+    def _guess_chart_template(self, country):
+        """br_oca is only the common parent of the Brazilian charts: it has no
+        income/expense accounts. When it is guessed and a complete child chart
+        is installed, propose that child instead."""
+        code = super()._guess_chart_template(country)
+        if code == "br_oca":
+            mapping = self._get_chart_template_mapping()
+            code = next(
+                (
+                    child
+                    for child, template in mapping.items()
+                    if template["parent"] == "br_oca" and template["installed"]
+                ),
+                code,
+            )
+        return code
+
     @template("br_oca")
     def _get_br_oca_template_data(self):
         return {
