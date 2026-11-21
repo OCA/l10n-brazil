@@ -25,4 +25,6 @@ from . import (
     test_icmssn,
     test_simplified_tax,
     test_stock_price_mixin,
+    test_document_entry_cst,
+    test_entry_cst_screen,
 )
