@@ -387,3 +387,59 @@ class TestFiscalTax(TransactionCase):
         )
 
         self.assertEqual(compute_result["taxes"]["icms"]["cst_id"].code, "10")
+
+    def test_withholding_revenue_code(self):
+        """The federal taxes withheld at source carry the code of their DARF."""
+        self.assertEqual(
+            self.env.ref("l10n_br_fiscal.tax_irpj_wh_1").revenue_code, "1708"
+        )
+        self.assertEqual(
+            self.env.ref("l10n_br_fiscal.tax_csll_wh_1").revenue_code, "5952"
+        )
+
+    def test_withheld_irpj_in_the_withholding_group(self):
+        """Every IRPJ RET tax is in the group of the IRPJ withheld at source."""
+        group = self.env.ref("l10n_br_fiscal.tax_group_irpj_wh")
+        taxes = self.env["l10n_br_fiscal.tax"].search([("name", "=like", "IRPJ RET%")])
+        self.assertIn(self.env.ref("l10n_br_fiscal.tax_irpj_wh_4_6"), taxes)
+        self.assertEqual(taxes.tax_group_id, group)
+
+    def test_federal_body_withholding_taxes(self):
+        """A federal body withholds IR, CSLL, PIS and COFINS in one DARF per
+        code (IN RFB 1.234/2012, Annex I): one tax per group and code."""
+        ref = self.env.ref
+        expected = {
+            "6190": ("tax_irpj_wh_4_6", 4.8),
+            "6147": ("tax_irpj_wh_1_2_6147", 1.2),
+            "6175": ("tax_irpj_wh_2_4_6175", 2.4),
+            "6188": ("tax_irpj_wh_2_4_6188", 2.4),
+        }
+        for code, (irpj, percent) in expected.items():
+            taxes = {
+                "tax_group_irpj_wh": (ref(f"l10n_br_fiscal.{irpj}"), percent),
+                "tax_group_csll_wh": (ref(f"l10n_br_fiscal.tax_csll_wh_1_{code}"), 1.0),
+                "tax_group_pis_wh": (
+                    ref(f"l10n_br_fiscal.tax_pis_wh_0_65_{code}"),
+                    0.65,
+                ),
+                "tax_group_cofins_wh": (
+                    ref(f"l10n_br_fiscal.tax_cofins_wh_3_{code}"),
+                    3.0,
+                ),
+            }
+            for group, (tax, tax_percent) in taxes.items():
+                self.assertEqual(tax.revenue_code, code, tax.name)
+                self.assertEqual(tax.tax_group_id, ref(f"l10n_br_fiscal.{group}"))
+                self.assertAlmostEqual(tax.percent_amount, tax_percent)
+                self.assertIn(f"({code})", tax.name)
+        self.assertEqual(
+            ref("l10n_br_fiscal.tax_irpj_wh_4_6").name, "IRPJ RET 4,8% (6190)"
+        )
+
+    def test_private_csrf_revenue_code(self):
+        """The PIS and the COFINS withheld by a private company go in the DARF
+        5952 of the CSRF, the same of the CSLL."""
+        for xmlid in ("tax_pis_wh_0_65", "tax_cofins_wh_3"):
+            tax = self.env.ref(f"l10n_br_fiscal.{xmlid}")
+            self.assertEqual(tax.revenue_code, "5952")
+            self.assertNotIn("(", tax.name)
