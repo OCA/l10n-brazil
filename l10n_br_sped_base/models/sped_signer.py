@@ -39,11 +39,9 @@ class SpedSigner(models.Model):
 
     A escrituracao e assinada por, no minimo, o responsavel legal da pessoa
     juridica e o contabilista; por isso o registro e obrigatorio e tem mais de
-    uma ocorrencia. O cadastro cobre o registro 0930 da ECF. O J930 da ECD
-    pede campos alem destes (COD_ASSIN, UF_CRC, NUM_SEQ_CRC, DT_CRC e
-    IND_RESP_LEGAL), com a mesma tabela de qualificacao mais o 001 (e-CNPJ) e
-    o 940 (auditor): quando a geracao do J930 for implementada, esses campos
-    entram aqui.
+    uma ocorrencia. O cadastro cobre o registro 0930 da ECF e o J930 da ECD,
+    que pede tambem a UF do CRC, a certidao de regularidade profissional do
+    contador e qual signatario e o responsavel legal.
     """
 
     _name = "l10n_br_sped.signer"
@@ -75,6 +73,23 @@ class SpedSigner(models.Model):
         help="Numero de inscricao no Conselho Regional de Contabilidade, "
         "obrigatorio para o contador.",
     )
+    crc_state_id = fields.Many2one(
+        comodel_name="res.country.state",
+        string="UF do CRC",
+    )
+    crp_number = fields.Char(
+        string="Numero da CRP",
+        help="Numero da Certidao de Regularidade Profissional do contador "
+        "(registro J930 da ECD).",
+    )
+    crp_validity = fields.Date(
+        string="Validade da CRP",
+    )
+    legal_responsible = fields.Boolean(
+        string="Responsavel legal",
+        help="Signatario que responde legalmente pela escrituracao "
+        "(IND_RESP_LEGAL do registro J930 da ECD).",
+    )
     email = fields.Char()
     phone = fields.Char(string="Telefone")
 
@@ -86,6 +101,8 @@ class SpedSigner(models.Model):
             signer.cpf_cnpj = partner.vat or partner.cnpj_cpf
             signer.email = partner.email
             signer.phone = partner.phone or partner.mobile
+            signer.crc = partner.crc_code or signer.crc
+            signer.crc_state_id = partner.crc_state_id or signer.crc_state_id
 
     @api.constrains("qualification", "crc")
     def _check_crc(self):
