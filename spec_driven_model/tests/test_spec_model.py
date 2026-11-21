@@ -666,3 +666,27 @@ class TestSpecModel(TransactionCase, FakeModelLoader):
         access_data = []
         mixin._auto_fill_access_data(self.env, "spec_driven_model", access_data)
         self.assertEqual([row[0] for row in access_data], ["access_spec_mixin_manager"])
+
+    def test_register_hook_runs_for_every_stacked_schema(self):
+        """The hook also runs for the schemas the MRO does not resolve to."""
+        from odoo.addons.spec_driven_model.models.spec_mixin import SpecMixin
+
+        from .fake_other_schema.fake_purchase_order import PurchaseOrder
+
+        self.loader.update_registry((PurchaseOrder,))
+        order = self.env["fake.purchase.order"]
+        self.assertEqual(order._spec_prefix(), "otherxsd10")
+
+        prefixes = []
+        with patch.object(
+            SpecMixin,
+            "_register_remaining_schema_models_hook",
+            autospec=True,
+            side_effect=lambda rec: prefixes.append(rec._spec_prefix()),
+        ):
+            order._register_hook()
+            self.assertEqual(prefixes, ["otherxsd10", "poxsd10"])
+
+            prefixes.clear()
+            order.with_context(spec_schema="poxsd", spec_version="10")._register_hook()
+            self.assertEqual(prefixes, ["poxsd10"])
