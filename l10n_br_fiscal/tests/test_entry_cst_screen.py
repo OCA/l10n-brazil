@@ -56,18 +56,16 @@ class TestEntryCstScreen(ViewFieldsCheck, TransactionCase):
             template.xpath("//field[@name='partner_icms_tax_benefit_code']")
         )
 
-    def test_recompute_button_only_for_imported_document_in_typing(self):
+    def test_recompute_is_in_the_action_menu_not_in_the_header(self):
+        action = self.env.ref("l10n_br_fiscal.document_recompute_entry_cst_action")
+        self.assertEqual(action.binding_model_id.model, "l10n_br_fiscal.document")
+        self.assertEqual(set(action.binding_view_types.split(",")), {"list", "form"})
         form = self._arch(
             "l10n_br_fiscal.document",
             "l10n_br_fiscal.document_form",
             user=self.env.ref("base.user_admin"),
         )
-        buttons = form.xpath("//header/button[@name='action_recompute_entry_cst']")
-        self.assertEqual(len(buttons), 1)
-        self.assertEqual(
-            buttons[0].get("invisible"),
-            "not imported_document or state_edoc != 'em_digitacao'",
-        )
+        self.assertFalse(form.xpath("//button[@name='action_recompute_entry_cst']"))
 
     def test_every_field_of_the_fiscal_document_views_exists(self):
         checked = self.check_view_fields(
