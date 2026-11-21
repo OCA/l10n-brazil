@@ -1,8 +1,20 @@
 # Copyright 2024 Engenere.one
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+import base64
+from io import BytesIO
+from unittest.mock import patch
+
+from reportlab.pdfgen import canvas
+
 from odoo.tests import Form, tagged
+from odoo.tools.pdf import PdfReader
 
 from odoo.addons.l10n_br_account.tests.common import AccountMoveBRCommon
+
+RENDER_DANFE = (
+    "odoo.addons.l10n_br_nfe.report.ir_actions_report"
+    ".IrActionsReport.render_danfe_brazilfiscalreport"
+)
 
 
 @tagged("post_install", "-at_install")
@@ -14,7 +26,7 @@ class TestDanfe(AccountMoveBRCommon):
         cls.configure_normal_company_taxes()
         cls.env.flush_all()
 
-    def test_generate_danfe_brazil_fiscal_report(self):
+    def _create_nfe(self):
         move_form = Form(
             self.env["account.move"].with_context(
                 default_move_type="out_invoice",
@@ -41,6 +53,10 @@ class TestDanfe(AccountMoveBRCommon):
             )
         nfe = move_form.save()
         nfe.action_post()
+        return nfe
+
+    def test_generate_danfe_brazil_fiscal_report(self):
+        nfe = self._create_nfe()
 
         # Verify the invoice was properly created and posted
         self.assertEqual(nfe.state, "posted")
@@ -52,3 +68,39 @@ class TestDanfe(AccountMoveBRCommon):
             [("report_name", "=", "main_template_danfe_account")]
         )
         self.assertTrue(danfe_report)
+
+    def test_generate_danfe_multiple_invoices(self):
+        """Printing several invoices at once gives one PDF, in the selection order."""
+        first, second = self.env["account.move"].create(
+            [
+                {
+                    "move_type": "out_invoice",
+                    "partner_id": self.partner_a.id,
+                    "document_type_id": self.env.ref("l10n_br_fiscal.document_55").id,
+                    "document_serie_id": self.empresa_lc_document_55_serie_1.id,
+                    "fiscal_operation_id": self.env.ref("l10n_br_fiscal.fo_venda").id,
+                }
+            ]
+            * 2
+        )
+        for move in first | second:
+            move.send_file_id = self.env["ir.attachment"].create(
+                {"name": "nfe.xml", "datas": base64.b64encode(b"<nfe/>")}
+            )
+
+        def render(nfe, nfe_xml):
+            pdf = BytesIO()
+            page = canvas.Canvas(pdf)
+            page.drawString(100, 750, nfe.document_key or str(nfe.id))
+            page.save()
+            return pdf.getvalue(), "pdf"
+
+        danfe_report = self.env.ref("l10n_br_account_nfe.report_danfe_account")
+        with patch(RENDER_DANFE, side_effect=render) as render_danfe:
+            pdf, extension = danfe_report._render_qweb_pdf(
+                "main_template_danfe_account", [second.id, first.id]
+            )
+        self.assertEqual(extension, "pdf")
+        self.assertEqual(len(PdfReader(BytesIO(pdf)).pages), 2)
+        printed = [call.args[0] for call in render_danfe.call_args_list]
+        self.assertEqual(printed, [second, first])
