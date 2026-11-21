@@ -182,7 +182,7 @@ class CenarioPresumido:
             }
         )
 
-    def _lancar(self, data, linhas, referencia, encerramento=False):
+    def _lancar(self, data, linhas, referencia):
         move = self.env["account.move"].create(
             {
                 "move_type": "entry",
@@ -190,7 +190,6 @@ class CenarioPresumido:
                 "ref": referencia,
                 "journal_id": self.journal.id,
                 "company_id": self.company.id,
-                "l10n_br_sped_result_closing": encerramento,
                 "line_ids": [
                     (
                         0,
@@ -252,20 +251,18 @@ class CenarioPresumido:
                 [("4.01.02.01", despesas, 0.0), ("2.01.01.01", 0.0, despesas)],
                 f"Despesas do {trimestre}o trimestre",
             )
-            # encerramento do resultado do trimestre, no ultimo dia
-            lucro = revenda + servicos + rendimentos - custo - despesas
-            self.encerramentos[trimestre] = self._lancar(
-                date(ANO, mes, calendar.monthrange(ANO, mes)[1]),
-                [
-                    ("3.01.01.01", revenda, 0.0),
-                    ("3.01.01.02", servicos, 0.0),
-                    ("3.01.02.01", rendimentos, 0.0),
-                    ("4.01.01.01", 0.0, custo),
-                    ("4.01.02.01", 0.0, despesas),
-                    ("2.03.02.01", 0.0, lucro),
-                ],
-                f"Encerramento do resultado do {trimestre}o trimestre",
-                encerramento=True,
+            # encerramento do resultado do trimestre pelo assistente
+            wizard = self.env["l10n_br_account.result.closing.wizard"].create(
+                {
+                    "company_id": self.company.id,
+                    "date_from": date(ANO, mes - 2, 1),
+                    "date_to": date(ANO, mes, calendar.monthrange(ANO, mes)[1]),
+                    "journal_id": self.journal.id,
+                    "equity_account_id": self.contas["2.03.02.01"].id,
+                }
+            )
+            self.encerramentos[trimestre] = self.env["account.move"].browse(
+                wizard.action_close()["res_id"]
             )
 
     def declaracao(self):
