@@ -86,6 +86,9 @@
             <cUnid>01</cUnid>
             <qCarga>10.0000</qCarga>
         </tot>
+        <autXML>
+          <CPF>73014458228</CPF>
+        </autXML>
         <infAdic>
             <infAdFisco>Documento emitido por: Marc Demo</infAdFisco>
         </infAdic>

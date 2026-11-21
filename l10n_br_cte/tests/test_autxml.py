@@ -13,8 +13,10 @@ class TestAutXml(TransactionCase):
         cls.document = cls.env.ref("l10n_br_cte.demo_cte_lc_modal_rodoviario")
 
     def _authorize(self, document, partner):
+        """The authorization of the partner, beside the ones the document was
+        created with (the accountant of the company)."""
         document.cte40_autXML = [Command.create({"partner_id": partner.id})]
-        return document.cte40_autXML
+        return document.cte40_autXML.filtered(lambda a: a.partner_id == partner)
 
     def test_unlink_document_keeps_autxml_partner(self):
         """Deleting a fiscal document must not delete the authorized partner."""
@@ -54,8 +56,8 @@ class TestAutXml(TransactionCase):
         self._authorize(first, self.partner)
         self._authorize(second, self.partner)
 
-        self.assertEqual(first.cte40_autXML.partner_id, self.partner)
-        self.assertEqual(second.cte40_autXML.partner_id, self.partner)
+        self.assertIn(self.partner, first.cte40_autXML.partner_id)
+        self.assertIn(self.partner, second.cte40_autXML.partner_id)
 
     def test_autxml_cnpj_cpf_comes_from_partner(self):
         """The tag CNPJ/CPF is read from the authorized partner."""
