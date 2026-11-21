@@ -97,6 +97,10 @@ class CenarioPresumido:
                 "legal_name": nome,
                 "vat": cnpj,
                 "profit_calculation": "presumed",
+                # sociedade empresaria sem NIRE no cenario: o PVA confere o
+                # digito do NIRE, e o termo de abertura pede ao menos a data de
+                # arquivamento dos atos constitutivos
+                "l10n_br_articles_filing_date": date(2015, 3, 10),
             }
         )
         self.env.user.company_ids |= self.company

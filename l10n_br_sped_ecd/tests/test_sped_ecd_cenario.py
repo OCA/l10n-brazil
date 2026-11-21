@@ -101,19 +101,43 @@ class TestEcdCenario(common.TransactionCase):
         self.assertIn("|I355|4.01.01.01||180000,00|D|", linhas)
 
     def test_balanco_e_resultado(self):
-        """O balanco fecha depois do encerramento e o resultado e o do ano."""
+        """O balanco fecha depois do encerramento e o resultado e o do ano,
+        aglutinados pelos grupos do plano: o grupo que so reune contas e a
+        linha de detalhe, os grupos acima sao os totais."""
         _declaracao, linhas = self._arquivo()
         j100 = {campos[1]: campos for campos in self._campos(linhas, "J100")}
         # ativo = passivo + patrimonio liquido, com o lucro do ano encerrado
         self.assertEqual(j100["1"][9], j100["2"][9])
-        self.assertEqual(j100["2.03.02.01"][9:11], ["1012000,00", "C"])
+        self.assertEqual(j100["1"][2:4], ["T", "1"])
+        self.assertEqual(j100["1.01"][2:5], ["T", "2", "1"])
+        self.assertEqual(j100["1.01.01"][2:5], ["D", "3", "1.01"])
+        self.assertEqual(j100["2.03.02"][9:11], ["1012000,00", "C"])
+        self.assertNotIn("2.03.02.01", j100)
         j150 = {campos[2]: campos for campos in self._campos(linhas, "J150")}
         self.assertEqual(j150["RES"][9:12], ["1012000,00", "C", "R"])
-        self.assertEqual(j150["3.01.01.01"][9:12], ["1580000,00", "C", "R"])
-        # cada conta dos demonstrativos tem a sua aglutinacao no I052
-        i052 = {campos[2] for campos in self._campos(linhas, "I052")}
-        self.assertIn("4.01.02.01", i052)
-        self.assertIn("2.03.02.01", i052)
+        # revenda e servicos aglutinados na receita bruta
+        self.assertEqual(j150["3.01.01"][3:6], ["D", "4", "3.01"])
+        self.assertEqual(j150["3.01.01"][9:12], ["2230000,00", "C", "R"])
+        self.assertEqual(j150["3"][3:6], ["T", "2", "RES"])
+        self.assertEqual(j150["4.01.01"][9:12], ["940000,00", "D", "D"])
+        # o I052 leva cada conta ao seu grupo
+        i052 = [campos[2] for campos in self._campos(linhas, "I052")]
+        self.assertEqual(i052.count("3.01.01"), 2)
+        self.assertIn("2.03.02", i052)
+
+    def test_registro_na_junta_comercial(self):
+        """Data dos atos constitutivos no termo de abertura; o NIRE da empresa
+        vai para o I030 e liga o indicador do 0000."""
+        _declaracao, linhas = self._arquivo()
+        self.assertEqual(
+            self._campos(linhas, "I030")[0][6:10],
+            ["", "91827364000103", "10032015", ""],
+        )
+        self.assertEqual(self._campos(linhas, "0000")[0][12], "0")
+        self.cenario.company.l10n_br_nire = "35200000000"
+        _declaracao, linhas = self._arquivo()
+        self.assertEqual(self._campos(linhas, "I030")[0][6], "35200000000")
+        self.assertEqual(self._campos(linhas, "0000")[0][12], "1")
 
     def test_digitado_sob_registro_puxado_fica(self):
         """Puxar de novo nao apaga o que foi digitado sob um registro puxado."""

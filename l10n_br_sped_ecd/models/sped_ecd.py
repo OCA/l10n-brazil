@@ -148,6 +148,25 @@ class Registro0000(models.Model):
             balances[account] = {"ini": ini, "fin": fin, "result": result}
         return balances
 
+    def _aglutinacao(self, accounts):
+        """``{account: code}``: the aggregation code of each account in the
+        demonstrations, the code of its group when the group gathers only
+        accounts, the code of the account otherwise (a group with subgroups
+        is a total, and a total cannot be a detail line)."""
+        self.ensure_one()
+        groups = self.env["account.group"].search(
+            [("company_id", "=", self.company_id.id)]
+        )
+        with_subgroups = set(groups.mapped("parent_id").ids)
+        codes = {}
+        for account in accounts:
+            group = account.group_id
+            if group and group.code_prefix_start and group.id not in with_subgroups:
+                codes[account] = group.code_prefix_start
+            else:
+                codes[account] = account.code
+        return codes
+
     def _generate_sped_text_in_company(self, version=None):
         # the terms (I030 and J900) carry the number of lines of the whole file,
         # known only once it is written
@@ -183,7 +202,8 @@ class Registro0000(models.Model):
             "IM": misc.punctuation_rm(record.l10n_br_im_code or ""),
             # "IND_SIT_ESP": (will use the declaration field directly),
             # "IND_SIT_INI_PER": (will use the declaration field directly),
-            "IND_NIRE": 0,  # TODO
+            # 1 when the company has the registration of the commercial board
+            "IND_NIRE": "1" if record.l10n_br_nire else "0",
             # "IND_FIN_ESC"
             # hash of the replaced bookkeeping and CNPJ of the SCP: only for a
             # replacement and for a SCP, blank otherwise
@@ -415,7 +435,11 @@ class RegistroI030(models.Model):
             # the number of lines is written by the generation of the file
             "QTD_LIN": 1,
             "NOME": company.legal_name or company.name,
+            "NIRE": misc.punctuation_rm(company.l10n_br_nire or ""),
             "CNPJ": misc.punctuation_rm(company.cnpj_cpf),
+            # the PVA warns when neither date is there (REGRA_PREENCHE_DATA_I030)
+            "DT_ARQ": company.l10n_br_articles_filing_date,
+            "DT_ARQ_CONV": company.l10n_br_conversion_filing_date,
             "DESC_MUN": company.city_id.name,
             "DT_EX_SOCIAL": company.compute_fiscalyear_dates(declaration.DT_FIN)[
                 "date_to"
@@ -452,7 +476,7 @@ class RegistroI050(models.Model):
         company = declaration.company_id
         i051 = self.env["l10n_br_sped.ecd.i051"]
         i052 = self.env["l10n_br_sped.ecd.i052"]
-        demonstradas = set(declaration._ledger_balances())
+        aglutinacao = declaration._aglutinacao(declaration._ledger_balances())
 
         groups = (
             self.env["account.group"]
@@ -520,13 +544,13 @@ class RegistroI050(models.Model):
             register = self.create(vals)
             registers |= register
 
-            # I052: the account is its own code in the demonstrations (J100,
-            # J150), for the accounts with balance or movement
-            if ind_cta == "A" and record in demonstradas:
+            # I052: the aggregation code of the account in the demonstrations
+            # (J100, J150), for the accounts with balance or movement
+            if ind_cta == "A" and record in aglutinacao:
                 i052.create(
                     {
                         "COD_CCUS": "",
-                        "COD_AGL": record.code,
+                        "COD_AGL": aglutinacao[record],
                         "declaration_id": declaration.id,
                         "reg_I052_ids_RegistroI050_id": register.id,
                     }
@@ -1036,13 +1060,10 @@ class RegistroJ005(models.Model):
     _name = "l10n_br_sped.ecd.j005"
     _inherit = "l10n_br_sped.ecd.9.j005"
 
-    # aglutinacao: um codigo por conta analitica (o I052 de cada conta), sob
-    # um totalizador do ativo e um do passivo no balanco, e um do resultado
-    # na demonstracao do resultado
-    _GRUPOS_DO_BALANCO = (
-        ("1", "ATIVO", "A", ("asset",)),
-        ("2", "PASSIVO E PATRIMONIO LIQUIDO", "P", ("liability", "equity")),
-    )
+    # aglutinacao pelos grupos do plano: a conta se aglutina no grupo que a
+    # reune (o I052 de cada conta), e os grupos acima sao os totalizadores; o
+    # resultado fica sob uma linha do resultado liquido do exercicio
+    _RESULTADO = ("RES", "RESULTADO LIQUIDO DO EXERCICIO")
 
     def _pull_records_from_odoo(
         self, kind, level, parent_register=None, parent_record=None, log_msg=None
@@ -1071,90 +1092,141 @@ class RegistroJ005(models.Model):
             return "C"
         return "C" if credit_side else "D"
 
-    def _balanco(self, declaration, j005, balances):
-        j100 = self.env["l10n_br_sped.ecd.j100"]
-        for code, name, group, internal_groups in self._GRUPOS_DO_BALANCO:
-            accounts = sorted(
-                (acc for acc in balances if acc.internal_group in internal_groups),
-                key=lambda acc: acc.code,
+    @staticmethod
+    def _depth(group):
+        depth = 0
+        while group:
+            depth, group = depth + 1, group.parent_id
+        return depth
+
+    def _arvore(self, declaration, accounts, keys):
+        """Lines of a demonstration, aggregated by the groups of the chart.
+
+        ``{code: node}`` with the code, the description, the level, the code
+        of the line above, the kind (T total, D detail), the signed sums of
+        ``keys`` and the internal groups of the accounts below."""
+        codes = declaration._aglutinacao(accounts)
+        nodes = {}
+
+        def node(code, name, parent, level, kind):
+            return nodes.setdefault(
+                code,
+                {
+                    "code": code,
+                    "name": name,
+                    "parent": parent,
+                    "level": level,
+                    "kind": kind,
+                    "values": dict.fromkeys(keys, 0.0),
+                    "internal": set(),
+                },
             )
+
+        for acc, values in accounts.items():
+            group = acc.group_id
+            if codes[acc] == acc.code:
+                lines = [
+                    node(
+                        acc.code,
+                        acc.name,
+                        group.code_prefix_start or None,
+                        self._depth(group) + 1,
+                        "D",
+                    )
+                ]
+            else:
+                lines = [
+                    node(
+                        group.code_prefix_start,
+                        group.name,
+                        group.parent_id.code_prefix_start or None,
+                        self._depth(group),
+                        "D",
+                    )
+                ]
+                group = group.parent_id
+            while group:
+                lines.append(
+                    node(
+                        group.code_prefix_start,
+                        group.name,
+                        group.parent_id.code_prefix_start or None,
+                        self._depth(group),
+                        "T",
+                    )
+                )
+                group = group.parent_id
+            for line in lines:
+                line["internal"].add(acc.internal_group)
+                for key in keys:
+                    line["values"][key] += values[key]
+        return nodes
+
+    def _balanco(self, declaration, j005, balances):
+        patrimoniais = {
+            acc: values
+            for acc, values in balances.items()
+            if acc.internal_group not in ("income", "expense")
+        }
+        vals = []
+        for code, line in sorted(
+            self._arvore(declaration, patrimoniais, ("ini", "fin")).items()
+        ):
+            group = "A" if line["internal"] <= {"asset"} else "P"
             credit_side = group == "P"
-            total_ini = sum(balances[acc]["ini"] for acc in accounts)
-            total_fin = sum(balances[acc]["fin"] for acc in accounts)
-            vals = [
+            ini, fin = line["values"]["ini"], line["values"]["fin"]
+            vals.append(
                 {
                     "COD_AGL": code,
-                    "IND_COD_AGL": "T",
-                    "NIVEL_AGL": 1,
+                    "IND_COD_AGL": line["kind"],
+                    "NIVEL_AGL": line["level"],
+                    "COD_AGL_SUP": line["parent"] or "",
                     "IND_GRP_BAL": group,
-                    "DESCR_COD_AGL": name,
-                    "VL_CTA_INI": abs(total_ini),
-                    "IND_DC_CTA_INI": self._dc(total_ini, credit_side),
-                    "VL_CTA_FIN": abs(total_fin),
-                    "IND_DC_CTA_FIN": self._dc(total_fin, credit_side),
+                    "DESCR_COD_AGL": line["name"],
+                    "VL_CTA_INI": abs(ini),
+                    "IND_DC_CTA_INI": self._dc(ini, credit_side),
+                    "VL_CTA_FIN": abs(fin),
+                    "IND_DC_CTA_FIN": self._dc(fin, credit_side),
+                    "declaration_id": declaration.id,
+                    "reg_J100_ids_RegistroJ005_id": j005.id,
                 }
-            ]
-            for acc in accounts:
-                ini, fin = balances[acc]["ini"], balances[acc]["fin"]
-                vals.append(
-                    {
-                        "COD_AGL": acc.code,
-                        "IND_COD_AGL": "D",
-                        "NIVEL_AGL": 2,
-                        "COD_AGL_SUP": code,
-                        "IND_GRP_BAL": group,
-                        "DESCR_COD_AGL": acc.name,
-                        "VL_CTA_INI": abs(ini),
-                        "IND_DC_CTA_INI": self._dc(ini, credit_side),
-                        "VL_CTA_FIN": abs(fin),
-                        "IND_DC_CTA_FIN": self._dc(fin, credit_side),
-                    }
-                )
-            for val in vals:
-                val.update(
-                    {
-                        "declaration_id": declaration.id,
-                        "reg_J100_ids_RegistroJ005_id": j005.id,
-                    }
-                )
-            j100.create(vals)
+            )
+        self.env["l10n_br_sped.ecd.j100"].create(vals)
 
     def _resultado(self, declaration, j005, balances):
-        accounts = sorted(
-            (
-                acc
-                for acc in balances
-                if acc.internal_group in ("income", "expense")
-                and not declaration.company_id.currency_id.is_zero(
-                    balances[acc]["result"]
-                )
-            ),
-            key=lambda acc: acc.code,
-        )
+        currency = declaration.company_id.currency_id
+        resultado = {
+            acc: values
+            for acc, values in balances.items()
+            if acc.internal_group in ("income", "expense")
+            and not currency.is_zero(values["result"])
+        }
+        code_res, name_res = self._RESULTADO
         # the profit is the credit balance of the result
-        profit = -sum(balances[acc]["result"] for acc in accounts)
+        profit = -sum(values["result"] for values in resultado.values())
         vals = [
             {
                 "NU_ORDEM": "1",
-                "COD_AGL": "RES",
+                "COD_AGL": code_res,
                 "IND_COD_AGL": "T",
                 "NIVEL_AGL": 1,
-                "DESCR_COD_AGL": "RESULTADO LIQUIDO DO EXERCICIO",
+                "DESCR_COD_AGL": name_res,
                 "VL_CTA_FIN": abs(profit),
                 "IND_DC_CTA_FIN": "C" if profit >= 0 else "D",
                 "IND_GRP_DRE": "R" if profit >= 0 else "D",
             }
         ]
-        for order, acc in enumerate(accounts, start=2):
-            result = balances[acc]["result"]
+        lines = sorted(self._arvore(declaration, resultado, ("result",)).items())
+        for order, (code, line) in enumerate(lines, start=2):
+            result = line["values"]["result"]
             vals.append(
                 {
                     "NU_ORDEM": str(order),
-                    "COD_AGL": acc.code,
-                    "IND_COD_AGL": "D",
-                    "NIVEL_AGL": 2,
-                    "COD_AGL_SUP": "RES",
-                    "DESCR_COD_AGL": acc.name,
+                    "COD_AGL": code,
+                    "IND_COD_AGL": line["kind"],
+                    "NIVEL_AGL": line["level"] + 1,
+                    "COD_AGL_SUP": line["parent"] or code_res,
+                    "DESCR_COD_AGL": line["name"],
                     "VL_CTA_FIN": abs(result),
                     "IND_DC_CTA_FIN": "C" if result < 0 else "D",
                     "IND_GRP_DRE": "R" if result < 0 else "D",
