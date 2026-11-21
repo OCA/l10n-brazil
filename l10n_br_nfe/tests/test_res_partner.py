@@ -57,3 +57,18 @@ class TestAnonymousConsumerData(TransactionCase):
         """The standard anonymous consumer comes marked."""
         partner = self.env.ref("l10n_br_fiscal.res_partner_anonimo")
         self.assertTrue(partner.is_anonymous_consumer)
+
+
+class TestResPartnerExport(TransactionCase):
+    def test_child_address_exports_parent_cnpj(self):
+        parent = self.env.ref("l10n_br_base.res_partner_cliente2_sp")
+        child = self.env["res.partner"].create(
+            {
+                "name": "Local de entrega",
+                "type": "delivery",
+                "parent_id": parent.id,
+                "country_id": self.env.ref("base.br").id,
+            }
+        )
+        cnpj = child._export_field("nfe40_CNPJ", self.env["nfe.40.tlocal"], None)
+        self.assertEqual(cnpj, parent.cnpj_cpf_stripped)
