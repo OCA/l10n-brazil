@@ -296,7 +296,7 @@ class CenarioPresumido:
                 "company_id": self.company.id,
                 "name": "Joao Pereira",
                 "cpf_cnpj": "746.851.750-93",
-                "qualification": "309",
+                "qualification": "900",
                 "crc": "1SP123456/O-1",
                 "email": "contabilidade@exemplo.com.br",
                 "phone": "11 3333-5555",

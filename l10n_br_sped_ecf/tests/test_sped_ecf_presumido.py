@@ -16,7 +16,7 @@ from odoo.tests import common, tagged
 from odoo.addons.l10n_br_sped_base.models.sped_mixin import SPED_ENCODING
 from odoo.addons.l10n_br_sped_ecf.models.ecf_validator import EcfValidator
 
-from .cenario_presumido import CenarioPresumido
+from .cenario_presumido import GRUPOS, PLANO, CenarioPresumido
 
 # Modelos do modulo que nao sao registros da escrituracao.
 NAO_REGISTROS = ("MIXIN", "VALORES")
@@ -146,6 +146,20 @@ class TestEcfPresumido(common.TransactionCase):
         self.assertEqual(p500["11"], "1200,00")
         # 7.056 - 1.200
         self.assertEqual(p500["13"], "5856,00")
+
+    def test_puxar_de_novo_nao_duplica(self):
+        """Gerar o arquivo puxa os registros de novo, e o pull anterior sai.
+
+        O J050, o K030 e o P030 nascem do codigo proprio da ECF, fora do pull
+        generico: sem a marca de registro puxado, o segundo pull os somava ao
+        primeiro e o PVA recusava o arquivo pelo periodo repetido.
+        """
+        declaracao = self.cenario.declaracao()
+        declaracao.button_populate_sped_from_odoo()
+        texto = declaracao._generate_sped_text()
+        self.assertIn(f"|9900|J050|{len(GRUPOS) + len(PLANO)}|", texto)
+        self.assertIn("|9900|K030|4|", texto)
+        self.assertIn("|9900|P030|4|", texto)
 
     def test_validador_reprova_arquivo_adulterado(self):
         """O validador nao passa a mao: valor calculado errado e reprovado."""
