@@ -387,3 +387,19 @@ class TestFiscalTax(TransactionCase):
         )
 
         self.assertEqual(compute_result["taxes"]["icms"]["cst_id"].code, "10")
+
+    def test_withholding_revenue_code(self):
+        """The federal taxes withheld at source carry the code of their DARF."""
+        self.assertEqual(
+            self.env.ref("l10n_br_fiscal.tax_irpj_wh_1").revenue_code, "1708"
+        )
+        self.assertEqual(
+            self.env.ref("l10n_br_fiscal.tax_csll_wh_1").revenue_code, "5952"
+        )
+
+    def test_withheld_irpj_in_the_withholding_group(self):
+        """Every IRPJ RET tax is in the group of the IRPJ withheld at source."""
+        group = self.env.ref("l10n_br_fiscal.tax_group_irpj_wh")
+        taxes = self.env["l10n_br_fiscal.tax"].search([("name", "=like", "IRPJ RET%")])
+        self.assertIn(self.env.ref("l10n_br_fiscal.tax_irpj_wh_4_6"), taxes)
+        self.assertEqual(taxes.tax_group_id, group)
