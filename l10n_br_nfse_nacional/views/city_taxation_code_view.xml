@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="city_taxation_code_form_view" model="ir.ui.view">
+        <field name="name">
+            l10n_br_fiscal.city.taxation.code.form (in l10n_br_nfse_nacional)
+        </field>
+        <field name="model">l10n_br_fiscal.city.taxation.code</field>
+        <field name="inherit_id" ref="l10n_br_fiscal.city_taxation_code_form_view" />
+        <field name="arch" type="xml">
+            <field name="cnae_id" position="after">
+                <field name="nfse_benefit_code" />
+                <field
+                    name="nfse_benefit_type"
+                    attrs="{'required': [('nfse_benefit_code', '!=', False)], 'invisible': [('nfse_benefit_code', '=', False)]}"
+                />
+            </field>
+        </field>
+    </record>
+</odoo>
