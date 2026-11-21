@@ -1,8 +1,10 @@
 # Copyright (C) 2026 Luis Felipe Mileo - KMEE <mileo@kmee.com.br>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/lgpl-3.0.en.html).
 
+from datetime import date
+
 from odoo.exceptions import ValidationError
-from odoo.tests import TransactionCase
+from odoo.tests import Form, TransactionCase
 
 
 class TestSpedSigner(TransactionCase):
@@ -98,3 +100,42 @@ class TestSpedSigner(TransactionCase):
         """
         signer = self._criar(phone="+55 (35) 3333-4444")
         self.assertEqual(signer._sped_values()["FONE"], "553533334444")
+
+    def test_cadastro_pelo_formulario_da_empresa(self):
+        """A aba SPED da empresa guarda o registro na junta e os signatarios."""
+        sp = self.env.ref("base.state_br_sp")
+        with Form(self.company, view="base.view_company_form") as form:
+            form.l10n_br_articles_filing_date = date(2015, 3, 10)
+            self.assertIn("l10n_br_sped_signer_ids", form._view["fields"])
+        # o Form de teste da 18.0 trata a lista como many2many (a aba das
+        # filiais reabre o formulario da empresa): a linha sai do formulario
+        # que a lista abre
+        signers = self.env["l10n_br_sped.signer"].with_context(
+            default_company_id=self.company.id
+        )
+        with Form(signers) as line:
+            line.name = "Contador da Empresa"
+            line.cpf_cnpj = "746.851.750-93"
+            line.qualification = "900"
+            line.crc = "1SP123456O1"
+            line.crc_state_id = sp
+            line.crp_number = "SP/2023/000123"
+            line.crp_validity = date(2023, 12, 31)
+        signer = self.company.l10n_br_sped_signer_ids.filtered(
+            lambda s: s.name == "Contador da Empresa"
+        )
+        self.assertEqual(signer.crc_state_id, sp)
+        self.assertEqual(signer.crp_validity, date(2023, 12, 31))
+        self.assertEqual(self.company.l10n_br_articles_filing_date, date(2015, 3, 10))
+
+    def test_cadastro_pelo_menu(self):
+        """O formulario do signatario, aberto pelo menu do SPED."""
+        form = Form(self.env["l10n_br_sped.signer"])
+        form.name = "Diretora"
+        form.cpf_cnpj = "191.808.470-05"
+        form.qualification = "203"
+        form.legal_responsible = True
+        signer = form.save()
+        self.assertTrue(signer.legal_responsible)
+        # sem multiempresa o campo nao aparece: a empresa e a do usuario
+        self.assertEqual(signer.company_id, self.env.company)
