@@ -300,6 +300,8 @@ class TestMoveEdition(TransactionCase):
             line_form.icmsfcp_value = 3  # ensure manually setting FCP value works
             self.assertEqual(line_form.icmsfcp_value, 3)
 
+        self.assertEqual(move_form.amount_untaxed, 420)
+
         # Re-set l10n_latam_document_type_id before saving
         if latam_doc_type and move_form.l10n_latam_use_documents:
             move_form.l10n_latam_document_type_id = latam_doc_type
