@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template
+        id="portal_address"
+        name="Brazilian checkout address"
+        inherit_id="website_sale.address"
+    >
+        <xpath expr="//form[hasclass('checkout_autoformat')]" position="attributes">
+            <attribute
+                name="t-att-data-br-country"
+            >request.env.ref('base.br').id if br_company else None</attribute>
+            <attribute
+                name="t-att-data-b2b"
+            >int(website._display_partner_b2b_fields())</attribute>
+        </xpath>
+        <xpath
+            expr="//t[@t-if='website._display_partner_b2b_fields()']"
+            position="attributes"
+        >
+            <attribute
+                name="t-if"
+            >br_company or website._display_partner_b2b_fields()</attribute>
+        </xpath>
+        <xpath expr="//label[@for='vat']" position="attributes">
+            <attribute name="t-att-style">br_address and 'display: none'</attribute>
+            <attribute name="class" add="o_regular_vat_name" separator=" " />
+        </xpath>
+        <xpath expr="//label[@for='vat']" position="after">
+            <label
+                class="col-form-label fw-normal o_br_vat_name"
+                for="vat"
+                t-att-style="not br_address and 'display: none'"
+            >CPF/CNPJ</label>
+        </xpath>
+        <xpath expr="//input[@name='vat']/parent::div" position="after">
+            <t t-foreach="('l10n_br_ie_code', 'l10n_br_im_code')" t-as="field">
+                <div
+                    t-if="br_company"
+                    t-attf-class="mb-3 col-lg-6 o_br_tax_registration #{error.get(field) and 'o_has_error' or ''}"
+                    style="display: none"
+                >
+                    <label t-att-for="field" class="col-form-label label-optional">
+                        <t t-if="field == 'l10n_br_ie_code'">State Tax Number</t>
+                        <t t-else="">Municipal Tax Number</t>
+                    </label>
+                    <input
+                        type="text"
+                        t-att-id="field"
+                        t-att-name="field"
+                        t-attf-class="form-control #{error.get(field) and 'is-invalid' or ''}"
+                        t-att-value="field in checkout and checkout[field]"
+                        t-att-readonly="'1' if field in checkout and checkout[field] and not can_edit_vat else None"
+                    />
+                </div>
+            </t>
+        </xpath>
+        <xpath expr="//div[@id='div_phone']" position="after">
+            <div
+                t-if="br_company"
+                t-attf-class="mb-3 col-lg-6 o_br_address_field #{error.get('mobile') and 'o_has_error' or ''}"
+                t-att-style="not br_address and 'display: none'"
+            >
+                <label class="col-form-label label-optional" for="mobile">Mobile</label>
+                <input
+                    type="tel"
+                    id="mobile"
+                    name="mobile"
+                    t-attf-class="form-control #{error.get('mobile') and 'is-invalid' or ''}"
+                    t-att-value="'mobile' in checkout and checkout['mobile']"
+                />
+            </div>
+        </xpath>
+        <xpath expr="//input[@name='street']/parent::div" position="before">
+            <t
+                t-if="br_company"
+                t-foreach="('street_name', 'street_number', 'district')"
+                t-as="field"
+            >
+                <div
+                    t-attf-class="mb-3 col-lg-4 o_br_address_field #{error.get(field) and 'o_has_error' or ''}"
+                    t-att-style="not br_address and 'display: none'"
+                >
+                    <label t-att-for="field" class="col-form-label">
+                        <t t-if="field == 'street_name'">Street</t>
+                        <t t-elif="field == 'street_number'">Nº</t>
+                        <t t-else="">District</t>
+                    </label>
+                    <input
+                        type="text"
+                        t-att-id="field"
+                        t-att-name="field"
+                        t-attf-class="form-control #{error.get(field) and 'is-invalid' or ''}"
+                        t-att-value="field in checkout and checkout[field]"
+                    />
+                </div>
+            </t>
+        </xpath>
+        <xpath expr="//select[@name='state_id']/parent::div" position="after">
+            <div
+                t-if="br_company"
+                t-attf-class="mb-3 col-lg-6 o_br_address_field #{error.get('city_id') and 'o_has_error' or ''}"
+                t-att-style="not br_address and 'display: none'"
+            >
+                <label for="city_id" class="col-form-label">City</label>
+                <select
+                    name="city_id"
+                    id="city_id"
+                    t-attf-class="form-select #{error.get('city_id') and 'is-invalid' or ''}"
+                >
+                    <option value="">City...</option>
+                    <t t-foreach="cities" t-as="city">
+                        <option
+                            t-att-value="city.id"
+                            t-att-selected="'selected' if 'city_id' in checkout and int(checkout['city_id'] or 0) == city.id else None"
+                            t-out="city.name"
+                        />
+                    </t>
+                </select>
+            </div>
+        </xpath>
+        <xpath expr="//input[@name='street']/parent::div" position="attributes">
+            <attribute name="t-att-style">br_address and 'display: none'</attribute>
+        </xpath>
+        <xpath expr="//input[@name='city']/parent::div" position="attributes">
+            <attribute name="t-att-style">br_address and 'display: none'</attribute>
+        </xpath>
+    </template>
+</odoo>
