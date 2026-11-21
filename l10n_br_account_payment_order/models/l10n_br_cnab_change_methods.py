@@ -187,9 +187,10 @@ class L10nBrCNABChangeMethods(models.Model):
     def update_cnab_for_cancel_invoice(self):
         cnab_already_start = self._cnab_already_start()
         if cnab_already_start:
-            reason_write_off = (
+            reason_write_off = self.env._(
                 "Movement Instruction Code Updated for Request to Write Off,"
-                f" because Invoice {self.move_id.name} was Cancel."
+                " because Invoice %(invoice_name)s was cancelled.",
+                invoice_name=self.move_id.name,
             )
             payment_situation = "fatura_cancelada"
             self.create_cnab_write_off(reason_write_off, payment_situation)
@@ -555,10 +556,11 @@ class L10nBrCNABChangeMethods(models.Model):
 
     def create_payment_outside_cnab(self, amount_payment):
         if self.amount_residual == 0.0:
-            reason_write_off = (
+            reason_write_off = self.env._(
                 "Movement Instruction Code Updated for"
                 " Request to Write Off, because payment"
-                f" of {amount_payment} done outside CNAB."
+                " of %(amount)s done outside CNAB.",
+                amount=amount_payment,
             )
             payment_situation = "baixa_liquidacao"
             self.create_cnab_write_off(reason_write_off, payment_situation)
