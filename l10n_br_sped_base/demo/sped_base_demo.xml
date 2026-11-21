@@ -17,8 +17,7 @@
 
     <!--
       A resale purchase, imported and authorized: it carries the ICMS credit of
-      C170 and C190. The access key is fixed (its check digit is right); its
-      year and month are those of when the demo was written.
+      C170 and C190.
     -->
     <record id="demo_entry_document" model="l10n_br_fiscal.document">
         <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
@@ -27,7 +26,12 @@
         <field name="document_type_id" ref="l10n_br_fiscal.document_55" />
         <field name="document_number">1001</field>
         <field name="document_serie">1</field>
-        <field name="document_key">35261186144802000190550010000010011000010011</field>
+        <!-- the year and month of the key are those of the document (the NF-e
+             checks them), and its last digit is the check digit -->
+        <field
+            name="document_key"
+            eval="(lambda b: b + str(0 if sum(int(d) * w for d, w in zip(b[::-1], [2, 3, 4, 5, 6, 7, 8, 9] * 6)) % 11 &lt; 2 else 11 - sum(int(d) * w for d, w in zip(b[::-1], [2, 3, 4, 5, 6, 7, 8, 9] * 6)) % 11))('35' + DateTime.today().strftime('%y%m') + '8614480200019055001000001001100001001')"
+        />
         <field name="issuer">partner</field>
         <field name="partner_id" ref="l10n_br_base.res_partner_intel" />
         <field
