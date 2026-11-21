@@ -1,0 +1,482 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns="http://www.dere.gov.br/schemas/evtInfoContrib/v1_0_1"
+           targetNamespace="http://www.dere.gov.br/schemas/evtInfoContrib/v1_0_1"
+           elementFormDefault="qualified"
+           attributeFormDefault="unqualified">
+
+	<xs:import namespace="http://www.w3.org/2000/09/xmldsig#" schemaLocation="xmldsig-core-schema.xsd"/>
+
+	<xs:element name="DeRE">
+		<xs:annotation>
+			<xs:documentation>Envelope raiz dos eventos da DeRE</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="evtInfoContrib">
+					<xs:annotation>
+						<xs:documentation>Evento Informações do Contribuinte</xs:documentation>
+					</xs:annotation>
+
+					<xs:complexType>
+						<xs:sequence>
+
+							<xs:element name="ideEvento" minOccurs="1" maxOccurs="1">
+								<xs:annotation>
+									<xs:documentation>Informações de Identificação do Evento</xs:documentation>
+								</xs:annotation>
+
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="tpOper" minOccurs="1" maxOccurs="1">
+											<xs:simpleType>
+												<xs:annotation>
+													<xs:documentation>
+														Tipo de operação do evento
+													</xs:documentation>
+												</xs:annotation>
+												<xs:restriction base="xs:byte">
+													<xs:enumeration value="1">
+														<xs:annotation>
+															<xs:documentation>Inclusão</xs:documentation>
+														</xs:annotation>
+													</xs:enumeration>
+													<xs:enumeration value="2">
+														<xs:annotation>
+															<xs:documentation>Alteração</xs:documentation>
+														</xs:annotation>
+													</xs:enumeration>
+													<xs:enumeration value="3">
+														<xs:annotation>
+															<xs:documentation>Exclusão</xs:documentation>
+														</xs:annotation>
+													</xs:enumeration>
+													<xs:pattern value="\d{1}"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="motExcl" minOccurs="0" maxOccurs="1">
+											<xs:simpleType>
+												<xs:annotation>
+													<xs:documentation>Motivo da Exclusão. Código do motivo que justifica a exclusão do evento</xs:documentation>
+												</xs:annotation>
+												<xs:restriction base="xs:byte">
+													<xs:enumeration value="1">
+														<xs:annotation>
+															<xs:documentation>Determinação judicial ou administrativa</xs:documentation>
+														</xs:annotation>
+													</xs:enumeration>
+													<xs:enumeration value="2">
+														<xs:annotation>
+															<xs:documentation>Envio indevido (fato inexistente)</xs:documentation>
+														</xs:annotation>
+													</xs:enumeration>
+													<xs:enumeration value="3">
+														<xs:annotation>
+															<xs:documentation>Erro na identificação (CNPJ/período incorretos)</xs:documentation>
+														</xs:annotation>
+													</xs:enumeration>
+													<xs:enumeration value="9">
+														<xs:annotation>
+															<xs:documentation>Outro</xs:documentation>
+														</xs:annotation>
+													</xs:enumeration>
+													<xs:minInclusive value="1"/>
+													<xs:maxInclusive value="9"/>
+													<xs:pattern value="\d{1}"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="nrProc" minOccurs="0" maxOccurs="1">
+											<xs:simpleType>
+												<xs:annotation>
+													<xs:documentation>Informar o número do processo administrativo/judicial</xs:documentation>
+												</xs:annotation>
+												<xs:restriction base="xs:string">
+													<xs:minLength value="1"/>
+													<xs:maxLength value="21"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="tpAmb" minOccurs="1" maxOccurs="1">
+											<xs:simpleType>
+												<xs:annotation>
+													<xs:documentation>
+														Identificação do ambiente para o qual os dados estão sendo transmitidos
+													</xs:documentation>
+												</xs:annotation>
+												<xs:restriction base="xs:byte">
+													<xs:enumeration value="1">
+														<xs:annotation>
+															<xs:documentation>Produção</xs:documentation>
+														</xs:annotation>
+													</xs:enumeration>
+													<xs:enumeration value="2">
+														<xs:annotation>
+															<xs:documentation>Produção Restrita</xs:documentation>
+														</xs:annotation>
+													</xs:enumeration>
+													<xs:pattern value="\d{1}"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="aplicEmi" minOccurs="1" maxOccurs="1">
+											<xs:simpleType>
+												<xs:annotation>
+													<xs:documentation>
+														Identificação do aplicativo emissor do evento
+													</xs:documentation>
+												</xs:annotation>
+												<xs:restriction base="xs:byte">
+													<xs:enumeration value="1">
+														<xs:annotation>
+															<xs:documentation>Emissão com aplicativo da empresa</xs:documentation>
+														</xs:annotation>
+													</xs:enumeration>
+													<xs:enumeration value="2">
+														<xs:annotation>
+															<xs:documentation>Aplicativo Governamental</xs:documentation>
+														</xs:annotation>
+													</xs:enumeration>
+													<xs:pattern value="\d{1}"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="verAplic" minOccurs="1" maxOccurs="1">
+											<xs:simpleType>
+												<xs:annotation>
+													<xs:documentation>Versão do aplicativo emissor do evento</xs:documentation>
+												</xs:annotation>
+												<xs:restriction base="xs:string">
+													<xs:minLength value="1"/>
+													<xs:maxLength value="20"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+
+							<xs:element name="ideContrib" minOccurs="1" maxOccurs="1">
+								<xs:annotation>
+									<xs:documentation>Informações de identificação do contribuinte</xs:documentation>
+								</xs:annotation>
+
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="nrInsc" minOccurs="1" maxOccurs="1">
+											<xs:simpleType>
+												<xs:annotation>
+													<xs:documentation>Número de inscrição do contribuinte (CNPJ raiz)</xs:documentation>
+												</xs:annotation>
+												<xs:restriction base="xs:string">
+													<xs:pattern value="[0-9A-Z]{8}"/>
+													<xs:maxLength value="8"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+
+							<xs:element name="idePeriodo" minOccurs="1" maxOccurs="1">
+								<xs:annotation>
+									<xs:documentation>Período de validade</xs:documentation>
+								</xs:annotation>
+
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="iniValid" minOccurs="1" maxOccurs="1">
+											<xs:simpleType>
+												<xs:annotation>
+													<xs:documentation>
+														Data de início da validade das informações.
+														Máscara: AAAA-MM-DD
+													</xs:documentation>
+												</xs:annotation>
+												<xs:restriction base="xs:date" />
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="fimValid" minOccurs="0" maxOccurs="1">
+											<xs:simpleType>
+												<xs:annotation>
+													<xs:documentation>
+														Data de término da validade das informações, se houver.
+														Máscara: AAAA-MM-DD
+													</xs:documentation>
+												</xs:annotation>
+												<xs:restriction base="xs:date" />
+											</xs:simpleType>
+										</xs:element>
+
+										<xs:element name="novaValidade" minOccurs="0" maxOccurs="1">
+											<xs:annotation>
+												<xs:documentation>Novo período de validade. Usado exclusivamente quando a vigência do evento precisa ser alterada para um valor diferente.</xs:documentation>
+											</xs:annotation>
+
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="iniValid" minOccurs="1" maxOccurs="1">
+														<xs:simpleType>
+															<xs:annotation>
+																<xs:documentation>
+																	Data de início da nova validade das informações, se houver.
+																	Máscara: AAAA-MM-DD
+																</xs:documentation>
+															</xs:annotation>
+															<xs:restriction base="xs:date" />
+														</xs:simpleType>
+													</xs:element>
+													<xs:element name="fimValid" minOccurs="0" maxOccurs="1">
+														<xs:simpleType>
+															<xs:annotation>
+																<xs:documentation>
+																	Data de término da nova validade das informações, se houver.
+																	Máscara: AAAA-MM-DD
+																</xs:documentation>
+															</xs:annotation>
+															<xs:restriction base="xs:date" />
+														</xs:simpleType>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+
+							<xs:element name="infoContrib" minOccurs="0" maxOccurs="1">
+								<xs:annotation>
+									<xs:documentation>Informações do contribuinte</xs:documentation>
+								</xs:annotation>
+
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="regTribPrinc" minOccurs="1" maxOccurs="1">
+											<xs:simpleType>
+												<xs:annotation>
+													<xs:documentation>
+														Regime de tributação ao qual o contribuinte está sujeito em sua atividade preponderante
+													</xs:documentation>
+												</xs:annotation>
+												<xs:restriction base="xs:byte">
+													<xs:enumeration value="1">
+														<xs:annotation>
+															<xs:documentation>Regime Específico de Serviços Financeiros</xs:documentation>
+														</xs:annotation>
+													</xs:enumeration>
+													<xs:enumeration value="2">
+														<xs:annotation>
+															<xs:documentation>Regime Específico de Plano de Assistência à Saúde</xs:documentation>
+														</xs:annotation>
+													</xs:enumeration>
+													<xs:enumeration value="3">
+														<xs:annotation>
+															<xs:documentation>Regime Específico de Concursos de Prognósticos</xs:documentation>
+														</xs:annotation>
+													</xs:enumeration>
+													<xs:enumeration value="9">
+														<xs:annotation>
+															<xs:documentation>Outros Regimes de Tributação</xs:documentation>
+														</xs:annotation>
+													</xs:enumeration>
+													<xs:pattern value="\d{1}"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="regTribSecund" minOccurs="0" maxOccurs="3">
+											<xs:simpleType>
+												<xs:annotation>
+													<xs:documentation>
+														Regime de tributação ao qual o contribuinte está sujeito em sua atividade secundária
+													</xs:documentation>
+												</xs:annotation>
+												<xs:restriction base="xs:byte">
+													<xs:enumeration value="1">
+														<xs:annotation>
+															<xs:documentation>Regime Específico de Serviços Financeiros</xs:documentation>
+														</xs:annotation>
+													</xs:enumeration>
+													<xs:enumeration value="2">
+														<xs:annotation>
+															<xs:documentation>Regime Específico de Plano de Assistência à Saúde</xs:documentation>
+														</xs:annotation>
+													</xs:enumeration>
+													<xs:enumeration value="3">
+														<xs:annotation>
+															<xs:documentation>Regime Específico de Concursos de Prognósticos</xs:documentation>
+														</xs:annotation>
+													</xs:enumeration>
+													<xs:pattern value="\d{1}"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="indNatTrib" minOccurs="1" maxOccurs="1">
+											<xs:simpleType>
+												<xs:annotation>
+													<xs:documentation>
+														Indicador da natureza tributária do declarante (para casos de imunidades ou não incidências subjetivas)
+													</xs:documentation>
+												</xs:annotation>
+												<xs:restriction base="xs:byte">
+													<xs:enumeration value="0">
+														<xs:annotation>
+															<xs:documentation>Tributação regular</xs:documentation>
+														</xs:annotation>
+													</xs:enumeration>
+													<xs:enumeration value="1">
+														<xs:annotation>
+															<xs:documentation>Imunidade ou não incidência</xs:documentation>
+														</xs:annotation>
+													</xs:enumeration>
+													<xs:pattern value="\d{1}"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+
+										<xs:element name="servFinanc" minOccurs="0" maxOccurs="1">
+											<xs:complexType>
+												<xs:annotation>
+													<xs:documentation>Informações de serviços financeiros. Exclusivo para contribuintes deste setor.</xs:documentation>
+												</xs:annotation>
+												<xs:sequence>
+													<xs:element name="tpAtividades" minOccurs="1" maxOccurs="1">
+														<xs:complexType>
+															<xs:annotation>
+																<xs:documentation>Lista de atividades realizadas pelo contribuinte</xs:documentation>
+															</xs:annotation>
+															<xs:sequence>
+																<xs:element name="tpAtividade" minOccurs="1" maxOccurs="99">
+																	<xs:simpleType>
+																		<xs:annotation>
+																			<xs:documentation>
+																				Identificação da atividade realizada pelo contribuinte, conforme Tabela 21 - Atividades de Serviços Financeiros.
+																				Máscara: NNC
+																			</xs:documentation>
+																		</xs:annotation>
+																		<xs:restriction base="xs:string">
+																			<xs:pattern value="[0-9]{2}[A-Z]"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+
+										<xs:element name="plAssistSaude" minOccurs="0" maxOccurs="1">
+											<xs:complexType>
+												<xs:annotation>
+													<xs:documentation>Informações de planos de assistência à saúde. Exclusivo para contribuintes deste setor.</xs:documentation>
+												</xs:annotation>
+												<xs:sequence>
+													<xs:element name="tpAtividades" minOccurs="1" maxOccurs="1">
+														<xs:complexType>
+															<xs:annotation>
+																<xs:documentation>Lista de atividades realizadas pelo contribuinte</xs:documentation>
+															</xs:annotation>
+															<xs:sequence>
+																<xs:element name="tpAtividade" minOccurs="1" maxOccurs="99">
+																	<xs:simpleType>
+																		<xs:annotation>
+																			<xs:documentation>
+																				Identificação da atividade realizada pelo contribuinte, conforme Tabela 31 - Atividades de Planos de Assistência à Saúde.
+																				Máscara: NNC
+																			</xs:documentation>
+																		</xs:annotation>
+																		<xs:restriction base="xs:string">
+																			<xs:pattern value="[0-9]{2}[A-Z]"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+
+										<xs:element name="prognosticos" minOccurs="0" maxOccurs="1">
+											<xs:complexType>
+												<xs:annotation>
+													<xs:documentation>Informações de concursos de prognósticos. Exclusivo para contribuintes deste setor.</xs:documentation>
+												</xs:annotation>
+												<xs:sequence>
+													<xs:element name="tpAtividades" minOccurs="1" maxOccurs="1">
+														<xs:complexType>
+															<xs:annotation>
+																<xs:documentation>Lista de atividades realizadas pelo contribuinte</xs:documentation>
+															</xs:annotation>
+															<xs:sequence>
+																<xs:element name="tpAtividade" minOccurs="1" maxOccurs="99">
+																	<xs:simpleType>
+																		<xs:annotation>
+																			<xs:documentation>
+																				Identificação da atividade realizada pelo contribuinte, conforme Tabela 41 - Atividades de Concursos de Prognósticos.
+																				Máscara: NNC
+																			</xs:documentation>
+																		</xs:annotation>
+																		<xs:restriction base="xs:string">
+																			<xs:pattern value="[0-9]{2}[A-Z]"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="UFsCredenc" minOccurs="0" maxOccurs="1">
+														<xs:complexType>
+															<xs:annotation>
+																<xs:documentation>Listagem das Unidades da Federação (UF) nas quais o contribuinte possui credenciamento para operar</xs:documentation>
+															</xs:annotation>
+															<xs:sequence>
+																<xs:element name="UFCredenc" minOccurs="1" maxOccurs="30">
+																	<xs:simpleType>
+																		<xs:annotation>
+																			<xs:documentation>
+																				Identificação da Unidade Federativa credenciadora, conforme Tabela 13 - Unidades Federativas (UF)
+																			</xs:documentation>
+																		</xs:annotation>
+																		<xs:restriction base="xs:byte">
+																			<xs:minInclusive value="1"/>
+																			<xs:maxInclusive value="99"/>
+																			<xs:pattern value="\d{2}"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+
+						</xs:sequence>
+
+						<xs:attribute name="id" use="required">
+							<xs:simpleType>
+								<xs:annotation>
+									<xs:documentation>Identificador que representa unicamente o evento</xs:documentation>
+								</xs:annotation>
+								<xs:restriction base="xs:string">
+									<xs:pattern value="[0-9A-Za-z]{42}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+
+					</xs:complexType>
+				</xs:element>
+
+				<xs:element ref="ds:Signature"/>
+
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

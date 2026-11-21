@@ -1,0 +1,275 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns="http://www.dere.gov.br/schemas/evtFechMensal/v0_0_2"
+           targetNamespace="http://www.dere.gov.br/schemas/evtFechMensal/v0_0_2"
+           elementFormDefault="qualified"
+           attributeFormDefault="unqualified">
+  <xs:import namespace="http://www.w3.org/2000/09/xmldsig#" schemaLocation="xmldsig-core-schema.xsd"/>
+  <xs:element name="DeRE">
+    <xs:annotation>
+      <xs:documentation>Envelope raiz dos eventos da DeRE.</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+      <xs:element name="evtFechMensal">
+        <xs:annotation>
+          <xs:documentation>Evento de Fechamento Mensal.</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:sequence>
+          <xs:element name="ideEvento" minOccurs="1" maxOccurs="1">
+            <xs:annotation>
+              <xs:documentation>Informações de identificação do evento.</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:sequence>
+              <xs:element name="tpOper" minOccurs="1" maxOccurs="1">
+                <xs:annotation>
+                  <xs:documentation>Tipo de operação do evento. Nota: O envio deste evento consolida a totalização da apuração mensal. Para retificações, exige-se a transmissão prévia do evento de reabertura correspondente.</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:whiteSpace value="preserve"/>
+                    <xs:enumeration value="1">
+                      <xs:annotation><xs:documentation>Inclusão</xs:documentation></xs:annotation>
+                    </xs:enumeration>
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="tpAmb" minOccurs="1" maxOccurs="1">
+                <xs:annotation>
+                  <xs:documentation>Identificação do ambiente para o qual os dados estão sendo transmitidos.</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:whiteSpace value="preserve"/>
+                    <xs:enumeration value="1">
+                      <xs:annotation><xs:documentation>Produção</xs:documentation></xs:annotation>
+                    </xs:enumeration>
+                    <xs:enumeration value="2">
+                      <xs:annotation><xs:documentation>Produção restrita</xs:documentation></xs:annotation>
+                    </xs:enumeration>
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="aplicEmi" minOccurs="1" maxOccurs="1">
+                <xs:annotation>
+                  <xs:documentation>Identificação do aplicativo emissor do evento.</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:whiteSpace value="preserve"/>
+                    <xs:enumeration value="1">
+                      <xs:annotation><xs:documentation>Emissão com aplicativo da empresa</xs:documentation></xs:annotation>
+                    </xs:enumeration>
+                    <xs:enumeration value="2">
+                      <xs:annotation><xs:documentation>Aplicativo governamental</xs:documentation></xs:annotation>
+                    </xs:enumeration>
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="verAplic" minOccurs="1" maxOccurs="1">
+                <xs:annotation>
+                  <xs:documentation>Versão do aplicativo emissor do evento.</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:whiteSpace value="preserve"/>
+                    <xs:maxLength value="20"/>
+                    <xs:pattern value="([!-ÿ][ -ÿ]*[!-ÿ]|[!-ÿ])"/>
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="ideContrib" minOccurs="1" maxOccurs="1">
+            <xs:annotation>
+              <xs:documentation>Informações de identificação do contribuinte.</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:sequence>
+              <xs:element name="nrInsc" minOccurs="1" maxOccurs="1">
+                <xs:annotation>
+                  <xs:documentation>Número de inscrição do contribuinte (CNPJ raiz). Validação: Deve ser um CNPJ raiz válido de 8 posições.</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:whiteSpace value="preserve"/>
+                    <xs:length value="8"/>
+                    <xs:pattern value="[0-9A-Z]{8}"/>
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="idePeriodo" minOccurs="1" maxOccurs="1">
+            <xs:annotation>
+              <xs:documentation>Período de referência das informações do evento.</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:sequence>
+              <xs:element name="perApur" minOccurs="1" maxOccurs="1">
+                <xs:annotation>
+                  <xs:documentation>Informar o período de apuração, sendo o ano e mês da competência da declaração. Máscara: AAAA-MM Validação: Só pode existir um único {perApur} para cada {nrInsc}. Não é permitida a inclusão de um novo fechamento para um período que já possua um evento D-1199 ativo, exceto se precedido pelo respectivo evento de reabertura.</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:whiteSpace value="preserve"/>
+                    <xs:length value="7"/>
+                    <xs:pattern value="20[0-9]{2}-(0[1-9]|1[0-2])"/>
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="infoFechamento" minOccurs="0" maxOccurs="1">
+            <xs:annotation>
+              <xs:documentation>Informações sobre o fechamento da apuração mensal e aproveitamento de bases de cálculo negativas (BCN).</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:sequence>
+              <xs:element name="infoParamFech" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                  <xs:documentation>Grupo de informações de indicadores de não ocorrência ou outras parametrizações específicas que qualificam o encerramento do período. Preenchimento: Deve ser informado exclusivamente quando houver necessidade de declarar dispensa de eventos auxiliares ou outras opções do contribuinte para o período de apuração {perApur}.</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:sequence>
+                  <xs:element name="indInexistDedu" minOccurs="0" maxOccurs="1">
+                    <xs:annotation>
+                      <xs:documentation>Declaração de inexistência de deduções a detalhar no período, dispensando a transmissão do evento auxiliar D-1121 (Relação de Deduções Utilizadas na Apuração) para os contribuintes sujeitos à sua obrigatoriedade. Preenchimento: Este campo não deve ser informado (deve ser omitido do XML) nas seguintes situações: 1. Caso o contribuinte possua deduções no mês (hipótese em que deverá transmitir o respectivo evento D-1121 com os dados); ou 2. Caso o contribuinte, por sua natureza jurídica ou regime, não esteja sujeito a nenhuma regra de obrigatoriedade de entrega do evento D-1121.</xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:whiteSpace value="preserve"/>
+                        <xs:enumeration value="1">
+                          <xs:annotation><xs:documentation>Declaro que, embora sujeito à obrigatoriedade de entrega do evento D-1121, não possuo deduções a detalhar neste período</xs:documentation></xs:annotation>
+                        </xs:enumeration>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="gUtilizBCN" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                  <xs:documentation>Grupo de informação de aproveitamento de bases de cálculo negativa de períodos anteriores.</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:sequence>
+                  <xs:element name="infoBCN" minOccurs="1" maxOccurs="99">
+                    <xs:annotation>
+                      <xs:documentation>Detalhamento de informações da base de cálculo negativa por tipo de serviço.</xs:documentation>
+                    </xs:annotation>
+                    <xs:complexType>
+                      <xs:sequence>
+                      <xs:element name="codBCNRaiz" minOccurs="1" maxOccurs="1">
+                        <xs:annotation>
+                          <xs:documentation>Informar o código identificador da base de cálculo negativa específica do qual se deseja utilizar a base de cálculo negativa, conforme [[Tabela 12 – Códigos de Bases de Cálculo]].</xs:documentation>
+                        </xs:annotation>
+                        <xs:simpleType>
+                          <xs:restriction base="xs:string">
+                            <xs:whiteSpace value="preserve"/>
+                            <xs:length value="5"/>
+                            <xs:pattern value="[1-9][0-9]{3}[IC]"/>
+                          </xs:restriction>
+                        </xs:simpleType>
+                      </xs:element>
+                      <xs:element name="usarBCNAcum" minOccurs="1" maxOccurs="1">
+                        <xs:annotation>
+                          <xs:documentation>Informar a opção por utilizar (se existir) o valor de base de cálculo negativa acumulada em períodos anteriores.</xs:documentation>
+                        </xs:annotation>
+                        <xs:simpleType>
+                          <xs:restriction base="xs:string">
+                            <xs:whiteSpace value="preserve"/>
+                            <xs:enumeration value="0">
+                              <xs:annotation><xs:documentation>Opção por NÃO efetuar o aproveitamento de bases negativas neste período</xs:documentation></xs:annotation>
+                            </xs:enumeration>
+                            <xs:enumeration value="1">
+                              <xs:annotation><xs:documentation>Opção por efetuar o aproveitamento de bases negativas neste período</xs:documentation></xs:annotation>
+                            </xs:enumeration>
+                          </xs:restriction>
+                        </xs:simpleType>
+                      </xs:element>
+                      <xs:element name="metodoAproveit" minOccurs="0" maxOccurs="1">
+                        <xs:annotation>
+                          <xs:documentation>Informar qual método o contribuinte deseja para o aproveitamento da base de cálculo negativa. Preenchimento: Obrigatório se {usarBCNAcum} = [1]. Vedado se {usarBCNAcum} = [0].</xs:documentation>
+                        </xs:annotation>
+                        <xs:simpleType>
+                          <xs:restriction base="xs:string">
+                            <xs:whiteSpace value="preserve"/>
+                            <xs:enumeration value="0">
+                              <xs:annotation><xs:documentation>Método PEPS calculado automaticamente pelo sistema</xs:documentation></xs:annotation>
+                            </xs:enumeration>
+                            <xs:enumeration value="1">
+                              <xs:annotation><xs:documentation>Informação manual pelo contribuinte de valores de bases de cálculo negativas que deseja realizar o aproveitamento, com a informação dos respectivos períodos de origem</xs:documentation></xs:annotation>
+                            </xs:enumeration>
+                          </xs:restriction>
+                        </xs:simpleType>
+                      </xs:element>
+                      </xs:sequence>
+                    </xs:complexType>
+                  </xs:element>
+                  <xs:element name="detBCNeg" minOccurs="0" maxOccurs="99">
+                    <xs:annotation>
+                      <xs:documentation>Informação individualizada de cada base de cálculo negativa a ser aproveitada pelo contribuinte.</xs:documentation>
+                    </xs:annotation>
+                    <xs:complexType>
+                      <xs:sequence>
+                      <xs:element name="codBCN" minOccurs="1" maxOccurs="1">
+                        <xs:annotation>
+                          <xs:documentation>Informar o código da base de cálculo negativa que será utilizado para dedução nesta competência.</xs:documentation>
+                        </xs:annotation>
+                        <xs:simpleType>
+                          <xs:restriction base="xs:string">
+                            <xs:whiteSpace value="preserve"/>
+                            <xs:length value="13"/>
+                            <xs:pattern value="[1-9][0-9]{3}[IC][0-9]{8}"/>
+                          </xs:restriction>
+                        </xs:simpleType>
+                      </xs:element>
+                      <xs:element name="vUsarBCN" minOccurs="0" maxOccurs="1">
+                        <xs:annotation>
+                          <xs:documentation>Valor máximo da base de cálculo negativa que o contribuinte deseja realizar o aproveitamento na competência atual. Preenchimento: Não informar caso o contribuinte deseje aproveitar toda a base de cálculo negativa disponível no {codBCN}. Validação: Se o valor informado pelo contribuinte for superior ao existente em sua conta corrente para aquele {codBCN}, será atribuído o valor máximo disponível na conta corrente e retornado alerta informando não existir o saldo total disponível naquela base de cálculo negativa.</xs:documentation>
+                        </xs:annotation>
+                        <xs:simpleType>
+                          <xs:restriction base="xs:string">
+                            <xs:whiteSpace value="preserve"/>
+                            <xs:minLength value="4"/>
+                            <xs:maxLength value="18"/>
+                            <xs:pattern value="(0|[1-9][0-9]{0,14})\.[0-9]{2}"/>
+                          </xs:restriction>
+                        </xs:simpleType>
+                      </xs:element>
+                      </xs:sequence>
+                    </xs:complexType>
+                  </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          </xs:sequence>
+          <xs:attribute name="id" use="required">
+            <xs:annotation>
+              <xs:documentation>Identificador que representa unicamente o evento.</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+                <xs:whiteSpace value="preserve"/>
+                <xs:length value="42"/>
+                <xs:pattern value="DeRE[0-9]{4}[1-2][0-9A-Z]{14}[0-9]{19}"/>
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:attribute>
+        </xs:complexType>
+      </xs:element>
+        <xs:element ref="ds:Signature"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
