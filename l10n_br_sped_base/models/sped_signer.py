@@ -2,6 +2,8 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/lgpl-3.0.en.html).
 
 
+from erpbrasil.base import misc
+
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
 
@@ -166,3 +168,31 @@ class ResCompany(models.Model):
         help="Data de arquivamento do ato de conversao de sociedade simples em "
         "sociedade empresaria, quando houve.",
     )
+
+    @api.constrains("l10n_br_nire_code")
+    def _check_l10n_br_nire_code(self):
+        # regras REGRA_VALIDA_NIRE e REGRA_NIRE_UF do PVA da ECD
+        for company in self.filtered("l10n_br_nire_code"):
+            nire = misc.punctuation_rm(company.l10n_br_nire_code)
+            if not _nire_check_digit_ok(nire):
+                raise ValidationError(
+                    _("Invalid NIRE %s: 11 digits with a valid check digit.") % nire
+                )
+            uf_code = company.state_id.ibge_code
+            if uf_code == "50":
+                uf_code = "54"
+            if uf_code and not nire.startswith(uf_code):
+                raise ValidationError(
+                    _("The NIRE %(nire)s does not belong to the state %(state)s.")
+                    % {"nire": nire, "state": company.state_id.code}
+                )
+
+
+def _nire_check_digit_ok(nire):
+    if len(nire) != 11 or not nire.isdigit():
+        return False
+    weights = [2, 10, 9, 8, 7, 6, 5, 4, 3, 2]
+    total = sum(int(d) * w for d, w in zip(nire[:10], weights, strict=True))
+    digit = 11 - total % 11
+    digit = {10: 0, 11: 1}.get(digit, digit)
+    return digit == int(nire[10])
