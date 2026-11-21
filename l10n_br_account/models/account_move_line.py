@@ -194,7 +194,43 @@ class AccountMoveLine(models.Model):
         sorted_result = self.env["account.move.line"]
         for idx in inverted_index:
             sorted_result |= result[idx]
+
+        # Must run before account.move.create syncs the invoice lines again.
+        sorted_result._mark_stale_fiscal_taxes_for_recompute()
         return sorted_result
+
+    def _lines_from_source_document(self):
+        """Lines created from a sale or purchase order line.
+
+        Those fields come from modules l10n_br_account does not depend on.
+        """
+        link_fields = [
+            name
+            for name in ("purchase_line_id", "sale_line_ids")
+            if name in self._fields
+        ]
+        if not link_fields:
+            return self.browse()
+        return self.filtered(lambda line: any(line[name] for name in link_fields))
+
+    def _mark_stale_fiscal_taxes_for_recompute(self):
+        """Recompute the tax values copied from the source document.
+
+        They are stored computes with readonly=False, so the values given at
+        create() are kept even when the invoiced quantity is not the one they
+        were calculated on.
+        """
+        stale = self.filtered(
+            lambda line: line.display_type == "product"
+            # Refunds and imported documents keep the values they came with.
+            and line.move_id.move_type in ("in_invoice", "out_invoice")
+            and line.move_id.fiscal_operation_id
+            and line.fiscal_document_line_id
+            and not line.fiscal_document_line_id._is_imported()
+        )._lines_from_source_document()
+        if stale:
+            # Not fiscal_price: the picking wizard sets it explicitly.
+            stale.fiscal_document_line_id.modified(["quantity"])
 
     def unlink(self):
         unlink_fiscal_lines = self.env["l10n_br_fiscal.document.line"]
