@@ -86,12 +86,12 @@ msgstr "Código"
 #. module: l10n_br_payment_schedule
 #: model:ir.model.fields,field_description:l10n_br_payment_schedule.field_l10n_br_payment_schedule_instrument_reader__create_uid
 msgid "Created by"
-msgstr ""
+msgstr "Criado por"
 
 #. module: l10n_br_payment_schedule
 #: model:ir.model.fields,field_description:l10n_br_payment_schedule.field_l10n_br_payment_schedule_instrument_reader__create_date
 msgid "Created on"
-msgstr ""
+msgstr "Criado em"
 
 #. module: l10n_br_payment_schedule
 #: model:ir.model.fields,field_description:l10n_br_payment_schedule.field_account_move_line__payment_digitable_line
@@ -101,7 +101,7 @@ msgstr "Linha digitável"
 #. module: l10n_br_payment_schedule
 #: model:ir.model.fields,field_description:l10n_br_payment_schedule.field_l10n_br_payment_schedule_instrument_reader__display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Nome exibido"
 
 #. module: l10n_br_payment_schedule
 #: model:ir.model.fields,field_description:l10n_br_payment_schedule.field_l10n_br_payment_schedule_instrument_reader__error
@@ -116,7 +116,7 @@ msgstr "Guia"
 #. module: l10n_br_payment_schedule
 #: model:ir.model.fields,field_description:l10n_br_payment_schedule.field_l10n_br_payment_schedule_instrument_reader__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: l10n_br_payment_schedule
 #. odoo-python
@@ -145,17 +145,17 @@ msgstr "Tipo"
 #. module: l10n_br_payment_schedule
 #: model:ir.model.fields,field_description:l10n_br_payment_schedule.field_l10n_br_payment_schedule_instrument_reader____last_update
 msgid "Last Modified on"
-msgstr ""
+msgstr "Última modificação em"
 
 #. module: l10n_br_payment_schedule
 #: model:ir.model.fields,field_description:l10n_br_payment_schedule.field_l10n_br_payment_schedule_instrument_reader__write_uid
 msgid "Last Updated by"
-msgstr ""
+msgstr "Última atualização por"
 
 #. module: l10n_br_payment_schedule
 #: model:ir.model.fields,field_description:l10n_br_payment_schedule.field_l10n_br_payment_schedule_instrument_reader__write_date
 msgid "Last Updated on"
-msgstr ""
+msgstr "Última atualização em"
 
 #. module: l10n_br_payment_schedule
 #: model:ir.model.fields,field_description:l10n_br_payment_schedule.field_l10n_br_payment_schedule_instrument_reader__message
