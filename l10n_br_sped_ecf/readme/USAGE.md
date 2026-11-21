@@ -13,6 +13,17 @@ Antes da primeira escrituração, configure:
 4.  **Conta referencial da RFB**, em cada conta do plano: é o que alimenta
     os registros J051, K156, K356, P100 e P150. Sem ela, o balanço e a DRE
     em contas referenciais saem vazios.
+5.  **Código de receita nas retenções**, no imposto retido (campo
+    "Revenue Code (DARF)" do imposto fiscal): é o que separa as linhas do
+    registro Y570, por cliente e código (1708 para o IRRF de serviço, 5952
+    para a CSLL da retenção conjunta). A nota de saída com retenção precisa
+    do CNPJ do cliente. Sem o código ou sem o CNPJ, a geração para e diz
+    quais notas faltam.
+6.  **Encerramento do resultado** em cada período de apuração (trimestral no
+    lucro presumido): um lançamento que zera as contas de resultado,
+    marcado como "Result Closing Entry". O balanço (K155) é o saldo depois
+    do encerramento, e a marca separa o encerramento da receita do período.
+    Sem ele, a geração para e diz o período e as contas a encerrar.
 
 Depois:
 
