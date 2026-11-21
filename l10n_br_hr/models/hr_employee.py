@@ -4,7 +4,7 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from erpbrasil.base import misc
-from erpbrasil.base.fiscal import pis
+from erpbrasil.base.fiscal import cnpj_cpf, pis
 
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
@@ -72,6 +72,15 @@ class HrEmployee(models.Model):
         string="CPF",
         related="work_contact_id.vat",
         readonly=False,
+        groups="hr.group_hr_user",
+    )
+
+    vat_formatted_cnpj = fields.Char(
+        string="CPF Formatted",
+        compute="_compute_vat_formatted_cnpj",
+        inverse="_inverse_vat_formatted_cnpj",
+        help="CPF displayed with punctuation (XXX.XXX.XXX-XX); it is stored"
+        " unformatted in the vat field.",
         groups="hr.group_hr_user",
     )
 
@@ -200,12 +209,11 @@ class HrEmployee(models.Model):
     def _sanitize_document_fields(self, vals):
         """Store identification documents as plain digits, as required by
         the eSocial layouts; formatted values are exposed by the
-        pis_pasep_formatted field and by the work contact
-        vat_formatted_cnpj field. The employee vat (CPF) is sanitized
-        here and not only on the work contact, because the res.partner
-        vat normalization of l10n_br_base is skipped for non-Brazilian
-        contacts."""
-        for fname in ("vat", "pis_pasep"):
+        pis_pasep_formatted and vat_formatted_cnpj fields. The employee
+        vat (CPF) is sanitized here and not only on the work contact,
+        because the res.partner vat normalization of l10n_br_base is
+        skipped for non-Brazilian contacts."""
+        for fname in ("vat", "pis_pasep", "ctps"):
             if vals.get(fname):
                 vals[fname] = misc.punctuation_rm(str(vals[fname]))
 
@@ -235,19 +243,39 @@ class HrEmployee(models.Model):
             if record.pis_pasep and not pis.validar(record.pis_pasep):
                 raise ValidationError(_("Invalid PIS/PASEP"))
 
+    @api.constrains("ctps")
+    def _validate_ctps(self):
+        for record in self:
+            ctps = record.ctps
+            if ctps and (not ctps.isdigit() or len(ctps) > 11):
+                raise ValidationError(
+                    _(
+                        "The CTPS number must hold up to 11 digits, without"
+                        " punctuation."
+                    )
+                )
+
     @api.constrains("vat")
     def _check_cpf(self):
         for record in self:
             check_cnpj_cpf(record.env, record.vat, record.country_id)
 
-    @api.onchange("vat")
-    def onchange_vat(self):
-        """Keep the employee VAT (CPF) unformatted, following the
-        l10n_br_base convention of storing res_partner.vat as plain
-        digits (eSocial ready); the formatted value is available on the
-        work contact through vat_formatted_cnpj."""
-        if self.vat:
-            self.vat = misc.punctuation_rm(self.vat)
+    @api.depends("vat", "country_id")
+    def _compute_vat_formatted_cnpj(self):
+        for record in self:
+            vat = record.vat
+            if vat and record.country_id.code == "BR" and len(vat) in (11, 14):
+                record.vat_formatted_cnpj = cnpj_cpf.formata(vat)
+            else:
+                # foreign document or legacy punctuated value: show it as stored
+                record.vat_formatted_cnpj = vat
+
+    def _inverse_vat_formatted_cnpj(self):
+        for record in self:
+            if record.vat_formatted_cnpj:
+                record.vat = misc.punctuation_rm(record.vat_formatted_cnpj)
+            else:
+                record.vat = False
 
     @api.model
     def _get_marital_status_selection(self):
