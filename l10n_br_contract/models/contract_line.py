@@ -174,4 +174,12 @@ class ContractLine(models.Model):
             invoice_line_vals.update(fiscal_vals)
             invoice_line_vals["quantity"] = quantity
             invoice_line_vals["tax_ids"] = tax_ids.ids
+            # l10n_br_account computes the invoice line discount (%) from
+            # discount_value, so the contract discount must be sent as a value.
+            invoice_line_vals["discount_value"] = contract.company_id.currency_id.round(
+                quantity
+                * invoice_line_vals.get("price_unit", self.price_unit)
+                * self.discount
+                / 100
+            )
         return invoice_line_vals

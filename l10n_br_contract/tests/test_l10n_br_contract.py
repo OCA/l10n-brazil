@@ -291,6 +291,22 @@ class TestL10nBrContract(TransactionCase):
         )
         self.assertAlmostEqual(move_line.issqn_base, 120.0 * invoiced_qty, places=2)
 
+    def test_contract_discount_reaches_invoice(self):
+        """The contract line discount must survive on the invoice line."""
+        for discount, expected in ((91.64, 48.9), (100.0, 0.0), (0.0, 584.9)):
+            with self.subTest(discount=discount):
+                contract = self._create_contract_with_line(
+                    self.product_service,
+                    price_unit=584.9,
+                    fiscal_operation=self.fo_venda,
+                )
+                contract.contract_line_ids.write(
+                    {"quantity": 1.0, "price_unit": 584.9, "discount": discount}
+                )
+                move_line = contract._recurring_create_invoice().invoice_line_ids
+                self.assertAlmostEqual(move_line.discount, discount, places=2)
+                self.assertAlmostEqual(move_line.price_subtotal, expected, places=2)
+
     def test_prepare_recurring_invoices_without_contract_fiscal_operation(self):
         """Without contract fiscal operation, document_type_id must be cleared."""
         contract = self._create_contract_with_line(
