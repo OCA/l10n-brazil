@@ -26,7 +26,7 @@
         "security/ir.model.access.csv",
         "views/sped_efd_icms_ipi.xml",
     ],
-    "demo": [],
+    "demo": ["demo/efd_icms_ipi_demo.xml"],
     "application": True,
     "post_init_hook": "post_init_hook",
 }

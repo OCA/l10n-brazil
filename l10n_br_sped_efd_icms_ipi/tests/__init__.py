@@ -7,3 +7,4 @@ from . import test_sped_entrada_ipi
 from . import test_sped_apuracao
 from . import test_sped_entrada_sem_credito
 from . import test_sped_entrada_credito_icms
+from . import test_demo
