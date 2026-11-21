@@ -1,12 +1,17 @@
 # Copyright 2023 KMEE
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
+from importlib import import_module
+
 from erpbrasil.base.fiscal import cnpj_cpf
 from erpbrasil.base.misc import format_zipcode, punctuation_rm
 
-from odoo import api, fields
+from odoo import _, api, fields
+from odoo.exceptions import ValidationError
 
 from odoo.addons.spec_driven_model.models import spec_models
+
+MDFE_ROAD_BINDING_MODULE = "nfelib.mdfe.bindings.v3_0.mdfe_modal_rodoviario_v3_00"
 
 
 class ResPartner(spec_models.SpecModel):
@@ -198,6 +203,25 @@ class ResPartner(spec_models.SpecModel):
         compute_sudo=True,
     )
 
+    # Modelo Rodoviario - VeicTracaoProp - Proprietário ou possuidor do Veículo.
+    mdfe30_RNTRC = fields.Char(
+        compute="_compute_mdfe30_RNTRC",
+        inverse="_inverse_mdfe30_RNTRC",
+        compute_sudo=True,
+    )
+
+    @api.depends("rntrc_code")
+    def _compute_mdfe30_RNTRC(self):
+        for rec in self:
+            rec.mdfe30_RNTRC = rec.rntrc_code
+
+    def _inverse_mdfe30_RNTRC(self):
+        for rec in self:
+            if rec.mdfe30_RNTRC:
+                if not rec.mdfe30_RNTRC.isdigit() or len(rec.mdfe30_RNTRC) != 8:
+                    raise ValidationError(_("RNTRC must contain exactly 8 digits."))
+                rec.rntrc_code = rec.mdfe30_RNTRC
+
     @api.depends("company_type", "l10n_br_ie_code", "cnpj_cpf", "country_id")
     def _compute_mdfe_data(self):
         """Set schema data which are not just related fields"""
@@ -325,3 +349,18 @@ class ResPartner(spec_models.SpecModel):
                 rec.city_id = city_id
                 rec.country_id = country_id
                 rec.state_id = state_id
+
+    @api.model
+    def _get_binding_class(self, odoo_class, field_name=None):
+        if odoo_class._name in (
+            "mdfe.30.veictracao_prop",
+            "mdfe.30.veicreboque_prop",
+        ):
+            # import_module: the binding module has an optional external
+            # dependency and is not imported when the module is loaded, so
+            # nothing guarantees it is in sys.modules before the first export.
+            binding_class = import_module(MDFE_ROAD_BINDING_MODULE)
+            for attr in odoo_class._binding_type.split("."):
+                binding_class = getattr(binding_class, attr)
+            return binding_class
+        return super()._get_binding_class(odoo_class, field_name)

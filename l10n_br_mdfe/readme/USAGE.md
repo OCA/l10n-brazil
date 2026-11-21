@@ -39,3 +39,16 @@ financeiro.
 Seguindo esses passos, o módulo l10n_br_mdfe funcionará corretamente em
 conjunto com o l10n_br_account, permitindo a emissão de MDF-e sem
 valores financeiros associados.
+
+**Dados do proprietário e dos condutores**
+
+- O RNTRC do transportador, no modal rodoviário, é lido do campo
+  **Código ANTT** do parceiro da empresa emissora.
+- No proprietário do veículo (`mdfe30_prop`) o RNTRC é preenchido a
+  partir do campo **Código ANTT** do parceiro, validando que ele tenha
+  exatamente 8 dígitos.
+- Os condutores podem ser selecionados a partir de um parceiro, que
+  preenche automaticamente o nome e o CPF.
+
+Para preencher os dados do veículo a partir do cadastro de veículos da
+transportadora, instale o módulo **l10n_br_delivery_mdfe**.
