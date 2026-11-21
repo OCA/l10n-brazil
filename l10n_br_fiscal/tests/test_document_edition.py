@@ -150,6 +150,28 @@ class TestDocumentEdition(TransactionCase):
         self.assertEqual(doc.fiscal_line_ids[0].quantity, 10)
         self.assertEqual(doc.fiscal_line_ids[0].fiscal_quantity, 20)
 
+    def test_financial_total_without_operation_line(self):
+        """A line without operation line adds to the financial total, and one
+        whose operation line does not add to the amount stays out of it."""
+        doc_form = Form(
+            self.env["l10n_br_fiscal.document"].with_context(
+                default_fiscal_operation_type="out",
+            )
+        )
+        doc_form.company_id = self.company
+        doc_form.partner_id = self.env.ref("l10n_br_base.res_partner_cliente1_sp")
+        doc_form.fiscal_operation_id = self.env.ref("l10n_br_fiscal.fo_venda")
+        with doc_form.fiscal_line_ids.new() as line_form:
+            line_form.product_id = self.env.ref("product.product_product_6")
+        line = doc_form.save().fiscal_line_ids
+        operation_line = line.fiscal_operation_line_id
+        line.fiscal_operation_line_id = False
+        self.assertTrue(line.financial_total)
+        self.assertEqual(line.financial_total, line.amount_taxed)
+        operation_line.add_to_amount = False
+        line.fiscal_operation_line_id = operation_line
+        self.assertEqual(line.financial_total, 0.0)
+
     def test_product_fiscal_price_and_qty_edition(self):
         doc_form = Form(
             self.env["l10n_br_fiscal.document"].with_context(
