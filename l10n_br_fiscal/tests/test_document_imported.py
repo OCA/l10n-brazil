@@ -24,6 +24,8 @@ class TestImportedDocumentTaxAmounts(TransactionCase):
         cls.ipi_tax = cls.env.ref("l10n_br_fiscal.tax_ipi_6_5")
         cls.icms_tax = cls.env.ref("l10n_br_fiscal.tax_icms_18")
         cls.cofins_wh_tax = cls.env.ref("l10n_br_fiscal.tax_cofins_wh_3")
+        cls.icmssn_tax = cls.env.ref("l10n_br_fiscal.tax_icms_sn_com_credito")
+        cls.cst_icmssn_101 = cls.env.ref("l10n_br_fiscal.cst_icmssn_101")
 
     def _create_imported_document(self, tax_values):
         line_values = {
@@ -86,6 +88,29 @@ class TestImportedDocumentTaxAmounts(TransactionCase):
         self.assertEqual(line.amount_tax_not_included, 0.0)
         self.assertEqual(line.fiscal_amount_tax, 0.0)
         self.assertEqual(document.fiscal_amount_tax, 0.0)
+        self.assertEqual(document.fiscal_amount_total, document.fiscal_amount_untaxed)
+
+    def test_icmssn_credit_from_the_file_is_not_an_included_tax(self):
+        # Simples Nacional supplier (CSOSN 101): pCredSN/vCredICMSSN is only
+        # informative, so the price and the amounts due must stay untouched.
+        self.assertTrue(self.icmssn_tax.tax_group_id.tax_include)
+        document = self._create_imported_document(
+            {
+                "icmssn_tax_id": self.icmssn_tax.id,
+                "icms_cst_id": self.cst_icmssn_101.id,
+                "icmssn_percent": 2.24,
+                "icmssn_credit_value": 4.7,
+            }
+        )
+        line = document.fiscal_line_ids
+        self.assertEqual(line.icmssn_credit_value, 4.7)
+        self.assertEqual(line.amount_tax_included, 0.0)
+        self.assertEqual(line.amount_tax_not_included, 0.0)
+        self.assertEqual(line.fiscal_amount_tax, 0.0)
+        self.assertEqual(document.fiscal_amount_total, document.fiscal_amount_untaxed)
+        # Writing a tax field recomputes the amounts and must not bring it back.
+        line.write({"icmssn_credit_value": 5.0})
+        self.assertEqual(line.amount_tax_included, 0.0)
         self.assertEqual(document.fiscal_amount_total, document.fiscal_amount_untaxed)
 
     def test_tax_values_from_the_file_are_not_recomputed(self):
