@@ -308,6 +308,11 @@
                                     />
                                     <field name="icms_tax_benefit_id" force_save="1" />
                                     <field name="icms_tax_benefit_code" />
+                                    <field
+                                        name="partner_icms_tax_benefit_code"
+                                        readonly="1"
+                                        attrs="{'invisible': [('partner_icms_tax_benefit_code', '=', False)]}"
+                                    />
                                 </group>
                                 <group>
                                     <group>
