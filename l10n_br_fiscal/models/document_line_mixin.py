@@ -332,7 +332,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
             if line.fiscal_operation_line_id:
                 line.tax_classification_id = (
                     line.fiscal_operation_line_id._get_tax_classification(
-                        line.company_id
+                        line.company_id, line.ncm_id, line.nbs_id
                     )
                 )
 
