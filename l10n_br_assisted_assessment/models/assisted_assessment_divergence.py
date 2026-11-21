@@ -1,0 +1,279 @@
+# Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError
+
+from ..constants import (
+    ACTION_CREDIT_NOTE,
+    ACTION_DEBIT_NOTE,
+    ACTION_REGISTER_DOCUMENT,
+    ACTION_REVIEW_CREDIT,
+    DIVERGENCE_CREDIT_DENIED,
+    DIVERGENCE_MISSING_FISCO,
+    DIVERGENCE_MISSING_LOCAL,
+    DIVERGENCE_TYPES,
+    DIVERGENCE_VALUE,
+    DOCUMENT_KEY_SIZE,
+    LINE_DEBIT,
+    LINE_TYPES,
+    SUGGESTED_ACTIONS,
+)
+
+
+class AssistedAssessmentDivergence(models.Model):
+    _name = "l10n_br_assisted_assessment.divergence"
+    _description = "IBS/CBS assisted assessment divergence"
+    _order = "period_id, divergence_type, document_key"
+
+    period_id = fields.Many2one(
+        comodel_name="l10n_br_assisted_assessment.period",
+        string="Period",
+        required=True,
+        ondelete="cascade",
+        index=True,
+    )
+    company_id = fields.Many2one(related="period_id.company_id", store=True)
+    currency_id = fields.Many2one(related="period_id.currency_id", store=True)
+    line_id = fields.Many2one(
+        comodel_name="l10n_br_assisted_assessment.line",
+        string="Line",
+        ondelete="set null",
+    )
+    divergence_type = fields.Selection(selection=DIVERGENCE_TYPES, required=True)
+    line_type = fields.Selection(selection=LINE_TYPES, required=True)
+    document_key = fields.Char(string="Access Key", size=DOCUMENT_KEY_SIZE, index=True)
+    document_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.document",
+        string="Fiscal Document",
+    )
+    adjustment_document_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.document",
+        string="Adjustment Document",
+        copy=False,
+        domain="[('company_id', '=', company_id)]",
+        help="Credit or debit note that adjusts this row. Required to handle "
+        "a value gap (or a booked debit missing from the assessment) unless "
+        "a note explains the treatment.",
+    )
+    fisco_value = fields.Monetary(string="Assessed Value")
+    local_value = fields.Monetary(string="Booked Value")
+    difference = fields.Monetary(compute="_compute_difference", store=True)
+    suggested_action = fields.Selection(selection=SUGGESTED_ACTIONS)
+    notes = fields.Text(
+        help="Required when the divergence is ignored, so the reason for "
+        "accepting the tax administration figure stays on the record. Also "
+        "required when handling a value gap without an adjustment document.",
+    )
+    state = fields.Selection(
+        selection=[
+            ("open", "Open"),
+            ("handled", "Handled"),
+            ("ignored", "Ignored"),
+        ],
+        string="Status",
+        default="open",
+        required=True,
+    )
+    handled_by_id = fields.Many2one(
+        comodel_name="res.users",
+        string="Handled by",
+        readonly=True,
+        copy=False,
+    )
+    handled_date = fields.Datetime(readonly=True, copy=False)
+    ignored_by_id = fields.Many2one(
+        comodel_name="res.users",
+        string="Ignored by",
+        readonly=True,
+        copy=False,
+    )
+    ignored_date = fields.Datetime(readonly=True, copy=False)
+
+    @api.depends("fisco_value", "local_value")
+    def _compute_difference(self):
+        for record in self:
+            record.difference = record.fisco_value - record.local_value
+
+    @api.depends("divergence_type", "document_key")
+    def _compute_display_name(self):
+        types = dict(self._fields["divergence_type"]._description_selection(self.env))
+        for record in self:
+            record.display_name = " ".join(
+                part
+                for part in (types.get(record.divergence_type), record.document_key)
+                if part
+            ) or _("New")
+
+    @api.model
+    def _prepare_vals(
+        self,
+        period,
+        divergence_type,
+        line_type,
+        document_key,
+        fisco_value,
+        local_value,
+        line=None,
+    ):
+        document = (
+            line.document_id if line else self._find_document(period, document_key)
+        )
+        return {
+            "period_id": period.id,
+            "line_id": line.id if line else False,
+            "divergence_type": divergence_type,
+            "line_type": line_type,
+            "document_key": document_key,
+            "document_id": document.id,
+            "fisco_value": fisco_value,
+            "local_value": local_value,
+            "suggested_action": self._suggested_action(
+                divergence_type, line_type, fisco_value, local_value
+            ),
+        }
+
+    @api.model
+    def _find_document(self, period, document_key):
+        return self.env["l10n_br_fiscal.document"].search(
+            [
+                ("document_key", "=", document_key),
+                ("company_id", "=", period.company_id.id),
+            ],
+            limit=1,
+        )
+
+    @api.model
+    def _suggested_action(self, divergence_type, line_type, fisco_value, local_value):
+        """Return the action that repairs the divergence.
+
+        Adjustments are made by issuing fiscal documents: a debit the fisco
+        did not charge becomes a debit note, and the symmetric assessed
+        amount becomes a credit note. A credit booked above the assessed
+        value is also a credit note; a credit the fisco did not grant is
+        reviewed.
+        """
+        if divergence_type == DIVERGENCE_MISSING_LOCAL:
+            return ACTION_REGISTER_DOCUMENT
+        if divergence_type == DIVERGENCE_CREDIT_DENIED:
+            return ACTION_REVIEW_CREDIT
+        if divergence_type == DIVERGENCE_MISSING_FISCO:
+            return (
+                ACTION_DEBIT_NOTE if line_type == LINE_DEBIT else ACTION_REVIEW_CREDIT
+            )
+        if divergence_type == DIVERGENCE_VALUE:
+            if line_type == LINE_DEBIT:
+                return (
+                    ACTION_DEBIT_NOTE
+                    if local_value > fisco_value
+                    else ACTION_CREDIT_NOTE
+                )
+            return (
+                ACTION_CREDIT_NOTE
+                if local_value > fisco_value
+                else ACTION_REVIEW_CREDIT
+            )
+        return False
+
+    def _natural_key(self):
+        """Key used to reuse a treated divergence on a later reconciliation."""
+        self.ensure_one()
+        return (self.line_type, self.document_key, self.divergence_type)
+
+    def _values_changed(self, vals):
+        """Return whether ``vals`` would change a stored divergence."""
+        self.ensure_one()
+        for field_name, value in vals.items():
+            if field_name in ("period_id", "state"):
+                continue
+            current = self[field_name]
+            if self._fields[field_name].type == "many2one":
+                current = current.id if current else False
+            if current != value and (current or value):
+                return True
+        return False
+
+    def write(self, vals):
+        if not self.env.context.get("assisted_assessment_reconcile"):
+            if {"fisco_value", "local_value"} & set(vals):
+                raise UserError(_("Assessed and booked values cannot be edited."))
+            if "notes" in vals and not (vals.get("notes") or "").strip():
+                if any(record.state == "ignored" for record in self):
+                    raise UserError(_("An ignored divergence must keep the reason."))
+        if vals.get("state") == "handled":
+            vals.setdefault("handled_by_id", self.env.uid)
+            vals.setdefault("handled_date", fields.Datetime.now())
+        if vals.get("state") == "ignored":
+            vals.setdefault("ignored_by_id", self.env.uid)
+            vals.setdefault("ignored_date", fields.Datetime.now())
+        result = super().write(vals)
+        if vals.get("state") == "handled":
+            self._check_handled()
+        if vals.get("state") == "ignored":
+            self._check_ignored()
+        return result
+
+    def action_mark_handled(self):
+        return self.write({"state": "handled"})
+
+    def action_mark_ignored(self):
+        return self.write({"state": "ignored"})
+
+    def _requires_adjustment_proof(self):
+        """Value gaps and booked-only debits are closed by an adjustment NF."""
+        self.ensure_one()
+        return self.divergence_type == DIVERGENCE_VALUE or (
+            self.divergence_type == DIVERGENCE_MISSING_FISCO
+            and self.line_type == LINE_DEBIT
+        )
+
+    def _check_handled(self):
+        """Require the fiscal document (or note) that closes each row type."""
+        for record in self:
+            if record.divergence_type == DIVERGENCE_MISSING_LOCAL:
+                if not record.document_id:
+                    raise UserError(
+                        _(
+                            "Link the fiscal document that registers this access "
+                            "key before marking the divergence as handled."
+                        )
+                    )
+                if (
+                    record.document_key
+                    and record.document_id.document_key
+                    and record.document_key != record.document_id.document_key
+                ):
+                    raise UserError(
+                        _(
+                            "The fiscal document access key does not match the "
+                            "assessment line."
+                        )
+                    )
+                continue
+            if not record._requires_adjustment_proof():
+                continue
+            if record.adjustment_document_id or (record.notes or "").strip():
+                continue
+            raise UserError(
+                _(
+                    "Link the credit or debit note that adjusts this row, "
+                    "or explain the treatment in the notes, before marking "
+                    "the divergence as handled."
+                )
+            )
+
+    def _check_ignored(self):
+        for record in self:
+            if (record.notes or "").strip():
+                continue
+            raise UserError(
+                _(
+                    "Explain why this divergence is ignored before closing "
+                    "the local review without fixing it."
+                )
+            )
+
+    def unlink(self):
+        if not self.env.context.get("assisted_assessment_reconcile"):
+            raise UserError(_("Divergences can only be removed by reconciling again."))
+        return super().unlink()
