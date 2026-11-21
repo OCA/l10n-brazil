@@ -1,6 +1,8 @@
 # Copyright 2021 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
+from dateutil.relativedelta import relativedelta
+
 from odoo.tests import TransactionCase
 
 
@@ -33,6 +35,13 @@ class TestL10nBrProductContract(TransactionCase):
                 "fiscal_genre_id": cls.env.ref("l10n_br_fiscal.product_genre_00").id,
                 "service_type_id": cls.env.ref("l10n_br_fiscal.service_type_105").id,
                 "is_contract": True,
+                # The recurrence is defined on the product: the contract line
+                # end date is computed from it when the sale line is created.
+                "recurrence_number": 12,
+                "recurrence_interval": "monthly",
+                "recurring_rule_type": "monthly",
+                "recurring_interval": 1,
+                "recurring_invoicing_type": "pre-paid",
                 "property_contract_template_id": cls.contract_template.id,
             }
         )
@@ -61,11 +70,6 @@ class TestL10nBrProductContract(TransactionCase):
                             "price_unit": 500,
                             "fiscal_operation_id": self.fiscal_operation.id,
                             "fiscal_operation_line_id": self.fiscal_operation_line.id,
-                            "recurring_invoicing_type": "pre-paid",
-                            "recurring_rule_type": "monthly",
-                            "recurring_interval": 1,
-                            "recurrence_number": 12,
-                            "recurrence_interval": "monthly",
                         },
                     )
                 ],
@@ -92,6 +96,11 @@ class TestL10nBrProductContract(TransactionCase):
         self.assertEqual(contract_line.fiscal_tax_ids, sale_line.fiscal_tax_ids)
         self.assertEqual(contract_line.quantity, 2)
         self.assertEqual(contract_line.price_unit, 500)
+        # 12 monthly periods: more than one invoice can be generated
+        self.assertEqual(
+            contract_line.date_end,
+            contract_line.date_start + relativedelta(months=12) - relativedelta(days=1),
+        )
 
     def test_contract_invoice_keeps_fiscal_operation_and_taxes(self):
         order = self._create_sale_order()
