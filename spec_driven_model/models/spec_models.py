@@ -258,7 +258,7 @@ class StackedModel(SpecModel):
             env, node, stacking_settings
         ):
             if kind == "stacked" and klass not in cls.__bases__:
-                cls.__bases__ = (klass,) + cls.__bases__
+                cls._inherit.append(klass._name)
         return super()._build_model(pool, cr)
 
     @api.model
