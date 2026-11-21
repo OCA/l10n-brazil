@@ -141,11 +141,7 @@
                                 required="uot_id"
                             />
                             <field name="uot_id" />
-                            <field
-                                name="uot_factor"
-                                invisible="not uot_id"
-                                required="uot_id"
-                            />
+                            <field name="uot_factor" required="uot_id" />
                         </group>
                     </group>
                 </page>

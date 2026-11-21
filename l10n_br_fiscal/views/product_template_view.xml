@@ -160,11 +160,7 @@
                                 name="uot_id"
                                 options="{'no_create': True, 'no_create_edit': True}"
                             />
-                            <field
-                                name="uot_factor"
-                                invisible="not uot_id"
-                                required="uot_id"
-                            />
+                            <field name="uot_factor" required="uot_id" />
                         </group>
                     </group>
                 </page>

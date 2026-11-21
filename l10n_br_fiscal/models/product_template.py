@@ -142,4 +142,9 @@ class ProductTemplate(models.Model):
 
     uot_id = fields.Many2one(comodel_name="uom.uom", string="Tax UoM")
 
-    uot_factor = fields.Float(string="Tax UoM Factor")
+    uot_factor = fields.Float(
+        string="Tax UoM Factor",
+        help="Quantity in the tax unit for each unit of the product, such as "
+        "50 for a bag of 50 kg. It is also used when the tax unit comes from the "
+        "NCM and the unit of the product has no conversion to it.",
+    )
