@@ -53,6 +53,7 @@ class SpedSigner(models.Model):
         comodel_name="res.company",
         string="Company",
         required=True,
+        default=lambda self: self.env.company,
         ondelete="cascade",
         index=True,
     )
@@ -148,4 +149,20 @@ class ResCompany(models.Model):
         help="A escrituracao e assinada, no minimo, pelo responsavel legal da "
         "pessoa juridica e pelo contabilista: registro 0930 da ECF e J930 da "
         "ECD.",
+    )
+    # registro na junta comercial, que o termo de abertura da ECD (I030) e o
+    # indicador de NIRE do 0000 informam
+    l10n_br_nire = fields.Char(
+        string="NIRE",
+        size=11,
+        help="Numero de Identificacao do Registro de Empresas, dado pela junta "
+        "comercial. Vazio para a sociedade registrada em cartorio.",
+    )
+    l10n_br_articles_filing_date = fields.Date(
+        string="Data de arquivamento dos atos constitutivos",
+    )
+    l10n_br_conversion_filing_date = fields.Date(
+        string="Data de arquivamento do ato de conversao",
+        help="Data de arquivamento do ato de conversao de sociedade simples em "
+        "sociedade empresaria, quando houve.",
     )
