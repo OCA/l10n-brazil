@@ -387,3 +387,56 @@ class TestFiscalTax(TransactionCase):
         )
 
         self.assertEqual(compute_result["taxes"]["icms"]["cst_id"].code, "10")
+
+    def test_compute_taxes_cache_savepoint_rollback(self):
+        """A savepoint rollback that reverts a tax rate must not leave the
+        transaction cache serving the reverted (stale) value, even when the
+        rate was already written once in the same transaction."""
+        kwargs = self._create_compute_taxes_kwargs()
+        currency = kwargs["company"].currency_id
+        icms_tax = self.env.ref("l10n_br_fiscal.tax_icms_7")
+        fiscal_taxes = (
+            icms_tax
+            + self.env.ref("l10n_br_fiscal.tax_ipi_15")
+            + self.env.ref("l10n_br_fiscal.tax_pis_0_65")
+            + self.env.ref("l10n_br_fiscal.tax_cofins_3")
+        )
+
+        # The rate is already written in this transaction before the savepoint.
+        icms_tax.percent_amount = icms_tax.percent_amount + 1.0
+        self.env.flush_all()
+        original_icms_value = fiscal_taxes.compute_taxes(**kwargs)["taxes"]["icms"][
+            "tax_value"
+        ]
+
+        savepoint = self.env.cr.savepoint()
+        icms_tax.percent_amount = icms_tax.percent_amount + 11.0
+        self.env.flush_all()
+        changed_icms_value = fiscal_taxes.compute_taxes(**kwargs)["taxes"]["icms"][
+            "tax_value"
+        ]
+        self.assertNotEqual(
+            float_compare(
+                changed_icms_value,
+                original_icms_value,
+                precision_rounding=currency.rounding,
+            ),
+            0,
+            "Sanity: editing the ICMS rate should change the computed value.",
+        )
+
+        savepoint.close()  # rollback=True by default
+
+        reverted_icms_value = fiscal_taxes.compute_taxes(**kwargs)["taxes"]["icms"][
+            "tax_value"
+        ]
+        self.assertEqual(
+            float_compare(
+                reverted_icms_value,
+                original_icms_value,
+                precision_rounding=currency.rounding,
+            ),
+            0,
+            "After rollback compute_taxes must return the ORIGINAL rate, not the "
+            "reverted-away value left in the transaction cache.",
+        )
