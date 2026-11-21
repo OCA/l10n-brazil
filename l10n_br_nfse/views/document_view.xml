@@ -7,6 +7,15 @@
         <field name="model">l10n_br_fiscal.document</field>
         <field name="inherit_id" ref="l10n_br_fiscal.document_form" />
         <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <field name="nfse_replace_supported" invisible="1" />
+                <button
+                    name="action_nfse_replace"
+                    type="object"
+                    string="Replace NFS-e"
+                    invisible="not nfse_replace_supported or state_edoc != 'autorizada'"
+                />
+            </xpath>
             <xpath expr="//sheet" position="before">
                 <div
                     class="alert alert-danger"
@@ -32,6 +41,11 @@
                     <field name="nfse_environment" readonly="1" />
                     <field name="civil_construction_code" />
                     <field name="civil_construction_art" />
+                    <field
+                        name="nfse_replaced_document_id"
+                        invisible="not nfse_replace_supported or (state_edoc == 'autorizada' and not nfse_replaced_document_id)"
+                        readonly="state_edoc not in ('em_digitacao', 'a_enviar', 'rejeitada')"
+                    />
                 </group>
             </group>
         </field>

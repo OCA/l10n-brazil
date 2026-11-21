@@ -44,6 +44,7 @@ from ..constants.nfse_nacional import (
     DANFSE_NACIONAL_TEMPLATE,
     NFSE_NACIONAL_CANCEL_EVENT,
     NFSE_NACIONAL_CANCEL_OFICIO_EVENT,
+    NFSE_NACIONAL_REPLACE_MOTIVES,
     PROVEDOR_NFSE_NACIONAL,
 )
 from ..transport.adn_rest import AdnRestClient
@@ -107,6 +108,21 @@ class L10nBrFiscalDocument(spec_models.SpecModel):
         "l10n_br_fiscal.document.line", compute="_compute_nfse10_serv_valores"
     )
 
+    nfse_provedor = fields.Selection(related="company_id.provedor_nfse")
+    nfse_replace_motive = fields.Selection(
+        NFSE_NACIONAL_REPLACE_MOTIVES,
+        string="Replacement Motive",
+        default="99",
+        copy=False,
+        help="cMotivo of the subst group of the DPS, used when this NFS-e "
+        "replaces another one.",
+    )
+    nfse_replace_reason = fields.Char(
+        string="Replacement Description",
+        size=255,
+        copy=False,
+        help="xMotivo of the subst group of the DPS (at least 15 characters).",
+    )
     nfse_key = fields.Char(
         string="NFS-e Access Key", size=50, copy=False, readonly=True
     )
@@ -199,6 +215,33 @@ class L10nBrFiscalDocument(spec_models.SpecModel):
                 )
             ),
         )
+
+    def _export_tag_nfse_10_subst(self, xsd_fields, class_obj, export_dict):
+        """Export the subst group of the DPS: the NFS-e this one replaces.
+
+        The city hall (or the ADN) authorizes the new NFS-e and registers the
+        replacement event on the old one, so there is no cancellation request.
+        """
+        old = self.nfse_replaced_document_id
+        if not old:
+            return
+        if not old.nfse_key:
+            raise UserError(
+                _(
+                    "The NFS-e %(document)s has no access key: it cannot be replaced.",
+                    document=old.display_name,
+                )
+            )
+        export_dict.update(
+            chSubstda=old.nfse_key,
+            cMotivo=self.nfse_replace_motive or "99",
+            xMotivo=self.nfse_replace_reason or _("NFS-e replaced to correct its data"),
+        )
+
+    def _compute_nfse_replace_supported(self):
+        result = super()._compute_nfse_replace_supported()
+        self.filtered(filter_nfse_nacional).nfse_replace_supported = True
+        return result
 
     def import_binding_nfse(self, binding, edoc_type="in", dry_run=False):
         if hasattr(binding, "DPS"):
@@ -358,7 +401,7 @@ class L10nBrFiscalDocument(spec_models.SpecModel):
             signed_xml = '<?xml version="1.0" encoding="UTF-8"?>' + signed_xml
         packed = AdnRestClient.pack_dps(signed_xml)
         response = self._adn_post(lambda client: client.post_dps(packed))
-        self._adn_process_response(response)
+        self._adn_process_response(response, sent_xml=signed_xml)
 
     def _adn_post(self, call):
         """Run ``call(client)`` against the ADN over mTLS with a temp 0600 PEM."""
@@ -402,7 +445,7 @@ class L10nBrFiscalDocument(spec_models.SpecModel):
         pem += cert.public_bytes(Encoding.PEM)
         return pem
 
-    def _adn_process_response(self, response):
+    def _adn_process_response(self, response, sent_xml=""):
         self.ensure_one()
         body = response.body or {}
         authorized = response.status_code in (200, 201) and bool(
@@ -432,6 +475,7 @@ class L10nBrFiscalDocument(spec_models.SpecModel):
                 file_response_xml=nfse_xml,
             )
             self._change_state(SITUACAO_EDOC_AUTORIZADA)
+            self._nfse_mark_replaced(sent_xml, nfse_xml)
         else:
             message = self._adn_format_errors(response)
             self.write(
@@ -483,6 +527,9 @@ class L10nBrFiscalDocument(spec_models.SpecModel):
 
     def _document_cancel(self, justificative):
         for record in self.filtered(filter_nfse_nacional):
+            if self.env.context.get("nfse_replaced_xml"):
+                # replaced: the provider registered the event on the new NFS-e
+                continue
             motive = self.env.context.get("nfse_cancel_motive", "1")
             record._adn_cancel(justificative, motive)
         return super()._document_cancel(justificative)

@@ -24,3 +24,17 @@ NFSE_NACIONAL_CANCEL_MOTIVES = [
     ("2", "Serviço não prestado"),
     ("9", "Outros"),
 ]
+
+# cMotivo of the subst group of the DPS (TSCodJustSubst)
+NFSE_NACIONAL_REPLACE_MOTIVES = [
+    ("01", "Desenquadramento de NFS-e do Simples Nacional"),
+    ("02", "Enquadramento de NFS-e no Simples Nacional"),
+    ("03", "Inclusão retroativa de imunidade/isenção para NFS-e"),
+    ("04", "Exclusão retroativa de imunidade/isenção para NFS-e"),
+    (
+        "05",
+        "Rejeição de NFS-e pelo tomador ou pelo intermediário se responsável "
+        "pelo recolhimento do tributo",
+    ),
+    ("99", "Outros"),
+]
