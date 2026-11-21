@@ -1,0 +1,17 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+"model_l10n_br_fiscal_rtc_treatment_user","RTC treatment for user","model_l10n_br_fiscal_rtc_treatment","l10n_br_fiscal.group_user",1,0,0,0
+"model_l10n_br_fiscal_rtc_treatment_manager","RTC treatment for manager","model_l10n_br_fiscal_rtc_treatment","l10n_br_fiscal.group_manager",1,1,1,1
+"model_l10n_br_fiscal_rtc_legal_basis_user","RTC legal basis for user","model_l10n_br_fiscal_rtc_legal_basis","l10n_br_fiscal.group_user",1,0,0,0
+"model_l10n_br_fiscal_rtc_legal_basis_manager","RTC legal basis for manager","model_l10n_br_fiscal_rtc_legal_basis","l10n_br_fiscal.group_manager",1,1,1,1
+"model_l10n_br_fiscal_rtc_rate_user","RTC rate for user","model_l10n_br_fiscal_rtc_rate","l10n_br_fiscal.group_user",1,0,0,0
+"model_l10n_br_fiscal_rtc_rate_manager","RTC rate for manager","model_l10n_br_fiscal_rtc_rate","l10n_br_fiscal.group_manager",1,1,1,1
+"model_l10n_br_fiscal_rtc_nomenclature_user","RTC nomenclature for user","model_l10n_br_fiscal_rtc_nomenclature","l10n_br_fiscal.group_user",1,0,0,0
+"model_l10n_br_fiscal_rtc_nomenclature_manager","RTC nomenclature for manager","model_l10n_br_fiscal_rtc_nomenclature","l10n_br_fiscal.group_manager",1,1,1,1
+"l10n_br_fiscal_rtc_sn_activity_user","SN activity for user","model_l10n_br_fiscal_rtc_sn_activity","l10n_br_fiscal.group_user",1,0,0,0
+"l10n_br_fiscal_rtc_sn_activity_manager","SN activity for manager","model_l10n_br_fiscal_rtc_sn_activity","l10n_br_fiscal.group_manager",1,1,1,1
+"l10n_br_fiscal_rtc_sn_regime_user","SN regime for user","model_l10n_br_fiscal_rtc_sn_regime","l10n_br_fiscal.group_user",1,0,0,0
+"l10n_br_fiscal_rtc_sn_regime_manager","SN regime for manager","model_l10n_br_fiscal_rtc_sn_regime","l10n_br_fiscal.group_manager",1,1,1,1
+"l10n_br_fiscal_rtc_sn_revenue_type_user","SN revenue type for user","model_l10n_br_fiscal_rtc_sn_revenue_type","l10n_br_fiscal.group_user",1,0,0,0
+"l10n_br_fiscal_rtc_sn_revenue_type_manager","SN revenue type for manager","model_l10n_br_fiscal_rtc_sn_revenue_type","l10n_br_fiscal.group_manager",1,1,1,1
+"l10n_br_fiscal_rtc_sn_transition_user","SN transition for user","model_l10n_br_fiscal_rtc_sn_transition","l10n_br_fiscal.group_user",1,0,0,0
+"l10n_br_fiscal_rtc_sn_transition_manager","SN transition for manager","model_l10n_br_fiscal_rtc_sn_transition","l10n_br_fiscal.group_manager",1,1,1,1

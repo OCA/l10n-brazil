@@ -1,0 +1,7 @@
+id,factor,date_start,date_end
+rtc_sn_transition_20270101,0,2027-01-01,2028-12-31
+rtc_sn_transition_20290101,0.1,2029-01-01,2029-12-31
+rtc_sn_transition_20300101,0.2,2030-01-01,2030-12-31
+rtc_sn_transition_20310101,0.3,2031-01-01,2031-12-31
+rtc_sn_transition_20320101,0.4,2032-01-01,2032-12-31
+rtc_sn_transition_20330101,1,2033-01-01,

@@ -1,0 +1,8 @@
+id,code,name,composes_revenue,is_composes_revenue,revenue_factor,pending,requires_rate,forbids_not_taxable,date_start,date_end
+rtc_sn_revenue_type_0,0,Não é receita bruta,False,False,0,False,False,False,2027-01-01,
+rtc_sn_revenue_type_1,1,Receita bruta - interna,True,False,1,False,True,True,2027-01-01,
+rtc_sn_revenue_type_2,2,Receita bruta - interna sem cálculo de IBS e CBS,True,False,0,False,False,True,2027-01-01,
+rtc_sn_revenue_type_3,3,Receita bruta - exportação direta,True,False,0,False,False,True,2027-01-01,
+rtc_sn_revenue_type_4,4,Receita bruta - exportação indireta,True,False,1,True,True,True,2027-01-01,
+rtc_sn_revenue_type_5,5,Receita bruta - mercado interno e exportação,True,False,0.5,False,True,True,2027-01-01,
+rtc_sn_revenue_type_9,9,Fornecimento incompatível com SN,True,False,0,False,False,False,2027-01-01,

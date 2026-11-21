@@ -1,0 +1,4 @@
+id,crt,name,generates_ibs,destination_due,destination_pending,date_start,date_end
+rtc_sn_regime_1,1,Simples Nacional,True,DEVIDO,PENDENTE_SUSPENSO,2027-01-01,
+rtc_sn_regime_2,2,"Simples Nacional - excesso de sublimite de receita bruta (IBS declarado pelo emitente no gIBSCBS, fora do evento)",False,DEVIDO,PENDENTE_SUSPENSO,2027-01-01,
+rtc_sn_regime_3,3,Regime Normal com opção pelo Simples Nacional pendente (valores integralmente pendentes/suspensos; exportação indireta resulta em tudo zero - literal nas fórmulas P32/P33 da NT),True,PENDENTE_SUSPENSO,ZERO,2027-01-01,
