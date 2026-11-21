@@ -44,12 +44,12 @@ class TestSpedSigner(TransactionCase):
         )
 
     def test_contabilista_sem_crc_e_recusado(self):
-        """Contador e tecnico contabil assinam com o numero do CRC."""
+        """O contador (900 na tabela do Sped) assina com o numero do CRC."""
         with self.assertRaises(ValidationError):
-            self._criar(name="Contador", qualification="309")
+            self._criar(name="Contador", qualification="900")
 
     def test_contabilista_com_crc(self):
-        signer = self._criar(name="Contador", qualification="309", crc="1SP123456/O-7")
+        signer = self._criar(name="Contador", qualification="900", crc="1SP123456/O-7")
         self.assertEqual(signer._sped_values()["IND_CRC"], "1SP123456/O-7")
 
     def test_qualificacao_sem_crc_nao_exige(self):
@@ -70,7 +70,7 @@ class TestSpedSigner(TransactionCase):
     def test_signatarios_da_empresa_e_ordem(self):
         """A escrituracao e assinada por mais de um, na ordem da sequencia."""
         contador = self._criar(
-            name="Contador", qualification="309", crc="1SP123456/O-7", sequence=20
+            name="Contador", qualification="900", crc="1SP123456/O-7", sequence=20
         )
         legal = self._criar(sequence=10)
         signers = self.company.l10n_br_sped_signer_ids

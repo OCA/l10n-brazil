@@ -257,3 +257,5 @@ access_user_ecf_y720,ecf.y720,model_l10n_br_sped_ecf_y720,l10n_br_fiscal.group_u
 access_manager_ecf_y720,ecf.y720,model_l10n_br_sped_ecf_y720,l10n_br_fiscal.group_manager,1,1,1,1
 access_user_ecf_y800,ecf.y800,model_l10n_br_sped_ecf_y800,l10n_br_fiscal.group_user,1,0,0,0
 access_manager_ecf_y800,ecf.y800,model_l10n_br_sped_ecf_y800,l10n_br_fiscal.group_manager,1,1,1,1
+access_user_ecf_shareholder,ecf.shareholder,model_l10n_br_ecf_shareholder,l10n_br_fiscal.group_user,1,0,0,0
+access_manager_ecf_shareholder,ecf.shareholder,model_l10n_br_ecf_shareholder,l10n_br_fiscal.group_manager,1,1,1,1

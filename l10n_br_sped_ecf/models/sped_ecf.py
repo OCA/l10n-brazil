@@ -5,13 +5,45 @@
 
 import calendar
 import textwrap
-from datetime import date
+from datetime import date, timedelta
 
 from erpbrasil.base import misc
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError
 
 from odoo.addons.l10n_br_sped_base.models.sped_mixin import LAYOUT_VERSIONS
+
+from .account_account import LINHA_CSLL_POR_LINHA_IRPJ
+from .apuracao_presumido import PERCENTUAL_IRPJ, ApuracaoPresumido
+from .sped_mixin_ecf import format_zero
+from .tabela_retencao_fonte import (
+    EXIGE_CSLL_RET,
+    EXIGE_IR_RET,
+    NAO_ORGAO_PUBLICO,
+    ORGAO_PUBLICO,
+)
+
+# Natureza da conta na tabela do Sped, por grupo contabil do Odoo.
+COD_NAT_POR_GRUPO = {
+    "asset": "01",
+    "liability": "02",
+    "equity": "03",
+    "income": "04",
+    "expense": "04",
+    "off_balance": "05",
+}
+
+# Grupos contabeis do Odoo que vao para o balanco (K155, P100).
+PATRIMONIAIS = ("asset", "liability", "equity")
+
+# Grupos contabeis do Odoo das contas de resultado (K355, P150).
+RESULTADO = ("income", "expense")
+
+
+def formata_valor(valor):
+    """Valor decimal como o Sped o escreve: virgula e sem separador de milhar."""
+    return f"{valor:.2f}".replace(".", ",")
 
 
 class Registro0000(models.Model):
@@ -33,6 +65,195 @@ class Registro0000(models.Model):
         string="Indicador de situação do inicio do período",
     )
 
+    def _format_field_value(self, field, value):
+        # the 0000 is the declaration and does not inherit the ECF mixin
+        zero = format_zero(field, value)
+        if zero is not None:
+            return zero
+        return super()._format_field_value(field, value)
+
+    def _skip_empty_blocks(self):
+        # a ECF nao aceita bloco sem dados: o PVA recusa o arquivo apontando
+        # como esperado o primeiro registro do proximo bloco com conteudo
+        return True
+
+    def _populate_sped_from_odoo(self):
+        self._check_result_closing()
+        self._retencoes_na_fonte()
+        return super()._populate_sped_from_odoo()
+
+    def _retencoes_na_fonte(self):
+        """Linhas do Y570: o IR e a CSLL retidos pelos clientes no ano.
+
+        Saem das linhas dos documentos fiscais de saida emitidos no periodo,
+        uma linha por fonte pagadora (CNPJ do cliente) e codigo de receita do
+        DARF (``l10n_br_fiscal.tax.revenue_code`` do imposto retido), somando o
+        ano. O rendimento e a base da retencao, contado uma vez por linha de
+        documento quando o IR e a CSLL tem o mesmo codigo (orgao publico
+        federal). Retencao sem CNPJ ou sem codigo nao vai para o arquivo: a
+        geracao para e diz quais documentos corrigir.
+        """
+        self.ensure_one()
+        company = self.company_id
+        currency = company.currency_id
+        documento = self.env["l10n_br_fiscal.document"]
+        estados = [
+            valor
+            for valor, _rotulo in documento._fields[
+                "state_edoc"
+            ]._description_selection(self.env)
+        ]
+        # sem o l10n_br_fiscal_edi o documento emitido fica "a_enviar"
+        emitido = "autorizada" if "autorizada" in estados else "a_enviar"
+        linhas = self.env["l10n_br_fiscal.document.line"].search(
+            [
+                ("document_id.company_id", "=", company.id),
+                ("document_id.fiscal_operation_type", "=", "out"),
+                ("document_id.state_edoc", "=", emitido),
+                ("document_id.document_date", ">=", self.DT_INI),
+                ("document_id.document_date", "<", self.DT_FIN + timedelta(days=1)),
+                "|",
+                ("irpj_wh_value", "!=", 0),
+                ("csll_wh_value", "!=", 0),
+            ]
+        )
+        grupos = {}
+        problemas = []
+        for linha in linhas:
+            doc = linha.document_id
+            parceiro = doc.partner_id
+            cnpj = "".join(c for c in (parceiro.cnpj_cpf or "") if c.isdigit())
+            nome_doc = f"{doc.document_type_id.code} {doc.document_number or doc.id}"
+            por_codigo = {}
+            for imposto, base, valor, campo in (
+                (linha.irpj_wh_tax_id, linha.irpj_wh_base, linha.irpj_wh_value, "IR"),
+                (
+                    linha.csll_wh_tax_id,
+                    linha.csll_wh_base,
+                    linha.csll_wh_value,
+                    "CSLL",
+                ),
+            ):
+                if currency.is_zero(valor):
+                    continue
+                codigo = imposto.revenue_code
+                if len(cnpj) != 14:
+                    problemas.append(
+                        _("%(doc)s: the customer has no CNPJ") % {"doc": nome_doc}
+                    )
+                    continue
+                if not codigo:
+                    problemas.append(
+                        _("%(doc)s: tax %(tax)s has no revenue code")
+                        % {"doc": nome_doc, "tax": imposto.name or campo}
+                    )
+                    continue
+                item = por_codigo.setdefault(
+                    codigo, {"VL_REND": 0.0, "IR": 0.0, "CSLL": 0.0}
+                )
+                item["VL_REND"] = max(item["VL_REND"], base)
+                item[campo] += valor
+            for codigo, item in por_codigo.items():
+                grupo = grupos.setdefault(
+                    (cnpj, codigo),
+                    {
+                        "CNPJ_FON": cnpj,
+                        "NOM_EMP": parceiro.legal_name or parceiro.name,
+                        "COD_REC": codigo,
+                        "VL_REND": 0.0,
+                        "IR_RET": 0.0,
+                        "CSLL_RET": 0.0,
+                    },
+                )
+                grupo["VL_REND"] += item["VL_REND"]
+                grupo["IR_RET"] += item["IR"]
+                grupo["CSLL_RET"] += item["CSLL"]
+
+        resultado = []
+        for (cnpj, codigo), grupo in sorted(grupos.items()):
+            if codigo not in ORGAO_PUBLICO and codigo not in NAO_ORGAO_PUBLICO:
+                problemas.append(
+                    _("%(cnpj)s: revenue code %(code)s is not in the table of the PVA")
+                    % {"cnpj": cnpj, "code": codigo}
+                )
+                continue
+            if codigo in EXIGE_IR_RET and currency.is_zero(grupo["IR_RET"]):
+                problemas.append(
+                    _("%(cnpj)s: revenue code %(code)s needs the IR withheld")
+                    % {"cnpj": cnpj, "code": codigo}
+                )
+            if codigo in EXIGE_CSLL_RET and currency.is_zero(grupo["CSLL_RET"]):
+                problemas.append(
+                    _("%(cnpj)s: revenue code %(code)s needs the CSLL withheld")
+                    % {"cnpj": cnpj, "code": codigo}
+                )
+            # os codigos aceitos nas duas listas (5928, 5936, 5944) saem como
+            # retencao fora de orgao publico
+            grupo["IND_ORG_PUB"] = "N" if codigo in NAO_ORGAO_PUBLICO else "S"
+            resultado.append(grupo)
+        if problemas:
+            raise UserError(
+                _(
+                    "The taxes withheld by the customers go to the record Y570 "
+                    "by the CNPJ of the customer and the revenue code of the "
+                    "tax. Fix them before generating the ECF:\n%(problems)s",
+                    problems="\n".join(problemas),
+                )
+            )
+        return resultado
+
+    def _check_result_closing(self):
+        """The balance sheet of the ECF (K155, P100) is the one after the
+        closing of the result of each assessment period: without the closing
+        entry the assets do not match the liabilities and the PVA warns on
+        every period. Say which periods and accounts are still open."""
+        self.ensure_one()
+        company = self.company_id
+        missing = []
+        for dt_ini, dt_fin, per_apur in self._periodos_de_apuracao():
+            lines = (
+                self.env["account.move.line"]
+                .with_company(company)
+                .search(
+                    [
+                        ("company_id", "=", company.id),
+                        ("parent_state", "=", "posted"),
+                        ("account_id.internal_group", "in", RESULTADO),
+                        ("date", ">=", dt_ini),
+                        ("date", "<=", dt_fin),
+                    ]
+                )
+            )
+            if not lines:
+                continue
+            balances = {}
+            for line in lines:
+                balances[line.account_id] = (
+                    balances.get(line.account_id, 0.0) + line.balance
+                )
+            open_accounts = sorted(
+                account.with_company(company).code
+                for account, balance in balances.items()
+                if not company.currency_id.is_zero(balance)
+            )
+            if open_accounts:
+                missing.append(f"{per_apur}: {', '.join(open_accounts)}")
+            elif not lines.move_id.filtered("l10n_br_sped_result_closing"):
+                missing.append(
+                    _("%(period)s: no entry marked as Result Closing Entry")
+                    % {"period": per_apur}
+                )
+        if missing:
+            raise UserError(
+                _(
+                    "Close the result of each assessment period before "
+                    "generating the ECF, with an entry marked as Result "
+                    "Closing Entry on its last day. Income and expense "
+                    "accounts still open:\n%(missing)s",
+                    missing="\n".join(missing),
+                )
+            )
+
     @api.model
     def _odoo_domain(self, parent_record, declaration):
         return [("id", "=", declaration.company_id.id)]
@@ -41,13 +262,217 @@ class Registro0000(models.Model):
     def _map_from_odoo(self, record, parent_record, declaration, index=0):
         return {
             "NOME_ESC": "LECF",
-            "COD_VER": LAYOUT_VERSIONS["ecf"],
+            # o campo tem quatro posicoes e o leiaute e escriturado com os
+            # zeros a esquerda (o proprio leiaute se refere ao anterior como
+            # "0008")
+            "COD_VER": LAYOUT_VERSIONS["ecf"].zfill(4),
             "CNPJ": misc.punctuation_rm(record.vat),
             "NOME": record.legal_name,
             "SIT_ESPECIAL": "0",
             "RETIFICADORA": "N",
             "TIP_ECF": "0",
         }
+
+    def _referential_accounts(self):
+        """Plano de contas referencial da RFB usado por esta escrituracao.
+
+        Devolve uma lista de dicionarios, um por conta referencial, na ordem
+        em que devem ser escrituradas:
+
+        ``code``
+            codigo da conta no plano referencial (COD_CTA_REF);
+        ``name``
+            descricao da conta no plano referencial;
+        ``type``
+            ``"S"`` para sintetica, ``"A"`` para analitica;
+        ``level``
+            nivel da conta;
+        ``nature``
+            natureza da conta, conforme tabela do Sped;
+        ``parent_code``
+            codigo da conta sintetica de nivel imediatamente superior;
+        ``accounts``
+            recordset de ``account.account`` que desagua nesta conta.
+
+        A implementacao padrao monta a lista a partir do campo
+        ``account.account.l10n_br_sped_referential_code``, deduzindo a
+        hierarquia dos proprios codigos (a RFB os publica hierarquicos, com os
+        niveis separados por ponto): as sinteticas nascem dos prefixos das
+        analiticas usadas. Quem tem o plano referencial completo carregado
+        sobrepoe este metodo para trazer tambem as descricoes oficiais.
+        """
+        self.ensure_one()
+        accounts = (
+            self.env["account.account"]
+            .with_company(self.company_id)
+            .search(
+                [
+                    ("company_id", "=", self.company_id.id),
+                    ("l10n_br_sped_referential_code", "!=", False),
+                ]
+            )
+        )
+        por_codigo = {}
+        for account in accounts:
+            codigo = account.l10n_br_sped_referential_code.strip()
+            if not codigo:
+                continue
+            entrada = por_codigo.setdefault(
+                codigo,
+                {
+                    "code": codigo,
+                    "name": account.name,
+                    "type": "A",
+                    "level": len(codigo.split(".")),
+                    "nature": COD_NAT_POR_GRUPO.get(account.internal_group, "09"),
+                    "parent_code": ".".join(codigo.split(".")[:-1]),
+                    "accounts": self.env["account.account"],
+                },
+            )
+            entrada["accounts"] |= account
+
+        # sinteticas deduzidas dos prefixos das analiticas
+        for codigo in list(por_codigo):
+            partes = codigo.split(".")
+            for corte in range(1, len(partes)):
+                prefixo = ".".join(partes[:corte])
+                if prefixo in por_codigo:
+                    continue
+                por_codigo[prefixo] = {
+                    "code": prefixo,
+                    "name": prefixo,
+                    "type": "S",
+                    "level": corte,
+                    "nature": por_codigo[codigo]["nature"],
+                    "parent_code": ".".join(partes[: corte - 1]),
+                    "accounts": self.env["account.account"],
+                }
+        return [por_codigo[codigo] for codigo in sorted(por_codigo)]
+
+    def _forma_de_apuracao(self):
+        """0010.FORMA_APUR: "T" trimestral ou "A" anual.
+
+        O lucro presumido apura sempre por trimestre, por forca de lei
+        (Lei 9.430/1996, art. 25), e por isso ignora a escolha da empresa.
+        """
+        self.ensure_one()
+        company = self.company_id
+        if getattr(company, "profit_calculation", "presumed") != "real":
+            return "T"
+        return company.l10n_br_ecf_profit_period or "T"
+
+    def _periodos_de_apuracao(self):
+        """Periodos de apuracao do IRPJ e da CSLL no ano-calendario.
+
+        Devolve ``(data inicial, data final, PER_APUR)``. Quem apura por
+        trimestre (todo o lucro presumido e o real que nao optou pela
+        estimativa) tem um periodo por trimestre, "T01" a "T04"; quem apura
+        no ano tem um so, "A00". O trimestre que nao esta compreendido no
+        periodo da escrituracao nao entra.
+        """
+        self.ensure_one()
+        if self._forma_de_apuracao() == "A":
+            return [(self.DT_INI, self.DT_FIN, "A00")]
+        periodos = []
+        ano = self.DT_INI.year
+        for indice, (primeiro_mes, ultimo_mes) in enumerate(
+            ((1, 3), (4, 6), (7, 9), (10, 12)), start=1
+        ):
+            inicio = date(ano, primeiro_mes, 1)
+            fim = date(ano, ultimo_mes, calendar.monthrange(ano, ultimo_mes)[1])
+            if fim < self.DT_INI or inicio > self.DT_FIN:
+                continue
+            periodos.append(
+                (max(inicio, self.DT_INI), min(fim, self.DT_FIN), f"T0{indice}")
+            )
+        return periodos
+
+    def _linhas_do_periodo(self, ate=None, desde=None, so_referenciais=False):
+        """Linhas contabeis lancadas da empresa, no intervalo pedido.
+
+        Com ``so_referenciais``, restringe as contas que tem de-para para o
+        plano referencial da RFB: o saldo anterior nao tem limite de data e
+        varrer o razao inteiro seria caro numa empresa com historico.
+        """
+        self.ensure_one()
+        company = self.company_id
+        dominio = [
+            ("company_id", "=", company.id),
+            ("parent_state", "=", "posted"),
+        ]
+        if desde:
+            dominio.append(("date", ">=", desde))
+        if ate:
+            dominio.append(("date", "<=", ate))
+        if so_referenciais:
+            dominio.append(("account_id.l10n_br_sped_referential_code", "!=", False))
+        return self.env["account.move.line"].with_company(company).search(dominio)
+
+    def _saldos_por_conta_referencial(self):
+        """``{conta referencial: [saldo inicial, saldo final]}`` do exercicio.
+
+        O saldo e o do razao, com o sinal natural do lancamento (devedor
+        positivo). O registro Y672 pede valores absolutos, e quem chama e que
+        aplica o modulo.
+        """
+        self.ensure_one()
+        saldos = {}
+        anteriores = self._linhas_do_periodo(
+            ate=self.DT_INI - timedelta(days=1), so_referenciais=True
+        )
+        do_ano = self._linhas_do_periodo(
+            desde=self.DT_INI, ate=self.DT_FIN, so_referenciais=True
+        )
+        for linhas, indice in ((anteriores, 0), (do_ano, 1)):
+            for linha in linhas:
+                codigo = linha.account_id.l10n_br_sped_referential_code
+                if not codigo:
+                    continue
+                valores = saldos.setdefault(codigo, [0.0, 0.0])
+                valores[indice] += linha.balance
+        # o saldo final e o inicial mais o movimento do ano
+        for valores in saldos.values():
+            valores[1] += valores[0]
+        return saldos
+
+    def _compras_do_periodo(self, grupo):
+        """Movimento devedor do ano nas contas de um grupo referencial.
+
+        E o que o registro Y672 chama de compras: o total debitado no
+        ano-calendario nas contas de estoque (compras de mercadorias) ou do
+        ativo nao circulante (compras de elementos do ativo).
+        """
+        self.ensure_one()
+        prefixos = self.env["l10n_br_sped.ecf.y672"]._GRUPOS_REFERENCIAIS[grupo]
+        total = 0.0
+        for linha in self._linhas_do_periodo(
+            desde=self.DT_INI, ate=self.DT_FIN, so_referenciais=True
+        ):
+            codigo = linha.account_id.l10n_br_sped_referential_code
+            if any(
+                codigo == prefixo or codigo.startswith(prefixo + ".")
+                for prefixo in prefixos
+            ):
+                total += linha.debit
+        return total
+
+    def _receitas_nao_tributaveis(self):
+        """Receitas nao tributaveis ou tributadas exclusivamente na fonte.
+
+        Sao as contas de receita que nao foram classificadas como receita
+        bruta nem como adicao a base de calculo, ou seja, aquelas que o
+        contribuinte deixou fora da apuracao do lucro presumido.
+        """
+        self.ensure_one()
+        total = 0.0
+        for linha in self._linhas_do_periodo(desde=self.DT_INI, ate=self.DT_FIN):
+            conta = linha.account_id
+            if conta.internal_group != "income":
+                continue
+            if conta.l10n_br_ecf_revenue_line:
+                continue
+            total += linha.credit - linha.debit
+        return total
 
 
 class Registro0010(models.Model):
@@ -59,19 +484,92 @@ class Registro0010(models.Model):
 
     @api.model
     def _map_from_odoo(self, record, parent_record, declaration, index=0):
-        real = (
-            getattr(declaration.company_id, "profit_calculation", "presumed") == "real"
-        )
+        regime = getattr(declaration.company_id, "profit_calculation", "presumed")
+        if regime == "arbitrary":
+            # o arbitrado e outra escrituracao: FORMA_TRIB 6 e bloco T, que
+            # este modulo nao gera; escriturar como presumido recolheria pela
+            # presuncao errada
+            raise UserError(
+                _(
+                    "A empresa %s apura pelo lucro arbitrado, que este modulo "
+                    "ainda nao escritura (FORMA_TRIB 6, bloco T). Gerar a ECF "
+                    "como lucro presumido produziria uma apuracao incorreta."
+                )
+                % declaration.company_id.display_name
+            )
+        real = regime == "real"
+        if (
+            not real
+            and declaration.company_id.l10n_br_ecf_revenue_recognition == "cash"
+        ):
+            # a opcao pelo caixa e exercida fora do Odoo e a apuracao daqui e
+            # por competencia: a ECF contradiria os recolhimentos da empresa
+            raise UserError(
+                _(
+                    "A empresa %s reconhece as receitas pelo regime de caixa, "
+                    "e este modulo apura o lucro presumido por competencia. "
+                    "Gerar a ECF assim declararia a Receita um criterio "
+                    "diferente do usado nos recolhimentos."
+                )
+                % declaration.company_id.display_name
+            )
         return {
             "OPT_REFIS": "N",
             "FORMA_TRIB": 1 if real else 5,
-            "FORMA_APUR": "A" if real else "T",
+            "FORMA_APUR": declaration._forma_de_apuracao(),
+            "FORMA_TRIB_PER": self._forma_tributacao_no_periodo(
+                declaration, "R" if real else "P"
+            ),
+            "MES_BAL_RED": self._estimativa_mensal(declaration),
             "COD_QUALIF_PJ": "01",
-            "TIP_ESC_PRE": "C",
-            # na tabela do leiaute, 1 e o regime de CAIXA e 2 o de
-            # competencia; a apuracao deste modulo e por competencia
-            "IND_REC_RECEITA": "2",
+            # o tipo de escrituracao do presumido so vale quando a forma de
+            # tributacao abrange o lucro presumido (FORMA_TRIB 3, 4, 5, 7
+            # ou 10); no lucro real o campo fica em branco
+            "TIP_ESC_PRE": "" if real else "C",
+            # so do presumido (o PVA recusa nas demais formas de tributacao);
+            # 2 e competencia, o criterio desta apuracao
+            "IND_REC_RECEITA": "" if real else "2",
         }
+
+    @api.model
+    def _estimativa_mensal(self, declaration):
+        """0010.MES_BAL_RED: a forma da estimativa de cada mes do ano.
+
+        Sao doze posicoes, uma por mes. So vale na apuracao anual do lucro
+        real: "E" quando a estimativa saiu da receita bruta, "B" quando saiu
+        de balanco ou balancete de suspensao ou reducao, e "0" no mes que
+        esta fora do periodo de apuracao. Nos demais regimes o campo fica em
+        branco.
+        """
+        if declaration._forma_de_apuracao() != "A":
+            return ""
+        forma = declaration.company_id.l10n_br_ecf_monthly_estimate or "E"
+        ano = declaration.DT_INI.year
+        posicoes = []
+        for mes in range(1, 13):
+            primeiro = date(ano, mes, 1)
+            ultimo = date(ano, mes, calendar.monthrange(ano, mes)[1])
+            fora = ultimo < declaration.DT_INI or primeiro > declaration.DT_FIN
+            posicoes.append("0" if fora else forma)
+        return "".join(posicoes)
+
+    @api.model
+    def _forma_tributacao_no_periodo(self, declaration, forma):
+        """0010.FORMA_TRIB_PER: a forma de tributacao de cada trimestre.
+
+        Sao quatro posicoes, uma por trimestre do ano-calendario, com "R" para
+        real, "P" para presumido, "A" para arbitrado e "0" no trimestre que
+        nao esta compreendido no periodo de apuracao (caso da empresa que abre
+        ou encerra no meio do ano).
+        """
+        ano = declaration.DT_INI.year
+        posicoes = []
+        for primeiro_mes, ultimo_mes in ((1, 3), (4, 6), (7, 9), (10, 12)):
+            inicio = date(ano, primeiro_mes, 1)
+            fim = date(ano, ultimo_mes, calendar.monthrange(ano, ultimo_mes)[1])
+            fora = fim < declaration.DT_INI or inicio > declaration.DT_FIN
+            posicoes.append("0" if fora else forma)
+        return "".join(posicoes)
 
 
 class Registro0020(models.Model):
@@ -161,7 +659,9 @@ class Registro0030(models.Model):
         company = declaration.company_id
         partner = company.partner_id
         return {
-            "COD_NAT": company.legal_nature_id.code or "",
+            # o codigo da natureza juridica tem quatro digitos e e
+            # escriturado sem o hifen do cadastro ("1015", nao "101-5")
+            "COD_NAT": misc.punctuation_rm(company.legal_nature_id.code or ""),
             "CNAE_FISCAL": misc.punctuation_rm(company.cnae_main_id.code or ""),
             "ENDERECO": partner.street_name or "",
             "NUM": partner.street_number or "",
@@ -196,17 +696,15 @@ class Registro0930(models.Model):
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.ecf.0930"
     _inherit = "l10n_br_sped.ecf.9.0930"
+    _odoo_model = "l10n_br_sped.signer"
 
-    # @api.model
-    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
-    #     return {
-    #         "IDENT_NOM": 0,  # Nome do Signatário
-    #         "IDENT_CPF_CNPJ": 0,  # CPF/CNPJ: O tamanho do campo deve ser exatame...
-    #         "IDENT_QUALIF": 0,  # Código de qualificação do assinante, conforme t...
-    #         "IND_CRC": 0,  # Número de inscrição do contabilista no Conselho Regi...
-    #         "EMAIL": 0,  # E-mail do signatário
-    #         "FONE": 0,  # DDD e telefone do signatário
-    #     }
+    @api.model
+    def _odoo_domain(self, parent_record, declaration):
+        return [("company_id", "=", declaration.company_id.id)]
+
+    @api.model
+    def _map_from_odoo(self, record, parent_record, declaration, index=0):
+        return record._sped_values()
 
 
 class RegistroE010(models.Model):
@@ -327,14 +825,7 @@ class RegistroJ050(models.Model):
     _name = "l10n_br_sped.ecf.j050"
     _inherit = "l10n_br_sped.ecf.9.j050"
 
-    _COD_NAT = {
-        "asset": "01",
-        "liability": "02",
-        "equity": "03",
-        "income": "04",
-        "expense": "04",
-        "off_balance": "05",
-    }
+    _COD_NAT = COD_NAT_POR_GRUPO
 
     @api.model
     def _pull_records_from_odoo(
@@ -342,6 +833,7 @@ class RegistroJ050(models.Model):
     ):
         declaration = self._context["declaration"]
         company = declaration.company_id
+        j051_model = self.env["l10n_br_sped.ecf.j051"]
 
         groups = (
             self.env["account.group"]
@@ -398,7 +890,20 @@ class RegistroJ050(models.Model):
                 }
             vals["DT_ALT"] = declaration.DT_INI
             vals["declaration_id"] = declaration.id
-            self.create(vals)
+            register = self.create(vals)
+
+            # J051: de-para para o plano de contas referencial da RFB. E
+            # opcional por conta (so a conta mapeada gera o filho) e so faz
+            # sentido para a conta analitica.
+            if ind == "A" and record.l10n_br_sped_referential_code:
+                j051_model.create(
+                    {
+                        "COD_CCUS": "",
+                        "COD_CTA_REF": record.l10n_br_sped_referential_code,
+                        "declaration_id": declaration.id,
+                        "reg_J051_ids_RegistroJ050_id": register.id,
+                    }
+                )
 
         if log_msg is not None:
             self._log_chatter_sped_item(
@@ -466,16 +971,28 @@ class RegistroK030(models.Model):
         self, kind, level, parent_register=None, parent_record=None, log_msg=None
     ):
         declaration = self._context["declaration"]
+        criados = []
+        for dt_ini, dt_fin, per_apur in declaration._periodos_de_apuracao():
+            criados.append(
+                self._escriturar_periodo(declaration, dt_ini, dt_fin, per_apur)
+            )
+        if log_msg is not None:
+            self._log_chatter_sped_item(log_msg, level, criados)
+
+    def _escriturar_periodo(self, declaration, dt_ini, dt_fin, per_apur):
+        """Um K030 com os saldos contabeis do periodo de apuracao."""
         company = declaration.company_id
         aml_model = self.env["account.move.line"].with_company(company)
         k155_model = self.env["l10n_br_sped.ecf.k155"]
+        k156_model = self.env["l10n_br_sped.ecf.k156"]
         k355_model = self.env["l10n_br_sped.ecf.k355"]
+        k356_model = self.env["l10n_br_sped.ecf.k356"]
 
         k030 = self.create(
             {
-                "DT_INI": declaration.DT_INI,
-                "DT_FIN": declaration.DT_FIN,
-                "PER_APUR": "A00",
+                "DT_INI": dt_ini,
+                "DT_FIN": dt_fin,
+                "PER_APUR": per_apur,
                 "declaration_id": declaration.id,
             }
         )
@@ -485,8 +1002,8 @@ class RegistroK030(models.Model):
                 ("company_id", "=", company.id),
                 ("parent_state", "=", "posted"),
                 ("account_id", "!=", False),
-                ("date", ">=", declaration.DT_INI),
-                ("date", "<=", declaration.DT_FIN),
+                ("date", ">=", dt_ini),
+                ("date", "<=", dt_fin),
             ]
         )
         movement = {}
@@ -495,26 +1012,41 @@ class RegistroK030(models.Model):
             balance[0] += line.debit
             balance[1] += line.credit
 
+        # a conta patrimonial com saldo segue no balanco mesmo sem movimento
+        # no periodo: o PVA confere o saldo inicial contra o final anterior
         opening = dict.fromkeys(movement, 0.0)
-        if movement:
-            prior = aml_model.search(
-                [
-                    ("company_id", "=", company.id),
-                    ("parent_state", "=", "posted"),
-                    ("account_id", "in", [a.id for a in movement]),
-                    ("date", "<", declaration.DT_INI),
-                ]
+        prior = aml_model.search(
+            [
+                ("company_id", "=", company.id),
+                ("parent_state", "=", "posted"),
+                ("date", "<", dt_ini),
+                "|",
+                ("account_id", "in", [a.id for a in movement]),
+                ("account_id.internal_group", "in", PATRIMONIAIS),
+            ]
+        )
+        for line in prior:
+            opening[line.account_id] = opening.get(line.account_id, 0.0) + (
+                line.balance
             )
-            for line in prior:
-                opening[line.account_id] += line.balance
+        accounts = set(movement) | {
+            account
+            for account, balance in opening.items()
+            if not company.currency_id.is_zero(balance)
+        }
 
         for account in sorted(
-            movement, key=lambda a: a.with_company(company).code or ""
+            accounts, key=lambda a: a.with_company(company).code or ""
         ):
-            debit, credit = movement[account]
+            # o K155 detalha o saldo das contas PATRIMONIAIS: a conta usada
+            # aqui tem de ser de natureza 1, 2 ou 3 conforme o J050, e a de
+            # resultado e detalhada no K355
+            if account.internal_group not in PATRIMONIAIS:
+                continue
+            debit, credit = movement.get(account, (0.0, 0.0))
             sld_ini = opening.get(account, 0.0)
             sld_fin = sld_ini + debit - credit
-            k155_model.create(
+            k155 = k155_model.create(
                 {
                     "COD_CTA": account.with_company(company).code,
                     "COD_CCUS": "",
@@ -528,14 +1060,33 @@ class RegistroK030(models.Model):
                     "reg_K155_ids_RegistroK030_id": k030.id,
                 }
             )
+            # K156: o mesmo saldo visto pelo plano referencial da RFB. Com o
+            # de-para N:1 usual, a conta do Odoo desagua numa unica conta
+            # referencial e o filho repete os valores do pai.
+            if account.l10n_br_sped_referential_code:
+                k156_model.create(
+                    {
+                        "COD_CTA_REF": account.l10n_br_sped_referential_code,
+                        "VL_SLD_INI": abs(sld_ini),
+                        "IND_VL_SLD_INI": "D" if sld_ini >= 0 else "C",
+                        "VL_DEB": debit,
+                        "VL_CRED": credit,
+                        "VL_SLD_FIN": abs(sld_fin),
+                        "IND_VL_SLD_FIN": "D" if sld_fin >= 0 else "C",
+                        "declaration_id": declaration.id,
+                        "reg_K156_ids_RegistroK155_id": k155.id,
+                    }
+                )
 
+        # o K355 e o saldo das contas de resultado ANTES do encerramento
         result_lines = aml_model.search(
             [
                 ("company_id", "=", company.id),
                 ("parent_state", "=", "posted"),
-                ("account_id.internal_group", "in", ("income", "expense")),
-                ("date", ">=", declaration.DT_INI),
-                ("date", "<=", declaration.DT_FIN),
+                ("account_id.internal_group", "in", RESULTADO),
+                ("date", ">=", dt_ini),
+                ("date", "<=", dt_fin),
+                ("move_id.l10n_br_sped_result_closing", "=", False),
             ]
         )
         result_balances = {}
@@ -549,7 +1100,7 @@ class RegistroK030(models.Model):
             balance = result_balances[account]
             if company.currency_id.is_zero(balance):
                 continue
-            k355_model.create(
+            k355 = k355_model.create(
                 {
                     "COD_CTA": account.with_company(company).code,
                     "COD_CCUS": "",
@@ -559,9 +1110,17 @@ class RegistroK030(models.Model):
                     "reg_K355_ids_RegistroK030_id": k030.id,
                 }
             )
-
-        if log_msg is not None:
-            self._log_chatter_sped_item(log_msg, level, [k030])
+            if account.l10n_br_sped_referential_code:
+                k356_model.create(
+                    {
+                        "COD_CTA_REF": account.l10n_br_sped_referential_code,
+                        "VL_SLD_FIN": abs(balance),
+                        "IND_VL_SLD_FIN": "D" if balance >= 0 else "C",
+                        "declaration_id": declaration.id,
+                        "reg_K356_ids_RegistroK355_id": k355.id,
+                    }
+                )
+        return k030
 
 
 class RegistroK155(models.Model):
@@ -1234,30 +1793,251 @@ class RegistroP030(models.Model):
     _name = "l10n_br_sped.ecf.p030"
     _inherit = "l10n_br_sped.ecf.9.p030"
 
+    # Registros filhos gerados a partir da apuracao do trimestre, na ordem em
+    # que a RFB os escritura.
+    _FILHOS = (
+        "l10n_br_sped.ecf.p100",
+        "l10n_br_sped.ecf.p150",
+        "l10n_br_sped.ecf.p200",
+        "l10n_br_sped.ecf.p300",
+        "l10n_br_sped.ecf.p400",
+        "l10n_br_sped.ecf.p500",
+    )
+
     def _pull_records_from_odoo(
         self, kind, level, parent_register=None, parent_record=None, log_msg=None
     ):
         declaration = self._context["declaration"]
-        quarters = [(1, 3), (4, 6), (7, 9), (10, 12)]
+        # o bloco P e do lucro presumido: a empresa do lucro real apura nos
+        # blocos L (balanco e DRE), M (e-Lalur/e-Lacs) e N (calculo)
+        if getattr(declaration.company_id, "profit_calculation", "presumed") == "real":
+            self._log_chatter_sped_item(log_msg, level)
+            return
         created = []
-        for year in range(declaration.DT_INI.year, declaration.DT_FIN.year + 1):
-            for index, (first_month, last_month) in enumerate(quarters, start=1):
-                q_ini = date(year, first_month, 1)
-                q_fin = date(year, last_month, calendar.monthrange(year, last_month)[1])
-                if q_fin < declaration.DT_INI or q_ini > declaration.DT_FIN:
-                    continue
-                created.append(
-                    self.create(
-                        {
-                            "DT_INI": max(q_ini, declaration.DT_INI),
-                            "DT_FIN": min(q_fin, declaration.DT_FIN),
-                            "PER_APUR": f"T0{index}",
-                            "declaration_id": declaration.id,
-                        }
-                    )
-                )
+        for dt_ini, dt_fin, per_apur in declaration._periodos_de_apuracao():
+            register = self.create(
+                {
+                    "DT_INI": dt_ini,
+                    "DT_FIN": dt_fin,
+                    "PER_APUR": per_apur,
+                    "declaration_id": declaration.id,
+                }
+            )
+            created.append(register)
+            register._pull_children(kind, level, log_msg)
         if log_msg is not None:
             self._log_chatter_sped_item(log_msg, level, created)
+
+    def _pull_children(self, kind, level, log_msg):
+        """Escritura os registros de valores do trimestre."""
+        self.ensure_one()
+        apuracao = self._apurar()
+        for child in self._FILHOS:
+            self.env[child].with_context(ecf_apuracao=apuracao)._pull_records_from_odoo(
+                kind,
+                level + 1,
+                parent_register=self,
+                parent_record=None,
+                log_msg=log_msg,
+            )
+
+    def _meses(self):
+        """Meses do periodo de apuracao, para o limite do adicional de IRPJ."""
+        self.ensure_one()
+        meses = (self.DT_FIN.year - self.DT_INI.year) * 12
+        return meses + self.DT_FIN.month - self.DT_INI.month + 1
+
+    def _movimento_do_periodo(self):
+        """Debito, credito e saldo inicial por conta, no trimestre."""
+        self.ensure_one()
+        company = self.declaration_id.company_id
+        linhas = (
+            self.env["account.move.line"]
+            .with_company(company)
+            .search(
+                [
+                    ("company_id", "=", company.id),
+                    ("parent_state", "=", "posted"),
+                    ("date", ">=", self.DT_INI),
+                    ("date", "<=", self.DT_FIN),
+                ]
+            )
+        )
+        movimento = {}
+        for linha in linhas:
+            # o encerramento entra no balanco (P100), mas o resultado do
+            # periodo (P150 e a receita da apuracao) e o de antes dele
+            if (
+                linha.move_id.l10n_br_sped_result_closing
+                and linha.account_id.internal_group in RESULTADO
+            ):
+                continue
+            saldos = movimento.setdefault(linha.account_id, [0.0, 0.0, 0.0])
+            saldos[0] += linha.debit
+            saldos[1] += linha.credit
+        # a conta patrimonial com saldo entra mesmo sem movimento no trimestre
+        anteriores = (
+            self.env["account.move.line"]
+            .with_company(company)
+            .search(
+                [
+                    ("company_id", "=", company.id),
+                    ("parent_state", "=", "posted"),
+                    ("date", "<", self.DT_INI),
+                    "|",
+                    ("account_id", "in", [conta.id for conta in movimento]),
+                    ("account_id.internal_group", "in", PATRIMONIAIS),
+                ]
+            )
+        )
+        for linha in anteriores:
+            saldos = movimento.setdefault(linha.account_id, [0.0, 0.0, 0.0])
+            saldos[2] += linha.balance
+        return movimento
+
+    def _apurar(self):
+        """Apuracao do lucro presumido do trimestre.
+
+        Tudo sai da **contabilidade**, que e o que a ECF escritura: as mesmas
+        linhas do razao que alimentam o P100 e o P150 alimentam a apuracao,
+        entao o bloco P fecha com o balanco do proprio arquivo e com o
+        balancete do contador.
+
+        A receita e classificada pela natureza declarada em cada conta de
+        receita (``account.account.l10n_br_ecf_revenue_line``); a conta de
+        receita sem classificacao cai na linha 20 do P200, "Demais Receitas e
+        Ganhos de Capital", que entra integralmente na base. As contas de
+        imposto retido a compensar declaram a linha do P300 ou do P500 em
+        ``l10n_br_ecf_withholding_line``.
+        """
+        self.ensure_one()
+        declaration = self.declaration_id
+        company = declaration.company_id
+        movimento = self._movimento_do_periodo()
+
+        receita_irpj = {}
+        receita_csll = {}
+        adicoes = {}
+        retencoes_irpj = {}
+        retencoes_csll = {}
+        nao_classificadas = self.env["account.account"]
+        for conta, (debito, credito, _inicial) in movimento.items():
+            if conta.l10n_br_ecf_withholding_line:
+                # imposto retido a compensar e conta devedora: o movimento no
+                # sentido natural dela e a retencao sofrida no periodo
+                registro, linha = conta.l10n_br_ecf_withholding_line.split("-")
+                retido = debito - credito
+                if company.currency_id.is_zero(retido):
+                    continue
+                destino = retencoes_irpj if registro == "P300" else retencoes_csll
+                destino[linha] = destino.get(linha, 0.0) + retido
+                continue
+            if conta.internal_group != "income":
+                continue
+            valor = credito - debito
+            if company.currency_id.is_zero(valor):
+                continue
+            linha = conta.l10n_br_ecf_revenue_line
+            if not linha:
+                nao_classificadas |= conta
+                linha = "20"
+            if linha in PERCENTUAL_IRPJ:
+                receita_irpj[linha] = receita_irpj.get(linha, 0.0) + valor
+                # a presuncao da CSLL nao deriva da do IRPJ: a conta pode
+                # declarar a propria linha do P400 (servico do art. 40 da Lei
+                # 9.250/1995 tem IRPJ a 16% e CSLL a 32%); sem declaracao vale
+                # a correspondencia usual
+                linha_csll = (
+                    conta.l10n_br_ecf_csll_line or LINHA_CSLL_POR_LINHA_IRPJ[linha]
+                )
+                receita_csll[linha_csll] = receita_csll.get(linha_csll, 0.0) + valor
+            else:
+                adicoes[linha] = adicoes.get(linha, 0.0) + valor
+
+        if nao_classificadas:
+            declaration.message_post(
+                body=_(
+                    "Apuracao %(periodo)s: as contas de receita %(contas)s nao "
+                    "tem natureza declarada para a ECF e foram escrituradas em "
+                    "'Demais Receitas e Ganhos de Capital' (P200, linha 20), "
+                    "que entra integralmente na base de calculo."
+                )
+                % {
+                    "periodo": self.PER_APUR,
+                    "contas": ", ".join(
+                        sorted(nao_classificadas.with_company(company).mapped("code"))
+                    ),
+                }
+            )
+
+        # o 0020 e registro de topo (nivel 2), nao filho do 0000: a aliquota
+        # da CSLL vem de la, escriturada antes do bloco P
+        parametros = self.env["l10n_br_sped.ecf.0020"].search(
+            [("declaration_id", "=", declaration.id)], limit=1
+        )
+        apuracao = ApuracaoPresumido(
+            receita_irpj=receita_irpj,
+            receita_csll=receita_csll,
+            adicoes=adicoes,
+            meses_periodo=self._meses(),
+            ind_aliquota_csll=parametros.IND_ALIQ_CSLL or "1",
+            retencoes_irpj=retencoes_irpj,
+            retencoes_csll=retencoes_csll,
+        )
+        valores = apuracao.apurar()
+        valores["apuracao"] = apuracao
+        valores["movimento"] = movimento
+        return valores
+
+    def _saldos_referenciais(self, patrimoniais):
+        """Saldos do trimestre agregados por conta do plano referencial.
+
+        :param patrimoniais: ``True`` para as contas patrimoniais (registro
+            P100), ``False`` para as de resultado (registro P150).
+        """
+        self.ensure_one()
+        movimento = self._context.get("ecf_apuracao", {}).get("movimento")
+        if movimento is None:
+            movimento = self._movimento_do_periodo()
+        grupos = (
+            ("asset", "liability", "equity") if patrimoniais else ("income", "expense")
+        )
+        por_conta = {}
+        for conta, (debito, credito, inicial) in movimento.items():
+            if conta.internal_group not in grupos:
+                continue
+            codigo = conta.l10n_br_sped_referential_code
+            if not codigo:
+                continue
+            saldos = por_conta.setdefault(codigo, [0.0, 0.0, 0.0])
+            saldos[0] += inicial
+            saldos[1] += debito
+            saldos[2] += credito
+        return por_conta
+
+    def _linhas_referenciais(self, patrimoniais):
+        """Contas referenciais a escriturar, com os saldos consolidados.
+
+        A conta sintetica carrega a soma das analiticas que estao abaixo dela,
+        que e o que os registros P100 e P150 esperam.
+        """
+        self.ensure_one()
+        saldos = self._saldos_referenciais(patrimoniais)
+        contas = self.declaration_id._referential_accounts()
+        acumulado = {conta["code"]: [0.0, 0.0, 0.0] for conta in contas}
+        for codigo, valores in saldos.items():
+            partes = codigo.split(".")
+            for corte in range(1, len(partes) + 1):
+                prefixo = ".".join(partes[:corte])
+                if prefixo not in acumulado:
+                    continue
+                for indice in range(3):
+                    acumulado[prefixo][indice] += valores[indice]
+        return [
+            (conta, acumulado[conta["code"]])
+            for conta in contas
+            if any(abs(valor) > 0.005 for valor in acumulado[conta["code"]])
+        ]
 
 
 class RegistroP100(models.Model):
@@ -1267,22 +2047,37 @@ class RegistroP100(models.Model):
     _name = "l10n_br_sped.ecf.p100"
     _inherit = "l10n_br_sped.ecf.9.p100"
 
-    # @api.model
-    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
-    #     return {
-    #         "CODIGO": 0,  # Código da Conta Referencial (Analíticas e Sintéticas)...
-    #         "DESCRICAO": 0,  # Descrição da Conta Referencial.
-    #         "TIPO": 0,  # Indicador do Tipo de Conta: S – Sintética A – Analítica
-    #         "NIVEL": 0,  # Nível da Conta.
-    #         "COD_NAT": 0,  # Natureza da Conta, conforme tabela do Sped (Disponib...
-    #         "COD_CTA_SUP": 0,  # Código da Conta Sintética de Nível Imediatamente...
-    #         "VAL_CTA_REF_INI": 0,  # Saldo Inicial da Conta Referencial.
-    #         "IND_VAL_CTA_REF_INI": 0,  # Indicador da Situação do Saldo Inicial: ...
-    #         "VAL_CTA_REF_DEB": 0,  # Valor Total dos Débitos: Somatório dos valor...
-    #         "VAL_CTA_REF_CRED": 0,  # Valor Total dos Créditos: Somatório dos val...
-    #         "VAL_CTA_REF_FIN": 0,  # Saldo Final da Conta Referencial
-    #         "IND_VAL_CTA_REF_FIN": 0,  # Indicador da Situação do Saldo Final: D ...
-    #     }
+    def _pull_records_from_odoo(
+        self, kind, level, parent_register=None, parent_record=None, log_msg=None
+    ):
+        declaration = self._context["declaration"]
+        criados = []
+        for conta, (inicial, debito, credito) in parent_register._linhas_referenciais(
+            patrimoniais=True
+        ):
+            final = inicial + debito - credito
+            criados.append(
+                self.create(
+                    {
+                        "CODIGO": conta["code"],
+                        "DESCRICAO": conta["name"],
+                        "TIPO": conta["type"],
+                        "NIVEL": str(conta["level"]),
+                        "COD_NAT": conta["nature"],
+                        "COD_CTA_SUP": conta["parent_code"],
+                        "VAL_CTA_REF_INI": abs(inicial),
+                        "IND_VAL_CTA_REF_INI": "D" if inicial >= 0 else "C",
+                        "VAL_CTA_REF_DEB": debito,
+                        "VAL_CTA_REF_CRED": credito,
+                        "VAL_CTA_REF_FIN": formata_valor(abs(final)),
+                        "IND_VAL_CTA_REF_FIN": "D" if final >= 0 else "C",
+                        "declaration_id": declaration.id,
+                        "reg_P100_ids_RegistroP030_id": parent_register.id,
+                    }
+                )
+            )
+        if log_msg is not None:
+            self._log_chatter_sped_item(log_msg, level, criados)
 
 
 class RegistroP130(models.Model):
@@ -1292,13 +2087,9 @@ class RegistroP130(models.Model):
     _name = "l10n_br_sped.ecf.p130"
     _inherit = "l10n_br_sped.ecf.9.p130"
 
-    # @api.model
-    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
-    #     return {
-    #         "CODIGO": 0,  # Código, conforme tabela dinâmica do Sped (Disponibili...
-    #         "DESCRICAO": 0,  # Descrição, conforme tabela dinâmica do Sped (Dispo...
-    #         "VALOR": 0,  # Valor
-    #     }
+    # Registro exigido apenas de quem tem atividade incentivada
+    # (0020.IND_RED_ISEN = "S"), o que depende de dado que o Odoo nao guarda;
+    # fica para preenchimento manual.
 
 
 class RegistroP150(models.Model):
@@ -1308,18 +2099,86 @@ class RegistroP150(models.Model):
     _name = "l10n_br_sped.ecf.p150"
     _inherit = "l10n_br_sped.ecf.9.p150"
 
-    # @api.model
-    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
-    #     return {
-    #         "CODIGO": 0,  # Código da Conta Referencial (Analíticas e Sintéticas)...
-    #         "DESCRICAO": 0,  # Descrição da Conta Referencial.
-    #         "TIPO": 0,  # Indicador do Tipo de Conta: S – Sintética A – Analítica
-    #         "NIVEL": 0,  # Nível da Conta.
-    #         "COD_NAT": 0,  # Natureza da Conta: 04 – Contas de Resultado
-    #         "COD_CTA_SUP": 0,  # Código da Conta Sintética de Nível Imediatamente...
-    #         "VALOR": 0,  # Saldo Final da Conta Referencial.
-    #         "IND_VALOR": 0,  # Indicador do Sinal do Saldo Final: C – Credor D – ...
-    #     }
+    def _pull_records_from_odoo(
+        self, kind, level, parent_register=None, parent_record=None, log_msg=None
+    ):
+        declaration = self._context["declaration"]
+        criados = []
+        for conta, (_inicial, debito, credito) in parent_register._linhas_referenciais(
+            patrimoniais=False
+        ):
+            saldo = credito - debito
+            criados.append(
+                self.create(
+                    {
+                        "CODIGO": conta["code"],
+                        "DESCRICAO": conta["name"],
+                        "TIPO": conta["type"],
+                        "NIVEL": str(conta["level"]),
+                        "COD_NAT": "04",
+                        "COD_CTA_SUP": conta["parent_code"],
+                        "VALOR": abs(saldo),
+                        "IND_VALOR": "C" if saldo >= 0 else "D",
+                        "declaration_id": declaration.id,
+                        "reg_P150_ids_RegistroP030_id": parent_register.id,
+                    }
+                )
+            )
+        if log_msg is not None:
+            self._log_chatter_sped_item(log_msg, level, criados)
+
+
+class RegistroValoresEcf(models.AbstractModel):
+    """Base dos registros de valores do bloco P (CODIGO, DESCRICAO, VALOR).
+
+    A linha a escriturar, sua descricao e sua vigencia vem da tabela dinamica
+    oficial da RFB; o valor vem da apuracao do trimestre. As linhas de rotulo
+    sao escrituradas sem valor, como na tabela.
+    """
+
+    _name = "l10n_br_sped.ecf.valores"
+    _description = "Registro de valores da ECF"
+
+    # Registro na tabela dinamica oficial (definido em cada registro concreto).
+    _tabela = None
+    # Campo many2one que liga ao registro P030 do periodo.
+    _campo_pai = None
+
+    def _pull_valores(self, level, parent_register, log_msg):
+        """Escritura as linhas do registro a partir da apuracao do trimestre.
+
+        Cada registro concreto chama este metodo do seu proprio
+        ``_pull_records_from_odoo``: heranca multipla nao resolveria, porque o
+        ``_pull_records_from_odoo`` generico do ``l10n_br_sped.mixin`` tambem
+        esta na MRO e, sem ``_odoo_model`` nem ``_map_from_odoo``, ele retorna
+        em silencio sem criar nada.
+        """
+        declaration = self._context["declaration"]
+        apuracao = self._context.get("ecf_apuracao") or {}
+        valores = apuracao.get(self._tabela, {})
+        motor = apuracao.get("apuracao")
+        if motor is None:
+            motor = ApuracaoPresumido()
+        criados = []
+        for codigo, descricao, valor in motor.linhas(
+            self._tabela,
+            parent_register.DT_INI,
+            parent_register.DT_FIN,
+            valores,
+        ):
+            criados.append(
+                self.create(
+                    {
+                        "CODIGO": codigo,
+                        "DESCRICAO": descricao,
+                        "VALOR": "" if valor is None else formata_valor(valor),
+                        "declaration_id": declaration.id,
+                        self._campo_pai: parent_register.id,
+                    }
+                )
+            )
+        if log_msg is not None:
+            self._log_chatter_sped_item(log_msg, level, criados)
 
 
 class RegistroP200(models.Model):
@@ -1327,15 +2186,14 @@ class RegistroP200(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.ecf.p200"
-    _inherit = "l10n_br_sped.ecf.9.p200"
+    _inherit = ["l10n_br_sped.ecf.9.p200", "l10n_br_sped.ecf.valores"]
+    _tabela = "P200"
+    _campo_pai = "reg_P200_ids_RegistroP030_id"
 
-    # @api.model
-    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
-    #     return {
-    #         "CODIGO": 0,  # Código, conforme tabela dinâmica do Sped (Disponibili...
-    #         "DESCRICAO": 0,  # Descrição, conforme tabela dinâmica do Sped (Dispo...
-    #         "VALOR": 0,  # Valor
-    #     }
+    def _pull_records_from_odoo(
+        self, kind, level, parent_register=None, parent_record=None, log_msg=None
+    ):
+        return self._pull_valores(level, parent_register, log_msg)
 
 
 class RegistroP230(models.Model):
@@ -1345,13 +2203,7 @@ class RegistroP230(models.Model):
     _name = "l10n_br_sped.ecf.p230"
     _inherit = "l10n_br_sped.ecf.9.p230"
 
-    # @api.model
-    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
-    #     return {
-    #         "CODIGO": 0,  # Código, conforme tabela dinâmica do Sped (Disponibili...
-    #         "DESCRICAO": 0,  # Descrição, conforme tabela dinâmica do Sped (Dispo...
-    #         "VALOR": 0,  # Valor
-    #     }
+    # Depende do P130 (atividade incentivada), que nao e apurado do Odoo.
 
 
 class RegistroP300(models.Model):
@@ -1359,15 +2211,14 @@ class RegistroP300(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.ecf.p300"
-    _inherit = "l10n_br_sped.ecf.9.p300"
+    _inherit = ["l10n_br_sped.ecf.9.p300", "l10n_br_sped.ecf.valores"]
+    _tabela = "P300"
+    _campo_pai = "reg_P300_ids_RegistroP030_id"
 
-    # @api.model
-    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
-    #     return {
-    #         "CODIGO": 0,  # Código, conforme tabela dinâmica do Sped (Disponibili...
-    #         "DESCRICAO": 0,  # Descrição, conforme tabela dinâmica do Sped (Dispo...
-    #         "VALOR": 0,  # Valor
-    #     }
+    def _pull_records_from_odoo(
+        self, kind, level, parent_register=None, parent_record=None, log_msg=None
+    ):
+        return self._pull_valores(level, parent_register, log_msg)
 
 
 class RegistroP400(models.Model):
@@ -1375,15 +2226,14 @@ class RegistroP400(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.ecf.p400"
-    _inherit = "l10n_br_sped.ecf.9.p400"
+    _inherit = ["l10n_br_sped.ecf.9.p400", "l10n_br_sped.ecf.valores"]
+    _tabela = "P400"
+    _campo_pai = "reg_P400_ids_RegistroP030_id"
 
-    # @api.model
-    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
-    #     return {
-    #         "CODIGO": 0,  # Código, conforme tabela dinâmica do Sped (Disponibili...
-    #         "DESCRICAO": 0,  # Descrição, conforme tabela dinâmica do Sped (Dispo...
-    #         "VALOR": 0,  # Valor
-    #     }
+    def _pull_records_from_odoo(
+        self, kind, level, parent_register=None, parent_record=None, log_msg=None
+    ):
+        return self._pull_valores(level, parent_register, log_msg)
 
 
 class RegistroP500(models.Model):
@@ -1391,15 +2241,14 @@ class RegistroP500(models.Model):
 
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.ecf.p500"
-    _inherit = "l10n_br_sped.ecf.9.p500"
+    _inherit = ["l10n_br_sped.ecf.9.p500", "l10n_br_sped.ecf.valores"]
+    _tabela = "P500"
+    _campo_pai = "reg_P500_ids_RegistroP030_id"
 
-    # @api.model
-    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
-    #     return {
-    #         "CODIGO": 0,  # Código, conforme tabela dinâmica do Sped (Disponibili...
-    #         "DESCRICAO": 0,  # Descrição, conforme tabela dinâmica do Sped (Dispo...
-    #         "VALOR": 0,  # Valor
-    #     }
+    def _pull_records_from_odoo(
+        self, kind, level, parent_register=None, parent_record=None, log_msg=None
+    ):
+        return self._pull_valores(level, parent_register, log_msg)
 
 
 class RegistroQ100(models.Model):
@@ -1924,6 +2773,12 @@ class RegistroX320(models.Model):
     _name = "l10n_br_sped.ecf.x320"
     _inherit = "l10n_br_sped.ecf.9.x320"
 
+    # O spec chama este campo de "Moeda", que e tambem o rotulo do
+    # brl_currency_id herdado do l10n_br_sped_base: dois campos do mesmo
+    # modelo com o mesmo rotulo geram WARNING na carga, e o checklog da OCA
+    # reprova qualquer WARNING.
+    TIP_MOEDA = fields.Char(string="Moeda da negociação")
+
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
     #     return {
@@ -2411,17 +3266,19 @@ class RegistroY570(models.Model):
     _name = "l10n_br_sped.ecf.y570"
     _inherit = "l10n_br_sped.ecf.9.y570"
 
-    # @api.model
-    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
-    #     return {
-    #         "CNPJ_FON": 0,  # CNPJ: CNPJ da fonte pagadora
-    #         "NOM_EMP": 0,  # Nome Empresarial: Nome da pessoa jurídica responsáve...
-    #         "IND_ORG_PUB": 0,  # Indicador de Órgão Público: S - Sim N – Não Sele...
-    #         "COD_REC": 0,  # Código de Receita Utilizado Para Recolhimento na Fon...
-    #         "VL_REND": 0,  # Rendimento Bruto: Valor bruto do rendimento que orig...
-    #         "IR_RET": 0,  # IR Retido na Fonte: Valor de todo o imposto de renda ...
-    #         "CSLL_RET": 0,  # CSLL Retida na Fonte: Valor de toda a contribuição ...
-    #     }
+    # valores com duas casas no leiaute; o spec os gerou como Float
+    IR_RET = fields.Monetary(currency_field="brl_currency_id")
+    CSLL_RET = fields.Monetary(currency_field="brl_currency_id")
+
+    def _pull_records_from_odoo(
+        self, kind, level, parent_register=None, parent_record=None, log_msg=None
+    ):
+        declaration = self._context["declaration"]
+        criados = self.browse()
+        for grupo in declaration._retencoes_na_fonte():
+            criados |= self.create(dict(grupo, declaration_id=declaration.id))
+        if log_msg is not None:
+            self._log_chatter_sped_item(log_msg, level, criados)
 
 
 class RegistroY590(models.Model):
@@ -2448,6 +3305,15 @@ class RegistroY600(models.Model):
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.ecf.y600"
     _inherit = "l10n_br_sped.ecf.9.y600"
+    _odoo_model = "l10n_br_ecf.shareholder"
+
+    @api.model
+    def _odoo_domain(self, parent_record, declaration):
+        return [("company_id", "=", declaration.company_id.id)]
+
+    @api.model
+    def _map_from_odoo(self, record, parent_record, declaration, index=0):
+        return record._sped_values(declaration)
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
@@ -2593,6 +3459,79 @@ class RegistroY672(models.Model):
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.ecf.y672"
     _inherit = "l10n_br_sped.ecf.9.y672"
+
+    # Prefixos do plano de contas referencial da RFB que compoem cada valor
+    # pedido pelo registro. Sao os grupos publicados nas tabelas P100A/L100A,
+    # e por isso o registro so e escriturado quando ha de-para referencial.
+    _GRUPOS_REFERENCIAIS = {
+        "capital": ("2.03.01",),
+        "estoques": ("1.01.03",),
+        "caixa": ("1.01.01.01", "1.01.01.02", "1.01.01.04"),
+        "aplicacoes": ("1.01.01.05",),
+        "receber": ("1.01.02.02",),
+        "pagar": ("2.01.01.03",),
+        "ativo": ("1",),
+        "ativo_nao_circulante": ("1.02",),
+    }
+
+    def _pull_records_from_odoo(
+        self, kind, level, parent_register=None, parent_record=None, log_msg=None
+    ):
+        declaration = self._context["declaration"]
+        company = declaration.company_id
+        # o registro e do lucro presumido que NAO apresentou escrituracao
+        # contabil. Fora dai o PVA recusa o arquivo com "O registro nao deve
+        # ser informado para esse perfil e/ou tipo de operacao": nem no lucro
+        # real, nem no presumido que entregou escrituracao contabil.
+        parametros = self.env["l10n_br_sped.ecf.0010"].search(
+            [("declaration_id", "=", declaration.id)], limit=1
+        )
+        presumido = getattr(company, "profit_calculation", "presumed") != "real"
+        if not presumido or parametros.TIP_ESC_PRE == "C":
+            self._log_chatter_sped_item(log_msg, level)
+            return
+        saldos = declaration._saldos_por_conta_referencial()
+        if not saldos:
+            # sem de-para referencial nao ha como compor o registro
+            self._log_chatter_sped_item(log_msg, level)
+            return
+
+        def total(grupo, inicial=False):
+            indice = 0 if inicial else 1
+            return sum(
+                valores[indice]
+                for codigo, valores in saldos.items()
+                if any(
+                    codigo == prefixo or codigo.startswith(prefixo + ".")
+                    for prefixo in self._GRUPOS_REFERENCIAIS[grupo]
+                )
+            )
+
+        registro = self.create(
+            {
+                "VL_CAPITAL_ANT": abs(total("capital", inicial=True)),
+                "VL_CAPITAL": abs(total("capital")),
+                "VL_ESTOQUE_ANT": total("estoques", inicial=True),
+                "VL_ESTOQUES": total("estoques"),
+                "VL_CAIXA_ANT": total("caixa", inicial=True),
+                "VL_CAIXA": total("caixa"),
+                "VL_APLIC_FIN_ANT": total("aplicacoes", inicial=True),
+                "VL_APLIC_FIN": total("aplicacoes"),
+                "VL_CTA_REC_ANT": total("receber", inicial=True),
+                "VL_CTA_REC": total("receber"),
+                "VL_CTA_PAG_ANT": abs(total("pagar", inicial=True)),
+                "VL_CTA_PAG": abs(total("pagar")),
+                "VL_COMPRA_MERC": declaration._compras_do_periodo("estoques"),
+                "VL_COMPRA_ATIVO": declaration._compras_do_periodo(
+                    "ativo_nao_circulante"
+                ),
+                "VL_RECEITAS": declaration._receitas_nao_tributaveis(),
+                "TOT_ATIVO": abs(total("ativo")),
+                "IND_AVAL_ESTOQ": company.l10n_br_ecf_stock_valuation or "1",
+                "declaration_id": declaration.id,
+            }
+        )
+        self._log_chatter_sped_item(log_msg, level, [registro])
 
     # @api.model
     # def _map_from_odoo(self, record, parent_record, declaration, index=0):
