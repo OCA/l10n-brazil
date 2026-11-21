@@ -336,5 +336,41 @@ class AccountTax(models.Model):
             amount_total,
             currency_obj=currency,
         )
+        self._set_fiscal_group_amounts(res, base_lines, currency)
 
         return res
+
+    @api.model
+    def _set_fiscal_group_amounts(self, tax_totals, base_lines, currency):
+        """Show the fiscal values of the lines in the tax groups of tax_totals.
+
+        The Brazilian account taxes net to zero in the standard tax group
+        amounts (the deductible twin cancels the tax), so the summary shown
+        in the portal and in the PDF reports would list every tax as 0.00.
+        The real values live in the fiscal fields of the lines.
+        """
+        records = [
+            line["record"]
+            for line in base_lines
+            if line.get("record")
+            and hasattr(line["record"], "fiscal_operation_line_id")
+        ]
+        if not records:
+            return
+        tax_groups = self.env["account.tax.group"]
+        for groups in tax_totals["groups_by_subtotal"].values():
+            for group in groups:
+                tax_group = tax_groups.browse(group["tax_group_id"])
+                fiscal_group = tax_group.fiscal_tax_group_id
+                field_name = "%s_value" % fiscal_group.tax_domain
+                if (
+                    not fiscal_group
+                    or fiscal_group.tax_withholding
+                    or field_name not in records[0]._fields
+                ):
+                    continue
+                amount = sum(record[field_name] for record in records)
+                group["tax_group_amount"] = amount
+                group["formatted_tax_group_amount"] = formatLang(
+                    self.env, amount, currency_obj=currency
+                )

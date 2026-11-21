@@ -111,6 +111,108 @@ class TestTaxClassification(TransactionCase):
                 self.classification_company.tax_ibs_id, line_form.fiscal_tax_ids
             )
 
+    def test_change_tax_classification_updates_cbs_ibs_reduction(self):
+        """Manually changing the classification must update the CBS/IBS taxes
+        used in the calculation, including their base reduction.
+
+        Regression test for OCA/l10n-brazil#5627: picking a classification
+        whose CBS/IBS taxes carry a percent_reduction left the line using the
+        previous (unreduced) taxes because fiscal_tax_ids was not refreshed.
+        """
+        self.company.tax_classification_id = self.classification_company
+        self.operation_line.tax_classification_id = False
+
+        doc = self.env["l10n_br_fiscal.document"].create(
+            {
+                "company_id": self.company.id,
+                "partner_id": self.partner.id,
+                "fiscal_operation_id": self.env.ref("l10n_br_fiscal.fo_venda").id,
+                "ind_final": "1",
+                "fiscal_line_ids": [
+                    (
+                        0,
+                        0,
+                        {
+                            "product_id": self.product.id,
+                            "fiscal_operation_line_id": self.operation_line.id,
+                        },
+                    )
+                ],
+            }
+        )
+        line = doc.fiscal_line_ids
+
+        # starts with the company's default classification (no reduction)
+        self.assertEqual(line.tax_classification_id, self.classification_company)
+        self.assertEqual(self.classification_company.tax_cbs_id.percent_reduction, 0.0)
+
+        # user manually picks a classification with CBS/IBS reduced taxes
+        line.write({"tax_classification_id": self.classification_line.id})
+
+        self.assertIn(self.classification_line.tax_cbs_id, line.fiscal_tax_ids)
+        self.assertIn(self.classification_line.tax_ibs_id, line.fiscal_tax_ids)
+        self.assertEqual(
+            line.cbs_reduction, self.classification_line.tax_cbs_id.percent_reduction
+        )
+        self.assertEqual(
+            line.ibs_reduction, self.classification_line.tax_ibs_id.percent_reduction
+        )
+
+    def _new_line_form(self, doc_form):
+        doc_form.company_id = self.company
+        doc_form.partner_id = self.partner
+        doc_form.fiscal_operation_id = self.env.ref("l10n_br_fiscal.fo_venda")
+        doc_form.ind_final = "1"
+        return doc_form.fiscal_line_ids.new()
+
+    def test_form_change_tax_classification_applies_cbs_ibs_reduction(self):
+        """Picking a classification in the line form must apply its CBS/IBS
+        taxes with their base reduction (OCA/l10n-brazil#5627)."""
+        self.company.tax_classification_id = self.classification_company
+        self.operation_line.tax_classification_id = False
+        classification = self.env.ref("l10n_br_fiscal.tax_classification_200046")
+
+        doc_form = Form(
+            self.env["l10n_br_fiscal.document"].with_context(
+                default_fiscal_operation_type="out",
+            )
+        )
+        with self._new_line_form(doc_form) as line_form:
+            line_form.product_id = self.product
+            line_form.fiscal_operation_line_id = self.operation_line
+            line_form.tax_classification_id = classification
+
+            self.assertEqual(line_form.cbs_tax_id, classification.tax_cbs_id)
+            self.assertEqual(line_form.ibs_tax_id, classification.tax_ibs_id)
+            self.assertIn(classification.tax_cbs_id, line_form.fiscal_tax_ids)
+            self.assertIn(classification.tax_ibs_id, line_form.fiscal_tax_ids)
+            self.assertEqual(line_form.cbs_reduction, 50.0)
+            self.assertEqual(line_form.ibs_reduction, 50.0)
+
+    def test_operation_line_change_remaps_tax_classification(self):
+        """A manually picked classification is replaced by the mapped one when
+        the fiscal operation line changes."""
+        self.company.tax_classification_id = self.classification_company
+        self.operation_line.tax_classification_id = False
+        other_operation_line = self.env.ref("l10n_br_fiscal.fo_venda_revenda")
+        other_operation_line.tax_classification_id = self.classification_line
+
+        doc_form = Form(
+            self.env["l10n_br_fiscal.document"].with_context(
+                default_fiscal_operation_type="out",
+            )
+        )
+        with self._new_line_form(doc_form) as line_form:
+            line_form.product_id = self.product
+            line_form.fiscal_operation_line_id = self.operation_line
+            line_form.tax_classification_id = self.env.ref(
+                "l10n_br_fiscal.tax_classification_200046"
+            )
+            line_form.fiscal_operation_line_id = other_operation_line
+
+            self.assertEqual(line_form.tax_classification_id, self.classification_line)
+            self.assertEqual(line_form.cbs_tax_id, self.classification_line.tax_cbs_id)
+
     def _ibscbs_binding(self, c_class_trib):
         """The XML IBSCBS group, as the document parser yields it."""
         return DotDict(

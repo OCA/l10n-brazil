@@ -13,6 +13,8 @@
                     <group name="nfse_settings" string="General Settings">
                         <group name="global_nfse_settings">
                             <field name="nfse_environment" />
+                            <field name="operation_nature" />
+                            <field name="taxation_special_regime" />
                             <field name="cultural_sponsor" />
                         </group>
                         <group

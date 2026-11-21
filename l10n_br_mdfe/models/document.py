@@ -93,7 +93,7 @@ class MDFe(spec_models.StackedModel):
     - <prodPred> product.product
     + <tot>
     ≡ <lacres>
-    ≡ <autXML> res.partner
+    ≡ <autXML> l10n_br_mdfe.autxml
     + <infAdic>
     - <infRespTec> res.partner
     - <infSolicNFF>
@@ -670,16 +670,31 @@ class MDFe(spec_models.StackedModel):
     # MDF-e tag: autXML
     ##########################
 
-    def _default_mdfe30_autxml(self):
-        company = self.env.company
-        authorized_partners = []
-        if company.accountant_id:
-            authorized_partners.append(company.accountant_id.id)
-        if company.technical_support_id:
-            authorized_partners.append(company.technical_support_id.id)
-        return authorized_partners
+    # Declared here so that a copy of the field made through _inherits does not
+    # keep pointing to the abstract spec model, which has no partner.
+    mdfe30_autXML = fields.One2many(comodel_name="l10n_br_mdfe.autxml")
 
-    mdfe30_autXML = fields.One2many(default=_default_mdfe30_autxml)
+    def _get_mdfe30_autxml_partners(self):
+        """Partners of the company of the document allowed to download the XML."""
+        self.ensure_one()
+        return self.company_id.accountant_id | self.company_id.technical_support_id
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        documents = super().create(vals_list)
+        # Done after create, not as a field default: a default can only read
+        # the company the user is working on, and the company of the document
+        # is only settled here (through account.move it comes as
+        # proxy_company_id). Documents created with their own autXML keep it.
+        self.env["l10n_br_mdfe.autxml"].create(
+            [
+                {"mdfe30_autXML_infMDFe_id": document.id, "partner_id": partner.id}
+                for document in documents
+                if not document.mdfe30_autXML
+                for partner in document._get_mdfe30_autxml_partners()
+            ]
+        )
+        return documents
 
     ##########################
     # NF-e tag: tot

@@ -1033,3 +1033,9 @@ class TestFiscalDocumentGeneric(TransactionCase):
                 10.0,
                 "Unexpected value for the field Other Values in Fiscal Document line",
             )
+
+    def test_document_key_alphanumeric_cnpj(self):
+        """Access key with alphanumeric CNPJ issuer passes _check_key."""
+        key = "352610A87HBZHB000161550010000001231123456783"
+        self.nfe_same_state.document_key = key
+        self.assertEqual(self.nfe_same_state.document_key, key)

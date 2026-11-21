@@ -166,6 +166,12 @@ class DanfeProfile(models.Model):
         "price) in the product description.",
     )
 
+    display_partner_order = fields.Boolean(
+        string="Display Partner Order Data",
+        help="Print the partner's order number and item (xPed and nItemPed) in "
+        "the product description.",
+    )
+
     footer_stamp_logo = fields.Binary(
         help="Logo printed at the bottom right corner of each DANFE page.",
     )
@@ -234,6 +240,7 @@ class DanfeProfile(models.Model):
                 display_anvisa=profile.display_anvisa,
                 branch_info_prefix=profile.lot_prefix or "",
                 display_additional_info=profile.display_product_additional_info,
+                display_xped=profile.display_partner_order,
             ),
             footer_stamp=FooterStamp(
                 logo=footer_stamp_logo,

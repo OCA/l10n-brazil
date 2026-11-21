@@ -3,6 +3,8 @@
 import {Order, PosGlobalState} from "point_of_sale.models";
 import Registries from "point_of_sale.Registries";
 
+import {deserializeDateTime} from "@web/core/l10n/dates";
+
 import {ChaveEdoc} from "@l10n_br_pos_nfce/js/utils.esm";
 import {BRAZILIAN_STATES_IBGE_CODE_MAP, NFeXML} from "@l10n_br_pos_nfce/js/nfe-xml.esm";
 
@@ -92,7 +94,21 @@ const L10nBrNfceOrder = (Order) =>
                 document_number: this.document_number,
 
                 document_serie: this.document_serie,
+
+                customer_tax_id: this._getNFCeCustomerTaxId(),
             };
+        }
+
+        _getNFCeCustomerTaxId() {
+            // The anonymous consumer of the config has no CPF/CNPJ of its own.
+            const partner = this.get_partner();
+            const anonymousId = this.pos.config.partner_id
+                ? this.pos.config.partner_id[0]
+                : false;
+            if (!partner || partner.id === anonymousId) {
+                return this.cnpj_cpf || null;
+            }
+            return this.get_cnpj_cpf ? this.get_cnpj_cpf() : partner.vat || null;
         }
 
         _prepare_fiscal_json(json) {
@@ -415,7 +431,12 @@ const L10nBrNfcePosGlobalState = (PosGlobalState) =>
 
                 document_serie: move.document_serie,
 
-                authorization_date_string: move.authorization_date,
+                // The authorization_date comes in UTC, the receipt shows the local time
+                authorization_date_string: move.authorization_date
+                    ? deserializeDateTime(move.authorization_date).toFormat(
+                          "dd/MM/yyyy HH:mm:ss"
+                      )
+                    : false,
 
                 document_date_string: move.document_date,
 

@@ -3,7 +3,12 @@
 
 from odoo import fields, models
 
-from ..constants.nfse import NFSE_ENVIRONMENT_DEFAULT, NFSE_ENVIRONMENTS
+from ..constants.nfse import (
+    NFSE_ENVIRONMENT_DEFAULT,
+    NFSE_ENVIRONMENTS,
+    OPERATION_NATURE,
+    TAXATION_SPECIAL_REGIME,
+)
 
 
 class ResCompany(models.Model):
@@ -21,6 +26,14 @@ class ResCompany(models.Model):
         selection=NFSE_ENVIRONMENTS,
         string="NFSe Environment",
         default=NFSE_ENVIRONMENT_DEFAULT,
+    )
+    operation_nature = fields.Selection(
+        selection=OPERATION_NATURE,
+        default="1",
+    )
+    taxation_special_regime = fields.Selection(
+        selection=TAXATION_SPECIAL_REGIME,
+        default="1",
     )
     nfse_city_logo = fields.Binary(
         string="NFSe City Logo",

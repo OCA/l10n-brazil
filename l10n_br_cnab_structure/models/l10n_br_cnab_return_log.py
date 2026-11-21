@@ -51,7 +51,9 @@ class L10nBrCNABReturnLog(models.Model):
                 [
                     ("acc_number", "=", rec.bank_acc_number),
                     ("bank_id", "=", rec.bank_id.id),
-                ]
+                    ("partner_id", "=", rec.company_id.partner_id.id),
+                ],
+                limit=1,
             )
 
     def action_confirm_return_log(self):

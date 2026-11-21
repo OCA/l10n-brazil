@@ -175,6 +175,9 @@ PROFIT_CALCULATION = [
 
 
 PROFIT_CALCULATION_PRESUMED = "presumed"
+PROFIT_CALCULATION_REAL = "real"
+
+PIS_COFINS_CST_ENTRY_WITHOUT_CREDIT = ("70", "71", "72", "73", "74", "75")
 
 COEFFICIENT_R = 0.28
 
@@ -556,6 +559,34 @@ FISCAL_TAX_ID_FIELDS = [
     "cbs_tax_id",
     "ibs_tax_id",
 ]
+
+TAX_VALUE_FIELDS = {
+    TAX_DOMAIN_COFINS: "cofins_value",
+    TAX_DOMAIN_COFINS_WH: "cofins_wh_value",
+    TAX_DOMAIN_COFINS_ST: "cofinsst_value",
+    TAX_DOMAIN_CSLL: "csll_value",
+    TAX_DOMAIN_CSLL_WH: "csll_wh_value",
+    TAX_DOMAIN_ICMS: "icms_value",
+    TAX_DOMAIN_ICMS_FCP: "icmsfcp_value",
+    TAX_DOMAIN_ICMS_SN: "icmssn_credit_value",
+    TAX_DOMAIN_ICMS_ST: "icmsst_value",
+    TAX_DOMAIN_ICMS_FCP_ST: "icmsfcpst_value",
+    TAX_DOMAIN_II: "ii_value",
+    TAX_DOMAIN_INSS: "inss_value",
+    TAX_DOMAIN_INSS_WH: "inss_wh_value",
+    TAX_DOMAIN_IPI: "ipi_value",
+    TAX_DOMAIN_IRPJ: "irpj_value",
+    TAX_DOMAIN_IRPJ_WH: "irpj_wh_value",
+    TAX_DOMAIN_ISSQN: "issqn_value",
+    TAX_DOMAIN_ISSQN_WH: "issqn_wh_value",
+    TAX_DOMAIN_PIS: "pis_value",
+    TAX_DOMAIN_PIS_WH: "pis_wh_value",
+    TAX_DOMAIN_PIS_ST: "pisst_value",
+    TAX_DOMAIN_CBS: "cbs_value",
+    TAX_DOMAIN_IBS: "ibs_value",
+}
+
+TAX_VALUE_FIELD_NAMES = frozenset(TAX_VALUE_FIELDS.values())
 
 TAX_RATE_TYPE = [
     ("1", "1 - Fixa"),

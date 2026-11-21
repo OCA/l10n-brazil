@@ -57,6 +57,17 @@ class AccountMoveLine(models.Model):
     price_unit = fields.Float(inverse="_inverse_price_unit")
     product_uom_id = fields.Many2one(inverse="_inverse_product_uom_id")
 
+    # _inherits brings the fields of the fiscal line, not its methods
+    def _get_report_product_code(self):
+        self.ensure_one()
+        line = self.fiscal_document_line_id
+        return line._get_report_product_code() if line else ""
+
+    def _get_report_fiscal_details(self):
+        self.ensure_one()
+        line = self.fiscal_document_line_id
+        return line._get_report_fiscal_details() if line else ""
+
     @api.onchange("product_id")
     def _inverse_product_id(self):
         for line in self:
@@ -259,6 +270,7 @@ class AccountMoveLine(models.Model):
                                 line.amount_tax_included
                                 + line.amount_tax_not_included
                                 - line.amount_tax_withholding
+                                - line._fiscal_taxes_in_cost()
                             )
                     else:
                         if fiscal_operation.deductible_taxes:
@@ -273,6 +285,7 @@ class AccountMoveLine(models.Model):
                                 amount_total
                                 - line.amount_tax_included
                                 - line.amount_tax_not_included
+                                + line._fiscal_taxes_in_cost()
                                 if line.tax_ids
                                 else amount_total
                             )
@@ -497,7 +510,7 @@ class AccountMoveLine(models.Model):
                 handle_price_include = False
                 quantity = 1
 
-            compute_all_currency = line.tax_ids.compute_all(
+            compute_all_currency = line._get_ledger_taxes().compute_all(
                 amount_currency,
                 currency=line.currency_id,
                 quantity=quantity,
@@ -645,6 +658,51 @@ class AccountMoveLine(models.Model):
             user_type=user_type,
             fiscal_operation=self.fiscal_operation_id,
             company=self.company_id,
+        )
+
+    def _get_cost_tax_domains(self):
+        """Tax domains of a vendor bill line the company may not credit, by the
+        creditability map of its fiscal line (buyer regime, CFOP, supplier,
+        CST). They book no tax line and their value stays in the product line.
+
+        Only for a company that books its entries by the creditability map
+        (``res.company._books_entry_by_creditability``): any other keeps its
+        ledger.
+        """
+        self.ensure_one()
+        fiscal_line = self.fiscal_document_line_id
+        if (
+            self.display_type != "product"
+            or not fiscal_line
+            or not self.move_id.fiscal_operation_id
+            or not self.move_id.is_purchase_document(include_receipts=True)
+            or not self.company_id._books_entry_by_creditability()
+        ):
+            return set()
+        return {
+            domain
+            for domain, verdict in fiscal_line._get_tax_creditability_map().items()
+            if verdict == "cost"
+        }
+
+    def _get_ledger_taxes(self):
+        """The account taxes that book tax lines: those of the line but the
+        ones of a tax the company may not credit."""
+        self.ensure_one()
+        cost_domains = self._get_cost_tax_domains()
+        if not cost_domains:
+            return self.tax_ids
+        return self.tax_ids.filtered(
+            lambda tax: tax.tax_group_id.fiscal_tax_group_id.tax_domain
+            not in cost_domains
+        )
+
+    def _fiscal_taxes_in_cost(self):
+        """Value of the taxes that stay in the cost of the product line."""
+        self.ensure_one()
+        fiscal_line = self.fiscal_document_line_id
+        return sum(
+            fiscal_line[f"{domain}_value"] for domain in self._get_cost_tax_domains()
         )
 
     @api.constrains("product_uom_id")

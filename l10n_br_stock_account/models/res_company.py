@@ -21,3 +21,13 @@ class ResCompany(models.Model):
         comodel_name="l10n_br_fiscal.operation",
         domain=[("state", "=", "approved"), ("fiscal_operation_type", "=", "out")],
     )
+
+    stock_valuation_via_stock_price = fields.Boolean(
+        string="Valuation Via Stock Price",
+        default=False,
+        help="Whether stock is valued at the Odoo default price or at the net"
+        " acquisition cost, that is, the invoice total minus the taxes this"
+        " company can recover (art. 301 RIR/2018, CPC 16).\n\n"
+        "    * True values incoming stock net of recoverable taxes.\n"
+        "    Opt-in: the False default keeps existing databases unchanged.",
+    )

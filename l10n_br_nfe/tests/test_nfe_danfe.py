@@ -112,6 +112,7 @@ class TestDanfeGeneration(TransactionCase):
                 "lot_prefix": "Rastro",
                 "display_anp": True,
                 "display_anvisa": True,
+                "display_partner_order": True,
                 "footer_stamp_logo": FOOTER_STAMP_LOGO,
                 "footer_stamp_text": "Printed by Odoo",
             }
@@ -140,6 +141,7 @@ class TestDanfeGeneration(TransactionCase):
                 display_anvisa=True,
                 branch_info_prefix="Rastro",
                 display_additional_info=False,
+                display_xped=True,
             ),
         )
         self.assertTrue(config.footer_stamp.logo)

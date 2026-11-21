@@ -308,6 +308,63 @@ class ResCompany(models.Model):
         default="line",
     )
 
+    # Printed reports (quotations, orders, invoices)
+    report_company_fiscal_data = fields.Boolean(
+        string="Company Fiscal Data",
+        default=True,
+    )
+
+    report_tax_framework = fields.Boolean(
+        string="Company Tax Framework",
+        default=True,
+    )
+
+    report_partner_fiscal_data = fields.Boolean(
+        string="Customer and Vendor Fiscal Data",
+        default=True,
+    )
+
+    report_fiscal_operation = fields.Boolean(
+        string="Fiscal Operation",
+        default=True,
+    )
+
+    report_line_classification = fields.Boolean(
+        string="Line Fiscal Classification",
+        default=True,
+    )
+
+    report_line_cfop = fields.Boolean(
+        string="Line CFOP",
+        default=True,
+    )
+
+    report_line_operation_line = fields.Boolean(
+        string="Line Fiscal Operation Line",
+        default=True,
+    )
+
+    report_fiscal_totals = fields.Boolean(
+        string="Fiscal Totals Summary",
+        default=True,
+    )
+
+    report_withholding_display = fields.Selection(
+        selection=[("detailed", "One line per tax"), ("grouped", "A single line")],
+        string="Withholdings",
+        default="detailed",
+    )
+
+    report_included_taxes = fields.Boolean(
+        string="Taxes Included in the Price",
+        default=True,
+    )
+
+    def _get_report_option(self, option):
+        """Printed report option, which only applies to Brazilian companies."""
+        self.ensure_one()
+        return self.country_id.code == "BR" and self[option]
+
     def _del_tax_definition(self, tax_domain):
         tax_def = self.tax_definition_ids.filtered(
             lambda d: d.tax_group_id.tax_domain != tax_domain
@@ -588,3 +645,11 @@ class ResCompany(models.Model):
         else:
             self._del_tax_definition(TAX_DOMAIN_CBS)
             self._del_tax_definition(TAX_DOMAIN_IBS)
+
+    def _books_entry_by_creditability(self):
+        """Whether the ledger and the SPED of this company book an entry by the
+        creditability map: the tax it may not credit stays in the cost and
+        goes to the books without credit. Only a company that values its stock
+        at the net cost (``stock_valuation_via_stock_price``) does; any other
+        books the tax the line carries."""
+        return bool(getattr(self, "stock_valuation_via_stock_price", False))
