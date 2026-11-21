@@ -15,7 +15,6 @@
     "data": [
         "security/ir.model.access.csv",
         "views/sped_ecf.xml",
-        "views/account_move.xml",
     ],
     "demo": [],
     "application": True,

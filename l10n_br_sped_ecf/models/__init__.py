@@ -1,7 +1,6 @@
 from . import sped_mixin_ecf
 from . import sped_ecf_spec_9
 from . import account_account
-from . import account_move
 from . import res_company
 from . import ecf_shareholder
 from . import ecf_validator
