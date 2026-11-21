@@ -219,3 +219,19 @@ class CNPJAlfanumericoTest(TransactionCase):
         self.assertTrue(
             pix.id, "PIX key with unmasked alphanumeric CNPJ was not created"
         )
+
+    def test_company_created_with_only_formatted_cnpj(self):
+        """The company form sends `vat: False` with the formatted CNPJ."""
+        company = (
+            self.env["res.company"]
+            .with_context(tracking_disable=True)
+            .create(
+                {
+                    "name": "Empresa CNPJ Formatado Teste",
+                    "vat": False,
+                    "vat_formatted_cnpj": "A8.7HB.ZHB/0001-61",
+                    **self.base_address,
+                }
+            )
+        )
+        self.assertEqual(company.vat, "A87HBZHB000161")
