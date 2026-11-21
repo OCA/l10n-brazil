@@ -132,3 +132,31 @@ class TestSpedSigner(TransactionCase):
         self.assertTrue(signer.legal_responsible)
         # sem multiempresa o campo nao aparece: a empresa e a do usuario
         self.assertEqual(signer.company_id, self.env.company)
+
+    def _empresa(self, uf):
+        return self.env["res.company"].create(
+            {
+                "name": f"Empresa {uf}",
+                "state_id": self.env.ref(f"base.state_br_{uf}").id,
+            }
+        )
+
+    def test_nire_conferido_como_no_pva(self):
+        """O NIRE passa pelo digito e pela UF das regras do PVA da ECD."""
+        company = self._empresa("sp")
+        company.l10n_br_nire = "35200123458"
+        with self.assertRaisesRegex(ValidationError, "Invalid NIRE"):
+            company.l10n_br_nire = "35200123459"
+        with self.assertRaisesRegex(ValidationError, "Invalid NIRE"):
+            company.l10n_br_nire = "3520012345"
+        with self.assertRaisesRegex(ValidationError, "state SP"):
+            company.l10n_br_nire = "33200123456"
+        company.state_id = self.env.ref("base.state_br_rj")
+        company.l10n_br_nire = "33200123456"
+
+    def test_nire_de_mato_grosso_do_sul(self):
+        """No MS o NIRE comeca por 54, nao pelo codigo 50 do IBGE."""
+        company = self._empresa("ms")
+        company.l10n_br_nire = "54200123453"
+        with self.assertRaisesRegex(ValidationError, "state MS"):
+            company.l10n_br_nire = "50200123450"
