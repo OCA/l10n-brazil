@@ -123,36 +123,53 @@ class AccountPaymentLine(models.Model):
                 linhas_pagamentos["data_desconto"] = self.date.strftime("%Y/%m/%d")
                 linhas_pagamentos["valor_desconto"] = self.discount_value
 
+    @staticmethod
+    def _get_sicredi_nosso_numero(agencia, posto, beneficiario, ano, byte_idt, seq):
+        """Build the Sicredi CNAB 240 "Nosso Número" (AA/BXXXXX-D).
+
+        Manual Sicredi CNAB 240, items 4.4 and 4.5: the check digit is
+        módulo 11 over agência (4) + posto (2) + beneficiário (5) + ano (2)
+        + byte de geração (1) + sequencial (5). The "/" and "-" are only
+        presentation characters and are not sent in the CNAB.
+        """
+        sequencial = "".join(ch for ch in str(seq) if ch.isdigit()).zfill(5)[-5:]
+        base_dv = (
+            agencia + str(posto).zfill(2) + beneficiario + ano + byte_idt + sequencial
+        )
+        dv = modulo11(base_dv, 9, 0)
+        return ano + byte_idt + sequencial + str(dv)
+
     def _prepare_bank_line_sicredi(self, cnab_config, linhas_pagamentos):
-        # TODO: O valor do Nosso Numero não é calculado dentro da biblioteca, idealmente
-        #  deveria, é necessário verificar a possibilidade, por enquanto está sendo
-        #  resolvido por aqui.
-
-        # O campo Nosso Número deve ser apresentado no formato AA/BXXXXX-D, onde:
-        # AA = Ano atual
-        # B = Byte que pode ser de 2 a 9. Somente será 1 se forem boletos pré-impressos.
-        # XXXXX = número sequencial
-        # D = dígito verificador calculado
-
-        # Data de referencia precisa ser a da Fatura e não a Atual para evitar
-        # o erro de Fim de Ano, por exemplo:
-        #   Boleto gerado no ano de 2026 será 262000025 mas se
-        #   o arquivo for Gerado em 2027 vai estar 272000021.
-
+        # Manual Sicredi CNAB 240 - itens 4.4 e 4.5.
+        # A data de referência deve ser a da fatura, não a atual, para evitar
+        # divergência de ano na virada do ano (Manual Sicredi item 4.4: o ano
+        # "pode ser diferente do ano corrente").
+        bank_account_id = self.order_id.journal_id.bank_account_id
         ano = self.move_line_id.move_id.invoice_date.strftime("%y")
-        nosso_numero = linhas_pagamentos["nosso_numero"]
-        nosso_numero = nosso_numero.zfill(5)[-5:]
-
-        nosso_numero_with_byte_idt = ano + cnab_config.boleto_byte_idt + nosso_numero
-        nosso_numero_para_calcular_dv = (
-            self.order_id.journal_id.bank_account_id.bra_number
-            + cnab_config.boleto_post.zfill(2)
-            + cnab_config.cnab_company_bank_code
-            + nosso_numero_with_byte_idt
+        linhas_pagamentos["nosso_numero"] = self._get_sicredi_nosso_numero(
+            bank_account_id.bra_number,
+            cnab_config.boleto_post,
+            cnab_config.cnab_company_bank_code,
+            ano,
+            str(cnab_config.boleto_byte_idt),
+            self.own_number,
         )
 
-        dv = modulo11(nosso_numero_para_calcular_dv, 9, 0)
-        linhas_pagamentos["nosso_numero"] = nosso_numero_with_byte_idt + str(dv)
+        # Manual Sicredi CNAB 240 - item 8.5 (Segmento Q).
+        # As posições 114-128 são CNAB (Sem preenchimento), mas o BRCobranca
+        # escreve o bairro do pagador nesse campo seguindo o layout FEBRABAN.
+        # Para o Sicredi o bairro deve ser enviado em branco.
+        linhas_pagamentos["bairro_sacado"] = ""
+
+        # Multa - Manual Sicredi CNAB 240, item 14.3R: "No Sicredi a multa
+        # só pode ser informada em valor percentual" (código "2"). Nunca
+        # preencher como "0" (isento), o Segmento R exige o código da multa.
+        if cnab_config.boleto_fee_code_id:
+            linhas_pagamentos["codigo_multa"] = cnab_config.boleto_fee_code_id.code
+        elif cnab_config.boleto_fee_perc:
+            linhas_pagamentos["codigo_multa"] = "2"
+        if cnab_config.boleto_fee_perc:
+            linhas_pagamentos["percentual_multa"] = cnab_config.boleto_fee_perc
 
     def prepare_bank_payment_line(self, bank_name_brcobranca):
         cnab_config = self.order_id.payment_mode_id.cnab_config_id
@@ -210,6 +227,11 @@ class AccountPaymentLine(models.Model):
             # Desconto
             # Código adotado pela FEBRABAN para identificação do desconto.
             # Domínio: 0 = Isento | 1 = Valor Fixo
+            # Manual Sicredi CNAB 240 itens 30.3P, 08.3R e 11.3R:
+            # 0 = Sem desconto, 1 = Valor fixo até a data informada,
+            # 2 = Percentual até a data informada, 3 = Valor por antecipação
+            # (dias corridos), 7 = Cancelamento de desconto. Para o código 0
+            # o valor e a data do desconto devem ser zerados.
 
             # Apesar das Documentações dos Bancos dizerem que estão seguindo
             # um "Padrão" na realidade:
@@ -220,7 +242,7 @@ class AccountPaymentLine(models.Model):
             # Bradesco  |    237    |   | X | X | X | X | X | X | X |
             # CEF       |    104    | X | X | X |   |   |   |   |   |
             # Santander |    033    | X | X | X | X |   |   |   |   |
-            # Sicred    |    748    |   | X | X | X |   |   |   | X |
+            # Sicred    |    748    | X | X | X | X |   |   |   | X |
             # Unicred   |    136    | X | X |   |   |   |   |   |   |
 
             discount_code = False
@@ -234,11 +256,12 @@ class AccountPaymentLine(models.Model):
                 if cnab_config.boleto_discount_code_id:
                     discount_code = cnab_config.boleto_discount_code_id.code
             else:
-                if cnab_config.bank_code_bc in ("085", "104", "033", "136") or (
+                if cnab_config.bank_code_bc in ("085", "104", "033", "136", "748") or (
                     cnab_config.bank_code_bc == "001"
                     and cnab_config.payment_method_id.code == "240"
                 ):
-                    # Casos mapeados que enviam Zero para quando não tem valor
+                    # Código "0" = Sem desconto (Manual Sicredi CNAB 240
+                    # item 30.3P): valor e data do desconto são zerados.
                     discount_code = "0"
 
             if discount_code:
