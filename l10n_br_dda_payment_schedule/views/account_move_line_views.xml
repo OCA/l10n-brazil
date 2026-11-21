@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="account_move_line_payment_schedule_tree" model="ir.ui.view">
+        <field name="model">account.move.line</field>
+        <field
+            name="inherit_id"
+            ref="l10n_br_payment_schedule.account_move_line_payment_schedule_tree"
+        />
+        <field name="arch" type="xml">
+            <field name="payment_barcode_type" position="before">
+                <field name="dda_barcode_divergent" invisible="1" />
+                <field
+                    name="dda_debit_id"
+                    optional="show"
+                    decoration-danger="dda_barcode_divergent"
+                />
+            </field>
+        </field>
+    </record>
+</odoo>
