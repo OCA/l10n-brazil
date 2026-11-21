@@ -119,11 +119,6 @@
         "views/l10n_br_fiscal_menu.xml",
         "views/document_line_report_view.xml",
     ],
-    "assets": {
-        "web.assets_backend": [
-            #    "l10n_br_fiscal/static/src/js/list_renderer_with_button.esm.js",
-        ],
-    },
     "demo": [
         "demo/city_taxation_code_demo.xml",
         "demo/company_demo.xml",
