@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html). -->
+<odoo>
+    <record id="view_dctfweb_cost_warning_form" model="ir.ui.view">
+        <field name="name">l10n_br_dctfweb.cost.warning.form</field>
+        <field name="model">l10n_br_dctfweb.cost.warning</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="assessment_id" />
+                    <field name="service_key" invisible="1" />
+                    <field name="service_name" />
+                    <field name="billed_count" />
+                </group>
+                <p>
+                    The Integra Contador charges for this request. Confirm to
+                    send it.
+                </p>
+                <footer>
+                    <button
+                        name="action_confirm"
+                        type="object"
+                        string="Confirm"
+                        class="btn-primary"
+                    />
+                    <button
+                        name="action_never_warn_again"
+                        type="object"
+                        string="Confirm and stop warning"
+                    />
+                    <button string="Cancel" class="btn-secondary" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>
