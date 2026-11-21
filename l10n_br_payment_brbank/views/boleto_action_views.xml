@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="boleto_action_form" model="ir.ui.view">
+        <field name="name">l10n_br.boleto.action.form</field>
+        <field name="model">l10n_br.boleto.action</field>
+        <field name="arch" type="xml">
+            <form>
+                <field name="currency_id" invisible="1" />
+                <field name="available_type_ids" invisible="1" />
+                <field name="action" invisible="1" />
+                <group>
+                    <group string="Current boleto">
+                        <field name="transaction_id" invisible="not transaction_id" />
+                        <field name="move_line_id" invisible="transaction_id" />
+                        <field name="boleto_state" invisible="not boleto_state" />
+                        <field name="current_due_date" />
+                        <field name="current_amount" invisible="not transaction_id" />
+                        <field name="open_amount" />
+                    </group>
+                    <group string="What to do">
+                        <field
+                            name="action_type_id"
+                            widget="radio"
+                            nolabel="1"
+                            colspan="2"
+                            options="{'no_create': True, 'no_open': True}"
+                        />
+                    </group>
+                </group>
+                <group>
+                    <group>
+                        <field
+                            name="new_due_date"
+                            string="New due date"
+                            invisible="action not in ('prorrogacao', 'reemissao')"
+                            required="action in ('prorrogacao', 'reemissao')"
+                        />
+                        <field
+                            name="amount"
+                            invisible="action != 'abatimento'"
+                            required="action == 'abatimento'"
+                        />
+                        <field name="charge_fees" invisible="action != 'reemissao'" />
+                    </group>
+                </group>
+                <div class="alert alert-info mb-0" role="status">
+                    <field name="explanation" nolabel="1" />
+                </div>
+                <footer>
+                    <button
+                        name="action_confirm"
+                        type="object"
+                        string="Send to the bank"
+                        class="btn-primary"
+                        data-hotkey="q"
+                    />
+                    <button special="cancel" string="Cancel" data-hotkey="x" />
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>
