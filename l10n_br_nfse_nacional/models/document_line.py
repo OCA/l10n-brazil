@@ -4,6 +4,7 @@
 
 from odoo import api, fields
 
+from odoo.addons.l10n_br_nfse.constants.currency import CURRENCY_BACEN_CODE
 from odoo.addons.spec_driven_model.models import spec_models
 
 
@@ -25,6 +26,8 @@ class L10nBrFiscalDocumentLine(spec_models.SpecModel):
         "nfse.10.tctriboutrospiscofins",
         "nfse.10.tctribtotal",
         "nfse.10.tctribtotalpercent",
+        # comExt
+        "nfse.10.tccomexterior",
     ]
 
     _nfse10_odoo_module = (
@@ -43,6 +46,7 @@ class L10nBrFiscalDocumentLine(spec_models.SpecModel):
     _nfse10_binding_type_tribFed = "TctribFederal"
     _nfse10_binding_type_totTrib = "TctribTotal"
     _nfse10_binding_type_pTotTrib = "TctribTotalPercent"
+    _nfse10_binding_type_comExt = "TccomExterior"
 
     nfse10_locPrest = fields.Many2one(
         "l10n_br_fiscal.document.line",
@@ -89,6 +93,11 @@ class L10nBrFiscalDocumentLine(spec_models.SpecModel):
         compute="_compute_nfse10_self",
         string="Total Tributos",
     )
+    nfse10_comExt = fields.Many2one(
+        "l10n_br_fiscal.document.line",
+        compute="_compute_nfse10_com_ext",
+        string="Comércio Exterior",
+    )
 
     # Fields mapped to tags
     nfse10_cLocPrestacao = fields.Char(related="issqn_fg_city_id.ibge_code")
@@ -119,6 +128,15 @@ class L10nBrFiscalDocumentLine(spec_models.SpecModel):
     nfse10_vCofins = fields.Char(compute="_compute_nfse10_pis_cofins")
     nfse10_tpRetPisCofins = fields.Selection(compute="_compute_nfse10_pis_cofins")
 
+    nfse10_mdPrestacao = fields.Selection(compute="_compute_nfse10_com_ext")
+    nfse10_vincPrest = fields.Selection(compute="_compute_nfse10_com_ext")
+    nfse10_tpMoeda = fields.Char(compute="_compute_nfse10_com_ext")
+    nfse10_vServMoeda = fields.Char(compute="_compute_nfse10_com_ext")
+    nfse10_mecAFComexP = fields.Selection(compute="_compute_nfse10_com_ext")
+    nfse10_mecAFComexT = fields.Selection(compute="_compute_nfse10_com_ext")
+    nfse10_movTempBens = fields.Selection(compute="_compute_nfse10_com_ext")
+    nfse10_mdic = fields.Selection(compute="_compute_nfse10_com_ext")
+
     nfse10_indTotTrib = fields.Selection(compute="_compute_nfse10_tot_trib")
     nfse10_pTotTribSN = fields.Char(compute="_compute_nfse10_tot_trib")
     nfse10_pTotTrib = fields.Many2one(
@@ -145,15 +163,80 @@ class L10nBrFiscalDocumentLine(spec_models.SpecModel):
     @api.depends("price_gross", "discount_value", "issqn_desc_cond_amount")
     def _compute_nfse10_valores(self):
         for rec in self:
-            rec.nfse10_vServ = f"{rec.price_gross:.2f}" if rec.price_gross else False
-            rec.nfse10_vDescIncond = (
-                f"{rec.discount_value:.2f}" if rec.discount_value else False
+            # The DPS is always in reais: the value of a line of an invoice in
+            # foreign currency is converted, and the original amount goes to
+            # comExt/vServMoeda.
+            _currency, rate = rec._nfse10_foreign_currency_rate()
+            price_gross = round(rec.price_gross * rate, 2)
+            discount = round(rec.discount_value * rate, 2)
+            desc_cond = round(rec.issqn_desc_cond_amount * rate, 2)
+            rec.nfse10_vServ = f"{price_gross:.2f}" if price_gross else False
+            rec.nfse10_vDescIncond = f"{discount:.2f}" if discount else False
+            rec.nfse10_vDescCond = f"{desc_cond:.2f}" if desc_cond else False
+
+    def _nfse10_foreign_currency_rate(self):
+        """Invoice currency and its rate to reais (see l10n_br_nfse)."""
+        self.ensure_one()
+        if not self.document_id:
+            return self.env["res.currency"], 1.0
+        return self.document_id._nfse_foreign_currency_rate()
+
+    def _nfse10_needs_foreign_trade(self):
+        """The DPS must carry the comExt group (rule E0330) when the ISSQN is
+        declared as export of service (tribISSQN 3) or when the taker is
+        abroad."""
+        self.ensure_one()
+        partner = self.document_id.partner_id
+        return self.nfse10_tribISSQN == "3" or bool(
+            partner and partner._nfse10_is_abroad()
+        )
+
+    @api.depends(
+        "price_gross",
+        "issqn_eligibility",
+        "issqn_tax_id",
+        "document_id.partner_id.country_id",
+        "document_id.nfse_foreign_trade_mode",
+        "document_id.nfse_foreign_trade_link",
+        "document_id.nfse_foreign_trade_support_provider",
+        "document_id.nfse_foreign_trade_support_recipient",
+    )
+    def _compute_nfse10_com_ext(self):
+        for rec in self:
+            rec.nfse10_comExt = False
+            rec.nfse10_mdPrestacao = False
+            rec.nfse10_vincPrest = False
+            rec.nfse10_tpMoeda = False
+            rec.nfse10_vServMoeda = False
+            rec.nfse10_mecAFComexP = False
+            rec.nfse10_mecAFComexT = False
+            rec.nfse10_movTempBens = False
+            rec.nfse10_mdic = False
+            if not rec.document_id or not rec._nfse10_needs_foreign_trade():
+                continue
+            document = rec.document_id
+            currency, _rate = rec._nfse10_foreign_currency_rate()
+            if currency:
+                code = CURRENCY_BACEN_CODE.get(currency.name)
+                amount = rec.price_gross
+            else:
+                # Invoice in reais: the transaction currency is the BRL (790).
+                code = CURRENCY_BACEN_CODE["BRL"]
+                amount = rec.price_gross
+            rec.nfse10_comExt = rec.id
+            rec.nfse10_mdPrestacao = document.nfse_foreign_trade_mode or "1"
+            rec.nfse10_vincPrest = document.nfse_foreign_trade_link or "0"
+            rec.nfse10_tpMoeda = code
+            rec.nfse10_vServMoeda = f"{round(amount, 2):.2f}"
+            rec.nfse10_mecAFComexP = (
+                document.nfse_foreign_trade_support_provider or "01"
             )
-            rec.nfse10_vDescCond = (
-                f"{rec.issqn_desc_cond_amount:.2f}"
-                if rec.issqn_desc_cond_amount
-                else False
+            rec.nfse10_mecAFComexT = (
+                document.nfse_foreign_trade_support_recipient or "01"
             )
+            # 1 = not linked to temporary movement of goods, 0 = not sent to MDIC
+            rec.nfse10_movTempBens = "1"
+            rec.nfse10_mdic = "0"
 
     @api.depends("issqn_tax_id", "issqn_eligibility")
     def _compute_nfse10_trib_issqn(self):
