@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl-3.0.html). -->
+<odoo>
+    <record id="credit_opening_company_rule" model="ir.rule">
+        <field name="name">Saldo inicial de crédito: empresas do usuário</field>
+        <field name="model_id" ref="model_l10n_br_pis_cofins_credit_opening" />
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+</odoo>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html). -->
+<odoo>
+    <record id="view_tax_group_form_regime" model="ir.ui.view">
+        <field name="name">account.tax.group.form.l10n_br_tax_assessment</field>
+        <field name="model">account.tax.group</field>
+        <field name="inherit_id" ref="account.view_tax_group_form" />
+        <field name="arch" type="xml">
+            <field name="sequence" position="after">
+                <field name="regime" />
+            </field>
+        </field>
+    </record>
+
+    <record id="view_tax_group_tree_regime" model="ir.ui.view">
+        <field name="name">account.tax.group.tree.l10n_br_tax_assessment</field>
+        <field name="model">account.tax.group</field>
+        <field name="inherit_id" ref="account.view_tax_group_tree" />
+        <field name="arch" type="xml">
+            <field name="country_id" position="after">
+                <field name="regime" />
+            </field>
+        </field>
+    </record>
+
+    <!-- the menu of the core for the tax groups needs the developer mode -->
+    <menuitem
+        id="menu_tax_group_regime"
+        name="Grupos de imposto (regime de apuração)"
+        parent="account.menu_finance_entries_actions"
+        action="account.action_tax_group"
+        groups="account.group_account_manager"
+        sequence="91"
+    />
+</odoo>
