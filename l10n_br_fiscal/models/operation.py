@@ -223,7 +223,7 @@ class Operation(models.Model):
 
         return serie
 
-    def _line_domain(self, company, partner, product):
+    def _line_domain(self, company, partner, product, ind_final=None):
         domain = [
             ("fiscal_operation_id", "=", self.id),
             ("fiscal_operation_type", "=", self.fiscal_operation_type),
@@ -275,6 +275,13 @@ class Operation(models.Model):
             ("icms_origin", "=", False),
         ]
 
+        if ind_final:
+            domain += [
+                "|",
+                ("ind_final", "=", ind_final),
+                ("ind_final", "=", False),
+            ]
+
         return domain
 
     def _has_icmsst(self, company, partner, product):
@@ -292,12 +299,14 @@ class Operation(models.Model):
             )
         )
 
-    def line_definition(self, company, partner, product):
+    def line_definition(self, company, partner, product, ind_final=None):
         self.ensure_one()
         if not company:
             company = self.env.company
 
-        lines = self.line_ids.search(self._line_domain(company, partner, product))
+        lines = self.line_ids.search(
+            self._line_domain(company, partner, product, ind_final)
+        )
 
         if lines.filtered("is_icmsst"):
             # Only distinguish Operation Lines by ICMS ST when this Fiscal
@@ -322,6 +331,7 @@ class Operation(models.Model):
                 "product_type",
                 "tax_icms_or_issqn",
                 "icms_origin",
+                "ind_final",
             ]
             return sum(1 for field in fields if getattr(line, field))
 
