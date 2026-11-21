@@ -158,6 +158,30 @@
                             </group>
                             <field name="tax_estimate_ids" />
                         </page>
+                        <page name="help" string="Help">
+                            <div class="alert alert-info" role="alert">
+                                <strong>The NCM is the fiscal classification of the
+                                product.</strong> In normal regime companies, the IPI
+                                of each item comes from it and, when the NCM has its
+                                own PIS/COFINS rule (Custom PIS/COFINS tab), so do
+                                these taxes. Register a single PIS/COFINS rule per
+                                NCM. A product with the wrong NCM means the wrong tax
+                                on every invoice.
+                            </div>
+                            <ul>
+                                <li>The complete official table is already
+                                registered. Your job is to <strong>pick the right
+                                NCM on each product</strong>, not to register
+                                NCMs.</li>
+                                <li>Whoever defines the correct NCM of a product is
+                                the <strong>accountant or the supplier</strong>. The
+                                purchase invoice is a good reference, but confirm it,
+                                because suppliers make mistakes too.</li>
+                                <li>The NCM, together with the CEST, also determines
+                                whether the product has <strong>tax
+                                substitution</strong> in each state.</li>
+                            </ul>
+                        </page>
                     </notebook>
                 </sheet>
                 <div class="oe_chatter">

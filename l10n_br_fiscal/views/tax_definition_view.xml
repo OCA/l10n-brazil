@@ -291,6 +291,83 @@
                                 <field name="ind_final" />
                             </group>
                         </page>
+                        <page name="help" string="Help">
+                            <div class="alert alert-info" role="alert">
+                                <strong>A tax definition is an exception rule</strong>:
+                                it says "in this situation, this tax behaves like
+                                this" (is not levied, is suspended, uses another
+                                rate...). Where there is no exception rule, the
+                                default taxes of the company apply and, in normal
+                                regime companies, those of the NCM of the product and
+                                of the ICMS regulation.
+                            </div>
+                            <h4>Where a rule can be and which one prevails</h4>
+                            <p>The system gathers the rules from several places, in
+                            this order. Each step can override what came from the
+                            previous one:</p>
+                            <div style="max-width:560px;">
+                                <div
+                                    style="border:1px solid #ccc; border-radius:8px; padding:8px 14px; margin:4px 0; background:#f8f9fa;"
+                                >1. Default taxes of the <strong>company</strong> <small
+                                        class="text-muted"
+                                    >(according to the tax framework)</small></div>
+                                <div style="text-align:center;"><i
+                                        class="fa fa-arrow-down"
+                                        title="Then"
+                                    /></div>
+                                <div
+                                    style="border:1px solid #ccc; border-radius:8px; padding:8px 14px; margin:4px 0; background:#f8f9fa;"
+                                >2. <strong>NCM</strong> of the product and <strong
+                                    >ICMS regulation</strong> by state <small
+                                        class="text-muted"
+                                    >(normal regime companies)</small></div>
+                                <div style="text-align:center;"><i
+                                        class="fa fa-arrow-down"
+                                        title="Then"
+                                    /></div>
+                                <div
+                                    style="border:1px solid #ccc; border-radius:8px; padding:8px 14px; margin:4px 0; background:#f8f9fa;"
+                                >3. Rules of the <strong>operation line</strong> <small
+                                        class="text-muted"
+                                    >(e.g. shipment without PIS/COFINS)</small></div>
+                                <div style="text-align:center;"><i
+                                        class="fa fa-arrow-down"
+                                        title="Then"
+                                    /></div>
+                                <div
+                                    style="border:1px solid #ccc; border-radius:8px; padding:8px 14px; margin:4px 0; background:#f8f9fa;"
+                                >4. Rules of the <strong>CFOP</strong></div>
+                                <div style="text-align:center;"><i
+                                        class="fa fa-arrow-down"
+                                        title="Then"
+                                    /></div>
+                                <div
+                                    style="border:1px solid #b8e0b8; border-radius:8px; padding:8px 14px; margin:4px 0; background:#eaf7ea;"
+                                >5. Rules of the <strong>fiscal profile of the
+                                    partner</strong> <small
+                                        class="text-muted"
+                                    >(the final word)</small></div>
+                            </div>
+                            <h4>Good practices</h4>
+                            <ul>
+                                <li>Fill in only the conditions you need (destination
+                                state, NCM, CEST, product...). A blank condition
+                                applies to all cases.</li>
+                                <li>Avoid, in the same place, two rules for the same
+                                tax that apply to the same situation. A single, well
+                                delimited rule is easier to understand and
+                                maintain.</li>
+                                <li>Review and <strong>approve</strong> the rule as soon
+                                as you finish configuring it. In the ICMS regulation,
+                                only approved rules apply.</li>
+                                <li>To retire a rule that no longer applies, set it to
+                                <strong>Expired</strong>.</li>
+                                <li>Before creating a new rule, try to understand where
+                                the current value comes from: often the right change
+                                is in the product record (NCM) or in the operation,
+                                not here.</li>
+                            </ul>
+                        </page>
                     </notebook>
                 </sheet>
                 <div class="oe_chatter">

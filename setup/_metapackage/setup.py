@@ -76,11 +76,13 @@ setuptools.setup(
         'odoo-addon-l10n_br_setup_tests>=16.0dev,<16.1dev',
         'odoo-addon-l10n_br_sped_base>=16.0dev,<16.1dev',
         'odoo-addon-l10n_br_sped_ecd>=16.0dev,<16.1dev',
+        'odoo-addon-l10n_br_sped_ecf>=16.0dev,<16.1dev',
         'odoo-addon-l10n_br_sped_efd_icms_ipi>=16.0dev,<16.1dev',
         'odoo-addon-l10n_br_stock>=16.0dev,<16.1dev',
         'odoo-addon-l10n_br_stock_account>=16.0dev,<16.1dev',
         'odoo-addon-l10n_br_stock_account_report>=16.0dev,<16.1dev',
         'odoo-addon-l10n_br_zip>=16.0dev,<16.1dev',
+        'odoo-addon-payment_cielo>=16.0dev,<16.1dev',
         'odoo-addon-spec_driven_model>=16.0dev,<16.1dev',
     ],
     classifiers=[

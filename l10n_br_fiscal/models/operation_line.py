@@ -263,6 +263,7 @@ class OperationLine(models.Model):
         national_taxation_code=None,
         service_type=None,
         ind_final=None,
+        tax_classification=None,
     ):
         """
         Map and determine the applicable fiscal taxes, CFOP, IPI guideline,
@@ -303,6 +304,9 @@ class OperationLine(models.Model):
             (l10n_br_fiscal.service.type).
         :param ind_final: (Passed to icms_regulation_id.map_tax; not directly
             used for tax calculation here)
+        :param tax_classification: Optional Tax Classification record
+            (l10n_br_fiscal.tax.classification) chosen on the document line;
+            defaults to the one of the operation line or of the company.
         :return: A dictionary containing:
             - 'taxes': A dictionary of applicable tax records
               (l10n_br_fiscal.tax) keyed by their tax_domain.
@@ -328,7 +332,9 @@ class OperationLine(models.Model):
         mapping_result["cfop"] = self._get_cfop(company, partner)
 
         # Define Tax Classification
-        mapping_result["tax_classification"] = self._get_tax_classification(company)
+        mapping_result["tax_classification"] = (
+            tax_classification or self._get_tax_classification(company)
+        )
 
         # 1 Get Tax Defs from Company
         for tax_definition in company.tax_definition_ids.map_tax_definition(

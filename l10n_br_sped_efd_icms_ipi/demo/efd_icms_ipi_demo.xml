@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html). -->
+<odoo>
+    <!--
+      The whole routine on the demo company of the assessment demo
+      (l10n_br_tax_assessment), on top of the accountant and the supplier
+      invoice of the l10n_br_sped_base demo: the ICMS and IPI assessments of
+      the month closed, and the EFD ICMS/IPI of the month pulled and generated.
+    -->
+    <!-- the file only goes out with the assessments of the period closed -->
+    <function
+        model="l10n_br_tax.assessment"
+        name="action_post"
+        eval="[[ref('l10n_br_tax_assessment.demo_assessment_icms'), ref('l10n_br_tax_assessment.demo_assessment_ipi')]]"
+    />
+
+    <record id="demo_declaration" model="l10n_br_sped.efd_icms_ipi.0000">
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+        <field
+            name="DT_INI"
+            eval="(DateTime.today() + relativedelta(day=1)).strftime('%Y-%m-%d')"
+        />
+        <field
+            name="DT_FIN"
+            eval="(DateTime.today() + relativedelta(day=31)).strftime('%Y-%m-%d')"
+        />
+    </record>
+    <function
+        model="l10n_br_sped.efd_icms_ipi.0000"
+        name="button_populate_sped_from_odoo"
+        eval="[[ref('demo_declaration')]]"
+    />
+    <function
+        model="l10n_br_sped.efd_icms_ipi.0000"
+        name="button_create_sped_files"
+        eval="[[ref('demo_declaration')]]"
+    />
+</odoo>

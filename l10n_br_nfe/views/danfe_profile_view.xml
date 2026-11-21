@@ -69,6 +69,7 @@
                             />
                             <field name="display_anp" />
                             <field name="display_anvisa" />
+                            <field name="display_partner_order" />
                         </group>
                         <group name="additional_info" string="Additional Information">
                             <field name="infcpl_semicolon_newline" />

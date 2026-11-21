@@ -14,6 +14,73 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_br_sped_base
+#: model:ir.model.fields.selection,name:l10n_br_sped_base.selection__l10n_br_sped_signer__qualification__203
+msgid "203 - Administrador"
+msgstr ""
+
+#. module: l10n_br_sped_base
+#: model:ir.model.fields.selection,name:l10n_br_sped_base.selection__l10n_br_sped_signer__qualification__204
+msgid "204 - Advogado"
+msgstr ""
+
+#. module: l10n_br_sped_base
+#: model:ir.model.fields.selection,name:l10n_br_sped_base.selection__l10n_br_sped_signer__qualification__205
+msgid "205 - Diretor"
+msgstr ""
+
+#. module: l10n_br_sped_base
+#: model:ir.model.fields.selection,name:l10n_br_sped_base.selection__l10n_br_sped_signer__qualification__206
+msgid "206 - Empresario"
+msgstr ""
+
+#. module: l10n_br_sped_base
+#: model:ir.model.fields.selection,name:l10n_br_sped_base.selection__l10n_br_sped_signer__qualification__207
+msgid "207 - Inventariante"
+msgstr ""
+
+#. module: l10n_br_sped_base
+#: model:ir.model.fields.selection,name:l10n_br_sped_base.selection__l10n_br_sped_signer__qualification__208
+msgid "208 - Liquidante"
+msgstr ""
+
+#. module: l10n_br_sped_base
+#: model:ir.model.fields.selection,name:l10n_br_sped_base.selection__l10n_br_sped_signer__qualification__209
+msgid "209 - Presidente"
+msgstr ""
+
+#. module: l10n_br_sped_base
+#: model:ir.model.fields.selection,name:l10n_br_sped_base.selection__l10n_br_sped_signer__qualification__222
+msgid "222 - Procurador"
+msgstr ""
+
+#. module: l10n_br_sped_base
+#: model:ir.model.fields.selection,name:l10n_br_sped_base.selection__l10n_br_sped_signer__qualification__223
+msgid "223 - Gestor judicial"
+msgstr ""
+
+#. module: l10n_br_sped_base
+#: model:ir.model.fields.selection,name:l10n_br_sped_base.selection__l10n_br_sped_signer__qualification__226
+msgid "226 - Socio"
+msgstr ""
+
+#. module: l10n_br_sped_base
+#: model:ir.model.fields.selection,name:l10n_br_sped_base.selection__l10n_br_sped_signer__qualification__309
+msgid "309 - Contador"
+msgstr ""
+
+#. module: l10n_br_sped_base
+#: model:ir.model.fields.selection,name:l10n_br_sped_base.selection__l10n_br_sped_signer__qualification__312
+msgid "312 - Tecnico contabil"
+msgstr ""
+
+#. module: l10n_br_sped_base
+#: model:ir.model.fields,help:l10n_br_sped_base.field_res_company__l10n_br_sped_signer_ids
+msgid ""
+"A escrituracao e assinada, no minimo, pelo responsavel legal da pessoa "
+"juridica e pelo contabilista: registro 0930 da ECF e J930 da ECD."
+msgstr ""
+
+#. module: l10n_br_sped_base
 #: model:ir.model.fields,field_description:l10n_br_sped_base.field_l10n_br_sped_declaration__message_needaction
 msgid "Action Needed"
 msgstr ""
@@ -50,6 +117,16 @@ msgid "Bookkeeping Currency"
 msgstr ""
 
 #. module: l10n_br_sped_base
+#: model:ir.model.fields,field_description:l10n_br_sped_base.field_l10n_br_sped_signer__cpf_cnpj
+msgid "CPF/CNPJ"
+msgstr ""
+
+#. module: l10n_br_sped_base
+#: model:ir.model.fields,field_description:l10n_br_sped_base.field_l10n_br_sped_signer__crc
+msgid "CRC"
+msgstr ""
+
+#. module: l10n_br_sped_base
 #: model:ir.model.fields,field_description:l10n_br_sped_base.field_res_partner__crc_code
 #: model:ir.model.fields,field_description:l10n_br_sped_base.field_res_users__crc_code
 msgid "CRC Code"
@@ -62,8 +139,14 @@ msgid "CRC State"
 msgstr ""
 
 #. module: l10n_br_sped_base
+#: model:ir.model,name:l10n_br_sped_base.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: l10n_br_sped_base
 #: model:ir.model.fields,field_description:l10n_br_sped_base.field_l10n_br_sped_declaration__company_id
 #: model:ir.model.fields,field_description:l10n_br_sped_base.field_l10n_br_sped_mixin__company_id
+#: model:ir.model.fields,field_description:l10n_br_sped_base.field_l10n_br_sped_signer__company_id
 msgid "Company"
 msgstr ""
 
@@ -73,14 +156,36 @@ msgid "Contact"
 msgstr ""
 
 #. module: l10n_br_sped_base
+#: model:ir.model.fields,field_description:l10n_br_sped_base.field_l10n_br_sped_signer__partner_id
+msgid "Contato"
+msgstr ""
+
+#. module: l10n_br_sped_base
+#: model:ir.model.fields,field_description:l10n_br_sped_base.field_l10n_br_sped_signer__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: l10n_br_sped_base
+#: model:ir.model.fields,field_description:l10n_br_sped_base.field_l10n_br_sped_signer__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: l10n_br_sped_base
 #: model:ir.model.fields,field_description:l10n_br_sped_base.field_l10n_br_sped_declaration__debug
 msgid "Debug"
+msgstr ""
+
+#. module: l10n_br_sped_base
+#: model:ir.model.fields,field_description:l10n_br_sped_base.field_l10n_br_sped_signer__display_name
+msgid "Display Name"
 msgstr ""
 
 #. module: l10n_br_sped_base
 #: model:ir.model.fields.selection,name:l10n_br_sped_base.selection__l10n_br_sped_declaration__state__done
 #: model:ir.model.fields.selection,name:l10n_br_sped_base.selection__l10n_br_sped_ecd_0000__state__done
 #: model:ir.model.fields.selection,name:l10n_br_sped_base.selection__l10n_br_sped_ecd_9_0000__state__done
+#: model:ir.model.fields.selection,name:l10n_br_sped_base.selection__l10n_br_sped_ecf_0000__state__done
+#: model:ir.model.fields.selection,name:l10n_br_sped_base.selection__l10n_br_sped_ecf_9_0000__state__done
 #: model:ir.model.fields.selection,name:l10n_br_sped_base.selection__l10n_br_sped_efd_icms_ipi_0000__state__done
 #: model:ir.model.fields.selection,name:l10n_br_sped_base.selection__l10n_br_sped_efd_icms_ipi_20_0000__state__done
 msgid "Done"
@@ -90,9 +195,16 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_br_sped_base.selection__l10n_br_sped_declaration__state__draft
 #: model:ir.model.fields.selection,name:l10n_br_sped_base.selection__l10n_br_sped_ecd_0000__state__draft
 #: model:ir.model.fields.selection,name:l10n_br_sped_base.selection__l10n_br_sped_ecd_9_0000__state__draft
+#: model:ir.model.fields.selection,name:l10n_br_sped_base.selection__l10n_br_sped_ecf_0000__state__draft
+#: model:ir.model.fields.selection,name:l10n_br_sped_base.selection__l10n_br_sped_ecf_9_0000__state__draft
 #: model:ir.model.fields.selection,name:l10n_br_sped_base.selection__l10n_br_sped_efd_icms_ipi_0000__state__draft
 #: model:ir.model.fields.selection,name:l10n_br_sped_base.selection__l10n_br_sped_efd_icms_ipi_20_0000__state__draft
 msgid "Draft"
+msgstr ""
+
+#. module: l10n_br_sped_base
+#: model:ir.model.fields,field_description:l10n_br_sped_base.field_l10n_br_sped_signer__email
+msgid "Email"
 msgstr ""
 
 #. module: l10n_br_sped_base
@@ -170,6 +282,11 @@ msgid "Has Message"
 msgstr ""
 
 #. module: l10n_br_sped_base
+#: model:ir.model.fields,field_description:l10n_br_sped_base.field_l10n_br_sped_signer__id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_br_sped_base
 #: model:ir.model.fields,help:l10n_br_sped_base.field_l10n_br_sped_declaration__res_id
 #: model:ir.model.fields,help:l10n_br_sped_base.field_l10n_br_sped_mixin__res_id
 msgid "ID of the target record in the database"
@@ -226,6 +343,21 @@ msgid "Is accountant?"
 msgstr ""
 
 #. module: l10n_br_sped_base
+#: model:ir.model.fields,field_description:l10n_br_sped_base.field_l10n_br_sped_signer____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: l10n_br_sped_base
+#: model:ir.model.fields,field_description:l10n_br_sped_base.field_l10n_br_sped_signer__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: l10n_br_sped_base
+#: model:ir.model.fields,field_description:l10n_br_sped_base.field_l10n_br_sped_signer__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: l10n_br_sped_base
 #: model:ir.model.fields,field_description:l10n_br_sped_base.field_l10n_br_sped_declaration__message_main_attachment_id
 msgid "Main Attachment"
 msgstr ""
@@ -266,6 +398,11 @@ msgid "Next Activity Type"
 msgstr ""
 
 #. module: l10n_br_sped_base
+#: model:ir.model.fields,field_description:l10n_br_sped_base.field_l10n_br_sped_signer__name
+msgid "Nome"
+msgstr ""
+
+#. module: l10n_br_sped_base
 #: model:ir.model.fields,field_description:l10n_br_sped_base.field_l10n_br_sped_declaration__message_needaction_counter
 msgid "Number of Actions"
 msgstr ""
@@ -286,6 +423,22 @@ msgid "Number of messages with delivery error"
 msgstr ""
 
 #. module: l10n_br_sped_base
+#: model:ir.model.fields,help:l10n_br_sped_base.field_l10n_br_sped_signer__crc
+msgid ""
+"Numero de inscricao no Conselho Regional de Contabilidade, obrigatorio para "
+"contador e tecnico contabil."
+msgstr ""
+
+#. module: l10n_br_sped_base
+#. odoo-python
+#: code:addons/l10n_br_sped_base/models/sped_signer.py:0
+#, python-format
+msgid ""
+"O signatario %(nome)s e contabilista e precisa do numero de inscricao no CRC"
+" para assinar a ECF."
+msgstr ""
+
+#. module: l10n_br_sped_base
 #: model:ir.model.fields,field_description:l10n_br_sped_base.field_l10n_br_sped_declaration__res_model
 #: model:ir.model.fields,field_description:l10n_br_sped_base.field_l10n_br_sped_mixin__res_model
 msgid "Odoo Model"
@@ -298,10 +451,20 @@ msgid "Odoo Reference"
 msgstr ""
 
 #. module: l10n_br_sped_base
+#: model:ir.model.fields,help:l10n_br_sped_base.field_l10n_br_sped_signer__partner_id
+msgid "Preenche nome, CPF/CNPJ, e-mail e telefone a partir do contato."
+msgstr ""
+
+#. module: l10n_br_sped_base
 #. odoo-python
 #: code:addons/l10n_br_sped_base/models/sped_declaration.py:0
 #, python-format
 msgid "Pull Registers from Odoo"
+msgstr ""
+
+#. module: l10n_br_sped_base
+#: model:ir.model.fields,field_description:l10n_br_sped_base.field_l10n_br_sped_signer__qualification
+msgid "Qualificacao"
 msgstr ""
 
 #. module: l10n_br_sped_base
@@ -335,10 +498,25 @@ msgid "SPED"
 msgstr ""
 
 #. module: l10n_br_sped_base
+#: model:ir.model.fields,field_description:l10n_br_sped_base.field_l10n_br_sped_signer__sequence
+msgid "Sequence"
+msgstr ""
+
+#. module: l10n_br_sped_base
 #. odoo-python
 #: code:addons/l10n_br_sped_base/models/sped_declaration.py:0
 #, python-format
 msgid "Set to Done"
+msgstr ""
+
+#. module: l10n_br_sped_base
+#: model:ir.model,name:l10n_br_sped_base.model_l10n_br_sped_signer
+msgid "Signatario da Escrituracao do Sped"
+msgstr ""
+
+#. module: l10n_br_sped_base
+#: model:ir.model.fields,field_description:l10n_br_sped_base.field_res_company__l10n_br_sped_signer_ids
+msgid "Signatarios da escrituracao"
 msgstr ""
 
 #. module: l10n_br_sped_base
@@ -375,6 +553,11 @@ msgid ""
 "Overdue: Due date is already passed\n"
 "Today: Activity date is today\n"
 "Planned: Future activities."
+msgstr ""
+
+#. module: l10n_br_sped_base
+#: model:ir.model.fields,field_description:l10n_br_sped_base.field_l10n_br_sped_signer__phone
+msgid "Telefone"
 msgstr ""
 
 #. module: l10n_br_sped_base

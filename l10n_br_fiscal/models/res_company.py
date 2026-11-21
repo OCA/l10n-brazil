@@ -645,3 +645,11 @@ class ResCompany(models.Model):
         else:
             self._del_tax_definition(TAX_DOMAIN_CBS)
             self._del_tax_definition(TAX_DOMAIN_IBS)
+
+    def _books_entry_by_creditability(self):
+        """Whether the ledger and the SPED of this company book an entry by the
+        creditability map: the tax it may not credit stays in the cost and
+        goes to the books without credit. Only a company that values its stock
+        at the net cost (``stock_valuation_via_stock_price``) does; any other
+        books the tax the line carries."""
+        return bool(getattr(self, "stock_valuation_via_stock_price", False))

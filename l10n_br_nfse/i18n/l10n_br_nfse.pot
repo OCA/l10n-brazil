@@ -392,6 +392,7 @@ msgstr ""
 
 #. module: l10n_br_nfse
 #: model:ir.model.fields.selection,name:l10n_br_nfse.selection__l10n_br_fiscal_document__taxation_special_regime__4
+#: model:ir.model.fields.selection,name:l10n_br_nfse.selection__res_company__taxation_special_regime__4
 msgid "Cooperativa"
 msgstr ""
 
@@ -867,16 +868,19 @@ msgstr ""
 
 #. module: l10n_br_nfse
 #: model:ir.model.fields.selection,name:l10n_br_nfse.selection__l10n_br_fiscal_document__taxation_special_regime__2
+#: model:ir.model.fields.selection,name:l10n_br_nfse.selection__res_company__taxation_special_regime__2
 msgid "Estimativa"
 msgstr ""
 
 #. module: l10n_br_nfse
 #: model:ir.model.fields.selection,name:l10n_br_nfse.selection__l10n_br_fiscal_document__operation_nature__5
+#: model:ir.model.fields.selection,name:l10n_br_nfse.selection__res_company__operation_nature__5
 msgid "Exigibilidade suspensa por decisão judicial"
 msgstr ""
 
 #. module: l10n_br_nfse
 #: model:ir.model.fields.selection,name:l10n_br_nfse.selection__l10n_br_fiscal_document__operation_nature__6
+#: model:ir.model.fields.selection,name:l10n_br_nfse.selection__res_company__operation_nature__6
 msgid "Exigibilidade suspensa por procedimento administrativo"
 msgstr ""
 
@@ -1331,6 +1335,7 @@ msgstr ""
 
 #. module: l10n_br_nfse
 #: model:ir.model.fields.selection,name:l10n_br_nfse.selection__l10n_br_fiscal_document__operation_nature__4
+#: model:ir.model.fields.selection,name:l10n_br_nfse.selection__res_company__operation_nature__4
 msgid "Imune"
 msgstr ""
 
@@ -1380,6 +1385,7 @@ msgstr ""
 
 #. module: l10n_br_nfse
 #: model:ir.model.fields.selection,name:l10n_br_nfse.selection__l10n_br_fiscal_document__operation_nature__3
+#: model:ir.model.fields.selection,name:l10n_br_nfse.selection__res_company__operation_nature__3
 msgid "Isenção"
 msgstr ""
 
@@ -1448,16 +1454,19 @@ msgstr ""
 
 #. module: l10n_br_nfse
 #: model:ir.model.fields.selection,name:l10n_br_nfse.selection__l10n_br_fiscal_document__taxation_special_regime__1
+#: model:ir.model.fields.selection,name:l10n_br_nfse.selection__res_company__taxation_special_regime__1
 msgid "Microempresa Municipal"
 msgstr ""
 
 #. module: l10n_br_nfse
 #: model:ir.model.fields.selection,name:l10n_br_nfse.selection__l10n_br_fiscal_document__taxation_special_regime__5
+#: model:ir.model.fields.selection,name:l10n_br_nfse.selection__res_company__taxation_special_regime__5
 msgid "Microempresario Individual(MEI)"
 msgstr ""
 
 #. module: l10n_br_nfse
 #: model:ir.model.fields.selection,name:l10n_br_nfse.selection__l10n_br_fiscal_document__taxation_special_regime__6
+#: model:ir.model.fields.selection,name:l10n_br_nfse.selection__res_company__taxation_special_regime__6
 msgid "Microempresario e Empresa de Pequeno Porte(ME EPP)"
 msgstr ""
 
@@ -1892,6 +1901,7 @@ msgstr ""
 
 #. module: l10n_br_nfse
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_l10n_br_fiscal_document__operation_nature
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_res_company__operation_nature
 msgid "Operation Nature"
 msgstr ""
 
@@ -2079,6 +2089,7 @@ msgstr ""
 
 #. module: l10n_br_nfse
 #: model:ir.model.fields.selection,name:l10n_br_nfse.selection__l10n_br_fiscal_document__taxation_special_regime__3
+#: model:ir.model.fields.selection,name:l10n_br_nfse.selection__res_company__taxation_special_regime__3
 msgid "Sociedade de Profissionais"
 msgstr ""
 
@@ -2339,6 +2350,7 @@ msgstr ""
 
 #. module: l10n_br_nfse
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_l10n_br_fiscal_document__taxation_special_regime
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_res_company__taxation_special_regime
 msgid "Taxation Special Regime"
 msgstr ""
 
@@ -2496,11 +2508,13 @@ msgstr ""
 
 #. module: l10n_br_nfse
 #: model:ir.model.fields.selection,name:l10n_br_nfse.selection__l10n_br_fiscal_document__operation_nature__2
+#: model:ir.model.fields.selection,name:l10n_br_nfse.selection__res_company__operation_nature__2
 msgid "Tributação fora do município"
 msgstr ""
 
 #. module: l10n_br_nfse
 #: model:ir.model.fields.selection,name:l10n_br_nfse.selection__l10n_br_fiscal_document__operation_nature__1
+#: model:ir.model.fields.selection,name:l10n_br_nfse.selection__res_company__operation_nature__1
 msgid "Tributação no município"
 msgstr ""
 

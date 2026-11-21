@@ -127,6 +127,91 @@
                         <page name="notes" string="Notes">
                             <field name="comment_ids" />
                         </page>
+                        <page name="help" string="Help">
+                            <div class="alert alert-info" role="alert">
+                                <strong>The fiscal operation tells the system what your
+                                company is doing</strong>: selling, buying, returning,
+                                transferring between branches, sending goods for
+                                industrialization... The system uses it to fill in the
+                                CFOP, the taxes and the messages of the invoice by
+                                itself.
+                            </div>
+                            <h4>How it works</h4>
+                            <div
+                                style="display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin:12px 0;"
+                            >
+                                <div
+                                    style="border:1px solid #ccc; border-radius:8px; padding:10px 14px; background:#f8f9fa;"
+                                >
+                                    1. You create an order or an invoice<br /><small
+                                        class="text-muted"
+                                    >sale, purchase, transfer...</small>
+                                </div>
+                                <div style="font-size:20px;"><i
+                                        class="fa fa-arrow-right"
+                                        title="Next step"
+                                    /></div>
+                                <div
+                                    style="border:1px solid #ccc; border-radius:8px; padding:10px 14px; background:#f8f9fa;"
+                                >
+                                    2. You pick the operation<br /><small
+                                        class="text-muted"
+                                    >e.g. "Venda" (sale), "Bonificação" (bonus)</small>
+                                </div>
+                                <div style="font-size:20px;"><i
+                                        class="fa fa-arrow-right"
+                                        title="Next step"
+                                    /></div>
+                                <div
+                                    style="border:1px solid #ccc; border-radius:8px; padding:10px 14px; background:#f8f9fa;"
+                                >
+                                    3. The system picks the right line<br /><small
+                                        class="text-muted"
+                                    >according to the customer, the product and the tax framework of your company</small>
+                                </div>
+                                <div style="font-size:20px;"><i
+                                        class="fa fa-arrow-right"
+                                        title="Next step"
+                                    /></div>
+                                <div
+                                    style="border:1px solid #b8e0b8; border-radius:8px; padding:10px 14px; background:#eaf7ea;"
+                                >
+                                    4. The invoice comes out ready<br /><small
+                                        class="text-muted"
+                                    >CFOP, taxes and messages filled in</small>
+                                </div>
+                            </div>
+                            <h4>Good practices</h4>
+                            <ul>
+                                <li><strong>Before creating a new operation</strong>,
+                                check whether a similar one already exists. The most
+                                common operations (sale, purchase, return, transfer,
+                                bonus, simple shipment, industrialization on
+                                order...) are already registered.</li>
+                                <li>If you need a variation, <strong>duplicate a
+                                similar operation</strong> and adjust the copy. It is
+                                safer than starting from scratch.</li>
+                                <li>The <strong>return operation</strong> links the way
+                                out to the way back: "Venda" (sale), for example,
+                                points to "Devolução de Venda" (sale return). The system uses it to fill in the
+                                operation when you return a document.</li>
+                                <li>Only <strong>approved</strong> operations show up
+                                in documents. Keep the operation in draft while you
+                                configure it and approve it when you are done: its
+                                lines are approved together.</li>
+                                <li><strong
+                                    >Several companies in the same database?</strong>
+                                An operation with no company set is valid for all of
+                                them. What changes with the tax framework of each
+                                company (CST in the normal regime, CSOSN in the
+                                Simples Nacional) comes from the default taxes of the
+                                company itself and from the lines specific to each
+                                framework, when the operation has them. If a company
+                                needs a behavior of its own, duplicate the operation
+                                and fill in the Company field on the copy: the change
+                                does not affect the others.</li>
+                            </ul>
+                        </page>
                     </notebook>
                 </sheet>
                 <div class="oe_chatter">

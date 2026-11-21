@@ -208,6 +208,9 @@ class TestMoveEdition(TransactionCase):
                 ],
                 service_type=self.env["l10n_br_fiscal.service.type"],
                 ind_final="1",
+                tax_classification=self.env.ref(
+                    "l10n_br_fiscal.fo_venda_revenda"
+                )._get_tax_classification(move_form.company_id),
             )
 
             # ensure manually setting a product_uom_id is properly sync'ed:
@@ -814,3 +817,31 @@ class TestMoveEdition(TransactionCase):
         fiscal_line = move.fiscal_line_ids[0]
         self.assertEqual(move.ind_final, "0")
         self.assertEqual(fiscal_line.ind_final, "0")
+
+    def test_tax_classification_change_applies_cbs_ibs_reduction(self):
+        """Picking a tax classification on an invoice line must apply its
+        CBS/IBS taxes, including their base reduction (OCA/l10n-brazil#5627)."""
+        self._setup_fiscal_user()
+        partner = self.env.ref("l10n_br_base.res_partner_cliente1_sp")
+        classification = self.env.ref("l10n_br_fiscal.tax_classification_200046")
+
+        move_form = self._create_fiscal_invoice_form(partner)
+        with move_form.invoice_line_ids.new() as line_form:
+            line_form.product_id = self.product_id
+            line_form.price_unit = 100.0
+            line_form.quantity = 1.0
+            line_form.tax_classification_id = classification
+
+            self.assertEqual(line_form.cbs_tax_id, classification.tax_cbs_id)
+            self.assertEqual(line_form.ibs_tax_id, classification.tax_ibs_id)
+            self.assertEqual(line_form.cbs_reduction, 50.0)
+            self.assertEqual(line_form.ibs_reduction, 50.0)
+
+        line = move_form.save().invoice_line_ids
+        self.assertEqual(line.tax_classification_id, classification)
+        self.assertEqual(line.cbs_tax_id, classification.tax_cbs_id)
+        self.assertEqual(line.ibs_tax_id, classification.tax_ibs_id)
+        self.assertIn(classification.tax_cbs_id, line.fiscal_tax_ids)
+        self.assertIn(classification.tax_ibs_id, line.fiscal_tax_ids)
+        self.assertEqual(line.cbs_reduction, 50.0)
+        self.assertEqual(line.ibs_reduction, 50.0)
