@@ -14,6 +14,9 @@ from odoo.addons.l10n_br_sped_base.models.sped_mixin import (
     EDITABLE_ON_DRAFT,
     LAYOUT_VERSIONS,
 )
+from odoo.addons.l10n_br_sped_base.models.sped_signer import (
+    QUALIFICACAO_SIGNATARIO,
+)
 
 from .sped_mixin_ecd import format_zero
 
@@ -75,11 +78,92 @@ class Registro0000(models.Model):
         string="Forma de escritura contábil",
     )
 
+    # not a register 0000 field either: the order number of the book, in the
+    # I030 and the J900
+    num_ord = fields.Integer(string="Book Number", default=1)
+
     @api.model
     def _append_top_view_elements(self, group, inline=False):
         res = super()._append_top_view_elements(group)
         group.append(E.field(name="ind_esc", required="1", attrs=EDITABLE_ON_DRAFT))
+        group.append(E.field(name="num_ord", required="1", attrs=EDITABLE_ON_DRAFT))
         return res
+
+    _NATUREZA_DO_LIVRO = {
+        "G": "DIARIO GERAL",
+        "R": "DIARIO COM ESCRITURACAO RESUMIDA",
+        "A": "DIARIO AUXILIAR",
+        "B": "DIARIO E BALANCETES DIARIOS",
+        "Z": "RAZAO AUXILIAR",
+    }
+
+    def _natureza_do_livro(self):
+        self.ensure_one()
+        return self._NATUREZA_DO_LIVRO.get(self.ind_esc, "DIARIO GERAL")
+
+    def _ledger_balances(self):
+        """``{account: values}`` of the accounts with balance or movement.
+
+        ``ini`` and ``fin`` are the balances at the start and at the end of the
+        bookkeeping (the result accounts open the fiscal year at zero), and
+        ``result`` is the result of the bookkeeping before the closing entries,
+        what the demonstration of the result reports. Debit is positive."""
+        self.ensure_one()
+        company = self.company_id
+        self.env.flush_all()
+        self.env.cr.execute(
+            """
+            SELECT l.account_id,
+                   COALESCE(SUM(CASE WHEN l.date < %(ini)s
+                                     THEN l.balance ELSE 0 END), 0),
+                   COALESCE(SUM(l.balance), 0),
+                   COALESCE(SUM(CASE WHEN l.date >= %(ini)s
+                                      AND NOT COALESCE(
+                                          m.l10n_br_sped_result_closing, FALSE)
+                                     THEN l.balance ELSE 0 END), 0),
+                   BOOL_OR(l.date >= %(ini)s)
+            FROM account_move_line l
+            JOIN account_move m ON m.id = l.move_id
+            JOIN account_account a ON a.id = l.account_id
+            WHERE l.company_id = %(company)s
+              AND m.state = 'posted'
+              AND l.date <= %(fim)s
+              AND (a.internal_group NOT IN ('income', 'expense')
+                   OR l.date >= %(exercicio)s)
+            GROUP BY l.account_id
+            """,
+            {
+                "ini": self.DT_INI,
+                "fim": self.DT_FIN,
+                "company": company.id,
+                "exercicio": company.compute_fiscalyear_dates(self.DT_INI)["date_from"],
+            },
+        )
+        currency = company.currency_id
+        balances = {}
+        for account_id, ini, fin, result, moved in self.env.cr.fetchall():
+            if not moved and currency.is_zero(ini) and currency.is_zero(fin):
+                continue
+            account = self.env["account.account"].browse(account_id)
+            balances[account] = {"ini": ini, "fin": fin, "result": result}
+        return balances
+
+    def _generate_sped_text_in_company(self, version=None):
+        # the terms (I030 and J900) carry the number of lines of the whole file,
+        # known only once it is written
+        text = super()._generate_sped_text_in_company(version)
+        lines = text.count("\n") + 1
+        changed = False
+        for model in ("l10n_br_sped.ecd.i030", "l10n_br_sped.ecd.j900"):
+            terms = self.env[model].search(
+                [("declaration_id", "=", self.id), ("QTD_LIN", "!=", lines)]
+            )
+            if terms:
+                terms.QTD_LIN = lines
+                changed = True
+        if changed:
+            text = super()._generate_sped_text_in_company(version)
+        return text
 
     @api.model
     def _odoo_domain(self, parent_record, declaration):
@@ -321,21 +405,22 @@ class RegistroI030(models.Model):
     _name = "l10n_br_sped.ecd.i030"
     _inherit = "l10n_br_sped.ecd.9.i030"
 
-    # @api.model
-    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
-    #     return {
-    #         "DNRC_ABERT": 0,  # Texto fixo contendo “TERMO DE ABERTURA”.
-    #         "NUM_ORD": 0,  # Número de ordem do instrumento de escrituração.
-    #         "NAT_LIVR": 0,  # Natureza do livro; finalidade a que se destina o in...
-    #         "QTD_LIN": 0,  # Quantidade total de linhas do arquivo digital.
-    #         "NOME": 0,  # Nome empresarial.
-    #         "NIRE": 0,  # Número de Identificação do Registro de Empresas da Junt...
-    #         "CNPJ": 0,  # Número de inscrição no CNPJ.
-    #         "DT_ARQ": 0,  # Data do arquivamento dos atos constitutivos.
-    #         "DT_ARQ_CONV": 0,  # Data de arquivamento do ato de conversão de soci...
-    #         "DESC_MUN": 0,  # Município.
-    #         "DT_EX_SOCIAL": 0,  # Data de encerramento do exercício social.
-    #     }
+    @api.model
+    def _map_from_odoo(self, record, parent_record, declaration, index=0):
+        company = declaration.company_id
+        return {
+            "DNRC_ABERT": "TERMO DE ABERTURA",
+            "NUM_ORD": declaration.num_ord,
+            "NAT_LIVR": declaration._natureza_do_livro(),
+            # the number of lines is written by the generation of the file
+            "QTD_LIN": 1,
+            "NOME": company.legal_name or company.name,
+            "CNPJ": misc.punctuation_rm(company.cnpj_cpf),
+            "DESC_MUN": company.city_id.name,
+            "DT_EX_SOCIAL": company.compute_fiscalyear_dates(declaration.DT_FIN)[
+                "date_to"
+            ],
+        }
 
 
 class RegistroI050(models.Model):
@@ -366,6 +451,8 @@ class RegistroI050(models.Model):
         declaration = self._context["declaration"]
         company = declaration.company_id
         i051 = self.env["l10n_br_sped.ecd.i051"]
+        i052 = self.env["l10n_br_sped.ecd.i052"]
+        demonstradas = set(declaration._ledger_balances())
 
         groups = (
             self.env["account.group"]
@@ -433,6 +520,17 @@ class RegistroI050(models.Model):
             register = self.create(vals)
             registers |= register
 
+            # I052: the account is its own code in the demonstrations (J100,
+            # J150), for the accounts with balance or movement
+            if ind_cta == "A" and record in demonstradas:
+                i052.create(
+                    {
+                        "COD_CCUS": "",
+                        "COD_AGL": record.code,
+                        "declaration_id": declaration.id,
+                        "reg_I052_ids_RegistroI050_id": register.id,
+                    }
+                )
             # I051 é o de-para com o plano referencial, só das contas mapeadas
             if ind_cta == "A" and record.l10n_br_sped_referential_code:
                 i051.create(
@@ -683,7 +781,8 @@ class RegistroI200(models.Model):
             "NUM_LCTO": record.name,  # Número ou Código de identificação
             "DT_LCTO": record.date,
             "VL_LCTO": amount,  # Valor do lançamento.
-            "IND_LCTO": "N",
+            # E for the entry that closes the result, N for the others
+            "IND_LCTO": "E" if record.l10n_br_sped_result_closing else "N",
             # DT_LCTO_EXT is only for an untimely entry (IND_LCTO X)
             # Valor do lançamento em moeda funcional
             "VL_LCTO_MF": amount,
@@ -769,11 +868,58 @@ class RegistroI350(models.Model):
     _name = "l10n_br_sped.ecd.i350"
     _inherit = "l10n_br_sped.ecd.9.i350"
 
-    # @api.model
-    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
-    #     return {
-    #         "DT_RES": 0,  # Data da apuração do resultado.
-    #     }
+    def _pull_records_from_odoo(
+        self, kind, level, parent_register=None, parent_record=None, log_msg=None
+    ):
+        """One I350 for each closing entry, with the balances it brings to zero.
+
+        The balance before the closing is the opposite of the closing line of
+        each result account."""
+        declaration = self._context["declaration"]
+        i355 = self.env["l10n_br_sped.ecd.i355"]
+        closings = self.env["account.move"].search(
+            [
+                ("company_id", "=", declaration.company_id.id),
+                ("state", "=", "posted"),
+                ("l10n_br_sped_result_closing", "=", True),
+                ("date", ">=", declaration.DT_INI),
+                ("date", "<=", declaration.DT_FIN),
+            ],
+            order="date, id",
+        )
+        registers = self.browse()
+        for closing in closings:
+            register = self.create(
+                {
+                    "DT_RES": closing.date,
+                    "declaration_id": declaration.id,
+                    "reg_I350_ids_RegistroI010_id": parent_register.id,
+                }
+            )
+            registers |= register
+            balances = {}
+            for line in closing.line_ids.filtered(
+                lambda ln: ln.account_id.internal_group in ("income", "expense")
+            ):
+                balances[line.account_id] = (
+                    balances.get(line.account_id, 0.0) - line.balance
+                )
+            for account in sorted(balances, key=lambda acc: acc.code):
+                balance = balances[account]
+                if closing.currency_id.is_zero(balance):
+                    continue
+                i355.create(
+                    {
+                        "COD_CTA": account.code,
+                        "COD_CCUS": "",
+                        "VL_CTA": abs(balance),
+                        "IND_DC": "D" if balance > 0 else "C",
+                        "declaration_id": declaration.id,
+                        "reg_I355_ids_RegistroI350_id": register.id,
+                    }
+                )
+        if log_msg is not None:
+            self._log_chatter_sped_item(log_msg, level, registers)
 
 
 class RegistroI355(models.Model):
@@ -890,14 +1036,138 @@ class RegistroJ005(models.Model):
     _name = "l10n_br_sped.ecd.j005"
     _inherit = "l10n_br_sped.ecd.9.j005"
 
-    # @api.model
-    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
-    #     return {
-    #         "DT_INI": 0,  # O Data inicial das demonstrações contábeis. bservação...
-    #         "DT_FIN": 0,  # Data final das demonstrações contábeis.
-    #         "ID_DEM": 0,  # Identificação das demonstrações: 1 – demonstrações co...
-    #         "CAB_DEM": 0,  # Cabeçalho das demonstrações.
-    #     }
+    # aglutinacao: um codigo por conta analitica (o I052 de cada conta), sob
+    # um totalizador do ativo e um do passivo no balanco, e um do resultado
+    # na demonstracao do resultado
+    _GRUPOS_DO_BALANCO = (
+        ("1", "ATIVO", "A", ("asset",)),
+        ("2", "PASSIVO E PATRIMONIO LIQUIDO", "P", ("liability", "equity")),
+    )
+
+    def _pull_records_from_odoo(
+        self, kind, level, parent_register=None, parent_record=None, log_msg=None
+    ):
+        declaration = self._context["declaration"]
+        balances = declaration._ledger_balances()
+        j005 = self.create(
+            {
+                "DT_INI": declaration.DT_INI,
+                "DT_FIN": declaration.DT_FIN,
+                "ID_DEM": 1,
+                "CAB_DEM": "DEMONSTRACOES CONTABEIS",
+                "declaration_id": declaration.id,
+            }
+        )
+        self._balanco(declaration, j005, balances)
+        self._resultado(declaration, j005, balances)
+        if log_msg is not None:
+            self._log_chatter_sped_item(log_msg, level, j005)
+
+    @staticmethod
+    def _dc(balance, credit_side):
+        if balance > 0:
+            return "D"
+        if balance < 0:
+            return "C"
+        return "C" if credit_side else "D"
+
+    def _balanco(self, declaration, j005, balances):
+        j100 = self.env["l10n_br_sped.ecd.j100"]
+        for code, name, group, internal_groups in self._GRUPOS_DO_BALANCO:
+            accounts = sorted(
+                (acc for acc in balances if acc.internal_group in internal_groups),
+                key=lambda acc: acc.code,
+            )
+            credit_side = group == "P"
+            total_ini = sum(balances[acc]["ini"] for acc in accounts)
+            total_fin = sum(balances[acc]["fin"] for acc in accounts)
+            vals = [
+                {
+                    "COD_AGL": code,
+                    "IND_COD_AGL": "T",
+                    "NIVEL_AGL": 1,
+                    "IND_GRP_BAL": group,
+                    "DESCR_COD_AGL": name,
+                    "VL_CTA_INI": abs(total_ini),
+                    "IND_DC_CTA_INI": self._dc(total_ini, credit_side),
+                    "VL_CTA_FIN": abs(total_fin),
+                    "IND_DC_CTA_FIN": self._dc(total_fin, credit_side),
+                }
+            ]
+            for acc in accounts:
+                ini, fin = balances[acc]["ini"], balances[acc]["fin"]
+                vals.append(
+                    {
+                        "COD_AGL": acc.code,
+                        "IND_COD_AGL": "D",
+                        "NIVEL_AGL": 2,
+                        "COD_AGL_SUP": code,
+                        "IND_GRP_BAL": group,
+                        "DESCR_COD_AGL": acc.name,
+                        "VL_CTA_INI": abs(ini),
+                        "IND_DC_CTA_INI": self._dc(ini, credit_side),
+                        "VL_CTA_FIN": abs(fin),
+                        "IND_DC_CTA_FIN": self._dc(fin, credit_side),
+                    }
+                )
+            for val in vals:
+                val.update(
+                    {
+                        "declaration_id": declaration.id,
+                        "reg_J100_ids_RegistroJ005_id": j005.id,
+                    }
+                )
+            j100.create(vals)
+
+    def _resultado(self, declaration, j005, balances):
+        accounts = sorted(
+            (
+                acc
+                for acc in balances
+                if acc.internal_group in ("income", "expense")
+                and not declaration.company_id.currency_id.is_zero(
+                    balances[acc]["result"]
+                )
+            ),
+            key=lambda acc: acc.code,
+        )
+        # the profit is the credit balance of the result
+        profit = -sum(balances[acc]["result"] for acc in accounts)
+        vals = [
+            {
+                "NU_ORDEM": "1",
+                "COD_AGL": "RES",
+                "IND_COD_AGL": "T",
+                "NIVEL_AGL": 1,
+                "DESCR_COD_AGL": "RESULTADO LIQUIDO DO EXERCICIO",
+                "VL_CTA_FIN": abs(profit),
+                "IND_DC_CTA_FIN": "C" if profit >= 0 else "D",
+                "IND_GRP_DRE": "R" if profit >= 0 else "D",
+            }
+        ]
+        for order, acc in enumerate(accounts, start=2):
+            result = balances[acc]["result"]
+            vals.append(
+                {
+                    "NU_ORDEM": str(order),
+                    "COD_AGL": acc.code,
+                    "IND_COD_AGL": "D",
+                    "NIVEL_AGL": 2,
+                    "COD_AGL_SUP": "RES",
+                    "DESCR_COD_AGL": acc.name,
+                    "VL_CTA_FIN": abs(result),
+                    "IND_DC_CTA_FIN": "C" if result < 0 else "D",
+                    "IND_GRP_DRE": "R" if result < 0 else "D",
+                }
+            )
+        for val in vals:
+            val.update(
+                {
+                    "declaration_id": declaration.id,
+                    "reg_J150_ids_RegistroJ005_id": j005.id,
+                }
+            )
+        self.env["l10n_br_sped.ecd.j150"].create(vals)
 
 
 class RegistroJ100(models.Model):
@@ -1031,17 +1301,19 @@ class RegistroJ900(models.Model):
     _name = "l10n_br_sped.ecd.j900"
     _inherit = "l10n_br_sped.ecd.9.j900"
 
-    # @api.model
-    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
-    #     return {
-    #         "DNRC_ENCER": 0,  # Texto fixo contendo “TERMO DE ENCERRAMENTO”.
-    #         "NUM_ORD": 0,  # Número de ordem do instrumento de escrituração.
-    #         "NAT_LIVRO": 0,  # Natureza do livro; finalidade a que se destinou o ...
-    #         "NOME": 0,  # Nome empresarial.
-    #         "QTD_LIN": 0,  # Quantidade total de linhas do arquivo digital.
-    #         "DT_INI_ESCR": 0,  # Data de início da escrituração.
-    #         "DT_FIN_ESCR": 0,  # Data de término da escrituração.
-    #     }
+    @api.model
+    def _map_from_odoo(self, record, parent_record, declaration, index=0):
+        company = declaration.company_id
+        return {
+            "DNRC_ENCER": "TERMO DE ENCERRAMENTO",
+            "NUM_ORD": declaration.num_ord,
+            "NAT_LIVRO": declaration._natureza_do_livro(),
+            "NOME": company.legal_name or company.name,
+            # the number of lines is written by the generation of the file
+            "QTD_LIN": 1,
+            "DT_INI_ESCR": declaration.DT_INI,
+            "DT_FIN_ESCR": declaration.DT_FIN,
+        }
 
 
 class RegistroJ930(models.Model):
@@ -1050,22 +1322,34 @@ class RegistroJ930(models.Model):
     _description = textwrap.dedent(f"    {__doc__}")
     _name = "l10n_br_sped.ecd.j930"
     _inherit = "l10n_br_sped.ecd.9.j930"
+    _odoo_model = "l10n_br_sped.signer"
 
-    # @api.model
-    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
-    #     return {
-    #         "IDENT_NOM": 0,  # Nome do signatário.
-    #         "IDENT_CPF_CNPJ": 0,  # CPF ou CNPJ
-    #         "IDENT_QUALIF": 0,  # Qualificação do assinante, conforme tabela.
-    #         "COD_ASSIN": 0,  # Código de qualificação do assinante, conforme tabe...
-    #         "IND_CRC": 0,  # Número de inscrição do contabilista no Conselho Regi...
-    #         "EMAIL": 0,  # Email do signatário.
-    #         "FONE": 0,  # Telefone do signatário.
-    #         "UF_CRC": 0,  # Indicação da unidade da federação que expediu o CRC.
-    #         "NUM_SEQ_CRC": 0,  # Número da Certidão de Regularidade Profissional ...
-    #         "DT_CRC": 0,  # Data de validade da Certidão de Regularidade Profissi...
-    #         "IND_RESP_LEGAL": 0,  # Identificação do signatário que será validado...
-    #     }
+    @api.model
+    def _odoo_domain(self, parent_record, declaration):
+        return [("company_id", "=", declaration.company_id.id)]
+
+    @api.model
+    def _map_from_odoo(self, record, parent_record, declaration, index=0):
+        digits = record._so_digitos
+        qualification = dict(QUALIFICACAO_SIGNATARIO)[record.qualification]
+        if record.qualification == "900":
+            # the PVA takes only CONTADOR or CONTABILISTA for the accountant
+            # (RegraTabelaAssinanteDesc), not the name of the table
+            qualification = "Contador"
+        return {
+            "IDENT_NOM": record.name,
+            "IDENT_CPF_CNPJ": digits(record.cpf_cnpj),
+            "IDENT_QUALIF": qualification.split(" - ", 1)[-1],
+            "COD_ASSIN": record.qualification,
+            # the CRC with letters and digits only
+            "IND_CRC": "".join(c for c in (record.crc or "") if c.isalnum()),
+            "EMAIL": record.email or "",
+            "FONE": digits(record.phone),
+            "UF_CRC": record.crc_state_id.code or "",
+            "NUM_SEQ_CRC": record.crp_number or "",
+            "DT_CRC": record.crp_validity,
+            "IND_RESP_LEGAL": "S" if record.legal_responsible else "N",
+        }
 
 
 class RegistroJ932(models.Model):
