@@ -21,7 +21,9 @@ Antes da primeira escrituração, configure:
     quais notas faltam.
 6.  **Encerramento do resultado** em cada período de apuração (trimestral no
     lucro presumido): um lançamento que zera as contas de resultado,
-    marcado como "Result Closing Entry". O balanço (K155) é o saldo depois
+    marcado como "Result Closing Entry". O assistente "Close the result of
+    the period" (Contabilidade > Ações) monta, lança e marca esse lançamento
+    a partir dos saldos do período. O balanço (K155) é o saldo depois
     do encerramento, e a marca separa o encerramento da receita do período.
     Sem ele, a geração para e diz o período e as contas a encerrar.
 

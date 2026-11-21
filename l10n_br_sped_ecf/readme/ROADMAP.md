@@ -1,7 +1,3 @@
-- **Assistente de encerramento do resultado.** Hoje a escrituração exige o
-  lançamento de encerramento de cada período de apuração, mas não o gera: o
-  usuário lança e marca à mão. Falta um assistente "encerrar o resultado do
-  período" que monte e marque esse lançamento.
 - **Encerramento reconhecido de outros módulos.** O `account_fiscal_year_closing`
   (repositório OCA/account-closing) marca o encerramento com `closing_type`;
   a ECF pode reconhecer essa marca também.
