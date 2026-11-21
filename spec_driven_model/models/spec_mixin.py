@@ -91,6 +91,24 @@ class SpecMixin(models.AbstractModel):
     def _register_hook(self):
         res = super()._register_hook()
         self._register_remaining_schema_models_hook()
+        if self._context.get("spec_schema") and self._context.get("spec_version"):
+            return res
+        # _spec_prefix only resolves the first schema of the MRO: hook the others
+        schemas = []
+        for ancestor in type(self).mro():
+            if not ancestor.__module__.startswith("odoo.addons."):
+                continue
+            mod = import_module(".".join(ancestor.__module__.split(".")[:-1]))
+            if hasattr(mod, "spec_schema"):
+                schema = (mod.spec_schema, mod.spec_version)
+                if schema not in schemas:
+                    schemas.append(schema)
+        for spec_schema, spec_version in schemas[1:]:
+            mixin = self.env.get(f"spec.mixin.{spec_schema}")
+            if hasattr(mixin, "_register_remaining_schema_models_hook"):
+                mixin.with_context(
+                    spec_schema=spec_schema, spec_version=spec_version
+                )._register_remaining_schema_models_hook()
         return res
 
     def _register_remaining_schema_models_hook(self):
