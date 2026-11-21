@@ -36,19 +36,23 @@ class TestFiscalTaxDeductible(TransactionCase):
 
         cls.fiscal_tax = cls.env.ref("l10n_br_fiscal.tax_pis_0_65")
         fiscal_group = cls.fiscal_tax.tax_group_id
-        group = fiscal_group.account_tax_group()
-        if not group or group.country_id != cls.env.ref("base.br"):
-            # account.tax.group is country (and company) scoped and core
-            # validates that the group country matches the tax company's
-            # country: create the scoped group this test needs.
-            group = cls.env["account.tax.group"].create(
-                {
-                    "name": fiscal_group.name,
-                    "company_id": cls.company_a.id,
-                    "country_id": cls.env.ref("base.br").id,
-                    "fiscal_tax_group_id": fiscal_group.id,
-                }
-            )
+        # account.tax.group is company scoped and core validates that the group
+        # country matches the tax company's country: the test needs the group
+        # of company A, not one that another company already has.
+        group = cls.env["account.tax.group"].search(
+            [
+                ("fiscal_tax_group_id", "=", fiscal_group.id),
+                ("company_id", "=", cls.company_a.id),
+            ],
+            limit=1,
+        ) or cls.env["account.tax.group"].create(
+            {
+                "name": fiscal_group.name,
+                "company_id": cls.company_a.id,
+                "country_id": cls.env.ref("base.br").id,
+                "fiscal_tax_group_id": fiscal_group.id,
+            }
+        )
         # One plain tax and one deductible tax in company A, so the answer can
         # actually differ. Without the deductible one there would be nothing to
         # tell apart and the test would pass for the wrong reason.
