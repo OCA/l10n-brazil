@@ -1,4 +1,5 @@
 # Copyright (C) 2009 - TODAY Renato Lima - Akretion
+# Copyright 2026 - TODAY Escodoo - Marcel Savegnago <marcel.savegnago@escodoo.com.br>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 import logging
@@ -12,6 +13,7 @@ from odoo.exceptions import UserError
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     DOCUMENT_ISSUER_COMPANY,
     DOCUMENT_ISSUER_PARTNER,
+    DOCUMENT_STATE_CANCEL,
     DOCUMENT_STATE_DRAFT,
     MODELO_FISCAL_CTE,
     MODELO_FISCAL_NFE,
@@ -262,6 +264,92 @@ class FiscalDocument(models.Model):
         if len(self) == 0:
             return
         return super()._update_cache(values, validate)
+
+    def write(self, vals):
+        """Note a posted bill when an imported document is cancelled.
+
+        A local cancel goes through ``action_document_cancel`` and must not
+        use the source-cancellation wording. Writing the same state again
+        does not add another note.
+        """
+        becoming_cancelled = self.browse()
+        if vals.get("state_edoc") == DOCUMENT_STATE_CANCEL and not self.env.context.get(
+            "l10n_br_account_skip_source_cancel_note"
+        ):
+            becoming_cancelled = self.filtered(
+                lambda document: (
+                    document.state_edoc != DOCUMENT_STATE_CANCEL
+                    and document.imported_document
+                    and document.issuer == DOCUMENT_ISSUER_PARTNER
+                )
+            )
+        result = super().write(vals)
+        if becoming_cancelled:
+            becoming_cancelled._note_posted_bills_cancelled_at_source()
+        return result
+
+    def action_document_cancel(self):
+        return super(
+            FiscalDocument,
+            self.with_context(l10n_br_account_skip_source_cancel_note=True),
+        ).action_document_cancel()
+
+    def _note_posted_bills_cancelled_at_source(self):
+        for document in self:
+            posted_moves = document.move_ids.filtered(
+                lambda move: move.state == "posted"
+            )
+            body = document._source_cancel_message()
+            for move in posted_moves:
+                move.message_post(body=body, subtype_xmlid="mail.mt_note")
+                document._schedule_source_cancel_alert(move)
+
+    def _source_cancel_message(self):
+        return _(
+            "The fiscal document was cancelled at the source. "
+            "Check this bill and decide how to handle it."
+        )
+
+    def _source_cancel_alert_user(self, move):
+        """User who should treat the cancelled posted bill."""
+        salesperson = move.invoice_user_id.filtered(
+            lambda user: user.active and not user.share
+        )
+        if salesperson:
+            return salesperson[:1]
+        creator = move.create_uid.filtered(
+            lambda user: (
+                user.active
+                and not user.share
+                and user != self.env.ref("base.user_root")
+            )
+        )
+        if creator:
+            return creator[:1]
+        return self.env.user
+
+    def _schedule_source_cancel_alert(self, move):
+        """Leave a pending activity on a posted vendor bill.
+
+        A draft bill and a second cancellation do not create another one.
+        """
+        self.ensure_one()
+        if move.move_type not in ("in_invoice", "in_refund"):
+            return
+        activity_type = self.env.ref(
+            "l10n_br_account.mail_activity_fiscal_document_cancelled_at_source"
+        )
+        if move.activity_ids.filtered(
+            lambda activity: activity.activity_type_id == activity_type
+        ):
+            return
+        user = self._source_cancel_alert_user(move)
+        move.activity_schedule(
+            "l10n_br_account.mail_activity_fiscal_document_cancelled_at_source",
+            summary=_("Fiscal document cancelled at the source"),
+            note=self._source_cancel_message(),
+            user_id=user.id,
+        )
 
     @api.returns("mail.message", lambda value: value.id)
     def message_post(self, **kwargs):
