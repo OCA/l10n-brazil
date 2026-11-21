@@ -13,7 +13,7 @@ dinamicas do Sped (abas P100A e P150A).
 """
 
 import calendar
-from datetime import date
+from datetime import date, datetime
 
 # Ano-calendario coerente com o leiaute 9 implementado pelo spec do modulo.
 ANO = 2022
@@ -157,6 +157,10 @@ ULTIMO_MES_DO_TRIMESTRE = {1: 3, 2: 6, 3: 9, 4: 12}
 
 CAPITAL_INTEGRALIZADO = 500000.00
 
+# Tomador do servico, pessoa juridica de direito privado: retem o IRRF
+# (codigo 1708) e a CSLL dentro da CSRF (codigo 5952), que vao para o Y570.
+TOMADOR = ("Cliente Tomador de Servicos Ltda", "45.678.912/0001-55")
+
 # Cada combinacao de regime e apuracao monta sua propria empresa, para que as
 # variantes possam conviver no mesmo banco.
 EMPRESAS = {
@@ -246,6 +250,7 @@ class CenarioPresumido:
         self.contas = {}
         self.journal = None
         self.encerramentos = {}
+        self.tomador = None
 
     def montar(self):
         self._empresa()
@@ -254,6 +259,7 @@ class CenarioPresumido:
         self._diario()
         self._signatarios()
         self._socios()
+        self._tomador()
         self._movimento()
         return self
 
@@ -397,6 +403,66 @@ class CenarioPresumido:
             }
         )
 
+    def _tomador(self):
+        nome, cnpj = TOMADOR
+        self.tomador = self.env["res.partner"].create(
+            {"name": nome, "legal_name": nome, "is_company": True, "vat": cnpj}
+        )
+
+    def _nfse(
+        self,
+        numero,
+        data,
+        servicos,
+        irrf,
+        csll_retida,
+        parceiro=None,
+        imposto_ir=None,
+        imposto_csll=None,
+    ):
+        """A NFS-e do servico, com o IR e a CSLL retidos pelo tomador."""
+        ref = self.env.ref
+        imposto_ir = imposto_ir or ref("l10n_br_fiscal.tax_irpj_wh_1")
+        imposto_csll = imposto_csll or ref("l10n_br_fiscal.tax_csll_wh_1")
+        estados = [
+            valor
+            for valor, _rotulo in self.env["l10n_br_fiscal.document"]
+            ._fields["state_edoc"]
+            ._description_selection(self.env)
+        ]
+        return self.env["l10n_br_fiscal.document"].create(
+            {
+                "company_id": self.company.id,
+                "fiscal_operation_id": ref("l10n_br_fiscal.fo_venda").id,
+                "fiscal_operation_type": "out",
+                "document_type_id": ref("l10n_br_fiscal.document_SE").id,
+                "document_number": str(numero),
+                "document_serie": "1",
+                "issuer": "company",
+                "partner_id": (parceiro or self.tomador).id,
+                "document_date": datetime.combine(data, datetime.min.time()),
+                # sem o l10n_br_fiscal_edi o documento emitido fica "a_enviar"
+                "state_edoc": "autorizada" if "autorizada" in estados else "a_enviar",
+                "fiscal_line_ids": [
+                    (
+                        0,
+                        0,
+                        {
+                            "name": f"Servicos da nota {numero}",
+                            "price_unit": servicos,
+                            "quantity": 1.0,
+                            "irpj_wh_tax_id": imposto_ir.id,
+                            "irpj_wh_base": servicos,
+                            "irpj_wh_value": irrf,
+                            "csll_wh_tax_id": imposto_csll.id,
+                            "csll_wh_base": servicos,
+                            "csll_wh_value": csll_retida,
+                        },
+                    )
+                ],
+            }
+        )
+
     def _lancar(self, data, linhas, referencia):
         move = (
             self.env["account.move"]
@@ -454,6 +520,7 @@ class CenarioPresumido:
                 ],
                 f"Receitas do {trimestre}o trimestre",
             )
+            self._nfse(trimestre, data, servicos, irrf, csll_retida)
             self._lancar(
                 data,
                 [("1.01.01.01", rendimentos, 0.0), ("3.01.02.01", 0.0, rendimentos)],

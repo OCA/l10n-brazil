@@ -10,6 +10,7 @@ oficiais da RFB.
 """
 
 import os
+from datetime import date
 
 from odoo.tests import common, tagged
 
@@ -218,6 +219,89 @@ class TestEcfPresumido(common.TransactionCase):
         for periodo, saldo in saldos.items():
             self.assertAlmostEqual(saldo, 0.0, places=2, msg=periodo)
         self.assertIn("|K355|3.01.01.01||300000,00|C|", linhas)
+
+    def _imposto_retido(self, grupo, nome, percentual, codigo):
+        return self.env["l10n_br_fiscal.tax"].create(
+            {
+                "name": nome,
+                "tax_group_id": self.env.ref(f"l10n_br_fiscal.{grupo}").id,
+                "percent_amount": percentual,
+                "percent_reduction": 0.0,
+                "percent_debit_credit": 0.0,
+                "value_amount": 0.0,
+                "icmsst_mva_percent": 0.0,
+                "icmsst_value": 0.0,
+                "revenue_code": codigo,
+            }
+        )
+
+    def test_y570_do_tomador_privado(self):
+        """O IR e a CSLL retidos pelo tomador privado: uma linha por codigo,
+        somando o ano, com o rendimento que sofreu a retencao."""
+        linhas = self.cenario.declaracao()._generate_sped_text().split("\n")
+        y570 = [linha for linha in linhas if linha.startswith("|Y570|")]
+        nome = "Cliente Tomador de Servicos Ltda"
+        self.assertEqual(
+            y570,
+            [
+                f"|Y570|45678912000155|{nome}|N|1708|650000,00|9750,00||",
+                f"|Y570|45678912000155|{nome}|N|5952|650000,00||6500,00|",
+            ],
+        )
+
+    def test_y570_orgao_federal_numa_linha(self):
+        """Orgao federal recolhe IR e CSLL no mesmo codigo (6190): uma linha
+        com os dois, e o rendimento contado uma vez."""
+        orgao = self.env["res.partner"].create(
+            {
+                "name": "Orgao Federal",
+                "legal_name": "Orgao Federal",
+                "is_company": True,
+                "vat": "73.918.264/0001-00",
+            }
+        )
+        self.cenario._nfse(
+            90,
+            date(2022, 5, 10),
+            10000.0,
+            480.0,
+            100.0,
+            parceiro=orgao,
+            imposto_ir=self._imposto_retido(
+                "tax_group_irpj_wh", "IRPJ RET 4,8% orgao", 4.8, "6190"
+            ),
+            imposto_csll=self._imposto_retido(
+                "tax_group_csll_wh", "CSLL RET 1% orgao", 1.0, "6190"
+            ),
+        )
+        linhas = self.cenario.declaracao()._generate_sped_text().split("\n")
+        self.assertIn(
+            "|Y570|73918264000100|Orgao Federal|S|6190|10000,00|480,00|100,00|", linhas
+        )
+
+    def test_retencao_sem_codigo_ou_sem_cnpj_e_barrada(self):
+        """Sem CNPJ do cliente ou sem codigo de receita nao ha linha de Y570
+        possivel: a geracao para dizendo quais documentos corrigir."""
+        from odoo.exceptions import UserError
+
+        sem_cnpj = self.env["res.partner"].create(
+            {"name": "Cliente sem CNPJ", "is_company": True}
+        )
+        self.cenario._nfse(91, date(2022, 5, 10), 1000.0, 15.0, 10.0, parceiro=sem_cnpj)
+        self.cenario._nfse(
+            92,
+            date(2022, 5, 11),
+            1000.0,
+            15.0,
+            0.0,
+            imposto_ir=self._imposto_retido(
+                "tax_group_irpj_wh", "IRPJ RET sem codigo", 1.5, False
+            ),
+        )
+        with self.assertRaisesRegex(UserError, "SE 91: the customer has no CNPJ"):
+            self.cenario.declaracao()
+        with self.assertRaisesRegex(UserError, "SE 92: tax IRPJ RET sem codigo has no"):
+            self.cenario.declaracao()
 
     def test_validador_reprova_arquivo_adulterado(self):
         """O validador nao passa a mao: valor calculado errado e reprovado."""

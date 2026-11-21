@@ -17,6 +17,12 @@ from odoo.addons.l10n_br_sped_base.models.sped_mixin import LAYOUT_VERSIONS
 from .account_account import LINHA_CSLL_POR_LINHA_IRPJ
 from .apuracao_presumido import PERCENTUAL_IRPJ, ApuracaoPresumido
 from .sped_mixin_ecf import format_zero
+from .tabela_retencao_fonte import (
+    EXIGE_CSLL_RET,
+    EXIGE_IR_RET,
+    NAO_ORGAO_PUBLICO,
+    ORGAO_PUBLICO,
+)
 
 # Natureza da conta na tabela do Sped, por grupo contabil do Odoo.
 COD_NAT_POR_GRUPO = {
@@ -73,7 +79,128 @@ class Registro0000(models.Model):
 
     def _populate_sped_from_odoo(self):
         self._check_result_closing()
+        self._retencoes_na_fonte()
         return super()._populate_sped_from_odoo()
+
+    def _retencoes_na_fonte(self):
+        """Linhas do Y570: o IR e a CSLL retidos pelos clientes no ano.
+
+        Saem das linhas dos documentos fiscais de saida emitidos no periodo,
+        uma linha por fonte pagadora (CNPJ do cliente) e codigo de receita do
+        DARF (``l10n_br_fiscal.tax.revenue_code`` do imposto retido), somando o
+        ano. O rendimento e a base da retencao, contado uma vez por linha de
+        documento quando o IR e a CSLL tem o mesmo codigo (orgao publico
+        federal). Retencao sem CNPJ ou sem codigo nao vai para o arquivo: a
+        geracao para e diz quais documentos corrigir.
+        """
+        self.ensure_one()
+        company = self.company_id
+        currency = company.currency_id
+        documento = self.env["l10n_br_fiscal.document"]
+        estados = [
+            valor
+            for valor, _rotulo in documento._fields[
+                "state_edoc"
+            ]._description_selection(self.env)
+        ]
+        # sem o l10n_br_fiscal_edi o documento emitido fica "a_enviar"
+        emitido = "autorizada" if "autorizada" in estados else "a_enviar"
+        linhas = self.env["l10n_br_fiscal.document.line"].search(
+            [
+                ("document_id.company_id", "=", company.id),
+                ("document_id.fiscal_operation_type", "=", "out"),
+                ("document_id.state_edoc", "=", emitido),
+                ("document_id.document_date", ">=", self.DT_INI),
+                ("document_id.document_date", "<", self.DT_FIN + timedelta(days=1)),
+                "|",
+                ("irpj_wh_value", "!=", 0),
+                ("csll_wh_value", "!=", 0),
+            ]
+        )
+        grupos = {}
+        problemas = []
+        for linha in linhas:
+            doc = linha.document_id
+            parceiro = doc.partner_id
+            cnpj = "".join(c for c in (parceiro.cnpj_cpf or "") if c.isdigit())
+            nome_doc = f"{doc.document_type_id.code} {doc.document_number or doc.id}"
+            por_codigo = {}
+            for imposto, base, valor, campo in (
+                (linha.irpj_wh_tax_id, linha.irpj_wh_base, linha.irpj_wh_value, "IR"),
+                (
+                    linha.csll_wh_tax_id,
+                    linha.csll_wh_base,
+                    linha.csll_wh_value,
+                    "CSLL",
+                ),
+            ):
+                if currency.is_zero(valor):
+                    continue
+                codigo = imposto.revenue_code
+                if len(cnpj) != 14:
+                    problemas.append(
+                        _("%(doc)s: the customer has no CNPJ") % {"doc": nome_doc}
+                    )
+                    continue
+                if not codigo:
+                    problemas.append(
+                        _("%(doc)s: tax %(tax)s has no revenue code")
+                        % {"doc": nome_doc, "tax": imposto.name or campo}
+                    )
+                    continue
+                item = por_codigo.setdefault(
+                    codigo, {"VL_REND": 0.0, "IR": 0.0, "CSLL": 0.0}
+                )
+                item["VL_REND"] = max(item["VL_REND"], base)
+                item[campo] += valor
+            for codigo, item in por_codigo.items():
+                grupo = grupos.setdefault(
+                    (cnpj, codigo),
+                    {
+                        "CNPJ_FON": cnpj,
+                        "NOM_EMP": parceiro.legal_name or parceiro.name,
+                        "COD_REC": codigo,
+                        "VL_REND": 0.0,
+                        "IR_RET": 0.0,
+                        "CSLL_RET": 0.0,
+                    },
+                )
+                grupo["VL_REND"] += item["VL_REND"]
+                grupo["IR_RET"] += item["IR"]
+                grupo["CSLL_RET"] += item["CSLL"]
+
+        resultado = []
+        for (cnpj, codigo), grupo in sorted(grupos.items()):
+            if codigo not in ORGAO_PUBLICO and codigo not in NAO_ORGAO_PUBLICO:
+                problemas.append(
+                    _("%(cnpj)s: revenue code %(code)s is not in the table of the PVA")
+                    % {"cnpj": cnpj, "code": codigo}
+                )
+                continue
+            if codigo in EXIGE_IR_RET and currency.is_zero(grupo["IR_RET"]):
+                problemas.append(
+                    _("%(cnpj)s: revenue code %(code)s needs the IR withheld")
+                    % {"cnpj": cnpj, "code": codigo}
+                )
+            if codigo in EXIGE_CSLL_RET and currency.is_zero(grupo["CSLL_RET"]):
+                problemas.append(
+                    _("%(cnpj)s: revenue code %(code)s needs the CSLL withheld")
+                    % {"cnpj": cnpj, "code": codigo}
+                )
+            # os codigos aceitos nas duas listas (5928, 5936, 5944) saem como
+            # retencao fora de orgao publico
+            grupo["IND_ORG_PUB"] = "N" if codigo in NAO_ORGAO_PUBLICO else "S"
+            resultado.append(grupo)
+        if problemas:
+            raise UserError(
+                _(
+                    "The taxes withheld by the customers go to the record Y570 "
+                    "by the CNPJ of the customer and the revenue code of the "
+                    "tax. Fix them before generating the ECF:\n%(problems)s",
+                    problems="\n".join(problemas),
+                )
+            )
+        return resultado
 
     def _check_result_closing(self):
         """The balance sheet of the ECF (K155, P100) is the one after the
@@ -3139,17 +3266,19 @@ class RegistroY570(models.Model):
     _name = "l10n_br_sped.ecf.y570"
     _inherit = "l10n_br_sped.ecf.9.y570"
 
-    # @api.model
-    # def _map_from_odoo(self, record, parent_record, declaration, index=0):
-    #     return {
-    #         "CNPJ_FON": 0,  # CNPJ: CNPJ da fonte pagadora
-    #         "NOM_EMP": 0,  # Nome Empresarial: Nome da pessoa jurídica responsáve...
-    #         "IND_ORG_PUB": 0,  # Indicador de Órgão Público: S - Sim N – Não Sele...
-    #         "COD_REC": 0,  # Código de Receita Utilizado Para Recolhimento na Fon...
-    #         "VL_REND": 0,  # Rendimento Bruto: Valor bruto do rendimento que orig...
-    #         "IR_RET": 0,  # IR Retido na Fonte: Valor de todo o imposto de renda ...
-    #         "CSLL_RET": 0,  # CSLL Retida na Fonte: Valor de toda a contribuição ...
-    #     }
+    # valores com duas casas no leiaute; o spec os gerou como Float
+    IR_RET = fields.Monetary(currency_field="brl_currency_id")
+    CSLL_RET = fields.Monetary(currency_field="brl_currency_id")
+
+    def _pull_records_from_odoo(
+        self, kind, level, parent_register=None, parent_record=None, log_msg=None
+    ):
+        declaration = self._context["declaration"]
+        criados = self.browse()
+        for grupo in declaration._retencoes_na_fonte():
+            criados |= self.create(dict(grupo, declaration_id=declaration.id))
+        if log_msg is not None:
+            self._log_chatter_sped_item(log_msg, level, criados)
 
 
 class RegistroY590(models.Model):
