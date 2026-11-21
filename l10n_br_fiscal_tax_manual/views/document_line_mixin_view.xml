@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 - TODAY, Cristiano Mafra Junior <cristiano.mafra@escodoo.com.br>
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="document_line_form_manual" model="ir.ui.view">
+        <field name="model">l10n_br_fiscal.document.line</field>
+        <field name="inherit_id" ref="l10n_br_fiscal.document_fiscal_line_mixin_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='icms_value']/.." position="after">
+                <group name="icms_manual" string="Manual" invisible="not icms_tax_id">
+                    <div class="text-muted" colspan="2">
+                        Leave empty for automatic calculation
+                    </div>
+                    <field name="icms_base_manual" string="Base" />
+                    <field name="icms_value_manual" string="Value" />
+                </group>
+            </xpath>
+            <xpath expr="//field[@name='icmsst_value']/.." position="after">
+                <group
+                    name="icmsst_manual"
+                    string="Manual"
+                    invisible="not icmsst_tax_id"
+                >
+                    <div class="text-muted" colspan="2">
+                        Leave empty for automatic calculation
+                    </div>
+                    <field name="icmsst_base_manual" string="Base" />
+                    <field name="icmsst_value_manual" string="Value" />
+                </group>
+            </xpath>
+            <xpath expr="//field[@name='issqn_value']/.." position="after">
+                <group name="issqn_manual" string="Manual" invisible="not issqn_tax_id">
+                    <div class="text-muted" colspan="2">
+                        Leave empty for automatic calculation
+                    </div>
+                    <field name="issqn_base_manual" string="Base" />
+                    <field name="issqn_value_manual" string="Value" />
+                </group>
+            </xpath>
+            <xpath expr="//field[@name='issqn_wh_value']/.." position="after">
+                <group
+                    name="issqn_wh_manual"
+                    string="Manual"
+                    invisible="not issqn_wh_tax_id"
+                >
+                    <div class="text-muted" colspan="2">
+                        Leave empty for automatic calculation
+                    </div>
+                    <field name="issqn_wh_base_manual" string="Base" />
+                    <field name="issqn_wh_value_manual" string="Value" />
+                </group>
+            </xpath>
+            <xpath expr="//field[@name='ipi_value']/.." position="after">
+                <group name="ipi_manual" string="Manual" invisible="not ipi_tax_id">
+                    <div class="text-muted" colspan="2">
+                        Leave empty for automatic calculation
+                    </div>
+                    <field name="ipi_base_manual" string="Base" />
+                    <field name="ipi_value_manual" string="Value" />
+                </group>
+            </xpath>
+            <xpath expr="//field[@name='ii_value']/.." position="after">
+                <group name="ii_manual" string="Manual" invisible="not ii_tax_id">
+                    <div class="text-muted" colspan="2">
+                        Leave empty for automatic calculation
+                    </div>
+                    <field name="ii_base_manual" string="Base" />
+                    <field name="ii_value_manual" string="Value" />
+                </group>
+            </xpath>
+            <xpath expr="//field[@name='pis_value']/.." position="after">
+                <group name="pis_manual" string="Manual" invisible="not pis_tax_id">
+                    <div class="text-muted" colspan="2">
+                        Leave empty for automatic calculation
+                    </div>
+                    <field name="pis_base_manual" string="Base" />
+                    <field name="pis_value_manual" string="Value" />
+                </group>
+            </xpath>
+            <xpath expr="//field[@name='pisst_value']/.." position="after">
+                <group name="pisst_manual" string="Manual" invisible="not pisst_tax_id">
+                    <div class="text-muted" colspan="2">
+                        Leave empty for automatic calculation
+                    </div>
+                    <field name="pisst_base_manual" string="Base" />
+                    <field name="pisst_value_manual" string="Value" />
+                </group>
+            </xpath>
+            <xpath expr="//field[@name='pis_wh_value']/.." position="after">
+                <group
+                    name="pis_wh_manual"
+                    string="Manual"
+                    invisible="not pis_wh_tax_id"
+                >
+                    <div class="text-muted" colspan="2">
+                        Leave empty for automatic calculation
+                    </div>
+                    <field name="pis_wh_base_manual" string="Base" />
+                    <field name="pis_wh_value_manual" string="Value" />
+                </group>
+            </xpath>
+            <xpath expr="//field[@name='cofins_value']/.." position="after">
+                <group
+                    name="cofins_manual"
+                    string="Manual"
+                    invisible="not cofins_tax_id"
+                >
+                    <div class="text-muted" colspan="2">
+                        Leave empty for automatic calculation
+                    </div>
+                    <field name="cofins_base_manual" string="Base" />
+                    <field name="cofins_value_manual" string="Value" />
+                </group>
+            </xpath>
+            <xpath expr="//field[@name='cofinsst_value']/.." position="after">
+                <group
+                    name="cofinsst_manual"
+                    string="Manual"
+                    invisible="not cofinsst_tax_id"
+                >
+                    <div class="text-muted" colspan="2">
+                        Leave empty for automatic calculation
+                    </div>
+                    <field name="cofinsst_base_manual" string="Base" />
+                    <field name="cofinsst_value_manual" string="Value" />
+                </group>
+            </xpath>
+            <xpath expr="//field[@name='cofins_wh_value']/.." position="after">
+                <group
+                    name="cofins_wh_manual"
+                    string="Manual"
+                    invisible="not cofins_wh_tax_id"
+                >
+                    <div class="text-muted" colspan="2">
+                        Leave empty for automatic calculation
+                    </div>
+                    <field name="cofins_wh_base_manual" string="Base" />
+                    <field name="cofins_wh_value_manual" string="Value" />
+                </group>
+            </xpath>
+            <xpath expr="//field[@name='csll_value']/.." position="after">
+                <group name="csll_manual" string="Manual" invisible="not csll_tax_id">
+                    <div class="text-muted" colspan="2">
+                        Leave empty for automatic calculation
+                    </div>
+                    <field name="csll_base_manual" string="Base" />
+                    <field name="csll_value_manual" string="Value" />
+                </group>
+            </xpath>
+            <xpath expr="//field[@name='csll_wh_value']/.." position="after">
+                <group
+                    name="csll_wh_manual"
+                    string="Manual"
+                    invisible="not csll_wh_tax_id"
+                >
+                    <div class="text-muted" colspan="2">
+                        Leave empty for automatic calculation
+                    </div>
+                    <field name="csll_wh_base_manual" string="Base" />
+                    <field name="csll_wh_value_manual" string="Value" />
+                </group>
+            </xpath>
+            <xpath expr="//field[@name='irpj_value']/.." position="after">
+                <group name="irpj_manual" string="Manual" invisible="not irpj_tax_id">
+                    <div class="text-muted" colspan="2">
+                        Leave empty for automatic calculation
+                    </div>
+                    <field name="irpj_base_manual" string="Base" />
+                    <field name="irpj_value_manual" string="Value" />
+                </group>
+            </xpath>
+            <xpath expr="//field[@name='irpj_wh_value']/.." position="after">
+                <group
+                    name="irpj_wh_manual"
+                    string="Manual"
+                    invisible="not irpj_wh_tax_id"
+                >
+                    <div class="text-muted" colspan="2">
+                        Leave empty for automatic calculation
+                    </div>
+                    <field name="irpj_wh_base_manual" string="Base" />
+                    <field name="irpj_wh_value_manual" string="Value" />
+                </group>
+            </xpath>
+            <xpath expr="//field[@name='inss_value']/.." position="after">
+                <group name="inss_manual" string="Manual" invisible="not inss_tax_id">
+                    <div class="text-muted" colspan="2">
+                        Leave empty for automatic calculation
+                    </div>
+                    <field name="inss_base_manual" string="Base" />
+                    <field name="inss_value_manual" string="Value" />
+                </group>
+            </xpath>
+            <xpath expr="//field[@name='inss_wh_value']/.." position="after">
+                <group
+                    name="inss_wh_manual"
+                    string="Manual"
+                    invisible="not inss_wh_tax_id"
+                >
+                    <div class="text-muted" colspan="2">
+                        Leave empty for automatic calculation
+                    </div>
+                    <field name="inss_wh_base_manual" string="Base" />
+                    <field name="inss_wh_value_manual" string="Value" />
+                </group>
+            </xpath>
+            <xpath expr="//field[@name='cbs_value']/.." position="after">
+                <group name="cbs_manual" string="Manual" invisible="not cbs_tax_id">
+                    <div class="text-muted" colspan="2">
+                        Leave empty for automatic calculation
+                    </div>
+                    <field name="cbs_base_manual" string="Base" />
+                    <field name="cbs_value_manual" string="Value" />
+                </group>
+            </xpath>
+            <xpath expr="//field[@name='ibs_value']/.." position="after">
+                <group name="ibs_manual" string="Manual" invisible="not ibs_tax_id">
+                    <div class="text-muted" colspan="2">
+                        Leave empty for automatic calculation
+                    </div>
+                    <field name="ibs_base_manual" string="Base" />
+                    <field name="ibs_value_manual" string="Value" />
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>
