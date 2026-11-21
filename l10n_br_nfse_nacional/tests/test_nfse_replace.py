@@ -13,6 +13,7 @@ from .test_nfse_lifecycle import (
     AUTHORIZED,
     NFSE_KEY,
     REJECTED,
+    SCHEMA_VALIDATION,
     SESSION_POST,
     SIGN_XML,
     mock_response,
@@ -50,10 +51,17 @@ class TestNfseReplace(TransactionCase):
         patcher = mock.patch(SIGN_XML, return_value="<x>signed</x>")
         patcher.start()
         self.addCleanup(patcher.stop)
-        with mock.patch(SESSION_POST, return_value=mock_response(AUTHORIZED)):
+        with (
+            self._valid_schema(),
+            mock.patch(SESSION_POST, return_value=mock_response(AUTHORIZED)),
+        ):
             self.old.action_document_confirm()
             self.old.action_document_send()
         self.assertEqual(self.old.state_edoc, "autorizada")
+
+    def _valid_schema(self):
+        # the mocked signature is not a DPS: only the unsigned one is validated here
+        return mock.patch(SCHEMA_VALIDATION, return_value=[])
 
     def _replacement(self, **values):
         action = self.old.action_nfse_replace()
@@ -62,10 +70,18 @@ class TestNfseReplace(TransactionCase):
         new.write(values)
         return new
 
+    def _confirmed_xml(self, new):
+        with self._valid_schema():
+            new.action_document_confirm()
+        return new._serialize([])[0].to_xml()
+
     def _send(self, new, body, status=200):
-        new.action_document_confirm()
-        with mock.patch(SESSION_POST, return_value=mock_response(body, status)) as post:
-            new.action_document_send()
+        with self._valid_schema():
+            new.action_document_confirm()
+            with mock.patch(
+                SESSION_POST, return_value=mock_response(body, status)
+            ) as post:
+                new.action_document_send()
         return post
 
     def test_replace_supported(self):
@@ -82,7 +98,7 @@ class TestNfseReplace(TransactionCase):
             nfse_replace_motive="03",
             nfse_replace_reason="Retroactive immunity for the service",
         )
-        xml = new._serialize([])[0].to_xml()
+        xml = self._confirmed_xml(new)
         self.assertEqual(Dps.schema_validation(xml), [])
         subst = etree.fromstring(xml.encode()).xpath("//n:subst", namespaces=NS)[0]
         self.assertEqual(subst.findtext("n:chSubstda", namespaces=NS), NFSE_KEY)
@@ -94,7 +110,7 @@ class TestNfseReplace(TransactionCase):
 
     def test_dps_default_motive(self):
         new = self._replacement()
-        xml = new._serialize([])[0].to_xml()
+        xml = self._confirmed_xml(new)
         self.assertEqual(Dps.schema_validation(xml), [])
         subst = etree.fromstring(xml.encode()).xpath("//n:subst", namespaces=NS)[0]
         self.assertEqual(subst.findtext("n:cMotivo", namespaces=NS), "99")
