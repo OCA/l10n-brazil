@@ -136,6 +136,24 @@ PLANO = [
         False,
         "P500-11",
     ),
+    # a retencao por orgao federal (Lei 9.430/1996, art. 64) e deduzida em
+    # linhas proprias do P300 e do P500: as contas ficam segregadas
+    (
+        "1.01.04.03",
+        "IRRF Retido por Orgao Federal",
+        "asset_current",
+        "1.01.02.04.01",
+        False,
+        "P300-12",
+    ),
+    (
+        "1.01.04.04",
+        "CSLL Retida por Orgao Federal",
+        "asset_current",
+        "1.01.02.04.04",
+        False,
+        "P500-9",
+    ),
 ]
 
 # Movimento de cada trimestre: revenda, servicos, rendimentos financeiros,
@@ -160,6 +178,12 @@ CAPITAL_INTEGRALIZADO = 500000.00
 # Tomador do servico, pessoa juridica de direito privado: retem o IRRF
 # (codigo 1708) e a CSLL dentro da CSRF (codigo 5952), que vao para o Y570.
 TOMADOR = ("Cliente Tomador de Servicos Ltda", "45.678.912/0001-55")
+
+# Orgao federal que contrata um servico no segundo trimestre: retem IRPJ de
+# 4,8% e CSLL de 1% no codigo 6190 (IN RFB 1.234/2012, Anexo I), que vao para
+# uma linha so do Y570.
+ORGAO_FEDERAL = ("Orgao Federal de Exemplo", "73.918.264/0001-00")
+SERVICO_ORGAO_FEDERAL = (2, 50000.00, 2400.00, 500.00)
 
 # Cada combinacao de regime e apuracao monta sua propria empresa, para que as
 # variantes possam conviver no mesmo banco.
@@ -251,6 +275,7 @@ class CenarioPresumido:
         self.journal = None
         self.encerramentos = {}
         self.tomador = None
+        self.orgao_federal = None
 
     def montar(self):
         self._empresa()
@@ -408,6 +433,10 @@ class CenarioPresumido:
         self.tomador = self.env["res.partner"].create(
             {"name": nome, "legal_name": nome, "is_company": True, "vat": cnpj}
         )
+        nome, cnpj = ORGAO_FEDERAL
+        self.orgao_federal = self.env["res.partner"].create(
+            {"name": nome, "legal_name": nome, "is_company": True, "vat": cnpj}
+        )
 
     def _nfse(
         self,
@@ -461,6 +490,30 @@ class CenarioPresumido:
                     )
                 ],
             }
+        )
+
+    def _servico_orgao_federal(self, data):
+        _trimestre, servico, irrf, csll = SERVICO_ORGAO_FEDERAL
+        self._lancar(
+            data,
+            [
+                ("1.01.02.01", servico - irrf - csll, 0.0),
+                ("1.01.04.03", irrf, 0.0),
+                ("1.01.04.04", csll, 0.0),
+                ("3.01.01.02", 0.0, servico),
+            ],
+            "Servico ao orgao federal",
+        )
+        ref = self.env.ref
+        self._nfse(
+            100,
+            data,
+            servico,
+            irrf,
+            csll,
+            parceiro=self.orgao_federal,
+            imposto_ir=ref("l10n_br_fiscal.tax_irpj_wh_4_6"),
+            imposto_csll=ref("l10n_br_fiscal.tax_csll_wh_1_6190"),
         )
 
     def _lancar(self, data, linhas, referencia):
@@ -521,6 +574,8 @@ class CenarioPresumido:
                 f"Receitas do {trimestre}o trimestre",
             )
             self._nfse(trimestre, data, servicos, irrf, csll_retida)
+            if trimestre == SERVICO_ORGAO_FEDERAL[0]:
+                self._servico_orgao_federal(data)
             self._lancar(
                 data,
                 [("1.01.01.01", rendimentos, 0.0), ("3.01.02.01", 0.0, rendimentos)],

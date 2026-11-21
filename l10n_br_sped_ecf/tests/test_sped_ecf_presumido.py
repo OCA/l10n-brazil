@@ -235,49 +235,34 @@ class TestEcfPresumido(common.TransactionCase):
             }
         )
 
-    def test_y570_do_tomador_privado(self):
-        """O IR e a CSLL retidos pelo tomador privado: uma linha por codigo,
-        somando o ano, com o rendimento que sofreu a retencao."""
+    def test_y570_do_cenario(self):
+        """O IR e a CSLL retidos no ano: o tomador privado em duas linhas (1708
+        e 5952) e o orgao federal numa so (6190, IR e CSLL juntos), cada uma
+        com o rendimento que sofreu a retencao, contado uma vez."""
         linhas = self.cenario.declaracao()._generate_sped_text().split("\n")
         y570 = [linha for linha in linhas if linha.startswith("|Y570|")]
-        nome = "Cliente Tomador de Servicos Ltda"
+        tomador = "Cliente Tomador de Servicos Ltda"
         self.assertEqual(
             y570,
             [
-                f"|Y570|45678912000155|{nome}|N|1708|650000,00|9750,00||",
-                f"|Y570|45678912000155|{nome}|N|5952|650000,00||6500,00|",
+                f"|Y570|45678912000155|{tomador}|N|1708|650000,00|9750,00||",
+                f"|Y570|45678912000155|{tomador}|N|5952|650000,00||6500,00|",
+                "|Y570|73918264000100|Orgao Federal de Exemplo|S|6190|50000,00"
+                "|2400,00|500,00|",
             ],
         )
 
-    def test_y570_orgao_federal_numa_linha(self):
-        """Orgao federal recolhe IR e CSLL no mesmo codigo (6190): uma linha
-        com os dois, e o rendimento contado uma vez."""
-        orgao = self.env["res.partner"].create(
-            {
-                "name": "Orgao Federal",
-                "legal_name": "Orgao Federal",
-                "is_company": True,
-                "vat": "73.918.264/0001-00",
-            }
+    def test_retencao_do_orgao_federal_no_bloco_p(self):
+        """A retencao do orgao federal e deduzida nas linhas proprias: P300
+        linha 12 e P500 linha 9, no trimestre do servico."""
+        declaracao = self.cenario.declaracao()
+        p030 = self.env["l10n_br_sped.ecf.p030"].search(
+            [("declaration_id", "=", declaracao.id), ("PER_APUR", "=", "T02")]
         )
-        self.cenario._nfse(
-            90,
-            date(2022, 5, 10),
-            10000.0,
-            480.0,
-            100.0,
-            parceiro=orgao,
-            imposto_ir=self._imposto_retido(
-                "tax_group_irpj_wh", "IRPJ RET 4,8% orgao", 4.8, "6190"
-            ),
-            imposto_csll=self._imposto_retido(
-                "tax_group_csll_wh", "CSLL RET 1% orgao", 1.0, "6190"
-            ),
-        )
-        linhas = self.cenario.declaracao()._generate_sped_text().split("\n")
-        self.assertIn(
-            "|Y570|73918264000100|Orgao Federal|S|6190|10000,00|480,00|100,00|", linhas
-        )
+        p300 = {r.CODIGO: r.VALOR for r in p030.reg_P300_ids}
+        p500 = {r.CODIGO: r.VALOR for r in p030.reg_P500_ids}
+        self.assertEqual(p300["12"], "2400,00")
+        self.assertEqual(p500["9"], "500,00")
 
     def test_retencao_sem_codigo_ou_sem_cnpj_e_barrada(self):
         """Sem CNPJ do cliente ou sem codigo de receita nao ha linha de Y570
