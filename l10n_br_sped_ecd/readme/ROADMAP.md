@@ -1,7 +1,3 @@
-- **Validação do NIRE no Odoo.** O NIRE da empresa vai para o termo de
-  abertura (I030) e liga o indicador do 0000, mas só o validador da Receita
-  confere o dígito e a UF (regras REGRA_VALIDA_NIRE e REGRA_NIRE_UF). Falta a
-  mesma conferência no cadastro da empresa.
 - **Aglutinação com grupos que têm contas e subgrupos.** O balanço e a DRE são
   aglutinados pelos grupos do plano: o grupo que só reúne contas é a linha de
   detalhe e os grupos acima são os totais. A conta lançada diretamente num

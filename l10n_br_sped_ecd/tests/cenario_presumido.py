@@ -97,9 +97,6 @@ class CenarioPresumido:
                 "legal_name": nome,
                 "vat": cnpj,
                 "profit_calculation": "presumed",
-                # sociedade empresaria sem NIRE no cenario: o PVA confere o
-                # digito do NIRE, e o termo de abertura pede ao menos a data de
-                # arquivamento dos atos constitutivos
                 "l10n_br_articles_filing_date": date(2015, 3, 10),
             }
         )
@@ -120,6 +117,8 @@ class CenarioPresumido:
                 "country_id": cidade.state_id.country_id.id,
             }
         )
+        # NIRE de Sao Paulo com o digito calculado pela regra do PVA
+        self.company.l10n_br_nire = "35200123458"
 
     def _plano_de_contas(self):
         grupos = {}

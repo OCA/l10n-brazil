@@ -126,18 +126,18 @@ class TestEcdCenario(common.TransactionCase):
         self.assertIn("2.03.02", i052)
 
     def test_registro_na_junta_comercial(self):
-        """Data dos atos constitutivos no termo de abertura; o NIRE da empresa
-        vai para o I030 e liga o indicador do 0000."""
+        """NIRE e data dos atos constitutivos no termo de abertura; sem NIRE
+        (sociedade registrada em cartorio) o indicador do 0000 desliga."""
         _declaracao, linhas = self._arquivo()
         self.assertEqual(
             self._campos(linhas, "I030")[0][6:10],
-            ["", "91827364000103", "10032015", ""],
+            ["35200123458", "91827364000103", "10032015", ""],
         )
-        self.assertEqual(self._campos(linhas, "0000")[0][12], "0")
-        self.cenario.company.l10n_br_nire = "35200000000"
-        _declaracao, linhas = self._arquivo()
-        self.assertEqual(self._campos(linhas, "I030")[0][6], "35200000000")
         self.assertEqual(self._campos(linhas, "0000")[0][12], "1")
+        self.cenario.company.l10n_br_nire = False
+        _declaracao, linhas = self._arquivo()
+        self.assertEqual(self._campos(linhas, "I030")[0][6], "")
+        self.assertEqual(self._campos(linhas, "0000")[0][12], "0")
 
     def test_digitado_sob_registro_puxado_fica(self):
         """Puxar de novo nao apaga o que foi digitado sob um registro puxado."""
