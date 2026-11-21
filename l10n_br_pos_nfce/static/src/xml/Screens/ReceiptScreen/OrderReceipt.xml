@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates id="template" xml:space="preserve">
+    <t
+        t-name="l10n_br_pos_nfce.OrderReceipt"
+        t-inherit="point_of_sale.OrderReceipt"
+        t-inherit-mode="extension"
+    >
+        <xpath expr="//div[hasclass('pos-receipt')]" position="before">
+            <NfceOrderReceipt t-if="props.data.is_nfce" data="props.data" />
+        </xpath>
+        <xpath expr="//div[hasclass('pos-receipt')]" position="attributes">
+            <attribute name="t-else" />
+        </xpath>
+    </t>
+</templates>
