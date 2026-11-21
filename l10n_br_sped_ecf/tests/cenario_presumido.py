@@ -12,6 +12,7 @@ Os codigos do plano de contas referencial sao os do pacote oficial de tabelas
 dinamicas do Sped (abas P100A e P150A).
 """
 
+import calendar
 from datetime import date
 
 # Ano-calendario coerente com o leiaute 9 implementado pelo spec do modulo.
@@ -165,6 +166,72 @@ EMPRESAS = {
 }
 
 
+def encerrar_resultado(env, company, journal, conta_pl, dt_ini, dt_fin):
+    """Lanca o encerramento do resultado do periodo, no ultimo dia dele.
+
+    Zera cada conta de resultado movimentada no periodo contra a conta do
+    patrimonio liquido. A ECF escritura o balanco (K155, P100) depois deste
+    lancamento e o resultado (K355, P150) antes dele.
+    """
+    linhas = (
+        env["account.move.line"]
+        .with_company(company)
+        .search(
+            [
+                ("company_id", "=", company.id),
+                ("parent_state", "=", "posted"),
+                ("account_id.internal_group", "in", ("income", "expense")),
+                ("date", ">=", dt_ini),
+                ("date", "<=", dt_fin),
+            ]
+        )
+    )
+    saldos = {}
+    for linha in linhas:
+        saldos[linha.account_id] = saldos.get(linha.account_id, 0.0) + linha.balance
+    saldos = {
+        conta: saldo
+        for conta, saldo in saldos.items()
+        if not company.currency_id.is_zero(saldo)
+    }
+    if not saldos:
+        return env["account.move"]
+    resultado = -sum(saldos.values())
+    valores = [
+        (conta.id, max(-saldo, 0.0), max(saldo, 0.0)) for conta, saldo in saldos.items()
+    ]
+    valores.append((conta_pl.id, max(-resultado, 0.0), max(resultado, 0.0)))
+    move = (
+        env["account.move"]
+        .with_company(company)
+        .create(
+            {
+                "move_type": "entry",
+                "date": dt_fin,
+                "ref": "Encerramento do resultado",
+                "journal_id": journal.id,
+                "company_id": company.id,
+                "l10n_br_sped_result_closing": True,
+                "line_ids": [
+                    (
+                        0,
+                        0,
+                        {
+                            "account_id": conta,
+                            "debit": debito,
+                            "credit": credito,
+                            "name": "Encerramento do resultado",
+                        },
+                    )
+                    for conta, debito, credito in valores
+                ],
+            }
+        )
+    )
+    move.action_post()
+    return move
+
+
 class CenarioPresumido:
     """Monta a empresa, o plano de contas, os cadastros e o movimento do ano."""
 
@@ -178,6 +245,7 @@ class CenarioPresumido:
         self.company = None
         self.contas = {}
         self.journal = None
+        self.encerramentos = {}
 
     def montar(self):
         self._empresa()
@@ -407,6 +475,16 @@ class CenarioPresumido:
                 data,
                 [("4.01.02.01", despesas, 0.0), ("2.01.01.01", 0.0, despesas)],
                 f"Despesas do {trimestre}o trimestre",
+            )
+            # o balanco da ECF e o de depois do encerramento do trimestre
+            ultimo_mes = ULTIMO_MES_DO_TRIMESTRE[trimestre]
+            self.encerramentos[trimestre] = encerrar_resultado(
+                self.env,
+                self.company,
+                self.journal,
+                self.contas["2.03.02.01"],
+                date(ANO, ultimo_mes - 2, 1),
+                date(ANO, ultimo_mes, calendar.monthrange(ANO, ultimo_mes)[1]),
             )
 
     # ------------------------------------------------------------------

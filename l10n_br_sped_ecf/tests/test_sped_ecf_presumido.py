@@ -184,6 +184,41 @@ class TestEcfPresumido(common.TransactionCase):
             self.assertEqual(campos[5], "PF", linha)
             self.assertEqual(campos[8], "02", linha)
 
+    def test_sem_encerramento_a_geracao_e_barrada(self):
+        """Periodo sem o resultado encerrado nao gera: diz o periodo e as contas."""
+        from odoo.exceptions import UserError
+
+        self.cenario.encerramentos[3].button_draft()
+        with self.assertRaisesRegex(UserError, r"T03: 3\.01\.01\.01.*4\.01\.02\.01"):
+            self.cenario.declaracao()
+
+    def test_encerramento_tem_de_estar_marcado(self):
+        """Zerar o resultado sem a marca faria a receita do trimestre sumir."""
+        from odoo.exceptions import UserError
+
+        self.cenario.encerramentos[2].l10n_br_sped_result_closing = False
+        with self.assertRaisesRegex(UserError, "T02: no entry marked"):
+            self.cenario.declaracao()
+
+    def test_com_encerramento_o_balanco_fecha(self):
+        """Depois do encerramento o K155 de cada trimestre fecha, e o K355
+        continua com o resultado de antes dele."""
+        linhas = self.cenario.declaracao()._generate_sped_text().split("\n")
+        saldos = {}
+        periodo = None
+        for linha in linhas:
+            campos = linha.split("|")
+            if linha.startswith("|K030|"):
+                periodo = campos[4]
+            elif linha.startswith("|K155|"):
+                valor = float(campos[8].replace(",", ".") or 0)
+                sinal = 1 if campos[9] == "D" else -1
+                saldos[periodo] = saldos.get(periodo, 0.0) + sinal * valor
+        self.assertEqual(sorted(saldos), ["T01", "T02", "T03", "T04"])
+        for periodo, saldo in saldos.items():
+            self.assertAlmostEqual(saldo, 0.0, places=2, msg=periodo)
+        self.assertIn("|K355|3.01.01.01||300000,00|C|", linhas)
+
     def test_validador_reprova_arquivo_adulterado(self):
         """O validador nao passa a mao: valor calculado errado e reprovado."""
         texto = self.cenario.declaracao()._generate_sped_text()

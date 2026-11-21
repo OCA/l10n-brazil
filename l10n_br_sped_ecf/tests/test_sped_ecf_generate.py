@@ -5,6 +5,8 @@ from datetime import date
 
 from odoo.tests import common
 
+from .cenario_presumido import encerrar_resultado
+
 
 class SpedEcfGenerateTest(common.TransactionCase):
     @classmethod
@@ -47,6 +49,22 @@ class SpedEcfGenerateTest(common.TransactionCase):
         vals = model._map_from_odoo(self.company, None, None)
         vals.update({"company_id": self.company.id, "DT_INI": dt_ini, "DT_FIN": dt_fin})
         declaration = model.create(vals)
+        # the ECF reports the balance sheet after the closing of the result
+        account = self.env["account.account"].search(
+            [
+                ("company_id", "=", self.company.id),
+                ("internal_group", "=", "equity"),
+            ],
+            limit=1,
+        )
+        journal = self.env["account.journal"].search(
+            [("company_id", "=", self.company.id), ("type", "=", "general")],
+            limit=1,
+        )
+        for period_start, period_end, _code in declaration._periodos_de_apuracao():
+            encerrar_resultado(
+                self.env, self.company, journal, account, period_start, period_end
+            )
         declaration.button_populate_sped_from_odoo()
         text = declaration._generate_sped_text()
 

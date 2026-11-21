@@ -31,6 +31,9 @@ COD_NAT_POR_GRUPO = {
 # Grupos contabeis do Odoo que vao para o balanco (K155, P100).
 PATRIMONIAIS = ("asset", "liability", "equity")
 
+# Grupos contabeis do Odoo das contas de resultado (K355, P150).
+RESULTADO = ("income", "expense")
+
 
 def formata_valor(valor):
     """Valor decimal como o Sped o escreve: virgula e sem separador de milhar."""
@@ -67,6 +70,62 @@ class Registro0000(models.Model):
         # a ECF nao aceita bloco sem dados: o PVA recusa o arquivo apontando
         # como esperado o primeiro registro do proximo bloco com conteudo
         return True
+
+    def _populate_sped_from_odoo(self):
+        self._check_result_closing()
+        return super()._populate_sped_from_odoo()
+
+    def _check_result_closing(self):
+        """The balance sheet of the ECF (K155, P100) is the one after the
+        closing of the result of each assessment period: without the closing
+        entry the assets do not match the liabilities and the PVA warns on
+        every period. Say which periods and accounts are still open."""
+        self.ensure_one()
+        company = self.company_id
+        missing = []
+        for dt_ini, dt_fin, per_apur in self._periodos_de_apuracao():
+            lines = (
+                self.env["account.move.line"]
+                .with_company(company)
+                .search(
+                    [
+                        ("company_id", "=", company.id),
+                        ("parent_state", "=", "posted"),
+                        ("account_id.internal_group", "in", RESULTADO),
+                        ("date", ">=", dt_ini),
+                        ("date", "<=", dt_fin),
+                    ]
+                )
+            )
+            if not lines:
+                continue
+            balances = {}
+            for line in lines:
+                balances[line.account_id] = (
+                    balances.get(line.account_id, 0.0) + line.balance
+                )
+            open_accounts = sorted(
+                account.with_company(company).code
+                for account, balance in balances.items()
+                if not company.currency_id.is_zero(balance)
+            )
+            if open_accounts:
+                missing.append(f"{per_apur}: {', '.join(open_accounts)}")
+            elif not lines.move_id.filtered("l10n_br_sped_result_closing"):
+                missing.append(
+                    _("%(period)s: no entry marked as Result Closing Entry")
+                    % {"period": per_apur}
+                )
+        if missing:
+            raise UserError(
+                _(
+                    "Close the result of each assessment period before "
+                    "generating the ECF, with an entry marked as Result "
+                    "Closing Entry on its last day. Income and expense "
+                    "accounts still open:\n%(missing)s",
+                    missing="\n".join(missing),
+                )
+            )
 
     @api.model
     def _odoo_domain(self, parent_record, declaration):
@@ -892,13 +951,15 @@ class RegistroK030(models.Model):
                     }
                 )
 
+        # o K355 e o saldo das contas de resultado ANTES do encerramento
         result_lines = aml_model.search(
             [
                 ("company_id", "=", company.id),
                 ("parent_state", "=", "posted"),
-                ("account_id.internal_group", "in", ("income", "expense")),
+                ("account_id.internal_group", "in", RESULTADO),
                 ("date", ">=", dt_ini),
                 ("date", "<=", dt_fin),
+                ("move_id.l10n_br_sped_result_closing", "=", False),
             ]
         )
         result_balances = {}
@@ -1677,6 +1738,13 @@ class RegistroP030(models.Model):
         )
         movimento = {}
         for linha in linhas:
+            # o encerramento entra no balanco (P100), mas o resultado do
+            # periodo (P150 e a receita da apuracao) e o de antes dele
+            if (
+                linha.move_id.l10n_br_sped_result_closing
+                and linha.account_id.internal_group in RESULTADO
+            ):
+                continue
             saldos = movimento.setdefault(linha.account_id, [0.0, 0.0, 0.0])
             saldos[0] += linha.debit
             saldos[1] += linha.credit
