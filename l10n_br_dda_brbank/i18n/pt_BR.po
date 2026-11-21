@@ -192,27 +192,27 @@ msgstr "DDA: %(count)s boletos, total %(total)s."
 #. module: l10n_br_dda_brbank
 #: model:ir.model.fields.selection,name:l10n_br_dda_brbank.selection__l10n_br_dda_event__event_type__dda_ativado
 msgid "DDA_ATIVADO"
-msgstr ""
+msgstr "DDA ativado"
 
 #. module: l10n_br_dda_brbank
 #: model:ir.model.fields.selection,name:l10n_br_dda_brbank.selection__l10n_br_dda_event__event_type__dda_desativado
 msgid "DDA_DESATIVADO"
-msgstr ""
+msgstr "DDA desativado"
 
 #. module: l10n_br_dda_brbank
 #: model:ir.model.fields.selection,name:l10n_br_dda_brbank.selection__l10n_br_dda_event__event_type__debito_alterado
 msgid "DEBITO_ALTERADO"
-msgstr ""
+msgstr "Débito alterado"
 
 #. module: l10n_br_dda_brbank
 #: model:ir.model.fields.selection,name:l10n_br_dda_brbank.selection__l10n_br_dda_event__event_type__debito_novo
 msgid "DEBITO_NOVO"
-msgstr ""
+msgstr "Débito novo"
 
 #. module: l10n_br_dda_brbank
 #: model:ir.model.fields.selection,name:l10n_br_dda_brbank.selection__l10n_br_dda_event__event_type__debito_pago
 msgid "DEBITO_PAGO"
-msgstr ""
+msgstr "Débito pago"
 
 #. module: l10n_br_dda_brbank
 #: model:ir.model.fields,field_description:l10n_br_dda_brbank.field_l10n_br_bank_connection_connection__dda_available
