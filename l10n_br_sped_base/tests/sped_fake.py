@@ -120,7 +120,7 @@ class Registro0007(models.Model):
 
     @api.model
     def _map_from_odoo(self, record, parent_record, declaration, index=0):
-        return {}
+        return {"COD_ENT_REF": "00"}
 
 
 class RegistroI010(models.Model):

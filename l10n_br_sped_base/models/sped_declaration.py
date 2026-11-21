@@ -9,6 +9,8 @@ from io import StringIO
 from lxml.builder import E
 
 from odoo import _, api, fields, models
+from odoo.exceptions import UserError
+from odoo.osv import expression
 
 from .sped_mixin import LAYOUT_VERSIONS, SPED_ENCODING
 
@@ -111,6 +113,81 @@ class SpedDeclaration(models.AbstractModel):
             for declaration in self
         ]
 
+    def _get_fiscal_document_period_domain(self):
+        """Documents of the declaration period.
+
+        An outgoing document belongs to the period of its emission. An entry
+        belongs to the period it came in (``date_in_out``): the supplier invoice
+        emitted in one month is booked in the month it was received, as an
+        extemporaneous one when that is a later month. An entry without entry
+        date falls back to the emission date. For an entry made from a bill,
+        ``date_in_out`` is the accounting date of the bill: the real receipt
+        date is not recorded in the document.
+
+        Known limit (time zone): ``date_in_out`` of an entry made from a bill is
+        the accounting date at midnight of the time zone of the user who
+        launched the bill, stored in UTC (``_compute_date_in_out`` of
+        l10n_br_account). A user east of UTC stores the previous day in UTC, and
+        the period filter and DT_E_S read that UTC value. It is the same
+        pattern as ``document_date`` (the dhEmi) and is pinned by tests of
+        l10n_br_account, so it is left to the time zone audit and not changed
+        here.
+        """
+        self.ensure_one()
+        emission = [
+            ("document_date", ">=", self.DT_INI),
+            ("document_date", "<=", self.DT_FIN),
+        ]
+        entry = [
+            ("date_in_out", ">=", self.DT_INI),
+            ("date_in_out", "<=", self.DT_FIN),
+        ]
+        return expression.OR(
+            [
+                expression.AND([[("fiscal_operation_type", "!=", "in")], emission]),
+                expression.AND([[("fiscal_operation_type", "=", "in")], entry]),
+                expression.AND(
+                    [
+                        [
+                            ("fiscal_operation_type", "=", "in"),
+                            ("date_in_out", "=", False),
+                        ],
+                        emission,
+                    ]
+                ),
+            ]
+        )
+
+    def _search_period_documents(self):
+        """The fiscal documents of the company in the declaration period, before
+        any document is left out for lack of a key (see
+        ``_get_documents_without_access_key``)."""
+        self.ensure_one()
+        return self.env["l10n_br_fiscal.document"].search(
+            [
+                ("company_id", "=", self.company_id.id),
+                (
+                    "state_edoc",
+                    "in",
+                    ("autorizada", "cancelada", "denegada", "inutilizada"),
+                ),
+            ]
+            + self._get_fiscal_document_period_domain()
+        )
+
+    def _get_documents_without_access_key(self):
+        """NF-e and NFC-e (55, 65) without an access key are not a fiscal
+        document the books can carry: the C100 would go out with an empty
+        CHV_NFE and the PVA refuses the file. Typically a bill of a purchase
+        order that has no invoice from the supplier yet. They stay out of the
+        declaration and the pull lists them in the history."""
+        self.ensure_one()
+        if self.debug:
+            return self.env["l10n_br_fiscal.document"]
+        return self._search_period_documents().filtered(
+            lambda doc: doc._is_sped_without_access_key()
+        )
+
     @api.depends("company_id", "DT_INI", "DT_FIN")
     def _compute_fiscal_documents(self):
         for record in self:
@@ -119,17 +196,9 @@ class SpedDeclaration(models.AbstractModel):
                     [], order="id DESC", limit=100
                 )
             else:
-                fiscal_document_ids = self.env["l10n_br_fiscal.document"].search(
-                    [
-                        ("company_id", "=", record.company_id.id),
-                        (
-                            "state_edoc",
-                            "in",
-                            ("autorizada", "cancelada", "denegada", "inutilizada"),
-                        ),
-                        ("document_date", ">=", record.DT_INI),
-                        ("document_date", "<=", record.DT_FIN),
-                    ]
+                fiscal_document_ids = (
+                    record._search_period_documents()
+                    - record._get_documents_without_access_key()
                 )
 
             record.fiscal_document_partner_ids = fiscal_document_ids.mapped(
@@ -154,10 +223,41 @@ class SpedDeclaration(models.AbstractModel):
             # TODO: Complementar com unidades de medidas de outros blocos!!!
             record.fiscal_uom_ids = record.fiscal_document_line_ids.mapped("uom_id")
 
+    def _in_company_context(self):
+        """The declaration in the environment of its own company.
+
+        The access rules by company hide the documents of every company that is
+        not active in the session, so a declaration of the company B pulled with
+        the company A active went out without documents and without a warning.
+        Pulling the registers and generating the file run as the company of the
+        declaration, which the user has to have access to.
+        """
+        self.ensure_one()
+        company = self.company_id
+        if not self.env.su and company not in self.env.user.company_ids:
+            raise UserError(
+                _(
+                    "You have no access to the company %(company)s of this "
+                    "declaration, so its registers cannot be pulled or its "
+                    "file generated.",
+                    company=company.sudo().display_name,
+                )
+            )
+        return self.with_company(company).with_context(allowed_company_ids=company.ids)
+
     def button_populate_sped_from_odoo(self):
         """Populate SPED registers from Odoo."""
         # TODO add cron pulling from Odoo for open declarations
         self.ensure_one()
+        self._in_company_context()._populate_sped_from_odoo()
+
+    def _populate_sped_from_odoo(self):
+        """Pull the registers from Odoo. Returns the errors of the registers that
+        could not be pulled (a list of text): a register that fails is left out
+        of the declaration, with a note in the history, so whoever generates the
+        file has to know it is incomplete."""
+        self.ensure_one()
+        errors = []
         log_msg = StringIO()
         log_msg.write(f"<h3>{_('Pulled from Odoo')}</h3>")
         kind = self._get_kind()
@@ -179,8 +279,27 @@ class SpedDeclaration(models.AbstractModel):
             company_id=self.company_id.id,
             declaration=self,
             default_declaration_id=self.id,
+            sped_pull_from_odoo=True,
         )
         top_registers = mixin_env._get_top_registers(kind)
+
+        # pulling twice must not duplicate: drop what an earlier pull created,
+        # keeping what was typed by hand under it
+        typed = mixin_env._save_typed_under_pulled(kind, self.id)
+        mixin_env._flush_generated_registers(kind, self.id)
+
+        ignored = self._get_documents_without_access_key()
+        if ignored:
+            title = _("Documents left out for lack of an access key")
+            log_msg.write(
+                f"<p style='color:orange;'>{title}: "
+                + ", ".join(
+                    f"{doc.document_type_id.code} {doc.document_serie or ''}/"
+                    f"{doc.document_number or doc.id}"
+                    for doc in ignored
+                )
+                + "</p>"
+            )
 
         for register_model in top_registers:  # Iterate over models, not instances
             try:
@@ -197,7 +316,18 @@ class SpedDeclaration(models.AbstractModel):
                     "<p style='color:red;'>Error "
                     f"processing {register_model._name}: {e}</p>"
                 )
+                errors.append(f"{register_model._name[-4:].upper()}: {e}")
+        lost = mixin_env._restore_typed_under_pulled(kind, self.id, typed)
+        if lost:
+            title = _("Registers typed under a register the pull did not create again")
+            log_msg.write(
+                f"<p style='color:red;'>{title}: "
+                + ", ".join(str(key[0]) for key in lost)
+                + "</p>"
+            )
+            errors.append(f"{title}: {len(lost)}")
         self.message_post(body=log_msg.getvalue())
+        return errors
 
     def button_flush_registers(self):
         self.ensure_one()
@@ -213,8 +343,25 @@ class SpedDeclaration(models.AbstractModel):
         self.state = "draft"
 
     def button_create_sped_files(self):
-        """Generate and attach the SPED file."""
+        """Generate and attach the SPED file.
+
+        The registers of Odoo are pulled again at every generation, so the file
+        never goes out with registers that are older than the registration or
+        the assessment it is made of (the pull is idempotent and keeps what was
+        typed by hand). A register that cannot be pulled stops the generation
+        with the reason, instead of going out missing from the file."""
         self.ensure_one()
+        self._check_accountant()
+        errors = self._in_company_context()._populate_sped_from_odoo()
+        if errors:
+            raise UserError(
+                _(
+                    "Some registers could not be pulled from Odoo and a file "
+                    "without them is incomplete, so it was not generated. Fix "
+                    "the cause and generate it again:\n%(errors)s",
+                    errors="\n".join(errors),
+                )
+            )
         sped_txt = self._generate_sped_text()
 
         if self.split_sped_by_bloco:
@@ -222,6 +369,41 @@ class SpedDeclaration(models.AbstractModel):
         else:
             attachment_vals = [self._create_sped_attachment(sped_txt)]
         self.env["ir.attachment"].create(attachment_vals)
+
+    def _get_accountant_required(self):
+        """(field of the accountant, label) that the record 0100 of the layout
+        marks as mandatory; each kind of declaration that has the record lists
+        them."""
+        return []
+
+    def _check_accountant(self):
+        """The record 0100 comes from the accountant of the company, and the PVA
+        refuses it without the mandatory fields of the layout: say which ones
+        are missing in the registration instead of leaving the record out."""
+        for declaration in self:
+            required = declaration._get_accountant_required()
+            if declaration.debug or not required:
+                continue
+            accountant = declaration.company_id.accountant_id
+            if not accountant:
+                raise UserError(
+                    _(
+                        "Set the accountant of the company (Accountant field, "
+                        "with CPF and CRC) before generating the file: the record "
+                        "0100 comes from it."
+                    )
+                )
+            missing = [label for field, label in required if not accountant[field]]
+            if missing:
+                raise UserError(
+                    _(
+                        "The registration of the accountant %(name)s lacks "
+                        "%(missing)s, which the record 0100 of the file needs. "
+                        "Fill it in the contact of the accountant.",
+                        name=accountant.display_name,
+                        missing=", ".join(missing),
+                    )
+                )
 
     def _split_sped_text_by_bloco(self, sped_txt):
         blocos = defaultdict(list)
@@ -246,6 +428,13 @@ class SpedDeclaration(models.AbstractModel):
 
         return attachments_vals
 
+    @staticmethod
+    def _to_crlf(text):
+        """Every line of a SPED file ends in CR LF, the last one included (the
+        layout and the PVA demand it). The text is built with LF only."""
+        text = text.replace("\r\n", "\n").replace("\n", "\r\n")
+        return text if text.endswith("\r\n") else text + "\r\n"
+
     def _create_sped_attachment(self, text, bloco=None):
         kind = self._get_kind()
         if bloco:
@@ -261,7 +450,9 @@ class SpedDeclaration(models.AbstractModel):
             # encode(); errors="replace" keeps a character outside Latin-1
             # pasted in some journal item label from aborting the whole
             # file generation
-            "datas": base64.b64encode(text.encode(SPED_ENCODING, errors="replace")),
+            "datas": base64.b64encode(
+                self._to_crlf(text).encode(SPED_ENCODING, errors="replace")
+            ),
             "mimetype": "application/txt",
             "type": "binary",
         }
@@ -355,55 +546,61 @@ class SpedDeclaration(models.AbstractModel):
         group.append(E.field(name="debug"))
         group.append(E.separator(colspan="4"))
 
+    def _skip_empty_blocks(self):
+        """Return True to omit blocks with no records (ECF rejects them)."""
+        return False
+
     def _generate_sped_text(self, version=None):
         """Generate SPED text from Odoo declaration records."""
+        self.ensure_one()
+        return self._in_company_context()._generate_sped_text_in_company(version)
+
+    def _generate_sped_text_in_company(self, version=None):
         self.ensure_one()
         kind = self._get_kind()
         if version is None:
             version = LAYOUT_VERSIONS[kind]
         top_register_classes = self._get_top_registers(kind)
         sped = StringIO()
-        last_bloco = None
         line_total = 0
         # mutable register line_count https://stackoverflow.com/a/15148557
         line_count = [0]
         count_by_register = defaultdict(int)
-        count_by_bloco = defaultdict(int)
         self._generate_register_text(sped, version, line_count, count_by_register)
-        count_by_register["0990"] = 1  # for some reason it is needed
+
+        # group the top registers by block, keeping the order
+        blocks = []
+        for register_class in top_register_classes:
+            bloco = register_class._name[-4:][0].upper()
+            if not blocks or blocks[-1][0] != bloco:
+                blocks.append((bloco, []))
+            blocks[-1][1].append(register_class)
 
         domain = [("declaration_id", "=", self.id)]
-        for register_class in top_register_classes:
-            bloco = register_class._name[-4:][0].upper()
-            # Contar com o dominio da declaracao, e nao `[]`: sem ele o
-            # indicador de movimento do bloco enxerga os registros de TODAS as
-            # escrituracoes da base e abre como "com dados" um bloco que nesta
-            # declaracao esta vazio. O PVA recusa a importacao com "registro de
-            # abertura do bloco informa que o bloco tem movimento, no entanto
-            # nenhum registro foi informado no bloco".
-            count_by_bloco[bloco] += register_class.search_count(domain)
-        for register_class in top_register_classes:
-            bloco = register_class._name[-4:][0].upper()
-            registers = register_class.search(domain)
-            if bloco != last_bloco:
-                if last_bloco:
-                    sped.write(f"\n|{last_bloco}990|{line_count[0] + 1}|")
-                    count_by_register[f"{bloco}990"] = 1
-                    line_total += line_count[0] + 1
-                    line_count = [0]
-
-                sped.write(f"\n|{bloco}001|{0 if count_by_bloco[bloco] > 0 else 1}|")
-                count_by_register[f"{bloco}001"] = 1
-                line_count[0] += 1
-            registers._generate_register_text(
-                sped, version, line_count, count_by_register
-            )
-            last_bloco = bloco
-
-        # close the last register:
-        # closing_register = "099" if kind == "ecf" else "990"
-        # sped.write(f"\n|{bloco}{closing_register}|{line_count[0] + 1}|")
-        sped.write(f"\n|{bloco}990|{line_count[0] + 1}|")
+        skip_empty = self._skip_empty_blocks()
+        first = True
+        for bloco, register_classes in blocks:
+            # search by this declaration only: other declarations' records
+            # would open an empty block as "with data"
+            records = [
+                register_class.search(domain) for register_class in register_classes
+            ]
+            has_data = any(records)
+            if skip_empty and not has_data and bloco != "0":
+                continue
+            if not first:
+                line_count = [0]
+            sped.write(f"\n|{bloco}001|{0 if has_data else 1}|")
+            count_by_register[f"{bloco}001"] = 1
+            line_count[0] += 1
+            for record in records:
+                record._generate_register_text(
+                    sped, version, line_count, count_by_register
+                )
+            sped.write(f"\n|{bloco}990|{line_count[0] + 1}|")
+            count_by_register[f"{bloco}990"] = 1
+            line_total += line_count[0] + 1
+            first = False
 
         # totals:
         sped.write("\n|9001|0|")
@@ -418,8 +615,9 @@ class SpedDeclaration(models.AbstractModel):
             code = item[0]
             num = item[1]
             sped.write(f"\n|9900|{code}|{num}|")
-        sped.write(f"\n|9990|{len(count_by_register.keys()) + 3}|")
+        block_9_lines = len(count_by_register.keys()) + 3
+        sped.write(f"\n|9990|{block_9_lines}|")
 
-        line_total += line_count[0] + len(count_by_register.keys()) + 4
+        line_total += block_9_lines
         sped.write(f"\n|9999|{line_total}|")
         return sped.getvalue()
