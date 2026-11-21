@@ -9,7 +9,7 @@
     "license": "AGPL-3",
     "author": "Akretion, Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-brazil",
-    "depends": ["l10n_br_fiscal"],
+    "depends": ["l10n_br_fiscal_edi"],
     "maintainers": ["rvalyi"],
     "development_status": "Alpha",
     "demo": ["demo/sped_base_demo.xml"],
