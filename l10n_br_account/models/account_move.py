@@ -48,6 +48,16 @@ class AccountMove(models.Model):
 
     _order = "date DESC, name DESC"
 
+    l10n_br_sped_result_closing = fields.Boolean(
+        string="Result Closing Entry",
+        copy=False,
+        help="Entry that brings the income and expense accounts to zero at the "
+        "end of the period, moving the result to the equity. The SPED books "
+        "report it apart: the ECD as a closing entry (IND_LCTO E) with the "
+        "balances before it (I350, I355), the ECF with the balance sheet after "
+        "it and the result before it.",
+    )
+
     document_electronic = fields.Boolean(
         related="document_type_id.electronic",
         string="Electronic?",
