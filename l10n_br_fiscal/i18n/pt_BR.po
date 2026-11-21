@@ -11405,6 +11405,199 @@ msgstr "A biblioteca Python xsdata não está instalada!"
 msgid "{} Tax Estimate Updated"
 msgstr "{} Estimativa de Imposto Atualizada"
 
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document__import_state
+msgid ""
+"Aggregated review state of the lines imported from a fiscal document file."
+msgstr "Situação de revisão agregada das linhas importadas de um arquivo de documento fiscal."
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__cfop_manual
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__cfop_manual
+msgid "CFOP Set Manually"
+msgstr "CFOP definido manualmente"
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document_line__partner_cfop_id
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__partner_cfop_id
+msgid ""
+"CFOP as declared by the counterparty in the imported document. It is "
+"preserved as-is for fiscal bookkeeping / SPED (e.g. C197), while cfop_id "
+"reflects the company's own operation after the mapping."
+msgstr "CFOP como declarado pela contraparte no documento importado. É preservado como veio para a escrituração fiscal e o SPED (ex.: C197), enquanto o campo CFOP reflete a operação da própria empresa depois do mapeamento."
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document_line__import_uom_factor
+msgid ""
+"Conversion factor between the supplier unit and the internal UoM (e.g. 25 "
+"for a 25kg bag received in KG)."
+msgstr "Fator de conversão entre a unidade do fornecedor e a unidade interna (ex.: 25 para um saco de 25 kg recebido em KG)."
+
+#. module: l10n_br_fiscal
+#. odoo-python
+#: code:addons/l10n_br_fiscal/tools.py:0
+#, python-format
+msgid ""
+"Declared CFOP %(cfop)s is a domestic CFOP but issuer (%(issuer)s) and "
+"company (%(company)s) are in different countries."
+msgstr "O CFOP declarado %(cfop)s é de operação interna, mas o emitente (%(issuer)s) e a empresa (%(company)s) estão em países diferentes."
+
+#. module: l10n_br_fiscal
+#. odoo-python
+#: code:addons/l10n_br_fiscal/tools.py:0
+#, python-format
+msgid ""
+"Declared CFOP %(cfop)s is a foreign trade CFOP but issuer and company are "
+"both in %(country)s."
+msgstr "O CFOP declarado %(cfop)s é de comércio exterior, mas o emitente e a empresa estão ambos em %(country)s."
+
+#. module: l10n_br_fiscal
+#. odoo-python
+#: code:addons/l10n_br_fiscal/tools.py:0
+#, python-format
+msgid ""
+"Declared CFOP %(cfop)s is interstate but issuer and company are both in "
+"%(state)s."
+msgstr "O CFOP declarado %(cfop)s é interestadual, mas o emitente e a empresa estão ambos em %(state)s."
+
+#. module: l10n_br_fiscal
+#. odoo-python
+#: code:addons/l10n_br_fiscal/tools.py:0
+#, python-format
+msgid ""
+"Declared CFOP %(cfop)s is intrastate but issuer (%(issuer)s) and company "
+"(%(company)s) are in different states."
+msgstr "O CFOP declarado %(cfop)s é estadual, mas o emitente (%(issuer)s) e a empresa (%(company)s) estão em estados diferentes."
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__import_pending_count
+msgid "Import Pending Count"
+msgstr "Linhas pendentes da importação"
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__import_state
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__import_state
+msgid "Import State"
+msgstr "Situação da importação"
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__import_supplierinfo_id
+msgid "Import Supplier Info"
+msgstr "Informação do fornecedor da importação"
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__import_uom_id
+msgid "Import UoM"
+msgstr "Unidade da importação"
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__import_uom_factor
+msgid "Import UoM Factor"
+msgstr "Fator da unidade da importação"
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document_line__import_uom_id
+msgid "Internal UoM equivalent to the supplier unit of the imported line."
+msgstr "Unidade interna equivalente à unidade do fornecedor da linha importada."
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document_line__import_state__matched
+msgid "Matched"
+msgstr "Sugerida"
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__partner_price_unit
+msgid "Partner Price Unit"
+msgstr "Preço unitário do parceiro"
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__partner_uom_code
+msgid "Partner Uom Code"
+msgstr "Unidade do parceiro"
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document_line__import_state__pending
+msgid "Pending"
+msgstr "Pendente"
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__import_state__pending
+msgid "Pending Review"
+msgstr "Aguardando revisão"
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__partner_quantity
+msgid "Quantity Declared by Partner"
+msgstr "Quantidade declarada pelo parceiro"
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document_line__partner_quantity
+msgid "Quantity as declared by the counterparty, in its own unit."
+msgstr "Quantidade como declarada pela contraparte, na unidade dela."
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__import_state__resolved
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document_line__import_state__resolved
+msgid "Resolved"
+msgstr "Resolvida"
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__import_state__in_progress
+msgid "Review in Progress"
+msgstr "Revisão em andamento"
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document_line__import_state
+msgid ""
+"Review state of a line imported from a fiscal document file. Pending: no "
+"internal product resolved yet. Matched: an automatic suggestion needs "
+"confirmation. Resolved: the mapping was applied. Empty on lines that were "
+"not imported."
+msgstr "Situação de revisão de uma linha importada de um arquivo de documento fiscal. Pendente: ainda sem produto interno resolvido. Sugerida: uma sugestão automática precisa de confirmação. Resolvida: o mapeamento foi aplicado. Vazio nas linhas que não foram importadas."
+
+#. module: l10n_br_fiscal
+#. odoo-python
+#: code:addons/l10n_br_fiscal/models/document_line.py:0
+#, python-format
+msgid "Set the internal product before resolving the line %s."
+msgstr "Informe o produto interno antes de resolver a linha %s."
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document_line__cfop_manual
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__cfop_manual
+msgid ""
+"Set when the CFOP of an imported line was chosen explicitly instead of "
+"coming from the fiscal operation mapping. The automatic remap does not "
+"overwrite it."
+msgstr "Marcado quando o CFOP de uma linha importada foi escolhido explicitamente em vez de vir do mapeamento da operação fiscal. O remapeamento automático não o sobrescreve."
+
+#. module: l10n_br_fiscal
+#. odoo-python
+#: code:addons/l10n_br_fiscal/models/document_line.py:0
+#, python-format
+msgid "The mapping can only be applied on imported document lines."
+msgstr "O mapeamento só pode ser aplicado em linhas de documento importado."
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document_line__partner_uom_code
+msgid ""
+"Unit of measure as declared by the counterparty in the imported document."
+msgstr "Unidade de medida como declarada pela contraparte no documento importado."
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document_line__partner_price_unit
+msgid "Unit price as declared by the counterparty, in its own unit."
+msgstr "Preço unitário como declarado pela contraparte, na unidade dela."
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document_line__cfop_warning
+msgid ""
+"Warns when the CFOP declared by the counterparty is inconsistent with the "
+"actual issuer/company geography. Useful to spot supplier mistakes before "
+"they pollute the SPED books."
+msgstr "Avisa quando o CFOP declarado pela contraparte é incoerente com a geografia real do emitente e da empresa. Útil para achar erros do fornecedor antes que contaminem os livros do SPED."
+
+
 #~ msgid "<i class=\"fa fa-arrow-right\"/> Generate an Access Key"
 #~ msgstr "<i class=\"fa fa-arrow-right\"/> Gerar uma chave de acesso"
 
@@ -13193,9 +13386,6 @@ msgstr "{} Estimativa de Imposto Atualizada"
 
 #~ msgid "PDF"
 #~ msgstr "PDF"
-
-#~ msgid "Pending"
-#~ msgstr "Pendente"
 
 #~ msgid "Pesquisar Chave"
 #~ msgstr "Pesquisar Chave"
