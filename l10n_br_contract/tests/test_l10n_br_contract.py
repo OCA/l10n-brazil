@@ -4,8 +4,10 @@
 from contextlib import contextmanager
 from unittest.mock import patch
 
+from dateutil.relativedelta import relativedelta
 from lxml import etree
 
+from odoo import fields
 from odoo.exceptions import UserError
 from odoo.fields import Command
 from odoo.tests import Form, TransactionCase, tagged
@@ -549,3 +551,26 @@ class TestL10nBrContract(TransactionCase):
         self.assertEqual(2, len(invoices))
         for invoice in invoices:
             self.assertEqual(1, len(invoice.invoice_line_ids))
+
+    def test_line_in_its_last_period_is_invoiced(self):
+        """A line whose next period ends after the contract is still invoiced."""
+        today = fields.Date.context_today(self.env["contract.contract"])
+        contract_form = Form(self.env["contract.contract"])
+        contract_form.name = "Contract With A Single Period"
+        contract_form.line_recurrence = True
+        contract_form.partner_id = self.partner
+        with contract_form.contract_line_ids.new() as line:
+            line.product_id = self.product_service
+            line.fiscal_operation_id = self.fo_venda
+            line.price_unit = 100.00
+            line.recurring_rule_type = "monthly"
+            line.recurring_invoicing_type = "pre-paid"
+            line.date_start = today
+            line.date_end = today + relativedelta(days=29)
+        contract = contract_form.save()
+
+        contract.recurring_create_invoice()
+        invoice_lines = contract._get_related_invoices().invoice_line_ids
+        self.assertEqual(
+            contract.contract_line_ids.product_id, invoice_lines.product_id
+        )

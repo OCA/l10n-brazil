@@ -189,7 +189,12 @@ class ContractContract(models.Model):
                 contract_line_id = self.env["contract.line"].browse(
                     line_vals.get("contract_line_id")
                 )
-                if contract_line_id and not contract_line_id.create_invoice_visibility:
+                # section and note lines only: the next date was already moved
+                if (
+                    contract_line_id
+                    and contract_line_id.display_type
+                    and not contract_line_id.create_invoice_visibility
+                ):
                     continue
 
                 operation_line_id = self.env["l10n_br_fiscal.operation.line"].browse(
