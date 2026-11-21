@@ -149,3 +149,98 @@ class TestReturnLog(AccountTestInvoicingCommon):
         self.assertEqual(sum_balance(rebate_moves), 2.00)
         self.assertEqual(sum_balance(discount_moves), 10.00)
         self.assertEqual(sum_balance(tariff_moves), 5.00)
+
+    def test_outstanding_account_from_journal(self):
+        """The journal payment method line account wins over the chart one."""
+        transit_account = self.env["account.account"].create(
+            {
+                "company_ids": [Command.link(self.company.id)],
+                "code": "TEST4",
+                "name": "Payments in transit",
+                "account_type": "asset_current",
+                "reconcile": True,
+            }
+        )
+        self.bank_journal_itau.outbound_payment_method_line_ids.write(
+            {"payment_account_id": transit_account.id}
+        )
+        return_log = self.return_log_obj.create(
+            {"journal_id": self.bank_journal_itau.id, "type": "outbound"}
+        )
+        event = self.event_obj.create({"cnab_return_log_id": return_log.id})
+        self.assertEqual(event._get_outstanding_account("outbound"), transit_account)
+        self.assertNotEqual(event._get_outstanding_account("inbound"), transit_account)
+
+    def _outbound_payable_line(self):
+        bill = self.env["account.move"].create(
+            {
+                "partner_id": self.partner_a.id,
+                "move_type": "in_invoice",
+                "invoice_date": fields.Date.today(),
+                "company_id": self.company.id,
+                "journal_id": self.company_data["default_journal_purchase"].id,
+                "invoice_line_ids": [
+                    Command.create(
+                        {
+                            "product_id": self.product_a.id,
+                            "quantity": 1.0,
+                            "price_unit": 300.0,
+                        }
+                    )
+                ],
+            }
+        )
+        bill.action_post()
+        payable_line = bill.line_ids.filtered(
+            lambda line: line.account_type == "liability_payable"
+        )
+        payable_line.cnab_state = "exported"
+        return payable_line
+
+    def test_outbound_liquidation_sets_cnab_state_done(self):
+        """A paid vendor line leaves the 'exported' state after the return."""
+        payable_line = self._outbound_payable_line()
+        return_log = self.return_log_obj.create(
+            {"journal_id": self.bank_journal_itau.id, "type": "outbound"}
+        )
+        event = self.event_obj.create(
+            {
+                "gen_liquidation_move": True,
+                "payment_value": 300.00,
+                "real_payment_date": date(2023, 4, 1),
+                "cnab_return_log_id": return_log.id,
+                "move_line_ids": payable_line,
+                "your_number": "P00001",
+            }
+        )
+        event.confirm_event()
+        self.assertTrue(payable_line.reconciled)
+        self.assertEqual(payable_line.cnab_state, "done")
+        self.assertEqual(event.generated_move_id.state, "posted")
+
+    def test_outbound_rejected_occurrence_sets_cnab_state_not_accepted(self):
+        """A rejected vendor line is marked so it can be proposed again."""
+        payable_line = self._outbound_payable_line()
+        return_log = self.return_log_obj.create(
+            {"journal_id": self.bank_journal_itau.id, "type": "outbound"}
+        )
+        event = self.event_obj.create(
+            {
+                "cnab_return_log_id": return_log.id,
+                "move_line_ids": payable_line,
+                "occurrence_code_1": "03",
+            }
+        )
+        # Create the structure after the event, which would otherwise be loaded
+        # by the return file processing.
+        return_log.cnab_structure_id = self.env["l10n_br_cnab.structure"].create(
+            {
+                "name": "Test",
+                "cnab_occurrence_ids": [
+                    Command.create({"code": "02", "not_accepted": False}),
+                    Command.create({"code": "03", "not_accepted": True}),
+                ],
+            }
+        )
+        event.confirm_event()
+        self.assertEqual(payable_line.cnab_state, "not_accepted")

@@ -438,6 +438,7 @@ class CNABImportWizard(models.TransientModel):
             "return_file": self.return_file,
             "cnab_structure_id": self.cnab_structure_id.id,
             "company_id": self.company_id.id,
+            "type": self.type,
             "state": "draft",
             "header_file": data["header_file_line"]["raw_line"],
         }
