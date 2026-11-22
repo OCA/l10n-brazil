@@ -3,6 +3,7 @@
 
 from datetime import datetime, time
 
+from psycopg2 import sql
 from pytz import UTC, timezone
 
 from odoo import _, api, fields, models
@@ -81,6 +82,27 @@ class FiscalDocument(models.Model):
         precompute=True,
         readonly=False,
     )
+
+    _proxy_shadowed_columns = {
+        "proxy_company_id": "company_id",
+        "proxy_partner_id": "partner_id",
+        "proxy_partner_shipping_id": "partner_shipping_id",
+        "proxy_user_id": "user_id",
+    }
+
+    def _init_column(self, column_name):
+        # new proxy column on existing rows: take the shadowed column value
+        shadowed = self._proxy_shadowed_columns.get(column_name)
+        if shadowed:
+            self.env.cr.execute(
+                sql.SQL("UPDATE {} SET {} = {} WHERE {} IS NULL").format(
+                    sql.Identifier(self._table),
+                    sql.Identifier(column_name),
+                    sql.Identifier(shadowed),
+                    sql.Identifier(column_name),
+                )
+            )
+        return super()._init_column(column_name)
 
     @api.onchange("company_id")
     def _inverse_company_id(self):

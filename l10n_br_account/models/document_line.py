@@ -2,6 +2,8 @@
 # Copyright (C) 2023 - TODAY Raphaël Valyi - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
+from psycopg2 import sql
+
 from odoo import api, fields, models
 from odoo.tools import float_compare
 
@@ -74,6 +76,28 @@ class FiscalDocumentLine(models.Model):
         string="Unit Price (proxy)",
         help="Technical mirror.",
     )
+
+    _proxy_shadowed_columns = {
+        "proxy_partner_id": "partner_id",
+        "proxy_product_id": "product_id",
+        "proxy_name": "name",
+        "proxy_quantity": "quantity",
+        "proxy_price_unit": "price_unit",
+    }
+
+    def _init_column(self, column_name):
+        # new proxy column on existing rows: take the shadowed column value
+        shadowed = self._proxy_shadowed_columns.get(column_name)
+        if shadowed:
+            self.env.cr.execute(
+                sql.SQL("UPDATE {} SET {} = {} WHERE {} IS NULL").format(
+                    sql.Identifier(self._table),
+                    sql.Identifier(column_name),
+                    sql.Identifier(shadowed),
+                    sql.Identifier(column_name),
+                )
+            )
+        return super()._init_column(column_name)
 
     # -------------------------------------------------------------------------
     # SHADOWED FIELDS SYNC
