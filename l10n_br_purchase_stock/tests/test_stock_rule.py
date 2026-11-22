@@ -25,6 +25,7 @@ class StockRuleTest(TransactionCase):
             {
                 "product_id": self.env.ref("product.product_product_12").id,
                 "product_min_qty": 1000.0,
+                "product_max_qty": 1000.0,
             }
         )
 
@@ -71,6 +72,7 @@ class StockRuleTest(TransactionCase):
             {
                 "product_id": product_mto.id,
                 "product_min_qty": 150.0,
+                "product_max_qty": 150.0,
                 "route_id": self.env.ref("stock.route_warehouse0_mto").id,
             }
         )

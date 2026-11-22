@@ -1,7 +1,7 @@
 # Copyright (C) 2009  Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import _, fields, models
+from odoo import fields, models
 
 
 class Company(models.Model):
@@ -15,8 +15,8 @@ class Company(models.Model):
 
     purchase_invoicing_policy = fields.Selection(
         selection=[
-            ("purchase_order", _("Purchase Order")),
-            ("stock_picking", _("Stock Picking")),
+            ("purchase_order", "Purchase Order"),
+            ("stock_picking", "Stock Picking"),
         ],
         default="purchase_order",
     )
