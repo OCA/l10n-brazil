@@ -1223,3 +1223,31 @@ class TestSpedBase(SpedDocumentCommon, TransactionCase, FakeModelLoader):
             company.accountant_id.crc_code = "1SP123456/O-0"
             declaration.button_create_sped_files()
         self.assertEqual(len(self._attachments(declaration)), 1)
+
+    def test_pull_skips_a_register_with_nothing_to_map(self):
+        """A register without an Odoo record and without children is not
+        created when its mapping comes back empty (a bare 0007 breaks the
+        required fields of the layout): the pulled mark is not mapped data. With
+        values it is created, and marked as pulled."""
+        declaration = self.declaration
+        reg_0007 = self.env["l10n_br_sped.fake.0007"].with_context(
+            declaration=declaration
+        )
+        domain = [("declaration_id", "=", declaration.id)]
+        before = reg_0007.search(domain)
+        with (
+            patch.object(type(reg_0007), "_map_from_odoo", return_value={}),
+            patch.object(
+                type(reg_0007), "create", wraps=reg_0007.create
+            ) as create_0007,
+        ):
+            reg_0007._pull_records_from_odoo(kind="fake", level=2, log_msg=StringIO())
+        create_0007.assert_not_called()
+
+        values = {"COD_ENT_REF": "01", "declaration_id": declaration.id}
+        with patch.object(type(reg_0007), "_map_from_odoo", return_value=values):
+            reg_0007._pull_records_from_odoo(kind="fake", level=2, log_msg=StringIO())
+        pulled = reg_0007.search(domain) - before
+        self.assertEqual(len(pulled), 1)
+        self.assertEqual(pulled.COD_ENT_REF, "01")
+        self.assertTrue(pulled.is_generated_from_odoo)
