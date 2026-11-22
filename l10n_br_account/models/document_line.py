@@ -85,18 +85,23 @@ class FiscalDocumentLine(models.Model):
         "proxy_price_unit": "price_unit",
     }
 
+    def _fill_proxy_column(self, column_name):
+        shadowed = self._proxy_shadowed_columns[column_name]
+        self.env.cr.execute(
+            sql.SQL("UPDATE {} SET {} = {} WHERE {} IS DISTINCT FROM {}").format(
+                sql.Identifier(self._table),
+                sql.Identifier(column_name),
+                sql.Identifier(shadowed),
+                sql.Identifier(column_name),
+                sql.Identifier(shadowed),
+            )
+        )
+        return self.env.cr.rowcount
+
     def _init_column(self, column_name):
         # new proxy column on existing rows: take the shadowed column value
-        shadowed = self._proxy_shadowed_columns.get(column_name)
-        if shadowed:
-            self.env.cr.execute(
-                sql.SQL("UPDATE {} SET {} = {} WHERE {} IS NULL").format(
-                    sql.Identifier(self._table),
-                    sql.Identifier(column_name),
-                    sql.Identifier(shadowed),
-                    sql.Identifier(column_name),
-                )
-            )
+        if column_name in self._proxy_shadowed_columns:
+            self._fill_proxy_column(column_name)
         return super()._init_column(column_name)
 
     # -------------------------------------------------------------------------
