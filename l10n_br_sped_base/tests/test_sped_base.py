@@ -285,6 +285,7 @@ class TestSpedBase(SpedDocumentCommon, TransactionCase, FakeModelLoader):
             '<field name="reg_I050_ids"',
             arch,
         )
+        self.assertNotIn("attrs=", arch)
 
     def test_format_field_value(self):
         """An amount always carries two decimals; a quantity is not rounded."""
@@ -1155,6 +1156,28 @@ class TestSpedBase(SpedDocumentCommon, TransactionCase, FakeModelLoader):
         self.assertEqual(declaration._get_documents_without_access_key(), keyless)
         declaration.button_populate_sped_from_odoo()
         self.assertIn("1/912", " ".join(declaration.message_ids.mapped("body")))
+
+    def test_the_pull_history_is_html_with_the_error_escaped(self):
+        declaration = self._fake_declaration("2026-07-01", "2026-07-31")
+        i010 = self.env["l10n_br_sped.fake.i010"]
+        with (
+            patch.object(
+                type(self.env["l10n_br_sped.mixin"]),
+                "_get_top_registers",
+                return_value=[i010],
+            ),
+            patch.object(
+                type(i010),
+                "_pull_records_from_odoo",
+                side_effect=ValueError("<b>broken</b>"),
+            ),
+            mute_logger("odoo.addons.l10n_br_sped_base.models.sped_declaration"),
+        ):
+            declaration.button_populate_sped_from_odoo()
+        body = declaration.message_ids[0].body
+        self.assertIn("<h3>", body)
+        self.assertIn("<p", body)
+        self.assertIn("&lt;b&gt;broken&lt;/b&gt;", body)
 
     def test_the_history_link_needs_no_access_to_the_actions(self):
         """A fiscal user cannot read the window actions: the link of the pull

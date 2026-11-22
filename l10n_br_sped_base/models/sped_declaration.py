@@ -7,6 +7,7 @@ from collections import defaultdict
 from io import StringIO
 
 from lxml.builder import E
+from markupsafe import Markup, escape
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
@@ -256,7 +257,7 @@ class SpedDeclaration(models.AbstractModel):
         self.ensure_one()
         errors = []
         log_msg = StringIO()
-        log_msg.write(f"<h3>{_('Pulled from Odoo')}</h3>")
+        log_msg.write(f"<h3>{escape(_('Pulled from Odoo'))}</h3>")
         kind = self._get_kind()
 
         # The declaration record IS the 0000: without its own mapping the header
@@ -289,10 +290,12 @@ class SpedDeclaration(models.AbstractModel):
         if ignored:
             title = _("Documents left out for lack of an access key")
             log_msg.write(
-                f"<p style='color:orange;'>{title}: "
+                f"<p style='color:orange;'>{escape(title)}: "
                 + ", ".join(
-                    f"{doc.document_type_id.code} {doc.document_serie or ''}/"
-                    f"{doc.document_number or doc.id}"
+                    escape(
+                        f"{doc.document_type_id.code} {doc.document_serie or ''}/"
+                        f"{doc.document_number or doc.id}"
+                    )
                     for doc in ignored
                 )
                 + "</p>"
@@ -311,26 +314,26 @@ class SpedDeclaration(models.AbstractModel):
                 )
                 log_msg.write(
                     "<p style='color:red;'>Error "
-                    f"processing {register_model._name}: {e}</p>"
+                    f"processing {register_model._name}: {escape(e)}</p>"
                 )
                 errors.append(f"{register_model._name[-4:].upper()}: {e}")
         lost = mixin_env._restore_typed_under_pulled(kind, self.id, typed)
         if lost:
             title = _("Registers typed under a register the pull did not create again")
             log_msg.write(
-                f"<p style='color:red;'>{title}: "
-                + ", ".join(str(key[0]) for key in lost)
+                f"<p style='color:red;'>{escape(title)}: "
+                + ", ".join(escape(key[0]) for key in lost)
                 + "</p>"
             )
             errors.append(f"{title}: {len(lost)}")
-        self.message_post(body=log_msg.getvalue())
+        self.message_post(body=Markup(log_msg.getvalue()))
         return errors
 
     def button_flush_registers(self):
         self.ensure_one()
         self.env["l10n_br_sped.mixin"]._flush_registers(self._get_kind(), self.id)
         self.message_post(
-            body=f"<h3>{_('Flushed all Registers from Declaration!')}</h3>"
+            body=Markup("<h3>%s</h3>") % _("Flushed all Registers from Declaration!")
         )
 
     def button_done(self):

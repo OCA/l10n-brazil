@@ -7,6 +7,7 @@ from collections import defaultdict
 from io import StringIO
 
 from lxml.builder import E
+from markupsafe import Markup, escape
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
@@ -30,7 +31,7 @@ LAYOUT_VERSIONS = {
 
 MAX_REGISTER_NAME = 40
 
-EDITABLE_ON_DRAFT = "{'readonly': [('state', 'not in', ['draft'])]}"
+EDITABLE_ON_DRAFT = "state != 'draft'"
 
 
 class SpedMixin(models.AbstractModel):
@@ -271,7 +272,7 @@ class SpedMixin(models.AbstractModel):
             elif field.type in ("one2many", "many2many", "text", "html"):
                 field_tag = E.field(
                     name=fname,
-                    attrs=EDITABLE_ON_DRAFT,
+                    readonly=EDITABLE_ON_DRAFT,
                     context="{'default_declaration_id': declaration_id}",
                 )
                 if field.type == "one2many":
@@ -331,7 +332,7 @@ class SpedMixin(models.AbstractModel):
             elif fname.isupper():
                 # alternate between left and right inner groups
                 target = left_group if toggle else right_group
-                target.append(E.field(name=fname, attrs=EDITABLE_ON_DRAFT))
+                target.append(E.field(name=fname, readonly=EDITABLE_ON_DRAFT))
                 toggle = not toggle
 
         # Assemble the sheet: header group first, then wide fields below
@@ -357,11 +358,7 @@ class SpedMixin(models.AbstractModel):
         group.append(
             E.field(
                 name="declaration_id",
-                attrs=(
-                    "{'readonly': "
-                    "[('state', 'not in', ['draft']), "
-                    "('declaration_id', '!=', False)]}"
-                ),
+                readonly="state != 'draft' and declaration_id",
                 invisible="1" if inline else "0",
             )
         )
@@ -605,10 +602,10 @@ class SpedMixin(models.AbstractModel):
                 previous_register = register
 
         log_msg = StringIO()
-        log_msg.write(f"<h3>{_('Imported from file:')}</h3>")
+        log_msg.write(f"<h3>{escape(_('Imported from file:'))}</h3>")
         for _code, registers in level_2_registers.items():
             registers[0]._log_chatter_sped_item(log_msg, 2, registers)
-        declaration.message_post(body=log_msg.getvalue())
+        declaration.message_post(body=Markup(log_msg.getvalue()))
 
         return declaration
 

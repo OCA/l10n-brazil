@@ -76,7 +76,7 @@ class Registro0000(models.Model):
     @api.model
     def _append_top_view_elements(self, group, inline=False):
         res = super()._append_top_view_elements(group)
-        group.append(E.field(name="ind_esc", required="1", attrs=EDITABLE_ON_DRAFT))
+        group.append(E.field(name="ind_esc", required="1", readonly=EDITABLE_ON_DRAFT))
         return res
 
     @api.model
