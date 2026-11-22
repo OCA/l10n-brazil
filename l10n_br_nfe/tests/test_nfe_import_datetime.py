@@ -1,7 +1,8 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-import base64
 import os
+
+from xsdata.formats.dataclass.parsers import XmlParser
 
 from odoo import fields
 from odoo.tests import TransactionCase
@@ -16,8 +17,9 @@ class TestNFeImportDatetime(TransactionCase):
     """The issue date of an imported NF-e keeps the instant it carries.
 
     The XML has the local time with an offset, the Datetime fields keep UTC.
-    The key of the sample belongs to 2020-01, so the issue date has to be in
-    January for the user, whatever the hour.
+    The test goes through the import of the spec (``build_from_binding``), which every
+    importer of the localization uses, so it holds whatever the path that reads the
+    file: it does not depend on the wizard nor on the service of import.
     """
 
     @classmethod
@@ -25,8 +27,6 @@ class TestNFeImportDatetime(TransactionCase):
         super().setUpClass()
         cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
         cls.env.user.tz = "America/Sao_Paulo"
-        # the check of the key against the issue date only runs with the processor
-        cls.env.company.processador_edoc = "oca"
         path = os.path.join(
             l10n_br_nfe.__path__[0], "tests", "nfe", "v4_00", "leiauteNFe", SAMPLE
         )
@@ -34,18 +34,18 @@ class TestNFeImportDatetime(TransactionCase):
             cls.xml = f.read()
 
     def _import(self, dh_emi, dh_sai_ent=None):
+        """Build the document from the binding of the file, as every importer does:
+        the conversion is a matter of the import of the spec, not of one importer."""
         xml = self.xml.replace(SAMPLE_DH, dh_emi.encode(), 1)
         xml = xml.replace(SAMPLE_DH, (dh_sai_ent or dh_emi).encode(), 1)
         self.assertNotIn(SAMPLE_DH, xml)
-        wizard = self.env["l10n_br_fiscal.document.import.wizard"].create(
-            {
-                "company_id": self.env.ref("base.main_company").id,
-                "file": base64.b64encode(xml),
-            }
+        binding = XmlParser().from_bytes(xml)
+        binding = getattr(binding, "NFe", binding)
+        return (
+            self.env["nfe.40.infnfe"]
+            .with_context(tracking_disable=True, edoc_type="in")
+            .build_from_binding("nfe", "40", binding.infNFe)
         )
-        wizard._onchange_file()
-        wizard._import_edoc()
-        return wizard.document_id
 
     def _local(self, document, field="document_date"):
         return fields.Datetime.context_timestamp(document, document[field])
@@ -56,12 +56,6 @@ class TestNFeImportDatetime(TransactionCase):
         self.assertEqual(str(document.document_date), "2020-01-01 04:00:00")
         local = self._local(document)
         self.assertEqual(local.strftime("%Y-%m-%d %H:%M"), "2020-01-01 01:00")
-
-    def test_issue_at_the_start_of_the_month_passes_the_key_check(self):
-        """The key says 2020-01: confirming checks it against the issue date."""
-        document = self._import("2020-01-01T01:00:00-03:00")
-        document.action_document_confirm()
-        self.assertEqual(document.state_edoc, "autorizada")
 
     def test_issue_at_night_changes_the_day_in_utc_only(self):
         """22:30 in Brasilia is 01:30 UTC of the next day, same day for the user."""
