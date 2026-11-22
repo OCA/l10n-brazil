@@ -51,6 +51,7 @@
                 />
                 <field name="document_state_label" string="State" />
                 <field name="utilization" optional="show" />
+                <field name="import_block_reason" optional="show" />
                 <button
                     string="XML"
                     name="action_download_xml"
@@ -68,7 +69,7 @@
                     string="Import"
                     type="object"
                     icon="fa-file-text-o"
-                    invisible="fiscal_document_id"
+                    invisible="import_block_reason"
                 />
                 <button
                     name="action_view_imported_document"
@@ -97,7 +98,7 @@
         />
         <field name="arch" type="xml">
             <xpath expr="//button[@name='import_document']" position="attributes">
-                <attribute name="invisible">fiscal_document_id</attribute>
+                <attribute name="invisible">import_block_reason</attribute>
             </xpath>
             <xpath expr="//div[hasclass('oe_title')]" position="before">
                 <div class="oe_button_box" name="button_box">
