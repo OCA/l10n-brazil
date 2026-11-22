@@ -1217,3 +1217,56 @@ class TestSpedBase(SpedDocumentCommon, TransactionCase, FakeModelLoader):
             company.accountant_id.crc_code = "1SP123456/O-0"
             declaration.button_create_sped_files()
         self.assertEqual(len(self._attachments(declaration)), 1)
+
+    def test_a_register_the_layout_makes_in_the_pull_is_a_pulled_one(self):
+        """A layout may create registers in its own code during the pull (the
+        J050 of the ECF): they are pulled ones, so the next pull drops them
+        instead of carrying them twice."""
+        declaration = self.declaration
+        i010 = self.env["l10n_br_sped.fake.i010"]
+        domain = [("declaration_id", "=", declaration.id)]
+        typed = i010.search(domain)
+
+        def make_one(self_, kind, level, **kwargs):
+            self_.create({"COD_VER_LC": "9.00", "declaration_id": declaration.id})
+
+        with patch.object(
+            type(i010), "_pull_records_from_odoo", autospec=True, side_effect=make_one
+        ):
+            declaration.button_populate_sped_from_odoo()
+            declaration.button_populate_sped_from_odoo()
+        pulled = i010.search(domain) - typed
+        self.assertEqual(len(pulled), 1)
+        self.assertTrue(pulled.is_generated_from_odoo)
+        self.assertTrue(typed.exists())
+
+    def test_a_register_pulls_records_built_in_python(self):
+        """A register may build its records in Python (_odoo_records): each
+        dict is mapped as a record and is the parent record of the registers
+        below."""
+        declaration = self.declaration
+        reg_0007 = self.env["l10n_br_sped.fake.0007"].with_context(
+            declaration=declaration
+        )
+        domain = [("declaration_id", "=", declaration.id)]
+        before = reg_0007.search(domain)
+
+        def map_record(self_, record, parent_record, declaration, index=0):
+            return {"COD_ENT_REF": record["code"], "declaration_id": declaration.id}
+
+        with (
+            patch.object(
+                type(reg_0007),
+                "_odoo_records",
+                create=True,
+                return_value=[{"code": "01"}, {"code": "02"}],
+            ) as odoo_records,
+            patch.object(
+                type(reg_0007), "_map_from_odoo", autospec=True, side_effect=map_record
+            ),
+        ):
+            reg_0007._pull_records_from_odoo(kind="fake", level=2, log_msg=StringIO())
+        odoo_records.assert_called_once_with(None, declaration)
+        pulled = reg_0007.search(domain) - before
+        self.assertEqual(sorted(pulled.mapped("COD_ENT_REF")), ["01", "02"])
+        self.assertTrue(all(pulled.mapped("is_generated_from_odoo")))
