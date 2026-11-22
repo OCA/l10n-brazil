@@ -66,6 +66,14 @@ class TestNfseReplace(TransactionCase):
         action = self.old.action_nfse_replace()
         new = self.env[action["res_model"]].browse(action["res_id"])
         self.assertTrue(new.fiscal_line_ids)
+        self.assertEqual(new.company_id, self.old.company_id)
+        self.assertEqual(new.partner_id, self.old.partner_id)
+        self.assertEqual(
+            new.fiscal_line_ids.mapped(lambda line: (line.quantity, line.price_unit)),
+            self.old.fiscal_line_ids.mapped(
+                lambda line: (line.quantity, line.price_unit)
+            ),
+        )
         new.write(values)
         return new
 

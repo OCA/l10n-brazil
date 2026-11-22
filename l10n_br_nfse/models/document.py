@@ -106,14 +106,26 @@ class Document(models.Model):
             new = moves.copy()
             new.fiscal_document_id.nfse_replaced_document_id = self
         else:
+            # l10n_br_account keeps company, partner, product and quantity in
+            # proxy columns, empty in documents created before it was installed
             new = self.copy(
                 {
                     "nfse_replaced_document_id": self.id,
+                    "company_id": self.company_id.id,
+                    "partner_id": self.partner_id.id,
+                    "partner_shipping_id": self.partner_shipping_id.id,
                     "document_serie_id": self.document_serie_id.id,
                 }
             )
             # the lines are not copied with the document
-            self.fiscal_line_ids.copy({"document_id": new.id})
+            for line in self.fiscal_line_ids:
+                line.copy(
+                    {
+                        "document_id": new.id,
+                        "product_id": line.product_id.id,
+                        "quantity": line.quantity,
+                    }
+                )
         return {
             "type": "ir.actions.act_window",
             "res_model": new._name,
