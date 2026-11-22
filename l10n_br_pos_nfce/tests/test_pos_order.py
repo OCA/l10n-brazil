@@ -35,6 +35,32 @@ class TestNFCePosOrder(TestNFCePosOrderCommon):
 
         return order_data
 
+    def test_nfce_order_invoiced_without_ui_to_invoice(self):
+        """NFC-e must be invoiced even if the UI does not send to_invoice.
+
+        Odoo 16 calls push_single_order() without options, so the POS
+        frontend does not set to_invoice in the payload. The server must
+        force the invoice for NFC-e configurations.
+        """
+        self.env = self.env(user=self.env.ref("base.user_admin"))
+        self.env.user.company_ids = [(4, self.company.id)]
+        self.env.user.company_id = self.company
+
+        self.open_new_session()
+        order_data = self._prepare_order_data()
+        order_data["data"].pop("to_invoice", None)
+
+        # Avoid any SEFAZ request while testing the invoicing flow.
+        with mock.patch.object(Document, "action_document_confirm"), mock.patch.object(
+            Document, "action_document_send"
+        ):
+            result = self.env["pos.order"].create_from_ui([order_data])
+
+        order = self.env["pos.order"].browse(result[0]["id"])
+        self.assertTrue(order.to_invoice)
+        self.assertTrue(order.account_move)
+        self.assertTrue(order.account_move.fiscal_document_id)
+
     def test_nfce_order_creation(self):
         self.env = self.env(user=self.env.ref("base.user_admin"))
         self.env.user.company_ids = [(4, self.company.id)]
