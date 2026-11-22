@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo noupdate="1">
-
     <!-- Criação da Invoice baseada no Picking.
      Com isso os Picking são criados com o invoice_state 2binvoiced -->
     <record id="purchase_invoicing_policy_settings" model="res.config.settings">
@@ -365,5 +364,4 @@
         <field name="other_value">10</field>
         <field name="freight_value">10</field>
     </record>
-
 </odoo>

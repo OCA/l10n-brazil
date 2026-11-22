@@ -23,10 +23,27 @@ class PurchaseOrderLine(models.Model):
 
     @api.model
     def _prepare_purchase_order_line_from_procurement(
-        self, product_id, product_qty, product_uom, company_id, values, po
+        self,
+        product_id,
+        product_qty,
+        product_uom,
+        location_dest_id,
+        name,
+        origin,
+        company_id,
+        values,
+        po,
     ):
         res = super()._prepare_purchase_order_line_from_procurement(
-            product_id, product_qty, product_uom, company_id, values, po
+            product_id,
+            product_qty,
+            product_uom,
+            location_dest_id,
+            name,
+            origin,
+            company_id,
+            values,
+            po,
         )
         if values.get("move_dest_ids"):
             for move in values.get("move_dest_ids"):

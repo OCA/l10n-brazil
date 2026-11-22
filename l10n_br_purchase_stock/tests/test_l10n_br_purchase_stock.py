@@ -5,10 +5,19 @@
 
 from odoo.tests import Form
 
+from odoo.addons.l10n_br_purchase.hooks import purchase_set_journal_in_fiscal_operation
 from odoo.addons.l10n_br_stock_account.tests.common import TestBrPickingInvoicingCommon
 
 
 class L10nBrPurchaseStockBase(TestBrPickingInvoicingCommon):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        # The demo purchase orders belong to the main company, not to the
+        # test company created by the base class.
+        cls.env.user.company_id = cls.env.ref("base.main_company")
+        purchase_set_journal_in_fiscal_operation(cls.env)
+
     def test_grouping_pickings(self):
         """
         Test the invoice generation grouped by partner/product with 2
@@ -92,7 +101,7 @@ class L10nBrPurchaseStockBase(TestBrPickingInvoicingCommon):
         # Validar Atualização da Quantidade Faturada
         for line in purchase_1.order_line:
             # Apenas a linha de Produto tem a qtd faturada dobrada
-            if line.product_id.type == "product":
+            if line.product_id.is_storable:
                 # A quantidade Faturada deve ser igual
                 # a Quantidade do Produto
                 self.assertEqual(line.product_uom_qty, line.qty_invoiced)
@@ -120,11 +129,16 @@ class L10nBrPurchaseStockBase(TestBrPickingInvoicingCommon):
             invoice_devolution.state, "posted", "Invoice should be in state Posted"
         )
         # Validar Atualização da Quantidade Faturada
-        for line in purchase_1.order_line:
-            # Apenas a linha de Produto tem a qtd faturada dobrada
-            if line.product_id.type == "product":
-                # A quantidade Faturada deve ser zero devido a Devolução
-                self.assertEqual(0.0, line.qty_invoiced)
+        for line in purchase_1.order_line.filtered(
+            lambda ln: ln.product_id.is_storable
+        ):
+            # A Devolução abate a quantidade devolvida da quantidade Faturada
+            returned_qty = sum(
+                picking_devolution.move_ids.filtered(
+                    lambda mv, ln=line: mv.product_id == ln.product_id
+                ).mapped("quantity")
+            )
+            self.assertEqual(line.product_qty - returned_qty, line.qty_invoiced)
 
     def test_purchase_order_lucro_presumido(self):
         """Test Purchase Order for company Lucro Presumido."""
