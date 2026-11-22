@@ -18,3 +18,4 @@ from . import test_fiscal_tax_deductible
 from . import test_deductible_balance
 from . import test_dfe_utilization
 from . import test_search_filters
+from . import test_proxy_columns_init
