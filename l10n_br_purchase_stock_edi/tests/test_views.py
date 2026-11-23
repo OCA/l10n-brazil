@@ -41,8 +41,10 @@ class TestViews(EdiImportCase):
         self.assertTrue(views)
         for user in (self._fiscal_user("view-fiscal"), self._buyer()):
             for view in views.filtered(lambda view: view.type in ("form", "tree")):
-                model = self.env[view.model].with_user(user).with_context(
-                    allowed_company_ids=user.company_ids.ids
+                model = (
+                    self.env[view.model]
+                    .with_user(user)
+                    .with_context(allowed_company_ids=user.company_ids.ids)
                 )
                 if not model.check_access_rights("read", raise_exception=False):
                     # the invoice and the receipt are not for the fiscal profile
