@@ -111,8 +111,12 @@ class FiscalDocumentLine(models.Model):
     )
 
     @api.depends("product_id", "proxy_name")
-    def _compute_name(self):
-        for line in self:
+    def _compute_name(self):  # pylint: disable=missing-return
+        lines_from_account = self._records_from_account()
+        lines_from_fiscal = self - lines_from_account
+        if lines_from_fiscal:
+            super(FiscalDocumentLine, lines_from_fiscal)._compute_name()
+        for line in lines_from_account:
             line.name = line.proxy_name or line.product_id.display_name or False
 
     # Do not depend on `document_id.partner_id`, the inverse is taking care of that
