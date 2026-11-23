@@ -5,6 +5,8 @@ from lxml import etree
 
 from odoo.tests import tagged
 
+from odoo.addons.l10n_br_fiscal_edi.tests.common import readable_field_names
+
 from .common import RequestEdiCase
 
 
@@ -28,7 +30,7 @@ class TestPureFiscalUser(RequestEdiCase):
         for record in (document, lines):
             arch = etree.fromstring(record.get_view(view_type="form")["arch"])
             names = {node.get("name") for node in arch.iter("field")}
-            record.read([name for name in names if name in record._fields])
+            record.read(readable_field_names(record, names))
 
     def test_the_pure_fiscal_user_with_a_request_and_its_order(self):
         request = self._request()
