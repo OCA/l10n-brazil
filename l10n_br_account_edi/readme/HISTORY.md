@@ -10,3 +10,8 @@
 - The installments and the payment of an issued NF-e are written in the tags
   `dup` and `detPag` when the invoice is posted. Until then the tags are empty
   and the invoice and the fiscal document show a preview.
+- The import wizard that the upload used to open (`action_import_and_open_move`,
+  `_get_importer_action`, `first_imported_move_id`) no longer exists: the upload
+  creates the fiscal documents (`create_document_from_attachment`), and the
+  invoice of each one is generated with `action_generate_invoice` after the
+  review of its lines.
