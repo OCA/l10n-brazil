@@ -20,6 +20,7 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     FISCAL_OUT,
     MODELO_FISCAL_NFE,
 )
+from odoo.addons.l10n_br_fiscal.models.document_line import IMPORT_REVIEW_CONTEXT_KEY
 
 from .constants import (
     MOVE_TO_OPERATION,
@@ -733,10 +734,15 @@ class AccountMove(models.Model):
             move_form.document_type_id = fiscal_document.document_type_id
             move_form.fiscal_document_id = fiscal_document
             move_form.fiscal_operation_id = fiscal_document.fiscal_operation_id
-            for field_name, value in (
-                ("date", fiscal_document.document_date),
-                ("document_serie", fiscal_document.document_serie),
-            ):
+            fields_to_copy = []
+            if not move_type.startswith("out_"):
+                # the accounting date of a customer invoice follows its date
+                fields_to_copy.append(("date", fiscal_document.document_date))
+            if fiscal_document.issuer == DOCUMENT_ISSUER_PARTNER:
+                fields_to_copy.append(
+                    ("document_serie", fiscal_document.document_serie)
+                )
+            for field_name, value in fields_to_copy:
                 if not move_form._get_modifier(field_name, "invisible"):
                     setattr(move_form, field_name, value)
             if not move_form._get_modifier("document_serie_id", "invisible"):
@@ -782,7 +788,15 @@ class AccountMove(models.Model):
                     }
                 )
 
+        serie = fiscal_document.document_serie
         move_form.save()
+        if (
+            fiscal_document.imported_document
+            and fiscal_document.document_serie != serie
+        ):
+            # the form has no series record to give back to a document of the
+            # company imported from a file: its series is the text of the file
+            fiscal_document.document_serie = serie
         move = self.env["account.move"].browse(move_form.id)
 
         invoice_line_write_vals = []
@@ -824,9 +838,10 @@ class AccountMove(models.Model):
                 )
 
         # Write safely bypassing strict validity checks mid-loop
-        move.with_context(check_move_validity=False).write(
-            {"invoice_line_ids": invoice_line_write_vals}
-        )
+        # the quantity and the price come from the document, not from a person
+        move.with_context(
+            check_move_validity=False, **{IMPORT_REVIEW_CONTEXT_KEY: True}
+        ).write({"invoice_line_ids": invoice_line_write_vals})
 
         if dummy_lines_to_unlink:
             dummy_lines_to_unlink.unlink()
