@@ -78,7 +78,8 @@
       </prod>
       <imposto>
         <ICMS>
-          <ICMS00><orig>0</orig><CST>00</CST><modBC>3</modBC><vBC>700.00</vBC><pICMS>12.0000</pICMS><vICMS>84.00</vICMS></ICMS00>
+          <ICMS00><orig>0</orig><CST>00</CST><modBC>3</modBC><vBC>700.00</vBC><pICMS
+                        >12.0000</pICMS><vICMS>84.00</vICMS></ICMS00>
         </ICMS>
         <IPI>
           <cEnq>999</cEnq>
