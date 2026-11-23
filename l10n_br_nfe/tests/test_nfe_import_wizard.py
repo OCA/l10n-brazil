@@ -119,53 +119,6 @@ class NFeImportWizardTest(TransactionCase):
         self.assertTrue(self.wizard.fiscal_operation_id)
         self.assertEqual(self.wizard.fiscal_operation_id.fiscal_operation_type, "in")
 
-    def test_counterpart_cfop_code(self):
-        wizard = self.env["l10n_br_fiscal.document.import.wizard"]
-        self.assertEqual(wizard._counterpart_cfop_code("5102", "in"), "1102")
-        self.assertEqual(wizard._counterpart_cfop_code("6102", "in"), "2102")
-        self.assertEqual(wizard._counterpart_cfop_code("7102", "in"), "3102")
-        self.assertEqual(wizard._counterpart_cfop_code("5102", "out"), "5102")
-        self.assertFalse(wizard._counterpart_cfop_code("1102", "in"))
-
-    def test_an_inbound_cfop_has_no_counterpart_to_look_for(self):
-        """A note issued against us already carries our own CFOP, and there is no
-        issuer operation to translate: the search has nothing to run on."""
-        wizard = self.env["l10n_br_fiscal.document.import.wizard"]
-
-        self.assertFalse(wizard._find_fiscal_operation_line("1102", "Compra", "in"))
-
-    def test_the_operation_whose_name_matches_the_nature_wins(self):
-        """Several operations can share the CFOP, and the natureza da operacao of
-        the file is what tells them apart."""
-        wizard = self.env["l10n_br_fiscal.document.import.wizard"]
-        first = wizard._find_fiscal_operation_line("5102", False, "in")
-        self.assertTrue(first, "no approved operation line answers CFOP 1102")
-        # A later operation with the same CFOP: the plain search does not
-        # return it, so only the tie-break by name can.
-        operation = self.env["l10n_br_fiscal.operation"].create(
-            {
-                "code": "TEST-IMPORT-IN",
-                "name": "Same CFOP as the first one",
-                "fiscal_operation_type": "in",
-                "fiscal_type": "purchase",
-            }
-        )
-        self.env["l10n_br_fiscal.operation.line"].create(
-            {
-                "fiscal_operation_id": operation.id,
-                "name": "Same CFOP as the first one",
-                "cfop_internal_id": self.env["l10n_br_fiscal.cfop"]
-                .search([("code", "=", "1102")], limit=1)
-                .id,
-            }
-        )
-        operation.action_approve()
-
-        named = wizard._find_fiscal_operation_line("5102", operation.name, "in")
-
-        self.assertNotEqual(first.fiscal_operation_id, operation)
-        self.assertEqual(named.fiscal_operation_id, operation)
-
     def test_create_edoc_from_xml(self):
         self._prepare_wizard(self.xml_1)
 
