@@ -86,6 +86,11 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_document__import_block_reason
+msgid "Block Reason"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_document__vat
 msgid "CNPJ/CPF"
 msgstr "CNPJ/CPF"
@@ -559,6 +564,12 @@ msgid "No documents found: %(code)s - %(message)s"
 msgstr "Nenhum documento encontrado: %(code)s - %(message)s"
 
 #. module: l10n_br_fiscal_dfe
+#. odoo-python
+#: code:addons/l10n_br_fiscal_dfe/models/dfe_document.py:0
+msgid "Only an authorized document can be imported."
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_dfe__operation_type
 msgid "Operation Type"
 msgstr "Tipo de Operação"
@@ -758,6 +769,18 @@ msgid "Third-party Documents"
 msgstr "Documentos de Terceiros"
 
 #. module: l10n_br_fiscal_dfe
+#. odoo-python
+#: code:addons/l10n_br_fiscal_dfe/models/dfe_document.py:0
+msgid "This document was cancelled at the source."
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#. odoo-python
+#: code:addons/l10n_br_fiscal_dfe/models/dfe_document.py:0
+msgid "This document was denied at the source."
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.l10n_br_fiscal_dfe_document_search
 msgid "To import"
 msgstr "A importar"
@@ -806,6 +829,12 @@ msgstr "Ver logs de consulta"
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.dfe_distribution_log_search
 msgid "Warning"
 msgstr "Aviso"
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,help:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_document__import_block_reason
+msgid ""
+"Why this document cannot be imported. Empty when the import can proceed."
+msgstr ""
 
 #. module: l10n_br_fiscal_dfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.dfe_distribution_log_search
