@@ -4941,11 +4941,6 @@ msgid "Item da lista de serviços da LC 116/03 em que se classifica o serviço."
 msgstr ""
 
 #. module: l10n_br_account
-#: model:ir.model,name:l10n_br_account.model_account_journal
-msgid "Journal"
-msgstr ""
-
-#. module: l10n_br_account
 #: model:ir.model,name:l10n_br_account.model_account_move
 msgid "Journal Entry"
 msgstr ""
