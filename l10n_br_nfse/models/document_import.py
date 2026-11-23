@@ -2,6 +2,8 @@
 # Copyright 2026 Escodoo - Marcel Savegnago <marcel.savegnago@escodoo.com.br>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
+# pylint: disable=consider-merging-classes-inherited
+
 import re
 
 from erpbrasil.base.fiscal.cnpj_cpf import formata
