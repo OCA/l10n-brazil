@@ -23,7 +23,9 @@ class TestImportHeaderOperation(EdiImportCase):
             document_type_id=document_type.id,
             issuer=issuer,
             document_serie="1",
-            document_number="1",
+            # a number the demo documents of other modules do not use: a document
+            # of the company cannot repeat the serie and the number of another one
+            document_number="999001",
             fiscal_operation_id=False,
             lines=[{"name": "Freight", "price_unit": 100.0}],
         )
