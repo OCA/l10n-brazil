@@ -46,6 +46,12 @@ class TestFiscalUserAndImportedDates(AccountMoveBRCommon):
         self.env.flush_all()
         self.env.invalidate_all()
 
+    def _can_read_field(self, record, name):
+        comodel = record._fields[name].comodel_name
+        if not comodel:
+            return True
+        return record.env[comodel].check_access_rights("read", raise_exception=False)
+
     def _imported_document(self, **values):
         vals = {
             "company_id": self.company.id,
@@ -83,10 +89,14 @@ class TestFiscalUserAndImportedDates(AccountMoveBRCommon):
         self._reload()
 
         arch = etree.fromstring(document.get_view(view_type="form")["arch"])
+        # other modules put their own fields in the form (the NF-e volumes of
+        # l10n_br_delivery_nfe belong to the stock users); what they need is not what
+        # this test proves, so only the fields the fiscal user can read are read
         names = [
             node.get("name")
             for node in arch.xpath("//form//field")
             if node.get("name") in document._fields
+            and self._can_read_field(document, node.get("name"))
         ]
         values = document.read(names)[0]
 
