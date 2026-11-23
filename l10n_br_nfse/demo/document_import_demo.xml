@@ -16,7 +16,7 @@
          Access key 42024042259594315000157000000000000126031234567890. It stays
          in the review. -->
     <!-- NFS-e issued by the company in another system, with the access key
-         42024042281583054000129000000000000226031234567896: it is imported and
+         42024042281583054000129000000000090226031234567896: it is imported and
          confirmed as authorized, which sends nothing. -->
     <function model="l10n_br_fiscal.document" name="_edi_import_demo_files">
         <value>l10n_br_nfse</value>
@@ -30,13 +30,13 @@
     <function model="l10n_br_fiscal.document.line" name="action_resolve_line">
         <value
             model="l10n_br_fiscal.document.line"
-            search="[('document_id.document_key', '=', '42024042281583054000129000000000000226031234567896')]"
+            search="[('document_id.document_key', '=', '42024042281583054000129000000000090226031234567896')]"
         />
     </function>
     <function model="l10n_br_fiscal.document" name="action_document_confirm">
         <value
             model="l10n_br_fiscal.document"
-            search="[('document_key', '=', '42024042281583054000129000000000000226031234567896')]"
+            search="[('document_key', '=', '42024042281583054000129000000000090226031234567896')]"
         />
     </function>
 
