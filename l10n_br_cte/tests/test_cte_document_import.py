@@ -220,9 +220,7 @@ class TestCteDocumentImport(EdiImportCase):
         self.assertFalse(errors)
         self.assertFalse(documents.fiscal_line_ids.product_id)
 
-    def test_the_transport_service_provided_is_suggested_for_a_cte_issued_by_the_company(
-        self,
-    ):
+    def test_the_transport_service_is_suggested_for_a_cte_of_the_company(self):
         content = cte_xml(recipient="12345678000195", emitter=LUCRO_PRESUMIDO)
         documents, _errors, _warnings = self._import(content)
         self.assertFalse(documents.fiscal_line_ids.product_id)
@@ -480,7 +478,9 @@ class TestCteDocumentImport(EdiImportCase):
     def test_the_shipper_and_the_receiver_are_not_the_taker_either(self):
         """The shipper, like the sender and the recipient, can be the company, and
         it is not the taker of the freight."""
-        content = cte_xml(taker="12345678000195", shipper=LUCRO_REAL, recipient="9" * 14)
+        content = cte_xml(
+            taker="12345678000195", shipper=LUCRO_REAL, recipient="9" * 14
+        )
         parsed = self.Document._edi_import_read("a.xml", content)
         self.assertIn(("recipient", LUCRO_REAL), parsed.company_vats)
         documents, errors, _warnings = self._import(content)
