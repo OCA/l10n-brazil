@@ -71,6 +71,25 @@ class ResCompany(models.Model):
         ),
     )
 
+    nfe_manifest_on_document_confirm = fields.Selection(
+        selection=[
+            ("none", "None"),
+            ("ciencia", "Acknowledgement of the operation (210210)"),
+            ("confirmacao", "Confirmation of the operation (210200)"),
+        ],
+        default="none",
+        string="Manifest When Confirming an Imported NF-e",
+        help="The manifestation registered at the tax authority when an NF-e "
+        "received from a supplier is confirmed.\n"
+        "- Acknowledgement: it is not a conclusive manifestation, and it obliges "
+        "the company to register a conclusive one afterwards (confirmation, "
+        "unawareness or operation not performed). It is only accepted until 10 "
+        "days after the authorization: later than that it is skipped, with a "
+        "notice on the document.\n"
+        "- Confirmation: it is the conclusive manifestation that matches "
+        "confirming the document.",
+    )
+
     # ── Generic engine hooks ────────────────────────────────────────────
 
     def _dfe_get_processor(self, fiscal_type):

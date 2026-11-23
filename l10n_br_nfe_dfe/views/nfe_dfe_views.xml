@@ -67,11 +67,12 @@
                     string="Import"
                     type="object"
                     icon="fa-file-text-o"
+                    groups="l10n_br_fiscal.group_user"
                     attrs="{'invisible': [('fiscal_document_id', '!=', False)]}"
                 />
                 <button
                     name="action_view_imported_document"
-                    string="Invoice"
+                    string="Fiscal Document"
                     type="object"
                     icon="fa-pencil-square-o"
                     attrs="{'invisible': [('fiscal_document_id', '=', False)]}"
@@ -110,7 +111,7 @@
                         attrs="{'invisible': [('fiscal_document_id', '=', False)]}"
                     >
                         <div class="o_stat_info">
-                            <span class="o_stat_text">Invoice</span>
+                            <span class="o_stat_text">Fiscal Document</span>
                         </div>
                     </button>
                 </div>
