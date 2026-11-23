@@ -216,7 +216,10 @@
           </occ>
         </rodo>
       </infModal>
-    <cobr><fat><nFat>1</nFat><vOrig>100.00</vOrig><vLiq>100.00</vLiq></fat><dup><nDup>001</nDup><dVenc>2026-12-10</dVenc><vDup>40.00</vDup></dup><dup><nDup>002</nDup><dVenc>2027-01-10</dVenc><vDup>60.00</vDup></dup></cobr></infCTeNorm>
+    <cobr><fat><nFat>1</nFat><vOrig>100.00</vOrig><vLiq>100.00</vLiq></fat><dup><nDup
+                    >001</nDup><dVenc>2026-12-10</dVenc><vDup>40.00</vDup></dup><dup
+                ><nDup>002</nDup><dVenc>2027-01-10</dVenc><vDup
+                    >60.00</vDup></dup></cobr></infCTeNorm>
   </infCte>
   <infCTeSupl>
     <qrCodCTe

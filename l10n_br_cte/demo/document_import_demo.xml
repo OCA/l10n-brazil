@@ -20,10 +20,15 @@
         <field name="standard_price">0.0</field>
         <field name="default_code">TRANSPORTE_PRESTADO</field>
     </record>
-    <record id="l10n_br_base.empresa_lucro_presumido" model="res.company">
-        <field name="cte_import_product_id" ref="product_freight_purchased" />
-        <field name="cte_import_service_product_id" ref="product_transport_provided" />
-    </record>
+    <function model="res.company" name="write">
+        <value eval="[ref('l10n_br_base.empresa_lucro_presumido')]" />
+        <value
+            eval="{
+                'cte_import_product_id': ref('product_freight_purchased'),
+                'cte_import_service_product_id': ref('product_transport_provided'),
+            }"
+        />
+    </function>
 
     <!-- CT-e received from a carrier, with the collection of two installments
          (access key 35240759594315000157570010000070011570007018): it stays in
