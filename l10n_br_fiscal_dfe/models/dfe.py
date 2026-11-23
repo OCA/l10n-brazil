@@ -109,6 +109,8 @@ class DFe(models.Model):
                 "res_id": self.id,
             }
         )
+        if self.document_type_dfe == "complete":
+            self.dfe_document_id._dfe_import_requested_xml()
 
     def action_download_xml(self):
         self.ensure_one()
