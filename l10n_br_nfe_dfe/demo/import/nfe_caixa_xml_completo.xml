@@ -1,5 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<nfeProc xmlns="http://www.portalfiscal.inf.br/nfe" versao="4.00"><NFe xmlns="http://www.portalfiscal.inf.br/nfe">
+<?xml version="1.0" encoding="UTF-8" ?>
+<nfeProc xmlns="http://www.portalfiscal.inf.br/nfe" versao="4.00"><NFe
+        xmlns="http://www.portalfiscal.inf.br/nfe"
+    >
   <infNFe versao="4.00" Id="NFe35261173623891000106550010000042011062777198">
     <ide>
       <cUF>35</cUF>
@@ -196,4 +198,9 @@
       <infAdFisco>Documento emitido por: Marc Demo</infAdFisco>
     </infAdic>
   </infNFe>
-</NFe><protNFe versao="4.00"><infProt><tpAmb>2</tpAmb><verAplic>SVRS202010</verAplic><chNFe>35261173623891000106550010000042011062777198</chNFe><dhRecbto>2026-11-13T10:01:30-03:00</dhRecbto><nProt>135260000004201</nProt><digVal>ZGVtb25zdHJhY2Fv</digVal><cStat>100</cStat><xMotivo>Autorizado o uso da NF-e</xMotivo></infProt></protNFe></nfeProc>
+</NFe><protNFe versao="4.00"><infProt><tpAmb>2</tpAmb><verAplic
+            >SVRS202010</verAplic><chNFe
+            >35261173623891000106550010000042011062777198</chNFe><dhRecbto
+            >2026-11-13T10:01:30-03:00</dhRecbto><nProt>135260000004201</nProt><digVal
+            >ZGVtb25zdHJhY2Fv</digVal><cStat>100</cStat><xMotivo
+            >Autorizado o uso da NF-e</xMotivo></infProt></protNFe></nfeProc>
