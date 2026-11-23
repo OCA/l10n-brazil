@@ -7,7 +7,11 @@
         <field name="inherit_id" ref="l10n_br_fiscal.document_fiscal_line_mixin_form" />
         <field name="arch" type="xml">
             <xpath expr="//field[@name='icms_value']/.." position="after">
-                <group name="icms_manual" string="Manual" invisible="not icms_tax_id">
+                <group
+                    name="icms_manual"
+                    string="Manual"
+                    invisible="not icms_tax_id or not tax_manual_allowed"
+                >
                     <div class="text-muted" colspan="2">
                         Leave empty for automatic calculation
                     </div>
@@ -19,7 +23,7 @@
                 <group
                     name="icmsst_manual"
                     string="Manual"
-                    invisible="not icmsst_tax_id"
+                    invisible="not icmsst_tax_id or not tax_manual_allowed"
                 >
                     <div class="text-muted" colspan="2">
                         Leave empty for automatic calculation
@@ -29,7 +33,11 @@
                 </group>
             </xpath>
             <xpath expr="//field[@name='issqn_value']/.." position="after">
-                <group name="issqn_manual" string="Manual" invisible="not issqn_tax_id">
+                <group
+                    name="issqn_manual"
+                    string="Manual"
+                    invisible="not issqn_tax_id or not tax_manual_allowed"
+                >
                     <div class="text-muted" colspan="2">
                         Leave empty for automatic calculation
                     </div>
@@ -41,7 +49,7 @@
                 <group
                     name="issqn_wh_manual"
                     string="Manual"
-                    invisible="not issqn_wh_tax_id"
+                    invisible="not issqn_wh_tax_id or not tax_manual_allowed"
                 >
                     <div class="text-muted" colspan="2">
                         Leave empty for automatic calculation
@@ -51,7 +59,11 @@
                 </group>
             </xpath>
             <xpath expr="//field[@name='ipi_value']/.." position="after">
-                <group name="ipi_manual" string="Manual" invisible="not ipi_tax_id">
+                <group
+                    name="ipi_manual"
+                    string="Manual"
+                    invisible="not ipi_tax_id or not tax_manual_allowed"
+                >
                     <div class="text-muted" colspan="2">
                         Leave empty for automatic calculation
                     </div>
@@ -60,7 +72,11 @@
                 </group>
             </xpath>
             <xpath expr="//field[@name='ii_value']/.." position="after">
-                <group name="ii_manual" string="Manual" invisible="not ii_tax_id">
+                <group
+                    name="ii_manual"
+                    string="Manual"
+                    invisible="not ii_tax_id or not tax_manual_allowed"
+                >
                     <div class="text-muted" colspan="2">
                         Leave empty for automatic calculation
                     </div>
@@ -69,7 +85,11 @@
                 </group>
             </xpath>
             <xpath expr="//field[@name='pis_value']/.." position="after">
-                <group name="pis_manual" string="Manual" invisible="not pis_tax_id">
+                <group
+                    name="pis_manual"
+                    string="Manual"
+                    invisible="not pis_tax_id or not tax_manual_allowed"
+                >
                     <div class="text-muted" colspan="2">
                         Leave empty for automatic calculation
                     </div>
@@ -78,7 +98,11 @@
                 </group>
             </xpath>
             <xpath expr="//field[@name='pisst_value']/.." position="after">
-                <group name="pisst_manual" string="Manual" invisible="not pisst_tax_id">
+                <group
+                    name="pisst_manual"
+                    string="Manual"
+                    invisible="not pisst_tax_id or not tax_manual_allowed"
+                >
                     <div class="text-muted" colspan="2">
                         Leave empty for automatic calculation
                     </div>
@@ -90,7 +114,7 @@
                 <group
                     name="pis_wh_manual"
                     string="Manual"
-                    invisible="not pis_wh_tax_id"
+                    invisible="not pis_wh_tax_id or not tax_manual_allowed"
                 >
                     <div class="text-muted" colspan="2">
                         Leave empty for automatic calculation
@@ -103,7 +127,7 @@
                 <group
                     name="cofins_manual"
                     string="Manual"
-                    invisible="not cofins_tax_id"
+                    invisible="not cofins_tax_id or not tax_manual_allowed"
                 >
                     <div class="text-muted" colspan="2">
                         Leave empty for automatic calculation
@@ -116,7 +140,7 @@
                 <group
                     name="cofinsst_manual"
                     string="Manual"
-                    invisible="not cofinsst_tax_id"
+                    invisible="not cofinsst_tax_id or not tax_manual_allowed"
                 >
                     <div class="text-muted" colspan="2">
                         Leave empty for automatic calculation
@@ -129,7 +153,7 @@
                 <group
                     name="cofins_wh_manual"
                     string="Manual"
-                    invisible="not cofins_wh_tax_id"
+                    invisible="not cofins_wh_tax_id or not tax_manual_allowed"
                 >
                     <div class="text-muted" colspan="2">
                         Leave empty for automatic calculation
@@ -139,7 +163,11 @@
                 </group>
             </xpath>
             <xpath expr="//field[@name='csll_value']/.." position="after">
-                <group name="csll_manual" string="Manual" invisible="not csll_tax_id">
+                <group
+                    name="csll_manual"
+                    string="Manual"
+                    invisible="not csll_tax_id or not tax_manual_allowed"
+                >
                     <div class="text-muted" colspan="2">
                         Leave empty for automatic calculation
                     </div>
@@ -151,7 +179,7 @@
                 <group
                     name="csll_wh_manual"
                     string="Manual"
-                    invisible="not csll_wh_tax_id"
+                    invisible="not csll_wh_tax_id or not tax_manual_allowed"
                 >
                     <div class="text-muted" colspan="2">
                         Leave empty for automatic calculation
@@ -161,7 +189,11 @@
                 </group>
             </xpath>
             <xpath expr="//field[@name='irpj_value']/.." position="after">
-                <group name="irpj_manual" string="Manual" invisible="not irpj_tax_id">
+                <group
+                    name="irpj_manual"
+                    string="Manual"
+                    invisible="not irpj_tax_id or not tax_manual_allowed"
+                >
                     <div class="text-muted" colspan="2">
                         Leave empty for automatic calculation
                     </div>
@@ -173,7 +205,7 @@
                 <group
                     name="irpj_wh_manual"
                     string="Manual"
-                    invisible="not irpj_wh_tax_id"
+                    invisible="not irpj_wh_tax_id or not tax_manual_allowed"
                 >
                     <div class="text-muted" colspan="2">
                         Leave empty for automatic calculation
@@ -183,7 +215,11 @@
                 </group>
             </xpath>
             <xpath expr="//field[@name='inss_value']/.." position="after">
-                <group name="inss_manual" string="Manual" invisible="not inss_tax_id">
+                <group
+                    name="inss_manual"
+                    string="Manual"
+                    invisible="not inss_tax_id or not tax_manual_allowed"
+                >
                     <div class="text-muted" colspan="2">
                         Leave empty for automatic calculation
                     </div>
@@ -195,7 +231,7 @@
                 <group
                     name="inss_wh_manual"
                     string="Manual"
-                    invisible="not inss_wh_tax_id"
+                    invisible="not inss_wh_tax_id or not tax_manual_allowed"
                 >
                     <div class="text-muted" colspan="2">
                         Leave empty for automatic calculation
@@ -205,7 +241,11 @@
                 </group>
             </xpath>
             <xpath expr="//field[@name='cbs_value']/.." position="after">
-                <group name="cbs_manual" string="Manual" invisible="not cbs_tax_id">
+                <group
+                    name="cbs_manual"
+                    string="Manual"
+                    invisible="not cbs_tax_id or not tax_manual_allowed"
+                >
                     <div class="text-muted" colspan="2">
                         Leave empty for automatic calculation
                     </div>
@@ -214,7 +254,11 @@
                 </group>
             </xpath>
             <xpath expr="//field[@name='ibs_value']/.." position="after">
-                <group name="ibs_manual" string="Manual" invisible="not ibs_tax_id">
+                <group
+                    name="ibs_manual"
+                    string="Manual"
+                    invisible="not ibs_tax_id or not tax_manual_allowed"
+                >
                     <div class="text-muted" colspan="2">
                         Leave empty for automatic calculation
                     </div>

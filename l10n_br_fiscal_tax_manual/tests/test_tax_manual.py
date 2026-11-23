@@ -216,6 +216,37 @@ class TestFiscalTaxManual(TransactionCase):
             500.00 * issqn_tax.percent_amount / 100,
         )
 
+    def test_tax_manual_allowed_follows_fiscal_operation_line(self):
+        """``tax_manual_allowed`` (which drives the view's visibility of the
+        manual fields) mirrors the fiscal operation line configuration, and
+        the manual fields keep working regardless of it: the flag is only
+        about reducing clutter on screen, not about blocking the override.
+        """
+        operation_line = self.line.fiscal_operation_line_id
+        self.assertFalse(operation_line.allow_tax_manual)
+        self.assertFalse(self.line.tax_manual_allowed)
+
+        operation_line.allow_tax_manual = True
+        self.assertTrue(self.line.tax_manual_allowed)
+
+        operation_line.allow_tax_manual = False
+        self.line.icms_value_manual = 99.90
+        self.assertMonetary(self.line.icms_value, 99.90)
+
+    def test_manual_value_below_withholding_minimum_is_not_waived(self):
+        """A manual withholding value must be reproduced as informed, even
+        when it is equal or below the tax's legal waiver threshold
+        (``withholding_min_value``), which would otherwise zero it (and the
+        line's total withheld amount) in compute_taxes.
+        """
+        irpj_wh = self.env.ref("l10n_br_fiscal.tax_irpj_wh_1")
+        self.assertEqual(irpj_wh.withholding_min_value, 10.00)
+        kwargs = self._compute_taxes_kwargs()
+        kwargs.update({"price_unit": 100.00, "fiscal_price": 100.00})
+        result = irpj_wh.compute_taxes(irpj_wh_value_manual=5.00, **kwargs)
+        self.assertMonetary(result["taxes"]["irpj_wh"]["tax_value"], 5.00)
+        self.assertMonetary(result["amount_withholding"], 5.00)
+
     def test_icmsst_manual_value_is_not_reduced_by_icms(self):
         """The core subtracts the line's own ICMS from the ICMS ST value;
         that must not change a manually informed ICMS ST value."""

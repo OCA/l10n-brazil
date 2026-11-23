@@ -40,3 +40,12 @@ class Tax(models.Model):
         if value_manual:
             tax_dict["tax_value"] = value_manual
         return tax_dict
+
+    @api.model
+    def _is_withholding_waived(self, tax, tax_value, **kwargs):
+        # The core applies the legal minimum-value waiver after _compute_tax
+        # returns, which would zero out a manually informed value. The goal
+        # of a manual override is to reproduce the informed value as is.
+        if kwargs.get(f"{tax.tax_domain}_value_manual"):
+            return False
+        return super()._is_withholding_waived(tax, tax_value, **kwargs)

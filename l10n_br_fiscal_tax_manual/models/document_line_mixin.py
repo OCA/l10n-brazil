@@ -38,6 +38,10 @@ MANUAL_TAX_HELP = "Leave empty to use the automatic calculation."
 class FiscalDocumentLineMixin(models.AbstractModel):
     _inherit = "l10n_br_fiscal.document.line.mixin"
 
+    tax_manual_allowed = fields.Boolean(
+        related="fiscal_operation_line_id.allow_tax_manual",
+    )
+
     icms_base_manual = fields.Monetary(
         string="Manual ICMS Base",
         help=MANUAL_TAX_HELP,
