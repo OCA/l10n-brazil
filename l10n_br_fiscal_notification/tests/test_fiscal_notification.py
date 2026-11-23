@@ -113,8 +113,17 @@ class TestFiscalNotification(TransactionCase):
             transition
             for transition in self.document.get_state_machine_config()["transitions"]
             if transition.get("dest") == DOCUMENT_STATE_AUTHORIZED
+            and transition.get("trigger") != "action_confirm_imported"
         ]
         self.assertTrue(transitions)
         for transition in transitions:
             self.assertIn("_after_document_authorize", transition["after"])
             self.assertEqual(transition["after"][-1], "_send_authorized_email")
+
+    def test_a_document_imported_as_authorized_is_not_mailed(self):
+        """The migration of a document the company issued in another system only
+        changes its state: the customer was told when it was issued."""
+        before = self._mails()
+        self.document._trigger_fsm("action_confirm_imported")
+        self.assertEqual(self.document.state_edoc, DOCUMENT_STATE_AUTHORIZED)
+        self.assertFalse(self._new_mails(before))
