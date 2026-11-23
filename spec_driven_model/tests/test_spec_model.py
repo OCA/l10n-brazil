@@ -16,84 +16,94 @@ from odoo.tests import TransactionCase
 _logger = logging.getLogger(__name__)
 
 
+def _load_fake_models(loader):
+    # import a simpilified equivalent of purchase module
+    from .fake_mixin import PoXsdMixin
+    from .fake_odoo_purchase import (
+        PurchaseOrder as FakePurchaseOrder,
+    )
+    from .fake_odoo_purchase import (
+        PurchaseOrderLine as FakePurchaseOrderLine,
+    )
+    from .spec_poxsd import (
+        Comment,
+        Item,
+        Items,
+        PurchaseOrderType,
+        Usaddress,
+    )
+    from .spec_purchase import (
+        PurchaseOrder as SpecPurchaseOrder,
+    )
+    from .spec_purchase import (
+        PurchaseOrderLine as SpecPurchaseOrderLine,
+    )
+    from .spec_purchase import (
+        ResPartner,
+    )
+
+    # a downstream _inherit extension of the remaining model poxsd.10.comment
+    # (mirrors l10n_br_account_nfe extending nfe.40.detpag, see issue #4668)
+    from .fake_comment_extension import CommentExtension
+
+    loader.update_registry(
+        (
+            PoXsdMixin,
+            Items,
+            Item,
+            Usaddress,
+            Comment,
+            CommentExtension,
+            PurchaseOrderType,
+            ResPartner,
+            FakePurchaseOrder,
+            FakePurchaseOrderLine,
+            SpecPurchaseOrder,
+            SpecPurchaseOrderLine,
+        )
+    )
+
+    # import generated spec mixins
+    from .fake_mixin import PoXsdMixin
+    from .spec_poxsd import Item, Items, PurchaseOrderType, Usaddress
+
+    loader.update_registry((PoXsdMixin, Item, Items, Usaddress, PurchaseOrderType))
+
+    # inject the mixins into existing Odoo models
+    from .spec_purchase import (
+        PurchaseOrder as PurchaseOrder2,
+    )
+    from .spec_purchase import (
+        PurchaseOrderLine,
+        ResPartner,
+    )
+
+    loader.update_registry((ResPartner, PurchaseOrderLine, PurchaseOrder2))
+    # the binding lib should be loaded in sys.modules:
+    from . import purchase_order_lib  # NOQA
+
+
 class TestSpecModel(TransactionCase, FakeModelLoader):
     """
     A simple usage example using the reference PurchaseOrderSchema.xsd
     https://docs.microsoft.com/en-us/visualstudio/xml-tools/sample-xsd-file-purchase-order-schema?view=vs-2019
     """
 
-    def setUp(self):
-        super().setUp()
-        self.loader = FakeModelLoader(self.env, self.__module__)
-        self.loader.backup_registry()
-
-        # import a simpilified equivalent of purchase module
-        from .fake_mixin import PoXsdMixin
-        from .fake_odoo_purchase import (
-            PurchaseOrder as FakePurchaseOrder,
-        )
-        from .fake_odoo_purchase import (
-            PurchaseOrderLine as FakePurchaseOrderLine,
-        )
-        from .spec_poxsd import (
-            Comment,
-            Item,
-            Items,
-            PurchaseOrderType,
-            Usaddress,
-        )
-        from .spec_purchase import (
-            PurchaseOrder as SpecPurchaseOrder,
-        )
-        from .spec_purchase import (
-            PurchaseOrderLine as SpecPurchaseOrderLine,
-        )
-        from .spec_purchase import (
-            ResPartner,
-        )
-
-        # a downstream _inherit extension of the remaining model poxsd.10.comment
-        # (mirrors l10n_br_account_nfe extending nfe.40.detpag, see issue #4668)
-        from .fake_comment_extension import CommentExtension
-
-        self.loader.update_registry(
-            (
-                PoXsdMixin,
-                Items,
-                Item,
-                Usaddress,
-                Comment,
-                CommentExtension,
-                PurchaseOrderType,
-                ResPartner,
-                FakePurchaseOrder,
-                FakePurchaseOrderLine,
-                SpecPurchaseOrder,
-                SpecPurchaseOrderLine,
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.loader = FakeModelLoader(cls.env, cls.__module__)
+        cls.loader.backup_registry()
+        cls.addClassCleanup(cls.loader.restore_registry)
+        _load_fake_models(cls.loader)
+        # TransactionCase.setUpClass took the snapshot of the model attributes
+        # that check_attrs compares after every test, before the fake models
+        # existed: take it again now that they are loaded.
+        default_attrs = cls.attrs_before["base"]
+        for model in cls.registry.values():
+            cls.attrs_before.setdefault(model._name, set(default_attrs)).update(
+                vars(model)
             )
-        )
-
-        # import generated spec mixins
-        from .fake_mixin import PoXsdMixin
-        from .spec_poxsd import Item, Items, PurchaseOrderType, Usaddress
-
-        self.loader.update_registry(
-            (PoXsdMixin, Item, Items, Usaddress, PurchaseOrderType)
-        )
-
-        # inject the mixins into existing Odoo models
-        from .spec_purchase import (
-            PurchaseOrder as PurchaseOrder2,
-        )
-        from .spec_purchase import (
-            PurchaseOrderLine,
-            ResPartner,
-        )
-
-        self.loader.update_registry((ResPartner, PurchaseOrderLine, PurchaseOrder2))
-        self.addCleanup(self.loader.restore_registry)
-        # the binding lib should be loaded in sys.modules:
-        from . import purchase_order_lib  # NOQA
 
     def test_spec_models(self):
         self.assertTrue(
@@ -308,6 +318,115 @@ class TestSpecModel(TransactionCase, FakeModelLoader):
         assert actual_calls == expected_model_suffixes
         assert mock_get_concrete_model.call_count == len(expected_model_suffixes)
 
+    def test_spec_prefix_without_schema_answers_a_single_value(self):
+        """`_spec_prefix()` answers one value when asked for one."""
+        model = self.env["spec.mixin"].with_context(
+            spec_schema=False, spec_version=False
+        )
+        self.assertIsNone(model._spec_prefix())
+        self.assertEqual(model._spec_prefix(split=True), (None, None))
+
+    def test_model_without_odoo_module_does_not_break_the_registry(self):
+        """A prefix that resolves without a spec module must not abort the load."""
+        model = self.env["spec.mixin"].with_context(
+            spec_schema="nosuch", spec_version="10"
+        )
+        self.assertEqual(model._spec_prefix(), "nosuch10")
+        self.assertIsNone(model._get_spec_property("odoo_module"))
+        self.assertIsNone(model._register_remaining_schema_models_hook())
+        self.assertFalse(
+            hasattr(self.env.registry, "_nosuch_register_hook_loaded"),
+            "the model with no spec module consumed the load key of the schema",
+        )
+
+    def test_reflection_needed_signals(self):
+        """hook v2 guard: _spec_reflection_needed picks the full (writing) path
+        exactly when it must -- while a module is installing/updating, and (the
+        essential safety net) whenever a concrete remaining model is not yet
+        backed by its SQL table -- and only then. This is what keeps
+        install/update (and the pre-STEP-9 post_init_hook load, where a CT-e
+        import builds cte.40.infoutros before its table exists) on the full path
+        while letting the ordinary boot skip it.
+        """
+        registry = self.env.registry
+        hook_model = self.env["spec.mixin.poxsd"]
+        # a table that certainly exists, and one that certainly does not
+        existing_table = self.env["ir.model"]._table  # "ir_model"
+        missing_table = "poxsd_10_does_not_exist"
+
+        saved_updated_modules = registry.updated_modules
+        try:
+            # a module install/update in progress always forces the full path,
+            # even when every concrete table is already present
+            registry.updated_modules = ["spec_driven_model"]
+            self.assertTrue(
+                hook_model._spec_reflection_needed([existing_table]),
+                "an install/update in progress must take the full "
+                "reflection path",
+            )
+
+            # ordinary load with a concrete table still missing -> full path. This is
+            # the CI #4718 case: l10n_br_cte's post_init_hook runs the hook before
+            # STEP 9, and reflecting is mandatory or the import INSERT fails
+            registry.updated_modules = []
+            self.assertTrue(
+                hook_model._spec_reflection_needed([existing_table, missing_table]),
+                "a concrete remaining model without its SQL table must fall "
+                "back to the full reflection path",
+            )
+
+            # ordinary load with every concrete table present -> read-only
+            self.assertFalse(
+                hook_model._spec_reflection_needed([existing_table]),
+                "with every concrete table present the load must be read-only",
+            )
+
+            # ordinary load with no concrete tables at all -> nothing to reflect
+            self.assertFalse(
+                hook_model._spec_reflection_needed([]),
+                "with no concrete remaining models there is nothing to reflect",
+            )
+        finally:
+            registry.updated_modules = saved_updated_modules
+
+    def test_the_access_guard_matches_a_declared_access(self):
+        mixin = type(self.env["spec.mixin"])
+
+        access_data = []
+        mixin._auto_fill_access_data(self.env, "spec_driven_model", access_data)
+        self.assertEqual(
+            [row[0] for row in access_data],
+            ["access_spec_mixin_user", "access_spec_mixin_manager"],
+        )
+
+        self.env["ir.model.access"].create(
+            {
+                "name": "access_spec_mixin_user",
+                "model_id": self.env["ir.model"]._get("spec.mixin").id,
+                "group_id": self.env.ref("base.group_user").id,
+                "perm_read": True,
+            }
+        )
+
+        access_data = []
+        mixin._auto_fill_access_data(self.env, "spec_driven_model", access_data)
+        self.assertEqual([row[0] for row in access_data], ["access_spec_mixin_manager"])
+
+
+class TestSpecModelRegistryReload(TransactionCase, FakeModelLoader):
+    """
+    Tests that rebuild the registry themselves: they get the fake models
+    loaded again for each test, so that no test sees the registry another
+    one rebuilt.
+    """
+
+    def setUp(self):
+        super().setUp()
+        self.loader = FakeModelLoader(self.env, self.__module__)
+        self.loader.backup_registry()
+        _load_fake_models(self.loader)
+        self.addCleanup(self.loader.restore_registry)
+
     def test_remaining_model_cleanup_survives_an_exception(self):
         """The module_to_models cleanup must run even when the hook raises.
 
@@ -455,27 +574,6 @@ class TestSpecModel(TransactionCase, FakeModelLoader):
             module_to_models["spec_driven_model"] = saved_module_classes
             registry.ready = ready
 
-    def test_spec_prefix_without_schema_answers_a_single_value(self):
-        """`_spec_prefix()` answers one value when asked for one."""
-        model = self.env["spec.mixin"].with_context(
-            spec_schema=False, spec_version=False
-        )
-        self.assertIsNone(model._spec_prefix())
-        self.assertEqual(model._spec_prefix(split=True), (None, None))
-
-    def test_model_without_odoo_module_does_not_break_the_registry(self):
-        """A prefix that resolves without a spec module must not abort the load."""
-        model = self.env["spec.mixin"].with_context(
-            spec_schema="nosuch", spec_version="10"
-        )
-        self.assertEqual(model._spec_prefix(), "nosuch10")
-        self.assertIsNone(model._get_spec_property("odoo_module"))
-        self.assertIsNone(model._register_remaining_schema_models_hook())
-        self.assertFalse(
-            hasattr(self.env.registry, "_nosuch_register_hook_loaded"),
-            "the model with no spec module consumed the load key of the schema",
-        )
-
     def _clear_poxsd_hook_guard(self):
         # a fresh Registry.new() has no per-schema guard, so the hook runs;
         # here we clear it to run the hook again inside a single test process
@@ -571,76 +669,3 @@ class TestSpecModel(TransactionCase, FakeModelLoader):
             registry.updated_modules = saved_updated_modules
             registry.ready = ready
             self._clear_poxsd_hook_guard()
-
-    def test_reflection_needed_signals(self):
-        """hook v2 guard: _spec_reflection_needed picks the full (writing) path
-        exactly when it must -- while a module is installing/updating, and (the
-        essential safety net) whenever a concrete remaining model is not yet
-        backed by its SQL table -- and only then. This is what keeps
-        install/update (and the pre-STEP-9 post_init_hook load, where a CT-e
-        import builds cte.40.infoutros before its table exists) on the full path
-        while letting the ordinary boot skip it.
-        """
-        registry = self.env.registry
-        hook_model = self.env["spec.mixin.poxsd"]
-        # a table that certainly exists, and one that certainly does not
-        existing_table = self.env["ir.model"]._table  # "ir_model"
-        missing_table = "poxsd_10_does_not_exist"
-
-        saved_updated_modules = registry.updated_modules
-        try:
-            # a module install/update in progress always forces the full path,
-            # even when every concrete table is already present
-            registry.updated_modules = ["spec_driven_model"]
-            self.assertTrue(
-                hook_model._spec_reflection_needed([existing_table]),
-                "an install/update in progress must take the full "
-                "reflection path",
-            )
-
-            # ordinary load with a concrete table still missing -> full path. This is
-            # the CI #4718 case: l10n_br_cte's post_init_hook runs the hook before
-            # STEP 9, and reflecting is mandatory or the import INSERT fails
-            registry.updated_modules = []
-            self.assertTrue(
-                hook_model._spec_reflection_needed([existing_table, missing_table]),
-                "a concrete remaining model without its SQL table must fall "
-                "back to the full reflection path",
-            )
-
-            # ordinary load with every concrete table present -> read-only
-            self.assertFalse(
-                hook_model._spec_reflection_needed([existing_table]),
-                "with every concrete table present the load must be read-only",
-            )
-
-            # ordinary load with no concrete tables at all -> nothing to reflect
-            self.assertFalse(
-                hook_model._spec_reflection_needed([]),
-                "with no concrete remaining models there is nothing to reflect",
-            )
-        finally:
-            registry.updated_modules = saved_updated_modules
-
-    def test_the_access_guard_matches_a_declared_access(self):
-        mixin = type(self.env["spec.mixin"])
-
-        access_data = []
-        mixin._auto_fill_access_data(self.env, "spec_driven_model", access_data)
-        self.assertEqual(
-            [row[0] for row in access_data],
-            ["access_spec_mixin_user", "access_spec_mixin_manager"],
-        )
-
-        self.env["ir.model.access"].create(
-            {
-                "name": "access_spec_mixin_user",
-                "model_id": self.env["ir.model"]._get("spec.mixin").id,
-                "group_id": self.env.ref("base.group_user").id,
-                "perm_read": True,
-            }
-        )
-
-        access_data = []
-        mixin._auto_fill_access_data(self.env, "spec_driven_model", access_data)
-        self.assertEqual([row[0] for row in access_data], ["access_spec_mixin_manager"])
