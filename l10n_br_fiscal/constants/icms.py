@@ -71,6 +71,7 @@ ICMS_ST_BASE_TYPE = [
     ("3", "Lista Neutra (valor)"),
     ("4", "Margem Valor Agregado (%)"),
     ("5", "Pauta (valor)"),
+    ("6", "Valor da Operação"),
 ]
 
 
@@ -96,6 +97,14 @@ ICMS_SN_CST_WITH_CREDIT = ["101", "201"]
 ICMS_SN_CST_WITHOUT_CREDIT = ["102", "103", "202", "203", "300", "400", "500", "900"]
 
 
+# Tax of the Simples Nacional without credit that takes the place of the one
+# with credit (by its CSOSN) when the recipient cannot take the credit
+ICMS_SN_TAX_WITHOUT_CREDIT = {
+    "101": "l10n_br_fiscal.tax_icms_sn_sem_credito",
+    "201": "l10n_br_fiscal.tax_icms_sn_sem_credito_st",
+}
+
+
 ICMS_DIFAL_PARTITION = {
     2016: {"difal_origin_perc": 60.00, "difal_dest_perc": 40.00},
     2017: {"difal_origin_perc": 40.00, "difal_dest_perc": 60.00},
@@ -104,38 +113,12 @@ ICMS_DIFAL_PARTITION = {
 }
 
 
-ICMS_DIFAL_UNIQUE_BASE = [
-    "DF",
-    "ES",
-    "MA",
-    "MS",
-    "PE",
-    "RJ",
-    "RN",
-    "RR",
-]
-
-
-ICMS_DIFAL_DOUBLE_BASE = [
-    "AC",
-    "AL",
-    "AP",
-    "AM",
-    "BA",
+# Non-taxpayer DIFAL: states that gross up the single base with the
+# destination internal rate and FCP (LC 87/1996, art. 13, par. 7).
+# MG: Lei 6.763/1975, art. 13, par. 1-C. CE: SEFAZ-CE guidance.
+ICMS_DIFAL_INSIDE_BASE = [
     "CE",
-    "GO",
     "MG",
-    "MT",
-    "PA",
-    "PB",
-    "PI",
-    "PR",
-    "RO",
-    "RS",
-    "SC",
-    "SE",
-    "SP",
-    "TO",
 ]
 
 

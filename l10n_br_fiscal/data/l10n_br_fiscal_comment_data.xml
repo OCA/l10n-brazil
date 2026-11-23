@@ -42,9 +42,9 @@
 %- set industry = doc.icmssn_credit_percent_industry()
 %- set commerce = doc.icmssn_credit_percent_commerce()
 %- if industry and commerce:
-, correspondente à alíquota de ${format_number(industry)}% para industrialização e de ${format_number(commerce)}% para revenda
+, correspondente à alíquota de ${format_number(industry, "%.4f")}% para industrialização e de ${format_number(commerce, "%.4f")}% para revenda
 %- elif industry or commerce:
-, correspondente à alíquota de ${format_number(industry or commerce)}%
+, correspondente à alíquota de ${format_number(industry or commerce, "%.4f")}%
 %- endif
 , nos termos do artigo 23 da LC 123/2006.</field>
         <field name="comment_type">fiscal</field>

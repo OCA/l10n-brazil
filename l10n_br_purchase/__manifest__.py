@@ -21,8 +21,6 @@
         "views/res_company_view.xml",
         # Reports
         "reports/purchase_report_views.xml",
-    ],
-    "oca_data_manual": [
         "reports/purchase_order_templates.xml",
     ],
     "demo": [

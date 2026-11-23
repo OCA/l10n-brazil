@@ -101,7 +101,10 @@ class ResCompany(models.Model):
         for c in self:
             c.legal_nature_id = c.partner_id.legal_nature_id
             c.cnae_main_id = c.partner_id.cnae_main_id
-            c.tax_framework = c.partner_id.tax_framework or TAX_FRAMEWORK_NORMAL
+            # tax_framework is a stored computed field with its own compute
+            # (_compute_tax_framework): assigning it here would write on
+            # res.company through its inverse, an AccessError for restricted
+            # users (e.g. a salesperson reading a CNAE domain).
 
     legal_nature_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.legal.nature",
@@ -333,6 +336,63 @@ class ResCompany(models.Model):
         " should be informed by Line or by Total.",
         default="line",
     )
+
+    # Printed reports (quotations, orders, invoices)
+    report_company_fiscal_data = fields.Boolean(
+        string="Company Fiscal Data",
+        default=True,
+    )
+
+    report_tax_framework = fields.Boolean(
+        string="Company Tax Framework",
+        default=True,
+    )
+
+    report_partner_fiscal_data = fields.Boolean(
+        string="Customer and Vendor Fiscal Data",
+        default=True,
+    )
+
+    report_fiscal_operation = fields.Boolean(
+        string="Fiscal Operation",
+        default=True,
+    )
+
+    report_line_classification = fields.Boolean(
+        string="Line Fiscal Classification",
+        default=True,
+    )
+
+    report_line_cfop = fields.Boolean(
+        string="Line CFOP",
+        default=True,
+    )
+
+    report_line_operation_line = fields.Boolean(
+        string="Line Fiscal Operation Line",
+        default=True,
+    )
+
+    report_fiscal_totals = fields.Boolean(
+        string="Fiscal Totals Summary",
+        default=True,
+    )
+
+    report_withholding_display = fields.Selection(
+        selection=[("detailed", "One line per tax"), ("grouped", "A single line")],
+        string="Withholdings",
+        default="detailed",
+    )
+
+    report_included_taxes = fields.Boolean(
+        string="Taxes Included in the Price",
+        default=True,
+    )
+
+    def _get_report_option(self, option):
+        """Printed report option, which only applies to Brazilian companies."""
+        self.ensure_one()
+        return self.country_id.code == "BR" and self[option]
 
     def _del_tax_definition(self, tax_domain):
         tax_def = self.tax_definition_ids.filtered(

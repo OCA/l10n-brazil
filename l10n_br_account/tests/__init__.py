@@ -1,5 +1,6 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
+from . import test_document_import_wizard
 from . import test_tax_computation
 from . import test_account_move_sn
 from . import test_account_move_lc
@@ -15,3 +16,5 @@ from . import test_document_import_check
 from . import test_deductible_balance
 from . import test_fiscal_tax_deductible
 from . import test_fiscal_tax_without_chart
+from . import test_dfe_utilization
+from . import test_search_filters

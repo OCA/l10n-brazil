@@ -31,6 +31,7 @@ class AccountMove(models.Model):
     _inherit = [
         _name,
         "l10n_br_account.decorator.mixin",
+        "l10n_br_fiscal.report.filter.mixin",
     ]
 
     # an account.move has normally 0 or 1 related fiscal document:
@@ -214,6 +215,15 @@ class AccountMove(models.Model):
     @api.model
     def _get_fiscal_lines_field_name(self):
         return "invoice_line_ids"
+
+    def _get_report_fiscal_totals(self):
+        # _inherits brings the fields of the fiscal document, not its methods
+        self.ensure_one()
+        return (
+            self.fiscal_document_id._get_report_fiscal_totals()
+            if self.fiscal_document_id
+            else False
+        )
 
     @api.onchange("ind_final")
     def _onchange_ind_final(self):
@@ -448,7 +458,7 @@ class AccountMove(models.Model):
                         values = {
                             "balance": term.get("company_amount"),
                             "amount_currency": term.get("foreign_amount"),
-                            "discount_amount_currency": term.get(
+                            "discount_amount_currency": invoice_payment_terms.get(
                                 "discount_amount_currency"
                             )
                             or 0.0,
@@ -636,22 +646,9 @@ class AccountMove(models.Model):
             # been cancelled by action_document_cancel() above, so skip the
             # back2draft to keep it in 'cancelada' (matching 16.0 behavior).
             return super().button_draft()
-        # Process fiscal documents first to sync their state
+        # Process fiscal documents first to sync their state (the fiscal
+        # document refuses back2draft when its cancellation is registered in SEFAZ)
         for move in self.filtered(lambda d: d.document_type_id):
-            if (
-                move.state_edoc == DOCUMENT_STATE_CANCEL
-                and move.document_number
-                and move.issuer == DOCUMENT_ISSUER_COMPANY
-                and move.fiscal_document_id.cancel_event_id
-            ):
-                raise UserError(
-                    self.env._(
-                        "You can't set this document number: %(doc_number)s to draft "
-                        "because this document is cancelled in SEFAZ",
-                        doc_number=move.document_number,
-                    )
-                )
-
             # Sync fiscal document state (this is idempotent)
             # Pass in_button_draft context to prevent document.py from
             # calling button_draft again (which would cause double super call)
@@ -1014,8 +1011,20 @@ class AccountMove(models.Model):
 
         return new_moves
 
+    def _cancel_keeps_fiscal_document(self):
+        """An imported supplier document stays as the source left it.
+
+        Cancelling the vendor bill must not cancel a document the partner
+        issued. A document this company issued is still cancelled with the
+        bill.
+        """
+        self.ensure_one()
+        return bool(self.imported_document and self.issuer == DOCUMENT_ISSUER_PARTNER)
+
     def button_cancel(self):
         for doc in self.filtered(lambda d: d.document_type_id):
+            if doc._cancel_keeps_fiscal_document():
+                continue
             if hasattr(doc.fiscal_document_id, "action_document_cancel"):
                 doc.fiscal_document_id.action_document_cancel()
         return super(
@@ -1182,6 +1191,10 @@ class AccountMove(models.Model):
                     }
                 )
 
+                # amount_tax_(not_)included are NOT repeated here: they are
+                # delegated to the fiscal line through _inherits and writing
+                # them along with a new fiscal_document_line_id in the same
+                # vals would be ambiguous (old or new parent record?).
                 invoice_line_write_vals.append(
                     (
                         1,
@@ -1190,8 +1203,6 @@ class AccountMove(models.Model):
                             "product_uom_id": item["uot_id"],
                             "price_unit": item["price_unit"],
                             "fiscal_document_line_id": item["fiscal_line_id"],
-                            "amount_tax_included": item["amt_inc"],
-                            "amount_tax_not_included": item["amt_not_inc"],
                         },
                     )
                 )

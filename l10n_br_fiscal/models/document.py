@@ -436,8 +436,49 @@ class Document(models.Model):
     # l10n_br_fiscal_edi. They are defined here so they can be overriden in modules
     # that don't depend on l10n_br_fiscal_edi (such as l10n_br_account).
 
+    def _check_document_split(self):
+        """Refuse a document whose lines need separate documents."""
+        for document in self:
+            if document.issuer != DOCUMENT_ISSUER_COMPANY:
+                continue
+            doc_type = document.document_type_id
+            lines = document.fiscal_line_ids.filtered(
+                lambda ln: ln.product_id or ln.service_type_id
+            )
+            groups = lines.grouped(
+                lambda ln, dt=doc_type: ln._get_document_split_key(dt)
+            )
+            if len(groups) < 2:
+                continue
+            fields = [
+                lines._fields[name]
+                for name in lines[:1]._get_document_split_fields(doc_type)
+                if len(set(lines.mapped(name))) > 1
+            ]
+            rows = []
+            for group in groups.values():
+                codes = ", ".join(
+                    f"{field._description_string(self.env)}: "
+                    f"{field.convert_to_display_name(group[:1][field.name], group[:1])}"
+                    for field in fields
+                )
+                names = [
+                    ln.name or ln.service_type_id.display_name or "" for ln in group
+                ]
+                rows.append(f"- {', '.join(names)} ({codes})")
+            raise UserError(
+                self.env._(
+                    "The lines of the fiscal document %(document)s must be issued in "
+                    "separate documents, because they differ in the service:\n"
+                    "%(groups)s",
+                    document=document.display_name,
+                    groups="\n".join(rows),
+                )
+            )
+
     def action_document_confirm(self):
         """Open the fiscal document, changing its state to 'open'"""
+        self._check_document_split()
         self.write({"state_edoc": DOCUMENT_STATE_OPEN})
 
     def action_document_back2draft(self):
