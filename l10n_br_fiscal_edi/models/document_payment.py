@@ -141,3 +141,19 @@ class Document(models.Model):
         if self.imported_document and warning:
             messages.append(warning)
         return messages
+
+    def _edi_set_installments(self, installments):
+        """Write the installments of an issued document in the tags of its type.
+
+        :param installments: list of ``EdiInstallment``. The module of each
+            document type overrides it; the base has nothing to write.
+        """
+        self.ensure_one()
+
+    def _edi_set_payments(self, payments):
+        """Write the payments of an issued document in the tags of its type.
+
+        :param payments: list of ``EdiPayment``. The module of each document type
+            overrides it; the base has nothing to write.
+        """
+        self.ensure_one()
