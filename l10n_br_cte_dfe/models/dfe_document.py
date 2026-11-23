@@ -34,48 +34,6 @@ class L10nBrFiscalDfeDocument(models.Model):
             raise UserError(_("No complete DF-e found."))
         return complete
 
-    def action_view_imported_document(self):
-        """Open the invoice created from this DF-e.
-
-        Falls back to the fiscal document itself when accounting is not
-        installed, as this module does not depend on l10n_br_account.
-        """
-        self.ensure_one()
-        document = self.fiscal_document_id
-        moves = document.move_ids if "move_ids" in document._fields else document
-        record = moves[:1] or document
-        return {
-            "type": "ir.actions.act_window",
-            "res_model": record._name,
-            "res_id": record.id,
-            "view_mode": "form",
-        }
-
-    def import_document(self):
-        if self.fiscal_type != "cte":
-            return super().import_document()
-        complete = self._cte_dfe_complete()
-        if complete.schema_type not in CTE_IMPORTABLE_SCHEMAS:
-            raise UserError(
-                _(
-                    "Only the CT-e (model 57) can be imported as a fiscal "
-                    "document. This DF-e is a %(schema)s.",
-                    schema=complete.schema_type,
-                )
-            )
-        return {
-            "name": _("Import CT-e XML"),
-            "type": "ir.actions.act_window",
-            "res_model": "l10n_br_fiscal.document.import.wizard",
-            "view_mode": "form",
-            "target": "new",
-            "context": {
-                "default_file": complete.attachment_id.with_context(
-                    bin_size=False
-                ).datas,
-            },
-        }
-
     def make_pdf(self):
         """Generate the DACTE PDF from the complete CT-e XML."""
         if self.fiscal_type != "cte":

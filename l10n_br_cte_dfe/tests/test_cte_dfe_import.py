@@ -36,41 +36,22 @@ class TestCteDfeImport(TransactionCase):
         document = self._fetch_document(mock_post)
         self.assertFalse(document.fiscal_document_id)
 
-        action = document.import_document()
-        # Same "Importar XML" wizard of l10n_br_cte, pre-filled with the
-        # complete DF-e XML.
-        self.assertEqual(action["res_model"], "l10n_br_fiscal.document.import.wizard")
-        self.assertEqual(action["target"], "new")
-        complete = document._get_complete_dfe()
-        self.assertEqual(
-            action["context"]["default_file"],
-            complete.attachment_id.with_context(bin_size=False).datas,
-        )
-
-        wizard = (
-            self.env["l10n_br_fiscal.document.import.wizard"]
-            .with_context(**action["context"])
-            .create({})
-        )
-        # The webclient fires this onchange on form load to fill the
-        # wizard from the pre-set "file".
-        wizard._onchange_file()
-        self.assertEqual(wizard.document_type_id.code, "57")
-        self.assertEqual(wizard.document_key.replace(" ", ""), CTE_ACCESS_KEY)
-        # the CT-e wizard does not guess the operation: the user picks it
-        wizard.fiscal_operation_id = self.env.ref("l10n_br_fiscal.fo_compras")
-        wizard.action_import_and_open_document()
-
+        # the generic import of the inbox reads the complete DF-e XML with the reader
+        # of l10n_br_cte
+        # the web client reads the sizes of the binary fields (bin_size): the XML
+        # is read as content all the same
+        action = document.with_context(bin_size=True).import_document()
+        self.assertEqual(action["res_model"], "l10n_br_fiscal.document")
         fiscal_document = self.env["l10n_br_fiscal.document"].search(
             [("document_key", "=", CTE_ACCESS_KEY)], limit=1
         )
-        self.assertTrue(fiscal_document)
+        self.assertEqual(action["res_id"], fiscal_document.id)
         self.assertEqual(fiscal_document.document_type_id.code, "57")
-        self.assertEqual(
-            fiscal_document.fiscal_operation_id, wizard.fiscal_operation_id
-        )
-        self.assertEqual(fiscal_document.fiscal_operation_type, "in")
-        self.assertEqual(fiscal_document.issuer, "partner")
+        # the CT-e of the fixture is issued by a company of the database: the reader
+        # imports it as a document of that company, an output
+        self.assertEqual(fiscal_document.fiscal_operation_type, "out")
+        self.assertEqual(fiscal_document.issuer, "company")
+        self.assertTrue(fiscal_document.imported_document)
         # non-stored compute read before the import: drop the cached value
         document.invalidate_recordset(["fiscal_document_id"])
         self.assertEqual(document.fiscal_document_id, fiscal_document)
