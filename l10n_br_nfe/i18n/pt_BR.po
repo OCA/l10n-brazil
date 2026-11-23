@@ -344,6 +344,13 @@ msgid "Assinatura digital padrão RSA"
 msgstr ""
 
 #. module: l10n_br_nfe
+#. odoo-python
+#: code:addons/l10n_br_nfe/models/document_import.py:0
+#, python-format
+msgid "Authorization protocol of the file: %(protocol)s, %(date)s."
+msgstr "Protocolo de autorização do arquivo: %(protocol)s, %(date)s."
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_nfe_40_paasignature__nfe40_signatureValue
 msgid ""
 "Assinatura digital padrão RSA\n"
@@ -3517,6 +3524,13 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_nfe
+#. odoo-python
+#: code:addons/l10n_br_nfe/models/document_import.py:0
+#, python-format
+msgid "Only NF-e (model 55) XML files can be imported."
+msgstr "Somente arquivos XML de NF-e (modelo 55) podem ser importados."
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_nfe_md_event__event_type__nao_realizado
 msgid "Operação não Realizada"
 msgstr ""
@@ -4285,10 +4299,24 @@ msgid "Texto com o QR-Code impresso no DANFE NFC-e"
 msgstr ""
 
 #. module: l10n_br_nfe
+#. odoo-python
+#: code:addons/l10n_br_nfe/models/document_import.py:0
+#, python-format
+msgid "The file is not a valid NF-e XML."
+msgstr "O arquivo não é um XML de NF-e válido."
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_nfe_40_di__nfe40_UFDesemb
 #: model:ir.model.fields,help:l10n_br_nfe.field_nfe_40_di__nfe40_UFTerceiro
 msgid "The state code."
 msgstr "O código de estado."
+
+#. module: l10n_br_nfe
+#. odoo-python
+#: code:addons/l10n_br_nfe/models/document_import.py:0
+#, python-format
+msgid "This NF-e is not authorized (status %s)."
+msgstr "Esta NF-e não está autorizada (situação %s)."
 
 #. module: l10n_br_nfe
 #: model:ir.model.constraint,message:l10n_br_nfe.constraint_l10n_br_nfe_autxml_autxml_partner_document_uniq
