@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="document_form_import" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal_edi.document.form.import</field>
+        <field name="model">l10n_br_fiscal.document</field>
+        <field name="inherit_id" ref="l10n_br_fiscal.document_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//form/header" position="inside">
+                <button
+                    name="action_import_confirm_suggestions"
+                    type="object"
+                    string="Confirm Suggestions"
+                    class="btn-primary"
+                    groups="l10n_br_fiscal.group_user"
+                    attrs="{'invisible': [('import_state', 'in', [False, 'resolved'])]}"
+                />
+            </xpath>
+            <xpath expr="//form/header" position="inside">
+                <field name="import_can_create_products" invisible="1" />
+                <field name="imported_document" invisible="1" />
+                <field name="import_missing_products" invisible="1" />
+                <button
+                    name="action_import_create_products"
+                    type="object"
+                    string="Create Missing Products"
+                    groups="l10n_br_fiscal.group_user"
+                    attrs="{'invisible': ['|', '|', '|', ('imported_document', '=', False), ('fiscal_operation_type', '!=', 'out'), ('import_can_create_products', '=', False), ('import_missing_products', '=', False)]}"
+                />
+            </xpath>
+            <xpath expr="//form/header" position="inside">
+                <button
+                    name="action_import_check_partners_again"
+                    type="object"
+                    string="Check Partners Again"
+                    groups="l10n_br_fiscal.group_user"
+                    attrs="{'invisible': [('import_partner_checked', '=', False)]}"
+                />
+                <field name="import_partner_checked" invisible="1" />
+            </xpath>
+            <xpath expr="//form/sheet" position="before">
+                <div
+                    class="alert alert-info"
+                    role="alert"
+                    attrs="{'invisible': [('import_state', 'in', [False, 'resolved'])]}"
+                >
+                    <field name="import_state" invisible="1" />
+                    <field name="import_pending_count" invisible="1" />
+                    This document was imported and is awaiting review: resolve each line
+                    before confirming it.
+                </div>
+                <div
+                    class="alert alert-warning"
+                    role="alert"
+                    attrs="{'invisible': [('import_warning', '=', False)]}"
+                >
+                    <field name="import_warning" nolabel="1" readonly="1" />
+                </div>
+            </xpath>
+            <xpath
+                expr="//field[@name='fiscal_line_ids']/tree/field[@name='fiscal_amount_total']"
+                position="after"
+            >
+                <field
+                    name="import_state"
+                    string="Review"
+                    widget="badge"
+                    decoration-success="import_state == 'resolved'"
+                    decoration-warning="import_state in ('pending', 'matched')"
+                    optional="show"
+                />
+            </xpath>
+            <xpath expr="//notebook/page[@name='delivery']" position="before">
+                <page
+                    name="edi_payment"
+                    string="Installments"
+                    attrs="{'invisible': [('edi_payment_summary', '=', False)]}"
+                >
+                    <field name="edi_payment_summary" nolabel="1" readonly="1" />
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- A document that was imported is confirmed like any other, once its lines were
+         reviewed. The NF-e hides the button of an imported document, from when the import
+         left the document ready; this view comes after every view of the form (priority) and
+         gives it back, whatever the module that hid it. -->
+    <record id="document_form_import_confirm" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal_edi.document.form.import.confirm</field>
+        <field name="model">l10n_br_fiscal.document</field>
+        <field name="inherit_id" ref="l10n_br_fiscal.document_form" />
+        <field name="priority">99</field>
+        <field name="arch" type="xml">
+            <xpath
+                expr="//header/button[@name='action_document_confirm']"
+                position="attributes"
+            >
+                <attribute
+                    name="attrs"
+                >{'invisible': [('state_edoc', '!=', 'em_digitacao')]}</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="document_line_form_import" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal_edi.document.line.form.import</field>
+        <field name="model">l10n_br_fiscal.document.line</field>
+        <field name="inherit_id" ref="l10n_br_fiscal.document_line_form" />
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field
+                    name="import_state"
+                    string="Review"
+                    attrs="{'invisible': [('import_state', '=', False)]}"
+                />
+                <field
+                    name="import_uom_id"
+                    context="{'uom_search_fiscal_code': True}"
+                    attrs="{'invisible': [('import_state', '=', False)]}"
+                />
+                <field
+                    name="import_uom_factor"
+                    attrs="{'invisible': [('import_state', '=', False)]}"
+                />
+                <field
+                    name="partner_ncm_code"
+                    attrs="{'invisible': [('partner_ncm_code', '=', False)]}"
+                />
+                <button
+                    name="action_resolve_line"
+                    type="object"
+                    string="Resolve"
+                    class="btn-primary"
+                    attrs="{'invisible': [('import_state', 'in', [False, 'resolved'])]}"
+                />
+            </field>
+        </field>
+    </record>
+
+    <record id="document_import_tree" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal_edi.document.import.tree</field>
+        <field name="model">l10n_br_fiscal.document</field>
+        <field name="inherit_id" ref="l10n_br_fiscal.document_tree" />
+        <field name="mode">primary</field>
+        <field name="priority" eval="99" />
+        <field name="arch" type="xml">
+            <field name="fiscal_amount_untaxed" position="replace" />
+            <field name="fiscal_amount_tax" position="replace" />
+            <field name="state_edoc" position="after">
+                <field
+                    name="import_state"
+                    string="Review"
+                    widget="badge"
+                    decoration-success="import_state == 'resolved'"
+                    decoration-warning="import_state in ('pending', 'in_progress')"
+                />
+            </field>
+        </field>
+    </record>
+
+    <record id="document_import_search" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal_edi.document.import.search</field>
+        <field name="model">l10n_br_fiscal.document</field>
+        <field name="inherit_id" ref="l10n_br_fiscal.document_search" />
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <filter name="draft" position="before">
+                <filter
+                    name="awaiting_review"
+                    string="Awaiting Review"
+                    domain="[('import_state', 'in', ('pending', 'in_progress'))]"
+                />
+            </filter>
+        </field>
+    </record>
+</odoo>
