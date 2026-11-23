@@ -756,6 +756,16 @@ class CTe(spec_models.StackedModel):
             if "cte40_ICMSOutraUF" in xsd_fields:
                 xsd_fields.remove("cte40_ICMSOutraUF")
 
+            if not record.cte40_choice_icms:
+                line = record.fiscal_line_ids[:1]
+                raise UserError(
+                    _(
+                        "The CT-e requires ICMS on its line, and the line %(line)s "
+                        "has no ICMS CST. Choose an operation line and a service "
+                        "that tax ICMS, not ISSQN."
+                    )
+                    % {"line": line.name or line.display_name or _("without name")}
+                )
             xsd_fields = [record.cte40_choice_icms]
             icms_tag = (
                 record.cte40_choice_icms.replace("cte40_", "")
