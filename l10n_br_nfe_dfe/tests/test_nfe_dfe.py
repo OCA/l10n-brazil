@@ -840,7 +840,7 @@ class TestDFe(TransactionCase):
         self.assertFalse(dfe_no_attach.xml_pretty)
 
     def test_dfe_import_document_no_attachment(self):
-        """import_document should raise UserError when no attachment exists."""
+        """Without the XML attachment the import asks to confirm the acknowledgement."""
         dfe_doc = self.env["l10n_br_fiscal_dfe.document"].create(
             {
                 "access_key": "35200159594315000157550010000000012062777161",
@@ -857,8 +857,9 @@ class TestDFe(TransactionCase):
                 "schema_type": "procNFe",
             }
         )
-        with self.assertRaises(UserError):
-            dfe_doc.import_document()
+        action = dfe_doc.import_document()
+        wizard = self.env[action["res_model"]].browse(action["res_id"])
+        self.assertEqual(wizard.state, "confirm")
 
     # ── Distribution log tests ────────────────────────────────────────────
 
@@ -971,7 +972,7 @@ class TestDFe(TransactionCase):
         )
 
     def test_document_import_no_complete(self):
-        """import_document on document without complete DFe should raise."""
+        """Without a complete DFe the import asks to confirm the acknowledgement."""
         dfe_doc = self.env["l10n_br_fiscal_dfe.document"].create(
             {
                 "access_key": "35200199999999999999550010000000019999999991",
@@ -979,8 +980,9 @@ class TestDFe(TransactionCase):
                 "fiscal_type": "nfe",
             }
         )
-        with self.assertRaises(UserError):
-            dfe_doc.import_document()
+        action = dfe_doc.import_document()
+        wizard = self.env[action["res_model"]].browse(action["res_id"])
+        self.assertEqual(wizard.state, "confirm")
 
     # ── Wizard NSU validation tests ───────────────────────────────────────
 
