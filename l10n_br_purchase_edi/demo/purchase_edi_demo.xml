@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+    Demo of the purchases link, in the company "Empresa Lucro Presumido".
+
+    Three NF-e of one supplier, each in a different step of the life cycle:
+    - 35261011765432000100550010000020011200100014: declares order
+      PO-DEMO-EDI-001 and its item 1, and the supplier has no mapping of the
+      product: the product comes from the order line and the line enters
+      resolved. The order is invoiced by the bill generated from the note and
+      the bill is posted.
+    - 35261011765432000100550010000020021200200024: no order reference. The
+      supplier has a quotation (PO-DEMO-EDI-002) for the product, so the note
+      is waiting for the review in "Match with Orders".
+    - 35261011765432000100550010000020031200300034: product with no order
+      and no quotation, to be marked as without order.
+-->
+<odoo noupdate="1">
+
+    <record id="demo_supplier" model="res.partner">
+        <field name="name">Fornecedor Demo EDI</field>
+        <field name="legal_name">Fornecedor Demo EDI Ltda</field>
+        <field name="is_company" eval="True" />
+        <field name="supplier_rank">1</field>
+        <field name="company_id" eval="False" />
+        <field name="street_name">Rua do Fornecedor</field>
+        <field name="street_number">100</field>
+        <field name="district">Centro</field>
+        <field name="zip">01001-000</field>
+        <field name="state_id" ref="base.state_br_sp" />
+        <field name="city_id" ref="l10n_br_base.city_3550308" />
+        <field name="country_id" ref="base.br" />
+        <field name="vat">11.765.432/0001-00</field>
+        <field name="l10n_br_ie_code">110042490114</field>
+    </record>
+
+    <record id="demo_product_a" model="product.template">
+        <field name="name">Parafuso sextavado demo</field>
+        <field name="detailed_type">consu</field>
+        <field name="purchase_ok" eval="True" />
+        <field name="purchase_method">purchase</field>
+        <field name="ncm_id" ref="l10n_br_fiscal.ncm_00000000" />
+    </record>
+    <record id="demo_product_b" model="product.template">
+        <field name="name">Arruela lisa demo</field>
+        <field name="detailed_type">consu</field>
+        <field name="purchase_ok" eval="True" />
+        <field name="purchase_method">purchase</field>
+        <field name="ncm_id" ref="l10n_br_fiscal.ncm_00000000" />
+    </record>
+    <record id="demo_product_c" model="product.template">
+        <field name="name">Porca autotravante demo</field>
+        <field name="detailed_type">consu</field>
+        <field name="purchase_ok" eval="True" />
+        <field name="purchase_method">purchase</field>
+        <field name="ncm_id" ref="l10n_br_fiscal.ncm_00000000" />
+    </record>
+
+    <!-- what the supplier calls the products B and C: the notes enter with them chosen.
+         Product A has no mapping: the order that note 1 declares gives it. -->
+    <record id="demo_supplierinfo_b" model="product.supplierinfo">
+        <field name="partner_id" ref="demo_supplier" />
+        <field name="product_tmpl_id" ref="demo_product_b" />
+        <field
+            name="product_id"
+            search="[('product_tmpl_id', '=', ref('demo_product_b'))]"
+        />
+        <field name="product_code">DEMO-EDI-B</field>
+        <field name="price">140.0</field>
+    </record>
+    <record id="demo_supplierinfo_c" model="product.supplierinfo">
+        <field name="partner_id" ref="demo_supplier" />
+        <field name="product_tmpl_id" ref="demo_product_c" />
+        <field
+            name="product_id"
+            search="[('product_tmpl_id', '=', ref('demo_product_c'))]"
+        />
+        <field name="product_code">DEMO-EDI-C</field>
+        <field name="price">140.0</field>
+    </record>
+
+    <!-- the confirmed order that the first note declares -->
+    <record id="demo_order_confirmed" model="purchase.order">
+        <field name="name">PO-DEMO-EDI-001</field>
+        <field name="partner_id" ref="demo_supplier" />
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+    </record>
+    <record id="demo_order_confirmed_line" model="purchase.order.line">
+        <field name="order_id" ref="demo_order_confirmed" />
+        <field
+            name="product_id"
+            search="[('product_tmpl_id', '=', ref('demo_product_a'))]"
+        />
+        <field name="name">Parafuso sextavado demo</field>
+        <field name="product_qty">5</field>
+        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="price_unit">140.0</field>
+        <field name="date_planned" eval="DateTime.now()" />
+    </record>
+    <function model="purchase.order" name="button_confirm">
+        <value eval="[ref('demo_order_confirmed')]" />
+    </function>
+
+    <!-- the quotation of the second note: not confirmed -->
+    <record id="demo_order_quotation" model="purchase.order">
+        <field name="name">PO-DEMO-EDI-002</field>
+        <field name="partner_id" ref="demo_supplier" />
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+    </record>
+    <record id="demo_order_quotation_line" model="purchase.order.line">
+        <field name="order_id" ref="demo_order_quotation" />
+        <field
+            name="product_id"
+            search="[('product_tmpl_id', '=', ref('demo_product_b'))]"
+        />
+        <field name="name">Arruela lisa demo</field>
+        <field name="product_qty">5</field>
+        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="price_unit">140.0</field>
+        <field name="date_planned" eval="DateTime.now()" />
+    </record>
+
+    <function model="l10n_br_fiscal.document" name="_edi_import_demo_files">
+        <value>l10n_br_purchase_edi</value>
+        <value
+            eval="[
+                'demo/import/nfe_35261011765432000100550010000020011200100014.xml',
+                'demo/import/nfe_35261011765432000100550010000020021200200024.xml',
+                'demo/import/nfe_35261011765432000100550010000020031200300034.xml',
+            ]"
+        />
+    </function>
+
+    <!-- first note: the bill is generated and posted, and the order shows as
+         invoiced -->
+    <function model="l10n_br_fiscal.document" name="action_generate_invoice">
+        <value
+            model="l10n_br_fiscal.document"
+            search="[('document_key', '=', '35261011765432000100550010000020011200100014')]"
+        />
+    </function>
+    <function model="account.move" name="action_post">
+        <value
+            model="account.move"
+            search="[('fiscal_document_id.document_key', '=', '35261011765432000100550010000020011200100014')]"
+        />
+    </function>
+
+    <!-- third note: the review decided that there is no order -->
+    <function model="l10n_br_fiscal.document.line" name="write">
+        <value
+            model="l10n_br_fiscal.document.line"
+            search="[('document_id.document_key', '=', '35261011765432000100550010000020031200300034')]"
+        />
+        <value eval="{'import_origin_state': 'no_order'}" />
+    </function>
+
+</odoo>
