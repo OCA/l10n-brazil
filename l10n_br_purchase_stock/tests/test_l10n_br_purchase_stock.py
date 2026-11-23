@@ -37,8 +37,7 @@ class L10nBrPurchaseStockBase(TestBrPickingInvoicingCommon):
         self.assertEqual(
             purchase_1.invoice_status,
             "to invoice",
-            "Error in compute field invoice_status,"
-            " before create invoice by Picking.",
+            "Error in compute field invoice_status, before create invoice by Picking.",
         )
 
         purchase_2 = self.env.ref("l10n_br_purchase_stock.main_po_only_products_2")
@@ -167,8 +166,7 @@ class L10nBrPurchaseStockBase(TestBrPickingInvoicingCommon):
         self.assertEqual(
             purchase.invoice_status,
             "to invoice",
-            "Error in compute field invoice_status,"
-            " before create invoice by Picking.",
+            "Error in compute field invoice_status, before create invoice by Picking.",
         )
 
         invoice = self.create_invoice_wizard(picking)
@@ -305,8 +303,7 @@ class L10nBrPurchaseStockBase(TestBrPickingInvoicingCommon):
         self.assertEqual(
             purchase.invoice_status,
             "to invoice",
-            "Error in compute field invoice_status,"
-            " before create invoice by Picking.",
+            "Error in compute field invoice_status, before create invoice by Picking.",
         )
         invoice = self.create_invoice_wizard(picking)
         invoice.action_post()
@@ -356,8 +353,7 @@ class L10nBrPurchaseStockBase(TestBrPickingInvoicingCommon):
         self.assertEqual(
             purchase_2.invoice_status,
             "to invoice",
-            "Error in compute field invoice_status,"
-            " before create invoice by Picking.",
+            "Error in compute field invoice_status, before create invoice by Picking.",
         )
 
         invoice = self.create_invoice_wizard(picking_2)
@@ -443,8 +439,7 @@ class L10nBrPurchaseStockBase(TestBrPickingInvoicingCommon):
         self.assertEqual(
             purchase_2.invoice_status,
             "to invoice",
-            "Error in compute field invoice_status,"
-            " before create invoice by Picking.",
+            "Error in compute field invoice_status, before create invoice by Picking.",
         )
 
         invoice = self.create_invoice_wizard(picking_2)
