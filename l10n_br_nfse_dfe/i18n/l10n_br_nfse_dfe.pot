@@ -121,18 +121,6 @@ msgid "Import"
 msgstr ""
 
 #. module: l10n_br_nfse_dfe
-#: model:ir.model,name:l10n_br_nfse_dfe.model_l10n_br_fiscal_document_import_wizard
-msgid "Import Document Wizard"
-msgstr ""
-
-#. module: l10n_br_nfse_dfe
-#. odoo-python
-#: code:addons/l10n_br_nfse_dfe/models/dfe_document.py:0
-#, python-format
-msgid "Import NFS-e XML"
-msgstr ""
-
-#. module: l10n_br_nfse_dfe
 #: model:ir.model,name:l10n_br_nfse_dfe.model_l10n_br_fiscal_document
 msgid "Informações de exportação"
 msgstr ""
@@ -298,11 +286,6 @@ msgid "Restricted Production"
 msgstr ""
 
 #. module: l10n_br_nfse_dfe
-#: model:ir.model.fields,field_description:l10n_br_nfse_dfe.field_l10n_br_fiscal_document_import_wizard__product_id
-msgid "Service Product"
-msgstr ""
-
-#. module: l10n_br_nfse_dfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse_dfe.nfse_dfe_document_tree
 msgid "State"
 msgstr ""
@@ -371,11 +354,4 @@ msgstr ""
 #. module: l10n_br_nfse_dfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse_dfe.nfse_dfe_document_tree
 msgid "XML"
-msgstr ""
-
-#. module: l10n_br_nfse_dfe
-#. odoo-python
-#: code:addons/l10n_br_nfse_dfe/models/dfe_document.py:0
-#, python-format
-msgid "You can only import the NFS-e when the DF-e is completed."
 msgstr ""
