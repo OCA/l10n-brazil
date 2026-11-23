@@ -39,8 +39,9 @@ class DocumentLine(models.Model):
             line: (line.tax_icms_or_issqn, line.service_type_id, line.nbs_id)
             for line in imported
         }
-        super()._compute_product_fiscal_fields()
+        result = super()._compute_product_fiscal_fields()
         for line, (domain, service_type, nbs) in declared.items():
             line.tax_icms_or_issqn = domain
             line.service_type_id = service_type
             line.nbs_id = nbs
+        return result
