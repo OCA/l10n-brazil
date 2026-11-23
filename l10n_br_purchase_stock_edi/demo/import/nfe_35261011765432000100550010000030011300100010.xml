@@ -77,12 +77,15 @@
         <indTot>1</indTot>
         <xPed>PO-DEMO-STK-001</xPed>
         <nItemPed>1</nItemPed>
-        <rastro><nLote>L-DEMO-01</nLote><qLote>6.000</qLote><dFab>2026-09-01</dFab><dVal>2028-09-01</dVal></rastro>
-        <rastro><nLote>L-DEMO-02</nLote><qLote>4.000</qLote><dFab>2026-09-15</dFab><dVal>2028-09-15</dVal></rastro>
+        <rastro><nLote>L-DEMO-01</nLote><qLote>6.000</qLote><dFab>2026-09-01</dFab><dVal
+                    >2028-09-01</dVal></rastro>
+        <rastro><nLote>L-DEMO-02</nLote><qLote>4.000</qLote><dFab>2026-09-15</dFab><dVal
+                    >2028-09-15</dVal></rastro>
       </prod>
       <imposto>
         <ICMS>
-          <ICMS00><orig>0</orig><CST>00</CST><modBC>3</modBC><vBC>1400.00</vBC><pICMS>12.0000</pICMS><vICMS>168.00</vICMS></ICMS00>
+          <ICMS00><orig>0</orig><CST>00</CST><modBC>3</modBC><vBC>1400.00</vBC><pICMS
+                        >12.0000</pICMS><vICMS>168.00</vICMS></ICMS00>
         </ICMS>
         <IPI>
           <cEnq>999</cEnq>
