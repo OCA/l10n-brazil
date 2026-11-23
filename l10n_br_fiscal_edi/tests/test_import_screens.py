@@ -3,6 +3,7 @@
 
 import importlib
 import json
+from unittest.mock import patch
 
 from lxml import etree
 
@@ -113,9 +114,17 @@ class TestImportScreens(EdiImportCase):
             )
         except ImportError:
             self.skipTest("l10n_br_cte has no import tests to take the sample from")
-        documents, errors, _warnings = self.Document._edi_import_files(
-            [("cte.xml", module.cte_xml(module.COLLECTION))]
-        )
+        # the purchase operation has lines for the freight, which would be found by
+        # the CFOP of the CT-e: no operation is found here
+        operation_line = type(self.env["l10n_br_fiscal.operation.line"])
+        with patch.object(
+            operation_line,
+            "_find_by_issuer_cfop",
+            lambda *args, **kwargs: self.env["l10n_br_fiscal.operation.line"],
+        ):
+            documents, errors, _warnings = self.Document._edi_import_files(
+                [("cte.xml", module.cte_xml(module.COLLECTION))]
+            )
         self.assertFalse(errors)
         self.assertFalse(documents.fiscal_operation_id)
         values = documents._edi_payment_summary_values()
