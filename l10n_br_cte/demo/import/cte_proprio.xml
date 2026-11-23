@@ -1,5 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<cteProc xmlns="http://www.portalfiscal.inf.br/cte" versao="4.00"><CTe xmlns="http://www.portalfiscal.inf.br/cte">
+<?xml version="1.0" encoding="UTF-8" ?>
+<cteProc xmlns="http://www.portalfiscal.inf.br/cte" versao="4.00"><CTe
+        xmlns="http://www.portalfiscal.inf.br/cte"
+    >
   <infCte versao="4.00" Id="CTe35240781583054000129570010000070021570007029">
     <ide>
       <cUF>35</cUF>
@@ -220,6 +222,10 @@
   </infCte>
   <infCTeSupl>
     <qrCodCTe
-        >https://homologacao.nfe.fazenda.sp.gov.br/CTeConsulta/qrCode?chCTe=35240781583054000129570010000070021570007029&amp;tpAmb=2</qrCodCTe>
+            >https://homologacao.nfe.fazenda.sp.gov.br/CTeConsulta/qrCode?chCTe=35240781583054000129570010000070021570007029&amp;tpAmb=2</qrCodCTe>
   </infCTeSupl>
-</CTe><protCTe versao="4.00"><infProt><tpAmb>2</tpAmb><verAplic>demo</verAplic><chCTe>35240781583054000129570010000070021570007029</chCTe><dhRecbto>2024-07-10T10:00:00-03:00</dhRecbto><nProt>135240000000003</nProt><digVal>YWJj</digVal><cStat>100</cStat><xMotivo>Autorizado o uso do CT-e</xMotivo></infProt></protCTe></cteProc>
+</CTe><protCTe versao="4.00"><infProt><tpAmb>2</tpAmb><verAplic>demo</verAplic><chCTe
+            >35240781583054000129570010000070021570007029</chCTe><dhRecbto
+            >2024-07-10T10:00:00-03:00</dhRecbto><nProt>135240000000003</nProt><digVal
+            >YWJj</digVal><cStat>100</cStat><xMotivo
+            >Autorizado o uso do CT-e</xMotivo></infProt></protCTe></cteProc>
