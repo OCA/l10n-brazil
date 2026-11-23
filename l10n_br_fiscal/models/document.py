@@ -206,6 +206,14 @@ class Document(models.Model):
 
     imported_document = fields.Boolean(string="Imported", copy=False)
 
+    partner_operation_name = fields.Char(
+        string="Operation Declared by Partner",
+        copy=False,
+        readonly=True,
+        help="Nature of the operation as declared by the counterparty in the imported "
+        "document. It breaks the tie between operations that have the same CFOP.",
+    )
+
     xml_error_message = fields.Text(
         readonly=True,
         string="XML validation errors",
