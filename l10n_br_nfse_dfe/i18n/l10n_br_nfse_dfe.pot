@@ -73,11 +73,6 @@ msgid "Date"
 msgstr ""
 
 #. module: l10n_br_nfse_dfe
-#: model:ir.model.fields,field_description:l10n_br_nfse_dfe.field_res_company__nfse_import_product_id
-msgid "Default NFS-e Import Product"
-msgstr ""
-
-#. module: l10n_br_nfse_dfe
 #. odoo-python
 #: code:addons/l10n_br_nfse_dfe/models/res_company.py:0
 #, python-format
@@ -303,22 +298,8 @@ msgid "Restricted Production"
 msgstr ""
 
 #. module: l10n_br_nfse_dfe
-#. odoo-python
-#: code:addons/l10n_br_nfse_dfe/wizards/document_import_wizard.py:0
-#, python-format
-msgid "Service"
-msgstr ""
-
-#. module: l10n_br_nfse_dfe
 #: model:ir.model.fields,field_description:l10n_br_nfse_dfe.field_l10n_br_fiscal_document_import_wizard__product_id
 msgid "Service Product"
-msgstr ""
-
-#. module: l10n_br_nfse_dfe
-#: model:ir.model.fields,help:l10n_br_nfse_dfe.field_res_company__nfse_import_product_id
-msgid ""
-"Service product applied when a national NFS-e is imported and the wizard has"
-" no product yet."
 msgstr ""
 
 #. module: l10n_br_nfse_dfe
@@ -334,13 +315,6 @@ msgstr ""
 #. module: l10n_br_nfse_dfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse_dfe.nfse_dfe_res_company_form
 msgid "Status Code"
-msgstr ""
-
-#. module: l10n_br_nfse_dfe
-#. odoo-python
-#: code:addons/l10n_br_nfse_dfe/wizards/document_import_wizard.py:0
-#, python-format
-msgid "The NFS-e XML does not contain a 50-digit access key."
 msgstr ""
 
 #. module: l10n_br_nfse_dfe
@@ -369,13 +343,6 @@ msgstr ""
 #: code:addons/l10n_br_nfse_dfe/models/res_company.py:0
 #, python-format
 msgid "The service rate limit is active. Try again later."
-msgstr ""
-
-#. module: l10n_br_nfse_dfe
-#. odoo-python
-#: code:addons/l10n_br_nfse_dfe/models/document.py:0
-#, python-format
-msgid "There is already a fiscal document with this key: %(doc_key)s"
 msgstr ""
 
 #. module: l10n_br_nfse_dfe
