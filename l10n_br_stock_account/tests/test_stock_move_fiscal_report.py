@@ -33,3 +33,19 @@ class TestStockMoveFiscalReport(TransactionCase):
             sum(moves.mapped("icms_value")),
             places=2,
         )
+
+    def test_get_view_cache_follows_company_country(self):
+        """A foreign company must not get the cached Brazilian form view."""
+        foreign = self.env["res.company"].create(
+            {"name": "Foreign company", "country_id": self.env.ref("base.us").id}
+        )
+        brazilian = self.env.ref("l10n_br_base.empresa_lucro_presumido")
+        self.env.registry.clear_cache("templates")
+        archs = [
+            self.env["stock.picking"]
+            .with_company(company)
+            .get_view(view_type="form")["arch"]
+            for company in (brazilian, foreign)
+        ]
+        self.assertIn('name="icms_cst_id"', archs[0])
+        self.assertNotIn('name="icms_cst_id"', archs[1])
