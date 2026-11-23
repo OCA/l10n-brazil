@@ -327,9 +327,12 @@ class AccountMove(models.Model):
 
         return result
 
+    @api.depends("document_type_id")
     def _compute_l10n_latam_document_type(self):
         """Override to map fiscal document_type_id to l10n_latam_document_type_id.
 
+        Optional compatibility: this module does not depend on
+        l10n_latam_invoice_document; the mapping only runs when it is installed.
         When l10n_latam_invoice_document is installed, it requires
         l10n_latam_document_type_id for posted invoices on journals that use documents.
         This override ensures that when a fiscal document_type_id is set
@@ -351,22 +354,32 @@ class AccountMove(models.Model):
             if current_values[move.id] and not move.l10n_latam_document_type_id:
                 move.l10n_latam_document_type_id = current_values[move.id]
 
-        # Set document type based on fiscal document_type_id.code
+        # The fiscal document_type_id is the source of truth: the upstream compute
+        # picks the first available LATAM type (NF-e), which is wrong for any
+        # other fiscal type (NFS-e, NFC-e...), so the LATAM type follows the
+        # fiscal one while the invoice can still be edited.
         for move in self.filtered(
-            lambda m: m.document_type_id and not m.l10n_latam_document_type_id
+            lambda m: m.document_type_id and m.state == "draft" and not m.posted_before
         ):
             latam_doc_type = self._find_latam_document_type(
                 move.document_type_id, move.company_id
             )
-            if latam_doc_type:
+            if latam_doc_type and move.l10n_latam_document_type_id != latam_doc_type:
                 move.l10n_latam_document_type_id = latam_doc_type
 
     @api.model
     def _find_latam_document_type(self, document_type, company):
+        # A Brazilian company may have another fiscal country (demo data), so
+        # the company country wins when it is BR.
+        country = (
+            company.country_id
+            if company.country_id.code == "BR"
+            else company.account_fiscal_country_id
+        )
         return self.env["l10n_latam.document.type"].search(
             [
                 ("code", "=", document_type.code),
-                ("country_id", "=", company.account_fiscal_country_id.id),
+                ("country_id", "=", country.id),
             ],
             limit=1,
         )
