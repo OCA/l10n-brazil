@@ -49,6 +49,11 @@ manual value field are shown:
 - Fill in the manual value: it directly overrides the calculated tax
   value.
 
+The manual fields are only shown when the line's fiscal operation line
+has "Allow Manual Tax Override" enabled. This only hides the fields to
+reduce visual clutter: a manual value set while the option is disabled
+still overrides the calculated tax value.
+
 Known issues / Roadmap
 ======================
 

@@ -84,6 +84,23 @@ class TestFiscalTaxManual(TransactionCase):
             ibs_line.ibs_value_manual = ibs_line.ibs_value + 1.00
             self._float_eq(ibs_line.ibs_value, ibs_line.ibs_value_manual)
 
+    def test_tax_manual_allowed_follows_fiscal_operation_line(self):
+        # tax_manual_allowed (which drives the view's visibility of the
+        # manual fields) mirrors the fiscal operation line configuration,
+        # and the manual fields keep working regardless of it: the flag is
+        # only about reducing clutter on screen, not about blocking the
+        # override.
+        operation_line = self.line.fiscal_operation_line_id
+        operation_line.allow_tax_manual = False
+        self.assertFalse(self.line.tax_manual_allowed)
+
+        operation_line.allow_tax_manual = True
+        self.assertTrue(self.line.tax_manual_allowed)
+
+        operation_line.allow_tax_manual = False
+        self.line.icms_value_manual = self.line.icms_value + 1.00
+        self._float_eq(self.line.icms_value, self.line.icms_value_manual)
+
     def _create_compute_taxes_kwargs(self):
         return {
             "company": self.env.ref("l10n_br_base.empresa_lucro_presumido"),

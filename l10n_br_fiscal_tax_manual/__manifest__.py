@@ -16,5 +16,6 @@
     ],
     "data": [
         "views/document_line_mixin_view.xml",
+        "views/operation_line_view.xml",
     ],
 }

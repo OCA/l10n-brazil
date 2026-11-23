@@ -152,6 +152,10 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     ibs_base_manual = fields.Monetary(string="Manual IBS Base", help=MANUAL_TAX_HELP)
     ibs_value_manual = fields.Monetary(string="Manual IBS Value", help=MANUAL_TAX_HELP)
 
+    tax_manual_allowed = fields.Boolean(
+        related="fiscal_operation_line_id.allow_tax_manual"
+    )
+
     def _prepare_br_manual_tax_dict(self):
         """Return only the manual tax values filled on the line."""
         self.ensure_one()
