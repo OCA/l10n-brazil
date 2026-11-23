@@ -10,6 +10,48 @@ KEY_2 = "35200159594315000157550010000000022062777169"
 KEY_3 = "35200159594315000157550010000000032062777166"
 
 
+def fiscal_user_group_ids(env, form_groups=False):
+    """The groups of a user that works on a fiscal document and has no right on
+    purchases or accounting: only the fiscal user.
+
+    :param form_groups: add what the fields that other modules put in the form of
+        the document ask for, whichever of them is installed (the NF-e models have
+        rights for the NF-e group, and the volumes that l10n_br_delivery_nfe adds
+        belong to the stock users). A test that opens the whole form needs them;
+        one that is about the rights of the fiscal user does not take them.
+    """
+    groups = [
+        env.ref("base.group_user"),
+        env.ref("l10n_br_fiscal.group_user"),
+    ]
+    if form_groups:
+        nfe_group = env.ref("l10n_br_nfe.group_user", raise_if_not_found=False)
+        if nfe_group:
+            groups.append(nfe_group)
+        if "stock.picking.vol" in env:
+            groups.append(env.ref("stock.group_stock_user"))
+    return [group.id for group in groups]
+
+
+def readable_field_names(record, names):
+    """The fields of ``names`` that the user of the environment of ``record`` can
+    read: those of the form that other modules add may be of models that the user
+    has no right on (the volumes that l10n_br_delivery_nfe adds belong to the stock
+    users), and what a test proves about the fiscal user does not depend on them."""
+    readable = []
+    for name in names:
+        field = record._fields.get(name)
+        if field is None:
+            continue
+        comodel = field.comodel_name
+        if comodel and not record.env[comodel].check_access_rights(
+            "read", raise_exception=False
+        ):
+            continue
+        readable.append(name)
+    return readable
+
+
 class EdiImportCase(TransactionCase):
     """Base of the tests that need an imported document, with no file to read."""
 
@@ -105,24 +147,16 @@ class EdiImportCase(TransactionCase):
             document._init_import_states()
         return document
 
-    def _fiscal_user(self, login, companies=None):
+    def _fiscal_user(self, login, companies=None, form_groups=False):
         """A common fiscal user: not a manager, no right on purchases."""
         companies = companies or self.company
+        groups = fiscal_user_group_ids(self.env, form_groups)
         return self.env["res.users"].create(
             {
                 "name": f"User {login}",
                 "login": login,
                 "company_id": companies[:1].id,
                 "company_ids": [(6, 0, companies.ids)],
-                "groups_id": [
-                    (
-                        6,
-                        0,
-                        [
-                            self.env.ref("base.group_user").id,
-                            self.env.ref("l10n_br_fiscal.group_user").id,
-                        ],
-                    )
-                ],
+                "groups_id": [(6, 0, groups)],
             }
         )
