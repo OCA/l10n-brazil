@@ -14,6 +14,7 @@
             "erpbrasil.edoc",
             "erpbrasil.transmissao",
             "erpbrasil-base>=2.4.2",
+            "nfelib>=3.2.0",
         ],
     },
     "depends": [
@@ -32,5 +33,6 @@
     "demo": [
         "demo/product_demo.xml",
         "demo/fiscal_document_demo.xml",
+        "demo/document_import_demo.xml",
     ],
 }
