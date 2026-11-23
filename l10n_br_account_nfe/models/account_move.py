@@ -33,7 +33,7 @@ class AccountMove(models.Model):
                     "balance": -dup.nfe40_vDup,
                     "amount_currency": -dup.nfe40_vDup,
                 }
-        return res
+        return res or bool(self.fiscal_document_id.nfe40_dup)
 
     def _reverse_moves(self, default_values_list=None, cancel=False):
         new_moves = super()._reverse_moves(
