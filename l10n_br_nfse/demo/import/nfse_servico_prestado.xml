@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <NFSe versao="1.01" xmlns="http://www.sped.fazenda.gov.br/nfse">
 	<infNFSe Id="NFS42024042281583054000129000000000000226031234567896">
 		<xLocEmi>Blumenau</xLocEmi>
@@ -130,14 +130,14 @@
 	</infNFSe>
 	<Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
 		<SignedInfo>
-			<CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/>
-			<SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"/>
+			<CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315" />
+			<SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256" />
 			<Reference URI="#NFS42024042281583054000129000000000000226031234567896">
 				<Transforms>
-					<Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/>
-					<Transform Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/>
+					<Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" />
+					<Transform Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315" />
 				</Transforms>
-				<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"/>
+				<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256" />
 				<DigestValue>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</DigestValue>
 			</Reference>
 		</SignedInfo>
