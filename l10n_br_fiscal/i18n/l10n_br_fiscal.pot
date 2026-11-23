@@ -1599,6 +1599,7 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_import_wizard_line__cfop_warning
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__cfop_warning
 msgid "CFOP Alert"
 msgstr ""
 
@@ -1621,6 +1622,12 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_line__cfop_internal_id
 msgid "CFOP Internal"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__cfop_manual
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__cfop_manual
+msgid "CFOP Set Manually"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -2779,6 +2786,42 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__is_debit_credit
 msgid "Debit/Credit?"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#. odoo-python
+#: code:addons/l10n_br_fiscal/tools.py:0
+#, python-format
+msgid ""
+"Declared CFOP %(cfop)s is a domestic CFOP but issuer (%(issuer)s) and "
+"company (%(company)s) are in different countries."
+msgstr ""
+
+#. module: l10n_br_fiscal
+#. odoo-python
+#: code:addons/l10n_br_fiscal/tools.py:0
+#, python-format
+msgid ""
+"Declared CFOP %(cfop)s is a foreign trade CFOP but issuer and company are "
+"both in %(country)s."
+msgstr ""
+
+#. module: l10n_br_fiscal
+#. odoo-python
+#: code:addons/l10n_br_fiscal/tools.py:0
+#, python-format
+msgid ""
+"Declared CFOP %(cfop)s is interstate but issuer and company are both in "
+"%(state)s."
+msgstr ""
+
+#. module: l10n_br_fiscal
+#. odoo-python
+#: code:addons/l10n_br_fiscal/tools.py:0
+#, python-format
+msgid ""
+"Declared CFOP %(cfop)s is intrastate but issuer (%(issuer)s) and company "
+"(%(company)s) are in different states."
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -4126,6 +4169,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__price_gross
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__price_gross
 msgid "Gross Product/Service Amount"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__partner_price_gross
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__partner_price_gross
+msgid "Gross Total Declared by Partner"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -6974,6 +7023,12 @@ msgid "NCM"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__partner_ncm_code
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__partner_ncm_code
+msgid "NCM Declared by Partner"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__ncm_exception
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_pis_cofins__ncm_exception
 msgid "NCM Exeption"
@@ -6990,6 +7045,14 @@ msgstr ""
 #: model:ir.model.constraint,message:l10n_br_fiscal.constraint_l10n_br_fiscal_ncm_fiscal_ncm_code_exception_uniq
 #, python-format
 msgid "NCM already exists with this code !"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document_line__partner_ncm_code
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__partner_ncm_code
+msgid ""
+"NCM as declared by the counterparty in the imported document. The line uses "
+"the NCM of the registry with this code, or none."
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -7137,6 +7200,13 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__national_taxation_code_ids
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.tax_definition_form
 msgid "National Taxation Codes"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document__partner_operation_name
+msgid ""
+"Nature of the operation as declared by the counterparty in the imported "
+"document. It breaks the tie between operations that have the same CFOP."
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -7521,6 +7591,11 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model:ir.actions.act_window,name:l10n_br_fiscal.operation_dashboard_action
 msgid "Operation Dashboard"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__partner_operation_name
+msgid "Operation Declared by Partner"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -8734,6 +8809,16 @@ msgid "Quantity"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__partner_quantity
+msgid "Quantity Declared by Partner"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document_line__partner_quantity
+msgid "Quantity as declared by the counterparty, in its own unit."
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:uom.uom,name:l10n_br_fiscal.UOM_RESMA
 msgid "RESMA"
 msgstr ""
@@ -9204,6 +9289,14 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_form
 msgid "Set to Draft"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document_line__cfop_manual
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__cfop_manual
+msgid ""
+"Set when the CFOP of an imported line was chosen by a person instead of "
+"coming from the fiscal operation. The automatic remap does not overwrite it."
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -10446,6 +10539,15 @@ msgid "Total amount before any discounts are applied."
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document_line__partner_price_gross
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__partner_price_gross
+msgid ""
+"Total of the item as declared by the counterparty (vProd). The total of the "
+"line follows it, because quantity times unit price may not give back the "
+"cents of the file. Cleared when a person changes the quantity or the price."
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document_line__price_gross
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__price_gross
 msgid ""
@@ -10545,8 +10647,29 @@ msgid "Unidentified Consumer"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__partner_uom_code
+msgid "Unit Declared by Partner"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__partner_price_unit
+msgid "Unit Price Declared by Partner"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.constraint,message:l10n_br_fiscal.constraint_uom_uom_unique_code
 msgid "Unit of Measure code must be unique!"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document_line__partner_uom_code
+msgid ""
+"Unit of measure as declared by the counterparty in the imported document."
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document_line__partner_price_unit
+msgid "Unit price as declared by the counterparty, in its own unit."
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -10738,6 +10861,14 @@ msgstr ""
 #: code:addons/l10n_br_fiscal/models/operation_line.py:0
 #, python-format
 msgid "Warning!"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document_line__cfop_warning
+msgid ""
+"Warns when the CFOP declared by the counterparty contradicts the geography "
+"of the issuer and of the company, to spot a supplier mistake before it "
+"reaches the fiscal books."
 msgstr ""
 
 #. module: l10n_br_fiscal
