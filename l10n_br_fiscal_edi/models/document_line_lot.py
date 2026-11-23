@@ -1,6 +1,8 @@
 # Copyright 2026 KMEE
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+# pylint: disable=consider-merging-classes-inherited
+
 from odoo import models
 
 
