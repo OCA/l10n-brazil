@@ -5,3 +5,8 @@ from . import test_nfe_danfe_account
 from . import test_invoice_refund
 from . import test_nfe_import
 from . import test_nfe_autxml
+from . import test_other_document_types
+from . import test_own_note_import
+from . import test_pure_fiscal_user
+from . import test_demo_invoices
+from . import test_payment_preview_in_form

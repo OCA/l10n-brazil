@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <!-- Company: "Empresa Lucro Presumido". The notes come from the demo of the NF-e
+         import (l10n_br_nfe), found by their access key. -->
+
+    <!-- Note 4101 of the supplier Dell, reviewed: the vendor bill is generated and
+         posted, and its payables fall on the due dates of the two duplicates. -->
+    <function model="l10n_br_fiscal.document" name="_edi_demo_post_invoice">
+        <value
+            model="l10n_br_fiscal.document"
+            search="[('document_key', '=', '35261173623891000106550010000041011062777168')]"
+        />
+    </function>
+
+    <!-- Note 9001 that the company issued in another system and imported: the
+         customer invoice is generated and posted, and the document stays as it is. -->
+    <function model="l10n_br_fiscal.document" name="_edi_demo_post_invoice">
+        <value
+            model="l10n_br_fiscal.document"
+            search="[('document_key', '=', '35261081583054000129550010000090011760018051')]"
+        />
+    </function>
+</odoo>
