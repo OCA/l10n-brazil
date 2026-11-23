@@ -485,3 +485,52 @@ class OperationLine(models.Model):
                 "message": _("You must first select a operation type."),
             }
             return {"warning": warning}
+
+    @api.model
+    def _find_by_issuer_cfop(
+        self, cfop, nat_op=None, fiscal_operation_type="in", operation=None
+    ):
+        """Find the approved operation line that answers the CFOP of an issuer.
+
+        A document received from a supplier carries the CFOP of the issuer
+        (5xxx, 6xxx, 7xxx), while the operation that receives it is registered
+        with the inverse CFOP (1xxx, 2xxx, 3xxx). When several lines share the
+        CFOP, the one whose operation is named like ``nat_op`` wins.
+
+        :param cfop: ``l10n_br_fiscal.cfop`` record or the CFOP code
+        :param nat_op: nature of the operation declared in the file
+        :param fiscal_operation_type: ``in`` or ``out``
+        :param operation: ``l10n_br_fiscal.operation`` record that has to hold the
+            line, when the operation is already chosen
+        :return: ``l10n_br_fiscal.operation.line`` record, possibly empty
+        """
+        if isinstance(cfop, models.BaseModel):
+            code = cfop.code or ""
+        else:
+            code = str(cfop or "")
+            cfop = self.env["l10n_br_fiscal.cfop"].search(
+                [("code", "=", code)], limit=1
+            )
+        if fiscal_operation_type == FISCAL_IN:
+            counterpart = {"5": "1", "6": "2", "7": "3"}.get(code[:1])
+            if not counterpart:
+                return self.browse()
+            code = cfop.cfop_inverse_id.code or counterpart + code[1:]
+        if not code:
+            return self.browse()
+        domain = [
+            ("state", "=", "approved"),
+            ("fiscal_operation_type", "=", fiscal_operation_type),
+            "|",
+            "|",
+            ("cfop_internal_id.code", "=", code),
+            ("cfop_external_id.code", "=", code),
+            ("cfop_export_id.code", "=", code),
+        ]
+        if operation:
+            domain.append(("fiscal_operation_id", "=", operation.id))
+        lines = self.search(domain)
+        for line in lines:
+            if line.fiscal_operation_id.name == nat_op:
+                return line
+        return lines[:1]
