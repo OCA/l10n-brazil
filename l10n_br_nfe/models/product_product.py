@@ -4,6 +4,8 @@
 from odoo import api, models
 from odoo.osv import expression
 
+from odoo.addons.l10n_br_fiscal_edi.tools import EDI_IMPORT_NO_CREATE
+
 
 class ProductProduct(models.Model):
     _inherit = "product.product"
@@ -27,12 +29,20 @@ class ProductProduct(models.Model):
             rec_dict["name"] = parent_dict["nfe40_xProd"]
             domain_name = [("name", "=", rec_dict.get("name"))]
 
+        # the barcode of the commercial unit (cEAN) matches as well as the one of
+        # the taxable unit (cEANTrib), the one the product is created with
+        barcodes = [
+            parent_dict[tag]
+            for tag in ("nfe40_cEANTrib", "nfe40_cEAN")
+            if parent_dict.get(tag) and parent_dict[tag] != "SEM GTIN"
+        ]
         if (
             parent_dict.get("nfe40_cEANTrib")
             and parent_dict["nfe40_cEANTrib"] != "SEM GTIN"
         ):
             rec_dict["barcode"] = parent_dict["nfe40_cEANTrib"]
-            domain_barcode = [("barcode", "=", rec_dict.get("barcode"))]
+        if barcodes:
+            domain_barcode = [("barcode", "in", barcodes)]
 
         if parent_dict.get("nfe40_cProd"):
             rec_dict["default_code"] = parent_dict["nfe40_cProd"]
@@ -48,6 +58,8 @@ class ProductProduct(models.Model):
             if match:
                 return match.id
 
+        if self._context.get(EDI_IMPORT_NO_CREATE):
+            return False
         if self._context.get("dry_run"):
             rec_id = self.new(rec_dict).id
         else:
