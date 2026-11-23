@@ -53,7 +53,7 @@ class TestPureFiscalUser(EdiImportCase):
         return self._read_fields(document, arch.xpath("//form")[0])[0]
 
     def test_the_form_is_read_back_after_the_confirmation(self):
-        user = self._fiscal_user("pure_fiscal_user")
+        user = self._fiscal_user("pure_fiscal_user", form_groups=True)
         # the web client does not disable the tracking
         model = self.Document.with_user(user).with_context(
             allowed_company_ids=self.company.ids, tracking_disable=False
