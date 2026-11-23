@@ -792,7 +792,6 @@ class TestNFeDFeImportedDocumentAccess(TransactionCase):
             .create(
                 {
                     "move_type": "in_invoice",
-                    "journal_id": journal.id,
                     "company_id": record.company_id.id,
                     # the journal of the company of the note, not the one by default
                     "journal_id": journal.id,
