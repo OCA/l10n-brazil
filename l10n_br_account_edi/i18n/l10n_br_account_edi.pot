@@ -1,0 +1,142 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_br_account_edi
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_br_account_edi
+#: model:ir.model.fields,help:l10n_br_account_edi.field_account_bank_statement_line__edi_can_generate_invoice
+#: model:ir.model.fields,help:l10n_br_account_edi.field_account_move__edi_can_generate_invoice
+#: model:ir.model.fields,help:l10n_br_account_edi.field_account_payment__edi_can_generate_invoice
+#: model:ir.model.fields,help:l10n_br_account_edi.field_l10n_br_fiscal_document__edi_can_generate_invoice
+msgid ""
+"An imported document that was reviewed, has lines and an amount declared in "
+"the file, and has no invoice yet. It is not stored."
+msgstr ""
+
+#. module: l10n_br_account_edi
+#. odoo-python
+#: code:addons/l10n_br_account_edi/models/account_move.py:0
+#, python-format
+msgid "Document total"
+msgstr ""
+
+#. module: l10n_br_account_edi
+#: model:ir.model.fields,field_description:l10n_br_account_edi.field_account_bank_statement_line__edi_can_generate_invoice
+#: model:ir.model.fields,field_description:l10n_br_account_edi.field_account_move__edi_can_generate_invoice
+#: model:ir.model.fields,field_description:l10n_br_account_edi.field_account_payment__edi_can_generate_invoice
+#: model:ir.model.fields,field_description:l10n_br_account_edi.field_l10n_br_fiscal_document__edi_can_generate_invoice
+msgid "Edi Can Generate Invoice"
+msgstr ""
+
+#. module: l10n_br_account_edi
+#: model:ir.model.fields,field_description:l10n_br_account_edi.field_account_bank_statement_line__edi_payment_summary
+#: model:ir.model.fields,field_description:l10n_br_account_edi.field_account_move__edi_payment_summary
+#: model:ir.model.fields,field_description:l10n_br_account_edi.field_account_payment__edi_payment_summary
+msgid "Edi Payment Summary"
+msgstr ""
+
+#. module: l10n_br_account_edi
+#: model_terms:ir.ui.view,arch_db:l10n_br_account_edi.document_form
+msgid "Generate Invoice"
+msgstr ""
+
+#. module: l10n_br_account_edi
+#. odoo-python
+#: code:addons/l10n_br_account_edi/models/document.py:0
+#, python-format
+msgid ""
+"Generating the invoice needs the accounting rights of the Billing group. Ask"
+" a user that has them."
+msgstr ""
+
+#. module: l10n_br_account_edi
+#: model:ir.model,name:l10n_br_account_edi.model_l10n_br_fiscal_document
+msgid "Informações de exportação"
+msgstr ""
+
+#. module: l10n_br_account_edi
+#: model_terms:ir.ui.view,arch_db:l10n_br_account_edi.invoice_form
+msgid "Installments"
+msgstr ""
+
+#. module: l10n_br_account_edi
+#: model:ir.model.fields,help:l10n_br_account_edi.field_account_bank_statement_line__edi_payment_summary
+#: model:ir.model.fields,help:l10n_br_account_edi.field_account_move__edi_payment_summary
+#: model:ir.model.fields,help:l10n_br_account_edi.field_account_payment__edi_payment_summary
+msgid ""
+"Installments and payment that the fiscal document will declare, to check "
+"before posting the invoice. It is not stored."
+msgstr ""
+
+#. module: l10n_br_account_edi
+#. odoo-python
+#: code:addons/l10n_br_account_edi/models/document.py:0
+#, python-format
+msgid "Invoice"
+msgstr ""
+
+#. module: l10n_br_account_edi
+#: model:ir.model,name:l10n_br_account_edi.model_account_journal
+msgid "Journal"
+msgstr ""
+
+#. module: l10n_br_account_edi
+#: model:ir.model,name:l10n_br_account_edi.model_account_move
+msgid "Journal Entry"
+msgstr ""
+
+#. module: l10n_br_account_edi
+#. odoo-python
+#: code:addons/l10n_br_account_edi/models/account_move.py:0
+#, python-format
+msgid "Net amount payable"
+msgstr ""
+
+#. module: l10n_br_account_edi
+#. odoo-python
+#: code:addons/l10n_br_account_edi/models/document.py:0
+#, python-format
+msgid ""
+"Resolve the lines before generating the invoice:\n"
+"%s"
+msgstr ""
+
+#. module: l10n_br_account_edi
+#. odoo-python
+#: code:addons/l10n_br_account_edi/models/document.py:0
+#, python-format
+msgid ""
+"The document has no fiscal operation. Choose it in the header of the "
+"document before generating the invoice."
+msgstr ""
+
+#. module: l10n_br_account_edi
+#. odoo-python
+#: code:addons/l10n_br_account_edi/models/document.py:0
+#, python-format
+msgid "The document has no partner. Choose it before generating the invoice."
+msgstr ""
+
+#. module: l10n_br_account_edi
+#. odoo-python
+#: code:addons/l10n_br_account_edi/models/document.py:0
+#, python-format
+msgid "The invoice could not be created from this document: %s"
+msgstr ""
+
+#. module: l10n_br_account_edi
+#. odoo-python
+#: code:addons/l10n_br_account_edi/models/account_move.py:0
+#, python-format
+msgid "Withholdings"
+msgstr ""
