@@ -183,7 +183,10 @@
     <transp>
       <modFrete>9</modFrete>
     </transp>
-    <cobr><fat><nFat>4101</nFat><vOrig>140.00</vOrig><vDesc>0.00</vDesc><vLiq>140.00</vLiq></fat><dup><nDup>001</nDup><dVenc>2026-12-10</dVenc><vDup>70.00</vDup></dup><dup><nDup>002</nDup><dVenc>2027-01-10</dVenc><vDup>70.00</vDup></dup></cobr><pag>
+    <cobr><fat><nFat>4101</nFat><vOrig>140.00</vOrig><vDesc>0.00</vDesc><vLiq
+                >140.00</vLiq></fat><dup><nDup>001</nDup><dVenc>2026-12-10</dVenc><vDup
+                >70.00</vDup></dup><dup><nDup>002</nDup><dVenc>2027-01-10</dVenc><vDup
+                >70.00</vDup></dup></cobr><pag>
       <detPag>
         <indPag>1</indPag>
         <tPag>15</tPag>
