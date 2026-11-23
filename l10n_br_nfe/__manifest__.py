@@ -41,7 +41,6 @@
         "report/danfe_nfce.xml",
         "report/danfe_report.xml",
         # Wizards
-        "wizards/document_import_wizard.xml",
         "wizards/nfe_md_event_wizard.xml",
         # Actions,
         "views/nfe_action.xml",
