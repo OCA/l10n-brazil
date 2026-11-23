@@ -12,7 +12,7 @@ class TestImportFreightPurchaseOperation(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.wizard = cls.env["l10n_br_fiscal.document.import.wizard"]
+        cls.operation_lines = cls.env["l10n_br_fiscal.operation.line"]
         cls.purchase = cls.env.ref("l10n_br_fiscal.fo_compras")
 
     def test_issuer_cfop_finds_the_freight_purchase_line(self):
@@ -24,12 +24,9 @@ class TestImportFreightPurchaseOperation(TransactionCase):
         }
         for cfop, xmlid in expected.items():
             with self.subTest(cfop=cfop):
-                line = self.wizard._find_fiscal_operation_line(cfop, False, "in")
+                line = self.operation_lines._find_by_issuer_cfop(cfop, False, "in")
                 self.assertEqual(line, self.env.ref(xmlid))
-                self.assertEqual(
-                    self.wizard._find_fiscal_operation(cfop, False, "in"),
-                    self.purchase,
-                )
+                self.assertEqual(line.fiscal_operation_id, self.purchase)
 
     def test_freight_purchase_lines_are_approved_inbound(self):
         for xmlid in (
