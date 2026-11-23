@@ -13,7 +13,6 @@ from odoo.addons.l10n_br_nfse_dfe.tests.test_nfse_dfe import nfse_xml
 XMLID_NAME = "field_res_company__nfse_import_product_id"
 
 
-
 class TestNfseImportMigration(TransactionCase):
     """The DANFSE of an imported NFS-e, and the field that moved to l10n_br_nfse."""
 
