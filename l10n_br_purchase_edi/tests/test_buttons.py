@@ -6,6 +6,8 @@ from lxml import etree
 from odoo.exceptions import UserError
 from odoo.tests import tagged
 
+from odoo.addons.l10n_br_fiscal_edi.tests.common import readable_field_names
+
 from .common import PurchaseEdiCase
 
 
@@ -200,9 +202,7 @@ class TestSmartButtons(PurchaseEdiCase):
     def _read_form(self, record, arch):
         """The fields of the form, as the user reads them (the cache of the
         superuser does not stand in for the rights of the user)."""
-        names = [
-            node.get("name")
-            for node in arch.iter("field")
-            if node.get("name") in record._fields
-        ]
+        names = readable_field_names(
+            record, [node.get("name") for node in arch.iter("field")]
+        )
         record.read(names)
