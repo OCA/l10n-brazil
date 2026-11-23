@@ -12,7 +12,6 @@ NFSE_SEFIN_NFSE_PATH = "/nfse"
 
 NFSE_LOTE_SIZE = 50
 NFSE_MAX_PAGES = 20
-NFSE_ACCESS_KEY_SIZE = 50
 
 NFSE_NOTE_TYPES = {"NFSE", "NFS-E"}
 # Distributed, but not a service invoice and not an event of one.
