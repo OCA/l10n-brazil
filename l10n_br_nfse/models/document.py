@@ -9,7 +9,8 @@ from erpbrasil.edoc.provedores.cidades import NFSeFactory
 from erpbrasil.transmissao import TransmissaoSOAP
 from requests import Session
 
-from odoo import fields, models
+from odoo import _, fields, models
+from odoo.exceptions import UserError
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     EVENT_ENV_HML,
@@ -74,6 +75,17 @@ class Document(models.Model):
 
     def make_pdf(self):
         if not self.filtered(filter_processador_edoc_nfse):
+            if (
+                self.imported_document
+                and self.document_type_id.code == MODELO_FISCAL_NFSE
+            ):
+                raise UserError(
+                    _(
+                        "The printed version of an imported NFS-e is not available: "
+                        "the note was issued elsewhere and the company has no "
+                        "NFS-e issuing set up here. Use the PDF of the issuer."
+                    )
+                )
             return super().make_pdf()
         pdf = self.env.ref("l10n_br_nfse.report_br_nfse_danfe")._render_qweb_pdf(
             self.ids
