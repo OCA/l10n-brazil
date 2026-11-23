@@ -1,0 +1,228 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_br_purchase_request_edi
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-22 07:27+0000\n"
+"PO-Revision-Date: 2026-11-22 07:27+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_br_purchase_request_edi
+#. odoo-python
+#: code:addons/l10n_br_purchase_request_edi/models/document_match.py:0
+#, python-format
+msgid ", waiting for its approval"
+msgstr ""
+
+#. module: l10n_br_purchase_request_edi
+#. odoo-python
+#: code:addons/l10n_br_purchase_request_edi/models/document_match.py:0
+#, python-format
+msgid ""
+"A purchase request is not a commitment to the supplier: use Create Order "
+"from Request."
+msgstr ""
+
+#. module: l10n_br_purchase_request_edi
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase_request_edi.document_match_tree
+msgid "Create Order from Request"
+msgstr ""
+
+#. module: l10n_br_purchase_request_edi
+#: model:ir.model.fields,field_description:l10n_br_purchase_request_edi.field_purchase_request__import_document_ids
+msgid "Fiscal Documents"
+msgstr ""
+
+#. module: l10n_br_purchase_request_edi
+#: model:ir.model.fields,field_description:l10n_br_purchase_request_edi.field_purchase_request__import_document_count
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase_request_edi.purchase_request_form
+msgid "Fiscal docs"
+msgstr ""
+
+#. module: l10n_br_purchase_request_edi
+#. odoo-python
+#: code:addons/l10n_br_purchase_request_edi/models/document_match.py:0
+#, python-format
+msgid "Fiscal document %s"
+msgstr ""
+
+#. module: l10n_br_purchase_request_edi
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase_request_edi.purchase_request_form
+msgid "Imported fiscal documents linked to this record"
+msgstr ""
+
+#. module: l10n_br_purchase_request_edi
+#: model:ir.model.fields,field_description:l10n_br_purchase_request_edi.field_l10n_br_purchase_edi_match__kind
+msgid "Kind"
+msgstr ""
+
+#. module: l10n_br_purchase_request_edi
+#. odoo-python
+#: code:addons/l10n_br_purchase_request_edi/models/document_match.py:0
+#, python-format
+msgid ""
+"Order %(order)s created from the purchase request %(request)s and matched to"
+" %(count)s line(s)%(waiting)s."
+msgstr ""
+
+#. module: l10n_br_purchase_request_edi
+#: model:ir.model,name:l10n_br_purchase_request_edi.model_l10n_br_purchase_edi_match
+msgid "Origin of an imported fiscal document"
+msgstr ""
+
+#. module: l10n_br_purchase_request_edi
+#: model:ir.model,name:l10n_br_purchase_request_edi.model_purchase_order
+msgid "Purchase Order"
+msgstr ""
+
+#. module: l10n_br_purchase_request_edi
+#: model:ir.model,name:l10n_br_purchase_request_edi.model_purchase_request
+#: model:ir.model.fields.selection,name:l10n_br_purchase_request_edi.selection__l10n_br_purchase_edi_match__kind__request
+msgid "Purchase Request"
+msgstr ""
+
+#. module: l10n_br_purchase_request_edi
+#: model:ir.model.fields,field_description:l10n_br_purchase_request_edi.field_account_move_line__import_request_line_id
+#: model:ir.model.fields,field_description:l10n_br_purchase_request_edi.field_l10n_br_fiscal_document_line__import_request_line_id
+msgid "Purchase Request Line"
+msgstr ""
+
+#. module: l10n_br_purchase_request_edi
+#: model:ir.model.fields,field_description:l10n_br_purchase_request_edi.field_account_bank_statement_line__import_request_ids
+#: model:ir.model.fields,field_description:l10n_br_purchase_request_edi.field_account_move__import_request_ids
+#: model:ir.model.fields,field_description:l10n_br_purchase_request_edi.field_account_payment__import_request_ids
+#: model:ir.model.fields,field_description:l10n_br_purchase_request_edi.field_l10n_br_fiscal_document__import_request_ids
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase_request_edi.document_match_search
+msgid "Purchase Requests"
+msgstr ""
+
+#. module: l10n_br_purchase_request_edi
+#: model:ir.model.fields,help:l10n_br_purchase_request_edi.field_account_move_line__import_request_line_id
+#: model:ir.model.fields,help:l10n_br_purchase_request_edi.field_l10n_br_fiscal_document_line__import_request_line_id
+msgid ""
+"Purchase request line the order of this imported document line was created "
+"from. While the order waits for its approval the origin is only suggested "
+"and it is resolved when the order is confirmed."
+msgstr ""
+
+#. module: l10n_br_purchase_request_edi
+#: model:ir.model.fields.selection,name:l10n_br_purchase_request_edi.selection__l10n_br_purchase_edi_match__line_state__request_approved
+msgid "Request Approved"
+msgstr ""
+
+#. module: l10n_br_purchase_request_edi
+#: model:ir.model.fields,field_description:l10n_br_purchase_request_edi.field_l10n_br_purchase_edi_match__purchase_request_line_id
+msgid "Request Line"
+msgstr ""
+
+#. module: l10n_br_purchase_request_edi
+#: model:ir.model.fields.selection,name:l10n_br_purchase_request_edi.selection__l10n_br_purchase_edi_match__line_state__request_in_progress
+msgid "Request in Progress"
+msgstr ""
+
+#. module: l10n_br_purchase_request_edi
+#: model:ir.model.fields,field_description:l10n_br_purchase_request_edi.field_l10n_br_purchase_edi_match__requested_by_id
+msgid "Requested by"
+msgstr ""
+
+#. module: l10n_br_purchase_request_edi
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase_request_edi.document_match_tree
+msgid "Requester"
+msgstr ""
+
+#. module: l10n_br_purchase_request_edi
+#: model:ir.model.fields,field_description:l10n_br_purchase_request_edi.field_account_bank_statement_line__import_request_count
+#: model:ir.model.fields,field_description:l10n_br_purchase_request_edi.field_account_move__import_request_count
+#: model:ir.model.fields,field_description:l10n_br_purchase_request_edi.field_account_payment__import_request_count
+#: model:ir.model.fields,field_description:l10n_br_purchase_request_edi.field_l10n_br_fiscal_document__import_request_count
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase_request_edi.document_form
+msgid "Requests"
+msgstr ""
+
+#. module: l10n_br_purchase_request_edi
+#. odoo-python
+#: code:addons/l10n_br_purchase_request_edi/models/document_match.py:0
+#, python-format
+msgid "Select the invoice lines and one purchase request line."
+msgstr ""
+
+#. module: l10n_br_purchase_request_edi
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase_request_edi.document_form
+msgid "Show the purchase requests of the lines"
+msgstr ""
+
+#. module: l10n_br_purchase_request_edi
+#: model:ir.model.fields,field_description:l10n_br_purchase_request_edi.field_l10n_br_purchase_edi_match__line_state
+msgid "Situation"
+msgstr ""
+
+#. module: l10n_br_purchase_request_edi
+#: model:ir.model.fields,help:l10n_br_purchase_request_edi.field_purchase_request__import_document_ids
+msgid ""
+"Technical: the imported fiscal documents whose lines point to a line of this"
+" request, or to an order line that was bought for it."
+msgstr ""
+
+#. module: l10n_br_purchase_request_edi
+#: model:ir.model.fields,help:l10n_br_purchase_request_edi.field_account_bank_statement_line__import_request_ids
+#: model:ir.model.fields,help:l10n_br_purchase_request_edi.field_account_move__import_request_ids
+#: model:ir.model.fields,help:l10n_br_purchase_request_edi.field_account_payment__import_request_ids
+#: model:ir.model.fields,help:l10n_br_purchase_request_edi.field_l10n_br_fiscal_document__import_request_ids
+msgid ""
+"Technical: the purchase requests of the lines of the document: the one an "
+"order was created from and the ones of the order lines that the lines point "
+"to, as resolved or as suggested."
+msgstr ""
+
+#. module: l10n_br_purchase_request_edi
+#. odoo-python
+#: code:addons/l10n_br_purchase_request_edi/models/document_match.py:0
+#, python-format
+msgid ""
+"The product of the line %(line)s is not the product of the request line."
+msgstr ""
+
+#. module: l10n_br_purchase_request_edi
+#. odoo-python
+#: code:addons/l10n_br_purchase_request_edi/models/document_match.py:0
+#, python-format
+msgid "The purchase request %s is not approved."
+msgstr ""
+
+#. module: l10n_br_purchase_request_edi
+#. odoo-python
+#: code:addons/l10n_br_purchase_request_edi/models/document_match.py:0
+#, python-format
+msgid "The request line has no product."
+msgstr ""
+
+#. module: l10n_br_purchase_request_edi
+#. odoo-python
+#: code:addons/l10n_br_purchase_request_edi/models/document_match.py:0
+#, python-format
+msgid "The request line is of another company than the document."
+msgstr ""
+
+#. module: l10n_br_purchase_request_edi
+#. odoo-python
+#: code:addons/l10n_br_purchase_request_edi/models/document_match.py:0
+#, python-format
+msgid ""
+"The unit of the line %(line)s does not convert to the unit of the request "
+"line."
+msgstr ""
+
+#. module: l10n_br_purchase_request_edi
+#. odoo-python
+#: code:addons/l10n_br_purchase_request_edi/models/document_match.py:0
+#, python-format
+msgid "You have no access to the purchase requests."
+msgstr ""
