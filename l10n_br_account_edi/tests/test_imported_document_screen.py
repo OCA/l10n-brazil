@@ -9,6 +9,8 @@ from odoo import Command
 from odoo.exceptions import UserError
 from odoo.tests import Form, tagged
 
+from odoo.addons.l10n_br_fiscal_edi.tests.common import fiscal_user_group_ids
+
 from .common import AccountEdiCase
 
 
@@ -25,12 +27,7 @@ class TestImportedDocumentScreen(AccountEdiCase):
                 "company_id": cls.company.id,
                 "company_ids": [Command.set(cls.company.ids)],
                 "groups_id": [
-                    Command.set(
-                        [
-                            cls.env.ref("base.group_user").id,
-                            cls.env.ref("l10n_br_fiscal.group_user").id,
-                        ]
-                    )
+                    Command.set(fiscal_user_group_ids(cls.env, form_groups=True))
                 ],
             }
         )
