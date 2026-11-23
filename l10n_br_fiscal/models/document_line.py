@@ -208,9 +208,10 @@ class DocumentLine(models.Model):
             and line.fiscal_operation_line_id.fiscal_operation_id
             == line.fiscal_operation_id
         }
-        super()._compute_fiscal_operation_line_id()
+        result = super()._compute_fiscal_operation_line_id()
         for line, operation_line in kept.items():
             line.fiscal_operation_line_id = operation_line
+        return result
 
     @api.depends("product_id")
     def _compute_name(self):
