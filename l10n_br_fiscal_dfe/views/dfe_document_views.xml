@@ -30,6 +30,7 @@
                         type="object"
                         icon="fa-file-text-o"
                         class="oe_highlight"
+                        groups="l10n_br_fiscal.group_user"
                         attrs="{'invisible': [('fiscal_document_id', '!=', False)]}"
                     />
                     <button
@@ -86,6 +87,11 @@
                         </page>
                     </notebook>
                 </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" />
+                    <field name="activity_ids" />
+                    <field name="message_ids" />
+                </div>
             </form>
         </field>
     </record>
@@ -135,6 +141,7 @@
                     string="Import"
                     type="object"
                     icon="fa-file-text-o"
+                    groups="l10n_br_fiscal.group_user"
                     attrs="{'invisible': [('fiscal_document_id', '!=', False)]}"
                 />
             </tree>
