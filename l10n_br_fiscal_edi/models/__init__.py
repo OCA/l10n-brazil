@@ -8,3 +8,4 @@ from . import uom_uom
 from . import document_review
 from . import document_line_review
 from . import document_line_import
+from . import document_line_lot
