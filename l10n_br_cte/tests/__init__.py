@@ -11,3 +11,4 @@ from . import test_cte_webservices
 from . import test_cte_vtotdfe
 from . import test_autxml
 from . import test_cte_protocol_date
+from . import test_cte_document_import
