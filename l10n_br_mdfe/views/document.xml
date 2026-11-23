@@ -49,9 +49,10 @@
                 >{'invisible': [('document_type', 'in', ['58'])]}</attribute>
             </xpath>
             <xpath expr="//field[@name='fiscal_operation_id']" position="after">
+                <field name="imported_document" invisible="1" />
                 <field
                     name="mdfe_emit_type"
-                    attrs="{'required': [('document_type', '=', '58')], 'invisible': [('document_type', 'not in', ['58'])]}"
+                    attrs="{'required': [('document_type', '=', '58'), ('imported_document', '=', False)], 'invisible': [('document_type', 'not in', ['58'])]}"
                 />
                 <field
                     name="mdfe_transp_type"
@@ -62,11 +63,11 @@
                 <group>
                     <field
                         name="mdfe_initial_state_id"
-                        attrs="{'required': [('document_type', '=', '58')], 'invisible': [('document_type', 'not in', ['58'])]}"
+                        attrs="{'required': [('document_type', '=', '58'), ('imported_document', '=', False)], 'invisible': [('document_type', 'not in', ['58'])]}"
                     />
                     <field
                         name="mdfe_final_state_id"
-                        attrs="{'required': [('document_type', '=', '58')], 'invisible': [('document_type', 'not in', ['58'])]}"
+                        attrs="{'required': [('document_type', '=', '58'), ('imported_document', '=', False)], 'invisible': [('document_type', 'not in', ['58'])]}"
                     />
                 </group>
                 <separator
@@ -76,7 +77,7 @@
                 />
                 <field
                     name="mdfe_loading_city_ids"
-                    attrs="{'required': [('document_type', '=', '58')], 'invisible': [('document_type', 'not in', ['58'])]}"
+                    attrs="{'required': [('document_type', '=', '58'), ('imported_document', '=', False)], 'invisible': [('document_type', 'not in', ['58'])]}"
                 />
                 <separator
                     colspan="4"
@@ -163,7 +164,7 @@
                         <field
                             name="mdfe_modal"
                             widget="radio"
-                            attrs="{'required': [('document_type', '=', '58')], 'invisible': [('document_type', 'not in', ['58'])]}"
+                            attrs="{'required': [('document_type', '=', '58'), ('imported_document', '=', False)], 'invisible': [('document_type', 'not in', ['58'])]}"
                         />
                     </group>
                     <group
@@ -181,16 +182,16 @@
                                         <field name="mdfe30_cInt" />
                                         <field
                                             name="mdfe30_placa"
-                                            attrs="{'required': [('mdfe_modal', '=', '1'), ('document_type', '=', '58')]}"
+                                            attrs="{'required': [('mdfe_modal', '=', '1'), ('document_type', '=', '58'), ('imported_document', '=', False)]}"
                                         />
                                         <field name="mdfe30_RENAVAM" />
                                         <field
                                             name="mdfe30_tpCar"
-                                            attrs="{'required': [('mdfe_modal', '=', '1'), ('document_type', '=', '58')]}"
+                                            attrs="{'required': [('mdfe_modal', '=', '1'), ('document_type', '=', '58'), ('imported_document', '=', False)]}"
                                         />
                                         <field
                                             name="mdfe30_tpRod"
-                                            attrs="{'required': [('mdfe_modal', '=', '1'), ('document_type', '=', '58')]}"
+                                            attrs="{'required': [('mdfe_modal', '=', '1'), ('document_type', '=', '58'), ('imported_document', '=', False)]}"
                                         />
                                         <field name="rodo_vehicle_state_id" />
                                         <field
@@ -202,7 +203,7 @@
                                     <group>
                                         <field
                                             name="mdfe30_tara"
-                                            attrs="{'required': [('mdfe_modal', '=', '1'), ('document_type', '=', '58')]}"
+                                            attrs="{'required': [('mdfe_modal', '=', '1'), ('document_type', '=', '58'), ('imported_document', '=', False)]}"
                                         />
                                         <field name="mdfe30_capKG" />
                                         <field name="mdfe30_capM3" />
@@ -212,7 +213,7 @@
                                 <field
                                     name="mdfe30_condutor"
                                     nolabel="1"
-                                    attrs="{'required': [('mdfe_modal', '=', '1'), ('document_type', '=', '58')]}"
+                                    attrs="{'required': [('mdfe_modal', '=', '1'), ('document_type', '=', '58'), ('imported_document', '=', False)]}"
                                 />
                             </page>
                             <page string="CIOT">
@@ -245,29 +246,29 @@
                         <group>
                             <field
                                 name="mdfe30_nac"
-                                attrs="{'required': [('mdfe_modal', '=', '2')]}"
+                                attrs="{'required': [('mdfe_modal', '=', '2'), ('imported_document', '=', False)]}"
                             />
                             <field
                                 name="mdfe30_matr"
-                                attrs="{'required': [('mdfe_modal', '=', '2')]}"
+                                attrs="{'required': [('mdfe_modal', '=', '2'), ('imported_document', '=', False)]}"
                             />
                             <field
                                 name="mdfe30_nVoo"
-                                attrs="{'required': [('mdfe_modal', '=', '2')]}"
+                                attrs="{'required': [('mdfe_modal', '=', '2'), ('imported_document', '=', False)]}"
                             />
                             <field
                                 name="mdfe30_dVoo"
-                                attrs="{'required': [('mdfe_modal', '=', '2')]}"
+                                attrs="{'required': [('mdfe_modal', '=', '2'), ('imported_document', '=', False)]}"
                             />
                         </group>
                         <group>
                             <field
                                 name="mdfe30_cAerEmb"
-                                attrs="{'required': [('mdfe_modal', '=', '2')]}"
+                                attrs="{'required': [('mdfe_modal', '=', '2'), ('imported_document', '=', False)]}"
                             />
                             <field
                                 name="mdfe30_cAerDes"
-                                attrs="{'required': [('mdfe_modal', '=', '2')]}"
+                                attrs="{'required': [('mdfe_modal', '=', '2'), ('imported_document', '=', False)]}"
                             />
                         </group>
                     </group>
@@ -278,7 +279,7 @@
                         <group>
                             <field
                                 name="mdfe30_irin"
-                                attrs="{'required': [('mdfe_modal', '=', '3')]}"
+                                attrs="{'required': [('mdfe_modal', '=', '3'), ('imported_document', '=', False)]}"
                             />
                             <field name="mdfe30_nViag" />
                         </group>
@@ -288,26 +289,26 @@
                                     <group>
                                         <field
                                             name="mdfe30_tpEmb"
-                                            attrs="{'required': [('mdfe_modal', '=', '3')]}"
+                                            attrs="{'required': [('mdfe_modal', '=', '3'), ('imported_document', '=', False)]}"
                                         />
                                         <field
                                             name="mdfe30_cEmbar"
-                                            attrs="{'required': [('mdfe_modal', '=', '3')]}"
+                                            attrs="{'required': [('mdfe_modal', '=', '3'), ('imported_document', '=', False)]}"
                                         />
                                         <field
                                             name="mdfe30_xEmbar"
-                                            attrs="{'required': [('mdfe_modal', '=', '3')]}"
+                                            attrs="{'required': [('mdfe_modal', '=', '3'), ('imported_document', '=', False)]}"
                                         />
                                         <field name="mdfe30_tpNav" />
                                     </group>
                                     <group>
                                         <field
                                             name="mdfe30_cPrtEmb"
-                                            attrs="{'required': [('mdfe_modal', '=', '3')]}"
+                                            attrs="{'required': [('mdfe_modal', '=', '3'), ('imported_document', '=', False)]}"
                                         />
                                         <field
                                             name="mdfe30_cPrtDest"
-                                            attrs="{'required': [('mdfe_modal', '=', '3')]}"
+                                            attrs="{'required': [('mdfe_modal', '=', '3'), ('imported_document', '=', False)]}"
                                         />
                                         <field name="mdfe30_prtTrans" />
                                     </group>
@@ -357,22 +358,22 @@
                         <group>
                             <field
                                 name="mdfe30_xPref"
-                                attrs="{'required': [('mdfe_modal', '=', '4')]}"
+                                attrs="{'required': [('mdfe_modal', '=', '4'), ('imported_document', '=', False)]}"
                             />
                             <field name="mdfe30_dhTrem" />
                             <field
                                 name="mdfe30_qVag"
-                                attrs="{'required': [('mdfe_modal', '=', '4')]}"
+                                attrs="{'required': [('mdfe_modal', '=', '4'), ('imported_document', '=', False)]}"
                             />
                         </group>
                         <group>
                             <field
                                 name="mdfe30_xOri"
-                                attrs="{'required': [('mdfe_modal', '=', '4')]}"
+                                attrs="{'required': [('mdfe_modal', '=', '4'), ('imported_document', '=', False)]}"
                             />
                             <field
                                 name="mdfe30_xDest"
-                                attrs="{'required': [('mdfe_modal', '=', '4')]}"
+                                attrs="{'required': [('mdfe_modal', '=', '4'), ('imported_document', '=', False)]}"
                             />
                         </group>
                         <notebook colspan="4">
@@ -380,7 +381,7 @@
                                 <field
                                     name="mdfe30_vag"
                                     nolabel="1"
-                                    attrs="{'required': [('mdfe_modal', '=', '4')]}"
+                                    attrs="{'required': [('mdfe_modal', '=', '4'), ('imported_document', '=', False)]}"
                                 />
                             </page>
                         </notebook>

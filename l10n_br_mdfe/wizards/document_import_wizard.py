@@ -28,7 +28,7 @@ class DocumentImporterWizardMixin(models.TransientModel):
         return res
 
     def _destination_partner_from_binding(self, binding):
-        res = super()._document_key_from_binding(binding)
+        res = super()._destination_partner_from_binding(binding)
         if self.document_type == MODELO_FISCAL_MDFE:
             self.destination_partner_id = self._search_partner(
                 cnpj=binding.infMDFe.dest.CNPJ,
