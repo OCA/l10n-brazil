@@ -141,7 +141,10 @@ class TestNfseImportReader(TransactionCase):
         self.assertEqual(wizard.document_id, document)
 
     def test_the_wizard_never_writes_a_registered_partner_or_the_company(self):
-        names = "name legal_name street_name zip city_id state_id l10n_br_im_code phone email".split()
+        names = (
+            "name legal_name street_name zip city_id state_id l10n_br_im_code "
+            "phone email"
+        ).split()
         partner = self.env["res.partner"].create(
             {
                 "name": "Registered as is",
