@@ -188,12 +188,15 @@ class Document(models.Model):
         # The context of a window action may carry ``default_*`` keys meant for the
         # records of that window: they would fill the fields of the documents and of
         # the lines the import creates.
-        service = self.with_context(
-            {
-                key: value
-                for key, value in self.env.context.items()
-                if not key.startswith("default_")
-            }
+        # (``with_context(**kwargs)`` would add to the context, not replace it.)
+        service = self.with_env(
+            self.env(
+                context={
+                    key: value
+                    for key, value in self.env.context.items()
+                    if not key.startswith("default_")
+                }
+            )
         )
         documents = self.browse()
         errors, warnings = [], []
@@ -329,8 +332,7 @@ class Document(models.Model):
         # without it the document stays in typing (the readers of a type that has no
         # protocol, the national NFS-e, declare the file authorized).
         document.import_without_protocol = (
-            document.issuer == DOCUMENT_ISSUER_COMPANY
-            and parsed.status != "authorized"
+            document.issuer == DOCUMENT_ISSUER_COMPANY and parsed.status != "authorized"
         )
         return document, True
 
