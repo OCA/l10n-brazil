@@ -21,7 +21,6 @@ from odoo.addons.l10n_br_nfse.models.document_key import (
     L10nBrFiscalDocument as NfseDocument,
 )
 from odoo.addons.l10n_br_nfse.services.nfse_xml import (
-    NfseNacionalBinding,
     normalize_access_key,
     parse_nfse_datetime,
     parse_nfse_xml,
@@ -550,8 +549,14 @@ class TestNfseDfeCoverage(TransactionCase):
         )
         nfse_doc.dfe_ids = [(4, complete.id)]
         complete.create_xml_attachment(nfse_xml(access_key=nfse_key))
-        action = nfse_doc.import_document()
-        self.assertEqual(action["res_model"], "l10n_br_fiscal.document.import.wizard")
+        # the web client reads the sizes of the binary fields (bin_size): the XML
+        # is read as content all the same
+        self.assertTrue(nfse_doc.with_context(bin_size=True).import_document())
+        self.assertTrue(
+            self.env["l10n_br_fiscal.document"].search(
+                [("document_key", "=", nfse_key)]
+            )
+        )
 
         fiscal_vals = {
             "company_id": company.id,
@@ -574,39 +579,7 @@ class TestNfseDfeCoverage(TransactionCase):
         other = self.env["l10n_br_fiscal.document"].new({})
         NfseDocument._check_key(other)
 
-    def test_import_wizard_fallbacks(self):
-        wizard = self.env["l10n_br_fiscal.document.import.wizard"].create(
-            {
-                "company_id": self.company.id,
-                "file": base64.b64encode(b"<NFe></NFe>"),
-            }
-        )
-        parent_parse = (
-            "odoo.addons.l10n_br_fiscal.wizards.document_import_wizard."
-            "DocumentImportWizard._parse_file"
-        )
-        with mock.patch(parent_parse, return_value="parsed") as parsed:
-            self.assertEqual(wizard._parse_file(), "parsed")
-        parsed.assert_called_once()
-        with self.assertRaises(UserError):
-            wizard._detect_binding(object())
-        wizard._extract_binding_data(object())
-        with mock.patch.object(type(wizard), "_parse_file", return_value=object()):
-            wizard._create_edoc_from_file()
-        short_key = NfseNacionalBinding({"access_key": "1"})
-        with mock.patch.object(type(wizard), "_parse_file", return_value=short_key):
-            with self.assertRaises(UserError):
-                wizard._create_edoc_from_file()
-        imported = self.env["l10n_br_fiscal.document.import.wizard"].create(
-            {
-                "company_id": self.company.id,
-                "file": base64.b64encode(nfse_xml(access_key="9" * 50)),
-            }
-        )
-        imported.partner_id = False
-        imported.issuer_partner_id = False
-        imported._create_edoc_from_file()
-        self.assertTrue(imported.document_id)
+    def test_the_reader_helpers_answer_empty_for_what_is_missing(self):
         documents = self.env["l10n_br_fiscal.document"]
         self.assertFalse(documents._nfse_find_service_type("12"))
         self.assertFalse(documents._nfse_find_service_type("999999"))

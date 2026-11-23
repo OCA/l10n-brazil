@@ -20,7 +20,6 @@
         "data/ir_cron.xml",
         "views/res_company_view.xml",
         "views/nfse_dfe_views.xml",
-        "wizards/document_import_wizard.xml",
     ],
     "external_dependencies": {
         "python": [

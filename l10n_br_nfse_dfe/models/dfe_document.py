@@ -51,29 +51,6 @@ class L10nBrFiscalDfeDocument(models.Model):
             return NFSE_STATE_LABELS.get(self.document_state, self.document_state)
         return super()._get_document_state_label()
 
-    def import_document(self):
-        if self.fiscal_type != "nfse":
-            return super().import_document()
-        complete = self._get_complete_dfe()
-        if not complete or not complete.attachment_id:
-            raise UserError(
-                _("You can only import the NFS-e when the DF-e is completed.")
-            )
-        return {
-            "name": _("Import NFS-e XML"),
-            "type": "ir.actions.act_window",
-            "res_model": "l10n_br_fiscal.document.import.wizard",
-            "view_mode": "form",
-            "target": "new",
-            "context": {
-                "default_file": complete.attachment_id.with_context(
-                    bin_size=False
-                ).datas,
-                "default_company_id": self.company_id.id,
-                "default_product_id": self.company_id.nfse_import_product_id.id,
-            },
-        }
-
     def make_pdf(self):
         """Generate the DANFSE PDF from the complete NFS-e XML."""
         if self.fiscal_type != "nfse":
