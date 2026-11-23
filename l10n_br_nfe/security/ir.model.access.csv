@@ -7,3 +7,25 @@ access_nfe_recipient_manifestation_event_wizard_user,NFe recipient manifestation
 access_nfe_recipient_manifestation_event_wizard_manager,NFe recipient_manifestation event_wizard manager,model_nfe_recipient_manifestation_event_wizard,l10n_br_nfe.group_manager,1,1,1,1
 access_l10n_br_nfe_danfe_profile_user,DANFE Profile for User,model_l10n_br_nfe_danfe_profile,base.group_user,1,0,0,0
 access_l10n_br_nfe_danfe_profile_manager,DANFE Profile for Manager,model_l10n_br_nfe_danfe_profile,l10n_br_fiscal.group_manager,1,1,1,1
+access_nfe_40_detpag_user,NFe detPag for User,l10n_br_nfe_spec.model_nfe_40_detpag,l10n_br_fiscal.group_user,1,1,1,0
+access_nfe_40_vol_user,NFe volumes for User,l10n_br_nfe_spec.model_nfe_40_vol,l10n_br_fiscal.group_user,1,1,1,0
+access_nfe_40_dup_user,NFe duplicates for User,l10n_br_nfe_spec.model_nfe_40_dup,l10n_br_fiscal.group_user,1,1,1,0
+access_nfe_40_adi_user,NFe adi for User,l10n_br_nfe_spec.model_nfe_40_adi,l10n_br_fiscal.group_user,1,1,1,0
+access_nfe_40_arma_user,NFe arma for User,l10n_br_nfe_spec.model_nfe_40_arma,l10n_br_fiscal.group_user,1,1,1,0
+access_nfe_40_avulsa_user,NFe avulsa for User,l10n_br_nfe_spec.model_nfe_40_avulsa,l10n_br_fiscal.group_user,1,1,1,0
+access_nfe_40_comb_user,NFe comb for User,l10n_br_nfe_spec.model_nfe_40_comb,l10n_br_fiscal.group_user,1,1,1,0
+access_nfe_40_compra_user,NFe compra for User,l10n_br_nfe_spec.model_nfe_40_compra,l10n_br_fiscal.group_user,1,1,1,0
+access_nfe_40_detexport_user,NFe detexport for User,l10n_br_nfe_spec.model_nfe_40_detexport,l10n_br_fiscal.group_user,1,1,1,0
+access_nfe_40_di_user,NFe di for User,l10n_br_nfe_spec.model_nfe_40_di,l10n_br_fiscal.group_user,1,1,1,0
+access_nfe_40_impostodevol_user,NFe impostodevol for User,l10n_br_nfe_spec.model_nfe_40_impostodevol,l10n_br_fiscal.group_user,1,1,1,0
+access_nfe_40_infintermed_user,NFe infintermed for User,l10n_br_nfe_spec.model_nfe_40_infintermed,l10n_br_fiscal.group_user,1,1,1,0
+access_nfe_40_ipi_user,NFe ipi for User,l10n_br_nfe_spec.model_nfe_40_ipi,l10n_br_fiscal.group_user,1,1,1,0
+access_nfe_40_lacres_user,NFe lacres for User,l10n_br_nfe_spec.model_nfe_40_lacres,l10n_br_fiscal.group_user,1,1,1,0
+access_nfe_40_med_user,NFe med for User,l10n_br_nfe_spec.model_nfe_40_med,l10n_br_fiscal.group_user,1,1,1,0
+access_nfe_40_obsitem_user,NFe obsitem for User,l10n_br_nfe_spec.model_nfe_40_obsitem,l10n_br_fiscal.group_user,1,1,1,0
+access_nfe_40_procref_user,NFe procref for User,l10n_br_nfe_spec.model_nfe_40_procref,l10n_br_fiscal.group_user,1,1,1,0
+access_nfe_40_rastro_user,NFe rastro for User,l10n_br_nfe_spec.model_nfe_40_rastro,l10n_br_fiscal.group_user,1,1,1,0
+access_nfe_40_rettransp_user,NFe rettransp for User,l10n_br_nfe_spec.model_nfe_40_rettransp,l10n_br_fiscal.group_user,1,1,1,0
+access_nfe_40_tveiculo_user,NFe tveiculo for User,l10n_br_nfe_spec.model_nfe_40_tveiculo,l10n_br_fiscal.group_user,1,1,1,0
+access_nfe_40_veicprod_user,NFe veicprod for User,l10n_br_nfe_spec.model_nfe_40_veicprod,l10n_br_fiscal.group_user,1,1,1,0
+access_l10n_br_fiscal_document_related_user,Fiscal Document Related for User,l10n_br_fiscal.model_l10n_br_fiscal_document_related,l10n_br_fiscal.group_user,1,1,1,0
