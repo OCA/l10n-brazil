@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="invoice_form_purchase_divergence" model="ir.ui.view">
+        <field name="name">l10n_br_purchase_stock_edi.invoice.form</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form" />
+        <field name="priority">120</field>
+        <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('oe_title')]" position="inside">
+                <field name="purchase_divergent" invisible="1" />
+                <field name="purchase_awaiting_receipt" invisible="1" />
+                <div
+                    class="badge text-bg-warning"
+                    attrs="{'invisible': [('purchase_divergent', '=', False)]}"
+                    title="Some line differs from the order or the receipt by more than the tolerance"
+                >Divergent</div>
+                <div
+                    class="badge text-bg-info"
+                    attrs="{'invisible': ['|', ('purchase_divergent', '=', True), ('purchase_awaiting_receipt', '=', False)]}"
+                    title="Some line waits for the receipt of its order. Nothing is blocked."
+                >Awaiting receipt</div>
+            </xpath>
+            <xpath expr="//field[@name='invoice_line_ids']/tree" position="attributes">
+                <attribute name="decoration-warning">purchase_divergent</attribute>
+            </xpath>
+            <xpath
+                expr="//field[@name='invoice_line_ids']/tree/field[@name='quantity']"
+                position="after"
+            >
+                <field name="purchase_ordered_qty" optional="hide" />
+                <field name="purchase_received_qty" optional="hide" />
+                <field name="purchase_qty_difference" optional="hide" />
+                <field name="purchase_price_unit" optional="hide" />
+                <field name="purchase_price_difference" optional="hide" />
+                <field name="purchase_awaiting_receipt" optional="show" />
+                <field name="purchase_divergent" optional="show" />
+            </xpath>
+        </field>
+    </record>
+
+    <record id="invoice_search_purchase_divergence" model="ir.ui.view">
+        <field name="name">l10n_br_purchase_stock_edi.invoice.search</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_account_invoice_filter" />
+        <field name="arch" type="xml">
+            <xpath expr="//search" position="inside">
+                <separator />
+                <filter
+                    name="purchase_divergent"
+                    string="Divergent from the Order"
+                    domain="[('purchase_divergent', '=', True)]"
+                />
+            </xpath>
+        </field>
+    </record>
+</odoo>
