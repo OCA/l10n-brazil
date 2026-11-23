@@ -25,6 +25,10 @@ from odoo.addons.l10n_br_fiscal_dfe.constants.dfe import (
     CSTAT_SUCCESS,
 )
 from odoo.addons.l10n_br_fiscal_dfe.tools import utils
+from odoo.addons.l10n_br_nfse.services.nfse_xml import (
+    normalize_access_key,
+    parse_nfse_xml,
+)
 
 from ..constants.nfse_dfe import (
     NFSE_EVENT_DOCUMENT_TYPES,
@@ -37,13 +41,11 @@ from ..constants.nfse_dfe import (
     NFSE_STATE_AUTHORIZED,
     NFSE_STATE_CANCELLED,
 )
-from ..services.nfse_xml import (
+from ..services.nfse_dfe_xml import (
     decode_arquivo_xml,
     is_cancel_event,
-    normalize_access_key,
     normalize_event_code,
     parse_nfse_event_xml,
-    parse_nfse_xml,
     xml_root_is_nfse,
 )
 from ..services.sefin_nfse import NfseHttpResponse, SefinNfseClient
@@ -79,13 +81,6 @@ class ResCompany(models.Model):
     nfse_auto_fetch = fields.Boolean(
         string="Auto-fetch NFS-e",
         help="Periodically query the ADN for NFS-e documents issued to this company.",
-    )
-    nfse_import_product_id = fields.Many2one(
-        comodel_name="product.product",
-        string="Default NFS-e Import Product",
-        domain="[('type', '=', 'service')]",
-        help="Service product applied when a national NFS-e is imported "
-        "and the wizard has no product yet.",
     )
 
     def _dfe_document_distribution(self, fiscal_type):
