@@ -19,6 +19,3 @@ class IrActionsReport(models.Model):
         nfe = self.env["account.move"].search([("id", "in", res_ids)])
 
         return self._render_danfe(nfe)
-
-    def _render_danfe(self, nfe):
-        return super()._render_danfe(nfe=nfe)
