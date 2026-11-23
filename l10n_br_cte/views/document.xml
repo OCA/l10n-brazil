@@ -10,11 +10,19 @@
         <field name="priority">5</field>
         <field name="arch" type="xml">
             <field name="document_serie_id" position="after">
+                <field name="imported_document" invisible="1" />
+                <field
+                    name="fiscal_operation_id"
+                    options="{'no_create': True, 'no_create_edit': True}"
+                    attrs="{
+                        'invisible': ['|', ('document_type', '!=', '57'), ('imported_document', '=', False)]
+                    }"
+                />
                 <field
                     name="service_provider"
                     attrs="{
                         'invisible': [('document_type', 'not in', ['57'])],
-                        'required': [('document_type', 'in', ['57'])]
+                        'required': [('document_type', 'in', ['57']), ('imported_document', '=', False)]
                     }"
                 />
                 <field

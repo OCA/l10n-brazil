@@ -35,6 +35,29 @@ class ResCompany(spec_models.SpecModel):
         string="CT-e Default Serie",
     )
 
+    cte_import_product_id = fields.Many2one(
+        comodel_name="product.product",
+        string="Default CT-e Import Product",
+        domain="[('type', '=', 'service'), '|', ('company_id', '=', False),"
+        " ('company_id', '=', id)]",
+        help="Freight service suggested on the line of a CT-e that the company "
+        "receives when it is imported. The person confirms the suggestion in the "
+        "review. Without it the line waits for the choice of the product. The "
+        "CT-e issued by the company does not use it (see the transport service "
+        "provided).",
+    )
+
+    cte_import_service_product_id = fields.Many2one(
+        comodel_name="product.product",
+        string="Default Transport Service Provided",
+        domain="[('type', '=', 'service'), '|', ('company_id', '=', False),"
+        " ('company_id', '=', id)]",
+        help="Transport service suggested on the line of a CT-e that the company "
+        "issued in another system when it is imported. The person confirms the "
+        "suggestion in the review. Without it the line waits for the choice of the "
+        "product.",
+    )
+
     cte_dacte_layout = fields.Selection(
         selection=[("1", "Paisagem"), ("2", "Retrato")],
         string="CT-e DACTE Layout",
@@ -133,7 +156,11 @@ class ResCompany(spec_models.SpecModel):
                 rec.cte40_choice_emit = "cte40_CPF"
 
     def _build_attr(self, node, fields, vals, path, attr):
-        if attr[0] == "enderEmit" and self.env.context.get("edoc_type") == "in":
+        if (
+            self.env.context.get("spec_schema", "cte") == "cte"
+            and attr[0] == "enderEmit"
+            and self.env.context.get("edoc_type") == "in"
+        ):
             # we don't want to try build a related partner_id for enderEmit
             # when importing an CTe
             # instead later the emit tag will be imported as the
@@ -146,6 +173,10 @@ class ResCompany(spec_models.SpecModel):
     def _prepare_import_dict(
         self, values, model=None, parent_dict=None, defaults_model=None
     ):
+        if self.env.context.get("spec_schema", "cte") != "cte":
+            return super()._prepare_import_dict(
+                values, model, parent_dict, defaults_model
+            )
         # we disable enderEmit related creation with dry_run=True
         context = self._context.copy()
         context["dry_run"] = True
