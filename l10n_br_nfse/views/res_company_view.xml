@@ -28,6 +28,9 @@
                             <field name="nfse_use_city_pdf" />
                         </group>
                     </group>
+                    <group name="nfse_import_settings" string="Import">
+                        <field name="nfse_import_product_id" />
+                    </group>
                 </page>
             </xpath>
         </field>
