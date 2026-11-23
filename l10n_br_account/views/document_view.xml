@@ -16,6 +16,7 @@
                     name="action_view_invoice"
                     type="object"
                     help="Show related invoices"
+                    groups="account.group_account_readonly,account.group_account_invoice"
                     attrs="{'invisible': [('move_count', '=', 0)]}"
                     icon="fa-pencil-square-o"
                 >
@@ -23,7 +24,11 @@
                 </button>
             </xpath>
             <field name="state_fiscal" position="after">
-                <field name="move_ids" invisible="1" />
+                <field
+                    name="move_ids"
+                    invisible="1"
+                    groups="account.group_account_readonly,account.group_account_invoice"
+                />
             </field>
         </field>
     </record>
