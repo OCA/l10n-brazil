@@ -5,6 +5,7 @@
 
 from datetime import datetime, time, timedelta
 
+from lxml import etree
 from pytz import UTC, timezone
 
 from odoo import Command
@@ -147,3 +148,41 @@ class TestInvoiceDatesAndDiscount(TransactionCase):
         self.assertEqual(line.discount_value, 100)
         self.assertEqual(line.discount, 10)
         self.assertEqual(line.price_subtotal, 900)
+
+    def test_get_view_cache_follows_fiscal_detail_group(self):
+        """The cached form view must follow the fiscal detail group of the user."""
+        users = self.env["res.users"]
+        for login, groups in (
+            ("l10n_br_account_view_inline", ["account.group_account_invoice"]),
+            (
+                "l10n_br_account_view_popup",
+                [
+                    "account.group_account_invoice",
+                    "l10n_br_account.group_line_fiscal_detail",
+                ],
+            ),
+        ):
+            users |= users.create(
+                {
+                    "name": login,
+                    "login": login,
+                    "company_id": self.company.id,
+                    "company_ids": [Command.set(self.company.ids)],
+                    "groups_id": [Command.set([self.env.ref(g).id for g in groups])],
+                }
+            )
+        self.env.registry.clear_cache("templates")
+        modes = []
+        for user in users:
+            arch = (
+                self.env["account.move"]
+                .with_user(user)
+                .with_company(self.company)
+                .get_view(view_type="form")["arch"]
+            )
+            node = etree.fromstring(arch).xpath(
+                "//field[@name='invoice_line_ids']/list"
+            )[0]
+            modes.append(node.get("editable"))
+        self.assertNotEqual(modes[0], "")
+        self.assertEqual(modes[1], "")

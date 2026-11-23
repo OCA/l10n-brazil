@@ -3,6 +3,8 @@
 
 from datetime import date, timedelta
 
+from lxml import etree
+
 from odoo.exceptions import UserError
 from odoo.fields import Command
 from odoo.tests.common import TransactionCase
@@ -358,3 +360,39 @@ class L10nBrPurchaseBlanketOrderTest(TransactionCase):
             self.assertEqual(domain, [])
         finally:
             self.company.cnae_secondary_ids = [Command.set(secondary_cnae_ids)]
+
+    def test_get_view_cache_follows_fiscal_detail_group(self):
+        """The cached form view must follow the fiscal detail group of the user."""
+        users = self.env["res.users"]
+        for login, groups in (
+            ("l10n_br_pbo_view_inline", ["purchase.group_purchase_user"]),
+            (
+                "l10n_br_pbo_view_popup",
+                [
+                    "purchase.group_purchase_user",
+                    "l10n_br_purchase.group_line_fiscal_detail",
+                ],
+            ),
+        ):
+            users |= users.create(
+                {
+                    "name": login,
+                    "login": login,
+                    "company_id": self.company.id,
+                    "company_ids": [Command.set(self.company.ids)],
+                    "groups_id": [Command.set([self.env.ref(g).id for g in groups])],
+                }
+            )
+        self.env.registry.clear_cache("templates")
+        modes = []
+        for user in users:
+            arch = (
+                self.env["purchase.blanket.order"]
+                .with_user(user)
+                .with_company(self.company)
+                .get_view(view_type="form")["arch"]
+            )
+            node = etree.fromstring(arch).xpath("//field[@name='line_ids']/list")[0]
+            modes.append(node.get("editable"))
+        self.assertNotEqual(modes[0], "")
+        self.assertEqual(modes[1], "")
