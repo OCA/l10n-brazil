@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="res_company_form" model="ir.ui.view">
+        <field name="name">l10n_br_purchase_stock_edi.res.company.form</field>
+        <field name="model">res.company</field>
+        <field
+            name="inherit_id"
+            ref="l10n_br_purchase_stock.purchase_inv_policy_res_company_form"
+        />
+        <field name="arch" type="xml">
+            <field name="purchase_invoicing_policy" position="after">
+                <field name="purchase_price_tolerance" />
+                <field name="purchase_quantity_tolerance" />
+            </field>
+        </field>
+    </record>
+</odoo>
