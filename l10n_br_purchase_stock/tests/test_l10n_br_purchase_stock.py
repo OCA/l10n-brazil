@@ -5,7 +5,10 @@
 
 from odoo.tests import Form
 
+from odoo.addons.l10n_br_account.tests.common import load_demo_company_chart
+from odoo.addons.l10n_br_base.tests.tools import load_fixture_files
 from odoo.addons.l10n_br_purchase.hooks import purchase_set_journal_in_fiscal_operation
+from odoo.addons.l10n_br_purchase.tests.tools import load_purchase_fixture_files
 from odoo.addons.l10n_br_stock_account.tests.common import TestBrPickingInvoicingCommon
 
 
@@ -13,10 +16,93 @@ class L10nBrPurchaseStockBase(TestBrPickingInvoicingCommon):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        main_company = cls.env.ref("base.main_company")
+        # Load the demo data as test fixtures when the database has no demo
+        # data (the OCA CI of 19.0 installs none). Records without a company
+        # take the current one, so load them in the main company and as
+        # superuser, as the demo data is installed.
+        if not cls.env.ref(
+            "l10n_br_purchase_stock.main_po_only_products_1", raise_if_not_found=False
+        ):
+            env = cls.env(
+                su=True,
+                context=dict(
+                    cls.env.context,
+                    allowed_company_ids=main_company.ids,
+                    company_id=main_company.id,
+                ),
+            )
+            if not env.ref(
+                "l10n_br_purchase.lp_po_only_products", raise_if_not_found=False
+            ):
+                load_purchase_fixture_files(env)
+            load_fixture_files(
+                env, "l10n_br_purchase_stock", file_names=["purchase_order.xml"]
+            )
+            # Loaded in the main company, the purchase order of the Lucro
+            # Presumido company took the receipt type of the main company.
+            purchase = env.ref(
+                "l10n_br_purchase_stock.lucro_presumido_po_only_products_1"
+            )
+            purchase.picking_type_id = env["stock.picking.type"].search(
+                [
+                    ("code", "=", "incoming"),
+                    ("company_id", "=", purchase.company_id.id),
+                ],
+                limit=1,
+            )
+        # Set by the demo data through res.config.settings: the pickings of
+        # the purchase orders are invoiced.
+        main_company.purchase_invoicing_policy = "stock_picking"
+        # address_get() needs the parent of the address contacts, which the
+        # l10n_br_base post_init_hook sets only when installed with demo data.
+        for child_xmlid, parent_xmlid in [
+            (
+                "l10n_br_base.res_partner_cliente7_rs_end_cobranca",
+                "l10n_br_base.res_partner_cliente7_rs",
+            ),
+            (
+                "l10n_br_base.res_partner_cliente2_sp_end_entrega",
+                "l10n_br_base.res_partner_cliente2_sp",
+            ),
+        ]:
+            child = cls.env.ref(child_xmlid, raise_if_not_found=False)
+            parent = cls.env.ref(parent_xmlid, raise_if_not_found=False)
+            if child and parent and child.parent_id != parent:
+                child.parent_id = parent
+        lucro_presumido = cls.env.ref("l10n_br_base.empresa_lucro_presumido")
+        if not lucro_presumido.chart_template:
+            load_demo_company_chart(cls.env)
         # The demo purchase orders belong to the main company, not to the
         # test company created by the base class.
         cls.env.user.company_id = cls.env.ref("base.main_company")
-        purchase_set_journal_in_fiscal_operation(cls.env)
+        # The hook uses the journal of the l10n_br_coa_simple demo data
+        if cls.env.ref(
+            "l10n_br_coa_simple.purchase_journal_main_company",
+            raise_if_not_found=False,
+        ):
+            purchase_set_journal_in_fiscal_operation(cls.env)
+        # Without that journal the hook above sets none: use the purchase
+        # journal of each company.
+        for company in cls.env.ref("base.main_company") | lucro_presumido:
+            cls._set_purchase_journal(company)
+
+    @classmethod
+    def _set_purchase_journal(cls, company):
+        journal = (
+            cls.env["account.journal"]
+            .sudo()
+            .search(
+                [("company_id", "=", company.id), ("type", "=", "purchase")], limit=1
+            )
+        )
+        for xmlid in (
+            "l10n_br_fiscal.fo_compras",
+            "l10n_br_fiscal.fo_devolucao_compras",
+        ):
+            operation = cls.env.ref(xmlid).sudo().with_company(company)
+            if journal and not operation.journal_id:
+                operation.journal_id = journal
 
     def test_grouping_pickings(self):
         """
@@ -154,7 +240,7 @@ class L10nBrPurchaseStockBase(TestBrPickingInvoicingCommon):
         # Testa o caso onde o valor no Picking é diferente do Pedido
         # TODO: Validar quando esse caso pode ocorrer para saber
         #  se é necessário manter ou não o código no stock_move.py
-        for move in picking.move_ids_without_package:
+        for move in picking.move_ids:
             move.price_unit = 123.0
         self.assertEqual(
             picking.invoice_state, "2binvoiced", "Error to inform Invoice State."

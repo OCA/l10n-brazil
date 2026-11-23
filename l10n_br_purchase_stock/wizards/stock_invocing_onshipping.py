@@ -39,10 +39,14 @@ class StockInvoiceOnshipping(models.TransientModel):
                 # Refund case don't get values from Purchase Dict
                 purchase_values = purchase._prepare_invoice()
 
-                # Fields to Join
-                payment_refs.add(purchase_values["payment_reference"])
-                refs.add(purchase_values["ref"])
-                narration.add(purchase_values["narration"])
+                # Fields to Join (ref and payment_reference are no longer
+                # returned by purchase.order._prepare_invoice in 19.0)
+                if purchase_values.get("payment_reference"):
+                    payment_refs.add(purchase_values["payment_reference"])
+                if purchase_values.get("ref"):
+                    refs.add(purchase_values["ref"])
+                if purchase_values.get("narration"):
+                    narration.add(purchase_values["narration"])
 
                 # Fields to remove from Original Dict
                 vals_to_remove = {

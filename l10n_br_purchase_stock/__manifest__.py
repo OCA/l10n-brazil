@@ -8,14 +8,14 @@
     "author": "Akretion, Odoo Community Association (OCA)",
     "maintainers": ["renatonlima", "mbcosta"],
     "website": "https://github.com/OCA/l10n-brazil",
-    "version": "18.0.1.0.0",
+    "version": "19.0.1.0.0",
     "depends": [
         "l10n_br_purchase",
         "l10n_br_stock_account",
+        "purchase_stock",
     ],
     "data": [
         # Views
-        "views/purchase_order.xml",
         "views/res_config_settings.xml",
         "views/res_company_view.xml",
     ],

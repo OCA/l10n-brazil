@@ -2,7 +2,10 @@
 # @author Magno Costa <magno.costa@akretion.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+from odoo import Command
 from odoo.tests.common import TransactionCase
+
+from odoo.addons.l10n_br_fiscal.tests.tools import load_fiscal_fixture_files
 
 
 class StockRuleTest(TransactionCase):
@@ -11,6 +14,9 @@ class StockRuleTest(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        # The demo products are not installed by the OCA CI of 19.0
+        if not cls.env.ref("product.product_product_12", raise_if_not_found=False):
+            load_fiscal_fixture_files(cls.env)
 
     def test_stock_rule_purchase(self):
         """
@@ -21,16 +27,31 @@ class StockRuleTest(TransactionCase):
         )
         warehouse_1 = warehouse_1.write({"reception_steps": "two_steps"})
         self.env.ref("purchase_stock.route_warehouse0_buy")
+        # Set by the demo data: the pickings of the purchase orders are invoiced
+        self.env.company.purchase_invoicing_policy = "stock_picking"
+        product = self.env.ref("product.product_product_12")
+        # Without demo data the product fixtures have no vendor nor buy route
+        vendor = self.env["res.partner"].create({"name": "Vendor"})
+        buy_route = self.env.ref("purchase_stock.route_warehouse0_buy")
+        for demo_product in product | self.env.ref("product.product_product_16"):
+            if not demo_product.seller_ids:
+                demo_product.write(
+                    {
+                        "is_storable": True,
+                        "route_ids": [Command.link(buy_route.id)],
+                        "seller_ids": [Command.create({"partner_id": vendor.id})],
+                    }
+                )
         orderpoint = self.env["stock.warehouse.orderpoint"].create(
             {
-                "product_id": self.env.ref("product.product_product_12").id,
+                "product_id": product.id,
                 "product_min_qty": 1000.0,
                 "product_max_qty": 1000.0,
             }
         )
 
         # Run scheduler
-        self.env["procurement.group"].run_scheduler()
+        self.env["stock.rule"].run_scheduler()
 
         orderpoint.action_replenish()
         orderpoint.action_replenish_auto()
@@ -78,6 +99,6 @@ class StockRuleTest(TransactionCase):
         )
 
         # Run scheduler
-        self.env["procurement.group"].run_scheduler()
+        self.env["stock.rule"].run_scheduler()
         orderpoint_2.action_replenish()
         orderpoint_2.action_replenish_auto()

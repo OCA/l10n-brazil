@@ -32,7 +32,7 @@
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
         <field name="user_id" ref="base.user_admin" />
         <field name="company_id" ref="base.main_company" />
-        <field name="notes">TESTE - TERMOS E CONDIÇÕES</field>
+        <field name="note">TESTE - TERMOS E CONDIÇÕES</field>
         <field
             name="manual_customer_additional_data"
         >TESTE - CUSTOMER ADDITIONAL DATA</field>
@@ -47,7 +47,7 @@
         <field name="name">Office Chair Black</field>
         <field name="product_id" ref="product.product_product_12" />
         <field name="product_qty">4</field>
-        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="product_uom_id" ref="uom.product_uom_unit" />
         <field name="price_unit">250</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
         <field
@@ -68,7 +68,7 @@
         <field name="name">Gaveta Preta</field>
         <field name="product_id" ref="product.product_product_16" />
         <field name="product_qty">2</field>
-        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="product_uom_id" ref="uom.product_uom_unit" />
         <field name="price_unit">500</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
         <field
@@ -104,7 +104,7 @@
         <field name="order_id" ref="main_po_only_products_1" />
         <field name="product_id" ref="product.product_product_8" />
         <field name="product_qty">2</field>
-        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="product_uom_id" ref="uom.product_uom_unit" />
         <field name="price_unit">500</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
         <field
@@ -129,7 +129,7 @@
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
         <field name="user_id" ref="base.user_admin" />
         <field name="company_id" ref="base.main_company" />
-        <field name="notes">TESTE - TERMOS E CONDIÇÕES</field>
+        <field name="note">TESTE - TERMOS E CONDIÇÕES</field>
         <field
             name="manual_customer_additional_data"
         >TESTE - CUSTOMER ADDITIONAL DATA</field>
@@ -144,7 +144,7 @@
         <field name="name">Office Chair Black</field>
         <field name="product_id" ref="product.product_product_12" />
         <field name="product_qty">4</field>
-        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="product_uom_id" ref="uom.product_uom_unit" />
         <field name="price_unit">250</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
         <field
@@ -165,7 +165,7 @@
         <field name="name">Gaveta Preta</field>
         <field name="product_id" ref="product.product_product_16" />
         <field name="product_qty">2</field>
-        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="product_uom_id" ref="uom.product_uom_unit" />
         <field name="price_unit">500</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
         <field
@@ -201,7 +201,7 @@
         <field name="order_id" ref="main_po_only_products_2" />
         <field name="product_id" ref="product.product_product_8" />
         <field name="product_qty">2</field>
-        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="product_uom_id" ref="uom.product_uom_unit" />
         <field name="price_unit">500</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
         <field
@@ -227,7 +227,7 @@
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
         <field name="user_id" ref="base.user_admin" />
         <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
-        <field name="notes">TESTE - TERMOS E CONDIÇÕES</field>
+        <field name="note">TESTE - TERMOS E CONDIÇÕES</field>
         <field
             name="manual_customer_additional_data"
         >TESTE - CUSTOMER ADDITIONAL DATA</field>
@@ -242,7 +242,7 @@
         <field name="name">Office Chair Black</field>
         <field name="product_id" ref="product.product_product_12" />
         <field name="product_qty">4</field>
-        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="product_uom_id" ref="uom.product_uom_unit" />
         <field name="price_unit">250</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
         <field
@@ -264,7 +264,7 @@
         <field name="name">Gaveta Preta</field>
         <field name="product_id" ref="product.product_product_16" />
         <field name="product_qty">2</field>
-        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="product_uom_id" ref="uom.product_uom_unit" />
         <field name="price_unit">500</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
         <field
@@ -303,7 +303,7 @@
         <field name="name">Desenvolvimento Odoo</field>
         <field name="product_id" ref="l10n_br_fiscal.customized_development_sale" />
         <field name="product_qty">1</field>
-        <field name="product_uom" ref="uom.product_uom_hour" />
+        <field name="product_uom_id" ref="uom.product_uom_hour" />
         <field name="price_unit">250</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
         <field
@@ -332,7 +332,7 @@
         <field name="name">Desenvolvimento Odoo</field>
         <field name="product_id" ref="l10n_br_fiscal.customized_development_sale" />
         <field name="product_qty">1</field>
-        <field name="product_uom" ref="uom.product_uom_hour" />
+        <field name="product_uom_id" ref="uom.product_uom_hour" />
         <field name="price_unit">250</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
         <field
@@ -349,7 +349,7 @@
         <field name="name">Gaveta Preta</field>
         <field name="product_id" ref="product.product_product_16" />
         <field name="product_qty">2</field>
-        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="product_uom_id" ref="uom.product_uom_unit" />
         <field name="price_unit">500</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
         <field
