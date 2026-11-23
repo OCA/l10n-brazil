@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="document_form" model="ir.ui.view">
+        <field name="name">l10n_br_purchase_request_edi.document.form</field>
+        <field name="model">l10n_br_fiscal.document</field>
+        <field name="inherit_id" ref="l10n_br_purchase_edi.document_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('oe_button_box')]" position="inside">
+                <button
+                    class="oe_stat_button"
+                    name="action_view_import_requests"
+                    type="object"
+                    help="Show the purchase requests of the lines"
+                    groups="purchase_request.group_purchase_request_user"
+                    attrs="{'invisible': [('import_request_count', '=', 0)]}"
+                    icon="fa-bars"
+                >
+                    <field
+                        name="import_request_count"
+                        widget="statinfo"
+                        string="Requests"
+                    />
+                </button>
+            </xpath>
+            <xpath
+                expr="//field[@name='fiscal_line_ids']/tree/field[@name='import_origin_state']"
+                position="after"
+            >
+                <field
+                    name="import_request_line_id"
+                    options="{'no_create': True}"
+                    groups="purchase_request.group_purchase_request_user"
+                    optional="hide"
+                    attrs="{'column_invisible': [('parent.imported_document', '=', False)]}"
+                />
+            </xpath>
+        </field>
+    </record>
+
+    <record id="document_line_form" model="ir.ui.view">
+        <field name="name">l10n_br_purchase_request_edi.document.line.form</field>
+        <field name="model">l10n_br_fiscal.document.line</field>
+        <field name="inherit_id" ref="l10n_br_purchase_edi.document_line_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='import_origin_state']" position="after">
+                <field
+                    name="import_request_line_id"
+                    options="{'no_create': True}"
+                    groups="purchase_request.group_purchase_request_user"
+                    attrs="{'invisible': [('import_request_line_id', '=', False)]}"
+                />
+            </xpath>
+        </field>
+    </record>
+</odoo>
