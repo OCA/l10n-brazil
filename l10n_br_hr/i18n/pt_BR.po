@@ -95,12 +95,8 @@ msgid "CNPJ/CEI Tomadora/Obra"
 msgstr "CNPJ / CEI Tomadora / Obra"
 
 #. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__cnpj_cpf
-msgid "CNPJ/CPF"
-msgstr "CNPJ/CPF"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__cpf
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__vat
+#: model_terms:ir.ui.view,arch_db:l10n_br_hr.view_l10n_br_hr_employee_form
 msgid "CPF"
 msgstr "CPF"
 
@@ -486,6 +482,18 @@ msgid "PIS/PASEP"
 msgstr "PIS / PASEP"
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__pis_pasep_formatted
+msgid "PIS/PASEP Formatted"
+msgstr ""
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee__pis_pasep_formatted
+msgid ""
+"PIS/PASEP displayed with punctuation (XXX.XXXXX.XX-X); it is stored "
+"unformatted in the pis_pasep field."
+msgstr ""
+
+#. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__pis_pasep_date
 msgid "PIS/PASEP emission date"
 msgstr "Data de Emissão PIS/PASEP"
@@ -589,7 +597,7 @@ msgid "XXX.XXXXX.XX-X"
 msgstr "XXX.XXXXX.XX-X"
 
 #. module: l10n_br_hr
-#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee__cpf
+#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee__vat
 msgid "You can use '/' to indicate that the customer has no Tax ID."
 msgstr ""
 
@@ -598,6 +606,9 @@ msgstr ""
 #: code:addons/l10n_br_hr/models/hr_version.py:0
 msgid "separated"
 msgstr ""
+
+#~ msgid "CNPJ/CPF"
+#~ msgstr "CNPJ/CPF"
 
 #~ msgid "Emergency Phone"
 #~ msgstr "Telefone de emergência"
