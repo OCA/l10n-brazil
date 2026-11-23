@@ -22,7 +22,7 @@ class TestImportScreens(EdiImportCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.user = cls._fiscal_user(cls, "screen_fiscal_user")
+        cls.user = cls._fiscal_user(cls, "screen_fiscal_user", form_groups=True)
 
     def _installed(self, module):
         return bool(
