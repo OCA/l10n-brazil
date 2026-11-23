@@ -1254,9 +1254,7 @@ class MDFe(spec_models.StackedModel):
             "type": "binary",
         }
         report = self.env.ref("l10n_br_mdfe.main_template_damdfe")
-        pdf_data = report._render_qweb_pdf(
-            "main_template_damdfe", self.fiscal_line_ids.document_id.ids
-        )
+        pdf_data = report._render_qweb_pdf("main_template_damdfe", self.ids)
         attachment_data["datas"] = base64.b64encode(pdf_data[0])
         file_pdf = self.file_report_id
         self.file_report_id = False

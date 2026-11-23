@@ -112,7 +112,11 @@ class ResCompany(spec_models.SpecModel):
                 rec.mdfe30_choice_emit = "mdfe30_CPF"
 
     def _build_attr(self, node, fields, vals, path, attr):
-        if attr[0] == "enderEmit" and self.env.context.get("edoc_type") == "in":
+        if (
+            self.env.context.get("spec_schema", "mdfe") == "mdfe"
+            and attr[0] == "enderEmit"
+            and self.env.context.get("edoc_type") == "in"
+        ):
             # we don't want to try build a related partner_id for enderEmit
             # when importing an MDFe
             # instead later the emit tag will be imported as the
@@ -125,6 +129,10 @@ class ResCompany(spec_models.SpecModel):
     def _prepare_import_dict(
         self, values, model=None, parent_dict=None, defaults_model=None
     ):
+        if self.env.context.get("spec_schema", "mdfe") != "mdfe":
+            return super()._prepare_import_dict(
+                values, model, parent_dict, defaults_model
+            )
         # we disable enderEmit related creation with dry_run=True
         context = self._context.copy()
         context["dry_run"] = True
