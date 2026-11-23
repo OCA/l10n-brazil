@@ -19,13 +19,13 @@ msgid "CNAE Principal"
 msgstr ""
 
 #. module: l10n_br_crm_cnpj_search
-#: model_terms:ir.ui.view,arch_db:l10n_br_crm_cnpj_search.crm_lead_cnpj_search_form_view
-msgid "CNPJ"
+#: model:ir.model,name:l10n_br_crm_cnpj_search.model_partner_search_wizard
+msgid "CNPJ based search wizard allowing to update partner data."
 msgstr ""
 
 #. module: l10n_br_crm_cnpj_search
-#: model:ir.model,name:l10n_br_crm_cnpj_search.model_partner_search_wizard
-msgid "CNPJ based search wizard allowing to update partner data."
+#: model_terms:ir.ui.view,arch_db:l10n_br_crm_cnpj_search.crm_lead_cnpj_search_form_view
+msgid "CNPJ/CPF"
 msgstr ""
 
 #. module: l10n_br_crm_cnpj_search
