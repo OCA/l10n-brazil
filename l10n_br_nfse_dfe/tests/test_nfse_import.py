@@ -9,7 +9,7 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     DOCUMENT_ISSUER_PARTNER,
     MODELO_FISCAL_NFSE,
 )
-from odoo.addons.l10n_br_nfse_dfe.services.nfse_xml import parse_nfse_xml
+from odoo.addons.l10n_br_nfse.services.nfse_xml import parse_nfse_xml
 from odoo.addons.l10n_br_nfse_dfe.tests.test_nfse_dfe import (
     ACCESS_KEY,
     PROVIDER_CNPJ,
