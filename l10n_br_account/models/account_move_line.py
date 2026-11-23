@@ -5,9 +5,10 @@
 from contextlib import contextmanager
 
 from odoo import Command, _, api, fields, models
-from odoo.tools import frozendict
+from odoo.tools import float_compare, frozendict
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import FISCAL_TAX_ID_FIELDS
+from odoo.addons.l10n_br_fiscal.models.document_line import IMPORT_REVIEW_CONTEXT_KEY
 
 
 class AccountMoveLine(models.Model):
@@ -143,8 +144,23 @@ class AccountMoveLine(models.Model):
 
     def write(self, values):
         self._sync_proxy_fields_vals(values)
-        res = super().write(values)
-        return res
+        edited = self.browse()
+        if {"quantity", "price_unit"} & values.keys() and not self.env.context.get(
+            IMPORT_REVIEW_CONTEXT_KEY
+        ):
+            # A quantity or a price changed by a person gives the total declared
+            # by the counterparty back to the calculation
+            edited = self.filtered(
+                lambda line: line.partner_price_gross
+                and any(
+                    name in values
+                    and float_compare(values[name], line[name], precision_digits=8)
+                    for name in ("quantity", "price_unit")
+                )
+            )
+        if edited:
+            super(AccountMoveLine, edited).write(dict(values, partner_price_gross=0.0))
+        return super(AccountMoveLine, self - edited).write(values)
 
     @api.model_create_multi
     def create(self, vals_list):
@@ -321,10 +337,24 @@ class AccountMoveLine(models.Model):
         self.env.add_to_compute(self._fields["debit"], container["records"])
         self.env.add_to_compute(self._fields["credit"], container["records"])
 
+    def _get_exact_price_unit(self):
+        """Unit price the totals of the line are computed with.
+
+        A line imported from a fiscal file keeps the total the counterparty
+        declared. Quantity times the unit price, rounded to the precision of the
+        price, may not give that total back (10 CX at 35.00 converted to 120 UN
+        gives 350.40), so the unit price comes from the declared total.
+        """
+        self.ensure_one()
+        if self.partner_price_gross and self.quantity:
+            return self.partner_price_gross / self.quantity
+        return self.price_unit
+
     @api.depends(
         "quantity",
         "discount",
         "price_unit",
+        "partner_price_gross",
         "tax_ids",
         "currency_id",
         "discount",
@@ -360,7 +390,9 @@ class AccountMoveLine(models.Model):
             if line.display_type != "product":
                 continue  # handled in super method
 
-            line_discount_price_unit = line.price_unit * (1 - (line.discount / 100.0))
+            line_discount_price_unit = line._get_exact_price_unit() * (
+                1 - (line.discount / 100.0)
+            )
 
             # Compute 'price_total'.
             if line.tax_ids:
@@ -489,6 +521,7 @@ class AccountMoveLine(models.Model):
         "partner_id",
         "move_id.partner_id",
         "price_unit",
+        "partner_price_gross",
         "fiscal_tax_ids",
         "fiscal_operation_line_id",
         "cfop_id",
@@ -524,7 +557,9 @@ class AccountMoveLine(models.Model):
                 line.compute_all_tax_dirty = False
                 continue
             if line.display_type == "product" and line.move_id.is_invoice(True):
-                amount_currency = sign * line.price_unit * (1 - line.discount / 100)
+                amount_currency = (
+                    sign * line._get_exact_price_unit() * (1 - line.discount / 100)
+                )
                 handle_price_include = True
                 quantity = line.quantity
             else:
