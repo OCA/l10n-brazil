@@ -1122,9 +1122,7 @@ class TestDocumentImport(EdiImportCase):
     def test_a_document_the_company_issued_without_protocol_is_not_authorized(self):
         """The file of a note the company issued has no protocol of authorization:
         the document stays in typing, with a warning, and the confirmation refuses."""
-        parsed = self._parsed(
-            KEY_1, status="unknown", company_vats=self._issuer_vats()
-        )
+        parsed = self._parsed(KEY_1, status="unknown", company_vats=self._issuer_vats())
         documents, errors, _warnings = self._import(
             [(parsed.file_name, b"x")], [parsed], issuer="company"
         )
@@ -1156,9 +1154,7 @@ class TestDocumentImport(EdiImportCase):
         self,
     ):
         """Both reasons come in the same refusal, not one after the other."""
-        parsed = self._parsed(
-            KEY_1, status="unknown", company_vats=self._issuer_vats()
-        )
+        parsed = self._parsed(KEY_1, status="unknown", company_vats=self._issuer_vats())
         documents, _errors, _warnings = self._import(
             [(parsed.file_name, b"x")], [parsed], issuer="company"
         )
