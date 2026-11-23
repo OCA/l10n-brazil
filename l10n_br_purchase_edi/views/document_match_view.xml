@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="document_match_tree" model="ir.ui.view">
+        <field name="name">l10n_br_purchase_edi.match.tree</field>
+        <field name="model">l10n_br_purchase_edi.match</field>
+        <field name="arch" type="xml">
+            <tree
+                create="0"
+                edit="0"
+                delete="0"
+                decoration-info="kind == 'note'"
+                decoration-warning="kind == 'quote'"
+            >
+                <header>
+                    <button name="action_match" type="object" string="Match" />
+                    <button name="action_undo" type="object" string="Undo" />
+                    <button
+                        name="action_no_order"
+                        type="object"
+                        string="Without Order"
+                    />
+                    <button
+                        name="action_open_document"
+                        type="object"
+                        string="Open Document"
+                        groups="l10n_br_fiscal.group_user"
+                    />
+                    <button
+                        name="action_open_quote"
+                        type="object"
+                        string="Open Quotation"
+                        groups="purchase.group_purchase_user"
+                    />
+                    <button
+                        name="action_create_order"
+                        type="object"
+                        string="Create Order from the Document"
+                        groups="purchase.group_purchase_user"
+                    />
+                </header>
+                <field name="company_id" invisible="1" />
+                <field name="currency_id" invisible="1" />
+                <field name="kind" widget="badge" string="Type" />
+                <field name="reference" string="Ref." />
+                <field name="partner_id" string="Supplier" />
+                <field name="product_id" />
+                <field name="quantity" string="Qty" />
+                <field
+                    name="uom_id"
+                    groups="uom.group_uom"
+                    string="Unit"
+                    optional="hide"
+                />
+                <field name="price_unit" string="Price" />
+                <field
+                    name="suggested_purchase_line_id"
+                    groups="purchase.group_purchase_user"
+                    string="Candidate"
+                />
+                <field
+                    name="quantity_difference"
+                    string="Qty diff."
+                    attrs="{'invisible': [('kind', '=', 'note')]}"
+                />
+                <field
+                    name="price_difference_percent"
+                    string="Diff. %"
+                    attrs="{'invisible': [('kind', '=', 'note')]}"
+                />
+                <field name="line_state" widget="badge" string="State" />
+                <field name="hint" string="Hint" optional="show" />
+                <field name="declared_reference" string="xPed" optional="hide" />
+                <field name="description" optional="hide" />
+                <field name="open_quantity" string="Balance" optional="hide" />
+                <field
+                    name="note_quantity"
+                    string="Note qty"
+                    optional="hide"
+                    attrs="{'invisible': [('kind', '=', 'note')]}"
+                />
+                <field
+                    name="note_price_unit"
+                    string="Note price"
+                    optional="hide"
+                    attrs="{'invisible': [('kind', '=', 'note')]}"
+                />
+                <field
+                    name="price_difference"
+                    string="Price diff."
+                    optional="hide"
+                    attrs="{'invisible': [('kind', '=', 'note')]}"
+                />
+                <field name="date" optional="hide" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="document_match_search" model="ir.ui.view">
+        <field name="name">l10n_br_purchase_edi.match.search</field>
+        <field name="model">l10n_br_purchase_edi.match</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="reference" />
+                <field name="product_id" />
+                <field name="partner_id" />
+                <filter
+                    name="pending_or_suggested"
+                    string="Origin Pending or Suggested"
+                    domain="['|', ('kind', '!=', 'note'), ('line_state', 'in', ('pending', 'suggested'))]"
+                />
+                <filter
+                    name="resolved"
+                    string="Origin Resolved"
+                    domain="['|', ('kind', '!=', 'note'), ('line_state', 'in', ('resolved', 'no_order'))]"
+                />
+                <separator />
+                <filter
+                    name="notes"
+                    string="Invoice"
+                    domain="[('kind', '=', 'note')]"
+                />
+                <filter
+                    name="orders"
+                    string="Orders"
+                    domain="[('kind', '=', 'order')]"
+                />
+                <filter
+                    name="quotes"
+                    string="Quotations"
+                    domain="[('kind', '=', 'quote')]"
+                />
+                <group expand="0" string="Group By">
+                    <filter
+                        name="group_product"
+                        string="Product"
+                        context="{'group_by': 'product_id'}"
+                    />
+                    <filter
+                        name="group_partner"
+                        string="Supplier"
+                        context="{'group_by': 'partner_id'}"
+                    />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="document_match_action" model="ir.actions.act_window">
+        <field name="name">Match with Orders</field>
+        <field name="res_model">l10n_br_purchase_edi.match</field>
+        <field name="view_mode">tree</field>
+        <field name="search_view_id" ref="document_match_search" />
+        <field name="context">{'search_default_group_product': 1}</field>
+    </record>
+
+    <record id="document_match_buyer_action" model="ir.actions.act_window">
+        <field name="name">Match Imported Documents</field>
+        <field name="res_model">l10n_br_purchase_edi.match</field>
+        <field name="view_mode">tree</field>
+        <field name="search_view_id" ref="document_match_search" />
+        <field
+            name="context"
+        >{'search_default_group_product': 1, 'search_default_pending_or_suggested': 1}</field>
+    </record>
+
+    <menuitem
+        id="document_match_buyer_menu"
+        name="Match Imported Documents"
+        action="document_match_buyer_action"
+        parent="purchase.menu_procurement_management"
+        groups="purchase.group_purchase_user"
+        sequence="60"
+    />
+</odoo>
