@@ -5,6 +5,8 @@ from lxml import etree
 
 from odoo.tests import tagged
 
+from odoo.addons.l10n_br_fiscal_edi.tests.common import readable_field_names
+
 from .common import StockEdiCase
 
 
@@ -28,11 +30,9 @@ class TestSmartButtons(StockEdiCase):
         )
 
     def _read_form(self, record, arch):
-        names = [
-            node.get("name")
-            for node in arch.iter("field")
-            if node.get("name") in record._fields
-        ]
+        names = readable_field_names(
+            record, [node.get("name") for node in arch.iter("field")]
+        )
         record.read(names)
 
     def _fresh(self):
