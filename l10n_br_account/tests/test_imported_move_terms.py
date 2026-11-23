@@ -127,8 +127,10 @@ class TestImportedMoveTerms(AccountMoveBRCommon):
         )
         self.assertAlmostEqual(sum(due_lines.mapped("credit")), 903.5, places=2)
         withheld = move.line_ids.filtered(
-            lambda line: line.display_type == "tax"
-            and line.tax_line_id.tax_group_id.fiscal_tax_group_id.tax_withholding
+            lambda line: (
+                line.display_type == "tax"
+                and line.tax_line_id.tax_group_id.fiscal_tax_group_id.tax_withholding
+            )
         )
         self.assertEqual(len(withheld), 4)
         self.assertAlmostEqual(sum(withheld.mapped("balance")), -96.5, places=2)
@@ -138,11 +140,34 @@ class TestImportedMoveTerms(AccountMoveBRCommon):
         move = self._import_move()
         self._assert_balanced(move)
         withheld = move.line_ids.filtered(
-            lambda line: line.display_type == "tax"
-            and line.tax_line_id.tax_group_id.fiscal_tax_group_id.tax_withholding
+            lambda line: (
+                line.display_type == "tax"
+                and line.tax_line_id.tax_group_id.fiscal_tax_group_id.tax_withholding
+            )
         )
         self.assertFalse(withheld)
         self.assertAlmostEqual(move.amount_total, 1000.0, places=2)
+
+    def test_total_declared_by_the_counterparty_is_the_total_of_the_bill(self):
+        # 10 CX at 35.00 converted to 120 UN: 120 x 2.92 would give 350.40
+        move = self._import_move(
+            {"quantity": 120.0, "price_unit": 2.92, "partner_price_gross": 350.0}
+        )
+        self._assert_balanced(move)
+        self.assertAlmostEqual(move.invoice_line_ids.price_subtotal, 350.0, places=2)
+        self.assertAlmostEqual(move.amount_total, 350.0, places=2)
+        due_lines = move.line_ids.filtered(
+            lambda line: line.display_type == "payment_term"
+        )
+        self.assertAlmostEqual(sum(due_lines.mapped("credit")), 350.0, places=2)
+
+    def test_price_changed_by_a_person_replaces_the_declared_total(self):
+        move = self._import_move(
+            {"quantity": 120.0, "price_unit": 2.92, "partner_price_gross": 350.0}
+        )
+        move.invoice_line_ids.price_unit = 3.0
+        self.assertAlmostEqual(move.invoice_line_ids.price_subtotal, 360.0, places=2)
+        self.assertAlmostEqual(move.amount_total, 360.0, places=2)
 
     def test_withheld_value_without_withholding_tax_is_not_discounted(self):
         """A withheld value whose domain has no withholding tax in the line
