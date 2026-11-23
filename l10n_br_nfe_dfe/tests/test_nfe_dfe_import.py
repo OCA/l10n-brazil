@@ -21,6 +21,7 @@ from odoo.tests import Form, tagged
 from odoo.tests.common import TransactionCase
 
 from odoo.addons import l10n_br_nfe
+from odoo.addons.l10n_br_fiscal_edi.tests.common import fiscal_user_group_ids
 
 from .test_nfe_dfe import (
     response_sucesso_individual,
@@ -763,12 +764,7 @@ class TestNFeDFeImportedDocumentAccess(TransactionCase):
                 "company_id": record.company_id.id,
                 "company_ids": [Command.set(record.company_id.ids)],
                 "groups_id": [
-                    Command.set(
-                        [
-                            self.env.ref("base.group_user").id,
-                            self.env.ref("l10n_br_fiscal.group_user").id,
-                        ]
-                    )
+                    Command.set(fiscal_user_group_ids(self.env, form_groups=True))
                 ],
             }
         )
