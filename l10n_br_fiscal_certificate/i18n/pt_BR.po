@@ -98,6 +98,20 @@ msgid "Config Settings"
 msgstr "Ajuste de Configurações"
 
 #. module: l10n_br_fiscal_certificate
+#: model:ir.model.fields,field_description:l10n_br_fiscal_certificate.field_certificate_certificate__display_name
+#: model:ir.model.fields,field_description:l10n_br_fiscal_certificate.field_res_company__display_name
+#: model:ir.model.fields,field_description:l10n_br_fiscal_certificate.field_res_config_settings__display_name
+msgid "Display Name"
+msgstr "Nome Exibido"
+
+#. module: l10n_br_fiscal_certificate
+#: model:ir.model.fields,field_description:l10n_br_fiscal_certificate.field_certificate_certificate__id
+#: model:ir.model.fields,field_description:l10n_br_fiscal_certificate.field_res_company__id
+#: model:ir.model.fields,field_description:l10n_br_fiscal_certificate.field_res_config_settings__id
+msgid "ID"
+msgstr "ID"
+
+#. module: l10n_br_fiscal_certificate
 #: model:ir.model.fields,field_description:l10n_br_fiscal_certificate.field_certificate_certificate__issuer_name
 msgid "Issuer"
 msgstr ""
@@ -135,8 +149,22 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_br_fiscal_certificate/models/res_company.py:0
 msgid ""
+"The certificate of the company %(company)s has expired (validity: %(start)s "
+"to %(end)s)."
+msgstr ""
+
+#. module: l10n_br_fiscal_certificate
+#. odoo-python
+#: code:addons/l10n_br_fiscal_certificate/models/res_company.py:0
+msgid ""
 "The certificate of the company %(company)s is not valid (validity: %(start)s "
 "to %(end)s)."
+msgstr ""
+
+#. module: l10n_br_fiscal_certificate
+#. odoo-python
+#: code:addons/l10n_br_fiscal_certificate/models/certificate.py:0
+msgid "Valid: %s"
 msgstr ""
 
 #~ msgid "A1"
@@ -213,9 +241,6 @@ msgstr ""
 #~ msgid "Date Start"
 #~ msgstr "Data Inicial"
 
-#~ msgid "Display Name"
-#~ msgstr "Nome Exibido"
-
 #~ msgid "Document SubType"
 #~ msgstr "Subtipo de Documento"
 
@@ -242,9 +267,6 @@ msgstr ""
 
 #~ msgid "Has Message"
 #~ msgstr "Tem mensagem"
-
-#~ msgid "ID"
-#~ msgstr "ID"
 
 #~ msgid "Icon"
 #~ msgstr "Ícone"
