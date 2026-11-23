@@ -558,6 +558,10 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         amount_included = amount_not_included = amount_withholding = 0.0
         for tax_field in FISCAL_TAX_ID_FIELDS:
             tax_domain = tax_field[: -len("_tax_id")]
+            if tax_domain == TAX_DOMAIN_ICMS_SN:
+                # The Simples Nacional credit is informative only: it is not
+                # a tax charged on the document, so it never changes the totals.
+                continue
             tax_value = self[TAX_VALUE_FIELDS[tax_domain]]
             if not tax_value:
                 continue
