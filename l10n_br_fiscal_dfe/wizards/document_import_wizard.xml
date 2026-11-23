@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="document_import_wizard_form" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal_dfe.document.import.wizard.form</field>
+        <field name="model">l10n_br_fiscal_edi.document.import.wizard</field>
+        <field name="inherit_id" ref="l10n_br_fiscal_edi.document_import_wizard_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//group" position="before">
+                <field name="state" invisible="1" />
+                <field name="dfe_document_id" invisible="1" />
+                <div
+                    class="alert alert-warning"
+                    role="alert"
+                    attrs="{'invisible': [('state', '!=', 'confirm')]}"
+                >
+                    <field name="confirm_message" nolabel="1" />
+                </div>
+            </xpath>
+            <xpath expr="//group" position="attributes">
+                <attribute
+                    name="attrs"
+                >{'invisible': [('state', '!=', 'draft')]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='attachment_ids']" position="before">
+                <field name="access_key" />
+            </xpath>
+            <xpath expr="//button[@name='action_import']" position="attributes">
+                <attribute
+                    name="attrs"
+                >{'invisible': [('state', '!=', 'draft')]}</attribute>
+            </xpath>
+            <xpath expr="//button[@name='action_import']" position="after">
+                <button
+                    name="action_confirm_request"
+                    type="object"
+                    string="Confirm"
+                    class="btn-primary"
+                    attrs="{'invisible': [('state', '!=', 'confirm')]}"
+                />
+            </xpath>
+        </field>
+    </record>
+</odoo>
