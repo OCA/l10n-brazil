@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo noupdate="1">
+    <record id="document_match_request_rule" model="ir.rule">
+        <field
+            name="name"
+        >Origin of imported documents: requests only for their users</field>
+        <field
+            name="model_id"
+            ref="l10n_br_purchase_edi.model_l10n_br_purchase_edi_match"
+        />
+        <field
+            name="domain_force"
+        >[] if user.has_group('purchase_request.group_purchase_request_user') else [('kind', '!=', 'request')]</field>
+    </record>
+</odoo>
