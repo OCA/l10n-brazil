@@ -32,5 +32,5 @@ class ResCompany(models.Model):
     @api.depends("partner_id.city_id.ibge_code")
     def _compute_nfse_notacontrol(self):
         for company in self:
-            ibge = company.partner_id.city_id.ibge_code or ""
+            ibge = company.city_id.ibge_code or ""
             company.nfse_notacontrol = ibge.isdigit() and int(ibge) in MUNICIPIOS

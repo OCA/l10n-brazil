@@ -359,6 +359,9 @@ class TestNfseNotaControl(TransactionCase):
         self.assertIn("SIMULADO", body)
         self.assertIn("<cStat>100</cStat>", body)
         self.assertIn("<nNFSe>42</nNFSe>", body)
+        self.doc.rps_number = "RPS-42"
+        body = session.post("url", b"<Lote/>", {}, 10).content.decode()
+        self.assertIn(f"<nNFSe>{self.doc.id}</nNFSe>", body)
 
     def test_simulated_send_authorizes_without_transmitting(self):
         self.company.nfse_notacontrol_simulated = True

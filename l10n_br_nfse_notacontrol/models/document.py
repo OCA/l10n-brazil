@@ -60,14 +60,17 @@ class _SimulatedSession:
         doc = self.document
         now = fields.Datetime.context_timestamp(doc, fields.Datetime.now())
         cnpj = doc.company_id.partner_id.cnpj_cpf_stripped or ""
-        number = str(doc.rps_number or doc.document_number or doc.id).zfill(13)
+        number = str(doc.rps_number or doc.document_number or doc.id)
+        if not number.isdigit():
+            number = str(doc.id)
+        number = number.zfill(13)
         # 50-position key: city, issuing environment, registration type,
         # CNPJ, number, YYMM, random code and check digit
         key = (
             f"{doc.company_id.city_id.ibge_code}21{cnpj}{number}"
             f"{now:%y%m}{random.randint(0, 10**9 - 1):09d}"
         )
-        key += str(sum(int(c) for c in key) % 10)
+        key += str(sum(int(c) for c in key if c.isdigit()) % 10)
         body = (
             f'<EnviarLoteDpsSincronoResposta xmlns="{NS}">'
             f"<NumeroLote>{doc.id}</NumeroLote>"
