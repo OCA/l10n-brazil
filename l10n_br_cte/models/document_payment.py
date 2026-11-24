@@ -3,6 +3,8 @@
 
 # pylint: disable=consider-merging-classes-inherited
 
+from datetime import timedelta
+
 from odoo import Command, fields, models
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import MODELO_FISCAL_CTE
@@ -96,3 +98,30 @@ class Document(models.Model):
         ):
             document.sudo().cte40_cobr.cte40_fat.cte40_nFat = document.document_number
         return result
+
+    def _cte_demo_issue_with_collection(self, days):
+        """Demo data: issue the CT-e with the collection of the installments due in
+        the given number of days from today, as the invoice of a payment term in as
+        many parts would write at the posting, and export it so that its XML is
+        validated.
+
+        :param days: days from today of each installment
+        """
+        today = fields.Date.context_today(self)
+        for document in self:
+            total = document.amount_financial_total
+            amounts = [round(total / len(days), 2)] * len(days)
+            amounts[-1] = round(total - sum(amounts[:-1]), 2)
+            document._edi_set_installments(
+                [
+                    EdiInstallment(f"{number:03d}", today + timedelta(days=due), amount)
+                    for number, (due, amount) in enumerate(
+                        zip(days, amounts, strict=True), 1
+                    )
+                ]
+            )
+            document.action_document_confirm()
+            document._document_export()
+            # the models of the tags are rebuilt when the loading ends: what is
+            # pending for them has to reach the database before
+            self.env.flush_all()
