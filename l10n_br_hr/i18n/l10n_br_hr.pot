@@ -122,6 +122,18 @@ msgid "CPF"
 msgstr ""
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__vat_formatted_cnpj
+msgid "CPF Formatted"
+msgstr ""
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee__vat_formatted_cnpj
+msgid ""
+"CPF displayed with punctuation (XXX.XXX.XXX-XX); it is stored unformatted in"
+" the vat field."
+msgstr ""
+
+#. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__ctps
 #: model_terms:ir.ui.view,arch_db:l10n_br_hr.view_l10n_br_hr_employee_form
 msgid "CTPS"
@@ -582,6 +594,12 @@ msgstr ""
 #: model:ir.actions.act_window,name:l10n_br_hr.hr_employee_terceirizado_action
 #: model:ir.ui.menu,name:l10n_br_hr.hr_menu_employee_terceirizado
 msgid "Terceirizados"
+msgstr ""
+
+#. module: l10n_br_hr
+#. odoo-python
+#: code:addons/l10n_br_hr/models/hr_employee.py:0
+msgid "The CTPS number must hold up to 11 digits, without punctuation."
 msgstr ""
 
 #. module: l10n_br_hr
