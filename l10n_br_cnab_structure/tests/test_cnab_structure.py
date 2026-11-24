@@ -10,7 +10,7 @@ from tempfile import TemporaryDirectory
 
 from unidecode import unidecode
 
-from odoo import fields
+from odoo import Command, fields
 from odoo.tests import Form
 from odoo.tests.common import tagged
 
@@ -46,6 +46,7 @@ SVC_SALARY = "30"
 
 TEST_CNPJ = "82688625000152"
 TEST_PARTNER_CNPJ = "45823449000198"
+TEST_EMPLOYEE_CPF = "52998224725"
 TEST_INVOICE_AMOUNT = 300.0
 
 
@@ -755,6 +756,131 @@ class TestCNABStructure(AccountTestInvoicingCommon):
         found_types = [h[9:11] for h in batch_headers]
         self.assertIn(SVC_SUPPLIER, found_types)
         self.assertIn(SVC_SALARY, found_types)
+
+    def _create_payable_entry(self, partner, amount, payment_mode):
+        entry = self.env["account.move"].create(
+            {
+                "move_type": "entry",
+                "journal_id": self.company_data["default_journal_misc"].id,
+                "line_ids": [
+                    Command.create(
+                        {
+                            "account_id": self.company_data[
+                                "default_account_expense"
+                            ].id,
+                            "debit": amount,
+                        }
+                    ),
+                    Command.create(
+                        {
+                            "account_id": self.company_data[
+                                "default_account_payable"
+                            ].id,
+                            "partner_id": partner.id,
+                            "credit": amount,
+                        }
+                    ),
+                ],
+            }
+        )
+        entry.action_post()
+        payable = entry.line_ids.filtered(
+            lambda r: r.account_type == "liability_payable"
+        )
+        payable.payment_mode_id = payment_mode
+        return payable
+
+    def test_service_type_rule_for_journal_items(self):
+        """Lines created from journal items get the service type of the rule."""
+        cnab_structure = self.cnab_structure_itau_240
+        way_ted = self.env.ref("l10n_br_cnab_structure.cnab_itau_240_pay_way_41")
+        for partner_type, service_type in (
+            ("employee", SVC_SALARY),
+            ("supplier", SVC_SUPPLIER),
+        ):
+            self.env["l10n_br_cnab.payment.rule"].create(
+                {
+                    "cnab_structure_id": cnab_structure.id,
+                    "match_partner_type": partner_type,
+                    "payment_way_id": way_ted.id,
+                    "service_type": service_type,
+                }
+            )
+        ted_mode = self.payment_mode_model.create(
+            {
+                "name": "TED Itau",
+                "bank_account_link": "fixed",
+                "company_id": self.company.id,
+                "payment_method_id": self.outbound_payment_method.id,
+                "payment_order_ok": True,
+                "fixed_journal_id": self.bank_journal_itau.id,
+                "cnab_processor": "oca_processor",
+                "cnab_structure_id": cnab_structure.id,
+                "cnab_payment_way_ids": [Command.set(way_ted.ids)],
+            }
+        )
+        employee = self.env["res.partner"].create(
+            {"name": "Employee", "employee": True, "vat": TEST_EMPLOYEE_CPF}
+        )
+        self.res_partner_bank_model.create(
+            {
+                "acc_number": "345678",
+                "bra_number": "0003",
+                "bank_id": self.bank_001.id,
+                "partner_id": employee.id,
+            }
+        )
+        salary = self._create_payable_entry(employee, 3000.0, ted_mode)
+        rent = self._create_payable_entry(self.partner_a, 1500.0, ted_mode)
+        bill = self._create_test_invoice(payment_mode=ted_mode)
+        bill.action_post()
+        bill_line = bill.line_ids.filtered(
+            lambda r: r.account_type == "liability_payable"
+        )
+
+        order = self.payment_order_model.create(
+            {
+                "payment_mode_id": ted_mode.id,
+                "journal_id": self.bank_journal_itau.id,
+            }
+        )
+        (salary | rent | bill_line).create_payment_line_from_move_line(order)
+        self.assertEqual(
+            [line.service_type for line in order.payment_line_ids],
+            [SVC_SALARY, SVC_SUPPLIER, SVC_SUPPLIER],
+        )
+
+        order.draft2open()
+        action = order.open2generated()
+        data = (
+            base64.b64decode(self.attachment_model.browse(action["res_id"]).datas)
+            .decode()
+            .splitlines()
+        )
+        batch_types = sorted(line[9:11] for line in data if line[7] == "1")
+        self.assertEqual(batch_types, [SVC_SUPPLIER, SVC_SALARY])
+
+        with self.subTest("Without CNAB structure the default is kept"):
+            plain_mode = self.payment_mode_model.create(
+                {
+                    "name": "TED without structure",
+                    "bank_account_link": "fixed",
+                    "company_id": self.company.id,
+                    "payment_method_id": self.outbound_payment_method.id,
+                    "payment_order_ok": True,
+                    "fixed_journal_id": self.bank_journal_bb.id,
+                }
+            )
+            plain_order = self.payment_order_model.create(
+                {
+                    "payment_mode_id": plain_mode.id,
+                    "journal_id": self.bank_journal_bb.id,
+                }
+            )
+            self.assertFalse(plain_order.cnab_structure_id)
+            rent_2 = self._create_payable_entry(self.partner_a, 1500.0, plain_mode)
+            rent_2.create_payment_line_from_move_line(plain_order)
+            self.assertEqual(plain_order.payment_line_ids.service_type, SVC_SALARY)
 
     def test_field_select_wizard(self):
         cnab_structure = self._create_valid_cnab_structure_complete()
