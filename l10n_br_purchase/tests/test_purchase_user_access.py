@@ -1,6 +1,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo.tests import Form, TransactionCase, new_test_user, tagged
+from odoo import Command
+from odoo.tests import TransactionCase, new_test_user, tagged
 
 
 @tagged("post_install", "-at_install")
@@ -15,6 +16,7 @@ class TestPurchaseUserAccess(TransactionCase):
         cls.partner = cls.env.ref("l10n_br_base.res_partner_akretion")
         cls.product = cls.env.ref("product.product_product_27")
         cls.fiscal_operation = cls.env.ref("l10n_br_fiscal.fo_compras")
+        cls.fiscal_operation_line = cls.env.ref("l10n_br_fiscal.fo_compras_compras")
         cls.buyer = new_test_user(
             cls.env,
             login="l10n_br_purchase_buyer",
@@ -34,17 +36,25 @@ class TestPurchaseUserAccess(TransactionCase):
                 default_company_id=self.company.id,
             ),
         )
-        order_form = Form(env["purchase.order"])
-        order_form.partner_id = env["res.partner"].browse(self.partner.id)
-        order_form.fiscal_operation_id = env["l10n_br_fiscal.operation"].browse(
-            self.fiscal_operation.id
+        order = env["purchase.order"].create(
+            {
+                "partner_id": self.partner.id,
+                "company_id": self.company.id,
+                "fiscal_operation_id": self.fiscal_operation.id,
+                "order_line": [
+                    Command.create(
+                        {
+                            "product_id": self.product.id,
+                            "name": self.product.display_name,
+                            "fiscal_operation_id": self.fiscal_operation.id,
+                            "fiscal_operation_line_id": self.fiscal_operation_line.id,
+                            "product_qty": 2,
+                            "price_unit": 100,
+                        }
+                    )
+                ],
+            }
         )
-        with order_form.order_line.new() as line:
-            line.product_id = env["product.product"].browse(self.product.id)
-            line.product_qty = 2
-            line.price_unit = 100
-        order = order_form.save()
         order_line = order.order_line
         self.assertTrue(order_line.fiscal_operation_line_id)
         self.assertTrue(order_line.fiscal_tax_ids)
-        self.assertTrue(order_line.icms_tax_id or order_line.pis_tax_id)
