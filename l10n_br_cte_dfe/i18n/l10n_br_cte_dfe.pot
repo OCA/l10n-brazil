@@ -102,6 +102,11 @@ msgid "Date"
 msgstr ""
 
 #. module: l10n_br_cte_dfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_cte_dfe.cte_dfe_document_tree
+msgid "Fiscal Document"
+msgstr ""
+
+#. module: l10n_br_cte_dfe
 #: model:ir.model,name:l10n_br_cte_dfe.model_l10n_br_fiscal_dfe_document
 msgid "Fiscal document from distribution service"
 msgstr ""
@@ -116,11 +121,6 @@ msgstr ""
 #: code:addons/l10n_br_cte_dfe/models/dfe_document.py:0
 #, python-format
 msgid "Import CT-e XML"
-msgstr ""
-
-#. module: l10n_br_cte_dfe
-#: model_terms:ir.ui.view,arch_db:l10n_br_cte_dfe.cte_dfe_document_tree
-msgid "Invoice"
 msgstr ""
 
 #. module: l10n_br_cte_dfe
