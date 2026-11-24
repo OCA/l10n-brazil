@@ -58,7 +58,7 @@
                 />
                 <button
                     name="action_view_imported_document"
-                    string="Invoice"
+                    string="Fiscal Document"
                     type="object"
                     icon="fa-pencil-square-o"
                     attrs="{'invisible': [('fiscal_document_id', '=', False)]}"
