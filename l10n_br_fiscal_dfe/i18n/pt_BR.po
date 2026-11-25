@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2026-11-25 13:46+0000\n"
-"Last-Translator: Cristiano Mafra Junior <cristiano.mafracontanto@gmail.com>\n"
+"PO-Revision-Date: 2026-11-25 23:46+0000\n"
+"Last-Translator: Luis Felipe Miléo <mileo@kmee.com.br>\n"
 "Language-Team: \n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
@@ -91,7 +91,7 @@ msgstr ""
 #. module: l10n_br_fiscal_dfe
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_document__import_block_reason
 msgid "Block Reason"
-msgstr ""
+msgstr "Motivo do bloqueio"
 
 #. module: l10n_br_fiscal_dfe
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_document__vat
@@ -104,7 +104,7 @@ msgstr "CNPJ/CPF"
 #: model:ir.model.fields.selection,name:l10n_br_fiscal_dfe.selection__l10n_br_fiscal_dfe_distribution_log__fiscal_type__cte
 #: model:ir.model.fields.selection,name:l10n_br_fiscal_dfe.selection__l10n_br_fiscal_dfe_document__fiscal_type__cte
 msgid "CT-e"
-msgstr ""
+msgstr "CT-e"
 
 #. module: l10n_br_fiscal_dfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.view_dfe_specific_search_wizard_form
@@ -209,7 +209,7 @@ msgstr "Documentos DF-e"
 #. module: l10n_br_fiscal_dfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.dfe_res_company_form
 msgid "DF-e Logs"
-msgstr "Logs de Distribuição DF-e"
+msgstr "Logs da distribuição DF-e"
 
 #. module: l10n_br_fiscal_dfe
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_res_users__dfe_notification
@@ -231,7 +231,7 @@ msgstr "Registros DF-e"
 #. module: l10n_br_fiscal_dfe
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_dfe__document_type_dfe
 msgid "DF-e Type"
-msgstr "Tipo DF-e"
+msgstr "Tipo do DF-e"
 
 #. module: l10n_br_fiscal_dfe
 #. odoo-javascript
@@ -277,7 +277,7 @@ msgstr "Log de Distribuição"
 #. module: l10n_br_fiscal_dfe
 #: model:ir.ui.menu,name:l10n_br_fiscal_dfe.dfe_distribution_log_menu
 msgid "Distribution Logs"
-msgstr "Logs de Distribuição"
+msgstr "Logs da distribuição"
 
 #. module: l10n_br_fiscal_dfe
 #. odoo-python
@@ -402,7 +402,7 @@ msgstr "Tipo Fiscal"
 #. module: l10n_br_fiscal_dfe
 #: model:ir.model.fields,help:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_document__fiscal_document_id
 msgid "Fiscal document already imported with this access key."
-msgstr "Já existe um documento fiscal importado com esta chave de acesso."
+msgstr "Documento fiscal já importado com esta chave de acesso."
 
 #. module: l10n_br_fiscal_dfe
 #: model:ir.model,name:l10n_br_fiscal_dfe.model_l10n_br_fiscal_dfe_document
@@ -500,7 +500,7 @@ msgstr "Mensagem"
 #: model:ir.model.fields.selection,name:l10n_br_fiscal_dfe.selection__l10n_br_fiscal_dfe_distribution_log__fiscal_type__nfe
 #: model:ir.model.fields.selection,name:l10n_br_fiscal_dfe.selection__l10n_br_fiscal_dfe_document__fiscal_type__nfe
 msgid "NF-e"
-msgstr ""
+msgstr "NF-e"
 
 #. module: l10n_br_fiscal_dfe
 #. odoo-javascript
@@ -570,7 +570,7 @@ msgstr "Nenhum documento encontrado: %(code)s - %(message)s"
 #. odoo-python
 #: code:addons/l10n_br_fiscal_dfe/models/dfe_document.py:0
 msgid "Only an authorized document can be imported."
-msgstr ""
+msgstr "Só um documento autorizado pode ser importado."
 
 #. module: l10n_br_fiscal_dfe
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_dfe__operation_type
@@ -591,7 +591,7 @@ msgstr "Documento Próprio"
 #. module: l10n_br_fiscal_dfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.l10n_br_fiscal_dfe_document_form
 msgid "PDF"
-msgstr ""
+msgstr "PDF"
 
 #. module: l10n_br_fiscal_dfe
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_document__partner_id
@@ -626,7 +626,7 @@ msgstr "Por favor, informe uma chave de acesso."
 #. module: l10n_br_fiscal_dfe
 #: model:ir.model.fields.selection,name:l10n_br_fiscal_dfe.selection__l10n_br_fiscal_dfe_document__utilization__posted
 msgid "Posted"
-msgstr ""
+msgstr "Lançado"
 
 #. module: l10n_br_fiscal_dfe
 #: model:ir.model.fields,help:l10n_br_fiscal_dfe.field_res_users__dfe_notification
@@ -634,8 +634,8 @@ msgid ""
 "Receive Inbox notifications when the DF-e distribution finds new third-party "
 "documents."
 msgstr ""
-"Recebe notificações na Caixa de Entrada quando a distribuição DF-e encontra "
-"novos documentos de terceiros."
+"Receber notificações na caixa de entrada quando a distribuição DF-e "
+"encontrar novos documentos de terceiros."
 
 #. module: l10n_br_fiscal_dfe
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_distribution_log__request_xml
@@ -703,7 +703,7 @@ msgstr "Série"
 #. module: l10n_br_fiscal_dfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.view_dfe_specific_search_wizard_form
 msgid "Specific DF-e Search"
-msgstr "Pesquisa Específica de DF-e"
+msgstr "Consulta específica de DF-e"
 
 #. module: l10n_br_fiscal_dfe
 #. odoo-python
@@ -715,7 +715,7 @@ msgstr "Pesquisa Específica de Documento"
 #. odoo-javascript
 #: code:addons/l10n_br_fiscal_dfe/static/src/components/dfe_banner/dfe_banner.xml:0
 msgid "Specific Search"
-msgstr "Busca específica"
+msgstr "Consulta específica"
 
 #. module: l10n_br_fiscal_dfe
 #. odoo-python
@@ -738,7 +738,7 @@ msgstr "Estado"
 #. module: l10n_br_fiscal_dfe
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_document__document_state
 msgid "State Code"
-msgstr "Código de Status"
+msgstr "Código da situação"
 
 #. module: l10n_br_fiscal_dfe
 #. odoo-python
@@ -775,13 +775,13 @@ msgstr "Documentos de Terceiros"
 #. odoo-python
 #: code:addons/l10n_br_fiscal_dfe/models/dfe_document.py:0
 msgid "This document was cancelled at the source."
-msgstr ""
+msgstr "Este documento foi cancelado na origem."
 
 #. module: l10n_br_fiscal_dfe
 #. odoo-python
 #: code:addons/l10n_br_fiscal_dfe/models/dfe_document.py:0
 msgid "This document was denied at the source."
-msgstr ""
+msgstr "Este documento foi denegado na origem."
 
 #. module: l10n_br_fiscal_dfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.l10n_br_fiscal_dfe_document_search
@@ -813,7 +813,7 @@ msgstr "Usuário"
 #. module: l10n_br_fiscal_dfe
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_document__utilization
 msgid "Utilization"
-msgstr ""
+msgstr "Utilização"
 
 #. module: l10n_br_fiscal_dfe
 #. odoo-javascript
@@ -838,6 +838,8 @@ msgstr "Aviso"
 msgid ""
 "Why this document cannot be imported. Empty when the import can proceed."
 msgstr ""
+"Por que este documento não pode ser importado. Vazio quando a importação "
+"pode seguir."
 
 #. module: l10n_br_fiscal_dfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.dfe_distribution_log_search
