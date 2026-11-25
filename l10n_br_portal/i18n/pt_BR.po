@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2026-10-20 20:14+0000\n"
+"PO-Revision-Date: 2026-11-25 23:46+0000\n"
 "Last-Translator: Luis Felipe Miléo <mileo@kmee.com.br>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.15.2\n"
+"X-Generator: Weblate 2026.11.2\n"
 
 #. module: l10n_br_portal
 #: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
@@ -34,17 +34,17 @@ msgstr "Moeda da empresa (BR)"
 #. module: l10n_br_portal
 #: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__cnpj_status
 msgid "CNPJ Status"
-msgstr "Situação do CNPJ"
+msgstr "Situação cadastral"
 
 #. module: l10n_br_portal
 #: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__cnpj_status_date
 msgid "CNPJ Status Date"
-msgstr "Data da situação do CNPJ"
+msgstr "Data da situação cadastral"
 
 #. module: l10n_br_portal
 #: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__cnpj_status_reason
 msgid "CNPJ Status Reason"
-msgstr "Motivo da situação do CNPJ"
+msgstr "Motivo da situação cadastral"
 
 #. module: l10n_br_portal
 #: model:ir.model.fields,help:l10n_br_portal.field_res_partner__vat_formatted_cnpj
@@ -65,7 +65,7 @@ msgstr "CNPJ/CPF sem formatação"
 #. module: l10n_br_portal
 #: model:ir.model.fields,help:l10n_br_portal.field_res_partner__cnpj_cpf_stripped
 msgid "CNPJ/CPF without special characters"
-msgstr "CNPJ/CPF sem formatação"
+msgstr "CNPJ/CPF sem caracteres especiais"
 
 #. module: l10n_br_portal
 #: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
@@ -151,7 +151,7 @@ msgstr "E-mail"
 #. module: l10n_br_portal
 #: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__equity_capital
 msgid "Equity Capital"
-msgstr "Capital Social"
+msgstr "Capital social"
 
 #. module: l10n_br_portal
 #: model:ir.model.fields,help:l10n_br_portal.field_res_partner__legal_responsible_function
@@ -171,7 +171,7 @@ msgstr "IE"
 #. module: l10n_br_portal
 #: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__l10n_br_im_code
 msgid "IM"
-msgstr ""
+msgstr "IM"
 
 #. module: l10n_br_portal
 #: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__vat
@@ -282,7 +282,7 @@ msgstr "Mostrar formato de CNPJ/CPF"
 #. module: l10n_br_portal
 #: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__show_l10n_br
 msgid "Show L10N Br"
-msgstr "Exibir L10N Br"
+msgstr "Exibir localização brasileira"
 
 #. module: l10n_br_portal
 #: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__simples_option_date
