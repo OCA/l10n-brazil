@@ -14,6 +14,10 @@ from .spec_models import SPEC_MIXIN_MAPPINGS, SpecModel, StackedModel
 
 _logger = logging.getLogger(__name__)
 
+# values of the per schema load key of _register_remaining_schema_models_hook
+_NOT_LOADED = object()  # the hook never completed for this schema and registry
+_LOADING = object()  # the first run of the hook is in progress
+
 
 class SpecMixin(models.AbstractModel):
     """
@@ -134,22 +138,30 @@ class SpecMixin(models.AbstractModel):
             return
 
         load_key = f"_{spec_schema}_register_hook_loaded"
-        loaded = getattr(self.env.registry, load_key, None)
-        if loaded is not None:  # hook already called for registry
+        loaded = getattr(self.env.registry, load_key, _NOT_LOADED)
+        if loaded is _LOADING:  # called again while the first run builds
+            return
+        if loaded is not _NOT_LOADED:  # hook already called for registry
             # The key holds what the first run built and reflected. The models
             # stay built for the life of the registry, but their tables can be
             # gone: a reflection done inside a transaction rolled back afterwards
             # (an at_install test importing a document, before Odoo calls
             # _register_hook once all the modules are loaded) leaves the key set
             # and no table. In that case only the reflection is done again.
-            if loaded and not set(loaded["tables"]).issubset(
+            # Trade-off: _register_hook runs on the data path too (every
+            # build_from_binding, and _build_binding with an explicit schema),
+            # so each document imported or exported pays this one query on
+            # information_schema. It is far cheaper than the full reflection
+            # done on every call before the hook became read-only, and it is
+            # what makes the rolled back reflection heal: do not drop it.
+            if not set(loaded["tables"]).issubset(
                 existing_tables(self.env.cr, list(loaded["tables"]))
             ):
                 self._reflect_remaining_schema_models(
                     loaded["built"], loaded["remaining"], loaded["module"]
                 )
             return
-        setattr(self.env.registry, load_key, {})
+        setattr(self.env.registry, load_key, _LOADING)
 
         field_prefix = f"{spec_schema}{spec_version}"
         relation_prefix = f"{spec_schema}.{spec_version}.%"
@@ -192,6 +204,11 @@ class SpecMixin(models.AbstractModel):
                     "module": odoo_module,
                 },
             )
+        except Exception:
+            # the first run did not complete: release the key so that a later
+            # call builds and reflects again instead of returning early
+            delattr(self.env.registry, load_key)
+            raise
         finally:
             # The concrete classes we built above are rebuilt from scratch every
             # time this hook runs, but Odoo's MetaModel registered them in

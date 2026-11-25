@@ -368,6 +368,11 @@ class TestSpecModel(TransactionCase, FakeModelLoader):
                 "the hook leaked a concrete class after raising; the next "
                 "registry build would crash with an inconsistent MRO (#4668)",
             )
+            self.assertFalse(
+                hasattr(registry, "_poxsd_register_hook_loaded"),
+                "the hook kept its load key after raising; a later call would "
+                "return early instead of building and reflecting again",
+            )
         finally:
             module_to_models["spec_driven_model"] = saved_module_classes
             registry.ready = ready
@@ -493,13 +498,21 @@ class TestSpecModel(TransactionCase, FakeModelLoader):
         mixin = self.env["spec.mixin.poxsd"]
         registry.__dict__.pop("_poxsd_register_hook_loaded", None)
         try:
-            mixin._register_hook()
-            self.assertTrue(table_exists(cr, "poxsd_10_comment"))
+            with self.assertRaises(RuntimeError):
+                with cr.savepoint(flush=False):
+                    mixin._register_hook()  # reflects inside the savepoint
+                    self.assertTrue(table_exists(cr, "poxsd_10_comment"))
+                    model_class = registry["poxsd.10.comment"]
+                    raise RuntimeError("roll the reflection back")
+            self.assertFalse(table_exists(cr, "poxsd_10_comment"))
 
-            # what the rollback of that transaction leaves behind
-            cr.execute("DROP TABLE poxsd_10_comment CASCADE")
-            mixin._register_hook()
+            mixin._register_hook()  # what Odoo does once the modules are loaded
             self.assertTrue(table_exists(cr, "poxsd_10_comment"))
+            self.assertIs(
+                registry["poxsd.10.comment"],
+                model_class,
+                "the hook built the remaining model class a second time (#4668)",
+            )
         finally:
             registry.__dict__.pop("_poxsd_register_hook_loaded", None)
 
