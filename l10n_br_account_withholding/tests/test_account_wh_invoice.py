@@ -535,6 +535,51 @@ class AccountMoveWithWhInvoice(AccountMoveBRCommon):
             )
         )
 
+    def test_issqn_city_hall_on_batch_post(self):
+        """Invoices posted together: each withholding invoice goes to the
+        city hall of its own invoice."""
+        self.env.ref("l10n_br_fiscal.tax_group_pis_wh").generate_wh_invoice = False
+        self.env.ref("l10n_br_fiscal.tax_group_cofins_wh").generate_wh_invoice = False
+        self.env.ref("l10n_br_fiscal.tax_group_issqn_wh").write(
+            {
+                "generate_wh_invoice": True,
+                "journal_id": self.company_data["default_journal_purchase"].id,
+            }
+        )
+        moves = self.env["account.move"]
+        cityhalls = self.env["res.partner"]
+        for number, city_ref in (
+            ("57", "l10n_br_base.city_3550308"),
+            ("58", "l10n_br_base.city_3304557"),
+        ):
+            city = self.env.ref(city_ref)
+            cityhalls |= self.env["res.partner"].create(
+                {"name": city.name, "city_id": city.id, "wh_cityhall": True}
+            )
+            move = self.init_invoice(
+                "in_invoice",
+                products=[self.service_test],
+                partner=self.test_partner,
+                document_type=self.env.ref("l10n_br_fiscal.document_55"),
+                fiscal_operation=self.env.ref("l10n_br_fiscal.fo_compras"),
+                fiscal_operation_lines=[
+                    self.env.ref("l10n_br_fiscal.fo_compras_servico")
+                ],
+                document_serie="1",
+                document_number=number,
+            )
+            for line in move.invoice_line_ids:
+                line.issqn_tax_id = None
+                line.issqn_fg_city_id = city
+                line.issqn_wh_tax_id = self.env.ref("l10n_br_fiscal.tax_issqn_wh_5")
+            moves |= move
+
+        moves.action_post()
+        moves._compute_wh_invoice_ids()
+
+        self.assertEqual(moves[0].wh_invoice_ids.partner_id, cityhalls[0])
+        self.assertEqual(moves[1].wh_invoice_ids.partner_id, cityhalls[1])
+
     def test_wh_due_date_day_beyond_month_end(self):
         """The due day is clamped to the last day of the month (no ValueError)."""
         move = self.move_in_compra_para_revenda

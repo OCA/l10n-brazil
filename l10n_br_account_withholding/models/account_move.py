@@ -75,6 +75,7 @@ class AccountMove(models.Model):
 
         :return: Dictionary of invoice values.
         """
+        self.ensure_one()
         wh_date_invoice = move_line.move_id.date
         # relativedelta clamps the day to the last day of the month, so a due
         # day of 30 or 31 does not fail on shorter months.
@@ -131,7 +132,7 @@ class AccountMove(models.Model):
                         and fiscal_group.tax_withholding
                     ):
                         wh_invoice = self.env["account.move"].create(
-                            self._prepare_wh_invoice(line, fiscal_group)
+                            move._prepare_wh_invoice(line, fiscal_group)
                         )
                         if fiscal_group.wh_payable_account_id:
                             payable_lines = wh_invoice.line_ids.filtered(
