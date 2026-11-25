@@ -101,6 +101,7 @@ class AccountMove(models.Model):
                         "account_id": move_line.account_id.id,
                         "wh_move_line_id": move_line.id,
                         "analytic_distribution": move_line.analytic_distribution,
+                        "tax_ids": [Command.clear()],
                     },
                 )
             ],
