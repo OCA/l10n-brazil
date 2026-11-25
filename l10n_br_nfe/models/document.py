@@ -571,7 +571,18 @@ class NFe(spec_models.StackedModel):
 
     nfe40_vICMSUFRemet = fields.Monetary(related="amount_icms_origin_value")
 
-    # <vFCP>0.00</vFCP> TODO
+    nfe40_vFCP = fields.Monetary(compute="_compute_nfe40_vFCP")
+
+    @api.depends(
+        "fiscal_line_ids.icmsfcp_percent",
+        "fiscal_line_ids.icmsfcp_value",
+        "fiscal_line_ids.ind_final",
+        "fiscal_line_ids.cfop_destination",
+    )
+    def _compute_nfe40_vFCP(self):
+        for record in self:
+            lines = record.fiscal_line_ids.filtered(lambda line: line._nfe40_has_vFCP())
+            record.nfe40_vFCP = sum(lines.mapped("icmsfcp_value"))
 
     nfe40_vBCST = fields.Monetary(related="amount_icmsst_base")
 

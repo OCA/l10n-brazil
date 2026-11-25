@@ -469,6 +469,14 @@ class NFeLine(spec_models.StackedModel):
     # Inverse Methods
     ##########################
 
+    def _nfe40_has_vFCP(self):
+        self.ensure_one()
+        return bool(
+            self.icmsfcp_percent
+            and self.ind_final == FINAL_CUSTOMER_NO
+            and self.cfop_destination != CFOP_DESTINATION_EXTERNAL
+        )
+
     def _export_fields_icms(self):
         icms = {
             # ICMS
@@ -510,11 +518,7 @@ class NFeLine(spec_models.StackedModel):
                     "vFCPSTRet": f"{self.icmsfcp_value_wh:.2f}",
                 }
             )
-        if (
-            self.icmsfcp_percent
-            and self.ind_final == FINAL_CUSTOMER_NO
-            and self.cfop_destination != CFOP_DESTINATION_EXTERNAL
-        ):
+        if self._nfe40_has_vFCP():
             icms.update(
                 {
                     # FUNDO DE COMBATE À POBREZA
