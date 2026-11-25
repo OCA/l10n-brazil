@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2026-10-23 07:39+0000\n"
+"PO-Revision-Date: 2026-11-25 23:46+0000\n"
 "Last-Translator: Luis Felipe Miléo <mileo@kmee.com.br>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.15.2\n"
+"X-Generator: Weblate 2026.11.2\n"
 
 #. module: l10n_br_delivery_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_stock_generate_volumes
@@ -54,7 +54,7 @@ msgstr "Criado em"
 #: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_account_move__nfe40_transporta
 #: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_l10n_br_fiscal_document__nfe40_transporta
 msgid "Dados do transportador"
-msgstr ""
+msgstr "Dados do transportador"
 
 #. module: l10n_br_delivery_nfe
 #: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_generate_volumes__display_name
@@ -70,19 +70,19 @@ msgstr "Nome Exibido"
 #: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_picking_withcarrier_out_form_inherit
 #: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_stock_generate_volumes
 msgid "Esp."
-msgstr ""
+msgstr "Esp."
 
 #. module: l10n_br_delivery_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_stock_invoice_onshipping_vol_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_stock_picking_vol_form
 msgid "Espécie"
-msgstr ""
+msgstr "Espécie"
 
 #. module: l10n_br_delivery_nfe
 #: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_invoice_onshipping_vol__nfe40_esp
 #: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_picking_vol__nfe40_esp
 msgid "Espécie dos volumes transportados"
-msgstr ""
+msgstr "Espécie dos volumes transportados"
 
 #. module: l10n_br_delivery_nfe
 #: model:ir.model,name:l10n_br_delivery_nfe.model_l10n_br_fiscal_document
@@ -93,12 +93,12 @@ msgstr "Documento Fiscal"
 #: model:ir.actions.act_window,name:l10n_br_delivery_nfe.action_generate_volume_ids
 #: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_stock_generate_volumes
 msgid "Generate Draft Volumes"
-msgstr "Gerar volumes em rascunho"
+msgstr "Gerar volumes provisórios"
 
 #. module: l10n_br_delivery_nfe
 #: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_picking__has_vol
 msgid "Has Vol IDs"
-msgstr "Possui IDs de volume"
+msgstr "Possui volumes"
 
 #. module: l10n_br_delivery_nfe
 #: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_generate_volumes__id
@@ -134,20 +134,20 @@ msgstr "Última Atualização em"
 #: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_stock_invoice_onshipping_vol_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_stock_picking_vol_form
 msgid "Marca"
-msgstr ""
+msgstr "Marca"
 
 #. module: l10n_br_delivery_nfe
 #: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_invoice_onshipping_vol__nfe40_marca
 #: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_picking_vol__nfe40_marca
 msgid "Marca dos volumes transportados"
-msgstr ""
+msgstr "Marca dos volumes transportados"
 
 #. module: l10n_br_delivery_nfe
 #: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_account_bank_statement_line__nfe40_modFrete
 #: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_account_move__nfe40_modFrete
 #: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_l10n_br_fiscal_document__nfe40_modFrete
 msgid "Modalidade do frete"
-msgstr ""
+msgstr "Modalidade do frete"
 
 #. module: l10n_br_delivery_nfe
 #: model:ir.model.fields,help:l10n_br_delivery_nfe.field_account_bank_statement_line__nfe40_modFrete
@@ -162,42 +162,49 @@ msgid ""
 "4- Transporte próprio por conta do destinatário;\n"
 "9- Sem Ocorrência de transporte."
 msgstr ""
+"Modalidade do frete\n"
+"0- Contratação do Frete por conta do Remetente (CIF);\n"
+"1- Contratação do Frete por conta do destinatário/remetente (FOB);\n"
+"2- Contratação do Frete por conta de terceiros;\n"
+"3- Transporte próprio por conta do remetente;\n"
+"4- Transporte próprio por conta do destinatário;\n"
+"9- Sem Ocorrência de transporte."
 
 #. module: l10n_br_delivery_nfe
 #: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_picking_lacres__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_picking_vol__brl_currency_id
 msgid "Moeda"
-msgstr ""
+msgstr "Moeda"
 
 #. module: l10n_br_delivery_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_l10n_br_delivery_nfe_invoice_onshipping
 #: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_picking_withcarrier_out_form_inherit
 #: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_stock_generate_volumes
 msgid "N. Vol."
-msgstr ""
+msgstr "Nº vol."
 
 #. module: l10n_br_delivery_nfe
 #: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_invoice_onshipping_lacres__nfe40_lacres_vol_id
 #: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_picking_lacres__nfe40_lacres_vol_id
 msgid "Nfe40 Lacres Vol"
-msgstr ""
+msgstr "Nfe40 Lacres Vol"
 
 #. module: l10n_br_delivery_nfe
 #: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_picking_vol__nfe40_vol_transp_id
 msgid "Nfe40 Vol Transp"
-msgstr ""
+msgstr "Nfe40 Vol Transp"
 
 #. module: l10n_br_delivery_nfe
 #. odoo-python
 #: code:addons/l10n_br_delivery_nfe/wizards/stock_invoice_onshipping.py:0
 msgid "No picking 2binvoiced!"
-msgstr "Nenhuma separação a faturar!"
+msgstr "Nenhuma transferência a faturar!"
 
 #. module: l10n_br_delivery_nfe
 #. odoo-python
 #: code:addons/l10n_br_delivery_nfe/wizards/stock_generate_volumes.py:0
 msgid "No picking to generate vols!"
-msgstr "Nenhuma separação para gerar volumes!"
+msgstr "Nenhuma transferência para gerar volumes!"
 
 #. module: l10n_br_delivery_nfe
 #: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_picking__number_of_volumes
@@ -208,57 +215,57 @@ msgstr "Número de volumes"
 #: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_stock_invoice_onshipping_vol_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_stock_picking_vol_form
 msgid "Numeração"
-msgstr ""
+msgstr "Numeração"
 
 #. module: l10n_br_delivery_nfe
 #: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_invoice_onshipping_vol__nfe40_nVol
 #: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_picking_vol__nfe40_nVol
 msgid "Numeração dos volumes transportados"
-msgstr ""
+msgstr "Numeração dos volumes transportados"
 
 #. module: l10n_br_delivery_nfe
 #: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_invoice_onshipping_lacres__nfe40_nLacre
 #: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_picking_lacres__nfe40_nLacre
 msgid "Número dos Lacres"
-msgstr ""
+msgstr "Número dos lacres"
 
 #. module: l10n_br_delivery_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_l10n_br_delivery_nfe_invoice_onshipping
 #: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_picking_withcarrier_out_form_inherit
 #: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_stock_generate_volumes
 msgid "Peso B."
-msgstr ""
+msgstr "Peso br."
 
 #. module: l10n_br_delivery_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_stock_invoice_onshipping_vol_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_stock_picking_vol_form
 msgid "Peso Bruto (kg)"
-msgstr ""
+msgstr "Peso bruto (kg)"
 
 #. module: l10n_br_delivery_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_l10n_br_delivery_nfe_invoice_onshipping
 #: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_picking_withcarrier_out_form_inherit
 #: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_stock_generate_volumes
 msgid "Peso L."
-msgstr ""
+msgstr "Peso líq."
 
 #. module: l10n_br_delivery_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_stock_invoice_onshipping_vol_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_stock_picking_vol_form
 msgid "Peso Líquido (kg)"
-msgstr ""
+msgstr "Peso líquido (kg)"
 
 #. module: l10n_br_delivery_nfe
 #: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_invoice_onshipping_vol__nfe40_pesoB
 #: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_picking_vol__nfe40_pesoB
 msgid "Peso bruto (em kg)"
-msgstr ""
+msgstr "Peso bruto (em kg)"
 
 #. module: l10n_br_delivery_nfe
 #: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_invoice_onshipping_vol__nfe40_pesoL
 #: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_picking_vol__nfe40_pesoL
 msgid "Peso líquido (em kg)"
-msgstr ""
+msgstr "Peso líquido (em kg)"
 
 #. module: l10n_br_delivery_nfe
 #: model:ir.model,name:l10n_br_delivery_nfe.model_product_template
@@ -268,53 +275,53 @@ msgstr "Produto"
 #. module: l10n_br_delivery_nfe
 #: model:ir.model,name:l10n_br_delivery_nfe.model_product_product
 msgid "Product Variant"
-msgstr ""
+msgstr "Variante do produto"
 
 #. module: l10n_br_delivery_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_l10n_br_delivery_nfe_invoice_onshipping
 #: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_picking_withcarrier_out_form_inherit
 #: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_stock_generate_volumes
 msgid "Qt Vol"
-msgstr ""
+msgstr "Qtd. volumes"
 
 #. module: l10n_br_delivery_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_stock_invoice_onshipping_vol_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_stock_picking_vol_form
 msgid "Quantidade"
-msgstr ""
+msgstr "Quantidade"
 
 #. module: l10n_br_delivery_nfe
 #: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_invoice_onshipping_vol__nfe40_qVol
 #: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_picking_vol__nfe40_qVol
 msgid "Quantidade de volumes transportados"
-msgstr ""
+msgstr "Quantidade de volumes transportados"
 
 #. module: l10n_br_delivery_nfe
 #: model:ir.model,name:l10n_br_delivery_nfe.model_stock_generate_volumes
 msgid "Stock Generate Volumes"
-msgstr "Gerar volumes de estoque"
+msgstr "Geração de volumes da transferência"
 
 #. module: l10n_br_delivery_nfe
 #: model:ir.model,name:l10n_br_delivery_nfe.model_stock_invoice_onshipping
 msgid "Stock Invoice Onshipping"
-msgstr "Faturamento ao Enviar"
+msgstr "Faturamento de transferências"
 
 #. module: l10n_br_delivery_nfe
 #: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_picking_vol__picking_id
 msgid "Stock Picking"
-msgstr "Separação de Estoque"
+msgstr "Transferência"
 
 #. module: l10n_br_delivery_nfe
 #: model:ir.model.fields,help:l10n_br_delivery_nfe.field_stock_picking__has_vol
 msgid "Technical Field: True if the picking has already generated Volume IDs."
-msgstr "Campo técnico: verdadeiro se a separação já gerou IDs de volume."
+msgstr "Campo técnico: verdadeiro se a transferência já gerou os volumes."
 
 #. module: l10n_br_delivery_nfe
 #: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_account_bank_statement_line__total_weight
 #: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_account_move__total_weight
 #: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_l10n_br_fiscal_document__total_weight
 msgid "Total Weight"
-msgstr ""
+msgstr "Peso total"
 
 #. module: l10n_br_delivery_nfe
 #: model:ir.model,name:l10n_br_delivery_nfe.model_stock_picking
@@ -327,7 +334,7 @@ msgstr "Transferência"
 #: model:ir.model.fields,help:l10n_br_delivery_nfe.field_product_product__product_volume_type
 #: model:ir.model.fields,help:l10n_br_delivery_nfe.field_product_template__product_volume_type
 msgid "Type of transported volumes: Mapped onto 'nfe40_esp'"
-msgstr "Tipo de volumes transportados: mapeado em 'nfe40_esp'"
+msgstr "Espécie dos volumes transportados: vai para o campo 'nfe40_esp'"
 
 #. module: l10n_br_delivery_nfe
 #: model:ir.model,name:l10n_br_delivery_nfe.model_stock_invoice_onshipping_vol
@@ -336,7 +343,7 @@ msgstr "Tipo de volumes transportados: mapeado em 'nfe40_esp'"
 #: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_invoice_onshipping__vol_ids
 #: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_picking__vol_ids
 msgid "Volume Data"
-msgstr ""
+msgstr "Dados dos volumes"
 
 #. module: l10n_br_delivery_nfe
 #: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_product_product__product_volume_type
@@ -347,7 +354,7 @@ msgstr "Tipo de volume"
 #. module: l10n_br_delivery_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_picking_withcarrier_out_form_inherit
 msgid "Volumes"
-msgstr ""
+msgstr "Volumes"
 
 #. module: l10n_br_delivery_nfe
 #: model:ir.model,name:l10n_br_delivery_nfe.model_stock_invoice_onshipping_lacres
@@ -355,7 +362,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_invoice_onshipping_vol__nfe40_lacres
 #: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_picking_vol__nfe40_lacres
 msgid "lacres"
-msgstr ""
+msgstr "lacres"
 
 #. module: l10n_br_delivery_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_delivery_nfe.view_stock_generate_volumes
@@ -365,12 +372,12 @@ msgstr "ou"
 #. module: l10n_br_delivery_nfe
 #: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_invoice_onshipping_vol__generate_vols_wizard_id
 msgid "stock.generate.volumes"
-msgstr ""
+msgstr "stock.generate.volumes"
 
 #. module: l10n_br_delivery_nfe
 #: model:ir.model.fields,field_description:l10n_br_delivery_nfe.field_stock_invoice_onshipping_vol__invoice_wizard_id
 msgid "stock.invoice.onshipping"
-msgstr ""
+msgstr "stock.invoice.onshipping"
 
 #~ msgid "Last Modified on"
 #~ msgstr "Última Modificação em"
