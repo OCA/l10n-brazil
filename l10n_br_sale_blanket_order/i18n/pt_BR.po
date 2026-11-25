@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2026-10-20 21:53+0000\n"
+"PO-Revision-Date: 2026-11-25 23:46+0000\n"
 "Last-Translator: Luis Felipe Miléo <mileo@kmee.com.br>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.15.2\n"
+"X-Generator: Weblate 2026.11.2\n"
 
 #. module: l10n_br_sale_blanket_order
 #: model_terms:ir.ui.view,arch_db:l10n_br_sale_blanket_order.inherit_sale_blanket_order_line_form_fiscal_tabs
@@ -161,6 +161,10 @@ msgid ""
 "preserved as-is for fiscal bookkeeping / SPED (e.g. C197), while cfop_id "
 "reflects the company's own operation after the de-para."
 msgstr ""
+"CFOP conforme declarado pela contraparte no documento importado. É "
+"preservado como está para a escrituração fiscal e o SPED (por exemplo, C197)"
+", enquanto o CFOP do documento reflete a operação da própria empresa depois "
+"do de-para."
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__cnae_id
@@ -196,7 +200,7 @@ msgstr "COFINS Código da Base"
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__cofins_base_type
 msgid "COFINS Base Type"
-msgstr "Tipo da Base da COFINS"
+msgstr "Tipo de base da COFINS"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__cofins_cst_code
@@ -216,7 +220,7 @@ msgstr "% RET COFINS"
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__cofins_wh_reduction
 msgid "COFINS RET % Reduction"
-msgstr "% de Redução da COFINS RET"
+msgstr "% de redução da COFINS RET"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__cofins_wh_base
@@ -417,7 +421,7 @@ msgstr "Tipo de Empresa"
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__ind_final
 msgid "Consumidor final"
-msgstr ""
+msgstr "Consumidor final"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order__copy_note
@@ -1405,7 +1409,7 @@ msgstr "Linha de Pedido do Parceiro (nItemPed)"
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__p_devol
 msgid "Percentual de mercadoria devolvida"
-msgstr ""
+msgstr "Percentual de mercadoria devolvida"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__price_unit
@@ -1754,7 +1758,7 @@ msgstr "Valor do ICMS Próprio do Substituto cobrado em operação anterior"
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,field_description:l10n_br_sale_blanket_order.field_sale_blanket_order_line__ipi_devol_value
 msgid "Valor do IPI devolvido"
-msgstr ""
+msgstr "Valor do IPI devolvido"
 
 #. module: l10n_br_sale_blanket_order
 #: model:ir.model.fields,help:l10n_br_sale_blanket_order.field_sale_blanket_order_line__icms_relief_type
@@ -1770,7 +1774,7 @@ msgstr ""
 #. module: l10n_br_sale_blanket_order
 #: model:product.pricelist,name:l10n_br_sale_blanket_order.sale_blanket_order_pricelist_demo
 msgid "l10n_br_sale_blanket_order demo pricelist"
-msgstr ""
+msgstr "Lista de preço de demonstração do l10n_br_sale_blanket_order"
 
 #~ msgid "National Simple Taxes"
 #~ msgstr "Impostos do Simples Nacional"
