@@ -1,6 +1,6 @@
 [project]
 name = "odoo-addons-oca-l10n-brazil"
-version = "19.0.20261117.1"
+version = "19.0.20261125.0"
 dependencies = [
     "odoo-addon-l10n_br_account==19.0.*",
     "odoo-addon-l10n_br_account_due_list==19.0.*",
@@ -28,6 +28,7 @@ dependencies = [
     "odoo-addon-l10n_br_setup_tests==19.0.*",
     "odoo-addon-l10n_br_stock==19.0.*",
     "odoo-addon-l10n_br_zip==19.0.*",
+    "odoo-addon-spec_driven_model==19.0.*",
 ]
 classifiers=[
     "Programming Language :: Python",
