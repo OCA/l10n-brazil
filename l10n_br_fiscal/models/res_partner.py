@@ -128,6 +128,19 @@ class ResPartner(models.Model):
         string="NIF motive absence",
     )
 
+    show_l10n_br_fiscal = fields.Boolean(
+        compute="_compute_show_l10n_br_fiscal",
+        help="Should display the Fiscal tab? True for Brazilian partners and "
+        "for any partner when the current company is Brazilian.",
+    )
+
+    @api.depends("show_l10n_br")
+    @api.depends_context("company")
+    def _compute_show_l10n_br_fiscal(self):
+        company_br = self.env.company.country_id.code == "BR"
+        for record in self:
+            record.show_l10n_br_fiscal = record.show_l10n_br or company_br
+
     def _inverse_fiscal_profile(self):
         for p in self:
             p._onchange_fiscal_profile_id()
