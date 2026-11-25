@@ -59,6 +59,7 @@ class Document(models.Model):
         from the existing manually-entered fiscal additional data field.
         """
         result = super()._prepare_dados_servico()
+        self.invalidate_recordset(["manual_fiscal_additional_data"])
         result["discriminacao_deducoes"] = self.manual_fiscal_additional_data or ""
         return result
 
