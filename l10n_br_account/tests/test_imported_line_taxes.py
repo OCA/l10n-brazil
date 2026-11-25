@@ -18,7 +18,7 @@ class TestImportedLineTaxes(AccountMoveBRCommon):
         cls.operation = cls.env.ref("l10n_br_fiscal.fo_compras")
         cls.operation_line = cls.env.ref("l10n_br_fiscal.fo_compras_compras")
 
-    def _import_document_with_taxes_from_a_file(self):
+    def _import_document_with_taxes_from_a_file(self, line_values=None):
         document = self.env["l10n_br_fiscal.document"].create(
             {
                 "fiscal_operation_id": self.operation.id,
@@ -32,16 +32,18 @@ class TestImportedLineTaxes(AccountMoveBRCommon):
                 "imported_document": True,
             }
         )
-        self.env["l10n_br_fiscal.document.line"].create(
-            {
-                "document_id": document.id,
-                "name": "Imported purchase line",
-                "product_id": self.product_a.id,
-                "quantity": 39,
-                "price_unit": 100.0,
-                "fiscal_operation_type": "in",
-                "fiscal_operation_id": self.operation.id,
-                "fiscal_operation_line_id": self.operation_line.id,
+        default_line_values = {
+            "document_id": document.id,
+            "name": "Imported purchase line",
+            "product_id": self.product_a.id,
+            "quantity": 39,
+            "price_unit": 100.0,
+            "fiscal_operation_type": "in",
+            "fiscal_operation_id": self.operation.id,
+            "fiscal_operation_line_id": self.operation_line.id,
+        }
+        if line_values is None:
+            line_values = {
                 "icms_tax_id": self.env.ref("l10n_br_fiscal.tax_icms_nt").id,
                 "icms_base": 3900.0,
                 "icms_percent": 12.0,
@@ -51,6 +53,8 @@ class TestImportedLineTaxes(AccountMoveBRCommon):
                 "ipi_percent": 9.75,
                 "ipi_value": 380.25,
             }
+        self.env["l10n_br_fiscal.document.line"].create(
+            {**default_line_values, **line_values}
         )
         move_form = (
             self.env["account.move"]
@@ -77,3 +81,29 @@ class TestImportedLineTaxes(AccountMoveBRCommon):
 
         self.assertEqual(sum(payment_term_lines.mapped("credit")), 4280.25)
         self.assertEqual(document.amount_financial_total, 4280.25)
+
+    def test_the_icmssn_credit_of_the_file_does_not_change_the_payment_term(self):
+        # Simples Nacional supplier (CSOSN 101): pCredSN/vCredICMSSN is only
+        # informative. As in a real import, the SN tax comes in icms_tax_id and
+        # the line has no icmssn_tax_id.
+        _document, move = self._import_document_with_taxes_from_a_file(
+            {
+                "quantity": 1,
+                "price_unit": 1000.0,
+                "icms_tax_id": self.env.ref(
+                    "l10n_br_fiscal.tax_icms_sn_com_credito"
+                ).id,
+                "icms_cst_id": self.env.ref("l10n_br_fiscal.cst_icmssn_101").id,
+                "icmssn_percent": 2.24,
+                "icmssn_credit_value": 22.4,
+            }
+        )
+        tax_lines = move.line_ids.filtered(lambda line: line.display_type == "tax")
+        payment_term_lines = move.line_ids.filtered(
+            lambda line: line.display_type == "payment_term"
+        )
+
+        self.assertFalse(tax_lines)
+        self.assertEqual(sum(payment_term_lines.mapped("credit")), 1000.0)
+        self.assertEqual(move.amount_residual, move.amount_total)
+        self.assertEqual(move.amount_total, 1000.0)

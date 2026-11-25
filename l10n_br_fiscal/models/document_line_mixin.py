@@ -556,15 +556,18 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         groups = self.env["l10n_br_fiscal.tax.group"].search([])
         return {group.tax_domain: group for group in groups}
 
-    def _update_imported_tax_amounts(self, tax_groups):
+    def _iter_imported_taxes(self, tax_groups):
+        """Yield the taxes charged by the imported file, one per tax domain.
+
+        The tax group comes from the tax of the line or, when the file did not
+        resolve one, from the domain. The Simples Nacional credit is informative
+        only (it is not a tax charged on the document), so it is never yielded.
+        """
         self.ensure_one()
         empty_group = self.env["l10n_br_fiscal.tax.group"]
-        amount_included = amount_not_included = amount_withholding = 0.0
         for tax_field in FISCAL_TAX_ID_FIELDS:
             tax_domain = tax_field[: -len("_tax_id")]
             if tax_domain == TAX_DOMAIN_ICMS_SN:
-                # The Simples Nacional credit is informative only: it is not
-                # a tax charged on the document, so it never changes the totals.
                 continue
             tax_value = self[TAX_VALUE_FIELDS[tax_domain]]
             if not tax_value:
@@ -572,6 +575,14 @@ class FiscalDocumentLineMixin(models.AbstractModel):
             tax_group = self[tax_field].tax_group_id or tax_groups.get(
                 tax_domain, empty_group
             )
+            yield tax_domain, self[tax_field], tax_value, tax_group
+
+    def _update_imported_tax_amounts(self, tax_groups):
+        self.ensure_one()
+        amount_included = amount_not_included = amount_withholding = 0.0
+        for _domain, _tax, tax_value, tax_group in self._iter_imported_taxes(
+            tax_groups
+        ):
             if tax_group.tax_withholding:
                 amount_withholding += tax_value
             elif tax_group.tax_include:
@@ -593,19 +604,16 @@ class FiscalDocumentLineMixin(models.AbstractModel):
             return {}
         self.ensure_one()
         imported_values = {}
-        for tax_field in FISCAL_TAX_ID_FIELDS:
-            tax_domain = tax_field[: -len("_tax_id")]
-            tax_value = self[TAX_VALUE_FIELDS[tax_domain]]
-            if not tax_value:
-                continue
-            tax = self[tax_field]
+        for tax_domain, tax, tax_value, tax_group in self._iter_imported_taxes(
+            self._tax_groups_by_domain()
+        ):
             base_field = f"{tax_domain}_base"
             imported_values[tax_domain] = {
                 "name": tax.name,
                 "tax_domain": tax_domain,
                 "fiscal_tax_id": tax.id,
-                "tax_include": tax.tax_group_id.tax_include,
-                "tax_withholding": tax.tax_group_id.tax_withholding,
+                "tax_include": tax_group.tax_include,
+                "tax_withholding": tax_group.tax_withholding,
                 "base": self[base_field] if base_field in self._fields else 0.0,
                 "tax_value": tax_value,
             }
