@@ -1,12 +1,12 @@
 # Copyright (C) 2026 - TODAY Akretion
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from lxml import etree
-
-from odoo import Command
 from odoo.tests import Form, TransactionCase, new_test_user, tagged, users
 
-from odoo.addons.l10n_br_fiscal.tests.tools import load_fiscal_fixture_files
+from odoo.addons.l10n_br_fiscal.tests.tools import (
+    assert_line_edit_mode_follows_group,
+    load_fiscal_fixture_files,
+)
 
 
 def _get_widget_icms(tax_totals):
@@ -224,37 +224,13 @@ class TestSaleOrderEdition(TransactionCase):
         self.test_fiscal_sale_order_tax_totals_on_edition()
 
     def test_get_view_cache_follows_fiscal_detail_group(self):
-        """The cached form view must follow the fiscal detail group of the user."""
-        users = self.env["res.users"]
-        for login, groups in (
-            ("l10n_br_sale_view_inline", ["sales_team.group_sale_salesman"]),
-            (
-                "l10n_br_sale_view_popup",
-                [
-                    "sales_team.group_sale_salesman",
-                    "l10n_br_sale.group_line_fiscal_detail",
-                ],
-            ),
-        ):
-            users |= users.create(
-                {
-                    "name": login,
-                    "login": login,
-                    "company_id": self.company.id,
-                    "company_ids": [Command.set(self.company.ids)],
-                    "groups_id": [Command.set([self.env.ref(g).id for g in groups])],
-                }
-            )
-        self.env.registry.clear_cache("templates")
-        modes = []
-        for user in users:
-            arch = (
-                self.env["sale.order"]
-                .with_user(user)
-                .with_company(self.company)
-                .get_view(view_type="form")["arch"]
-            )
-            node = etree.fromstring(arch).xpath("//field[@name='order_line']/list")[0]
-            modes.append(node.get("editable"))
-        self.assertNotEqual(modes[0], "")
-        self.assertEqual(modes[1], "")
+        assert_line_edit_mode_follows_group(
+            self,
+            "sale.order",
+            "order_line",
+            [
+                "sales_team.group_sale_salesman",
+                "l10n_br_sale.group_line_fiscal_detail",
+            ],
+            self.company,
+        )

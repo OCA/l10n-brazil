@@ -66,8 +66,11 @@ class PurchaseBlanketOrder(models.Model):
     def _get_view_cache_key(self, view_id=None, view_type="form", **options):
         """Separate cached views whose fiscal line edit mode differs."""
         key = super()._get_view_cache_key(view_id, view_type, **options)
+        is_br = self.env.company.country_id.code == "BR"
+        if view_type != "form" or not is_br:
+            return key + (is_br,)
         return key + (
-            self.env.company.country_id.code == "BR",
+            is_br,
             self.env.user.has_group("l10n_br_purchase.group_line_fiscal_detail"),
             bool(self.env.context.get("force_line_fiscal_detail")),
         )
