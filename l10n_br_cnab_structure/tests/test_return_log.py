@@ -149,3 +149,33 @@ class TestReturnLog(AccountTestInvoicingCommon):
         self.assertEqual(sum_balance(rebate_moves), 2.00)
         self.assertEqual(sum_balance(discount_moves), 10.00)
         self.assertEqual(sum_balance(tariff_moves), 5.00)
+        # The journal sequence names the entry, the return data goes to ref
+        self.assertTrue(
+            event.generated_move_id.name.startswith(self.bank_journal_itau.code)
+        )
+        self.assertIn("ABCX123", event.generated_move_id.ref)
+
+    def test_tariff_move_create(self):
+        self.invoice.action_post()
+        return_log = self.return_log_obj.create(
+            {
+                "journal_id": self.bank_journal_itau.id,
+                "type": "inbound",
+            }
+        )
+        event = self.event_obj.create(
+            {
+                "tariff_charge": 5.00,
+                "occurrence_date": date(2023, 4, 1),
+                "cnab_return_log_id": return_log.id,
+                "move_line_ids": self.invoice.line_ids.filtered(
+                    lambda line: line.account_type == "asset_receivable"
+                ),
+                "your_number": "ABCX124",
+            }
+        )
+        event.confirm_event()
+        move = event.generated_move_id
+        self.assertEqual(move.state, "posted")
+        self.assertTrue(move.name.startswith(self.bank_journal_itau.code))
+        self.assertIn("ABCX124", move.ref)
