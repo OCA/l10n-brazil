@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-09-26 11:58+0000\n"
-"PO-Revision-Date: 2026-10-20 19:45+0000\n"
+"PO-Revision-Date: 2026-11-25 23:46+0000\n"
 "Last-Translator: Luis Felipe Miléo <mileo@kmee.com.br>\n"
 "Language-Team: \n"
 "Language: pt_BR\n"
@@ -15,17 +15,17 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.15.2\n"
+"X-Generator: Weblate 2026.11.2\n"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields.selection,name:l10n_br_hr.selection__hr_employee__blood_type__a+
 msgid "A+"
-msgstr ""
+msgstr "A+"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields.selection,name:l10n_br_hr.selection__hr_employee__blood_type__a-
 msgid "A-"
-msgstr ""
+msgstr "A-"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields.selection,name:l10n_br_hr.selection__hr_employee__blood_type__ab+
@@ -40,7 +40,7 @@ msgstr "AB-"
 #. module: l10n_br_hr
 #: model:hr.department,name:l10n_br_hr.demo_department_administrativo
 msgid "Administrativo"
-msgstr ""
+msgstr "Administrativo"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__alternate_email
@@ -55,22 +55,22 @@ msgstr "Telefone Alternativo"
 #. module: l10n_br_hr
 #: model:hr.job,name:l10n_br_hr.demo_job_analista_admin
 msgid "Analista Administrativo"
-msgstr ""
+msgstr "Analista Administrativo"
 
 #. module: l10n_br_hr
 #: model:hr.job,name:l10n_br_hr.demo_job_analista_rh
 msgid "Analista de RH"
-msgstr ""
+msgstr "Analista de RH"
 
 #. module: l10n_br_hr
 #: model:hr.job,name:l10n_br_hr.demo_job_analista_sistemas
 msgid "Analista de Sistemas"
-msgstr ""
+msgstr "Analista de Sistemas"
 
 #. module: l10n_br_hr
 #: model:hr.job,name:l10n_br_hr.demo_job_aprendiz_admin
 msgid "Aprendiz Administrativo"
-msgstr ""
+msgstr "Aprendiz Administrativo"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields.selection,name:l10n_br_hr.selection__hr_employee__employee_relationship_type__autonomo
@@ -86,12 +86,12 @@ msgstr "Autônomos"
 #. module: l10n_br_hr
 #: model:ir.model.fields.selection,name:l10n_br_hr.selection__hr_employee__blood_type__b+
 msgid "B+"
-msgstr ""
+msgstr "B+"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields.selection,name:l10n_br_hr.selection__hr_employee__blood_type__b-
 msgid "B-"
-msgstr ""
+msgstr "B-"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__birth_city_id
@@ -128,7 +128,7 @@ msgstr "CPF"
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__vat_formatted_cnpj
 msgid "CPF Formatted"
-msgstr ""
+msgstr "CPF formatado"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee__vat_formatted_cnpj
@@ -136,6 +136,8 @@ msgid ""
 "CPF displayed with punctuation (XXX.XXX.XXX-XX); it is stored unformatted in "
 "the vat field."
 msgstr ""
+"CPF exibido com pontuação (XXX.XXX.XXX-XX); é armazenado sem pontuação no "
+"campo vat."
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__ctps
@@ -498,12 +500,12 @@ msgstr "Número"
 #. module: l10n_br_hr
 #: model:ir.model.fields.selection,name:l10n_br_hr.selection__hr_employee__blood_type__o+
 msgid "O+"
-msgstr ""
+msgstr "O+"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields.selection,name:l10n_br_hr.selection__hr_employee__blood_type__o-
 msgid "O-"
-msgstr ""
+msgstr "O-"
 
 #. module: l10n_br_hr
 #: model_terms:ir.ui.view,arch_db:l10n_br_hr.view_l10n_br_hr_cbo_filter
@@ -513,12 +515,12 @@ msgstr "Ocupação"
 #. module: l10n_br_hr
 #: model:hr.department,name:l10n_br_hr.demo_department_operacional
 msgid "Operacional"
-msgstr ""
+msgstr "Operacional"
 
 #. module: l10n_br_hr
 #: model:hr.job,name:l10n_br_hr.demo_job_operador_industrial
 msgid "Operador Industrial"
-msgstr ""
+msgstr "Operador Industrial"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__pis_pasep
@@ -529,7 +531,7 @@ msgstr "PIS / PASEP"
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__pis_pasep_formatted
 msgid "PIS/PASEP Formatted"
-msgstr ""
+msgstr "PIS/PASEP formatado"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee__pis_pasep_formatted
@@ -537,6 +539,8 @@ msgid ""
 "PIS/PASEP displayed with punctuation (XXX.XXXXX.XX-X); it is stored "
 "unformatted in the pis_pasep field."
 msgstr ""
+"PIS/PASEP exibido com pontuação (XXX.XXXXX.XX-X); é armazenado sem pontuação "
+"no campo pis_pasep."
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__pis_pasep_date
@@ -587,7 +591,7 @@ msgstr "Separado"
 #. module: l10n_br_hr
 #: model:hr.department,name:l10n_br_hr.demo_department_ti
 msgid "Tecnologia da Informação"
-msgstr ""
+msgstr "Tecnologia da Informação"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields.selection,name:l10n_br_hr.selection__hr_employee__employee_relationship_type__terceirizado
@@ -604,7 +608,7 @@ msgstr "Terceirizados"
 #. odoo-python
 #: code:addons/l10n_br_hr/models/hr_employee.py:0
 msgid "The CTPS number must hold up to 11 digits, without punctuation."
-msgstr ""
+msgstr "O número da CTPS deve ter até 11 dígitos, sem pontuação."
 
 #. module: l10n_br_hr
 #: model:ir.model.fields.selection,name:l10n_br_hr.selection__hr_employee__cresv_categ__3
@@ -619,7 +623,7 @@ msgstr "Tipo de Colaborador"
 #. module: l10n_br_hr
 #: model:hr.job,name:l10n_br_hr.demo_job_tecnico_seguranca
 msgid "Técnico de Segurança do Trabalho"
-msgstr ""
+msgstr "Técnico de Segurança do Trabalho"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_res_partner__union_entity_code
