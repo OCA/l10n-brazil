@@ -497,16 +497,6 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_dashboard_kanban
-msgid "<span class=\"fw-bolder\">Ações</span>"
-msgstr ""
-
-#. module: l10n_br_fiscal
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_dashboard_kanban
-msgid "<span>Novo Documento</span>"
-msgstr ""
-
-#. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_form
 msgid "<strong>Authorized</strong>"
 msgstr ""
@@ -630,11 +620,6 @@ msgid "A Tax is necessary to create fiscal operations for your fiscal moves."
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_dashboard_kanban
-msgid "A enviar"
-msgstr ""
-
-#. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__res_company__report_withholding_display__grouped
 msgid "A single line"
 msgstr ""
@@ -678,6 +663,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_service_type__message_needaction
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__message_needaction
 msgid "Action Needed"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_dashboard_kanban
+msgid "Actions"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -1162,6 +1152,11 @@ msgid "Attachment Count"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_dashboard_kanban
+msgid "Authorized"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_cest__segment__01
 msgid "Autopeças"
 msgstr ""
@@ -1169,11 +1164,6 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document_line_report__state_edoc__autorizada
 msgid "Autorizada"
-msgstr ""
-
-#. module: l10n_br_fiscal
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_dashboard_kanban
-msgid "Autorizados"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -1224,12 +1214,6 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__is_benefit
 msgid "Benefit?"
-msgstr ""
-
-#. module: l10n_br_fiscal
-#. odoo-python
-#: code:addons/l10n_br_fiscal/models/operation_dashboard.py:0
-msgid "Bills to pay"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -1923,7 +1907,7 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_dashboard_kanban
-msgid "Cancelados"
+msgid "Cancellations"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -5850,6 +5834,7 @@ msgstr ""
 #. module: l10n_br_fiscal
 #. odoo-python
 #: code:addons/l10n_br_fiscal/models/report_mixin.py:0
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_dashboard_search
 msgid "Incoming"
 msgstr ""
 
@@ -5998,12 +5983,6 @@ msgid "Inverse Operation"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#. odoo-python
-#: code:addons/l10n_br_fiscal/models/operation_dashboard.py:0
-msgid "Invoices owed to you"
-msgstr ""
-
-#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_partner_profile__is_company
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.partner_profile_search
 msgid "Is Company?"
@@ -6120,6 +6099,13 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model:uom.uom,name:l10n_br_fiscal.UOM_LATA
 msgid "LATA"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#. odoo-python
+#: code:addons/l10n_br_fiscal/models/operation_dashboard.py:0
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_dashboard_search
+msgid "Last 7 days"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -6836,6 +6822,11 @@ msgid "Net amount"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_dashboard_kanban
+msgid "New Document"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__activity_calendar_event_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__activity_calendar_event_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_nbs__activity_calendar_event_id
@@ -6960,6 +6951,11 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.partner_profile_form
 msgid "Notes"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_dashboard_kanban
+msgid "Nothing pending"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -7382,6 +7378,7 @@ msgstr ""
 #. module: l10n_br_fiscal
 #. odoo-python
 #: code:addons/l10n_br_fiscal/models/report_mixin.py:0
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_dashboard_search
 msgid "Outgoing"
 msgstr ""
 
@@ -7768,6 +7765,11 @@ msgid "Pauta (valor)"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_dashboard_kanban
+msgid "Pending"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax__percent_amount
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__contract_line__cbs_base_type__percent
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__contract_line__cofins_base_type__percent
@@ -7952,6 +7954,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__processador_edoc
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__processador_edoc
 msgid "Processador documentos eletrônicos"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_dashboard_kanban
+msgid "Processing"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -8407,6 +8414,11 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__state_fiscal__01
 msgid "Regular extemporâneo"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_dashboard_kanban
+msgid "Rejected"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -9857,6 +9869,13 @@ msgid "This is the fiscal dashboard"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#. odoo-python
+#: code:addons/l10n_br_fiscal/models/operation_dashboard.py:0
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_dashboard_search
+msgid "This month"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_cest__segment__22
 msgid "Tintas e vernizes"
 msgstr ""
@@ -9882,6 +9901,18 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__state_to_ids
 msgid "To States"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_dashboard_kanban
+msgid "To send"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#. odoo-python
+#: code:addons/l10n_br_fiscal/models/operation_dashboard.py:0
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_dashboard_search
+msgid "Today"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -10166,11 +10197,6 @@ msgid "Venda de mercadorias pelo sistema porta a porta"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_dashboard_kanban
-msgid "Ver Todos"
-msgstr ""
-
-#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_cnae__version
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_estimate__version
 msgid "Version"
@@ -10190,6 +10216,11 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_cnae__internal_type__view
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_service_type__internal_type__view
 msgid "View"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_dashboard_kanban
+msgid "View All"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -10251,6 +10282,12 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_operation_indicator__operation_location
 msgid ""
 "Where the operation is considered to take place according to the legislation"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation__dashboard_active
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_dashboard_search
+msgid "With Activity"
 msgstr ""
 
 #. module: l10n_br_fiscal
