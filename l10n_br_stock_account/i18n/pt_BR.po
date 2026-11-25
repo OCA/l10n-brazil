@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-11-05 07:08+0000\n"
-"PO-Revision-Date: 2026-10-23 07:39+0000\n"
+"PO-Revision-Date: 2026-11-25 23:46+0000\n"
 "Last-Translator: Luis Felipe Miléo <mileo@kmee.com.br>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: pt_BR\n"
@@ -11,12 +11,12 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.15.2\n"
+"X-Generator: Weblate 2026.11.2\n"
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_invoice_onshipping__fiscal_operation_journal
 msgid "Account Jornal from Fiscal Operation"
-msgstr "Diário de Conta a partir da Operação Fiscal"
+msgstr "Usar o diário da operação fiscal"
 
 #. module: l10n_br_stock_account
 #: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_move_form
@@ -143,6 +143,10 @@ msgid ""
 "preserved as-is for fiscal bookkeeping / SPED (e.g. C197), while cfop_id "
 "reflects the company's own operation after the de-para."
 msgstr ""
+"CFOP conforme declarado pela contraparte no documento importado. É "
+"preservado como está para a escrituração fiscal e o SPED (por exemplo, C197)"
+", enquanto o CFOP do documento reflete a operação da própria empresa depois "
+"do de-para."
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__cnae_id
@@ -173,7 +177,7 @@ msgstr "COFINS Código da Base"
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__cofins_base_type
 msgid "COFINS Base Type"
-msgstr "Tipo da Base da COFINS"
+msgstr "Tipo de base da COFINS"
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__cofins_cst_code
@@ -193,7 +197,7 @@ msgstr "% RET COFINS"
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__cofins_wh_reduction
 msgid "COFINS RET % Reduction"
-msgstr "% de Redução da COFINS RET"
+msgstr "% de redução da COFINS RET"
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__cofins_wh_base
@@ -396,7 +400,7 @@ msgstr "Tipo de Empresa"
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__ind_final
 msgid "Consumidor final"
-msgstr ""
+msgstr "Consumidor final"
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__partner_id
@@ -427,7 +431,7 @@ msgstr "Encargos Alfandegários"
 #. module: l10n_br_stock_account
 #: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_move_fiscal_report_search
 msgid "Date"
-msgstr ""
+msgstr "Data"
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking_type__fiscal_operation_id
@@ -469,7 +473,7 @@ msgstr "Valor do Desconto"
 #. module: l10n_br_stock_account
 #: model:account.journal,name:l10n_br_stock_account.devolucao_compras_journal_main_company
 msgid "Diário Devolução de Compras"
-msgstr ""
+msgstr "Diário de devolução de compras"
 
 #. module: l10n_br_stock_account
 #: model:account.journal,name:l10n_br_stock_account.entrada_remessa_journal_lucro_presumido
@@ -477,7 +481,7 @@ msgstr ""
 #: model:account.journal,name:l10n_br_stock_account.entrada_remessa_journal_main_company
 #: model:account.journal,name:l10n_br_stock_account.entrada_remessa_journal_simples_nacional
 msgid "Diário Entrada Remessa"
-msgstr ""
+msgstr "Diário de entrada de remessa"
 
 #. module: l10n_br_stock_account
 #: model:account.journal,name:l10n_br_stock_account.simples_remessa_journal_lucro_presumido
@@ -485,22 +489,22 @@ msgstr ""
 #: model:account.journal,name:l10n_br_stock_account.simples_remessa_journal_main_company
 #: model:account.journal,name:l10n_br_stock_account.simples_remessa_journal_simples_nacional
 msgid "Diário Simples Remessa"
-msgstr ""
+msgstr "Diário de simples remessa"
 
 #. module: l10n_br_stock_account
 #: model:account.journal,name:l10n_br_stock_account.devolucao_vendas_journal_main_company
 msgid "Diário de Devolução de Vendas"
-msgstr ""
+msgstr "Diário de devolução de vendas"
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__key_check_digit
 msgid "Document Key Check Digit"
-msgstr "Dígito de Verificação da Chave do Documento"
+msgstr "Dígito verificador da chave do documento"
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__key_random_code
 msgid "Document Key Random Code"
-msgstr "Código Aleatório da Chave do Documento"
+msgstr "Código numérico da chave do documento"
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__document_serie_id
@@ -510,7 +514,7 @@ msgstr "Série do Documento"
 #. module: l10n_br_stock_account
 #: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_move_fiscal_report_search
 msgid "Done"
-msgstr ""
+msgstr "Concluído"
 
 #. module: l10n_br_stock_account
 #: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_picking_form
@@ -640,7 +644,7 @@ msgstr "Quantidade Fiscal"
 #: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_move_fiscal_report_pivot
 #: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_move_fiscal_report_search
 msgid "Fiscal Stock Moves"
-msgstr ""
+msgstr "Movimentações fiscais de estoque"
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__fiscal_tax_ids
@@ -676,7 +680,7 @@ msgstr "Grupo"
 #. module: l10n_br_stock_account
 #: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_move_fiscal_report_search
 msgid "Group By"
-msgstr ""
+msgstr "Agrupar por"
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,help:l10n_br_stock_account.field_stock_invoice_onshipping__group
@@ -1241,17 +1245,17 @@ msgstr ""
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__insurance_endorsement
 msgid "Insurance Endorsement"
-msgstr "Averbação do Seguro"
+msgstr "Averbação do seguro"
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__insurance_policy
 msgid "Insurance Policy"
-msgstr "Apólice de Seguro"
+msgstr "Apólice de seguro"
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__partner_insurance_id
 msgid "Insurance Provider"
-msgstr "Provedor do Seguro"
+msgstr "Seguradora"
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__insurance_value
@@ -1532,7 +1536,7 @@ msgstr "Linha de Pedido do Parceiro (nItemPed)"
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__p_devol
 msgid "Percentual de mercadoria devolvida"
-msgstr ""
+msgstr "Percentual de mercadoria devolvida"
 
 #. module: l10n_br_stock_account
 #: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_move_fiscal_report_search
@@ -1577,7 +1581,7 @@ msgstr ""
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__partner_receivering_id
 msgid "Receiver Address"
-msgstr "Endereço do Recebedor"
+msgstr "Endereço do recebedor"
 
 #. module: l10n_br_stock_account
 #: model:ir.model,name:l10n_br_stock_account.model_stock_return_picking
@@ -1592,7 +1596,7 @@ msgstr "Linha da devolução de transferência"
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__partner_sendering_id
 msgid "Sender Address"
-msgstr "Endereço do Remetente"
+msgstr "Endereço do remetente"
 
 #. module: l10n_br_stock_account
 #: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_picking_form
@@ -1612,7 +1616,7 @@ msgstr "Tipo de Serviço LC 116"
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__partner_shippering_id
 msgid "Shipper Address"
-msgstr "Endereço do Expedidor"
+msgstr "Endereço do expedidor"
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__icmssn_range_id
@@ -1882,12 +1886,12 @@ msgstr "Para ser Faturado"
 #. module: l10n_br_stock_account
 #: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_move_fiscal_report_list
 msgid "Total"
-msgstr ""
+msgstr "Total"
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__total_weight
 msgid "Total Weight"
-msgstr "Peso Total"
+msgstr "Peso total"
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,help:l10n_br_stock_account.field_stock_move__financial_total_gross
@@ -1937,7 +1941,7 @@ msgstr "Valor do ICMS Próprio do Substituto cobrado em operação anterior"
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__ipi_devol_value
 msgid "Valor do IPI devolvido"
-msgstr ""
+msgstr "Valor do IPI devolvido"
 
 #. module: l10n_br_stock_account
 #: model:ir.model.fields,help:l10n_br_stock_account.field_stock_move__icms_relief_type
