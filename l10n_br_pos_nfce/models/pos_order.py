@@ -135,11 +135,15 @@ class PosOrder(models.Model):
     def _has_anonymous_consumer(self):
         return self.cnpj_cpf and self.partner_id.is_anonymous_consumer
 
-    def _prepare_invoice_line(self, order_line):
-        vals = super()._prepare_invoice_line(order_line)
+    @api.model
+    def _get_invoice_lines_values(self, line_values, pos_order_line):
+        vals = super()._get_invoice_lines_values(line_values, pos_order_line)
 
-        if self.config_id.simplified_document_type == MODELO_FISCAL_NFCE:
-            vals.update(order_line._prepare_nfce_tax_dict())
+        if (
+            pos_order_line.order_id.config_id.simplified_document_type
+            == MODELO_FISCAL_NFCE
+        ):
+            vals.update(pos_order_line._prepare_nfce_tax_dict())
 
         return vals
 
@@ -234,7 +238,11 @@ class PosOrderLine(models.Model):
         if fiscal_map_id and len(fiscal_map_id) > 1:
             fiscal_map_id = fields.first(fiscal_map_id)
 
-        # Create base tax_dict
+        # Create base tax_dict. The fiscal map is computed for a unit price of
+        # R$ 1,00, so it only tells WHICH taxes and CSTs apply. Its base, percent
+        # and value must not be copied to the line: a field passed in the create
+        # values is protected from recompute and the NFC-e would go out with a
+        # base of 1,00. The line computes them from the real price and quantity.
         tax_dict = {
             "fiscal_operation_id": fiscal_map_id.fiscal_operation_id.id,
             "fiscal_operation_line_id": fiscal_map_id.fiscal_operation_line_id.id,
@@ -259,40 +267,26 @@ class PosOrderLine(models.Model):
         return {
             "icms_tax_id": fiscal_map_id.icms_tax_id.id,
             "icms_cst_id": fiscal_map_id.icms_cst_id.id,
-            "icms_base": fiscal_map_id.icms_base,
-            "icms_percent": fiscal_map_id.icms_percent,
-            "icms_value": fiscal_map_id.icms_value,
             "icmssn_tax_id": fiscal_map_id.icmssn_tax_id.id,
             "icmssn_range_id": fiscal_map_id.icmssn_range_id.id,
-            "icmssn_base": fiscal_map_id.icmssn_base,
-            "icmssn_percent": fiscal_map_id.icmssn_percent,
         }
 
     def _prepare_nfce_ipi_dict(self, fiscal_map_id):
         return {
             "ipi_tax_id": fiscal_map_id.ipi_tax_id.id,
             "ipi_cst_id": fiscal_map_id.ipi_cst_id.id,
-            "ipi_base": fiscal_map_id.ipi_base,
-            "ipi_percent": fiscal_map_id.ipi_percent,
-            "ipi_value": fiscal_map_id.ipi_value,
         }
 
     def _prepare_nfce_cofins_dict(self, fiscal_map_id):
         return {
             "cofins_tax_id": fiscal_map_id.cofins_tax_id.id,
             "cofins_cst_id": fiscal_map_id.cofins_cst_id.id,
-            "cofins_base": fiscal_map_id.cofins_base,
-            "cofins_percent": fiscal_map_id.cofins_percent,
-            "cofins_value": fiscal_map_id.cofins_value,
         }
 
     def _prepare_pis_icms_dict(self, fiscal_map_id):
         return {
             "pis_tax_id": fiscal_map_id.pis_tax_id.id,
             "pis_cst_id": fiscal_map_id.pis_cst_id.id,
-            "pis_base": fiscal_map_id.pis_base,
-            "pis_percent": fiscal_map_id.pis_percent,
-            "pis_value": fiscal_map_id.pis_value,
         }
 
     def _prepare_nfce_fiscal_tax_ids(self, fiscal_map_id):
