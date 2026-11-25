@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2026-10-20 20:14+0000\n"
+"PO-Revision-Date: 2026-11-25 23:46+0000\n"
 "Last-Translator: Luis Felipe Miléo <mileo@kmee.com.br>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.15.2\n"
+"X-Generator: Weblate 2026.11.2\n"
 
 #. module: l10n_br_cnab_structure
 #: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.cnab_structure_form_view
@@ -442,7 +442,7 @@ msgstr "Lote CNAB"
 #. module: l10n_br_cnab_structure
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_account_payment_line__cnab_beneficiary_name
 msgid "Cnab Beneficiary Name"
-msgstr "Nome do beneficiário CNAB"
+msgstr "Nome do favorecido no CNAB"
 
 #. module: l10n_br_cnab_structure
 #: model:ir.model,name:l10n_br_cnab_structure.model_cnab_line_group_field_condition
@@ -523,7 +523,7 @@ msgstr "Estrutura da Cnab"
 #. module: l10n_br_cnab_structure
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_return_log__cnpj_cpf
 msgid "Cnpj Cpf"
-msgstr ""
+msgstr "CNPJ/CPF"
 
 #. module: l10n_br_cnab_structure
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_occurrence__code
@@ -538,7 +538,7 @@ msgstr "Código"
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line__cnab_format
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_structure__cnab_format
 msgid "Code (Do Not Modify)"
-msgstr ""
+msgstr "Código (não alterar)"
 
 #. module: l10n_br_cnab_structure
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line__communication_flow
@@ -717,7 +717,7 @@ msgstr "ID do tipo de detalhe"
 #. module: l10n_br_cnab_structure
 #: model:ir.model.fields,help:l10n_br_cnab_structure.field_account_journal__inbound_discount_account_id
 msgid "Discount Account for CNAB inbound payments."
-msgstr "Conta de desconto para pagamentos CNAB de entrada."
+msgstr "Conta de desconto para pagamentos de entrada via CNAB."
 
 #. module: l10n_br_cnab_structure
 #: model:ir.model.fields,help:l10n_br_cnab_structure.field_account_journal__outbound_discount_account_id
@@ -744,12 +744,12 @@ msgstr "Nome Exibido"
 #. module: l10n_br_cnab_structure
 #: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.l10n_br_cnab_return_event_form_view_structure
 msgid "Do you want to ignore this event?"
-msgstr ""
+msgstr "Deseja ignorar este evento?"
 
 #. module: l10n_br_cnab_structure
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_return_event__doc_purpose
 msgid "Doc Purpose"
-msgstr "Finalidade do documento"
+msgstr "Finalidade do DOC"
 
 #. module: l10n_br_cnab_structure
 #: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.cnab_preview_wizard_form
@@ -857,7 +857,7 @@ msgstr "Campos das linhas do CNAB."
 #. module: l10n_br_cnab_structure
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_structure__record_type_file_header_id
 msgid "File Header Type ID"
-msgstr "ID do tipo do cabeçalho do arquivo"
+msgstr "ID do tipo de header do arquivo"
 
 #. module: l10n_br_cnab_structure
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_structure__record_type_file_trailer_id
@@ -1122,7 +1122,7 @@ msgstr "Linhas que compõem o CNAB."
 #: code:addons/l10n_br_cnab_structure/hooks.py:0
 #, python-format
 msgid "Loading l10n_br_cnab_structure data files."
-msgstr ""
+msgstr "Carregando os arquivos de dados do l10n_br_cnab_structure."
 
 #. module: l10n_br_cnab_structure
 #. odoo-python
@@ -1198,7 +1198,7 @@ msgstr "Nome"
 msgid ""
 "Name of the beneficiary (Nome do Favorecido) that will be informed in the "
 "CNAB."
-msgstr ""
+msgstr "Nome do favorecido que será informado no CNAB."
 
 #. module: l10n_br_cnab_structure
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_field_select_wizard__new_field_id
@@ -1297,7 +1297,7 @@ msgstr "Regras opcionais"
 #. module: l10n_br_cnab_structure
 #: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.l10n_br_cnab_return_event_form_view_structure
 msgid "Other Infos"
-msgstr "Outras Informações"
+msgstr "Outras informações"
 
 #. module: l10n_br_cnab_structure
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_account_journal__outbound_discount_account_id
@@ -1323,7 +1323,7 @@ msgstr "Retornos CNAB de pagamentos de saída"
 #. module: l10n_br_cnab_structure
 #: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.journal_cnab_import_view_form
 msgid "Outbound Payments"
-msgstr "Pagamentos de saída"
+msgstr "Pagamentos efetuados"
 
 #. module: l10n_br_cnab_structure
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_account_journal__outbound_rebate_account_id
@@ -1333,12 +1333,12 @@ msgstr "Conta de abatimento de saída"
 #. module: l10n_br_cnab_structure
 #: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.journal_cnab_import_view_form
 msgid "Outgoing Payments"
-msgstr "Pagamentos de saída"
+msgstr "Pagamentos efetuados"
 
 #. module: l10n_br_cnab_structure
 #: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.cnab_structure_form_view
 msgid "PIX"
-msgstr ""
+msgstr "PIX"
 
 #. module: l10n_br_cnab_structure
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_cnab_pix_key_type__key_type
@@ -1348,12 +1348,12 @@ msgstr "Tipo de chave PIX"
 #. module: l10n_br_cnab_structure
 #: model:account.payment.mode,name:l10n_br_cnab_structure.payment_mode_sispag_pix_trasfer
 msgid "PIX Transferência - SISPAG Itaú"
-msgstr ""
+msgstr "Transferência PIX - SISPAG Itaú"
 
 #. module: l10n_br_cnab_structure
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_field_select_wizard__parent_model_id
 msgid "Parent Model"
-msgstr "Modelo pai"
+msgstr "Modelo principal"
 
 #. module: l10n_br_cnab_structure
 #: model_terms:ir.ui.view,arch_db:l10n_br_cnab_structure.l10n_br_cnab_return_event_form_view_structure
@@ -1438,8 +1438,8 @@ msgid ""
 "Payment Way last position in Header Batch Records. Only for Header Batch "
 "Records."
 msgstr ""
-"Última posição da forma de pagamento nos registros de cabeçalho de lote. "
-"Somente para registros de cabeçalho de lote."
+"Última posição da forma de pagamento nos registros de header de lote. "
+"Somente para registros de header de lote."
 
 #. module: l10n_br_cnab_structure
 #: model:ir.model.fields,help:l10n_br_cnab_structure.field_l10n_br_cnab_structure__conf_payment_way_start_pos
@@ -1447,8 +1447,8 @@ msgid ""
 "Payment Way start position in Header Batch Records. Only for Header Batch "
 "Records."
 msgstr ""
-"Posição inicial da forma de pagamento nos registros de cabeçalho de lote. "
-"Somente para registros de cabeçalho de lote."
+"Posição inicial da forma de pagamento nos registros de header de lote. "
+"Somente para registros de header de lote."
 
 #. module: l10n_br_cnab_structure
 #: model:ir.model.fields,help:l10n_br_cnab_structure.field_l10n_br_cnab_line__cnab_payment_way_ids
@@ -1495,12 +1495,12 @@ msgstr "Conta Pagamento Pré-pago (Conta Pagamento)"
 #. module: l10n_br_cnab_structure
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_l10n_br_cnab_line_field__preview_field
 msgid "Preview Field"
-msgstr "Pré-visualizar campo"
+msgstr "Pré-visualização do campo"
 
 #. module: l10n_br_cnab_structure
 #: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__cnab_pix_key_type__key_type__evp
 msgid "Random Key"
-msgstr "Chave Aleatória"
+msgstr "Chave aleatória"
 
 #. module: l10n_br_cnab_structure
 #: model:ir.model.fields.selection,name:l10n_br_cnab_structure.selection__l10n_br_cnab_return_event__state__ready
@@ -1715,7 +1715,7 @@ msgstr "Estrutura"
 #. module: l10n_br_cnab_structure
 #: model:account.payment.mode,name:l10n_br_cnab_structure.payment_mode_sispag_ted
 msgid "TED - SISPAG Itaú "
-msgstr ""
+msgstr "TED - SISPAG Itaú "
 
 #. module: l10n_br_cnab_structure
 #: model:ir.model.fields,field_description:l10n_br_cnab_structure.field_account_journal__tariff_charge_account_id
@@ -1736,8 +1736,8 @@ msgid ""
 "method. Therefore, if you change it, the generation of the payment file may "
 "fail."
 msgstr ""
-"Este código é usado na código do módulo do Odoo que manipula este método de "
-"pagamento. Sendo assim, se você altera-lo, a geração do arquivo de pagamento "
+"Este código é usado no código do módulo do Odoo que trata esta forma de "
+"pagamento. Por isso, se você alterá-lo, a geração do arquivo de pagamento "
 "pode falhar."
 
 #. module: l10n_br_cnab_structure
@@ -1794,12 +1794,12 @@ msgstr "Qual é a identificação do tipo de detalhe?"
 #. module: l10n_br_cnab_structure
 #: model:ir.model.fields,help:l10n_br_cnab_structure.field_l10n_br_cnab_structure__record_type_batch_header_id
 msgid "What`s the identification for header of batch type?"
-msgstr "Qual é a identificação do tipo de cabeçalho de lote?"
+msgstr "Qual é a identificação do tipo de header de lote?"
 
 #. module: l10n_br_cnab_structure
 #: model:ir.model.fields,help:l10n_br_cnab_structure.field_l10n_br_cnab_structure__record_type_file_header_id
 msgid "What`s the identification for header of file type?"
-msgstr "Qual é a identificação do tipo de cabeçalho de arquivo?"
+msgstr "Qual é a identificação do tipo de header de arquivo?"
 
 #. module: l10n_br_cnab_structure
 #: model:ir.model.fields,help:l10n_br_cnab_structure.field_l10n_br_cnab_structure__record_type_batch_trailer_id
