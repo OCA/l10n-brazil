@@ -59,6 +59,10 @@ class Document(models.Model):
     def _prepare_dados_servico(self):
         """Add withholding bases and rates needed by the NFSe Nacional payload."""
         service_data = super()._prepare_dados_servico()
+        service_data["discriminacao_deducoes"] = (
+            self.manual_fiscal_additional_data or ""
+        )
+
         if self.company_id.focusnfe_nfse_type != "nfse_nacional":
             return service_data
 
