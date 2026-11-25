@@ -5,6 +5,18 @@
 def post_init_hook(env):
     """Allow to use demo main_company for Brazilian fiscal operations"""
 
+    # "br_oca_generic" is only registered in _get_chart_template_mapping() when
+    # l10n_br_coa_generic is installed. l10n_br_account doesn't depend on it, so
+    # fall back to "generic_coa" when it's not there to avoid leaving demo
+    # companies with an unresolvable chart_template (breaks mrp_account's
+    # post_init_hook and other chart-template lookups).
+    coa_generic_module = env.ref(
+        "base.module_l10n_br_coa_generic", raise_if_not_found=False
+    )
+    coa_generic_installed = bool(
+        coa_generic_module and coa_generic_module.state == "installed"
+    )
+
     br_demo_companies = []
     demo_simple = env.ref(
         "l10n_br_base.empresa_simples_nacional", raise_if_not_found=False
@@ -14,7 +26,9 @@ def post_init_hook(env):
         br_demo_companies.append(demo_simple)
     demo_lp = env.ref("l10n_br_base.empresa_lucro_presumido", raise_if_not_found=False)
     if demo_lp:
-        demo_lp.chart_template = "br_oca_generic"
+        demo_lp.chart_template = (
+            "br_oca_generic" if coa_generic_installed else "generic_coa"
+        )
         br_demo_companies.append(demo_lp)
 
     for company in env["res.company"].with_context(active_test=False).search([]):
