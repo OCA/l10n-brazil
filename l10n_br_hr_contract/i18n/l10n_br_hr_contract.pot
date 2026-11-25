@@ -26,6 +26,11 @@ msgid "Admission type"
 msgstr ""
 
 #. module: l10n_br_hr_contract
+#: model:hr.contract.salary.unit,name:l10n_br_hr_contract.salary_unit_2
+msgid "Biweekly"
+msgstr ""
+
+#. module: l10n_br_hr_contract
 #: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract__by_death
 msgid "By death"
 msgstr ""
@@ -66,6 +71,11 @@ msgid "Created on"
 msgstr ""
 
 #. module: l10n_br_hr_contract
+#: model:hr.contract.salary.unit,name:l10n_br_hr_contract.salary_unit_4
+msgid "Daily"
+msgstr ""
+
+#. module: l10n_br_hr_contract
 #: model:ir.model.fields,help:l10n_br_hr_contract.field_hr_contract__by_death
 msgid "Death certificate/Process/Beneficiary"
 msgstr ""
@@ -93,6 +103,11 @@ msgstr ""
 #. module: l10n_br_hr_contract
 #: model:ir.model,name:l10n_br_hr_contract.model_l10n_br_hr_contract_data_abstract
 msgid "HR Data Base Abstract"
+msgstr ""
+
+#. module: l10n_br_hr_contract
+#: model:hr.contract.salary.unit,name:l10n_br_hr_contract.salary_unit_5
+msgid "Hourly"
 msgstr ""
 
 #. module: l10n_br_hr_contract
@@ -156,6 +171,11 @@ msgid "Last Updated on"
 msgstr ""
 
 #. module: l10n_br_hr_contract
+#: model:hr.contract.salary.unit,name:l10n_br_hr_contract.salary_unit_1
+msgid "Monthly"
+msgstr ""
+
+#. module: l10n_br_hr_contract
 #: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract__monthly_hours
 msgid "Monthly hours"
 msgstr ""
@@ -185,6 +205,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract__notice_of_termination_id
 #: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_notice_termination__name
 msgid "Notice of termination type"
+msgstr ""
+
+#. module: l10n_br_hr_contract
+#: model:hr.contract.salary.unit,name:l10n_br_hr_contract.salary_unit_7
+msgid "Não aplicável - salário exclusivamente variável"
 msgstr ""
 
 #. module: l10n_br_hr_contract
@@ -260,6 +285,11 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_hr_contract
+#: model:hr.contract.salary.unit,name:l10n_br_hr_contract.salary_unit_6
+msgid "Task"
+msgstr ""
+
+#. module: l10n_br_hr_contract
 #: model:ir.model,name:l10n_br_hr_contract.model_hr_contract_resignation_cause
 msgid "Termination Reason"
 msgstr ""
@@ -300,6 +330,11 @@ msgstr ""
 #. module: l10n_br_hr_contract
 #: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract__union_entity_code
 msgid "Union entity code"
+msgstr ""
+
+#. module: l10n_br_hr_contract
+#: model:hr.contract.salary.unit,name:l10n_br_hr_contract.salary_unit_3
+msgid "Weekly"
 msgstr ""
 
 #. module: l10n_br_hr_contract
