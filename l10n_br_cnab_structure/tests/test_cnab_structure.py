@@ -625,6 +625,40 @@ class TestCNABStructure(AccountTestInvoicingCommon):
                 unidecode(self.partner_a.name).strip(),
             )
 
+    def test_payment_rule_service_type_wins_over_the_bill(self):
+        """A bill of an employee goes out with the service type of the payment
+        rule; a bill of a supplier that no rule matches keeps its own."""
+        cnab_structure = self.cnab_structure_itau_240
+        if not cnab_structure.batch_ids:
+            self._create_batch(cnab_structure, "Batch 1")
+        way = self.env["cnab.payment.way"].create(
+            {
+                "code": PAY_WAY_SAME_BANK,
+                "description": "Salary",
+                "cnab_structure_id": cnab_structure.id,
+                "batch_id": cnab_structure.batch_ids[0].id,
+            }
+        )
+        self.env["l10n_br_cnab.payment.rule"].create(
+            {
+                "cnab_structure_id": cnab_structure.id,
+                "match_bank_type": "any",
+                "match_partner_type": "employee",
+                "payment_way_id": way.id,
+                "service_type": SVC_SALARY,
+            }
+        )
+
+        def service_type(invoice):
+            order = self._create_payment_order(invoice)
+            return order.payment_line_ids.filtered(
+                lambda line: line.move_line_id.move_id == invoice
+            ).service_type
+
+        self.assertEqual(service_type(self._create_test_invoice()), SVC_SUPPLIER)
+        self.partner_a.employee = True
+        self.assertEqual(service_type(self._create_test_invoice()), SVC_SALARY)
+
     def test_unique_sequence_per_segment_behavior(self):
         cnab_structure = self.cnab_structure_bb_240
 
