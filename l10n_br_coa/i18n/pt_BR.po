@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2026-10-20 19:45+0000\n"
+"PO-Revision-Date: 2026-11-25 23:46+0000\n"
 "Last-Translator: Luis Felipe Miléo <mileo@kmee.com.br>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.15.2\n"
+"X-Generator: Weblate 2026.11.2\n"
 
 #. module: l10n_br_coa
 #: model:ir.model,name:l10n_br_coa.model_account_account
@@ -34,89 +34,90 @@ msgstr "Mixin da Conta de Imposto"
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.account_tag_provision_expense
 msgid "Ajuste ao Resultado / Constituição e Reversão de Provisões"
-msgstr ""
+msgstr "Ajuste ao Resultado / Constituição e Reversão de Provisões"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.account_tag_depreciation_expense
 msgid "Ajuste ao Resultado / Depreciação, Amortização e Exaustão"
-msgstr ""
+msgstr "Ajuste ao Resultado / Depreciação, Amortização e Exaustão"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.account_tag_equity_method_result
 msgid "Ajuste ao Resultado / Resultado de Equivalência Patrimonial"
-msgstr ""
+msgstr "Ajuste ao Resultado / Resultado de Equivalência Patrimonial"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.account_tag_disposal_result
 msgid "Ajuste ao Resultado / Resultado na Baixa de Ativo"
-msgstr ""
+msgstr "Ajuste ao Resultado / Resultado na Baixa de Ativo"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.account_tag_current_assets_receivable_loss
 msgid ""
 "Ativo / Circulante / (-) Perdas Estimadas com Créditos de Liquidação Duvidosa"
 msgstr ""
+"Ativo / Circulante / (-) Perdas Estimadas com Créditos de Liquidação Duvidosa"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.account_tag_current_assets_cash
 msgid "Ativo / Circulante / Caixa e Equivalentes de Caixa"
-msgstr ""
+msgstr "Ativo / Circulante / Caixa e Equivalentes de Caixa"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.account_tag_current_assets_receivable
 msgid "Ativo / Circulante / Contas a Receber"
-msgstr ""
+msgstr "Ativo / Circulante / Contas a Receber"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.account_tag_current_assets_stock
 msgid "Ativo / Circulante / Estoques"
-msgstr ""
+msgstr "Ativo / Circulante / Estoques"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.account_tag_current_assets_other_credits
 msgid "Ativo / Circulante / Outros Créditos"
-msgstr ""
+msgstr "Ativo / Circulante / Outros Créditos"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.account_tag_intangible_assets_amortization
 msgid "Ativo / Não Circulante / (-) Amortização"
-msgstr ""
+msgstr "Ativo / Não Circulante / (-) Amortização"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.account_tag_fixed_assets_depreciation
 msgid "Ativo / Não Circulante / (-) Depreciação"
-msgstr ""
+msgstr "Ativo / Não Circulante / (-) Depreciação"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.account_tag_fixed_assets
 msgid "Ativo / Não Circulante / Imobilizado"
-msgstr ""
+msgstr "Ativo / Não Circulante / Imobilizado"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.account_tag_intangible_assets
 msgid "Ativo / Não Circulante / Intangível"
-msgstr ""
+msgstr "Ativo / Não Circulante / Intangível"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.account_tag_non_current_investments
 msgid "Ativo / Não Circulante / Investimentos"
-msgstr ""
+msgstr "Ativo / Não Circulante / Investimentos"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.account_tag_non_current_assets_receivable
 msgid "Ativo / Não Circulante / Realizável a Longo Prazo"
-msgstr ""
+msgstr "Ativo / Não Circulante / Realizável a Longo Prazo"
 
 #. module: l10n_br_coa
 #. odoo-python
 #: code:addons/l10n_br_coa/models/template_br_oca.py:0
 msgid "Basic Chart of Accounts"
-msgstr ""
+msgstr "Plano de contas básico"
 
 #. module: l10n_br_coa
 #: model:account.tax.group,name:l10n_br_coa.1_tax_group_cbs
 msgid "CBS"
-msgstr ""
+msgstr "CBS"
 
 #. module: l10n_br_coa
 #: model:account.tax,name:l10n_br_coa.1_tax_template_in_cbs
@@ -127,7 +128,7 @@ msgstr ""
 #: model_terms:account.tax,description:l10n_br_coa.5_tax_template_in_cbs
 #: model_terms:account.tax,description:l10n_br_coa.6_tax_template_in_cbs
 msgid "CBS Entrada"
-msgstr ""
+msgstr "CBS Entrada"
 
 #. module: l10n_br_coa
 #: model:account.tax,name:l10n_br_coa.1_tax_template_out_cbs
@@ -138,7 +139,7 @@ msgstr ""
 #: model_terms:account.tax,description:l10n_br_coa.5_tax_template_out_cbs
 #: model_terms:account.tax,description:l10n_br_coa.6_tax_template_out_cbs
 msgid "CBS Saída"
-msgstr ""
+msgstr "CBS Saída"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.tax_tag_cofins
@@ -155,7 +156,7 @@ msgstr "COFINS"
 #: model_terms:account.tax,description:l10n_br_coa.5_tax_template_in_cofins
 #: model_terms:account.tax,description:l10n_br_coa.6_tax_template_in_cofins
 msgid "COFINS Entrada"
-msgstr ""
+msgstr "COFINS Entrada"
 
 #. module: l10n_br_coa
 #: model:account.tax,name:l10n_br_coa.1_tax_template_cofins_in_deductible
@@ -166,7 +167,7 @@ msgstr ""
 #: model_terms:account.tax,description:l10n_br_coa.5_tax_template_cofins_in_deductible
 #: model_terms:account.tax,description:l10n_br_coa.6_tax_template_cofins_in_deductible
 msgid "COFINS Entrada Dedutível"
-msgstr ""
+msgstr "COFINS Entrada Dedutível"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.tax_tag_cofinsst
@@ -183,7 +184,7 @@ msgstr "COFINS ST"
 #: model_terms:account.tax,description:l10n_br_coa.5_tax_template_in_cofinsst
 #: model_terms:account.tax,description:l10n_br_coa.6_tax_template_in_cofinsst
 msgid "COFINS ST Entrada"
-msgstr ""
+msgstr "COFINS ST Entrada"
 
 #. module: l10n_br_coa
 #: model:account.tax,name:l10n_br_coa.1_tax_template_out_cofinsst
@@ -194,7 +195,7 @@ msgstr ""
 #: model_terms:account.tax,description:l10n_br_coa.5_tax_template_out_cofinsst
 #: model_terms:account.tax,description:l10n_br_coa.6_tax_template_out_cofinsst
 msgid "COFINS ST Saída"
-msgstr ""
+msgstr "COFINS ST Saída"
 
 #. module: l10n_br_coa
 #: model:account.tax,name:l10n_br_coa.1_tax_template_out_cofins
@@ -205,7 +206,7 @@ msgstr ""
 #: model_terms:account.tax,description:l10n_br_coa.5_tax_template_out_cofins
 #: model_terms:account.tax,description:l10n_br_coa.6_tax_template_out_cofins
 msgid "COFINS Saída"
-msgstr ""
+msgstr "COFINS Saída"
 
 #. module: l10n_br_coa
 #: model:account.tax,name:l10n_br_coa.1_tax_template_cofins_out_deductible
@@ -216,7 +217,7 @@ msgstr ""
 #: model_terms:account.tax,description:l10n_br_coa.5_tax_template_cofins_out_deductible
 #: model_terms:account.tax,description:l10n_br_coa.6_tax_template_cofins_out_deductible
 msgid "COFINS Saída Dedutível"
-msgstr ""
+msgstr "COFINS Saída Dedutível"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.tax_tag_cofins_wh
@@ -233,7 +234,7 @@ msgstr "COFINS WH"
 #: model_terms:account.tax,description:l10n_br_coa.5_tax_template_in_cofins_wh
 #: model_terms:account.tax,description:l10n_br_coa.6_tax_template_in_cofins_wh
 msgid "COFINS WH Entrada"
-msgstr ""
+msgstr "COFINS RET Entrada"
 
 #. module: l10n_br_coa
 #: model:account.tax,name:l10n_br_coa.1_tax_template_out_cofins_wh
@@ -244,7 +245,7 @@ msgstr ""
 #: model_terms:account.tax,description:l10n_br_coa.5_tax_template_out_cofins_wh
 #: model_terms:account.tax,description:l10n_br_coa.6_tax_template_out_cofins_wh
 msgid "COFINS WH Saída"
-msgstr ""
+msgstr "COFINS RET Saída"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.tax_tag_csll
@@ -264,7 +265,7 @@ msgstr "CSLL"
 #: model:account.tax,name:l10n_br_coa.5_tax_template_in_csll
 #: model:account.tax,name:l10n_br_coa.6_tax_template_in_csll
 msgid "CSLL Entrada"
-msgstr ""
+msgstr "CSLL Entrada"
 
 #. module: l10n_br_coa
 #: model:account.tax,name:l10n_br_coa.1_tax_template_in_csll_deductible
@@ -275,7 +276,7 @@ msgstr ""
 #: model_terms:account.tax,description:l10n_br_coa.5_tax_template_in_csll_deductible
 #: model_terms:account.tax,description:l10n_br_coa.6_tax_template_in_csll_deductible
 msgid "CSLL Entrada Dedutível"
-msgstr ""
+msgstr "CSLL Entrada Dedutível"
 
 #. module: l10n_br_coa
 #: model:account.tax,name:l10n_br_coa.1_tax_template_out_csll
@@ -283,7 +284,7 @@ msgstr ""
 #: model:account.tax,name:l10n_br_coa.5_tax_template_out_csll
 #: model:account.tax,name:l10n_br_coa.6_tax_template_out_csll
 msgid "CSLL Saída"
-msgstr ""
+msgstr "CSLL Saída"
 
 #. module: l10n_br_coa
 #: model:account.tax,name:l10n_br_coa.1_tax_template_out_csll_deductible
@@ -294,7 +295,7 @@ msgstr ""
 #: model_terms:account.tax,description:l10n_br_coa.5_tax_template_out_csll_deductible
 #: model_terms:account.tax,description:l10n_br_coa.6_tax_template_out_csll_deductible
 msgid "CSLL Saída Dedutível"
-msgstr ""
+msgstr "CSLL Saída Dedutível"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.tax_tag_csll_wh
@@ -314,7 +315,7 @@ msgstr "CSLL WH"
 #: model:account.tax,name:l10n_br_coa.5_tax_template_in_csll_wh
 #: model:account.tax,name:l10n_br_coa.6_tax_template_in_csll_wh
 msgid "CSLL WH Entrada"
-msgstr ""
+msgstr "CSLL RET Entrada"
 
 #. module: l10n_br_coa
 #: model:account.tax,name:l10n_br_coa.1_tax_template_out_csll_wh
@@ -322,7 +323,7 @@ msgstr ""
 #: model:account.tax,name:l10n_br_coa.5_tax_template_out_csll_wh
 #: model:account.tax,name:l10n_br_coa.6_tax_template_out_csll_wh
 msgid "CSLL WH Saída"
-msgstr ""
+msgstr "CSLL RET Saída"
 
 #. module: l10n_br_coa
 #: model:ir.model.fields,help:l10n_br_coa.field_account_account__l10n_br_sped_referential_code
@@ -333,37 +334,42 @@ msgid ""
 "Quem tem o plano referencial carregado num modulo de de-para preenche este "
 "campo por la."
 msgstr ""
+"Código da conta no plano de contas referencial da Receita Federal em que "
+"esta conta deságua. É o mesmo de-para nas duas escriturações: alimenta o "
+"registro I051 da ECD e os registros J051, K156, K356, P100 e P150 da ECF. "
+"Quem tem o plano referencial carregado num módulo de de-para preenche este "
+"campo por lá."
 
 #. module: l10n_br_coa
 #. odoo-python
 #: code:addons/l10n_br_coa/models/template_br_oca.py:0
 msgid "Company %(company_name)s: created tax accounts: %(refs)s"
-msgstr ""
+msgstr "Empresa %(company_name)s: contas de impostos criadas: %(refs)s"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.account_tag_compensation_assets
 msgid "Compensação / Ativo"
-msgstr ""
+msgstr "Compensação / Ativo"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.account_tag_compensation_liability
 msgid "Compensação / Passivo"
-msgstr ""
+msgstr "Compensação / Passivo"
 
 #. module: l10n_br_coa
 #: model:ir.model.fields,field_description:l10n_br_coa.field_account_account__l10n_br_sped_referential_code
 msgid "Conta referencial da RFB"
-msgstr ""
+msgstr "Conta referencial da RFB"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.account_tag_production_transfer
 msgid "Custos de Produção / (-) Transferência para Estoque"
-msgstr ""
+msgstr "Custos de Produção / (-) Transferência para Estoque"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.account_tag_production_cost
 msgid "Custos de Produção / Apropriação"
-msgstr ""
+msgstr "Custos de Produção / Apropriação"
 
 #. module: l10n_br_coa
 #: model:ir.model.fields,field_description:l10n_br_coa.field_account_tax__deductible
@@ -374,37 +380,37 @@ msgstr "Imposto dedutível?"
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.account_tag_cash_flow_operating
 msgid "Fluxo de Caixa / Atividades Operacionais"
-msgstr ""
+msgstr "Fluxo de Caixa / Atividades Operacionais"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.account_tag_cash_flow_financing
 msgid "Fluxo de Caixa / Atividades de Financiamento"
-msgstr ""
+msgstr "Fluxo de Caixa / Atividades de Financiamento"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.account_tag_cash_flow_investing
 msgid "Fluxo de Caixa / Atividades de Investimento"
-msgstr ""
+msgstr "Fluxo de Caixa / Atividades de Investimento"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.account_tag_cash_and_equivalents
 msgid "Fluxo de Caixa / Caixa e Equivalentes de Caixa"
-msgstr ""
+msgstr "Fluxo de Caixa / Caixa e Equivalentes de Caixa"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.account_tag_cash_flow_result_adjustment
 msgid "Fluxo de Caixa / Neutralizado por Ajuste ao Resultado"
-msgstr ""
+msgstr "Fluxo de Caixa / Neutralizado por Ajuste ao Resultado"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.account_tag_cash_flow_non_cash
 msgid "Fluxo de Caixa / Não Afeta o Caixa"
-msgstr ""
+msgstr "Fluxo de Caixa / Não Afeta o Caixa"
 
 #. module: l10n_br_coa
 #: model:account.tax.group,name:l10n_br_coa.1_tax_group_ibs
 msgid "IBS"
-msgstr ""
+msgstr "IBS"
 
 #. module: l10n_br_coa
 #: model:account.tax,name:l10n_br_coa.1_tax_template_in_ibs
@@ -415,7 +421,7 @@ msgstr ""
 #: model_terms:account.tax,description:l10n_br_coa.5_tax_template_in_ibs
 #: model_terms:account.tax,description:l10n_br_coa.6_tax_template_in_ibs
 msgid "IBS Entrada"
-msgstr ""
+msgstr "IBS Entrada"
 
 #. module: l10n_br_coa
 #: model:account.tax,name:l10n_br_coa.1_tax_template_out_ibs
@@ -426,7 +432,7 @@ msgstr ""
 #: model_terms:account.tax,description:l10n_br_coa.5_tax_template_out_ibs
 #: model_terms:account.tax,description:l10n_br_coa.6_tax_template_out_ibs
 msgid "IBS Saída"
-msgstr ""
+msgstr "IBS Saída"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.tax_tag_icms
@@ -443,7 +449,7 @@ msgstr "ICMS"
 #: model_terms:account.tax,description:l10n_br_coa.5_tax_template_in_icms
 #: model_terms:account.tax,description:l10n_br_coa.6_tax_template_in_icms
 msgid "ICMS Entrada"
-msgstr ""
+msgstr "ICMS Entrada"
 
 #. module: l10n_br_coa
 #: model:account.tax,name:l10n_br_coa.1_tax_template_icms_in_deductible
@@ -454,7 +460,7 @@ msgstr ""
 #: model_terms:account.tax,description:l10n_br_coa.5_tax_template_icms_in_deductible
 #: model_terms:account.tax,description:l10n_br_coa.6_tax_template_icms_in_deductible
 msgid "ICMS Entrada Dedutível"
-msgstr ""
+msgstr "ICMS Entrada Dedutível"
 
 #. module: l10n_br_coa
 #: model:account.tax,name:l10n_br_coa.1_tax_template_in_icmsfcp
@@ -465,7 +471,7 @@ msgstr ""
 #: model_terms:account.tax,description:l10n_br_coa.5_tax_template_in_icmsfcp
 #: model_terms:account.tax,description:l10n_br_coa.6_tax_template_in_icmsfcp
 msgid "ICMS Entrada FCP"
-msgstr ""
+msgstr "ICMS Entrada FCP"
 
 #. module: l10n_br_coa
 #: model:account.tax,name:l10n_br_coa.1_tax_template_in_icmsfcp_st
@@ -476,7 +482,7 @@ msgstr ""
 #: model_terms:account.tax,description:l10n_br_coa.5_tax_template_in_icmsfcp_st
 #: model_terms:account.tax,description:l10n_br_coa.6_tax_template_in_icmsfcp_st
 msgid "ICMS Entrada FCP ST"
-msgstr ""
+msgstr "ICMS Entrada FCP ST"
 
 #. module: l10n_br_coa
 #: model:account.tax,name:l10n_br_coa.1_tax_template_in_icms_subist
@@ -487,7 +493,7 @@ msgstr ""
 #: model_terms:account.tax,description:l10n_br_coa.5_tax_template_in_icms_subist
 #: model_terms:account.tax,description:l10n_br_coa.6_tax_template_in_icms_subist
 msgid "ICMS Entrada Subist"
-msgstr ""
+msgstr "ICMS Entrada Subist"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.tax_tag_icmsfcp
@@ -516,7 +522,7 @@ msgstr "ICMS SN"
 #: model_terms:account.tax,description:l10n_br_coa.5_tax_template_in_icmssn
 #: model_terms:account.tax,description:l10n_br_coa.6_tax_template_in_icmssn
 msgid "ICMS SN Entrada"
-msgstr ""
+msgstr "ICMS SN Entrada"
 
 #. module: l10n_br_coa
 #: model:account.tax,name:l10n_br_coa.1_tax_template_out_icmssn
@@ -527,7 +533,7 @@ msgstr ""
 #: model_terms:account.tax,description:l10n_br_coa.5_tax_template_out_icmssn
 #: model_terms:account.tax,description:l10n_br_coa.6_tax_template_out_icmssn
 msgid "ICMS SN Saída"
-msgstr ""
+msgstr "ICMS SN Saída"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.tax_tag_icmsst
@@ -544,7 +550,7 @@ msgstr "ICMS ST"
 #: model_terms:account.tax,description:l10n_br_coa.5_tax_template_out_icms
 #: model_terms:account.tax,description:l10n_br_coa.6_tax_template_out_icms
 msgid "ICMS Saída"
-msgstr ""
+msgstr "ICMS Saída"
 
 #. module: l10n_br_coa
 #: model:account.tax,name:l10n_br_coa.1_tax_template_icms_out_deductible
@@ -555,7 +561,7 @@ msgstr ""
 #: model_terms:account.tax,description:l10n_br_coa.5_tax_template_icms_out_deductible
 #: model_terms:account.tax,description:l10n_br_coa.6_tax_template_icms_out_deductible
 msgid "ICMS Saída Dedutível"
-msgstr ""
+msgstr "ICMS Saída Dedutível"
 
 #. module: l10n_br_coa
 #: model:account.tax,name:l10n_br_coa.1_tax_template_out_icmsfcp
@@ -566,7 +572,7 @@ msgstr ""
 #: model_terms:account.tax,description:l10n_br_coa.5_tax_template_out_icmsfcp
 #: model_terms:account.tax,description:l10n_br_coa.6_tax_template_out_icmsfcp
 msgid "ICMS Saída FCP"
-msgstr ""
+msgstr "ICMS Saída FCP"
 
 #. module: l10n_br_coa
 #: model:account.tax,name:l10n_br_coa.1_tax_template_out_icmsfcp_st
@@ -577,7 +583,7 @@ msgstr ""
 #: model_terms:account.tax,description:l10n_br_coa.5_tax_template_out_icmsfcp_st
 #: model_terms:account.tax,description:l10n_br_coa.6_tax_template_out_icmsfcp_st
 msgid "ICMS Saída FCP ST"
-msgstr ""
+msgstr "ICMS Saída FCP ST"
 
 #. module: l10n_br_coa
 #: model:account.tax,name:l10n_br_coa.1_tax_template_out_icms_subist
@@ -588,7 +594,7 @@ msgstr ""
 #: model_terms:account.tax,description:l10n_br_coa.5_tax_template_out_icms_subist
 #: model_terms:account.tax,description:l10n_br_coa.6_tax_template_out_icms_subist
 msgid "ICMS Saída Subist"
-msgstr ""
+msgstr "ICMS Saída Subist"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.tax_tag_ii
@@ -605,7 +611,7 @@ msgstr "II"
 #: model_terms:account.tax,description:l10n_br_coa.5_tax_template_in_ii
 #: model_terms:account.tax,description:l10n_br_coa.6_tax_template_in_ii
 msgid "II Entrada"
-msgstr ""
+msgstr "II Entrada"
 
 #. module: l10n_br_coa
 #: model:account.tax,name:l10n_br_coa.1_tax_template_ii_in_deductible
@@ -616,7 +622,7 @@ msgstr ""
 #: model_terms:account.tax,description:l10n_br_coa.5_tax_template_ii_in_deductible
 #: model_terms:account.tax,description:l10n_br_coa.6_tax_template_ii_in_deductible
 msgid "II Entrada Dedutível"
-msgstr ""
+msgstr "II Entrada Dedutível"
 
 #. module: l10n_br_coa
 #: model:account.tax,name:l10n_br_coa.1_tax_template_out_ii
@@ -627,7 +633,7 @@ msgstr ""
 #: model_terms:account.tax,description:l10n_br_coa.5_tax_template_out_ii
 #: model_terms:account.tax,description:l10n_br_coa.6_tax_template_out_ii
 msgid "II Saída"
-msgstr ""
+msgstr "II Saída"
 
 #. module: l10n_br_coa
 #: model:account.tax,name:l10n_br_coa.1_tax_template_ii_out_deductible
@@ -638,7 +644,7 @@ msgstr ""
 #: model_terms:account.tax,description:l10n_br_coa.5_tax_template_ii_out_deductible
 #: model_terms:account.tax,description:l10n_br_coa.6_tax_template_ii_out_deductible
 msgid "II Saída Dedutível"
-msgstr ""
+msgstr "II Saída Dedutível"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.tax_tag_inss
@@ -655,7 +661,7 @@ msgstr "INSS"
 #: model_terms:account.tax,description:l10n_br_coa.5_tax_template_in_inss
 #: model_terms:account.tax,description:l10n_br_coa.6_tax_template_in_inss
 msgid "INSS Entrada"
-msgstr ""
+msgstr "INSS Entrada"
 
 #. module: l10n_br_coa
 #: model:account.tax,name:l10n_br_coa.1_tax_template_out_inss
@@ -666,7 +672,7 @@ msgstr ""
 #: model_terms:account.tax,description:l10n_br_coa.5_tax_template_out_inss
 #: model_terms:account.tax,description:l10n_br_coa.6_tax_template_out_inss
 msgid "INSS Saída"
-msgstr ""
+msgstr "INSS Saída"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.tax_tag_inss_wh
@@ -683,7 +689,7 @@ msgstr "INSS WH"
 #: model_terms:account.tax,description:l10n_br_coa.5_tax_template_in_inss_wh
 #: model_terms:account.tax,description:l10n_br_coa.6_tax_template_in_inss_wh
 msgid "INSS WH Entrada"
-msgstr ""
+msgstr "INSS RET Entrada"
 
 #. module: l10n_br_coa
 #: model:account.tax,name:l10n_br_coa.1_tax_template_out_inss_wh
@@ -694,7 +700,7 @@ msgstr ""
 #: model_terms:account.tax,description:l10n_br_coa.5_tax_template_out_inss_wh
 #: model_terms:account.tax,description:l10n_br_coa.6_tax_template_out_inss_wh
 msgid "INSS WH Saída"
-msgstr ""
+msgstr "INSS RET Saída"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.tax_tag_ipi
@@ -711,7 +717,7 @@ msgstr "IPI"
 #: model_terms:account.tax,description:l10n_br_coa.5_tax_template_in_ipi
 #: model_terms:account.tax,description:l10n_br_coa.6_tax_template_in_ipi
 msgid "IPI Entrada"
-msgstr ""
+msgstr "IPI Entrada"
 
 #. module: l10n_br_coa
 #: model:account.tax,name:l10n_br_coa.1_tax_template_in_ipi_deductible
@@ -722,7 +728,7 @@ msgstr ""
 #: model_terms:account.tax,description:l10n_br_coa.5_tax_template_in_ipi_deductible
 #: model_terms:account.tax,description:l10n_br_coa.6_tax_template_in_ipi_deductible
 msgid "IPI Entrada Dedutível"
-msgstr ""
+msgstr "IPI Entrada Dedutível"
 
 #. module: l10n_br_coa
 #: model:account.tax,name:l10n_br_coa.1_tax_template_out_ipi
@@ -733,7 +739,7 @@ msgstr ""
 #: model_terms:account.tax,description:l10n_br_coa.5_tax_template_out_ipi
 #: model_terms:account.tax,description:l10n_br_coa.6_tax_template_out_ipi
 msgid "IPI Saída"
-msgstr ""
+msgstr "IPI Saída"
 
 #. module: l10n_br_coa
 #: model:account.tax,name:l10n_br_coa.1_tax_template_out_ipi_deductible
@@ -744,7 +750,7 @@ msgstr ""
 #: model_terms:account.tax,description:l10n_br_coa.5_tax_template_out_ipi_deductible
 #: model_terms:account.tax,description:l10n_br_coa.6_tax_template_out_ipi_deductible
 msgid "IPI Saída Dedutível"
-msgstr ""
+msgstr "IPI Saída Dedutível"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.tax_tag_ir
@@ -770,7 +776,7 @@ msgstr "IRPJ"
 #: model:account.tax,name:l10n_br_coa.5_tax_template_in_irpj
 #: model:account.tax,name:l10n_br_coa.6_tax_template_in_irpj
 msgid "IRPJ Entrada"
-msgstr ""
+msgstr "IRPJ Entrada"
 
 #. module: l10n_br_coa
 #: model:account.tax,name:l10n_br_coa.1_tax_template_in_irpj_deductible
@@ -781,7 +787,7 @@ msgstr ""
 #: model_terms:account.tax,description:l10n_br_coa.5_tax_template_in_irpj_deductible
 #: model_terms:account.tax,description:l10n_br_coa.6_tax_template_in_irpj_deductible
 msgid "IRPJ Entrada Dedutível"
-msgstr ""
+msgstr "IRPJ Entrada Dedutível"
 
 #. module: l10n_br_coa
 #: model:account.tax,name:l10n_br_coa.1_tax_template_out_irpj
@@ -789,7 +795,7 @@ msgstr ""
 #: model:account.tax,name:l10n_br_coa.5_tax_template_out_irpj
 #: model:account.tax,name:l10n_br_coa.6_tax_template_out_irpj
 msgid "IRPJ Saída"
-msgstr ""
+msgstr "IRPJ Saída"
 
 #. module: l10n_br_coa
 #: model:account.tax,name:l10n_br_coa.1_tax_template_out_irpj_deductible
@@ -800,7 +806,7 @@ msgstr ""
 #: model_terms:account.tax,description:l10n_br_coa.5_tax_template_out_irpj_deductible
 #: model_terms:account.tax,description:l10n_br_coa.6_tax_template_out_irpj_deductible
 msgid "IRPJ Saída Dedutível"
-msgstr ""
+msgstr "IRPJ Saída Dedutível"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.tax_tag_irpj_wh
@@ -820,7 +826,7 @@ msgstr "IRPJ WH"
 #: model:account.tax,name:l10n_br_coa.5_tax_template_in_irpj_wh
 #: model:account.tax,name:l10n_br_coa.6_tax_template_in_irpj_wh
 msgid "IRPJ WH Entrada"
-msgstr ""
+msgstr "IRPJ RET Entrada"
 
 #. module: l10n_br_coa
 #: model:account.tax,name:l10n_br_coa.1_tax_template_out_irpj_wh
@@ -828,7 +834,7 @@ msgstr ""
 #: model:account.tax,name:l10n_br_coa.5_tax_template_out_irpj_wh
 #: model:account.tax,name:l10n_br_coa.6_tax_template_out_irpj_wh
 msgid "IRPJ WH Saída"
-msgstr ""
+msgstr "IRPJ RET Saída"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.tax_tag_issqn
@@ -845,7 +851,7 @@ msgstr "ISSQN"
 #: model_terms:account.tax,description:l10n_br_coa.5_tax_template_in_issqn
 #: model_terms:account.tax,description:l10n_br_coa.6_tax_template_in_issqn
 msgid "ISSQN Entrada"
-msgstr ""
+msgstr "ISSQN Entrada"
 
 #. module: l10n_br_coa
 #: model:account.tax,name:l10n_br_coa.1_tax_template_in_issqn_deductible
@@ -856,7 +862,7 @@ msgstr ""
 #: model_terms:account.tax,description:l10n_br_coa.5_tax_template_in_issqn_deductible
 #: model_terms:account.tax,description:l10n_br_coa.6_tax_template_in_issqn_deductible
 msgid "ISSQN Entrada Dedutível"
-msgstr ""
+msgstr "ISSQN Entrada Dedutível"
 
 #. module: l10n_br_coa
 #: model:account.tax,name:l10n_br_coa.1_tax_template_out_issqn
@@ -867,7 +873,7 @@ msgstr ""
 #: model_terms:account.tax,description:l10n_br_coa.5_tax_template_out_issqn
 #: model_terms:account.tax,description:l10n_br_coa.6_tax_template_out_issqn
 msgid "ISSQN Saída"
-msgstr ""
+msgstr "ISSQN Saída"
 
 #. module: l10n_br_coa
 #: model:account.tax,name:l10n_br_coa.1_tax_template_out_issqn_deductible
@@ -878,7 +884,7 @@ msgstr ""
 #: model_terms:account.tax,description:l10n_br_coa.5_tax_template_out_issqn_deductible
 #: model_terms:account.tax,description:l10n_br_coa.6_tax_template_out_issqn_deductible
 msgid "ISSQN Saída Dedutível"
-msgstr ""
+msgstr "ISSQN Saída Dedutível"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.tax_tag_issqn_wh
@@ -895,7 +901,7 @@ msgstr "ISSQN WH"
 #: model_terms:account.tax,description:l10n_br_coa.5_tax_template_in_issqn_wh
 #: model_terms:account.tax,description:l10n_br_coa.6_tax_template_in_issqn_wh
 msgid "ISSQN WH Entrada"
-msgstr ""
+msgstr "ISSQN RET Entrada"
 
 #. module: l10n_br_coa
 #: model:account.tax,name:l10n_br_coa.1_tax_template_out_issqn_wh
@@ -906,13 +912,13 @@ msgstr ""
 #: model_terms:account.tax,description:l10n_br_coa.5_tax_template_out_issqn_wh
 #: model_terms:account.tax,description:l10n_br_coa.6_tax_template_out_issqn_wh
 msgid "ISSQN WH Saída"
-msgstr ""
+msgstr "ISSQN RET Saída"
 
 #. module: l10n_br_coa
 #. odoo-python
 #: code:addons/l10n_br_coa/models/template_br_oca.py:0
 msgid "Liquidity Transfer"
-msgstr ""
+msgstr "Transferência de liquidez"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.tax_tag_others
@@ -942,7 +948,7 @@ msgstr "PIS"
 #: model_terms:account.tax,description:l10n_br_coa.5_tax_template_in_pis
 #: model_terms:account.tax,description:l10n_br_coa.6_tax_template_in_pis
 msgid "PIS Entrada"
-msgstr ""
+msgstr "PIS Entrada"
 
 #. module: l10n_br_coa
 #: model:account.tax,name:l10n_br_coa.1_tax_template_in_pis_deductible
@@ -953,7 +959,7 @@ msgstr ""
 #: model_terms:account.tax,description:l10n_br_coa.5_tax_template_in_pis_deductible
 #: model_terms:account.tax,description:l10n_br_coa.6_tax_template_in_pis_deductible
 msgid "PIS Entrada Dedutível"
-msgstr ""
+msgstr "PIS Entrada Dedutível"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.tax_tag_pisst
@@ -970,7 +976,7 @@ msgstr "PIS ST"
 #: model_terms:account.tax,description:l10n_br_coa.5_tax_template_in_pisst
 #: model_terms:account.tax,description:l10n_br_coa.6_tax_template_in_pisst
 msgid "PIS ST Entrada"
-msgstr ""
+msgstr "PIS ST Entrada"
 
 #. module: l10n_br_coa
 #: model:account.tax,name:l10n_br_coa.1_tax_template_out_pisst
@@ -981,7 +987,7 @@ msgstr ""
 #: model_terms:account.tax,description:l10n_br_coa.5_tax_template_out_pisst
 #: model_terms:account.tax,description:l10n_br_coa.6_tax_template_out_pisst
 msgid "PIS ST Saída"
-msgstr ""
+msgstr "PIS ST Saída"
 
 #. module: l10n_br_coa
 #: model:account.tax,name:l10n_br_coa.1_tax_template_out_pis
@@ -992,7 +998,7 @@ msgstr ""
 #: model_terms:account.tax,description:l10n_br_coa.5_tax_template_out_pis
 #: model_terms:account.tax,description:l10n_br_coa.6_tax_template_out_pis
 msgid "PIS Saída"
-msgstr ""
+msgstr "PIS Saída"
 
 #. module: l10n_br_coa
 #: model:account.tax,name:l10n_br_coa.1_tax_template_out_pis_deductible
@@ -1003,7 +1009,7 @@ msgstr ""
 #: model_terms:account.tax,description:l10n_br_coa.5_tax_template_out_pis_deductible
 #: model_terms:account.tax,description:l10n_br_coa.6_tax_template_out_pis_deductible
 msgid "PIS Saída Dedutível"
-msgstr ""
+msgstr "PIS Saída Dedutível"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.tax_tag_pis_wh
@@ -1020,7 +1026,7 @@ msgstr "PIS WH"
 #: model_terms:account.tax,description:l10n_br_coa.5_tax_template_in_pis_wh
 #: model_terms:account.tax,description:l10n_br_coa.6_tax_template_in_pis_wh
 msgid "PIS WH Entrada"
-msgstr ""
+msgstr "PIS RET Entrada"
 
 #. module: l10n_br_coa
 #: model:account.tax,name:l10n_br_coa.1_tax_template_out_pis_wh
@@ -1031,157 +1037,157 @@ msgstr ""
 #: model_terms:account.tax,description:l10n_br_coa.5_tax_template_out_pis_wh
 #: model_terms:account.tax,description:l10n_br_coa.6_tax_template_out_pis_wh
 msgid "PIS WH Saída"
-msgstr ""
+msgstr "PIS RET Saída"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.account_tag_current_liabilities_payable
 msgid "Passivo / Circulante / Contas a Pagar"
-msgstr ""
+msgstr "Passivo / Circulante / Contas a Pagar"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.account_tag_current_liabilities_financial
 msgid "Passivo / Circulante / Empréstimos e Financiamentos"
-msgstr ""
+msgstr "Passivo / Circulante / Empréstimos e Financiamentos"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.account_tag_current_liabilities_suppliers
 msgid "Passivo / Circulante / Fornecedores"
-msgstr ""
+msgstr "Passivo / Circulante / Fornecedores"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.account_tag_current_liabilities_fiscal
 msgid "Passivo / Circulante / Obrigações Fiscais"
-msgstr ""
+msgstr "Passivo / Circulante / Obrigações Fiscais"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.account_tag_current_liabilities_labor
 msgid "Passivo / Circulante / Obrigações Trabalhistas"
-msgstr ""
+msgstr "Passivo / Circulante / Obrigações Trabalhistas"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.account_tag_current_liabilities_reserve
 msgid "Passivo / Circulante / Provisões"
-msgstr ""
+msgstr "Passivo / Circulante / Provisões"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.account_tag_non_current_liabilities
 msgid "Passivo / Não Circulante / Contas a Pagar"
-msgstr ""
+msgstr "Passivo / Não Circulante / Contas a Pagar"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.account_tag_non_current_liabilities_loan
 msgid "Passivo / Não Circulante / Financiamentos"
-msgstr ""
+msgstr "Passivo / Não Circulante / Financiamentos"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.account_tag_equity_accumulated_losses
 msgid "Patrimônio Líquido / (-) Prejuízos Acumulados"
-msgstr ""
+msgstr "Patrimônio Líquido / (-) Prejuízos Acumulados"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.account_tag_equity_valuation_adjustment
 msgid "Patrimônio Líquido / Ajustes de Avaliação Patrimonial"
-msgstr ""
+msgstr "Patrimônio Líquido / Ajustes de Avaliação Patrimonial"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.account_tag_equity_capital
 msgid "Patrimônio Líquido / Capital Social"
-msgstr ""
+msgstr "Patrimônio Líquido / Capital Social"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.account_tag_equity_accumulated_profits
 msgid "Patrimônio Líquido / Lucros Acumulados"
-msgstr ""
+msgstr "Patrimônio Líquido / Lucros Acumulados"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.account_tag_equity_capital_reserve
 msgid "Patrimônio Líquido / Reservas de Capital"
-msgstr ""
+msgstr "Patrimônio Líquido / Reservas de Capital"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.account_tag_equity_profit_reserve
 msgid "Patrimônio Líquido / Reservas de Lucros"
-msgstr ""
+msgstr "Patrimônio Líquido / Reservas de Lucros"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.account_tag_expense_csll
 msgid "Resultado / (-) Contribuição Social sobre o Lucro Líquido"
-msgstr ""
+msgstr "Resultado / (-) Contribuição Social sobre o Lucro Líquido"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.account_tag_direct_costs
 msgid "Resultado / (-) Custo das Vendas"
-msgstr ""
+msgstr "Resultado / (-) Custo das Vendas"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.account_tag_revenue_deduction
 msgid "Resultado / (-) Deduções da Receita Bruta"
-msgstr ""
+msgstr "Resultado / (-) Deduções da Receita Bruta"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.account_tag_admin_expenses
 msgid "Resultado / (-) Despesas Administrativas"
-msgstr ""
+msgstr "Resultado / (-) Despesas Administrativas"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.account_tag_expenses_financial
 msgid "Resultado / (-) Despesas Financeiras"
-msgstr ""
+msgstr "Resultado / (-) Despesas Financeiras"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.account_tag_sale_expenses
 msgid "Resultado / (-) Despesas com Vendas"
-msgstr ""
+msgstr "Resultado / (-) Despesas com Vendas"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.account_tag_expense_irpj
 msgid "Resultado / (-) Imposto de Renda da Pessoa Jurídica"
-msgstr ""
+msgstr "Resultado / (-) Imposto de Renda da Pessoa Jurídica"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.account_tag_other_general_expenses
 msgid "Resultado / (-) Outras Despesas Gerais"
-msgstr ""
+msgstr "Resultado / (-) Outras Despesas Gerais"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.account_tag_result
 msgid "Resultado / Contas de Resultado (todas)"
-msgstr ""
+msgstr "Resultado / Contas de Resultado (todas)"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.account_tag_other_operating_results
 msgid "Resultado / Outras Receitas e Despesas Operacionais"
-msgstr ""
+msgstr "Resultado / Outras Receitas e Despesas Operacionais"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.account_tag_revenue
 msgid "Resultado / Receita Bruta de Vendas e Serviços"
-msgstr ""
+msgstr "Resultado / Receita Bruta de Vendas e Serviços"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.account_tag_revenue_financial
 msgid "Resultado / Receitas Financeiras"
-msgstr ""
+msgstr "Resultado / Receitas Financeiras"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.account_tag_oci_fair_value
 msgid "Resultado Abrangente / Ajuste a Valor Justo"
-msgstr ""
+msgstr "Resultado Abrangente / Ajuste a Valor Justo"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.account_tag_oci_actuarial
 msgid "Resultado Abrangente / Ganhos e Perdas Atuariais"
-msgstr ""
+msgstr "Resultado Abrangente / Ganhos e Perdas Atuariais"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.account_tag_oci_hedge
 msgid "Resultado Abrangente / Hedge de Fluxo de Caixa"
-msgstr ""
+msgstr "Resultado Abrangente / Hedge de Fluxo de Caixa"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.account_tag_oci_translation
 msgid "Resultado Abrangente / Variação Cambial de Investimento no Exterior"
-msgstr ""
+msgstr "Resultado Abrangente / Variação Cambial de Investimento no Exterior"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.tax_tag_simples
@@ -1204,32 +1210,32 @@ msgstr "Imposto"
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.account_tag_dva_taxes
 msgid "Valor Adicionado / Impostos, Taxas e Contribuições"
-msgstr ""
+msgstr "Valor Adicionado / Impostos, Taxas e Contribuições"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.account_tag_dva_inputs
 msgid "Valor Adicionado / Insumos Adquiridos de Terceiros"
-msgstr ""
+msgstr "Valor Adicionado / Insumos Adquiridos de Terceiros"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.account_tag_dva_personnel
 msgid "Valor Adicionado / Pessoal"
-msgstr ""
+msgstr "Valor Adicionado / Pessoal"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.account_tag_dva_transfer
 msgid "Valor Adicionado / Recebido em Transferência"
-msgstr ""
+msgstr "Valor Adicionado / Recebido em Transferência"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.account_tag_dva_own_capital
 msgid "Valor Adicionado / Remuneração de Capitais Próprios"
-msgstr ""
+msgstr "Valor Adicionado / Remuneração de Capitais Próprios"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.account_tag_dva_third_party_capital
 msgid "Valor Adicionado / Remuneração de Capitais de Terceiros"
-msgstr ""
+msgstr "Valor Adicionado / Remuneração de Capitais de Terceiros"
 
 #. module: l10n_br_coa
 #: model:ir.model.fields,field_description:l10n_br_coa.field_account_tax__withholdable
