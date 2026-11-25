@@ -57,20 +57,15 @@ class Document(models.Model):
         Per Focus NFe support, the "DiscrDed" tag is filled from the
         "discriminacao_deducoes" key sent in the service block, sourced here
         from the existing manually-entered fiscal additional data field.
+
+        Also adds withholding bases and rates needed by the NFSe Nacional
+        payload.
         """
-        result = super()._prepare_dados_servico()
-        self.invalidate_recordset(["manual_fiscal_additional_data"])
-        result["discriminacao_deducoes"] = self.manual_fiscal_additional_data or ""
-        return result
-
-    def _processador_erpbrasil_nfse(self):
-        if self.filtered(filter_focusnfe):
-            return None
-        return super()._processador_erpbrasil_nfse()
-
-    def _prepare_dados_servico(self):
-        """Add withholding bases and rates needed by the NFSe Nacional payload."""
         service_data = super()._prepare_dados_servico()
+        service_data["discriminacao_deducoes"] = (
+            self.manual_fiscal_additional_data or ""
+        )
+
         if self.company_id.focusnfe_nfse_type != "nfse_nacional":
             return service_data
 
@@ -92,6 +87,11 @@ class Document(models.Model):
             )
 
         return service_data
+
+    def _processador_erpbrasil_nfse(self):
+        if self.filtered(filter_focusnfe):
+            return None
+        return super()._processador_erpbrasil_nfse()
 
     def make_focus_nfse_pdf(self, content):
         """Generate a PDF for a NFSe document using Focus NFSe service.
