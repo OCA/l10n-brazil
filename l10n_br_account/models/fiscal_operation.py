@@ -24,8 +24,12 @@ class Operation(models.Model):
         comodel_name="account.journal",
         string="Account Journal",
         company_dependent=True,
-        domain="[('type', 'in', {'out': ['sale', 'general'], 'in': "
-        "['purchase', 'general'], 'all': ['sale', 'purchase', "
+        domain="[('type', 'in', {'purchase': ['purchase', 'general'], "
+        "'purchase_refund': ['purchase', 'general'], 'return_in': "
+        "['purchase', 'general'], 'sale': ['sale', 'general'], "
+        "'sale_refund': ['sale', 'general'], 'return_out': ['sale', "
+        "'general']}.get(fiscal_type) or {'out': ['sale', 'general'], "
+        "'in': ['purchase', 'general'], 'all': ['sale', 'purchase', "
         "'general']}.get(fiscal_operation_type, []))]",
     )
 
