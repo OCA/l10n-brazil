@@ -370,20 +370,14 @@ class TestNFCeWorkflowContingency(TestNFeExport):
         with nfe_mock({"nfeAutorizacaoLote": "retEnviNFe/servico_paralizado.xml"}):
             self.nfce.action_document_send()
 
-    def test_contingency_does_not_regenerate_the_access_key(self):
-        """The access key keeps tpEmis=1 even after switching to contingency."""
-        key_before = self.nfce.document_key
+    def test_contingency_regenerates_the_access_key(self):
+        """Switching to contingency rebuilds the access key with tpEmis=9."""
+        self.assertEqual(self.nfce.document_key[34], "1")
 
         self._fall_into_contingency()
 
-        # NOTE: current behavior -- see #4629 discussion.
-        # _update_nfce_for_offline_contingency() only writes nfe_transmission,
-        # dhCont and xJust. _generate_key() is not called again (and
-        # _document_number() would skip it anyway since document_key is set),
-        # so the XML now declares tpEmis=9 while chNFe still encodes tpEmis=1.
-        self.assertEqual(self.nfce.document_key, key_before)
-        self.assertEqual(self.nfce.document_key[34], "1")
         self.assertEqual(self.nfce.nfe40_tpEmis, "9")
+        self.assertEqual(self.nfce.document_key[34], "9")
 
     def test_recovery_after_contingency_authorizes(self):
         """Once SEFAZ is back, a new send authorizes the contingency NFC-e."""
