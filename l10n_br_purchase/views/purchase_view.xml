@@ -257,6 +257,13 @@
                     options="{'currency_field': 'currency_id'}"
                     attrs="{'readonly': [('delivery_costs', '=', 'line')], 'invisible': [('fiscal_operation_id', '=', False)]}"
                 />
+                <field
+                    name="amount_financial_total"
+                    widget="monetary"
+                    string="Total"
+                    options="{'currency_field': 'currency_id'}"
+                    attrs="{'invisible': [('fiscal_operation_id', '=', False)]}"
+                />
             </xpath>
         </field>
     </record>
