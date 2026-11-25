@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2026-10-20 19:45+0000\n"
+"PO-Revision-Date: 2026-11-25 23:46+0000\n"
 "Last-Translator: Luis Felipe Miléo <mileo@kmee.com.br>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.15.2\n"
+"X-Generator: Weblate 2026.11.2\n"
 
 #. module: l10n_br_nfe_dfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe_dfe.view_l10n_br_fiscal_dfe_document_form_nfe
@@ -29,12 +29,12 @@ msgstr "Valor"
 #. module: l10n_br_nfe_dfe
 #: model:ir.model.fields,field_description:l10n_br_nfe_dfe.field_res_company__nfe_auto_fetch
 msgid "Auto-fetch NF-e DF-e"
-msgstr "Busca Automática de DF-e (NF-e)"
+msgstr "Busca automática de DF-e (NF-e)"
 
 #. module: l10n_br_nfe_dfe
 #: model:ir.model.fields,field_description:l10n_br_nfe_dfe.field_res_company__auto_manifest_nfe
 msgid "Automatic Recipient Manifestation (NF-e)"
-msgstr "Manifestação Automática do Destinatário (NF-e)"
+msgstr "Manifestação automática do destinatário (NF-e)"
 
 #. module: l10n_br_nfe_dfe
 #: model:ir.model.fields,help:l10n_br_nfe_dfe.field_res_company__auto_manifest_nfe
@@ -42,7 +42,7 @@ msgid ""
 "Automatically acknowledge receipt of notifications or events without manual "
 "intervention"
 msgstr ""
-"Confirma automaticamente o recebimento de notificações ou eventos sem "
+"Dá ciência automaticamente das notificações ou eventos recebidos, sem "
 "intervenção manual"
 
 #. module: l10n_br_nfe_dfe
@@ -69,7 +69,7 @@ msgstr "Confirmada operação"
 #. module: l10n_br_nfe_dfe
 #: model:ir.actions.server,name:l10n_br_nfe_dfe.ir_cron_search_dfe_documents_ir_actions_server
 msgid "DF-e - Search NF-e Documents"
-msgstr "DF-e - Pesquisa de Documentos NF-e"
+msgstr "DF-e - Consulta de documentos NF-e"
 
 #. module: l10n_br_nfe_dfe
 #: model:ir.model.fields,field_description:l10n_br_nfe_dfe.field_l10n_br_nfe_md_event__dfe_document_id
@@ -90,12 +90,12 @@ msgstr "Desconhecimento"
 #. module: l10n_br_nfe_dfe
 #: model:ir.model.fields,field_description:l10n_br_nfe_dfe.field_nfe_recipient_manifestation_event_wizard__dfe_document_id
 msgid "Dfe Document"
-msgstr ""
+msgstr "Documento DF-e"
 
 #. module: l10n_br_nfe_dfe
 #: model:ir.model,name:l10n_br_nfe_dfe.model_l10n_br_fiscal_dfe_document
 msgid "Fiscal document from distribution service"
-msgstr "Documento fiscal do serviço de distribuição"
+msgstr "Documento fiscal da distribuição DF-e"
 
 #. module: l10n_br_nfe_dfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe_dfe.nfe_dfe_document_tree
@@ -133,7 +133,7 @@ msgstr "Manifestação"
 #. module: l10n_br_nfe_dfe
 #: model:ir.model.fields,field_description:l10n_br_nfe_dfe.field_l10n_br_fiscal_dfe_document__manifestation_status
 msgid "Manifestation Status"
-msgstr "Status da Manifestação"
+msgstr "Situação da manifestação"
 
 #. module: l10n_br_nfe_dfe
 #: model:ir.model.fields,field_description:l10n_br_nfe_dfe.field_l10n_br_fiscal_dfe_document__manifestations_ids
@@ -148,17 +148,17 @@ msgstr "NF-e DF-e"
 #. module: l10n_br_nfe_dfe
 #: model:ir.model.fields,field_description:l10n_br_nfe_dfe.field_res_company__nfe_dfe_last_query
 msgid "NF-e DF-e Last Query"
-msgstr "Última Consulta DF-e (NF-e)"
+msgstr "Última consulta DF-e (NF-e)"
 
 #. module: l10n_br_nfe_dfe
 #: model:ir.model.fields,field_description:l10n_br_nfe_dfe.field_res_company__nfe_dfe_last_status
 msgid "NF-e DF-e Last Status"
-msgstr "Último Status DF-e (NF-e)"
+msgstr "Última situação DF-e (NF-e)"
 
 #. module: l10n_br_nfe_dfe
 #: model:ir.model.fields,field_description:l10n_br_nfe_dfe.field_res_company__nfe_dfe_last_status_code
 msgid "NF-e DF-e Last Status Code"
-msgstr "Último Código de Status DF-e (NF-e)"
+msgstr "Último código da situação DF-e (NF-e)"
 
 #. module: l10n_br_nfe_dfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe_dfe.nfe_dfe_res_company_form
@@ -183,12 +183,12 @@ msgstr "Último NSU (NF-e)"
 #. module: l10n_br_nfe_dfe
 #: model:ir.model.fields,field_description:l10n_br_nfe_dfe.field_res_company__nfe_max_nsu
 msgid "NF-e Max NSU"
-msgstr "NSU Máximo (NF-e)"
+msgstr "NSU máximo (NF-e)"
 
 #. module: l10n_br_nfe_dfe
 #: model:ir.model.fields,field_description:l10n_br_nfe_dfe.field_res_company__nfe_dfe_next_query
 msgid "NF-e Next Scheduled Query"
-msgstr "Próxima Consulta Agendada (NF-e)"
+msgstr "Próxima consulta agendada (NF-e)"
 
 #. module: l10n_br_nfe_dfe
 #. odoo-python
@@ -221,12 +221,12 @@ msgstr "Não realizado"
 #. module: l10n_br_nfe_dfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe_dfe.nfe_dfe_document_tree
 msgid "PDF"
-msgstr ""
+msgstr "PDF"
 
 #. module: l10n_br_nfe_dfe
 #: model:ir.model.fields,help:l10n_br_nfe_dfe.field_res_company__nfe_auto_fetch
 msgid "Periodically queries DF-e distribution for new NF-e documents"
-msgstr "Consulta periodicamente a distribuição DF-e por novos documentos NF-e"
+msgstr "Consulta periodicamente a distribuição DF-e em busca de novas NF-e"
 
 #. module: l10n_br_nfe_dfe
 #: model:ir.model,name:l10n_br_nfe_dfe.model_l10n_br_nfe_md_event
@@ -237,7 +237,7 @@ msgstr "Manifestação do Destinatário"
 #. odoo-python
 #: code:addons/l10n_br_nfe_dfe/wizards/nfe_md_event_wizard.py:0
 msgid "Recipient Manifestation created successfully"
-msgstr ""
+msgstr "Manifestação do destinatário registrada com sucesso"
 
 #. module: l10n_br_nfe_dfe
 #: model:ir.model.fields.selection,name:l10n_br_nfe_dfe.selection__l10n_br_fiscal_dfe_document__manifestation_status__sem_manifestacao
@@ -247,23 +247,23 @@ msgstr "Sem manifestação"
 #. module: l10n_br_nfe_dfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe_dfe.nfe_dfe_document_tree
 msgid "State"
-msgstr "Estado"
+msgstr "Situação"
 
 #. module: l10n_br_nfe_dfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe_dfe.nfe_dfe_res_company_form
 msgid "Status"
-msgstr "Status"
+msgstr "Situação"
 
 #. module: l10n_br_nfe_dfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe_dfe.nfe_dfe_res_company_form
 msgid "Status Code"
-msgstr "Código de Status"
+msgstr "Código da situação"
 
 #. module: l10n_br_nfe_dfe
 #. odoo-python
 #: code:addons/l10n_br_nfe_dfe/wizards/nfe_md_event_wizard.py:0
 msgid "Success"
-msgstr ""
+msgstr "Sucesso"
 
 #. module: l10n_br_nfe_dfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe_dfe.nfe_dfe_document_tree
@@ -273,7 +273,7 @@ msgstr "Tipo"
 #. module: l10n_br_nfe_dfe
 #: model:ir.model,name:l10n_br_nfe_dfe.model_nfe_recipient_manifestation_event_wizard
 msgid "Wizard to manifest"
-msgstr ""
+msgstr "Assistente de manifestação"
 
 #. module: l10n_br_nfe_dfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe_dfe.nfe_dfe_document_tree
@@ -284,7 +284,7 @@ msgstr "XML"
 #. odoo-python
 #: code:addons/l10n_br_nfe_dfe/models/dfe_document.py:0
 msgid "You can only import the NF-e when the DF-e is completed."
-msgstr "Você só pode importar a NF-e quando o DF-e estiver completo."
+msgstr "Só é possível importar a NF-e quando o DF-e estiver completo."
 
 #~ msgid "DANFE"
 #~ msgstr "DANFE"
