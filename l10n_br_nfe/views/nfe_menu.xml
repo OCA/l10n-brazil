@@ -3,7 +3,7 @@
     <menuitem
         id="nfe_sub_menu"
         name="NF-e"
-        groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager"
+        groups="l10n_br_nfe.group_user"
         parent="l10n_br_fiscal.document_menu"
         sequence="100"
     />
