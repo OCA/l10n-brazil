@@ -7,6 +7,8 @@ from odoo.exceptions import UserError
 from odoo.fields import Command
 from odoo.tests.common import TransactionCase
 
+from odoo.addons.l10n_br_fiscal.tests.tools import assert_line_edit_mode_follows_group
+
 
 class L10nBrPurchaseBlanketOrderTest(TransactionCase):
     @classmethod
@@ -358,3 +360,15 @@ class L10nBrPurchaseBlanketOrderTest(TransactionCase):
             self.assertEqual(domain, [])
         finally:
             self.company.cnae_secondary_ids = [Command.set(secondary_cnae_ids)]
+
+    def test_get_view_cache_follows_fiscal_detail_group(self):
+        assert_line_edit_mode_follows_group(
+            self,
+            "purchase.blanket.order",
+            "line_ids",
+            [
+                "purchase.group_purchase_user",
+                "l10n_br_purchase.group_line_fiscal_detail",
+            ],
+            self.company,
+        )

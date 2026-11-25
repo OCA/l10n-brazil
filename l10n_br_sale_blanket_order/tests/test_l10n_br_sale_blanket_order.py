@@ -9,6 +9,8 @@ from odoo.fields import Command
 from odoo.tests import tagged
 from odoo.tests.common import TransactionCase
 
+from odoo.addons.l10n_br_fiscal.tests.tools import assert_line_edit_mode_follows_group
+
 
 @tagged("post_install", "-at_install")
 class L10nBrSaleBLanketOrderTest(TransactionCase):
@@ -616,3 +618,15 @@ class L10nBrSaleBLanketOrderTest(TransactionCase):
                 ),
                 "Error: line_ids tree editable with force_line_fiscal_detail_edition.",
             )
+
+    def test_get_view_cache_follows_fiscal_detail_group(self):
+        assert_line_edit_mode_follows_group(
+            self,
+            "sale.blanket.order",
+            "line_ids",
+            [
+                "sales_team.group_sale_salesman",
+                "l10n_br_sale.group_line_fiscal_detail",
+            ],
+            self.company,
+        )

@@ -12,6 +12,7 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     DOCUMENT_STATE_CANCEL,
     DOCUMENT_STATE_DRAFT,
 )
+from odoo.addons.l10n_br_fiscal.tests.tools import assert_line_edit_mode_follows_group
 
 _logger = logging.getLogger(__name__)
 
@@ -1034,3 +1035,15 @@ class TestMoveEdition(TransactionCase):
         fiscal_line = move.fiscal_line_ids[0]
         self.assertEqual(move.ind_final, "0")
         self.assertEqual(fiscal_line.ind_final, "0")
+
+    def test_get_view_cache_follows_fiscal_detail_group(self):
+        assert_line_edit_mode_follows_group(
+            self,
+            "account.move",
+            "invoice_line_ids",
+            [
+                "account.group_account_invoice",
+                "l10n_br_account.group_line_fiscal_detail",
+            ],
+            self.company,
+        )

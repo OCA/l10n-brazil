@@ -1,6 +1,11 @@
 # Copyright (C) 2024 - TODAY Raphaël Valyi - Akretion
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
+from lxml import etree
+
+from odoo import Command
+from odoo.tests import new_test_user
+
 from odoo.addons.l10n_br_base.tests.tools import load_fixture_files
 
 
@@ -132,3 +137,37 @@ def load_fiscal_fixture_files(env):
             "fiscal_document_demo.xml",
         ],
     )
+
+
+def assert_line_edit_mode_follows_group(case, model, lines_field, groups, company):
+    """Render the cached form view of model for a user without and with the
+    fiscal detail group (the last of groups), in both orders: the lines list
+    must be editable inline only without the group."""
+    users = [
+        new_test_user(
+            case.env,
+            login=f"{model}.{lines_field}.{detail}",
+            groups=",".join(groups if detail else groups[:-1]),
+            company_id=company.id,
+            company_ids=[Command.set(company.ids)],
+        )
+        for detail in (False, True)
+    ]
+    for order in (users, users[::-1]):
+        case.env.registry.clear_cache("templates")
+        for user in order:
+            arch = (
+                case.env[model]
+                .with_user(user)
+                .with_company(company)
+                .get_view(view_type="form")["arch"]
+            )
+            mode = (
+                etree.fromstring(arch)
+                .xpath(f"//field[@name='{lines_field}']/list")[0]
+                .get("editable")
+            )
+            if user == users[1]:
+                case.assertEqual(mode, "")
+            else:
+                case.assertTrue(mode)

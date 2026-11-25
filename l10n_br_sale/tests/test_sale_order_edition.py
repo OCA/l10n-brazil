@@ -3,7 +3,10 @@
 
 from odoo.tests import Form, TransactionCase, new_test_user, tagged, users
 
-from odoo.addons.l10n_br_fiscal.tests.tools import load_fiscal_fixture_files
+from odoo.addons.l10n_br_fiscal.tests.tools import (
+    assert_line_edit_mode_follows_group,
+    load_fiscal_fixture_files,
+)
 
 
 def _get_widget_icms(tax_totals):
@@ -219,3 +222,15 @@ class TestSaleOrderEdition(TransactionCase):
     @users("l10n_br_sale_salesman")
     def test_fiscal_sale_order_tax_totals_on_edition_salesman(self):
         self.test_fiscal_sale_order_tax_totals_on_edition()
+
+    def test_get_view_cache_follows_fiscal_detail_group(self):
+        assert_line_edit_mode_follows_group(
+            self,
+            "sale.order",
+            "order_line",
+            [
+                "sales_team.group_sale_salesman",
+                "l10n_br_sale.group_line_fiscal_detail",
+            ],
+            self.company,
+        )
