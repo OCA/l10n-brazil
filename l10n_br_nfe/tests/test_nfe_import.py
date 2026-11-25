@@ -284,6 +284,17 @@ class NFeImportTest(TransactionCase):
         line = nfe.fiscal_line_ids[0]
         self.assertEqual(line.icms_tax_id, created)
         self.assertEqual(line.icms_tax_id.percent_reduction, 33.33)
+        other_cst = (
+            self.env["l10n_br_fiscal.document.line"]
+            .with_context(edoc_type="in")
+            ._create_reduced_fiscal_tax(
+                created.tax_group_id.id,
+                7.0,
+                self.env.ref("l10n_br_fiscal.cst_icms_70").id,
+                33.33,
+            )
+        )
+        self.assertNotEqual(other_cst, created)
 
     def _sample_xml(self):
         res_items = (
