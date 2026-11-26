@@ -20,7 +20,9 @@ def load_simples_nacional_demo(env, registry):
     company_sn = env.ref(
         "l10n_br_base.empresa_simples_nacional", raise_if_not_found=False
     )
-    if company_sn:
+    # Without a chart of accounts (l10n_br_coa_simple) the company has no
+    # journal for the demo invoices.
+    if company_sn and company_sn.chart_template_id:
         # Allow all companies for OdooBot user and set default user company
         companies = env["res.company"].search([])
         env.user.company_ids = [Command.set(companies.ids)]
