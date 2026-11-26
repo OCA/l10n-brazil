@@ -51,7 +51,13 @@ class ImportMatchCandidate(models.Model):
     _name = "l10n_br_fiscal.document.import.match.candidate"
     _description = "Fiscal Document Import Match Source Candidate"
     _auto = False
-    _order = "source_type desc, ref_name, line_no"
+    # Newest document first: an imported bill is nearly always for a recent
+    # order, and the previous alphabetical order put the OLDEST open order of
+    # the supplier at the top of the dropdown - the exact opposite of the
+    # likely one, for a customer whose order names are numbered sequentially.
+    # The picking candidates come before the bare PO lines (a receipt is more
+    # precise than an order), then the date decides, then the reference.
+    _order = "source_type desc, date_ref desc, ref_name, line_no"
 
     source_type = fields.Selection(
         selection=[
@@ -64,6 +70,12 @@ class ImportMatchCandidate(models.Model):
     uom_id = fields.Many2one(comodel_name="uom.uom", readonly=True)
     qty = fields.Float(string="Open Quantity", readonly=True)
     price_unit = fields.Float(readonly=True)
+    date_ref = fields.Date(
+        string="Document Date",
+        readonly=True,
+        help="Order date for a purchase order line, scheduled date for a "
+        "pending receipt. Drives the proposal order of the candidates.",
+    )
     partner_id = fields.Many2one(comodel_name="res.partner", readonly=True)
     company_id = fields.Many2one(comodel_name="res.company", readonly=True)
     ref_name = fields.Char(string="Source Reference", readonly=True)
@@ -81,6 +93,12 @@ class ImportMatchCandidate(models.Model):
     )
     order_id = fields.Integer(readonly=True)
     picking_id = fields.Integer(readonly=True)
+    analytic_distribution = fields.Json(
+        readonly=True,
+        help="Analytic distribution carried by the source line, copied onto "
+        "the bill lines the import creates so the analytic plan of the order "
+        "is not lost when the supplier bill replaces it.",
+    )
 
     @api.model
     def _register_hook(self):
@@ -150,6 +168,7 @@ class ImportMatchCandidate(models.Model):
                 pol.product_uom AS uom_id,
                 pol.product_qty - pol.qty_invoiced AS qty,
                 pol.price_unit AS price_unit,
+                po.date_order::date AS date_ref,
                 po.partner_id AS partner_id,
                 po.company_id AS company_id,
                 po.name AS ref_name,
@@ -158,7 +177,8 @@ class ImportMatchCandidate(models.Model):
                 {PO_LINE_POSITION_SQL.format(pol_alias="pol")} AS po_line_no,
                 pol.id AS po_line_id,
                 pol.order_id AS order_id,
-                NULL::int AS picking_id
+                NULL::int AS picking_id,
+                pol.analytic_distribution AS analytic_distribution
             FROM purchase_order_line pol
             JOIN purchase_order po ON po.id = pol.order_id
             WHERE po.state IN ('purchase', 'done')
@@ -184,11 +204,16 @@ class ImportMatchCandidate(models.Model):
                 SELECT pol4.price_unit FROM purchase_order_line pol4
                 WHERE pol4.id = sm.purchase_line_id
             )"""
+            analytic_sql = """(
+                SELECT pol5.analytic_distribution FROM purchase_order_line pol5
+                WHERE pol5.id = sm.purchase_line_id
+            )"""
         else:
             po_ref_sql = "NULL::varchar"
             po_line_no_sql = "NULL::int"
             po_line_id_sql = "NULL::int"
             price_sql = "0.0"
+            analytic_sql = "NULL::jsonb"
         return f"""
             SELECT
                 -sm.id AS id,
@@ -197,6 +222,7 @@ class ImportMatchCandidate(models.Model):
                 sm.product_uom AS uom_id,
                 sm.product_uom_qty - COALESCE(sm.quantity_done, 0) AS qty,
                 {price_sql} AS price_unit,
+                sp.scheduled_date::date AS date_ref,
                 sp.partner_id AS partner_id,
                 sm.company_id AS company_id,
                 sp.name AS ref_name,
@@ -209,7 +235,8 @@ class ImportMatchCandidate(models.Model):
                 {po_line_no_sql} AS po_line_no,
                 {po_line_id_sql} AS po_line_id,
                 NULL::int AS order_id,
-                sm.picking_id AS picking_id
+                sm.picking_id AS picking_id,
+                {analytic_sql} AS analytic_distribution
             FROM stock_move sm
             JOIN stock_picking sp ON sp.id = sm.picking_id
             JOIN stock_picking_type spt ON spt.id = sp.picking_type_id
@@ -241,6 +268,7 @@ class ImportMatchCandidate(models.Model):
                 NULL::int AS uom_id,
                 0.0 AS qty,
                 0.0 AS price_unit,
+                NULL::date AS date_ref,
                 NULL::int AS partner_id,
                 NULL::int AS company_id,
                 NULL::varchar AS ref_name,
@@ -249,24 +277,38 @@ class ImportMatchCandidate(models.Model):
                 NULL::int AS po_line_no,
                 NULL::int AS po_line_id,
                 NULL::int AS order_id,
-                NULL::int AS picking_id
+                NULL::int AS picking_id,
+                NULL::jsonb AS analytic_distribution
             WHERE false
         """
 
     def name_get(self):
+        """Label carrying everything the choice is made on.
+
+        The operator picks a source in a dropdown, so the row itself has to say
+        what distinguishes two candidates for the same product: the open
+        quantity, the price and the date of the source line, next to its
+        reference. A label reduced to "PO #line - product" leaves the choice to
+        the order of the list, which is how a bill ends up reconciled against
+        the wrong receipt.
+        """
         result = []
         for rec in self:
             product = rec.product_id
             code = f"[{product.default_code}] " if product.default_code else ""
-            label = (
-                f"{rec.ref_name} #{rec.line_no} - "
-                f"{code}{product.name} - {rec.qty:g} {rec.uom_id.name}"
-            )
-            if rec.source_type == "po_line":
-                label += f" @ {rec.price_unit}"
-            elif rec.po_ref:
-                label += f" (PO {rec.po_ref} #{rec.po_line_no})"
-            result.append((rec.id, label))
+            kind = _("Picking") if rec.source_type == "stock_move" else _("PO")
+            parts = [
+                f"{kind} {rec.ref_name} #{rec.line_no}",
+                f"{code}{product.name}",
+                f"{rec.qty:g} {rec.uom_id.name}",
+            ]
+            if rec.price_unit:
+                parts.append(f"@ {rec.price_unit:.2f}")
+            if rec.date_ref:
+                parts.append(rec.date_ref.strftime("%Y-%m-%d"))
+            if rec.source_type == "stock_move" and rec.po_ref:
+                parts.append(f"({_('PO')} {rec.po_ref} #{rec.po_line_no})")
+            result.append((rec.id, " - ".join(parts)))
         return result
 
     @api.model

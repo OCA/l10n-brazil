@@ -6,7 +6,7 @@ import os
 
 from erpbrasil.base.misc import punctuation_rm
 
-from odoo import Command
+from odoo import Command, fields
 from odoo.exceptions import UserError
 from odoo.tests import TransactionCase
 from odoo.tests.common import Form
@@ -425,3 +425,122 @@ class NFeImportTest(TransactionCase):
         others = move.invoice_line_ids - matched
         self.assertEqual(others.mapped("partner_order"), ["OC00589"] * len(others))
         self.assertEqual(others.mapped("partner_order_line"), [False] * len(others))
+
+    # ------------------------------------------------------------------
+    # Helpers of the match-source end to end tests below
+    # ------------------------------------------------------------------
+
+    def _import_wizard_for_the_fixture(self):
+        file_path = os.path.join(
+            l10n_br_account_nfe.__path__[0],
+            "tests",
+            "nfe",
+            "35231149647316000169550010000661061151600085-nfe.xml",
+        )
+        with open(file_path, "rb") as file:
+            file_content = file.read()
+        wizard = self.env["l10n_br_fiscal.document.import.wizard"].create(
+            {"company_id": self.company.id, "file": base64.b64encode(file_content)}
+        )
+        wizard._onchange_file()
+        wizard.fiscal_operation_id = self.env.ref("l10n_br_fiscal.fo_compras")
+        return wizard
+
+    def _supplier_and_order_for_the_fixture(self):
+        """The supplier declared by the fixture and a confirmed order of one
+        line, to be matched against its first xml line (the paper, code
+        1070147)."""
+        supplier = self.env["res.partner"].search(
+            [("cnpj_cpf_stripped", "=", "04712500000107")], limit=1
+        )
+        if not supplier:
+            supplier = self.env["res.partner"].create(
+                {
+                    "name": "FORNECEDOR NFE DEMO LTDA",
+                    "cnpj_cpf": "04.712.500/0001-07",
+                }
+            )
+        product = self.env["product.product"].create(
+            {
+                "name": "Ordered Product (PO)",
+                "default_code": "XML-PO-ORDERED",
+                "purchase_ok": True,
+            }
+        )
+        order = self.env["purchase.order"].create(
+            {"partner_id": supplier.id, "company_id": self.company.id}
+        )
+        if (
+            "fiscal_operation_id" in order._fields
+            and self.company.purchase_fiscal_operation_id
+        ):
+            order.fiscal_operation_id = self.company.purchase_fiscal_operation_id
+        self.env["purchase.order.line"].create(
+            {
+                "order_id": order.id,
+                "product_id": product.id,
+                "name": product.name,
+                "product_qty": 100.0,
+                "price_unit": 10.0,
+            }
+        )
+        order.with_context(tracking_disable=True).button_confirm()
+        return supplier, product, order
+
+    def _match_first_xml_line_to(self, wizard, po_line):
+        line = wizard.imported_products_ids.filtered(
+            lambda wline: wline.product_code == "1070147"
+        )
+        self.assertTrue(line)
+        line.match_source_id = self.env[
+            "l10n_br_fiscal.document.import.match.candidate"
+        ].search(
+            [("source_type", "=", "po_line"), ("po_line_id", "=", po_line.id)],
+            limit=1,
+        )
+        self.assertTrue(line.match_source_id)
+        return line
+
+    def test_import_carries_the_analytic_plan_of_the_order_line(self):
+        """The analytic distribution planned on the purchase order line is not
+        part of the supplier XML: the import copies it onto the bill line it
+        creates, so the analytic plan of the order survives the bill it is
+        replaced by."""
+        if "purchase.order" not in self.env:
+            self.skipTest("purchase module not installed")
+        if "analytic_distribution" not in self.env["account.move.line"]._fields:
+            self.skipTest("analytic module not installed")
+        supplier, _product, order = self._supplier_and_order_for_the_fixture()
+        # any analytic account will do: the test only needs a valid one to
+        # plan the order line with (a database may already ship some, but the
+        # analytic record rules hide them from a user working in one company)
+        accounts = self.env["account.analytic.account"].sudo()
+        analytic_account = accounts.search(
+            [("company_id", "in", [False, self.company.id])], limit=1
+        ) or accounts.search([], limit=1)
+        if not analytic_account:
+            analytic_account = accounts.create(
+                {"name": "PO Cost Centre", "company_id": self.company.id}
+            )
+        po_line = order.order_line
+        distribution = {str(analytic_account.id): 100.0}
+        po_line.analytic_distribution = distribution
+
+        wizard = self._import_wizard_for_the_fixture()
+        wizard.issuer_partner_id = supplier
+        line = self._match_first_xml_line_to(wizard, po_line)
+        # the source already carries the distribution the import will copy
+        self.assertEqual(line.match_source_id.analytic_distribution, distribution)
+
+        action = wizard.action_import_and_open_move()
+        move = self.env["account.move"].browse(action["res_id"])
+        matched = move.invoice_line_ids.filtered(
+            lambda aml: aml.product_id.code == "1070147"
+        )
+        self.assertEqual(len(matched), 1)
+        self.assertEqual(matched.analytic_distribution, distribution)
+        # the other lines have no match source: nothing is invented for them
+        other_distributions = (move.invoice_line_ids - matched).mapped(
+            "analytic_distribution"
+        )
+        self.assertFalse(any(other_distributions))
