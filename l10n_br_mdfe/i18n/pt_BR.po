@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2026-11-26 17:13+0000\n"
+"PO-Revision-Date: 2026-11-26 18:55+0000\n"
 "Last-Translator: Luis Felipe Miléo <mileo@kmee.com.br>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -245,7 +245,7 @@ msgstr "Aberta"
 #. module: l10n_br_mdfe
 #: model_terms:ir.actions.act_window,help:l10n_br_mdfe.mdfe_document_action
 msgid "Add a new MDF-e"
-msgstr "Adicionar a um novo MDF-e"
+msgstr "Adicionar um novo MDF-e"
 
 #. module: l10n_br_mdfe
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_cAerDes
@@ -1309,7 +1309,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_mod
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_mod
 msgid "Code"
-msgstr "Cõdigo"
+msgstr "Código"
 
 #. module: l10n_br_mdfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_mdfe.nfe_document_edi_form_inherit
@@ -1358,7 +1358,7 @@ msgstr "Condutores"
 #. module: l10n_br_mdfe
 #: model:ir.model,name:l10n_br_mdfe.model_res_config_settings
 msgid "Config Settings"
-msgstr "Ajustes de Configurações"
+msgstr "Configurações"
 
 #. module: l10n_br_mdfe
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document_related__mdfe30_chCTe
@@ -2130,7 +2130,7 @@ msgstr "Série do documento"
 #. module: l10n_br_mdfe
 #: model:ir.model,name:l10n_br_mdfe.model_l10n_br_fiscal_document_supplement
 msgid "Document Supplement Data"
-msgstr "Dados do Documento Suplementar"
+msgstr "Informações suplementares do documento"
 
 #. module: l10n_br_mdfe
 #. odoo-python
@@ -2242,7 +2242,7 @@ msgstr "Emissão de MDF-e com aplicativo do contribuinte"
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe_emit_type
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe_emit_type
 msgid "Emit Type"
-msgstr "Tipo de Emitente"
+msgstr "Tipo do emitente"
 
 #. module: l10n_br_mdfe
 #: model:ir.model.fields.selection,name:l10n_br_mdfe.selection__l10n_br_fiscal_document__mdfe_transp_type__1
@@ -2397,7 +2397,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe_final_state_id
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe_final_state_id
 msgid "Final State"
-msgstr "Estado Final"
+msgstr "UF de descarregamento"
 
 #. module: l10n_br_mdfe
 #: model:ir.model,name:l10n_br_mdfe.model_l10n_br_fiscal_document
@@ -3386,7 +3386,7 @@ msgstr "Informações suplementares do MDF-e"
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe_initial_state_id
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe_initial_state_id
 msgid "Initial State"
-msgstr "Estado Inicial"
+msgstr "UF de carregamento"
 
 #. module: l10n_br_mdfe
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_partner__mdfe30_IE
@@ -3663,12 +3663,12 @@ msgstr "Margem esquerda, em mm, do layout do DAMDFE."
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe_loading_city_ids
 #: model_terms:ir.ui.view,arch_db:l10n_br_mdfe.mdfe_document_form_view
 msgid "Loading Cities"
-msgstr "Cidades Carregadas"
+msgstr "Municípios de carregamento"
 
 #. module: l10n_br_mdfe
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_aquaviario_carregamento__loading_harbor
 msgid "Loading Harbor"
-msgstr "Portos Carregados"
+msgstr "Terminal de carregamento"
 
 #. module: l10n_br_mdfe
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_product_lotacao_local__local_type
@@ -3818,7 +3818,7 @@ msgstr "MDF-e"
 #. module: l10n_br_mdfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_mdfe.res_company_form_view
 msgid "MDF-e Default Settings"
-msgstr "Configurações Padrões do MDF-e"
+msgstr "Configurações padrão do MDF-e"
 
 #. module: l10n_br_mdfe
 #. odoo-python
@@ -3900,27 +3900,27 @@ msgstr "MDF-e"
 #. module: l10n_br_mdfe
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_company__mdfe_emit_type
 msgid "MDFe Emit Type"
-msgstr "Tipo de Emitente do MDFe"
+msgstr "Tipo do emitente do MDF-e"
 
 #. module: l10n_br_mdfe
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_company__mdfe_environment
 msgid "MDFe Environment"
-msgstr "Ambiente MDFe"
+msgstr "Ambiente do MDF-e"
 
 #. module: l10n_br_mdfe
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_company__mdfe_transmission
 msgid "MDFe Transmission"
-msgstr "Transmissão MDFe"
+msgstr "Transmissão do MDF-e"
 
 #. module: l10n_br_mdfe
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_company__mdfe_transp_type
 msgid "MDFe Transp Type"
-msgstr "Tipo de Transporte do MDFe"
+msgstr "Tipo do transportador do MDF-e"
 
 #. module: l10n_br_mdfe
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_company__mdfe_version
 msgid "MDFe Version"
-msgstr "Versão do MDFe"
+msgstr "Versão do MDF-e"
 
 #. module: l10n_br_mdfe
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_company__mdfe30_choice_emit
@@ -5864,7 +5864,7 @@ msgstr ""
 #. module: l10n_br_mdfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_mdfe.nfe_document_edi_form_inherit
 msgid "Related Documents"
-msgstr "Documento Relacionado"
+msgstr "Documentos relacionados"
 
 #. module: l10n_br_mdfe
 #: model:ir.model,name:l10n_br_mdfe.model_ir_actions_report
@@ -5929,7 +5929,7 @@ msgstr "Rodoviário"
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe_route_state_ids
 #: model_terms:ir.ui.view,arch_db:l10n_br_mdfe.mdfe_document_form_view
 msgid "Route States"
-msgstr "Estados da Rota"
+msgstr "UFs do percurso"
 
 #. module: l10n_br_mdfe
 #: model:ir.model.fields.selection,name:l10n_br_mdfe.selection__l10n_br_fiscal_document__mdfe30_cPrtDest__brslv
@@ -7119,7 +7119,7 @@ msgstr "Toco"
 #. module: l10n_br_mdfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_mdfe.nfe_document_edi_form_inherit
 msgid "Toll"
-msgstr "Pedágio"
+msgstr "Vale-pedágio"
 
 #. module: l10n_br_mdfe
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_ferroviario_vagao__mdfe30_TU
@@ -7164,14 +7164,14 @@ msgstr "Transmissão"
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe_transp_type
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe_transp_type
 msgid "Transp Type"
-msgstr "Tipo de Transporte"
+msgstr "Tipo do transportador"
 
 #. module: l10n_br_mdfe
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe_modal
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe_modal
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe_modal
 msgid "Transport Modal"
-msgstr "Modelo de Transporte"
+msgstr "Modal de transporte"
 
 #. module: l10n_br_mdfe
 #. odoo-python
@@ -7207,7 +7207,7 @@ msgstr "Transporte vazio"
 #. module: l10n_br_mdfe
 #: model:ir.model.fields.selection,name:l10n_br_mdfe.selection__l10n_br_fiscal_document__mdfe30_tpRod__01
 msgid "Truck"
-msgstr "Caminhão"
+msgstr "Truck"
 
 #. module: l10n_br_mdfe
 #: model:ir.model.fields.selection,name:l10n_br_mdfe.selection__l10n_br_fiscal_document__mdfe30_cPrtDest__br410
