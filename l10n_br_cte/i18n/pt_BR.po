@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2026-11-26 17:13+0000\n"
+"PO-Revision-Date: 2026-11-26 18:55+0000\n"
 "Last-Translator: Luis Felipe Miléo <mileo@kmee.com.br>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -105,7 +105,7 @@ msgstr "AP"
 #. module: l10n_br_cte
 #: model_terms:ir.actions.act_window,help:l10n_br_cte.cte_document_action
 msgid "Add a new CTe"
-msgstr "Adicionar um novo CTe"
+msgstr "Adicionar um novo CT-e"
 
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte40_pCBS
@@ -497,7 +497,7 @@ msgstr "Série padrão do CT-e"
 #. module: l10n_br_cte
 #: model_terms:ir.ui.view,arch_db:l10n_br_cte.cte_res_company_form
 msgid "CT-e Default Settings"
-msgstr "Configurações Padrões do CT-e"
+msgstr "Configurações padrão do CT-e"
 
 #. module: l10n_br_cte
 #: model:ir.model.fields.selection,name:l10n_br_cte.selection__l10n_br_fiscal_document__cte40_tpCTe__0
@@ -529,7 +529,7 @@ msgstr "CT-e de substituição"
 #: model:ir.model.fields,field_description:l10n_br_cte.field_account_move__cte_transmission
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte_transmission
 msgid "CTE Transmission"
-msgstr "Transmissão do CTE"
+msgstr "Transmissão do CT-e"
 
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_account_bank_statement_line__cte_environment
@@ -537,23 +537,23 @@ msgstr "Transmissão do CTE"
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte_environment
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_company__cte_environment
 msgid "CTe Environment"
-msgstr "Ambiente do CTe"
+msgstr "Ambiente do CT-e"
 
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_company__cte_transmission
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_config_settings__cte_transmission
 msgid "CTe Transmission"
-msgstr "Transmissão do CTe"
+msgstr "Transmissão do CT-e"
 
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_company__cte_type
 msgid "CTe Type"
-msgstr "Tipo de CTe"
+msgstr "Tipo do CT-e"
 
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_company__cte_version
 msgid "CTe Version"
-msgstr "Versão do CTe"
+msgstr "Versão do CT-e"
 
 #. module: l10n_br_cte
 #: model:ir.model.fields.selection,name:l10n_br_cte.selection__l10n_br_fiscal_document__cte40_tpNav__1
@@ -875,7 +875,7 @@ msgstr "Componentes do valor da prestação"
 #. module: l10n_br_cte
 #: model:ir.model,name:l10n_br_cte.model_res_config_settings
 msgid "Config Settings"
-msgstr "Ajustes de Configurações"
+msgstr "Configurações"
 
 #. module: l10n_br_cte
 #: model:ir.model,name:l10n_br_cte.model_res_partner
@@ -1729,7 +1729,7 @@ msgstr "DACTE"
 #. module: l10n_br_cte
 #: model_terms:ir.ui.view,arch_db:l10n_br_cte.cte_res_company_form
 msgid "DACTE Settings"
-msgstr "Configurações DACTE"
+msgstr "Configurações do DACTE"
 
 #. module: l10n_br_cte
 #: model:ir.model.fields.selection,name:l10n_br_cte.selection__l10n_br_cte_modal_rodo_occ__cte40_UF__df
@@ -2362,7 +2362,7 @@ msgstr "Campos do mixin de documento fiscal"
 #. module: l10n_br_cte
 #: model:ir.model,name:l10n_br_cte.model_l10n_br_fiscal_document_supplement
 msgid "Document Supplement Data"
-msgstr "Dados do Documento Suplementar"
+msgstr "Informações suplementares do documento"
 
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_iddocant__cte40_idDocAntEle
@@ -3280,8 +3280,7 @@ msgstr "Assistente de importação de documento"
 msgid ""
 "Include Accountant Partner data in persons authorized to download CTe XML"
 msgstr ""
-"Incluir dados do Parceiro Contador nas pessoas autorizadas a baixar o XML do "
-"CTe"
+"Incluir os dados do contador nas pessoas autorizadas a baixar o XML do CT-e"
 
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tcteos_ide__cte40_indIEToma
@@ -4114,7 +4113,7 @@ msgstr "Apólice de seguro"
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__partner_insurance_id
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_mixin__partner_insurance_id
 msgid "Insurance Provider"
-msgstr "Provedor do Seguro"
+msgstr "Seguradora"
 
 #. module: l10n_br_cte
 #: model:ir.model.fields.selection,name:l10n_br_cte.selection__l10n_br_fiscal_document__cte40_tpNav__0
@@ -5343,7 +5342,7 @@ msgstr ""
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_res_company__processador_edoc
 msgid "Processador documentos eletrônicos"
-msgstr "Processador documentos eletrônicos"
+msgstr "Processador de documentos eletrônicos"
 
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tctesimp_infcarga__cte40_proPred
@@ -7342,7 +7341,7 @@ msgstr "Versão do processo de emissão (cte_verProc)"
 #. odoo-python
 #: code:addons/l10n_br_cte/report/ir_actions_report.py:0
 msgid "You can only print a DACTE of a CTe(57)."
-msgstr "Você só pode imprimir um DACTE de um CTe(57)."
+msgstr "Só é possível imprimir o DACTE de um CT-e (modelo 57)."
 
 #. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document_related__cte40_chCTe
