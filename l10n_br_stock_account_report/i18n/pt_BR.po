@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-04 19:50+0000\n"
-"PO-Revision-Date: 2026-11-26 17:13+0000\n"
+"PO-Revision-Date: 2026-11-26 18:55+0000\n"
 "Last-Translator: Luis Felipe Miléo <mileo@kmee.com.br>\n"
 "Language-Team: \n"
 "Language: pt_BR\n"
@@ -85,7 +85,7 @@ msgstr "<strong>Modelo P7</strong>"
 #. module: l10n_br_stock_account_report
 #: model_terms:ir.ui.view,arch_db:l10n_br_stock_account_report.l10n_br_p7_model_inventory_report_view
 msgid "<strong>REGISTRATION INVENTORY</strong>"
-msgstr "<strong>INVENTÁRIO DE REGISTRO</strong>"
+msgstr "<strong>REGISTRO DE INVENTÁRIO</strong>"
 
 #. module: l10n_br_stock_account_report
 #: model_terms:ir.ui.view,arch_db:l10n_br_stock_account_report.l10n_br_p7_model_inventory_report_view
@@ -106,7 +106,7 @@ msgstr "Relatório de Inventário Brasileiro Modelo P7"
 #. module: l10n_br_stock_account_report
 #: model:ir.model,name:l10n_br_stock_account_report.model_l10n_br_p7_model_inventory_report_wizard
 msgid "Brazilian P7 Model Inventory Report Wizard"
-msgstr "Relatório de Inventário Brasileiro Modelo P7 Wizard"
+msgstr "Assistente do relatório de inventário brasileiro modelo P7"
 
 #. module: l10n_br_stock_account_report
 #: model:ir.actions.report,name:l10n_br_stock_account_report.l10n_br_p7_model_inventory_report
@@ -127,14 +127,12 @@ msgstr "Escolha uma data para obter o inventário nessa data"
 #: model:ir.model.fields,help:l10n_br_stock_account_report.field_l10n_br_p7_model_inventory_report_wizard__compute_at_date
 msgid ""
 "Choose to analyze the current inventory or from a specific date in the past."
-msgstr ""
-"Escolha analisar o inventário atual ou a partir de uma data específica no "
-"passado."
+msgstr "Escolha entre o inventário atual e o de uma data específica no passado."
 
 #. module: l10n_br_stock_account_report
 #: model_terms:ir.ui.view,arch_db:l10n_br_stock_account_report.l10n_br_p7_model_inventory_report_wizard_view
 msgid "Choose your date"
-msgstr "Escolha a sua data"
+msgstr "Escolha a data"
 
 #. module: l10n_br_stock_account_report
 #: model:ir.model.fields,field_description:l10n_br_stock_account_report.field_l10n_br_p7_model_inventory_report_wizard__compute_at_date
