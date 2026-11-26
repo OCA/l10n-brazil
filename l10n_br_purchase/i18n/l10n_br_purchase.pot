@@ -1767,6 +1767,11 @@ msgid "Tipo Fiscal"
 msgstr ""
 
 #. module: l10n_br_purchase
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase.l10n_br_purchase_order_form
+msgid "Total"
+msgstr ""
+
+#. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__total_weight
 msgid "Total Weight"
 msgstr ""

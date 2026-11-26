@@ -89,8 +89,8 @@ msgstr "Um arquivo de FCI não pode ter mais de %s mercadorias."
 #: model:ir.model.fields,help:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci__uom_code
 msgid ""
 "Abbreviation of the unit of measure of the goods, register 5020 field "
-"UNIDADE_MERCADORIA. Use '99' for units which are not in the table of the Ato"
-" COTEPE ICMS 61/2012."
+"UNIDADE_MERCADORIA. Use '99' for units which are not in the table of the Ato "
+"COTEPE ICMS 61/2012."
 msgstr ""
 "Abreviatura da unidade de medida da mercadoria, campo UNIDADE_MERCADORIA do "
 "registro 5020. Utilize '99' para as unidades que não constam na tabela do "
@@ -129,8 +129,8 @@ msgstr "Adicionar uma nova FCI"
 #. module: l10n_br_fiscal_fci
 #: model:ir.model.fields,help:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci__amount_imported
 msgid ""
-"Amount of the parcel imported from abroad per unit of measure, register 5020"
-" field VALOR_PARCELA_IMPORTADA_EXTERIOR."
+"Amount of the parcel imported from abroad per unit of measure, register 5020 "
+"field VALOR_PARCELA_IMPORTADA_EXTERIOR."
 msgstr ""
 "Valor da parcela importada do exterior em cada unidade de medida, campo "
 "VALOR_PARCELA_IMPORTADA_EXTERIOR do registro 5020."
@@ -307,9 +307,9 @@ msgid ""
 "transmitted or a file returned by the SEFAZ. The ZIP file downloaded from "
 "the FCI web system is also accepted."
 msgstr ""
-"Arquivo da FCI no leiaute do Ato COTEPE ICMS 61/2012, tanto um arquivo a ser"
-" transmitido quanto um arquivo retornado pela SEFAZ. O arquivo ZIP baixado "
-"do sistema FCI na web também é aceito."
+"Arquivo da FCI no leiaute do Ato COTEPE ICMS 61/2012, tanto um arquivo a ser "
+"transmitido quanto um arquivo retornado pela SEFAZ. O arquivo ZIP baixado do "
+"sistema FCI na web também é aceito."
 
 #. module: l10n_br_fiscal_fci
 #. odoo-python
@@ -575,6 +575,11 @@ msgid "Name"
 msgstr "Nome"
 
 #. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_file__activity_calendar_event_id
+msgid "Next Activity Calendar Event"
+msgstr ""
+
+#. module: l10n_br_fiscal_fci
 #: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_file__activity_date_deadline
 msgid "Next Activity Deadline"
 msgstr "Prazo Final para Próxima Atividade"
@@ -609,8 +614,8 @@ msgid ""
 "No allowed company found with the CNPJ %s of the file. Check the CNPJ of "
 "your companies and the companies enabled in your user."
 msgstr ""
-"Nenhuma empresa permitida foi encontrada com o CNPJ %s do arquivo. Verifique"
-" o CNPJ das suas empresas e as empresas habilitadas no seu usuário."
+"Nenhuma empresa permitida foi encontrada com o CNPJ %s do arquivo. Verifique "
+"o CNPJ das suas empresas e as empresas habilitadas no seu usuário."
 
 #. module: l10n_br_fiscal_fci
 #: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_file__message_needaction_counter
@@ -640,8 +645,7 @@ msgstr "Abrir FCI"
 #. module: l10n_br_fiscal_fci
 #: model:ir.model.fields,help:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci__import_content
 msgid ""
-"Percentage of the import content, register 5020 field "
-"CONTEUDO_IMPORTACAO_CI."
+"Percentage of the import content, register 5020 field CONTEUDO_IMPORTACAO_CI."
 msgstr ""
 "Percentual do conteúdo de importação, campo CONTEUDO_IMPORTACAO_CI do "
 "registro 5020."
@@ -875,8 +879,10 @@ msgstr ""
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal_fci.fci_file_action
 msgid ""
 "The FCI (Ficha de Conteúdo de Importação) informs the share of\n"
-"                the imported parcel in the total of the goods submitted to a\n"
-"                process of industrialization, as required by the Convênio ICMS\n"
+"                the imported parcel in the total of the goods submitted to "
+"a\n"
+"                process of industrialization, as required by the Convênio "
+"ICMS\n"
 "                38/2013."
 msgstr ""
 "A FCI (Ficha de Conteúdo de Importação) informa a participação da parcela "
@@ -1127,6 +1133,16 @@ msgid "Validation Indicator"
 msgstr "Indicador de Validação"
 
 #. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_file__website_message_ids
+msgid "Website Messages"
+msgstr ""
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,help:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_file__website_message_ids
+msgid "Website communication history"
+msgstr ""
+
+#. module: l10n_br_fiscal_fci
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_fci.fci_search
 msgid "With FCI Control Number"
 msgstr "Com Número de Controle da FCI"
@@ -1152,8 +1168,10 @@ msgstr "CEP"
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_fci.fci_import_wizard_form
 msgid ""
 "a file returned by the tax administration, from\n"
-"                            the restricted query of the FCI web system (option\n"
-"                            \"Download Arquivo de Retorno\"), either the TXT or\n"
+"                            the restricted query of the FCI web system "
+"(option\n"
+"                            \"Download Arquivo de Retorno\"), either the TXT "
+"or\n"
 "                            the ZIP: the FCI control numbers are written in\n"
 "                            the goods of the FCI it comes from."
 msgstr ""
@@ -1166,12 +1184,13 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_fci.fci_import_wizard_form
 msgid ""
 "a file to be transmitted, generated here or in\n"
-"                            another platform: a draft FCI is created from it,\n"
+"                            another platform: a draft FCI is created from "
+"it,\n"
 "                            so that it can be reviewed and completed in Odoo;"
 msgstr ""
-"um arquivo a ser transmitido, gerado aqui ou em outra plataforma: uma FCI em"
-" rascunho é criada a partir dele, para que possa ser revisada e completada "
-"no Odoo;"
+"um arquivo a ser transmitido, gerado aqui ou em outra plataforma: uma FCI em "
+"rascunho é criada a partir dele, para que possa ser revisada e completada no "
+"Odoo;"
 
 #. module: l10n_br_fiscal_fci
 #: model:ir.model.fields.selection,name:l10n_br_fiscal_fci.selection__l10n_br_fiscal_fci_import_wizard__state__done

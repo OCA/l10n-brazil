@@ -25,4 +25,5 @@ from . import (
     test_simplified_tax,
     test_document_entry_cst,
     test_entry_cst_screen,
+    test_document_import_wizard,
 )
