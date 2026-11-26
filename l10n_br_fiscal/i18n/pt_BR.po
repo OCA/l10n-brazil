@@ -227,8 +227,8 @@ msgid ""
 "1. Default taxes of the <strong>company</strong> <small class=\"text-"
 "muted\">(according to the tax framework)</small>"
 msgstr ""
-"1. Impostos padrão da <strong>empresa</strong> <small "
-"class=\"text-muted\">(conforme o regime tributário)</small>"
+"1. Impostos padrão da <strong>empresa</strong> <small class=\"text-"
+"muted\">(conforme o regime tributário)</small>"
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_form
@@ -360,8 +360,8 @@ msgid ""
 "3. Rules of the <strong>operation line</strong> <small class=\"text-"
 "muted\">(e.g. shipment without PIS/COFINS)</small>"
 msgstr ""
-"3. Regras da <strong>linha da operação</strong> <small "
-"class=\"text-muted\">(ex.: remessa sem PIS/COFINS)</small>"
+"3. Regras da <strong>linha da operação</strong> <small class=\"text-"
+"muted\">(ex.: remessa sem PIS/COFINS)</small>"
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_form
@@ -470,8 +470,8 @@ msgid ""
 "                                    partner</strong> <small class=\"text-"
 "muted\">(the final word)</small>"
 msgstr ""
-"5. Regras do <strong>perfil fiscal do parceiro</strong> <small "
-"class=\"text-muted\">(a palavra final)</small>"
+"5. Regras do <strong>perfil fiscal do parceiro</strong> <small class=\"text-"
+"muted\">(a palavra final)</small>"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__contract_line__icms_origin__6
@@ -779,10 +779,10 @@ msgid ""
 "invoice by\n"
 "                                itself."
 msgstr ""
-"<strong>A operação fiscal diz ao sistema o que a sua empresa está "
-"fazendo</strong>: vendendo, comprando, devolvendo, transferindo entre "
-"filiais, remetendo mercadoria para industrialização... O sistema a usa para "
-"preencher sozinho o CFOP, os impostos e as mensagens da nota."
+"<strong>A operação fiscal diz ao sistema o que a sua empresa está fazendo</"
+"strong>: vendendo, comprando, devolvendo, transferindo entre filiais, "
+"remetendo mercadoria para industrialização... O sistema a usa para preencher "
+"sozinho o CFOP, os impostos e as mensagens da nota."
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_line_form
@@ -4299,8 +4299,8 @@ msgid ""
 msgstr ""
 "Do <strong>Lucro Presumido</strong> para o <strong>Lucro Real</strong>?<br/> "
 "<small class=\"text-muted\">Altere apenas o cálculo do lucro para Real. O "
-"PIS/COFINS padrão da empresa muda sozinho de cumulativo para não "
-"cumulativo.</small>"
+"PIS/COFINS padrão da empresa muda sozinho de cumulativo para não cumulativo."
+"</small>"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__state_from_id
@@ -6150,13 +6150,21 @@ msgstr "Se marcado, novas mensagens solicitarão sua atenção."
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document__message_has_error
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document__message_has_sms_error
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__message_has_error
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__message_has_sms_error
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_nbs__message_has_error
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_nbs__message_has_sms_error
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_ncm__message_has_error
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_ncm__message_has_sms_error
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_operation__message_has_error
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_operation__message_has_sms_error
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_operation_line__message_has_error
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_operation_line__message_has_sms_error
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_service_type__message_has_error
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_service_type__message_has_sms_error
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__message_has_error
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
 msgstr "Se marcado, algumas mensagens tem erro de entrega."
 
@@ -7097,10 +7105,9 @@ msgid ""
 "the profit\n"
 "                                    calculation to Presumed.</small>"
 msgstr ""
-"Saiu do <strong>Simples</strong> para o <strong>Lucro "
-"Presumido</strong>?<br/> <small class=\"text-muted\">Altere o regime "
-"tributário para \"3 - Regime Normal\" e o cálculo do lucro para "
-"Presumido.</small>"
+"Saiu do <strong>Simples</strong> para o <strong>Lucro Presumido</strong>?<br/"
+"> <small class=\"text-muted\">Altere o regime tributário para \"3 - Regime "
+"Normal\" e o cálculo do lucro para Presumido.</small>"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__edoc_refund_debit_type__04
@@ -9291,6 +9298,18 @@ msgstr "SACO"
 #: model:uom.uom,name:l10n_br_fiscal.UOM_SACOLA
 msgid "SACOLA"
 msgstr "SACOLA"
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__message_has_sms_error
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__message_has_sms_error
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_nbs__message_has_sms_error
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_ncm__message_has_sms_error
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation__message_has_sms_error
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_line__message_has_sms_error
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_service_type__message_has_sms_error
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr "Erro de Entrega de SMS"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_operation__fiscal_type__sale
@@ -12499,9 +12518,6 @@ msgstr "{} Estimativa de Imposto Atualizada"
 #, python-format
 #~ msgid "{} Tax Estimate Failure"
 #~ msgstr "{} Falha na Estimativa de Imposto"
-
-#~ msgid "SMS Delivery error"
-#~ msgstr "Erro de Entrega de SMS"
 
 #, python-format
 #~ msgid "Estadual Inscription Invalid !"
