@@ -10,10 +10,19 @@ from odoo.exceptions import UserError
 from odoo.addons.l10n_br_assisted_assessment.constants import (
     LINE_CREDIT,
     SERVICE_LINE_TYPE,
+    SERVICE_PAYMENTS,
+    SERVICE_WITHHOLDINGS,
     TRIBUTE_CBS,
 )
 
-from ..constants import POLL_LIMIT, SERVICE_COLLECTION
+from ..constants import (
+    DAILY_SERVICES,
+    PAYMENT_SERVICES,
+    PAYMENT_TYPE_PCONT,
+    PAYMENT_TYPE_RAD,
+    POLL_LIMIT,
+    SERVICE_COLLECTION,
+)
 
 _logger = logging.getLogger(__name__)
 
@@ -104,6 +113,49 @@ class AssistedAssessmentRequest(models.Model):
             self.signed_url
         )
 
+    def _apply(self):
+        self.ensure_one()
+        if self._is_cbs() and self.service in PAYMENT_SERVICES:
+            return self._apply_payments()
+        return super()._apply()
+
+    def _apply_payments(self):
+        """Store a DARF file without touching the assessment lines.
+
+        Receiving a payment does not mean the debit and credit of the period
+        were downloaded, so the period status stays as it is.
+        """
+        self.ensure_one()
+        if not self.payload:
+            raise UserError(_("Request %s has no payload to apply.", self.name))
+        period_model = self.env["l10n_br_assisted_assessment.period"]
+        payment_model = self.env["l10n_br_cbs_assisted_assessment.payment"]
+        periods = period_model.browse()
+        for payment_vals in self._parse_payment_payload():
+            lines = []
+            for line in payment_vals["lines"]:
+                period = period_model._get_or_create(
+                    self.company_id, self.tribute, line.pop("per_apur")
+                )
+                periods |= period
+                lines.append(dict(line, period_id=period.id))
+            payment_vals["lines"] = lines
+            payment_model._upsert(self, payment_vals)
+        self.write({"state": "done", "period_ids": [fields.Command.set(periods.ids)]})
+        if self.period_id and self.period_id not in periods:
+            self.period_id._notify_answer_without_data(self, periods)
+        return True
+
+    def _delivered_totals(self):
+        if self._is_cbs() and self.service in PAYMENT_SERVICES:
+            if self.state != "done" or not self.payload:
+                return 0, 0.0
+            parsed = self._parse_payment_payload()
+            lines = [line for payment in parsed for line in payment["lines"]]
+            amount = sum(line.get("amount_total") or 0.0 for line in lines)
+            return len(lines), amount
+        return super()._delivered_totals()
+
     def _parse_payload(self):
         self.ensure_one()
         if not self._is_cbs():
@@ -135,6 +187,100 @@ class AssistedAssessmentRequest(models.Model):
                     self._line_vals(item, line_type)
                 )
         return grouped
+
+    def _parse_payment_payload(self):
+        """Convert a recolhimentos or pagamentos file into DARF values."""
+        self.ensure_one()
+        try:
+            data = json.loads(self.payload)
+        except ValueError as error:
+            raise UserError(
+                _("The downloaded file of %s is not valid JSON.", self.name)
+            ) from error
+        payments = []
+        for assessment in data.get("apuracao") or []:
+            collection_date = assessment.get("dataArrecadacao")
+            for item in assessment.get("pagamentos") or []:
+                payment = self._payment_vals(item, collection_date)
+                if payment:
+                    payments.append(payment)
+        return payments
+
+    def _payment_vals(self, item, collection_date):
+        payment_type = str(item.get("tipo") or "")
+        darf_number = item.get("numeroDARF")
+        if payment_type not in (PAYMENT_TYPE_RAD, PAYMENT_TYPE_PCONT) or not (
+            darf_number
+        ):
+            _logger.warning(
+                "Skipping payment without a DARF number or type in %s", self.name
+            )
+            return False
+        if self.service == SERVICE_WITHHOLDINGS and payment_type != PAYMENT_TYPE_RAD:
+            _logger.warning(
+                "Skipping non-RAD payment %s in acquirer withholdings %s",
+                darf_number,
+                self.name,
+            )
+            return False
+        if not collection_date:
+            _logger.warning(
+                "Skipping DARF %s without a collection date in %s",
+                darf_number,
+                self.name,
+            )
+            return False
+        lines = []
+        for composition in item.get("composicao") or []:
+            line = self._payment_line_vals(composition, payment_type)
+            if line:
+                lines.append(line)
+        return {
+            "collection_date": collection_date,
+            "darf_number": darf_number,
+            "payment_type": payment_type,
+            "counterparty_vat": self._payment_counterparty(item, payment_type),
+            "lines": lines,
+        }
+
+    def _payment_counterparty(self, item, payment_type):
+        if self.service != SERVICE_PAYMENTS:
+            return False
+        if payment_type == PAYMENT_TYPE_RAD:
+            return item.get("niAdquirente")
+        return item.get("niContribuinte")
+
+    def _payment_line_vals(self, composition, payment_type):
+        per_apur = self._per_apur_from_pa(composition.get("pa"))
+        if not per_apur:
+            _logger.warning(
+                "Skipping composition with unexpected period %s in %s",
+                composition.get("pa"),
+                self.name,
+            )
+            return False
+        sequence = composition.get("sequencial")
+        if not sequence:
+            _logger.warning("Skipping composition without a sequence in %s", self.name)
+            return False
+        return {
+            "sequence": int(sequence),
+            "per_apur": per_apur,
+            "date_due": composition.get("vencimento"),
+            "counterparty_vat": self._line_counterparty(composition, payment_type),
+            "document_key": composition.get("chaveDFE"),
+            "amount_principal": composition.get("principal") or 0.0,
+            "amount_fine": composition.get("multa") or 0.0,
+            "amount_interest": composition.get("juros") or 0.0,
+            "amount_total": composition.get("total") or 0.0,
+        }
+
+    def _line_counterparty(self, composition, payment_type):
+        if self.service == SERVICE_WITHHOLDINGS:
+            return composition.get("niFornecedor")
+        if payment_type == PAYMENT_TYPE_RAD:
+            return composition.get("niContribuinte")
+        return False
 
     @api.model
     def _per_apur_from_pa(self, value):
@@ -214,10 +360,10 @@ class AssistedAssessmentRequest(models.Model):
 
     @api.model
     def _cron_request_daily(self):
-        """Open the daily debit and credit requests of every configured company.
+        """Open the daily CBS requests of every configured company.
 
         The endpoints answer with what changed since the previous query, so a
-        regular cadence is what keeps the assessment complete.
+        regular cadence is what keeps the assessment and the payments complete.
         """
         companies = self.env["res.company"].search(
             [("cbs_assessment_client_id", "!=", False)]
@@ -227,7 +373,7 @@ class AssistedAssessmentRequest(models.Model):
         period_model = self.env["l10n_br_assisted_assessment.period"]
         for company in companies:
             period = period_model._get_or_create(company, TRIBUTE_CBS, per_apur)
-            for service in SERVICE_COLLECTION:
+            for service in DAILY_SERVICES:
                 try:
                     period._create_request(service)
                 except UserError as error:

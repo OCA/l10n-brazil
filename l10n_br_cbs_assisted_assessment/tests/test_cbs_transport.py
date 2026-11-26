@@ -263,7 +263,7 @@ class TestCbsTransport(TransactionCase):
     def test_client_rejects_an_unsupported_service(self):
         with self.assertRaises(UserError):
             self.env["l10n_br_cbs_assisted_assessment.client"]._open_request(
-                self.company, "payments", "https://example.com/hook"
+                self.company, "unknown", "https://example.com/hook"
             )
 
     def test_base_url_follows_the_environment(self):

@@ -34,9 +34,10 @@ publicadas pela Receita Federal em setembro de 2026.
 Implementa os hooks deixados em aberto pelo
 ``l10n_br_assisted_assessment``:
 
-- abre as solicitações de débitos e créditos em ``apuracao-cbs/v2``,
-  usando a raiz de 8 dígitos do CNPJ, porque a apuração é consolidada
-  por contribuinte e não por estabelecimento;
+- abre as solicitações de débitos, créditos, pagamentos e recolhimentos
+  do adquirente em ``apuracao-cbs/v2``, usando a raiz de 8 dígitos do
+  CNPJ, porque a apuração é consolidada por contribuinte e não por
+  estabelecimento;
 - expõe o endpoint de callback informado como ``urlRetorno``,
   respondendo à validação ``HEAD`` que o gateway faz antes de aceitar a
   solicitação. O corpo do callback é só um sinal: a URL pré-assinada vem
@@ -47,7 +48,11 @@ Implementa os hooks deixados em aberto pelo
 - baixa e interpreta o arquivo devolvido, encaminhando o conteúdo ao
   período certo. Uma única resposta traz o período corrente e ajustes de
   períodos anteriores, e só o que mudou desde a consulta anterior, então
-  as linhas são mescladas e não substituídas.
+  as linhas são mescladas e não substituídas;
+- grava pagamentos (``pagamentos``) e recolhimentos do adquirente
+  (``recolhimentos``) como DARF e composição. O período da apuração não
+  muda de estado por causa desse arquivo. A emissão do DARF não faz
+  parte deste addon.
 
 O IBS é servido pelo CGIBS com endpoints próprios e fica fora do escopo
 deste addon.
@@ -95,9 +100,13 @@ Usage
 =====
 
 Na apuração, *Solicitar Débitos* ou *Solicitar Créditos* abre a
-solicitação e guarda o tíquete devolvido. O restante do ciclo é
-automático: o callback marca a solicitação como pronta para download, e
-a ação agendada baixa o arquivo e o aplica aos períodos que ele carrega.
+solicitação e guarda o tíquete devolvido. *Solicitar Pagamentos* e
+*Solicitar Recolhimentos* fazem o mesmo para os DARFs. O restante do
+ciclo é automático: o callback marca a solicitação como pronta para
+download, e a ação agendada baixa o arquivo e o aplica. Débitos e
+créditos alimentam as linhas da apuração. Pagamentos e recolhimentos
+aparecem na aba *Payments* e no menu *CBS Payments*, sem alterar o
+estado do período.
 
 Uma recusa deixa a solicitação no estado *Erro*, com o código e a
 mensagem que voltaram, em vez de abrir um diálogo: o motivo precisa

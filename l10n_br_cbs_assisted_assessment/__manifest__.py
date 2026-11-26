@@ -17,8 +17,12 @@
     "post_load": "post_load",
     "post_init_hook": "post_init_hook",
     "data": [
+        "security/cbs_assessment_security.xml",
+        "security/ir.model.access.csv",
         "data/ir_cron.xml",
         "views/res_company_view.xml",
+        "views/payment_view.xml",
+        "views/assisted_assessment_view.xml",
     ],
     "installable": True,
 }

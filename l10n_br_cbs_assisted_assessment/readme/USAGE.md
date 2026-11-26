@@ -1,7 +1,10 @@
 Na apuração, _Solicitar Débitos_ ou _Solicitar Créditos_ abre a solicitação e
-guarda o tíquete devolvido. O restante do ciclo é automático: o callback
+guarda o tíquete devolvido. _Solicitar Pagamentos_ e _Solicitar Recolhimentos_
+fazem o mesmo para os DARFs. O restante do ciclo é automático: o callback
 marca a solicitação como pronta para download, e a ação agendada baixa o
-arquivo e o aplica aos períodos que ele carrega.
+arquivo e o aplica. Débitos e créditos alimentam as linhas da apuração.
+Pagamentos e recolhimentos aparecem na aba _Payments_ e no menu
+_CBS Payments_, sem alterar o estado do período.
 
 Uma recusa deixa a solicitação no estado _Erro_, com o código e a mensagem
 que voltaram, em vez de abrir um diálogo: o motivo precisa permanecer no

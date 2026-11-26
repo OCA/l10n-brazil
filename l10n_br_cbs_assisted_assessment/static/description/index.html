@@ -375,9 +375,10 @@ publicadas pela Receita Federal em setembro de 2026.</p>
 <p>Implementa os hooks deixados em aberto pelo
 <tt class="docutils literal">l10n_br_assisted_assessment</tt>:</p>
 <ul class="simple">
-<li>abre as solicitações de débitos e créditos em <tt class="docutils literal"><span class="pre">apuracao-cbs/v2</span></tt>,
-usando a raiz de 8 dígitos do CNPJ, porque a apuração é consolidada
-por contribuinte e não por estabelecimento;</li>
+<li>abre as solicitações de débitos, créditos, pagamentos e recolhimentos
+do adquirente em <tt class="docutils literal"><span class="pre">apuracao-cbs/v2</span></tt>, usando a raiz de 8 dígitos do
+CNPJ, porque a apuração é consolidada por contribuinte e não por
+estabelecimento;</li>
 <li>expõe o endpoint de callback informado como <tt class="docutils literal">urlRetorno</tt>,
 respondendo à validação <tt class="docutils literal">HEAD</tt> que o gateway faz antes de aceitar a
 solicitação. O corpo do callback é só um sinal: a URL pré-assinada vem
@@ -388,7 +389,11 @@ callback nem sempre é entregue;</li>
 <li>baixa e interpreta o arquivo devolvido, encaminhando o conteúdo ao
 período certo. Uma única resposta traz o período corrente e ajustes de
 períodos anteriores, e só o que mudou desde a consulta anterior, então
-as linhas são mescladas e não substituídas.</li>
+as linhas são mescladas e não substituídas;</li>
+<li>grava pagamentos (<tt class="docutils literal">pagamentos</tt>) e recolhimentos do adquirente
+(<tt class="docutils literal">recolhimentos</tt>) como DARF e composição. O período da apuração não
+muda de estado por causa desse arquivo. A emissão do DARF não faz
+parte deste addon.</li>
 </ul>
 <p>O IBS é servido pelo CGIBS com endpoints próprios e fica fora do escopo
 deste addon.</p>
@@ -442,9 +447,13 @@ corrente para cada empresa que tiver credenciais.</p>
 <div class="section" id="usage">
 <h1><a class="toc-backref" href="#toc-entry-2">Usage</a></h1>
 <p>Na apuração, <em>Solicitar Débitos</em> ou <em>Solicitar Créditos</em> abre a
-solicitação e guarda o tíquete devolvido. O restante do ciclo é
-automático: o callback marca a solicitação como pronta para download, e
-a ação agendada baixa o arquivo e o aplica aos períodos que ele carrega.</p>
+solicitação e guarda o tíquete devolvido. <em>Solicitar Pagamentos</em> e
+<em>Solicitar Recolhimentos</em> fazem o mesmo para os DARFs. O restante do
+ciclo é automático: o callback marca a solicitação como pronta para
+download, e a ação agendada baixa o arquivo e o aplica. Débitos e
+créditos alimentam as linhas da apuração. Pagamentos e recolhimentos
+aparecem na aba <em>Payments</em> e no menu <em>CBS Payments</em>, sem alterar o
+estado do período.</p>
 <p>Uma recusa deixa a solicitação no estado <em>Erro</em>, com o código e a
 mensagem que voltaram, em vez de abrir um diálogo: o motivo precisa
 permanecer no registro, e a chamada é cobrada pelo gateway mesmo quando

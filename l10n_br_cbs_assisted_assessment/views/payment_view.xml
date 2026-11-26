@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="view_cbs_payment_list" model="ir.ui.view">
+        <field name="name">l10n_br_cbs_assisted_assessment.payment.list</field>
+        <field name="model">l10n_br_cbs_assisted_assessment.payment</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="collection_date" />
+                <field name="darf_number" />
+                <field name="payment_type" />
+                <field name="service" />
+                <field name="counterparty_vat" />
+                <field name="company_id" groups="base.group_multi_company" />
+                <field name="currency_id" column_invisible="1" />
+            </list>
+        </field>
+    </record>
+    <record id="view_cbs_payment_form" model="ir.ui.view">
+        <field name="name">l10n_br_cbs_assisted_assessment.payment.form</field>
+        <field name="model">l10n_br_cbs_assisted_assessment.payment</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="darf_number" />
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="payment_type" />
+                            <field name="service" />
+                            <field name="collection_date" />
+                            <field name="counterparty_vat" />
+                        </group>
+                        <group>
+                            <field name="request_id" />
+                            <field
+                                name="company_id"
+                                groups="base.group_multi_company"
+                            />
+                        </group>
+                    </group>
+                    <field name="currency_id" invisible="1" />
+                    <field name="line_ids" nolabel="1">
+                        <list>
+                            <field name="sequence" />
+                            <field name="period_id" />
+                            <field name="date_due" />
+                            <field name="counterparty_vat" />
+                            <field name="document_key" />
+                            <field name="document_id" />
+                            <field name="amount_principal" />
+                            <field name="amount_fine" />
+                            <field name="amount_interest" />
+                            <field name="amount_total" />
+                            <field name="currency_id" column_invisible="1" />
+                        </list>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="view_cbs_payment_search" model="ir.ui.view">
+        <field name="name">l10n_br_cbs_assisted_assessment.payment.search</field>
+        <field name="model">l10n_br_cbs_assisted_assessment.payment</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="darf_number" />
+                <field name="counterparty_vat" />
+                <filter name="rad" string="RAD" domain="[('payment_type', '=', '1')]" />
+                <filter
+                    name="pcont"
+                    string="PCONT"
+                    domain="[('payment_type', '=', '2')]"
+                />
+                <filter
+                    name="withholdings"
+                    string="Acquirer Withholdings"
+                    domain="[('service', '=', 'withholdings')]"
+                />
+                <filter
+                    name="payments"
+                    string="Payments"
+                    domain="[('service', '=', 'payments')]"
+                />
+                <group expand="0" string="Group By">
+                    <filter
+                        name="group_collection_date"
+                        string="Collection Date"
+                        context="{'group_by': 'collection_date'}"
+                    />
+                    <filter
+                        name="group_service"
+                        string="Service"
+                        context="{'group_by': 'service'}"
+                    />
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="action_cbs_payment" model="ir.actions.act_window">
+        <field name="name">CBS Payments</field>
+        <field name="res_model">l10n_br_cbs_assisted_assessment.payment</field>
+        <field name="view_mode">list,form</field>
+    </record>
+    <menuitem
+        id="menu_cbs_payment"
+        name="CBS Payments"
+        parent="l10n_br_assisted_assessment.menu_assessment_root"
+        action="action_cbs_payment"
+        sequence="18"
+        groups="l10n_br_assisted_assessment.group_user"
+    />
+</odoo>

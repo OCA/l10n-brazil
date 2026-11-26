@@ -4,6 +4,8 @@
 from odoo.addons.l10n_br_assisted_assessment.constants import (
     SERVICE_CREDITS,
     SERVICE_DEBITS,
+    SERVICE_PAYMENTS,
+    SERVICE_WITHHOLDINGS,
 )
 
 ENVIRONMENT_PRODUCTION = "production"
@@ -25,7 +27,27 @@ ENVIRONMENT_PATH = {
 SERVICE_PATH = {
     SERVICE_DEBITS: "debitos",
     SERVICE_CREDITS: "creditos",
+    SERVICE_PAYMENTS: "pagamentos",
+    SERVICE_WITHHOLDINGS: "recolhimentos",
 }
+
+# Services whose file is a DARF composition, not an assessment line.
+PAYMENT_SERVICES = (SERVICE_PAYMENTS, SERVICE_WITHHOLDINGS)
+
+# Opened by the daily cron. It stays inactive until a company opts in.
+DAILY_SERVICES = (
+    SERVICE_DEBITS,
+    SERVICE_CREDITS,
+    SERVICE_PAYMENTS,
+    SERVICE_WITHHOLDINGS,
+)
+
+PAYMENT_TYPE_RAD = "1"
+PAYMENT_TYPE_PCONT = "2"
+PAYMENT_TYPES = [
+    (PAYMENT_TYPE_RAD, "RAD"),
+    (PAYMENT_TYPE_PCONT, "PCONT"),
+]
 STATUS_PATH = "situacao"
 DOWNLOAD_PATH = "download"
 
