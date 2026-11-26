@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2026-11-25 23:46+0000\n"
+"PO-Revision-Date: 2026-11-26 17:12+0000\n"
 "Last-Translator: Luis Felipe Miléo <mileo@kmee.com.br>\n"
 "Language-Team: \n"
 "Language: pt_BR\n"
@@ -43,7 +43,7 @@ msgstr "Já existe um DF-e com esta chave de acesso para esta empresa."
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_document__access_key
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.dfe_form
 msgid "Access Key"
-msgstr "Chave de Acesso"
+msgstr "Chave de acesso"
 
 #. module: l10n_br_fiscal_dfe
 #: model:ir.model.fields,help:l10n_br_fiscal_dfe.field_dfe_specific_search_wizard__access_key
@@ -267,7 +267,7 @@ msgstr "Data"
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_distribution_log__display_name
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_document__display_name
 msgid "Display Name"
-msgstr "Nome Exibido"
+msgstr "Nome exibido"
 
 #. module: l10n_br_fiscal_dfe
 #: model:ir.actions.act_window,name:l10n_br_fiscal_dfe.dfe_distribution_log_action
@@ -296,17 +296,17 @@ msgstr "Documento"
 #. module: l10n_br_fiscal_dfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.dfe_form
 msgid "Document Info"
-msgstr "Informações do Documento"
+msgstr "Informações do documento"
 
 #. module: l10n_br_fiscal_dfe
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_document__document_number
 msgid "Document Number"
-msgstr "Número do Documento"
+msgstr "Número do documento"
 
 #. module: l10n_br_fiscal_dfe
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_document__document_amount
 msgid "Document Total Value"
-msgstr "Valor Total do Documento"
+msgstr "Valor total do documento"
 
 #. module: l10n_br_fiscal_dfe
 #: model:ir.model.fields,help:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_document__document_state
@@ -332,7 +332,7 @@ msgstr "Baixar XMLs (zip)"
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_document__document_emission_date
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.l10n_br_fiscal_dfe_document_search
 msgid "Emission Date"
-msgstr "Data de Emissão"
+msgstr "Data de emissão"
 
 #. module: l10n_br_fiscal_dfe
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_document__emitter
@@ -383,7 +383,7 @@ msgstr "Evento"
 #. module: l10n_br_fiscal_dfe
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_dfe__event_type_dfe
 msgid "Event Type"
-msgstr "Tipo de Evento"
+msgstr "Tipo de evento"
 
 #. module: l10n_br_fiscal_dfe
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_document__fiscal_document_id
@@ -412,7 +412,7 @@ msgstr "Documento fiscal do serviço de distribuição"
 #. module: l10n_br_fiscal_dfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.l10n_br_fiscal_dfe_document_search
 msgid "Group By"
-msgstr "Agrupar Por"
+msgstr "Agrupar por"
 
 #. module: l10n_br_fiscal_dfe
 #. odoo-javascript
@@ -468,7 +468,7 @@ msgstr "Última Consulta"
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_distribution_log__write_uid
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_document__write_uid
 msgid "Last Updated by"
-msgstr "Última Atualização por"
+msgstr "Última atualização por"
 
 #. module: l10n_br_fiscal_dfe
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_dfe_specific_search_wizard__write_date
@@ -476,17 +476,17 @@ msgstr "Última Atualização por"
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_distribution_log__write_date
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_document__write_date
 msgid "Last Updated on"
-msgstr "Última Atualização em"
+msgstr "Última atualização em"
 
 #. module: l10n_br_fiscal_dfe
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_distribution_log__log_type
 msgid "Log Type"
-msgstr "Tipo de Log"
+msgstr "Tipo de log"
 
 #. module: l10n_br_fiscal_dfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.l10n_br_fiscal_dfe_document_form
 msgid "Match Partner"
-msgstr "Vincular Parceiro"
+msgstr "Vincular parceiro"
 
 #. module: l10n_br_fiscal_dfe
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_distribution_log__message
@@ -552,7 +552,7 @@ msgstr "Próxima consulta agendada em %(minutes)s minutos."
 #. module: l10n_br_fiscal_dfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.l10n_br_fiscal_dfe_document_search
 msgid "No Partner"
-msgstr "Sem Parceiro"
+msgstr "Sem parceiro"
 
 #. module: l10n_br_fiscal_dfe
 #. odoo-python
@@ -586,7 +586,7 @@ msgstr "Outro (%(code)s)"
 #. module: l10n_br_fiscal_dfe
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_document__is_own_document
 msgid "Own Document"
-msgstr "Documento Próprio"
+msgstr "Documento próprio"
 
 #. module: l10n_br_fiscal_dfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.l10n_br_fiscal_dfe_document_form
@@ -667,7 +667,7 @@ msgstr "Saída"
 #. module: l10n_br_fiscal_dfe
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_dfe__schema_type
 msgid "Schema Type"
-msgstr "Tipo de Schema"
+msgstr "Tipo de schema"
 
 #. module: l10n_br_fiscal_dfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.view_dfe_specific_search_wizard_form
@@ -764,12 +764,12 @@ msgstr "Sincronizado"
 #. module: l10n_br_fiscal_dfe
 #: model:ir.actions.act_window,name:l10n_br_fiscal_dfe.dfe_document_action
 msgid "Third-party DF-e Documents"
-msgstr "Documentos DF-e de Terceiros"
+msgstr "Documentos DF-e de terceiros"
 
 #. module: l10n_br_fiscal_dfe
 #: model:ir.ui.menu,name:l10n_br_fiscal_dfe.dfe_document_menu
 msgid "Third-party Documents"
-msgstr "Documentos de Terceiros"
+msgstr "Documentos de terceiros"
 
 #. module: l10n_br_fiscal_dfe
 #. odoo-python
@@ -844,7 +844,7 @@ msgstr ""
 #. module: l10n_br_fiscal_dfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.dfe_distribution_log_search
 msgid "With SOAP Data"
-msgstr "Com Dados SOAP"
+msgstr "Com dados SOAP"
 
 #. module: l10n_br_fiscal_dfe
 #: model:ir.model,name:l10n_br_fiscal_dfe.model_dfe_specific_search_wizard
@@ -871,7 +871,7 @@ msgstr "Anexo XML armazenado no Odoo."
 #. module: l10n_br_fiscal_dfe
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_dfe__xml_pretty
 msgid "XML Pretty"
-msgstr "XML Formatado"
+msgstr "XML formatado"
 
 #~ msgid ""
 #~ "<i class=\"fa fa-calendar text-primary me-2\"/>\n"
