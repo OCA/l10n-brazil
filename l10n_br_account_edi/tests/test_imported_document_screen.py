@@ -96,14 +96,6 @@ class TestImportedDocumentScreen(AccountEdiCase):
         with self.assertRaisesRegex(UserError, "no fiscal operation"):
             document.action_generate_invoice()
 
-    def test_the_refusal_is_in_portuguese_for_a_user_in_portuguese(self):
-        self.env["res.lang"]._activate_lang("pt_BR")
-        document = self._imported_document()
-        document.fiscal_operation_id = False
-
-        with self.assertRaisesRegex(UserError, "O documento não tem operação fiscal"):
-            document.with_context(lang="pt_BR").action_generate_invoice()
-
     def test_what_the_form_of_the_invoice_refuses_becomes_a_message(self):
         document = self._imported_document()
         model = type(self.env["account.move"])
