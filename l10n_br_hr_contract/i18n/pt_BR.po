@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-09-26 13:15+0000\n"
-"PO-Revision-Date: 2026-11-25 23:46+0000\n"
+"PO-Revision-Date: 2026-11-26 17:13+0000\n"
 "Last-Translator: Luis Felipe Miléo <mileo@kmee.com.br>\n"
 "Language-Team: \n"
 "Language: pt_BR\n"
@@ -189,7 +189,7 @@ msgstr "Data do aviso prévio"
 #: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract__notice_of_termination_id
 #: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_notice_termination__name
 msgid "Notice of termination type"
-msgstr "Tipo de Aviso prévio"
+msgstr "Tipo de aviso prévio"
 
 #. module: l10n_br_hr_contract
 #: model:ir.model.fields.selection,name:l10n_br_hr_contract.selection__hr_contract__welfare_policy__rgps
@@ -303,7 +303,7 @@ msgstr "Sindicato"
 #. module: l10n_br_hr_contract
 #: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract__union_cnpj
 msgid "Union CNPJ"
-msgstr "CNPJ do Sindicato"
+msgstr "CNPJ do sindicato"
 
 #. module: l10n_br_hr_contract
 #: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract__union_entity_code
