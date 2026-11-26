@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2026-11-26 17:12+0000\n"
+"PO-Revision-Date: 2026-11-26 18:55+0000\n"
 "Last-Translator: Luis Felipe Miléo <mileo@kmee.com.br>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -51,7 +51,7 @@ msgstr "Certificado"
 #. module: l10n_br_fiscal_certificate
 #: model:ir.model.fields,field_description:l10n_br_fiscal_certificate.field_res_config_settings__cert_expired_alert
 msgid "Certificate Expired Alert"
-msgstr "Alerta de Certificado Expirado"
+msgstr "Alerta de vencimento do certificado"
 
 #. module: l10n_br_fiscal_certificate
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_certificate.l10n_br_fiscal_res_config_settings_form
@@ -97,7 +97,7 @@ msgstr "Empresas"
 #. module: l10n_br_fiscal_certificate
 #: model:ir.model,name:l10n_br_fiscal_certificate.model_res_config_settings
 msgid "Config Settings"
-msgstr "Ajuste de Configurações"
+msgstr "Configurações"
 
 #. module: l10n_br_fiscal_certificate
 #: model:ir.model.fields,field_description:l10n_br_fiscal_certificate.field_certificate_certificate__issuer_name
@@ -129,9 +129,9 @@ msgid ""
 "with: pip install erpbrasil.assinatura.Demo companies fake A1 certificates "
 "were not created."
 msgstr ""
-"Biblioteca Python erpbrasil.assinatura não instalada!Você pode instalá-la "
-"posteriormente com: pip install erpbrasil.assinatura.Demo certificados A1 "
-"falsos das empresas não foram criados."
+"Biblioteca Python erpbrasil.assinatura não instalada! Você pode instalá-la "
+"depois com: pip install erpbrasil.assinatura. Os certificados A1 fictícios "
+"das empresas de demonstração não foram criados."
 
 #. module: l10n_br_fiscal_certificate
 #. odoo-python
