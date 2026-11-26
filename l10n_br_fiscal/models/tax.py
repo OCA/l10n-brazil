@@ -262,6 +262,27 @@ class Tax(models.Model):
         return cst
 
     @api.model
+    def _is_import_entry(self, **kwargs):
+        """An entry whose base follows the customs value instead of the price.
+
+        The accessory costs of an import are the customs expenses, which travel
+        in ii_customhouse_charges and are added explicitly by every import
+        branch below. other_value belongs to a domestic operation, where the
+        law does put it in the base, and it only reaches an import through
+        base_with_additional_values.
+        """
+        cfop = kwargs.get("cfop")
+        if not cfop or cfop.destination != CFOP_DESTINATION_EXPORT:
+            return False
+        # 16.0 has no _fiscal_operation_type() helper yet: the operation line
+        # can be an empty recordset or False, so read it inline as everywhere
+        # else in this file.
+        operation_line = kwargs.get("operation_line")
+        if not operation_line:
+            return False
+        return (operation_line.fiscal_operation_type or FISCAL_OUT) == FISCAL_IN
+
+    @api.model
     def _compute_tax_base(self, tax, tax_dict, **kwargs):
         company = kwargs.get("company", tax.env.company)
         currency = kwargs.get("currency", company.currency_id)
@@ -274,9 +295,10 @@ class Tax(models.Model):
         other_value = kwargs.get("other_value", 0.00)
 
         if tax.tax_group_id.base_with_additional_values:
-            tax_dict["add_to_base"] += sum(
-                [freight_value, insurance_value, other_value]
-            )
+            additional_values = [freight_value, insurance_value]
+            if not self._is_import_entry(**kwargs):
+                additional_values.append(other_value)
+            tax_dict["add_to_base"] += sum(additional_values)
         tax_dict["remove_from_base"] += sum([discount_value])
 
         base = 0.00
@@ -457,8 +479,6 @@ class Tax(models.Model):
 
             tax_dict["add_to_base"] += kwargs.get("ii_customhouse_charges", 0.00)
 
-            other_value = kwargs.get("other_value", 0.00)
-            tax_dict["remove_from_base"] += sum([other_value])
             tax_dict["compute_with_tax_value"] = True
 
         tax_dict.update(self._compute_tax(tax, taxes_dict, **kwargs))

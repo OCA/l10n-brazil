@@ -2,7 +2,12 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 
+import logging
+
 from odoo import _, fields, models
+from odoo.exceptions import UserError
+
+_logger = logging.getLogger(__name__)
 
 
 class DocumentImportWizard(models.TransientModel):
@@ -22,6 +27,44 @@ class DocumentImportWizard(models.TransientModel):
     # to the next imported account.move from there.
     first_imported_move_id = fields.Integer()
 
+    def _check_imported_bill_allowed(self):
+        """Refuse a vendor bill the inbox or an existing bill already blocks.
+
+        Runs before the fiscal document is created, so a refused confirmation
+        leaves no invoice behind.
+        """
+        self.ensure_one()
+        if self.file and not (self.document_key or "").replace(" ", ""):
+            self._onchange_file()
+        key = (self.document_key or "").replace(" ", "")
+        if not key:
+            return
+        inbox_model = self.env.get("l10n_br_fiscal_dfe.document")
+        if inbox_model is not None and hasattr(inbox_model, "_check_import_allowed"):
+            # The inbox import guard exists on later series only; 16.0 keeps
+            # the check to the fiscal document already linked to bills below.
+            inbox = inbox_model.search(
+                [
+                    ("access_key", "=", key),
+                    ("company_id", "=", self.company_id.id),
+                ],
+                limit=1,
+            )
+            if inbox:
+                inbox._check_import_allowed()
+        document = self.env["l10n_br_fiscal.document"].search(
+            [
+                ("document_key", "=", key),
+                ("company_id", "=", self.company_id.id),
+            ],
+            limit=1,
+        )
+        if not document:
+            return
+        reason = document._vendor_bill_import_block_reason()
+        if reason:
+            raise UserError(reason)
+
     def action_import_and_open_move(self):
         """
         This is the import wizard confirmation action that will
@@ -30,6 +73,7 @@ class DocumentImportWizard(models.TransientModel):
         the next file if any, either it redirect to the imported
         account.move(s) at the end of the attachments sequence.
         """
+        self._check_imported_bill_allowed()
         _binding, fiscal_document = self._import_edoc()
         fiscal_document._check_document_import()
         move_type = f"{self.fiscal_operation_type}_invoice"
@@ -93,21 +137,41 @@ class DocumentImportWizard(models.TransientModel):
                     "res_model": "account.move",
                 }
 
+    def _is_xml_attachment(self, attachment):
+        if attachment.mimetype in ("application/xml", "text/xml"):
+            return True
+        return (attachment.name or "").lower().endswith(".xml")
+
     def _get_importer_action(self, attachments, move_id=None):
         """
-        Try to parse the 1st file of the the attachments to
+        Try to parse the 1st XML of the attachments to
         detect its type and return the wizard import action.
-        Also mark the other attachments to be imported next.
+        Also mark the other XML attachments to be imported next.
         """
+        xml_attachments = attachments.filtered(self._is_xml_attachment)
+        if not xml_attachments:
+            raise UserError(
+                _(
+                    "None of the uploaded files is an XML: %(names)s",
+                    names=", ".join(attachments.mapped("name")),
+                )
+            )
+        ignored_attachments = attachments - xml_attachments
+        if ignored_attachments:
+            _logger.info(
+                "Not importing the files that are not XML: %s",
+                ", ".join(ignored_attachments.mapped("name")),
+            )
+
         wizard = self.env["l10n_br_fiscal.document.import.wizard"].create(
             {
-                "file": attachments[0].datas,
-                "file_name": attachments[0].name,
+                "file": xml_attachments[0].datas,
+                "file_name": xml_attachments[0].name,
                 "first_imported_move_id": self.first_imported_move_id or move_id,
             }
         )
 
-        for attachment in attachments:
+        for attachment in xml_attachments:
             # this link will allow to retrieve the next attachments to import:
             attachment.res_model = "l10n_br_fiscal.document.import.wizard"
             attachment.res_id = wizard.id

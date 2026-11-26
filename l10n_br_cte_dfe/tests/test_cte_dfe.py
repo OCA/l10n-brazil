@@ -38,6 +38,7 @@ def mock_request(env):
     """Push a mock request onto Odoo's request stack."""
     request = mock.Mock()
     request.env = env
+    request.is_frontend = False
     request.session.debug = ""
     odoo.http._request_stack.push(request)
     try:

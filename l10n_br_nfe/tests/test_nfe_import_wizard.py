@@ -4,7 +4,9 @@ import re
 from unittest.mock import MagicMock, patch
 
 from odoo import Command
+from odoo.exceptions import UserError
 from odoo.tests import TransactionCase
+from odoo.tools import mute_logger
 
 from odoo.addons import l10n_br_nfe
 
@@ -60,7 +62,10 @@ class NFeImportWizardTest(TransactionCase):
 
     def test_import_nfe_xml(self):
         xml = "dummy"
-        with self.assertRaises(ValueError):
+        with (
+            self.assertRaises(UserError),
+            mute_logger("odoo.addons.l10n_br_fiscal.wizards.document_import_wizard"),
+        ):
             self._prepare_wizard(xml.encode("utf-8"))
 
         mock_document = MagicMock(spec=["modelo_documento"])

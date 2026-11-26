@@ -283,8 +283,9 @@ class ResPartner(spec_models.SpecModel):
         if parent_dict.get("nfe40_CNPJ", False):
             rec_dict["cnpj_cpf"] = parent_dict["nfe40_CNPJ"]
 
-        if rec_dict.get("nfe40_CNPJ", False):
-            rec_dict["cnpj_cpf"] = rec_dict["nfe40_CNPJ"]
+        document_number = rec_dict.get("nfe40_CNPJ") or rec_dict.get("nfe40_CPF")
+        if document_number:
+            rec_dict["cnpj_cpf"] = document_number
 
         # The emitente's tax regime (CRT) is written after create/match: the
         # fiscal_profile_id inverse would otherwise reset tax_framework to the

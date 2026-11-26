@@ -20,6 +20,7 @@ from ..constants.fiscal import (
 _logger = logging.getLogger(__name__)
 
 try:
+    from xsdata.exceptions import ParserError
     from xsdata.formats.dataclass.parsers import XmlParser
 except ImportError:
     _logger.error(_("xsdata Python lib not installed!"))
@@ -100,10 +101,13 @@ class DocumentImportWizard(models.TransientModel):
 
     @api.depends("issuer_cnpj", "company_id.cnpj_cpf")
     def _compute_fiscal_operation_type(self):
-        if self.issuer_cnpj == self.company_id.cnpj_cpf:
-            self.fiscal_operation_type = "out"
-        else:
-            self.fiscal_operation_type = "in"
+        # The issuer CNPJ comes formatted from the access key, while the
+        # company document (cnpj_cpf is the raw vat) may be stored with or
+        # without punctuation.
+        for wizard in self:
+            issuer = punctuation_rm(wizard.issuer_cnpj or "")
+            company = punctuation_rm(wizard.company_id.cnpj_cpf or "")
+            wizard.fiscal_operation_type = "out" if issuer == company else "in"
 
     def _search_partner(self, cnpj=None, name=None, legal_name=None):
         """
@@ -300,5 +304,16 @@ class DocumentImportWizard(models.TransientModel):
 
     @api.model
     def _parse_file_data(self, file_data):
-        # NOTE: no try and a stacktrace does help for debug/support
-        return XmlParser().from_bytes(base64.b64decode(file_data))
+        try:
+            return XmlParser().from_bytes(base64.b64decode(file_data))
+        except ParserError as parser_error:
+            # the stacktrace still reaches the log, it does help for support
+            _logger.warning("Could not parse the imported file", exc_info=True)
+            raise UserError(
+                _(
+                    "Could not read this file as the XML of an electronic fiscal"
+                    " document. Make sure you uploaded the XML itself, not its"
+                    " printed representation (PDF).\n\n%(error)s",
+                    error=parser_error,
+                )
+            ) from parser_error
