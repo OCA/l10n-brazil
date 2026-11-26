@@ -73,6 +73,24 @@ msgid "Auto-fetch off"
 msgstr "Busca automática desativada"
 
 #. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields.selection,name:l10n_br_fiscal_dfe.selection__l10n_br_fiscal_dfe_document__utilization__available
+msgid "Available"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,help:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_document__utilization
+msgid ""
+"Available while the document is still authorized at the source and no vendor "
+"bill is posted. Posted while a vendor bill is posted. Empty when the source "
+"cancelled or denied the document."
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_document__import_block_reason
+msgid "Block Reason"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_document__vat
 msgid "CNPJ/CPF"
 msgstr "CNPJ/CPF"
@@ -245,6 +263,8 @@ msgstr "Data"
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_dfe__display_name
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_distribution_log__display_name
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_document__display_name
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_res_company__display_name
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_res_users__display_name
 msgid "Display Name"
 msgstr "Nome Exibido"
 
@@ -389,11 +409,6 @@ msgid "Fiscal document from distribution service"
 msgstr "Documento fiscal do serviço de distribuição"
 
 #. module: l10n_br_fiscal_dfe
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.l10n_br_fiscal_dfe_document_search
-msgid "Group By"
-msgstr "Agrupar Por"
-
-#. module: l10n_br_fiscal_dfe
 #. odoo-javascript
 #: code:addons/l10n_br_fiscal_dfe/static/src/components/dfe_banner/dfe_banner.xml:0
 msgid "Homologação"
@@ -404,6 +419,8 @@ msgstr "Homologação"
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_dfe__id
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_distribution_log__id
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_document__id
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_res_company__id
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_res_users__id
 msgid "ID"
 msgstr "ID"
 
@@ -546,6 +563,12 @@ msgid "No documents found: %(code)s - %(message)s"
 msgstr "Nenhum documento encontrado: %(code)s - %(message)s"
 
 #. module: l10n_br_fiscal_dfe
+#. odoo-python
+#: code:addons/l10n_br_fiscal_dfe/models/dfe_document.py:0
+msgid "Only an authorized document can be imported."
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_dfe__operation_type
 msgid "Operation Type"
 msgstr "Tipo de Operação"
@@ -595,6 +618,11 @@ msgstr "Por favor, informe um NSU."
 #: code:addons/l10n_br_fiscal_dfe/wizards/specific_search_wizard.py:0
 msgid "Please enter an access key."
 msgstr "Por favor, informe uma chave de acesso."
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields.selection,name:l10n_br_fiscal_dfe.selection__l10n_br_fiscal_dfe_document__utilization__posted
+msgid "Posted"
+msgstr ""
 
 #. module: l10n_br_fiscal_dfe
 #: model:ir.model.fields,help:l10n_br_fiscal_dfe.field_res_users__dfe_notification
@@ -740,6 +768,18 @@ msgid "Third-party Documents"
 msgstr "Documentos de Terceiros"
 
 #. module: l10n_br_fiscal_dfe
+#. odoo-python
+#: code:addons/l10n_br_fiscal_dfe/models/dfe_document.py:0
+msgid "This document was cancelled at the source."
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#. odoo-python
+#: code:addons/l10n_br_fiscal_dfe/models/dfe_document.py:0
+msgid "This document was denied at the source."
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.l10n_br_fiscal_dfe_document_search
 msgid "To import"
 msgstr "A importar"
@@ -767,6 +807,11 @@ msgid "User"
 msgstr "Usuário"
 
 #. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_document__utilization
+msgid "Utilization"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
 #. odoo-javascript
 #: code:addons/l10n_br_fiscal_dfe/static/src/components/dfe_banner/dfe_banner.xml:0
 msgid "View NSU records"
@@ -783,6 +828,12 @@ msgstr "Ver logs de consulta"
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.dfe_distribution_log_search
 msgid "Warning"
 msgstr "Aviso"
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,help:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_document__import_block_reason
+msgid ""
+"Why this document cannot be imported. Empty when the import can proceed."
+msgstr ""
 
 #. module: l10n_br_fiscal_dfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.dfe_distribution_log_search
@@ -815,6 +866,9 @@ msgstr "Anexo XML armazenado no Odoo."
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_dfe__xml_pretty
 msgid "XML Pretty"
 msgstr "XML Formatado"
+
+#~ msgid "Group By"
+#~ msgstr "Agrupar Por"
 
 #~ msgid ""
 #~ "<i class=\"fa fa-calendar text-primary me-2\"/>\n"
