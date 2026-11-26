@@ -37,7 +37,7 @@ class ResCompany(models.Model):
         default=False,
     )
     city_taxation_code_id = fields.Many2many(
-        comodel_name="l10n_br_fiscal.city.taxation.code", string="City Taxation Code"
+        comodel_name="l10n_br_fiscal.city.taxation.code"
     )
 
     def _prepare_company_service(self):
