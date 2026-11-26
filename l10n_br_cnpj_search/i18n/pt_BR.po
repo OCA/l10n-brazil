@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2026-11-25 23:46+0000\n"
+"PO-Revision-Date: 2026-11-26 17:13+0000\n"
 "Last-Translator: Luis Felipe Miléo <mileo@kmee.com.br>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -217,12 +217,12 @@ msgstr "Fechar"
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_l10n_br_base_party_mixin__cnae_main_id
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__cnae_main_id
 msgid "Cnae Main"
-msgstr "Cnae Principal"
+msgstr "CNAE principal"
 
 #. module: l10n_br_cnpj_search
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__cnae_secondary_ids
 msgid "Cnae Secondary"
-msgstr "Cnae Secundário"
+msgstr "CNAE secundário"
 
 #. module: l10n_br_cnpj_search
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__cnpj_branch_type
@@ -257,7 +257,7 @@ msgstr "Empresas"
 #. module: l10n_br_cnpj_search
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_company__company_currency_id
 msgid "Company Currency"
-msgstr "Moeda da Empresa"
+msgstr "Moeda da empresa"
 
 #. module: l10n_br_cnpj_search
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_l10n_br_base_party_mixin__company_size
@@ -271,7 +271,7 @@ msgstr "Porte da empresa"
 #. module: l10n_br_cnpj_search
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_company__company_type
 msgid "Company Type"
-msgstr "Tipo de Empresa"
+msgstr "Tipo de empresa"
 
 #. module: l10n_br_cnpj_search
 #: model:ir.model.fields,help:l10n_br_cnpj_search.field_l10n_br_base_party_mixin__company_size
@@ -338,7 +338,7 @@ msgstr "Data em que a empresa iniciou suas atividades."
 #. module: l10n_br_cnpj_search
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__display_name
 msgid "Display Name"
-msgstr "Nome Exibido"
+msgstr "Nome exibido"
 
 #. module: l10n_br_cnpj_search
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__district
@@ -368,7 +368,7 @@ msgstr "Data de entrada: %(date)s"
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_partner__equity_capital
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_users__equity_capital
 msgid "Equity Capital"
-msgstr "Capital Social"
+msgstr "Capital social"
 
 #. module: l10n_br_cnpj_search
 #: model_terms:ir.ui.view,arch_db:l10n_br_cnpj_search.res_partner_wizard_view
@@ -433,12 +433,12 @@ msgstr "Inscrição estadual"
 #. module: l10n_br_cnpj_search
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__write_uid
 msgid "Last Updated by"
-msgstr "Última Atualização por"
+msgstr "Última atualização por"
 
 #. module: l10n_br_cnpj_search
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__write_date
 msgid "Last Updated on"
-msgstr "Última Atualização em"
+msgstr "Última atualização em"
 
 #. module: l10n_br_cnpj_search
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__legal_name
@@ -527,7 +527,7 @@ msgstr "Data de abertura"
 #. module: l10n_br_cnpj_search
 #: model_terms:ir.ui.view,arch_db:l10n_br_cnpj_search.res_partner_wizard_view
 msgid "Other Information"
-msgstr "Outras Informações"
+msgstr "Outras informações"
 
 #. module: l10n_br_cnpj_search
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__partner_id
@@ -554,7 +554,7 @@ msgstr "Por favor digite seu CNPJ"
 #. module: l10n_br_cnpj_search
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__provider_name
 msgid "Provider Name"
-msgstr "Nome do Provedor"
+msgstr "Nome do provedor"
 
 #. module: l10n_br_cnpj_search
 #: model:ir.model.fields.selection,name:l10n_br_cnpj_search.selection__res_config_settings__serpro_schema__qsa
@@ -600,7 +600,7 @@ msgstr "Token SERPRO"
 #. module: l10n_br_cnpj_search
 #: model_terms:ir.ui.view,arch_db:l10n_br_cnpj_search.res_partner_wizard_view
 msgid "Secundary CNAE"
-msgstr "CNAE Secundário"
+msgstr "CNAE secundário"
 
 #. module: l10n_br_cnpj_search
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_l10n_br_base_party_mixin__simples_option_date
@@ -649,7 +649,7 @@ msgstr "O serviço de consulta de CNPJ não respondeu a tempo."
 #. module: l10n_br_cnpj_search
 #: model_terms:ir.ui.view,arch_db:l10n_br_cnpj_search.res_partner_wizard_view
 msgid "Update Partner"
-msgstr "Atualizar Parceiro"
+msgstr "Atualizar parceiro"
 
 #. module: l10n_br_cnpj_search
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_config_settings__serpro_trial
