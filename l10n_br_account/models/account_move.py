@@ -690,6 +690,7 @@ class AccountMove(models.Model):
         fiscal_document,
         move_id=None,
         move_type="in_invoice",
+        reset_header=False,
     ):
         """
         Import the data from an existing fiscal document into a new
@@ -700,6 +701,12 @@ class AccountMove(models.Model):
         triggered as if the invoice was filled manually.
         Then it creates each account.move.line and fill them using
         their fiscal_document_id onchange.
+
+        ``reset_header`` forces that header transfer even on a bill that
+        already carries a fiscal document: re-using a bill prepared from
+        something else (a purchase order converted into a draft bill) means
+        the imported document becomes the document of record for the whole
+        bill, not just for the lines being added.
         """
         if move_id:
             move = self.env["account.move"].browse(move_id)
@@ -716,7 +723,7 @@ class AccountMove(models.Model):
             )
         )
 
-        if not move_id or not move.fiscal_document_id:
+        if reset_header or not move_id or not move.fiscal_document_id:
             move_form.partner_id = fiscal_document.partner_id
             move_form.invoice_date = fiscal_document.document_date
             move_form.document_type_id = fiscal_document.document_type_id

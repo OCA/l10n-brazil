@@ -544,3 +544,95 @@ class NFeImportTest(TransactionCase):
             "analytic_distribution"
         )
         self.assertFalse(any(other_distributions))
+
+    def test_import_reuses_the_bill_converted_from_the_order(self):
+        """A bill converted from the order before the XML arrived — a common
+        way to plan the outgoing cash flow — is re-used by the import: its
+        lines are rebuilt from the document instead of a twin bill being
+        created for the same order."""
+        if "purchase.order" not in self.env:
+            self.skipTest("purchase module not installed")
+        supplier, product, order = self._supplier_and_order_for_the_fixture()
+        fiscal_operation = self.env.ref("l10n_br_fiscal.fo_compras")
+
+        wizard = self._import_wizard_for_the_fixture()
+        wizard.issuer_partner_id = supplier
+        self._match_first_xml_line_to(wizard, order.order_line)
+        _binding, document = wizard._import_edoc()
+
+        # the bill the operator converted from the order, waiting for the
+        # supplier document to replace its lines
+        bill = self.env["account.move"].create(
+            {
+                "move_type": "in_invoice",
+                "partner_id": supplier.id,
+                "company_id": self.company.id,
+                "currency_id": self.company.currency_id.id,
+                "invoice_date": fields.Date.today(),
+                "invoice_origin": order.name,
+                "fiscal_operation_id": fiscal_operation.id,
+                "invoice_line_ids": [
+                    Command.create(
+                        {
+                            "product_id": product.id,
+                            "name": product.name,
+                            "quantity": 100.0,
+                            "price_unit": 10.0,
+                            "fiscal_operation_id": fiscal_operation.id,
+                        }
+                    )
+                ],
+            }
+        )
+        prepared_line = bill.invoice_line_ids
+        self.assertEqual(len(prepared_line), 1)
+
+        # the order reference the document carries designates that bill
+        self.assertIn(order.name, self._imported_references(document))
+        self.assertEqual(
+            wizard._find_draft_move_for_imported_document(document, "in_invoice"),
+            bill,
+        )
+
+        wizard._empty_draft_move_for_import(bill)
+        move_form = (
+            self.env["account.move"]
+            .with_company(self.company)
+            .import_fiscal_document(
+                document, move_id=bill.id, move_type="in_invoice", reset_header=True
+            )
+        )
+        move = self.env["account.move"].browse(move_form.id)
+
+        self.assertEqual(move, bill)
+        # the line prepared from the order was replaced by the document lines
+        self.assertFalse(prepared_line.exists())
+        self.assertEqual(len(move.invoice_line_ids), 4)
+        self.assertFalse(
+            move.invoice_line_ids.filtered(lambda aml: aml.product_id == product)
+        )
+        # the bill now carries the document of record, not the one it had
+        self.assertEqual(
+            move.fiscal_document_id,
+            document,
+            "reset_header makes the imported document the one of the bill",
+        )
+        self.assertEqual(move.invoice_origin, order.name)
+        self.assertAlmostEqual(move.amount_total, 12108.10, places=2)
+        # and the order reference of the xml line reached the bill line
+        self.assertEqual(
+            move.invoice_line_ids.filtered(
+                lambda aml: aml.product_id.code == "1070147"
+            ).mapped("partner_order_line"),
+            ["1"],
+        )
+
+    def _imported_references(self, document):
+        """Order references the imported document lines carry."""
+        return sorted(
+            {
+                (line.partner_order or "").strip()
+                for line in document.fiscal_line_ids
+                if (line.partner_order or "").strip()
+            }
+        )
