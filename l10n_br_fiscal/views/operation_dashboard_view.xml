@@ -107,7 +107,7 @@
                                     </a>
                                     <a
                                         t-if="dashboard.number_2confirm"
-                                        class="d-flex"
+                                        class="d-flex text-primary"
                                         type="object"
                                         name="open_action"
                                         context="{'dashboard_bucket': '2confirm'}"
@@ -129,7 +129,7 @@
                                         t-out="dashboard.period"
                                     />
                                     <a
-                                        class="d-flex"
+                                        class="d-flex text-success"
                                         type="object"
                                         name="open_action"
                                         context="{'dashboard_bucket': 'authorized'}"

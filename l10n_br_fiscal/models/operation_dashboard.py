@@ -48,7 +48,7 @@ class Operation(models.Model):
     def _search_dashboard_active(self, operator, value):
         if operator not in ("=", "!=") or not isinstance(value, bool):
             raise NotImplementedError(f"Unsupported search: {operator} {value}")
-        data = self.search([])._get_dashboard_data()
+        data = self.search([("state", "=", "approved")])._get_dashboard_data()
         active_ids = [op_id for op_id, values in data.items() if values["active"]]
         positive = (operator == "=") == value
         return [("id", "in" if positive else "not in", active_ids)]
