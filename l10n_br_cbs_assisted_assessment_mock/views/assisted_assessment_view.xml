@@ -13,6 +13,21 @@
             <xpath expr="//div[hasclass('oe_title')]" position="after">
                 <field name="cbs_assessment_mock_mode" invisible="1" />
                 <div
+                    class="d-flex align-items-center gap-2 mb-2"
+                    invisible="tribute != 'cbs'"
+                    groups="l10n_br_assisted_assessment.group_manager"
+                >
+                    <field
+                        name="cbs_assessment_mock_mode"
+                        widget="boolean_toggle"
+                        nolabel="1"
+                    />
+                    <strong>CBS Mock</strong>
+                    <span invisible="cbs_assessment_mock_mode">
+                        Turn it on to answer this company's requests locally. Nothing is sent to the Receita Federal.
+                    </span>
+                </div>
+                <div
                     class="alert alert-warning"
                     role="alert"
                     invisible="tribute != 'cbs' or not cbs_assessment_mock_mode"

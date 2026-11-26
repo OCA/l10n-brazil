@@ -8,7 +8,11 @@ class AssistedAssessment(models.Model):
     _inherit = "l10n_br_assisted_assessment.period"
 
     cbs_assessment_mock_mode = fields.Boolean(
+        string="CBS Mock",
         related="company_id.cbs_assessment_mock_mode",
+        readonly=False,
+        help="Answer CBS assessment requests of this company from local files. "
+        "Nothing is sent to the Receita Federal.",
     )
 
     def action_generate_mock_files(self):

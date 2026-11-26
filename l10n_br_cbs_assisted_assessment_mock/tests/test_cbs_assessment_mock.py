@@ -150,6 +150,12 @@ class TestCbsAssessmentMock(TransactionCase):
         )
         self.assertEqual(len(drafts), 1)
 
+    def test_period_toggle_writes_the_company(self):
+        self.company.cbs_assessment_mock_mode = False
+        period = self._current_period()
+        period.cbs_assessment_mock_mode = True
+        self.assertTrue(self.company.cbs_assessment_mock_mode)
+
     def test_mock_off_does_not_serve_a_local_file(self):
         self.company.cbs_assessment_mock_mode = False
         period = self._current_period()

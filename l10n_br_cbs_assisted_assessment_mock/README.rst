@@ -49,9 +49,10 @@ divergência, DARF) é o dos addons reais.
 Usage
 =====
 
-Na empresa, aba *Assisted Assessment*, ligue *CBS Assessment Mock*. Só
-um gerente da apuração muda essa chave. O período CBS passa a mostrar um
-aviso de que nada é enviado à Receita.
+No período CBS, o gerente da apuração liga *CBS Mock* logo abaixo do
+título. A mesma chave fica na empresa, aba *Assisted Assessment*. Só um
+gerente muda essa chave. Com ela ligada, o período mostra um aviso de
+que nada é enviado à Receita.
 
 *Prepare Mock Files*, no período ou no menu, grava um arquivo por
 serviço a partir dos documentos fiscais autorizados daquele mês. Saídas
