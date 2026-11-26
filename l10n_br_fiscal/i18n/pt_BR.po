@@ -3478,7 +3478,6 @@ msgstr "Resumo de Dados fiscais do NCM e NBS"
 
 #. module: l10n_br_fiscal
 #: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_operation
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__fiscal_operation_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_import_wizard__fiscal_operation_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_report__fiscal_operation_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_report_mixin__fiscal_operation_id
@@ -6985,6 +6984,7 @@ msgstr "Aberto"
 
 #. module: l10n_br_fiscal
 #: model:ir.actions.act_window,name:l10n_br_fiscal.operation_action
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__fiscal_operation_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__fiscal_operation_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__fiscal_operation_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_mixin__fiscal_operation_id
@@ -9461,8 +9461,8 @@ msgstr ""
 #. module: l10n_br_fiscal
 #. odoo-python
 #: code:addons/l10n_br_fiscal/models/document.py:0
-msgid "The fiscal operation {} has no return Fiscal Operation defined"
-msgstr "A operação fiscal {} não tem retorno Operação Fiscal definida"
+msgid "The fiscal operation %s has no return Fiscal Operation defined"
+msgstr ""
 
 #. module: l10n_br_fiscal
 #. odoo-python
@@ -10190,6 +10190,9 @@ msgstr ""
 #: code:addons/l10n_br_fiscal/models/report_mixin.py:0
 msgid "tax_icms_or_issqn"
 msgstr ""
+
+#~ msgid "The fiscal operation {} has no return Fiscal Operation defined"
+#~ msgstr "A operação fiscal {} não tem retorno Operação Fiscal definida"
 
 #~ msgid "<strong>XML validation errors:</strong>"
 #~ msgstr "<strong>Erros de validação XML:</strong>"
