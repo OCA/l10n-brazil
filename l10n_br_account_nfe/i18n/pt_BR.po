@@ -69,8 +69,8 @@ msgstr "13 - Vale Combustível"
 
 #. module: l10n_br_account_nfe
 #: model:ir.model.fields.selection,name:l10n_br_account_nfe.selection__account_payment_mode__fiscal_payment_mode__14
-msgid "14 - Duplicata Mercanti"
-msgstr "14 - Duplicata Mercanti"
+msgid "14 - Duplicata Mercantil"
+msgstr ""
 
 #. module: l10n_br_account_nfe
 #: model:ir.model.fields.selection,name:l10n_br_account_nfe.selection__account_payment_mode__fiscal_payment_mode__15
@@ -98,11 +98,6 @@ msgid "19 - Programa de fidelidade, Cashback, Crédito Virtual"
 msgstr "19 - Programa de fidelidade, Cashback, Crédito Virtual"
 
 #. module: l10n_br_account_nfe
-#: model:account.payment.term,name:l10n_br_account_nfe.account_payment_term_30_60_90
-msgid "30/60/90"
-msgstr "30/60/90"
-
-#. module: l10n_br_account_nfe
 #: model:ir.model.fields.selection,name:l10n_br_account_nfe.selection__account_payment_mode__fiscal_payment_mode__90
 msgid "90 - Sem Pagamento"
 msgstr "90 - Sem Pagamento"
@@ -111,6 +106,11 @@ msgstr "90 - Sem Pagamento"
 #: model:ir.model.fields.selection,name:l10n_br_account_nfe.selection__account_payment_mode__fiscal_payment_mode__99
 msgid "99 - Outros"
 msgstr "99 - Outros"
+
+#. module: l10n_br_account_nfe
+#: model:ir.model,name:l10n_br_account_nfe.model_account_move_reversal
+msgid "Account Move Reversal"
+msgstr ""
 
 #. module: l10n_br_account_nfe
 #: model:account.payment.mode,name:l10n_br_account_nfe.demo_payment_mode_boleto
@@ -125,10 +125,19 @@ msgstr "DANFE"
 #. module: l10n_br_account_nfe
 #: model:ir.model.fields,field_description:l10n_br_account_nfe.field_account_bank_statement_line__nfe40_dup
 #: model:ir.model.fields,field_description:l10n_br_account_nfe.field_account_move__nfe40_dup
-#: model:ir.model.fields,field_description:l10n_br_account_nfe.field_account_payment__nfe40_dup
 #: model:ir.model.fields,field_description:l10n_br_account_nfe.field_l10n_br_fiscal_document__nfe40_dup
 msgid "Dados das duplicatas NT 2011/004"
 msgstr "Dados das duplicatas NT 2011/004"
+
+#. module: l10n_br_account_nfe
+#: model:account.journal,name:l10n_br_account_nfe.demo_simples_nacional_bank_journal
+msgid "Diário de Boleto - Simples Nacional"
+msgstr ""
+
+#. module: l10n_br_account_nfe
+#: model:account.journal,name:l10n_br_account_nfe.demo_simples_nacional_sale_journal
+msgid "Diário de Venda - Simples Nacional"
+msgstr ""
 
 #. module: l10n_br_account_nfe
 #: model:ir.model,name:l10n_br_account_nfe.model_l10n_br_fiscal_document
@@ -138,7 +147,6 @@ msgstr "Documento Fiscal"
 #. module: l10n_br_account_nfe
 #: model:ir.model.fields,field_description:l10n_br_account_nfe.field_account_bank_statement_line__nfe40_detPag
 #: model:ir.model.fields,field_description:l10n_br_account_nfe.field_account_move__nfe40_detPag
-#: model:ir.model.fields,field_description:l10n_br_account_nfe.field_account_payment__nfe40_detPag
 #: model:ir.model.fields,field_description:l10n_br_account_nfe.field_l10n_br_fiscal_document__nfe40_detPag
 msgid "Grupo de detalhamento da forma"
 msgstr "Grupo de detalhamento da forma"
@@ -147,22 +155,24 @@ msgstr "Grupo de detalhamento da forma"
 #: model:ir.model,name:l10n_br_account_nfe.model_nfe_40_detpag
 #: model:ir.model.fields,help:l10n_br_account_nfe.field_account_bank_statement_line__nfe40_detPag
 #: model:ir.model.fields,help:l10n_br_account_nfe.field_account_move__nfe40_detPag
-#: model:ir.model.fields,help:l10n_br_account_nfe.field_account_payment__nfe40_detPag
 #: model:ir.model.fields,help:l10n_br_account_nfe.field_l10n_br_fiscal_document__nfe40_detPag
 msgid "Grupo de detalhamento da forma de pagamento."
 msgstr "Grupo de detalhamento da forma de pagamento."
 
 #. module: l10n_br_account_nfe
-#: model:ir.model.fields,field_description:l10n_br_account_nfe.field_nfe_40_detpag__nfe40_indPag
-msgid "Indicador da Forma"
-msgstr "Indicador da Forma"
+#: model:ir.model.fields,help:l10n_br_account_nfe.field_nfe_40_detpag__nfe40_indPag
+msgid "Indicador da Forma de Pagamento"
+msgstr "Indicador da Forma de Pagamento"
 
 #. module: l10n_br_account_nfe
-#: model:ir.model.fields,help:l10n_br_account_nfe.field_nfe_40_detpag__nfe40_indPag
-msgid ""
-"Indicador da Forma de Pagamento:0-Pagamento à Vista;1-Pagamento à Prazo;"
+#: model:ir.model.fields,field_description:l10n_br_account_nfe.field_nfe_40_detpag__nfe40_indPag
+msgid "Indicador de Pagamento"
 msgstr ""
-"Indicador da Forma de Pagamento:0-Pagamento à Vista;1-Pagamento à Prazo;"
+
+#. module: l10n_br_account_nfe
+#: model:ir.model,name:l10n_br_account_nfe.model_account_move
+msgid "Journal Entry"
+msgstr ""
 
 #. module: l10n_br_account_nfe
 #: model:ir.model.fields,field_description:l10n_br_account_nfe.field_account_payment_mode__fiscal_payment_mode
@@ -191,9 +201,13 @@ msgid "Pagamento à Vista"
 msgstr "Pagamento à Vista"
 
 #. module: l10n_br_account_nfe
+#: model:ir.model.fields,field_description:l10n_br_account_nfe.field_account_move_reversal__payment_mode_id
+msgid "Payment Mode"
+msgstr ""
+
+#. module: l10n_br_account_nfe
 #. odoo-python
 #: code:addons/l10n_br_account_nfe/models/document.py:0
-#, python-format
 msgid ""
 "Payment Mode %(mode)s should have a Fiscal Payment Mode filled to be used in "
 "the Fiscal Document!"
@@ -204,7 +218,6 @@ msgstr ""
 #. module: l10n_br_account_nfe
 #. odoo-python
 #: code:addons/l10n_br_account_nfe/models/document.py:0
-#, python-format
 msgid "Payment Mode cannot be empty for this NF-e/NFC-e"
 msgstr "O Modo de Pagamento não pode estar vazio para esta NF-e/NFC-e"
 
@@ -223,6 +236,20 @@ msgstr "Condição de pagamento: 30/60/90"
 msgid "Report Action"
 msgstr "Relatar ação"
 
+#~ msgid "14 - Duplicata Mercanti"
+#~ msgstr "14 - Duplicata Mercanti"
+
+#~ msgid "30/60/90"
+#~ msgstr "30/60/90"
+
+#~ msgid "Indicador da Forma"
+#~ msgstr "Indicador da Forma"
+
+#~ msgid ""
+#~ "Indicador da Forma de Pagamento:0-Pagamento à Vista;1-Pagamento à Prazo;"
+#~ msgstr ""
+#~ "Indicador da Forma de Pagamento:0-Pagamento à Vista;1-Pagamento à Prazo;"
+
 #~ msgid "Display Name"
 #~ msgstr "Nome Exibido"
 
@@ -231,9 +258,6 @@ msgstr "Relatar ação"
 
 #~ msgid "ID"
 #~ msgstr "ID"
-
-#~ msgid "Indicador da Forma de Pagamento"
-#~ msgstr "Indicador da Forma de Pagamento"
 
 #~ msgid "Last Modified on"
 #~ msgstr "Última Modificação em"
