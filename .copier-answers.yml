@@ -13,7 +13,7 @@ github_enable_makepot: true
 github_enable_stale_action: true
 github_enforce_dev_status_compatibility: true
 include_wkhtmltopdf: false
-odoo_test_flavor: Both
+odoo_test_flavor: Odoo
 odoo_version: 18.0
 org_name: Odoo Community Association (OCA)
 org_slug: OCA
