@@ -9,3 +9,5 @@
 signxml==3.2.2
 # spec_driven_model tests: xsdata bindings of the fake purchase order schema
 xsdata
+# l10n_br_nfe_spec tests: sample documents and xsdata bindings from nfelib
+nfelib
