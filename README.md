@@ -76,7 +76,7 @@ addon | version | maintainers | summary
 [l10n_br_fiscal_notification](l10n_br_fiscal_notification/) | 16.0.2.1.1 | <a href='https://github.com/mileo'><img src='https://github.com/mileo.png' width='32' height='32' style='border-radius:50%;' alt='mileo'/></a> | Define fiscal document notifications
 [l10n_br_fiscal_queue](l10n_br_fiscal_queue/) | 16.0.1.0.0 | <a href='https://github.com/mileo'><img src='https://github.com/mileo.png' width='32' height='32' style='border-radius:50%;' alt='mileo'/></a> <a href='https://github.com/gabrielcardoso21'><img src='https://github.com/gabrielcardoso21.png' width='32' height='32' style='border-radius:50%;' alt='gabrielcardoso21'/></a> | Envio assincrono de documentos fiscais a SEFAZ via queue_job
 [l10n_br_fiscal_subsequent_document](l10n_br_fiscal_subsequent_document/) | 16.0.3.0.0 |  | Documentos Fiscais Subsequentes
-[l10n_br_hr](l10n_br_hr/) | 16.0.4.5.0 |  | Brazilian Localization HR
+[l10n_br_hr](l10n_br_hr/) | 16.0.4.7.0 |  | Brazilian Localization HR
 [l10n_br_hr_contract](l10n_br_hr_contract/) | 16.0.1.3.1 |  | Brazilian Localization HR Contract
 [l10n_br_hr_expense_invoice](l10n_br_hr_expense_invoice/) | 16.0.1.0.2 |  | Customization of HR Expense Invoice module for implementations in Brazil.
 [l10n_br_ie_search](l10n_br_ie_search/) | 16.0.2.2.1 |  | Integração com a API SintegraWS e SEFAZ
