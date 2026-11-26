@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright (C) 2026 – TODAY, KMEE (<https://kmee.com.br>)
+     License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html -->
+<odoo noupdate="1">
+
+    <record id="base.USD" model="res.currency">
+        <field name="siscomex_code">220</field>
+    </record>
+    <record id="base.EUR" model="res.currency">
+        <field name="siscomex_code">978</field>
+    </record>
+    <record id="base.GBP" model="res.currency">
+        <field name="siscomex_code">540</field>
+    </record>
+    <record id="base.JPY" model="res.currency">
+        <field name="siscomex_code">470</field>
+    </record>
+    <record id="base.CNY" model="res.currency">
+        <field name="siscomex_code">715</field>
+    </record>
+
+</odoo>
