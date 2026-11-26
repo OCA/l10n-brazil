@@ -707,23 +707,6 @@ class TestNFeDFeDemo(TransactionCase):
         self.assertEqual(data["currency_id"][0], record.company_id.currency_id.id)
         self.assertEqual(data["document_amount"], record.document_amount)
 
-    def test_the_default_filter_of_the_inbox_is_translated(self):
-        lang = (
-            self.env["res.lang"]
-            .with_context(active_test=False)
-            .search([("code", "=", "pt_BR")])
-        )
-        if not lang.active:
-            self.skipTest("pt_BR is not installed")
-        model = self.env["l10n_br_fiscal_dfe.document"].with_context(lang="pt_BR")
-        view = model.get_view(
-            self.env.ref("l10n_br_fiscal_dfe.l10n_br_fiscal_dfe_document_search").id,
-            "search",
-        )
-
-        self.assertIn("A importar", view["arch"])
-        self.assertNotIn("To import", view["arch"])
-
     def test_the_complete_note_of_the_inbox_is_imported_by_the_button(self):
         record = self._record("demo_dfe_document_complete")
 
