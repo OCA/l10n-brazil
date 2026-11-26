@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="view_company_form_cbs_assessment_mock" model="ir.ui.view">
+        <field name="name">res.company.form.cbs.assessment.mock</field>
+        <field name="model">res.company</field>
+        <field
+            name="inherit_id"
+            ref="l10n_br_cbs_assisted_assessment.view_company_form_cbs_assessment"
+        />
+        <field name="arch" type="xml">
+            <field name="cbs_assessment_environment" position="before">
+                <field
+                    name="cbs_assessment_mock_mode"
+                    groups="l10n_br_assisted_assessment.group_manager"
+                />
+            </field>
+        </field>
+    </record>
+</odoo>

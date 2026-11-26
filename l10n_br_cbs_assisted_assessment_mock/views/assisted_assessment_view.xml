@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="view_assessment_period_form_cbs_mock" model="ir.ui.view">
+        <field name="name">l10n_br_assisted_assessment.period.form.cbs.mock</field>
+        <field name="model">l10n_br_assisted_assessment.period</field>
+        <field
+            name="inherit_id"
+            ref="l10n_br_assisted_assessment.view_assessment_period_form"
+        />
+        <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('oe_title')]" position="after">
+                <field name="cbs_assessment_mock_mode" invisible="1" />
+                <div
+                    class="alert alert-warning"
+                    role="alert"
+                    invisible="tribute != 'cbs' or not cbs_assessment_mock_mode"
+                >
+                    CBS assessment mock is on. Requests are answered locally and nothing is sent to the Receita Federal.
+                </div>
+            </xpath>
+            <button name="action_request_debits" position="before">
+                <button
+                    name="action_generate_mock_files"
+                    type="object"
+                    string="Prepare Mock Files"
+                    invisible="tribute != 'cbs' or not cbs_assessment_mock_mode or state in ('confirmed', 'expired')"
+                    groups="l10n_br_assisted_assessment.group_manager"
+                />
+            </button>
+        </field>
+    </record>
+</odoo>

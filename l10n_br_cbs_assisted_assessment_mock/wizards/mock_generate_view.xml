@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="view_cbs_mock_generate_form" model="ir.ui.view">
+        <field name="name">l10n_br_cbs_assisted_assessment.mock.generate.form</field>
+        <field name="model">l10n_br_cbs_assisted_assessment.mock.generate</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="company_id" groups="base.group_multi_company" />
+                    <field name="period_id" />
+                    <field name="debits" />
+                    <field name="credits" />
+                    <field name="payments" />
+                    <field name="withholdings" />
+                </group>
+                <footer>
+                    <button
+                        name="action_generate"
+                        type="object"
+                        string="Prepare"
+                        class="btn-primary"
+                    />
+                    <button string="Cancel" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="action_cbs_mock_generate" model="ir.actions.act_window">
+        <field name="name">Prepare CBS Mock Files</field>
+        <field name="res_model">l10n_br_cbs_assisted_assessment.mock.generate</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+    <menuitem
+        id="menu_cbs_mock_generate"
+        name="Prepare CBS Mock Files"
+        parent="l10n_br_assisted_assessment.menu_assessment_root"
+        action="action_cbs_mock_generate"
+        sequence="26"
+        groups="l10n_br_assisted_assessment.group_manager"
+    />
+</odoo>
