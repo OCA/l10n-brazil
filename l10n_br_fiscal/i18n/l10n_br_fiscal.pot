@@ -2418,6 +2418,15 @@ msgid "Configuration"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#. odoo-python
+#: code:addons/l10n_br_fiscal/models/document.py:0
+#, python-format
+msgid ""
+"Configure the serie %(serie)s of %(document_type)s for %(company)s before "
+"importing the documents it issued."
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_form
 msgid "Confirm"
 msgstr ""
@@ -2464,6 +2473,16 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_operation__default_price_unit__cost_price
 #, python-format
 msgid "Cost Price"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#. odoo-python
+#: code:addons/l10n_br_fiscal/wizards/document_import_wizard.py:0
+#, python-format
+msgid ""
+"Could not read this file as the XML of an electronic fiscal document. Make sure you uploaded the XML itself, not its printed representation (PDF).\n"
+"\n"
+"%(error)s"
 msgstr ""
 
 #. module: l10n_br_fiscal
