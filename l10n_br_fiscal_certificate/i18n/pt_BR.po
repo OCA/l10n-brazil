@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2026-11-26 02:46+0000\n"
+"PO-Revision-Date: 2026-11-26 17:12+0000\n"
 "Last-Translator: Luis Felipe Miléo <mileo@kmee.com.br>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -24,7 +24,7 @@ msgstr "<span>Dias antes</span>"
 #. module: l10n_br_fiscal_certificate
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal_certificate.certificate_action
 msgid "Add a new Certificate"
-msgstr "Adicionar um novo Certificado"
+msgstr "Adicionar um novo certificado"
 
 #. module: l10n_br_fiscal_certificate
 #: model:ir.model.fields.selection,name:l10n_br_fiscal_certificate.selection__certificate_certificate__scope__l10n_br
