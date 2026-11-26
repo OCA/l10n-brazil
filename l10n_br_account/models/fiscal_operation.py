@@ -31,7 +31,6 @@ class Operation(models.Model):
 
     fiscal_position_id = fields.Many2one(
         comodel_name="account.fiscal.position",
-        string="Fiscal Position",
         company_dependent=True,
     )
 

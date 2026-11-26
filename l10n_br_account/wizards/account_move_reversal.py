@@ -15,9 +15,7 @@ class AccountMoveReversal(models.TransientModel):
         precompute=True,
     )
 
-    force_fiscal_operation_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.operation", string="Force Fiscal Operation"
-    )
+    force_fiscal_operation_id = fields.Many2one(comodel_name="l10n_br_fiscal.operation")
 
     force_fiscal_operation_journal_id = fields.Many2one(
         related="force_fiscal_operation_id.journal_id",

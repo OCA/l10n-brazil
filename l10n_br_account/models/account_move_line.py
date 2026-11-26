@@ -4,7 +4,7 @@
 
 from contextlib import contextmanager
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.fields import Command
 from odoo.tools import frozendict
 
@@ -32,7 +32,6 @@ class AccountMoveLine(models.Model):
 
     fiscal_document_line_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.document.line",
-        string="Fiscal Document Line",
         copy=False,
         ondelete="cascade",
         index="btree_not_null",
@@ -657,7 +656,11 @@ class AccountMoveLine(models.Model):
                     }
                 ): {
                     "name": tax["name"]
-                    + (" " + _("(Discount)") if line.display_type == "epd" else ""),
+                    + (
+                        " " + self.env._("(Discount)")
+                        if line.display_type == "epd"
+                        else ""
+                    ),
                     "balance": tax["amount"] / rate,
                     "amount_currency": tax["amount"],
                     "tax_base_amount": tax["base"]

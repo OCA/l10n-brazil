@@ -5,7 +5,7 @@
 
 from contextlib import contextmanager
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import UserError
 from odoo.tools import frozendict
 
@@ -55,7 +55,6 @@ class AccountMove(models.Model):
 
     fiscal_document_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.document",
-        string="Fiscal Document",
         copy=False,
         ondelete="cascade",
         store=True,
@@ -798,7 +797,7 @@ class AccountMove(models.Model):
         documents = self.mapped("fiscal_document_ids")
         if not hasattr(documents, "action_check_status"):
             raise UserError(
-                _(
+                self.env._(
                     "Asking the SEFAZ about a document needs the electronic "
                     "fiscal document module installed."
                 )
@@ -807,13 +806,15 @@ class AccountMove(models.Model):
         notes = []
         if without_document:
             notes.append(
-                _("Without a fiscal document: %s") % "; ".join(without_document)
+                self.env._("Without a fiscal document: %s", "; ".join(without_document))
             )
         settled_by_hand = self._settled_moves_no_longer_valid()
         if settled_by_hand:
             notes.append(
-                _("Paid and no longer valid at the SEFAZ, settle by hand: %s")
-                % "; ".join(settled_by_hand.mapped("display_name"))
+                self.env._(
+                    "Paid and no longer valid at the SEFAZ, settle by hand: %s",
+                    "; ".join(settled_by_hand.mapped("display_name")),
+                )
             )
             result["params"]["type"] = "warning"
             result["params"]["sticky"] = True
