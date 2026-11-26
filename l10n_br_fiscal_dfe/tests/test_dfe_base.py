@@ -195,7 +195,6 @@ class TestDfeBase(TransactionCase):
                 "imported_document": True,
             }
         )
-        inbox.invalidate_recordset()
         self.assertFalse(inbox.fiscal_document_id)
         self.assertNotEqual(inbox.fiscal_document_id, other_document)
         pending = self.env["l10n_br_fiscal_dfe.document"].search(
@@ -204,7 +203,6 @@ class TestDfeBase(TransactionCase):
         self.assertEqual(pending, inbox)
 
         fiscal_document.imported_document = True
-        inbox.invalidate_recordset()
         self.assertEqual(inbox.fiscal_document_id, fiscal_document)
         linked = self.env["l10n_br_fiscal_dfe.document"].search(
             [("id", "=", inbox.id), ("fiscal_document_id", "=", False)]
