@@ -2,6 +2,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import Command, models
+from odoo.tools import float_compare
 
 
 class StockInvoiceOnshipping(models.TransientModel):
@@ -71,6 +72,39 @@ class StockInvoiceOnshipping(models.TransientModel):
 
         return invoice, values
 
+    def _update_fiscal_values_from_sale_line(self, moves, values):
+        """The values from the sale line are prepared on its quantity to
+        invoice, which is still zero for products invoiced on delivery when
+        the picking is not done yet. Prepare them again on the quantity
+        being invoiced, so the fiscal values match the invoice line."""
+        sale_line = moves.sale_line_id
+        if (
+            len(sale_line) != 1
+            or sale_line.display_type
+            or self._get_invoice_type() == "out_refund"
+            or "quantity" not in values
+        ):
+            return
+        quantity = values["quantity"]
+        uom = self.env["uom.uom"].browse(values.get("product_uom_id"))
+        if uom and uom != sale_line.product_uom:
+            quantity = uom._compute_quantity(quantity, sale_line.product_uom)
+        if not float_compare(
+            quantity,
+            sale_line.qty_to_invoice,
+            precision_rounding=sale_line.product_uom.rounding,
+        ):
+            return
+        sale_line_values = sale_line._prepare_invoice_line(quantity=quantity)
+        fields_not_used = self._get_fields_not_used_from_sale_line()
+        values.update(
+            {
+                fname: value
+                for fname, value in sale_line_values.items()
+                if fname not in fields_not_used
+            }
+        )
+
     def _get_invoice_line_values(self, moves, invoice_values, invoice):
         """
         Create invoice line values from given moves
@@ -80,6 +114,7 @@ class StockInvoiceOnshipping(models.TransientModel):
         """
 
         values = super()._get_invoice_line_values(moves, invoice_values, invoice)
+        self._update_fiscal_values_from_sale_line(moves, values)
         # Devido ao KEY com sale_line_id aqui
         # vem somente um registro
         # Caso venha apenas uma linha porem sem
