@@ -39,7 +39,9 @@ class Document(models.Model):
                 date_due=dup.nfe40_dVenc,
                 amount=dup.nfe40_vDup,
             )
-            for dup in self.nfe40_dup
+            # nfe.40.dup is limited to the NF-e groups, and the invoice of an
+            # imported document reads it for accounting users who are not in them.
+            for dup in self.sudo().nfe40_dup
         ]
         return installments or super()._edi_get_installments()
 
@@ -55,7 +57,7 @@ class Document(models.Model):
                 term="installments" if payment.nfe40_indPag == "1" else "cash",
                 description=payment.nfe40_xPag or "",
             )
-            for payment in self.nfe40_detPag
+            for payment in self.sudo().nfe40_detPag
         ]
         return payments or super()._edi_get_payments()
 
