@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2026-10-20 19:45+0000\n"
+"PO-Revision-Date: 2026-11-26 02:46+0000\n"
 "Last-Translator: Luis Felipe Miléo <mileo@kmee.com.br>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -14,54 +14,53 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.15.2\n"
+"X-Generator: Weblate 2026.11.2\n"
 
 #. module: l10n_br_crm_cnpj_search
 #: model_terms:ir.ui.view,arch_db:l10n_br_crm_cnpj_search.crm_lead_fiscal_page_view_form
 msgid "CNAE Principal"
-msgstr ""
+msgstr "CNAE principal"
 
 #. module: l10n_br_crm_cnpj_search
 #: model:ir.model,name:l10n_br_crm_cnpj_search.model_partner_search_wizard
 msgid "CNPJ based search wizard allowing to update partner data."
 msgstr ""
-"Assistente de pesquisa baseado em CNPJ que permite atualizar dados de "
-"parceiros."
+"Assistente de consulta de CNPJ que permite atualizar os dados do parceiro."
 
 #. module: l10n_br_crm_cnpj_search
 #: model_terms:ir.ui.view,arch_db:l10n_br_crm_cnpj_search.crm_lead_cnpj_search_form_view
 msgid "CNPJ/CPF"
-msgstr ""
+msgstr "CNPJ/CPF"
 
 #. module: l10n_br_crm_cnpj_search
 #: model_terms:ir.ui.view,arch_db:l10n_br_crm_cnpj_search.crm_lead_fiscal_page_view_form
 msgid "Capital social"
-msgstr ""
+msgstr "Capital social"
 
 #. module: l10n_br_crm_cnpj_search
 #: model:ir.model.fields,field_description:l10n_br_crm_cnpj_search.field_crm_lead__cnae_secondary_ids
 msgid "Cnae Secondary"
-msgstr "Cnae Secundário"
+msgstr "CNAE secundário"
 
 #. module: l10n_br_crm_cnpj_search
 #: model_terms:ir.ui.view,arch_db:l10n_br_crm_cnpj_search.crm_lead_fiscal_page_view_form
 msgid "Fiscal"
-msgstr ""
+msgstr "Fiscal"
 
 #. module: l10n_br_crm_cnpj_search
 #: model:ir.model,name:l10n_br_crm_cnpj_search.model_crm_lead
 msgid "Lead/Opportunity"
-msgstr "Prospectos/Oportunidades"
+msgstr "Lead/oportunidade"
 
 #. module: l10n_br_crm_cnpj_search
 #: model_terms:ir.ui.view,arch_db:l10n_br_crm_cnpj_search.crm_lead_fiscal_page_view_form
 msgid "Natureza jurídica"
-msgstr ""
+msgstr "Natureza jurídica"
 
 #. module: l10n_br_crm_cnpj_search
 #: model_terms:ir.ui.view,arch_db:l10n_br_crm_cnpj_search.crm_lead_cnpj_search_form_view
 msgid "Pesquisar CNPJ"
-msgstr ""
+msgstr "Consultar CNPJ"
 
 #~ msgid "CNPJ"
 #~ msgstr "CNPJ"
