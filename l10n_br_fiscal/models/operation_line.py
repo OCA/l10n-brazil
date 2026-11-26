@@ -26,6 +26,7 @@ from ..constants.fiscal import (
     TAX_ICMS_OR_ISSQN,
 )
 from ..constants.icms import ICMS_ORIGIN, ICMS_SN_TAX_WITHOUT_CREDIT
+from ..constants.issqn import ISSQN_ELIGIBILITY
 
 
 class OperationLine(models.Model):
@@ -59,6 +60,17 @@ class OperationLine(models.Model):
     tax_classification_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax.classification",
         string="Tax Classification",
+    )
+
+    issqn_eligibility = fields.Selection(
+        selection=ISSQN_ELIGIBILITY,
+        string="ISSQN Eligibility",
+    )
+
+    operation_indicator_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.operation.indicator",
+        string="Operation Indicator",
+        help="When empty, the line takes the indicator of the product.",
     )
 
     cfop_internal_id = fields.Many2one(
@@ -339,6 +351,9 @@ class OperationLine(models.Model):
               ID (l10n_br_fiscal.tax.definition) or False.
             - 'tax_classification': The determined Tax Classification record
               (l10n_br_fiscal.tax.classification).
+            - 'issqn_eligibility': The ISSQN eligibility of this line, or False.
+            - 'operation_indicator': The operation indicator (cIndOp) of this
+              line (l10n_br_fiscal.operation.indicator), possibly empty.
         """
         mapping_result = {
             "taxes": {},
@@ -346,6 +361,8 @@ class OperationLine(models.Model):
             "ipi_guideline": self.env.ref("l10n_br_fiscal.tax_guideline_999"),
             "icms_tax_benefit_id": False,
             "tax_classification": False,
+            "issqn_eligibility": self.issqn_eligibility,
+            "operation_indicator": self.operation_indicator_id,
         }
 
         self.ensure_one()

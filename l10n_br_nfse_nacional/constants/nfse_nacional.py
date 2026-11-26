@@ -24,3 +24,14 @@ NFSE_NACIONAL_CANCEL_MOTIVES = [
     ("2", "Serviço não prestado"),
     ("9", "Outros"),
 ]
+
+# tpBM of the NFS-e layout (Anexo I SEFIN ADN DPS NFS-e, leiaute NFS-e)
+NFSE_NACIONAL_BENEFIT_TYPES = [
+    ("1", "Isenção"),
+    ("2", "Redução da base de cálculo em percentual"),
+    ("3", "Redução da base de cálculo em valor"),
+    ("4", "Alíquota diferenciada"),
+]
+
+# issqn_eligibility (6 and 7: suspended) -> tpSusp of the exigSusp group
+NFSE_NACIONAL_SUSPENSION_TYPES = {"6": "1", "7": "2"}

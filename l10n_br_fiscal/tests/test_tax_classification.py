@@ -247,3 +247,29 @@ class TestTaxClassification(TransactionCase):
             self.assertEqual(
                 line_form.cbs_cst_id, self.env.ref("l10n_br_fiscal.cst_cbs_011")
             )
+
+    def test_operation_line_sets_issqn_eligibility_and_operation_indicator(self):
+        """Without them on the operation line, the service is taxable and the
+        line takes the indicator of the product."""
+        service = self.env.ref("l10n_br_fiscal.customized_development_sale")
+        of_product, of_operation = self.env[
+            "l10n_br_fiscal.operation.indicator"
+        ].search([], limit=2)
+        service.operation_indicator_id = of_product
+        operation_line = self.env.ref("l10n_br_fiscal.fo_venda_servico")
+        doc_form = Form(
+            self.env["l10n_br_fiscal.document"].with_context(
+                default_fiscal_operation_type="out",
+                default_company_id=self.company.id,
+            )
+        )
+        doc_form.partner_id = self.partner
+        doc_form.fiscal_operation_id = self.env.ref("l10n_br_fiscal.fo_venda")
+        for eligibility, indicator in (("1", of_product), ("4", of_operation)):
+            with doc_form.fiscal_line_ids.new() as line_form:
+                line_form.product_id = service
+                line_form.fiscal_operation_line_id = operation_line
+                self.assertEqual(line_form.issqn_eligibility, eligibility)
+                self.assertEqual(line_form.operation_indicator_id, indicator)
+            operation_line.issqn_eligibility = "4"
+            operation_line.operation_indicator_id = of_operation
