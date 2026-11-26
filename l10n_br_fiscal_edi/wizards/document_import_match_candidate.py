@@ -11,11 +11,16 @@ _logger = logging.getLogger(__name__)
 
 # Position of a purchase.order.line inside its order (the nItemPed semantic:
 # 1-based position, NOT the sequence field which defaults to 10 for every
-# interface-created line). Kept as a SQL fragment so the candidate view and
-# the bill-matching reference derivation stay perfectly aligned.
+# interface-created line). Only the accountable lines are counted: a section
+# or a note the buyer dropped in the order is not an item of the document, so
+# counting it would shift every position after it (nItemPed 2 would designate
+# the first product of a "section + 2 products" order). Kept as a SQL
+# fragment so the candidate view and the bill-matching reference derivation
+# stay perfectly aligned.
 PO_LINE_POSITION_SQL = """(
     SELECT COUNT(*) FROM purchase_order_line pol_pos
     WHERE pol_pos.order_id = {pol_alias}.order_id
+      AND pol_pos.display_type IS NULL
       AND (pol_pos.sequence, pol_pos.id) <= ({pol_alias}.sequence, {pol_alias}.id)
 )::int"""
 

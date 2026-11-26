@@ -56,6 +56,36 @@ class TestStockMoveBillMatchingReferenceSQL(TransactionCase):
         self.assertEqual(self._eval_ref(move_a.id), f"{order.name}-1")
         self.assertEqual(self._eval_ref(move_b.id), f"{order.name}-2")
 
+    def test_po_derived_reference_ignores_sections_and_notes(self):
+        """A section or a note in the order is not an item, so it must not
+        shift the position of the lines after it — otherwise the receipt
+        reference disagrees with the nItemPed of the supplier document, or
+        worse, quietly agrees with a bill numbered the same wrong way (both
+        sides used to count every purchase.order.line)."""
+        product = self.env["product.product"].create(
+            {"name": "Match Ref Product Sectioned", "type": "product"}
+        )
+        other = self.env["product.product"].create(
+            {"name": "Match Ref Product Sectioned 2", "type": "product"}
+        )
+        order = self._create_confirmed_po([product, other])
+        # a section ahead of the items, as users do in the interface
+        self.env["purchase.order.line"].create(
+            {
+                "order_id": order.id,
+                "display_type": "line_section",
+                "name": "Section ahead of the items",
+                "sequence": 1,
+                "product_qty": 0.0,
+                "product_uom_qty": 0.0,
+            }
+        )
+        moves = order.picking_ids.move_ids
+        move_a = moves.filtered(lambda m: m.product_id == product)
+        move_b = moves.filtered(lambda m: m.product_id == other)
+        self.assertEqual(self._eval_ref(move_a.id), f"{order.name}-1")
+        self.assertEqual(self._eval_ref(move_b.id), f"{order.name}-2")
+
     def test_explicit_reference_wins_and_normalizes(self):
         product = self.env["product.product"].create(
             {"name": "Match Ref Product C", "type": "product"}

@@ -6,11 +6,14 @@ from odoo import api, models
 
 # Position of a purchase.order.line inside its order (the nItemPed semantic:
 # 1-based position, NOT the sequence field which defaults to 10 for every
-# interface-created line). Twin of the expression used by the NFe import
-# match candidate view in l10n_br_nfe — keep them aligned.
+# interface-created line). Sections and notes are not items of the document:
+# counting them would shift every position after them. Twin of the expression
+# used by the import match candidate view in l10n_br_fiscal_edi — keep them
+# aligned.
 _PO_LINE_POSITION_SQL = """(
     SELECT COUNT(*) FROM purchase_order_line pol_pos
     WHERE pol_pos.order_id = {pol_alias}.order_id
+      AND pol_pos.display_type IS NULL
       AND (pol_pos.sequence, pol_pos.id) <= ({pol_alias}.sequence, {pol_alias}.id)
 )::int"""
 

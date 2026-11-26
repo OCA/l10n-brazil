@@ -701,7 +701,13 @@ class NFeImportWizardTest(TransactionCase):
             ],
         )
         self.assertTrue(results)
-        self.assertTrue(results[0][1].startswith("* "))
+        # the candidate of the line's product is marked and comes first; the
+        # mark is doubled when its open quantity also matches the document line
+        self.assertTrue(results[0][1].startswith("*"))
+        first = candidates.browse(results[0][0])
+        self.assertEqual(first._candidate_strength(product.id, first.qty), 2)
+        self.assertEqual(first._candidate_strength(product.id, first.qty + 10), 1)
+        self.assertEqual(first._candidate_strength(False), 0)
         # without the context key no candidate is starred
         plain = candidates.name_search(
             order.name,
@@ -711,7 +717,7 @@ class NFeImportWizardTest(TransactionCase):
             ],
         )
         self.assertTrue(plain)
-        self.assertFalse(any(label.startswith("* ") for _id, label in plain))
+        self.assertFalse(any(label.startswith("*") for _id, label in plain))
 
         # a product with no open candidate at all is flagged as such
         out_of_scope = self.env["product.product"].create(
@@ -835,6 +841,71 @@ class NFeImportWizardTest(TransactionCase):
         # both orders carry the item: ambiguous, the operator decides
         order_other.order_line.product_id = product
         self.assertFalse(self.wizard._match_po_line(mock))
+
+    def test_match_source_sections_and_notes_are_not_items(self):
+        """A section or a note is not an item of the document.
+
+        Review remark from Marcel: the item position counted every
+        ``purchase.order.line``, so a section (or a note) dropped in the order
+        consumed a position. In a "section + 2 products" order, nItemPed 1
+        designated the section and nItemPed 2 the FIRST product: every
+        position after the section pointed to the wrong line — and since the
+        receipt side repeats the same count, the bill and the receipt agreed
+        on the same wrong line instead of failing loudly.
+        """
+        if self.env.get("purchase.order") is None:
+            self.skipTest("purchase module not installed")
+        supplier = self._create_xml_issuer_supplier()
+        product = self._get_xml_product()
+        order = self._create_confirmed_po(supplier, [product, product])
+
+        # a section placed before the items, as users do in the interface
+        self.env["purchase.order.line"].create(
+            {
+                "order_id": order.id,
+                "display_type": "line_section",
+                "name": "Granolas",
+                "sequence": 1,
+                "product_qty": 0.0,
+                "product_uom_qty": 0.0,
+            }
+        )
+        self.env.flush_all()
+        items = order.order_line.filtered(lambda line: not line.display_type)
+        self.assertEqual(len(items), 2)
+
+        # the candidate view numbers the items, not the section
+        candidates = self.env["l10n_br_fiscal.document.import.match.candidate"].search(
+            [
+                ("source_type", "=", "po_line"),
+                ("partner_id", "=", supplier.id),
+                ("product_id", "=", product.id),
+            ],
+            order="po_line_no",
+        )
+        self.assertEqual(candidates.mapped("po_line_no"), [1, 2])
+
+        # and nItemPed follows the same numbering: 2 is the second product
+        self._prepare_wizard(self.xml_1)
+        mock = MagicMock()
+        mock.xPed = order.name
+        mock.nItemPed = "2"
+        self.assertEqual(self.wizard._match_po_line(mock), items[1])
+
+        mock.nItemPed = "1"
+        self.assertEqual(self.wizard._match_po_line(mock), items[0])
+
+        # the reference synthesized on the bill keeps that numbering
+        line = self.wizard.imported_products_ids[0]
+        line.match_source_id = candidates[0]
+        self.wizard.fiscal_operation_id = self.env.ref("l10n_br_fiscal.fo_compras")
+        _binding, edoc = self.wizard._import_edoc()
+        self.assertEqual(
+            edoc.fiscal_line_ids.filtered(
+                lambda fline: fline.partner_order == order.name
+            ).mapped("partner_order_line"),
+            ["1"],
+        )
 
     def test_match_source_candidate_requires_open_quantity(self):
         """A receipt line with nothing left to receive is not proposed as a

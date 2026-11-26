@@ -2,11 +2,24 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 import logging
+import re
 from collections import defaultdict, deque
 
 from odoo import api, fields, models
 
 _logger = logging.getLogger(__name__)
+
+# Width of the order reference the matching key is built on. The fiscal field
+# was a Char(15) - the NF-e layout cap for xPed - but a buyer reference is not
+# only the NF-e spelling: the purchase order of a customer may be named with a
+# prefix of its own ("J-MT/OC/26/40795", 16 characters), and truncating it makes
+# every order of the same decade share the key ("J-MT/OC/26/4079" for 40790 to
+# 40799), i.e. two receipts become interchangeable. The bill matching only needs
+# the two sides to agree, so the field is widened and the reference is kept
+# whole; see the pre-migrate scripts of l10n_br_fiscal, l10n_br_account,
+# l10n_br_stock_account and l10n_br_contract for the existing tables.
+PARTNER_ORDER_SIZE = 32
+PARTNER_ORDER_LINE_SIZE = 6
 
 
 class DocumentImportWizard(models.TransientModel):
@@ -111,19 +124,64 @@ class DocumentImportWizard(models.TransientModel):
         )
         return self._collapse_candidates(candidates)
 
+    @staticmethod
+    def _normalize_order_ref(reference):
+        """Digits of a buyer order reference, punctuation and prefix dropped."""
+        return re.sub(r"\D", "", reference or "")
+
+    def _search_orders_by_reference(self, xped):
+        """Purchase orders of the issuer the reference ``xped`` designates.
+
+        The exact spellings come first: suppliers usually echo either
+        ``purchase.order.name`` or the ``partner_ref`` the buyer filled. They
+        are not the only ones seen in practice though - the same order is
+        printed as ``26/40795`` (the buyer prefix dropped), ``40900`` (the
+        sequence alone), ``JMTOC2640979`` (separators dropped) or ``2640884``
+        (year and sequence only) - so the reference is compared on its digits
+        when the exact search found nothing, keeping the orders whose name or
+        partner reference ends with those digits.
+
+        The caller still requires a UNIQUE order carrying the XML item, so a
+        loose spelling never decides on its own: it narrows the list, and an
+        ambiguous result leaves the match source empty for the operator.
+        """
+        order_model = self.env["purchase.order"].sudo()
+        company = self.company_id or self.env.company
+        base_domain = [
+            ("partner_id", "=", self.issuer_partner_id.id),
+            ("company_id", "=", company.id),
+        ]
+        orders = order_model.search(
+            base_domain + ["|", ("name", "=", xped), ("partner_ref", "=", xped)]
+        )
+        if orders:
+            return orders
+        digits = self._normalize_order_ref(xped)
+        if not digits:
+            return order_model.browse()
+        # the trailing sequence identifies the order in every spelling; asking
+        # SQL for it keeps the search bounded instead of walking every order of
+        # the supplier
+        digits_tail = digits[-5:]
+        candidates = order_model.search(base_domain + [("name", "ilike", digits_tail)])
+        return candidates.filtered(
+            lambda order: self._normalize_order_ref(order.name).endswith(digits)
+            or self._normalize_order_ref(order.partner_ref).endswith(digits)
+        )
+
     def _match_po_line(self, xml_product):
         """Return the purchase.order.line referenced by the XML hints.
 
         On an inbound document, ``xPed`` holds the buyer's purchase order
         reference and ``nItemPed`` the 1-based item position inside that
-        order. ``xPed`` is matched against both ``purchase.order.name`` (the
-        supplier echoes the buyer's PO number) and
-        ``purchase.order.partner_ref`` (the vendor reference the buyer fills
-        precisely to match incoming goods). ``nItemPed`` is matched by
+        order. ``xPed`` is resolved by ``_search_orders_by_reference``: the
+        exact ``purchase.order.name`` / ``partner_ref`` first, then the
+        spellings suppliers actually print (prefix dropped, separators
+        dropped, sequence alone). ``nItemPed`` is matched by
         POSITION: ``purchase.order.line.sequence`` defaults to 10 for every
-        line created in the interface, so it cannot be used; the order lines
-        come ordered by ``sequence, id``, so the n-th line is
-        ``order.order_line[nItemPed - 1]``.
+        line created in the interface, so it cannot be used; the accountable
+        lines come ordered by ``sequence, id`` (sections and notes excluded,
+        they are not items), so the n-th item is ``lines[nItemPed - 1]``.
 
         Soft dependency: returns ``None`` when ``purchase`` is not installed,
         an empty recordset when no line matches.
@@ -135,20 +193,7 @@ class DocumentImportWizard(models.TransientModel):
         if not xped:
             return pol_model.browse()
 
-        company = self.company_id or self.env.company
-        orders = (
-            self.env["purchase.order"]
-            .sudo()
-            .search(
-                [
-                    ("partner_id", "=", self.issuer_partner_id.id),
-                    ("company_id", "=", company.id),
-                    "|",
-                    ("name", "=", xped),
-                    ("partner_ref", "=", xped),
-                ]
-            )
-        )
+        orders = self._search_orders_by_reference(xped)
         if not orders:
             return pol_model.browse()
         if len(orders) > 1:
@@ -164,7 +209,12 @@ class DocumentImportWizard(models.TransientModel):
                 return pol_model.browse()
         order = orders
 
-        lines = order.order_line
+        # Only the accountable lines are items of the document: a section or a
+        # note must not consume a position, otherwise every nItemPed after it
+        # designates the wrong line (and the same expression is used on the
+        # receipt side, so both sides would agree on the wrong line — see
+        # PO_LINE_POSITION_SQL in document_import_match_candidate).
+        lines = order.order_line.filtered(lambda line: not line.display_type)
         nitemped = (getattr(xml_product, "nItemPed", "") or "").strip()
         if nitemped:
             try:
@@ -198,7 +248,7 @@ class DocumentImportWizard(models.TransientModel):
         """
         cprod = getattr(xml_product, "cProd", None)
         ean = getattr(xml_product, "cEANTrib", None)
-        for line in order.order_line:
+        for line in order.order_line.filtered(lambda line: not line.display_type):
             if cprod and line.product_id.default_code == cprod:
                 return True
             if ean and ean != "SEM GTIN" and line.product_id.barcode == ean:
@@ -250,7 +300,11 @@ class DocumentImportWizard(models.TransientModel):
         documents (NFSe) and others without stock matching keep the
         reference as navigation/tracing metadata.
 
-        Document lines without a selected match source are left untouched.
+        Document lines without a selected match source are left untouched; a
+        line whose document carried its own xPed / nItemPed but which the
+        operator pointed at another order line gets the operator's reference and
+        a warning in the log — the wizard already shows the contradiction on the
+        line (see ``match_source_conflict``), so it never happens in silence.
         """
         # NB: a product may legitimately appear on several XML lines (the
         # supplier splitting his own invoice, or shipping the same product
@@ -290,9 +344,28 @@ class DocumentImportWizard(models.TransientModel):
                 continue
             source = wizard_line.match_source_id
             if source.source_type == "po_line":
-                line.partner_order = source.ref_name[:15]
-                line.partner_order_line = str(source.line_no)[:6]
+                reference = (source.ref_name, str(source.line_no))
             elif source.po_ref:
                 # move linked to a PO line: use the canonical PO key
-                line.partner_order = source.po_ref[:15]
-                line.partner_order_line = str(source.po_line_no)[:6]
+                reference = (source.po_ref, str(source.po_line_no))
+            else:
+                continue
+            if (line.partner_order, line.partner_order_line) not in (
+                (False, False),
+                ("", ""),
+                reference,
+            ):
+                # The document carried its own xPed/nItemPed and the operator
+                # picked another order line: the pick wins (it is the explicit
+                # decision, and the wizard flags the contradiction on the line
+                # as match_source_conflict), but it must not happen in silence.
+                _logger.warning(
+                    "bill matching reference of %s overwritten by the operator: "
+                    "the document says %s item %s, the match source says %s item %s",
+                    edoc.document_key or edoc.document_number,
+                    line.partner_order,
+                    line.partner_order_line,
+                    *reference,
+                )
+            line.partner_order = reference[0][:PARTNER_ORDER_SIZE]
+            line.partner_order_line = reference[1][:PARTNER_ORDER_LINE_SIZE]
