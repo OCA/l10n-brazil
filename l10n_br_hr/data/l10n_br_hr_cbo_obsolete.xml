@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- CBO codes no longer present in the official MTE table (2026-07-10) -->
+<odoo>
+    <record id="287" model="l10n_br_hr.cbo">
+        <!-- 214355 -->
+        <field name="active" eval="False" />
+    </record>
+    <record id="376" model="l10n_br_hr.cbo">
+        <!-- 223410 -->
+        <field name="active" eval="False" />
+    </record>
+    <record id="416" model="l10n_br_hr.cbo">
+        <!-- 225142 -->
+        <field name="active" eval="False" />
+    </record>
+    <record id="678" model="l10n_br_hr.cbo">
+        <!-- 253105 -->
+        <field name="active" eval="False" />
+    </record>
+    <record id="725" model="l10n_br_hr.cbo">
+        <!-- 261720 -->
+        <field name="active" eval="False" />
+    </record>
+    <record id="726" model="l10n_br_hr.cbo">
+        <!-- 261725 -->
+        <field name="active" eval="False" />
+    </record>
+    <record id="840" model="l10n_br_hr.cbo">
+        <!-- 314605 -->
+        <field name="active" eval="False" />
+    </record>
+    <record id="908" model="l10n_br_hr.cbo">
+        <!-- 322125 -->
+        <field name="active" eval="False" />
+    </record>
+    <record id="910" model="l10n_br_hr.cbo">
+        <!-- 322115 -->
+        <field name="active" eval="False" />
+    </record>
+    <record id="911" model="l10n_br_hr.cbo">
+        <!-- 322120 -->
+        <field name="active" eval="False" />
+    </record>
+    <record id="912" model="l10n_br_hr.cbo">
+        <!-- 322105 -->
+        <field name="active" eval="False" />
+    </record>
+    <record id="939" model="l10n_br_hr.cbo">
+        <!-- 324210 -->
+        <field name="active" eval="False" />
+    </record>
+    <record id="989" model="l10n_br_hr.cbo">
+        <!-- 342525 -->
+        <field name="active" eval="False" />
+    </record>
+    <record id="990" model="l10n_br_hr.cbo">
+        <!-- 342520 -->
+        <field name="active" eval="False" />
+    </record>
+    <record id="1038" model="l10n_br_hr.cbo">
+        <!-- 352415 -->
+        <field name="active" eval="False" />
+    </record>
+    <record id="1049" model="l10n_br_hr.cbo">
+        <!-- 354110 -->
+        <field name="active" eval="False" />
+    </record>
+    <record id="1079" model="l10n_br_hr.cbo">
+        <!-- 373125 -->
+        <field name="active" eval="False" />
+    </record>
+    <record id="1080" model="l10n_br_hr.cbo">
+        <!-- 373120 -->
+        <field name="active" eval="False" />
+    </record>
+    <record id="1081" model="l10n_br_hr.cbo">
+        <!-- 373115 -->
+        <field name="active" eval="False" />
+    </record>
+    <record id="1083" model="l10n_br_hr.cbo">
+        <!-- 373110 -->
+        <field name="active" eval="False" />
+    </record>
+    <record id="1084" model="l10n_br_hr.cbo">
+        <!-- 373215 -->
+        <field name="active" eval="False" />
+    </record>
+    <record id="1085" model="l10n_br_hr.cbo">
+        <!-- 373210 -->
+        <field name="active" eval="False" />
+    </record>
+    <record id="1086" model="l10n_br_hr.cbo">
+        <!-- 373205 -->
+        <field name="active" eval="False" />
+    </record>
+    <record id="1231" model="l10n_br_hr.cbo">
+        <!-- 422215 -->
+        <field name="active" eval="False" />
+    </record>
+    <record id="1322" model="l10n_br_hr.cbo">
+        <!-- 516140 -->
+        <field name="active" eval="False" />
+    </record>
+    <record id="1359" model="l10n_br_hr.cbo">
+        <!-- 517315 -->
+        <field name="active" eval="False" />
+    </record>
+    <record id="1362" model="l10n_br_hr.cbo">
+        <!-- 517335 -->
+        <field name="active" eval="False" />
+    </record>
+    <record id="1738" model="l10n_br_hr.cbo">
+        <!-- 722225 -->
+        <field name="active" eval="False" />
+    </record>
+    <record id="2166" model="l10n_br_hr.cbo">
+        <!-- 782820 -->
+        <field name="active" eval="False" />
+    </record>
+</odoo>

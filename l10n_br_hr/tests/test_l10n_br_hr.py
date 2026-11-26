@@ -1,4 +1,7 @@
+import importlib.util
+
 from odoo.exceptions import ValidationError
+from odoo.modules.module import get_resource_path
 from odoo.tests import TransactionCase
 
 
@@ -67,3 +70,21 @@ class TestL10nBr(TransactionCase):
             "1 - Branca",
             "The ethnicity get is not valid, expectded" " '1 - Branca'",
         )
+
+    def test_l10n_br_hr_cbo_obsolete(self):
+        obsolete = self.env.ref("l10n_br_hr.912")  # 322105
+        successor = self.env.ref("l10n_br_hr.2637")  # 322705
+        self.assertFalse(obsolete.active)
+        self.assertTrue(successor.active)
+        job = self.env["hr.job"].create(
+            {"name": "Acupuncturist", "cbo_id": obsolete.id}
+        )
+        path = get_resource_path(
+            "l10n_br_hr", "migrations", "16.0.4.6.0", "post-migration.py"
+        )
+        spec = importlib.util.spec_from_file_location("cbo_post_migration", path)
+        migration = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(migration)
+        migration.migrate(self.env.cr, "16.0.4.5.0")
+        self.env.invalidate_all()
+        self.assertEqual(job.cbo_id, successor)

@@ -18,6 +18,11 @@
             <search string="Ocupação">
                 <field name="code" string="Código" />
                 <field name="name" string="Ocupação" />
+                <filter
+                    string="Archived"
+                    name="inactive"
+                    domain="[('active', '=', False)]"
+                />
             </search>
         </field>
     </record>
@@ -28,6 +33,13 @@
         <field name="priority">20</field>
         <field name="arch" type="xml">
             <form string="Código Brasileiro de Ocupação">
+                <field name="active" invisible="1" />
+                <widget
+                    name="web_ribbon"
+                    title="Archived"
+                    bg_color="bg-danger"
+                    attrs="{'invisible': [('active', '=', True)]}"
+                />
                 <group col="4">
                     <field name="code" />
                     <field name="name" />
