@@ -6,16 +6,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2024-11-13 16:06+0000\n"
-"Last-Translator: Rodrigo Sottomaior Macedo "
-"<sottomaiormacedotec@sottomaiormacedo.tech>\n"
+"PO-Revision-Date: 2026-11-26 17:13+0000\n"
+"Last-Translator: Luis Felipe Miléo <mileo@kmee.com.br>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.6.2\n"
+"X-Generator: Weblate 2026.11.2\n"
 
 #. module: l10n_br_account_nfe
 #: model:ir.actions.report,print_report_name:l10n_br_account_nfe.report_danfe_account
@@ -70,7 +69,7 @@ msgstr "13 - Vale Combustível"
 #. module: l10n_br_account_nfe
 #: model:ir.model.fields.selection,name:l10n_br_account_nfe.selection__account_payment_mode__fiscal_payment_mode__14
 msgid "14 - Duplicata Mercantil"
-msgstr ""
+msgstr "14 - Duplicata Mercantil"
 
 #. module: l10n_br_account_nfe
 #: model:ir.model.fields.selection,name:l10n_br_account_nfe.selection__account_payment_mode__fiscal_payment_mode__15
@@ -110,7 +109,7 @@ msgstr "99 - Outros"
 #. module: l10n_br_account_nfe
 #: model:ir.model,name:l10n_br_account_nfe.model_account_move_reversal
 msgid "Account Move Reversal"
-msgstr ""
+msgstr "Reversão de movimento contábil"
 
 #. module: l10n_br_account_nfe
 #: model:account.payment.mode,name:l10n_br_account_nfe.demo_payment_mode_boleto
@@ -132,12 +131,12 @@ msgstr "Dados das duplicatas NT 2011/004"
 #. module: l10n_br_account_nfe
 #: model:account.journal,name:l10n_br_account_nfe.demo_simples_nacional_bank_journal
 msgid "Diário de Boleto - Simples Nacional"
-msgstr ""
+msgstr "Diário de Boleto - Simples Nacional"
 
 #. module: l10n_br_account_nfe
 #: model:account.journal,name:l10n_br_account_nfe.demo_simples_nacional_sale_journal
 msgid "Diário de Venda - Simples Nacional"
-msgstr ""
+msgstr "Diário de Venda - Simples Nacional"
 
 #. module: l10n_br_account_nfe
 #: model:ir.model,name:l10n_br_account_nfe.model_l10n_br_fiscal_document
@@ -167,12 +166,12 @@ msgstr "Indicador da Forma de Pagamento"
 #. module: l10n_br_account_nfe
 #: model:ir.model.fields,field_description:l10n_br_account_nfe.field_nfe_40_detpag__nfe40_indPag
 msgid "Indicador de Pagamento"
-msgstr ""
+msgstr "Indicador de pagamento"
 
 #. module: l10n_br_account_nfe
 #: model:ir.model,name:l10n_br_account_nfe.model_account_move
 msgid "Journal Entry"
-msgstr ""
+msgstr "Lançamento de diário"
 
 #. module: l10n_br_account_nfe
 #: model:ir.model.fields,field_description:l10n_br_account_nfe.field_account_payment_mode__fiscal_payment_mode
@@ -198,12 +197,12 @@ msgstr "Pagamento à Prazo"
 #. module: l10n_br_account_nfe
 #: model:ir.model.fields.selection,name:l10n_br_account_nfe.selection__nfe_40_detpag__nfe40_indPag__0
 msgid "Pagamento à Vista"
-msgstr "Pagamento à Vista"
+msgstr "Pagamento à vista"
 
 #. module: l10n_br_account_nfe
 #: model:ir.model.fields,field_description:l10n_br_account_nfe.field_account_move_reversal__payment_mode_id
 msgid "Payment Mode"
-msgstr ""
+msgstr "Modo de pagamento"
 
 #. module: l10n_br_account_nfe
 #. odoo-python
