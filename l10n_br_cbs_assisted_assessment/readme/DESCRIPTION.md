@@ -7,8 +7,9 @@ Implementa os hooks deixados em aberto pelo `l10n_br_assisted_assessment`:
   raiz de 8 dígitos do CNPJ, porque a apuração é consolidada por contribuinte
   e não por estabelecimento;
 - expõe o endpoint de callback informado como `urlRetorno`, respondendo à
-  validação `HEAD` que o gateway faz antes de aceitar a solicitação e
-  guardando a URL pré-assinada de download que chega depois;
+  validação `HEAD` que o gateway faz antes de aceitar a solicitação. O corpo
+  do callback é só um sinal: a URL pré-assinada vem de
+  `GET /download/{tiquete}` depois que `GET /situacao` responde `CONCLUIDA`;
 - consulta o endpoint de status como caminho de recuperação, porque o
   callback nem sempre é entregue;
 - baixa e interpreta o arquivo devolvido, encaminhando o conteúdo ao período

@@ -81,6 +81,21 @@ class AssistedAssessmentRequest(models.Model):
             self.company_id, self.ticket
         )
 
+    def _fetch_download_link(self):
+        self.ensure_one()
+        if not self._is_cbs():
+            return super()._fetch_download_link()
+        if not self.ticket:
+            raise UserError(
+                _(
+                    "Request %s has no ticket to fetch the download link with.",
+                    self.name,
+                )
+            )
+        return self.env["l10n_br_cbs_assisted_assessment.client"]._get_download_link(
+            self.company_id, self.ticket
+        )
+
     def _fetch_payload(self):
         self.ensure_one()
         if not self._is_cbs():

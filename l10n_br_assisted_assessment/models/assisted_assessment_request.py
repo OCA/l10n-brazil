@@ -72,8 +72,9 @@ class AssistedAssessmentRequest(models.Model):
     signed_url = fields.Char(
         string="Signed URL",
         groups="l10n_br_assisted_assessment.group_manager",
-        help="Pre-signed download URL delivered by the callback. It authorises "
-        "the download while valid and must be treated as a secret.",
+        help="Pre-signed download URL returned by the download endpoint after "
+        "the request is concluded. It authorises the download while valid and "
+        "must be treated as a secret.",
     )
     signed_url_expires_at = fields.Datetime(string="Signed URL Expires At")
     payload = fields.Text(help="Raw payload downloaded from the tax administration.")
@@ -163,7 +164,7 @@ class AssistedAssessmentRequest(models.Model):
         return start.replace(tzinfo=None), end.replace(tzinfo=None)
 
     def _apply_status_payload(self, payload):
-        """Store the signed URL or error returned by GET /situacao."""
+        """Store the signed URL, or the error reported while fetching it."""
         self.ensure_one()
         if payload.get("codigoErro"):
             self.write(
@@ -218,13 +219,20 @@ class AssistedAssessmentRequest(models.Model):
         return True
 
     def _check_status(self):
+        """Advance the request from the situation reported by the gateway.
+
+        A concluded situation does not carry the file. The signed URL is
+        fetched afterwards, from the transport's download endpoint.
+        """
         self.ensure_one()
         payload = self._fetch_status()
         self._store_response_text(payload)
-        state = (payload.get("estado") or "").upper()
-        if state == "CONCLUIDA":
-            return self._apply_status_payload(payload)
-        if state == "ERRO":
+        situation = (payload.get("situacao") or "").upper()
+        if situation == "CONCLUIDA":
+            link = self._fetch_download_link()
+            self._store_response_text(link)
+            return self._apply_status_payload(link)
+        if situation in ("ERRO", "EXPIRADA"):
             self.write(
                 {
                     "state": "error",
@@ -234,6 +242,17 @@ class AssistedAssessmentRequest(models.Model):
             )
             return False
         return True
+
+    def _fetch_download_link(self):
+        """Return the payload that carries the signed download URL.
+
+        ``GET /situacao`` only reports the situation. The signed URL comes from
+        a separate call, implemented by the transport module.
+        """
+        self.ensure_one()
+        raise NotImplementedError(
+            "The transport module must implement _fetch_download_link."
+        )
 
     def action_download(self):
         for request in self:

@@ -39,8 +39,9 @@ Implementa os hooks deixados em aberto pelo
   por contribuinte e não por estabelecimento;
 - expõe o endpoint de callback informado como ``urlRetorno``,
   respondendo à validação ``HEAD`` que o gateway faz antes de aceitar a
-  solicitação e guardando a URL pré-assinada de download que chega
-  depois;
+  solicitação. O corpo do callback é só um sinal: a URL pré-assinada vem
+  de ``GET /download/{tiquete}`` depois que ``GET /situacao`` responde
+  ``CONCLUIDA``;
 - consulta o endpoint de status como caminho de recuperação, porque o
   callback nem sempre é entregue;
 - baixa e interpreta o arquivo devolvido, encaminhando o conteúdo ao
@@ -104,8 +105,9 @@ permanecer no registro, e a chamada é cobrada pelo gateway mesmo quando
 recusada, então conta na cota diária.
 
 Quando o callback não chega, *Verificar Status* consulta o endpoint de
-status. Uma solicitação cujo processamento passou do limite de 240
-minutos volta com erro e precisa ser aberta de novo.
+status. Uma situação ``CONCLUIDA`` busca em seguida a URL assinada no
+endpoint de download. Uma solicitação cujo processamento passou do
+limite de 240 minutos volta ``EXPIRADA`` e precisa ser aberta de novo.
 
 A URL assinada de download vale **48 horas**. Depois disso o addon
 recusa o download e é preciso uma nova solicitação. A URL autoriza o

@@ -17,9 +17,10 @@ class CbsAssessmentWebhook(http.Controller):
 
     The gateway validates the URL with a HEAD request before accepting the
     assessment request, and later posts a completion signal to it. The body is
-    not trusted: the signed download URL is read from GET /situacao. The route
-    is public because the caller has no Odoo session; the secret in the path is
-    what authorises it.
+    not trusted: the situation is read from GET /situacao and, once concluded,
+    the signed download URL is read from GET /download. The route is public
+    because the caller has no Odoo session; the secret in the path is what
+    authorises it.
     """
 
     @http.route(

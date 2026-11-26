@@ -131,30 +131,39 @@ class TestCbsTransport(TransactionCase):
 
     def test_status_poll_marks_the_request_ready(self):
         request = self._new_request(state="requested", ticket="692b7b25.B5E08D55")
-        answer = {
-            "estado": "CONCLUIDA",
+        status = {"situacao": "CONCLUIDA"}
+        link = {
             "urlAssinada": "https://storage.example.com/file.json?X-Amz-Signature=x",
             "urlAssinadaExpiraEm": "2026-08-26T14:30:00Z",
         }
-        with patch(f"{CLIENT_CLASS}._get_status", return_value=answer):
+        with (
+            patch(f"{CLIENT_CLASS}._get_status", return_value=status),
+            patch(f"{CLIENT_CLASS}._get_download_link", return_value=link) as fetched,
+        ):
             request.action_check_status()
+        fetched.assert_called_once()
         self.assertEqual(request.state, "notified")
-        self.assertTrue(request.signed_url)
+        self.assertEqual(request.signed_url, link["urlAssinada"])
         self.assertIn("[redacted]", request.response_text)
         self.assertNotIn("X-Amz-Signature", request.response_text)
 
     def test_status_poll_keeps_waiting_while_processing(self):
         request = self._new_request(state="requested", ticket="t")
-        with patch(
-            f"{CLIENT_CLASS}._get_status", return_value={"estado": "EM_PROCESSAMENTO"}
+        with (
+            patch(
+                f"{CLIENT_CLASS}._get_status",
+                return_value={"situacao": "EM_PROCESSAMENTO"},
+            ),
+            patch(f"{CLIENT_CLASS}._get_download_link") as fetched,
         ):
             request.action_check_status()
+        fetched.assert_not_called()
         self.assertEqual(request.state, "requested")
 
     def test_status_poll_reports_the_error(self):
         request = self._new_request(state="requested", ticket="t")
         answer = {
-            "estado": "ERRO",
+            "situacao": "ERRO",
             "codigoErro": "APURACAO-408",
             "mensagemErro": "Timeout",
         }
@@ -163,6 +172,22 @@ class TestCbsTransport(TransactionCase):
         self.assertEqual(request.state, "error")
         self.assertEqual(request.error_code, "APURACAO-408")
 
+    def test_status_poll_reports_an_expired_request(self):
+        request = self._new_request(state="requested", ticket="t")
+        answer = {
+            "situacao": "EXPIRADA",
+            "codigoErro": "EXPIRADA",
+            "mensagemErro": "Tempo limite de processamento excedido (240 minutos).",
+        }
+        with (
+            patch(f"{CLIENT_CLASS}._get_status", return_value=answer),
+            patch(f"{CLIENT_CLASS}._get_download_link") as fetched,
+        ):
+            request.action_check_status()
+        fetched.assert_not_called()
+        self.assertEqual(request.state, "error")
+        self.assertEqual(request.error_code, "EXPIRADA")
+
     def test_status_poll_requires_a_ticket(self):
         with self.assertRaises(UserError):
             self._new_request(state="requested").action_check_status()
@@ -170,14 +195,15 @@ class TestCbsTransport(TransactionCase):
     def test_full_cycle_feeds_the_periods(self):
         request = self._new_request()
         opened = {"tiqueteSolicitacao": "692b7b25.B5E08D55", "tEASegundos": "120"}
-        status = {
-            "estado": "CONCLUIDA",
+        status = {"situacao": "CONCLUIDA"}
+        link = {
             "urlAssinada": "https://storage.example.com/file.json",
             "urlAssinadaExpiraEm": "2099-01-01T00:00:00Z",
         }
         with (
             patch(f"{CLIENT_CLASS}._open_request", return_value=opened),
             patch(f"{CLIENT_CLASS}._get_status", return_value=status),
+            patch(f"{CLIENT_CLASS}._get_download_link", return_value=link),
             patch(f"{CLIENT_CLASS}._download", return_value=json.dumps(DEBITS_FILE)),
         ):
             request.action_transmit()
@@ -192,13 +218,14 @@ class TestCbsTransport(TransactionCase):
 
     def test_poll_cron_advances_pending_requests(self):
         request = self._new_request(state="requested", ticket="692b7b25.B5E08D55")
-        status = {
-            "estado": "CONCLUIDA",
+        status = {"situacao": "CONCLUIDA"}
+        link = {
             "urlAssinada": "https://storage.example.com/file.json",
             "urlAssinadaExpiraEm": "2099-01-01T00:00:00Z",
         }
         with (
             patch(f"{CLIENT_CLASS}._get_status", return_value=status),
+            patch(f"{CLIENT_CLASS}._get_download_link", return_value=link),
             patch(f"{CLIENT_CLASS}._download", return_value=json.dumps(DEBITS_FILE)),
         ):
             self.request_model._cron_poll_requests()
@@ -225,6 +252,13 @@ class TestCbsTransport(TransactionCase):
                 self.env["l10n_br_cbs_assisted_assessment.client"]._open_request(
                     self.company, "debits", "https://example.com/hook"
                 )
+
+    def test_download_link_uses_the_ticket_endpoint(self):
+        client = self.env["l10n_br_cbs_assisted_assessment.client"]
+        with patch(f"{CLIENT_CLASS}._authorized_request", return_value={}) as called:
+            client._get_download_link(self.company, "TQ-1")
+        self.assertEqual(called.call_args.args[1], "GET")
+        self.assertTrue(called.call_args.args[2].endswith("/download/TQ-1"))
 
     def test_client_rejects_an_unsupported_service(self):
         with self.assertRaises(UserError):
@@ -278,7 +312,7 @@ class TestCbsTransport(TransactionCase):
         unauthorized.text = "unauthorized"
         ok = MagicMock()
         ok.status_code = 200
-        ok.json.return_value = {"estado": "EM_PROCESSAMENTO"}
+        ok.json.return_value = {"situacao": "EM_PROCESSAMENTO"}
         ok.text = "{}"
         token_response = MagicMock()
         token_response.status_code = 200
@@ -297,7 +331,7 @@ class TestCbsTransport(TransactionCase):
             ),
         ):
             payload = client._get_status(self.company, "ticket")
-        self.assertEqual(payload["estado"], "EM_PROCESSAMENTO")
+        self.assertEqual(payload["situacao"], "EM_PROCESSAMENTO")
         self.assertEqual(called.call_count, 2)
 
     def test_authorized_request_turns_connection_errors_into_user_errors(self):

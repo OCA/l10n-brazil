@@ -57,12 +57,15 @@ class TestCbsWebhook(HttpCase):
         self.assertEqual(response.status_code, 404)
 
     def test_callback_polls_status_instead_of_trusting_the_body(self):
-        status = {
-            "estado": "CONCLUIDA",
+        status = {"situacao": "CONCLUIDA"}
+        link = {
             "urlAssinada": "https://storage.example.com/file.json?X-Amz-Signature=x",
             "urlAssinadaExpiraEm": "2099-01-01T00:00:00Z",
         }
-        with patch(f"{CLIENT_CLASS}._get_status", return_value=status):
+        with (
+            patch(f"{CLIENT_CLASS}._get_status", return_value=status),
+            patch(f"{CLIENT_CLASS}._get_download_link", return_value=link),
+        ):
             response = self._post(
                 {
                     "tiqueteSolicitacao": self.request_record.ticket,
@@ -81,7 +84,7 @@ class TestCbsWebhook(HttpCase):
 
     def test_callback_registers_the_error_from_status(self):
         answer = {
-            "estado": "ERRO",
+            "situacao": "ERRO",
             "codigoErro": "APURACAO-408",
             "mensagemErro": "Timeout",
         }

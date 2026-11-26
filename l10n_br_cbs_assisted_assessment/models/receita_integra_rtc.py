@@ -10,6 +10,7 @@ from odoo import _, models
 from odoo.exceptions import UserError
 
 from ..constants import (
+    DOWNLOAD_PATH,
     DOWNLOAD_TIMEOUT,
     ENVIRONMENT_PATH,
     REQUEST_TIMEOUT,
@@ -104,6 +105,11 @@ class ReceitaIntegraRtc(models.AbstractModel):
 
     def _get_status(self, company, ticket):
         url = f"{self._base_url(company)}/{STATUS_PATH}/{ticket}"
+        return self._authorized_request(company, "GET", url)
+
+    def _get_download_link(self, company, ticket):
+        """Return the temporary signed URL of a concluded request."""
+        url = f"{self._base_url(company)}/{DOWNLOAD_PATH}/{ticket}"
         return self._authorized_request(company, "GET", url)
 
     def _authorized_request(self, company, method, url, **kwargs):

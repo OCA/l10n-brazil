@@ -9,8 +9,9 @@ registro, e a chamada é cobrada pelo gateway mesmo quando recusada, então
 conta na cota diária.
 
 Quando o callback não chega, _Verificar Status_ consulta o endpoint de
-status. Uma solicitação cujo processamento passou do limite de 240 minutos
-volta com erro e precisa ser aberta de novo.
+status. Uma situação `CONCLUIDA` busca em seguida a URL assinada no endpoint
+de download. Uma solicitação cujo processamento passou do limite de 240
+minutos volta `EXPIRADA` e precisa ser aberta de novo.
 
 A URL assinada de download vale **48 horas**. Depois disso o addon recusa o
 download e é preciso uma nova solicitação. A URL autoriza o download sozinha,

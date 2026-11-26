@@ -411,12 +411,54 @@ class TestAssessmentReconciliation(TransactionCase):
         request = self._new_request(state="requested")
         request._store_response_text(
             {
-                "estado": "CONCLUIDA",
+                "situacao": "CONCLUIDA",
                 "urlAssinada": "https://storage.example.com/file.json?X-Amz-Signature=x",
             }
         )
         self.assertIn("[redacted]", request.response_text)
         self.assertNotIn("X-Amz-Signature", request.response_text)
+
+    def test_concluded_status_fetches_the_download_link(self):
+        request = self._new_request(state="requested", ticket="t")
+        status = {
+            "situacao": "CONCLUIDA",
+            "urlAssinada": "https://evil.example/from-status",
+        }
+        link = {
+            "urlAssinada": "https://storage.example.com/file.json?X-Amz-Signature=x",
+            "urlAssinadaExpiraEm": "2026-08-26T14:30:00Z",
+        }
+        with (
+            patch.object(type(request), "_fetch_status", return_value=status),
+            patch.object(type(request), "_fetch_download_link", return_value=link),
+        ):
+            request._check_status()
+        self.assertEqual(request.state, "notified")
+        self.assertEqual(request.signed_url, link["urlAssinada"])
+        self.assertNotIn("evil.example", request.response_text)
+        self.assertEqual(
+            fields.Datetime.to_string(request.signed_url_expires_at),
+            "2026-08-26 14:30:00",
+        )
+
+    def test_expired_status_is_an_error(self):
+        request = self._new_request(state="requested", ticket="t")
+        with (
+            patch.object(
+                type(request),
+                "_fetch_status",
+                return_value={
+                    "situacao": "EXPIRADA",
+                    "codigoErro": "EXPIRADA",
+                    "mensagemErro": "Tempo limite",
+                },
+            ),
+            patch.object(type(request), "_fetch_download_link") as fetched,
+        ):
+            request._check_status()
+        fetched.assert_not_called()
+        self.assertEqual(request.state, "error")
+        self.assertEqual(request.error_code, "EXPIRADA")
 
     def test_download_requires_a_signed_url(self):
         with self.assertRaises(UserError):
@@ -441,6 +483,8 @@ class TestAssessmentReconciliation(TransactionCase):
             request.action_apply()
         with self.assertRaises(NotImplementedError):
             request._fetch_status()
+        with self.assertRaises(NotImplementedError):
+            request._fetch_download_link()
         with self.assertRaises(NotImplementedError):
             request._fetch_payload()
 

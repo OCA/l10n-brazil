@@ -27,6 +27,7 @@ SERVICE_PATH = {
     SERVICE_CREDITS: "creditos",
 }
 STATUS_PATH = "situacao"
+DOWNLOAD_PATH = "download"
 
 # The collection holding the values of each service in the downloaded file.
 SERVICE_COLLECTION = {

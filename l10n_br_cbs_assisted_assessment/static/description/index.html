@@ -380,8 +380,9 @@ usando a raiz de 8 dígitos do CNPJ, porque a apuração é consolidada
 por contribuinte e não por estabelecimento;</li>
 <li>expõe o endpoint de callback informado como <tt class="docutils literal">urlRetorno</tt>,
 respondendo à validação <tt class="docutils literal">HEAD</tt> que o gateway faz antes de aceitar a
-solicitação e guardando a URL pré-assinada de download que chega
-depois;</li>
+solicitação. O corpo do callback é só um sinal: a URL pré-assinada vem
+de <tt class="docutils literal">GET <span class="pre">/download/{tiquete}</span></tt> depois que <tt class="docutils literal">GET /situacao</tt> responde
+<tt class="docutils literal">CONCLUIDA</tt>;</li>
 <li>consulta o endpoint de status como caminho de recuperação, porque o
 callback nem sempre é entregue;</li>
 <li>baixa e interpreta o arquivo devolvido, encaminhando o conteúdo ao
@@ -449,8 +450,9 @@ mensagem que voltaram, em vez de abrir um diálogo: o motivo precisa
 permanecer no registro, e a chamada é cobrada pelo gateway mesmo quando
 recusada, então conta na cota diária.</p>
 <p>Quando o callback não chega, <em>Verificar Status</em> consulta o endpoint de
-status. Uma solicitação cujo processamento passou do limite de 240
-minutos volta com erro e precisa ser aberta de novo.</p>
+status. Uma situação <tt class="docutils literal">CONCLUIDA</tt> busca em seguida a URL assinada no
+endpoint de download. Uma solicitação cujo processamento passou do
+limite de 240 minutos volta <tt class="docutils literal">EXPIRADA</tt> e precisa ser aberta de novo.</p>
 <p>A URL assinada de download vale <strong>48 horas</strong>. Depois disso o addon
 recusa o download e é preciso uma nova solicitação. A URL autoriza o
 download sozinha, por isso é guardada como segredo, restrita aos
