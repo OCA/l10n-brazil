@@ -22,26 +22,22 @@ msgid "'DANFSe-%s' % (object.document_number or object.id)"
 msgstr "'DANFSe-%s' % (object.document_number or object.id)"
 
 #. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_account_move_line__nfse10_pAliqCofins
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_pAliqCofins
+#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_pAliqCofins
 msgid "Alíquota da COFINS"
 msgstr "Alíquota da COFINS"
 
 #. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_account_move_line__nfse10_pAliqCofins
-#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_pAliqCofins
+#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_pAliqCofins
 msgid "Alíquota da COFINS, relativa à apuração própria (%)."
 msgstr "Alíquota da COFINS, relativa à apuração própria (%)."
 
 #. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_account_move_line__nfse10_pAliqPis
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_pAliqPis
+#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_pAliqPis
 msgid "Alíquota do PIS"
 msgstr "Alíquota do PIS"
 
 #. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_account_move_line__nfse10_pAliqPis
-#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_pAliqPis
+#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_pAliqPis
 msgid "Alíquota do PIS, relativa à apuração própria (%)."
 msgstr "Alíquota do PIS, relativa à apuração própria (%)."
 
@@ -114,14 +110,12 @@ msgstr ""
 "(err)s"
 
 #. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_account_move_line__nfse10_cNBS
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_cNBS
+#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_cNBS
 msgid "Código NBS correspondente"
 msgstr "Código NBS correspondente"
 
 #. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_account_move_line__nfse10_cNBS
-#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_cNBS
+#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_cNBS
 msgid ""
 "Código NBS correspondente ao serviço prestado, seguindo a versão 2.0, "
 "conforme Anexo B"
@@ -130,20 +124,12 @@ msgstr ""
 "conforme o Anexo B"
 
 #. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_account_move_line__nfse10_cServ
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_cServ
-msgid "Código Serviço"
-msgstr "Código do serviço"
-
-#. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_account_move_line__nfse10_CST
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_CST
+#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_CST
 msgid "Código de Situação Tributária"
 msgstr "Código de situação tributária"
 
 #. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_account_move_line__nfse10_CST
-#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_CST
+#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_CST
 msgid ""
 "Código de Situação Tributária do PIS/COFINS (CST):\n"
 "00 - Nenhum;\n"
@@ -246,20 +232,17 @@ msgstr ""
 "99 - Outras operações;"
 
 #. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_account_move_line__nfse10_cTribMun
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_cTribMun
+#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_cTribMun
 msgid "Código de tributação municipal do ISSQN"
 msgstr "Código de tributação municipal do ISSQN"
 
 #. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_account_move_line__nfse10_cTribNac
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_cTribNac
+#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_cTribNac
 msgid "Código de tributação nacional do ISSQN"
 msgstr "Código de tributação nacional do ISSQN"
 
 #. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_account_move_line__nfse10_cTribNac
-#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_cTribNac
+#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_cTribNac
 msgid ""
 "Código de tributação nacional do ISSQN, nos termos da LC 116/2003, conforme "
 "aba MUN.INCID_INFO.SERV. do ANEXO I\n"
@@ -272,34 +255,32 @@ msgstr ""
 "2 para o subitem (LC 116/2003) e 2 para o desdobro nacional"
 
 #. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_account_move_line__nfse10_cLocPrestacao
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_cLocPrestacao
+#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_cLocPrestacao
 msgid "Código do município onde o serviço"
 msgstr "Código do município onde o serviço"
 
 #. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_account_move_line__nfse10_cLocPrestacao
-#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_cLocPrestacao
+#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_cLocPrestacao
 msgid "Código do município onde o serviço foi prestado (tabela do IBGE)"
 msgstr "Código do município onde o serviço foi prestado (tabela do IBGE)"
 
 #. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_cPaisPrestacao
+#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_cPaisPrestacao
 msgid "Código do país onde o serviço"
 msgstr "Código do país onde o serviço"
 
 #. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_cPaisPrestacao
+#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_cPaisPrestacao
 msgid "Código do país onde o serviço foi prestado (Tabela de Países ISO)"
 msgstr "Código do país onde o serviço foi prestado (tabela de países ISO)"
 
 #. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_cPaisResult
+#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_cPaisResult
 msgid "Código do país onde se verficou"
 msgstr "Código do país onde se verificou"
 
 #. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_cPaisResult
+#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_cPaisResult
 msgid ""
 "Código do país onde se verficou o resultado da prestação do serviço para o "
 "caso de Exportação de Serviço.(Tabela de Países ISO)"
@@ -308,7 +289,7 @@ msgstr ""
 "caso de exportação de serviço (tabela de países ISO)"
 
 #. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_cIntContrib
+#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_cIntContrib
 msgid "Código interno do contribuinte"
 msgstr "Código interno do contribuinte"
 
@@ -368,14 +349,7 @@ msgstr ""
 "Data em que se iniciou a prestação do serviço: dia, mês e ano (AAAAMMDD)"
 
 #. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_account_move_line__nfse10_vDescCondIncond
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_vDescCondIncond
-msgid "Descontos"
-msgstr "Descontos"
-
-#. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_account_move_line__nfse10_xDescServ
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_xDescServ
+#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_xDescServ
 msgid "Descrição completa do serviço prestado"
 msgstr "Descrição completa do serviço prestado"
 
@@ -423,31 +397,18 @@ msgid "Fiscal Document Cancel Wizard"
 msgstr "Assistente de cancelamento de documento fiscal"
 
 #. module: l10n_br_nfse_nacional
-#: model:ir.model,name:l10n_br_nfse_nacional.model_l10n_br_fiscal_document_line
-msgid "Fiscal Document Line"
-msgstr "Linha do documento fiscal"
-
-#. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_infoCompl
+#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_infoCompl
 msgid "Grupo"
 msgstr "Grupo"
 
 #. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_infoCompl
+#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_infoCompl
 msgid ""
 "Grupo de informações complementares disponível para todos os serviços "
 "prestados"
 msgstr ""
 "Grupo de informações complementares disponíveis para todos os serviços "
 "prestados"
-
-#. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_account_move_line__nfse10_tribFed
-#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_tribFed
-msgid ""
-"Grupo de informações de outros tributos relacionados ao serviço prestado"
-msgstr ""
-"Grupo de informações de outros tributos relacionados ao serviço prestado"
 
 #. module: l10n_br_nfse_nacional
 #: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_IBSCBS
@@ -457,15 +418,20 @@ msgstr "Grupo de informações declaradas"
 #. module: l10n_br_nfse_nacional
 #: model:ir.model.fields,help:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_IBSCBS
 msgid "Grupo de informações declaradas pelo emitente referentes ao IBS e à CBS"
-msgstr "Grupo de informações declaradas pelo emitente referentes ao IBS e à CBS"
+msgstr ""
+"Grupo de informações declaradas pelo emitente referentes ao IBS e à CBS"
+
+#. module: l10n_br_nfse_nacional
+#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_obra
+msgid "Grupo de informações do DPS relativas (nfse_obra)"
+msgstr ""
 
 #. module: l10n_br_nfse_nacional
 #: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_account_bank_statement_line__nfse10_prest
 #: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_account_move__nfse10_prest
 #: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_prest
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_obra
-msgid "Grupo de informações do DPS relativas"
-msgstr "Grupo de informações da DPS relativas"
+msgid "Grupo de informações do DPS relativas (nfse_prest)"
+msgstr ""
 
 #. module: l10n_br_nfse_nacional
 #: model:ir.model.fields,help:l10n_br_nfse_nacional.field_account_bank_statement_line__nfse10_interm
@@ -482,13 +448,6 @@ msgid "Grupo de informações do DPS relativas ao Prestador de Serviços"
 msgstr "Grupo de informações da DPS relativas ao prestador de serviços"
 
 #. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_account_bank_statement_line__nfse10_serv
-#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_account_move__nfse10_serv
-#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_serv
-msgid "Grupo de informações do DPS relativas ao Serviço Prestado"
-msgstr "Grupo de informações da DPS relativas ao serviço prestado"
-
-#. module: l10n_br_nfse_nacional
 #: model:ir.model.fields,help:l10n_br_nfse_nacional.field_account_bank_statement_line__nfse10_toma
 #: model:ir.model.fields,help:l10n_br_nfse_nacional.field_account_move__nfse10_toma
 #: model:ir.model.fields,help:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_toma
@@ -496,20 +455,14 @@ msgid "Grupo de informações do DPS relativas ao Tomador de Serviços"
 msgstr "Grupo de informações da DPS relativas ao tomador de serviços"
 
 #. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_atvEvento
+#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_atvEvento
 msgid "Grupo de informações do DPS relativas à Evento"
 msgstr "Grupo de informações da DPS relativas ao evento"
 
 #. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_obra
+#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_obra
 msgid "Grupo de informações do DPS relativas à serviço de obra"
 msgstr "Grupo de informações da DPS relativas ao serviço de obra"
-
-#. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_account_move_line__nfse10_piscofins
-#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_piscofins
-msgid "Grupo de informações dos tributos PIS/COFINS"
-msgstr "Grupo de informações dos tributos PIS/COFINS"
 
 #. module: l10n_br_nfse_nacional
 #: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_res_partner__nfse10_endNac
@@ -529,66 +482,18 @@ msgid "Grupo de informações específicas de endereço no exterior"
 msgstr "Grupo de informações específicas de endereço no exterior"
 
 #. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_account_move_line__nfse10_totTrib
-#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_totTrib
-msgid ""
-"Grupo de informações para totais aproximados dos tributos relacionados ao "
-"serviço prestado"
-msgstr ""
-"Grupo de informações para totais aproximados dos tributos relacionados ao "
-"serviço prestado"
-
-#. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_account_move_line__nfse10_tribMun
-#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_tribMun
-msgid ""
-"Grupo de informações relacionados ao Imposto Sobre Serviços de Qualquer "
-"Natureza - ISSQN"
-msgstr ""
-"Grupo de informações relacionadas ao Imposto Sobre Serviços de Qualquer "
-"Natureza - ISSQN"
-
-#. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_account_move_line__nfse10_trib
-#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_trib
-msgid ""
-"Grupo de informações relacionados aos tributos relacionados ao serviço "
-"prestado"
-msgstr "Grupo de informações relacionadas aos tributos do serviço prestado"
-
-#. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_comExt
+#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_comExt
 #: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_res_company__nfse10_regTrib
 msgid "Grupo de informações relativas"
 msgstr "Grupo de informações relativas"
 
 #. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_account_move_line__nfse10_cServ
-#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_cServ
-msgid "Grupo de informações relativas ao código do serviço prestado"
-msgstr "Grupo de informações relativas ao código do serviço prestado"
-
-#. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_account_move_line__nfse10_locPrest
-#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_locPrest
-msgid "Grupo de informações relativas ao local da prestação do serviço"
-msgstr "Grupo de informações relativas ao local da prestação do serviço"
-
-#. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_vAjusteBC
+#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_vAjusteBC
 msgid ""
 "Grupo de informações relativas ao valores para ajuste dos valores de base de "
 "cálculo"
 msgstr ""
 "Grupo de informações relativas aos valores para ajuste da base de cálculo"
-
-#. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_account_move_line__nfse10_vDescCondIncond
-#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_vDescCondIncond
-msgid ""
-"Grupo de informações relativas aos descontos condicionados e incondicionados"
-msgstr ""
-"Grupo de informações relativas aos descontos condicionados e incondicionados"
 
 #. module: l10n_br_nfse_nacional
 #: model:ir.model.fields,help:l10n_br_nfse_nacional.field_res_company__nfse10_regTrib
@@ -600,31 +505,11 @@ msgstr ""
 "serviços"
 
 #. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_account_move_line__nfse10_vServPrest
-#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_vServPrest
-msgid "Grupo de informações relativas aos valores do serviço prestado"
-msgstr "Grupo de informações relativas aos valores do serviço prestado"
-
-#. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_comExt
+#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_comExt
 msgid ""
 "Grupo de informações relativas à exportação/importação de serviço prestado"
 msgstr ""
 "Grupo de informações relativas à exportação/importação de serviço prestado"
-
-#. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_account_bank_statement_line__nfse10_valores
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_account_move__nfse10_valores
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_valores
-msgid "Grupo de informações relativas à valores"
-msgstr "Grupo de informações relativas a valores"
-
-#. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_account_bank_statement_line__nfse10_valores
-#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_account_move__nfse10_valores
-#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_valores
-msgid "Grupo de informações relativas à valores do serviço prestado"
-msgstr "Grupo de informações relativas aos valores do serviço prestado"
 
 #. module: l10n_br_nfse_nacional
 #: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_res_partner__nfse10_cMun
@@ -640,12 +525,12 @@ msgid "Id"
 msgstr "ID"
 
 #. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_tpImunidade
+#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_tpImunidade
 msgid "Identificação da Imunidade"
 msgstr "Identificação da imunidade"
 
 #. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_tpImunidade
+#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_tpImunidade
 msgid ""
 "Identificação da Imunidade do ISSQN – somente para o caso de Imunidade.\n"
 "Tipos de Imunidades:\n"
@@ -710,14 +595,12 @@ msgid "Indicador da finalidade da emissão de NFS-e"
 msgstr "Indicador da finalidade da emissão de NFS-e"
 
 #. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_account_move_line__nfse10_indTotTrib
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_indTotTrib
+#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_indTotTrib
 msgid "Indicador de informação de valor total"
 msgstr "Indicador de informação de valor total"
 
 #. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_account_move_line__nfse10_indTotTrib
-#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_indTotTrib
+#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_indTotTrib
 msgid ""
 "Indicador de informação de valor total de tributos. Possui valor fixo igual "
 "a zero (indTotTrib=0).\n"
@@ -730,24 +613,17 @@ msgstr ""
 "0 - Não;"
 
 #. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_exigSusp
+#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_exigSusp
 msgid "Informações para a suspensão"
 msgstr "Informações para a suspensão"
 
 #. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_exigSusp
+#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_exigSusp
 msgid "Informações para a suspensão da Exigibilidade do ISSQN"
 msgstr "Informações para a suspensão da exigibilidade do ISSQN"
 
 #. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_account_move_line__nfse10_locPrest
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_locPrest
-msgid "Local Prestação"
-msgstr "Local da prestação"
-
-#. module: l10n_br_nfse_nacional
 #: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__brl_currency_id
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_res_company__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_res_partner__brl_currency_id
 msgid "Moeda"
@@ -1069,18 +945,6 @@ msgid "Outros"
 msgstr "Outros"
 
 #. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_account_move_line__nfse10_piscofins
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_piscofins
-msgid "PIS/COFINS"
-msgstr "PIS/COFINS"
-
-#. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_account_move_line__nfse10_pTotTrib
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_pTotTrib
-msgid "Percentual Total de Tributos"
-msgstr "Percentual total de tributos"
-
-#. module: l10n_br_nfse_nacional
 #. odoo-python
 #: code:addons/l10n_br_nfse_nacional/models/document.py:0
 msgid "Rejected"
@@ -1165,14 +1029,12 @@ msgstr ""
 "outra vez."
 
 #. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_account_move_line__nfse10_tpRetISSQN
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_tpRetISSQN
+#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_tpRetISSQN
 msgid "Tipo de retencao do ISSQN"
 msgstr "Tipo de retenção do ISSQN"
 
 #. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_account_move_line__nfse10_tpRetISSQN
-#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_tpRetISSQN
+#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_tpRetISSQN
 msgid ""
 "Tipo de retencao do ISSQN:\n"
 "1 - Não Retido;\n"
@@ -1185,14 +1047,12 @@ msgstr ""
 "3 - Retido pelo intermediário;"
 
 #. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_account_move_line__nfse10_tpRetPisCofins
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_tpRetPisCofins
+#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_tpRetPisCofins
 msgid "Tipo de retenção do PIS/COFINS"
 msgstr "Tipo de retenção do PIS/COFINS"
 
 #. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_account_move_line__nfse10_tpRetPisCofins
-#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_tpRetPisCofins
+#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_tpRetPisCofins
 msgid ""
 "Tipo de retenção do PIS/COFINS:\n"
 "0 - PIS/COFINS/CSLL Não Retidos;\n"
@@ -1259,30 +1119,17 @@ msgstr ""
 "9 - Outros;"
 
 #. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_account_move_line__nfse10_totTrib
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_totTrib
-msgid "Total Tributos"
-msgstr "Total de tributos"
-
-#. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_account_move_line__nfse10_trib
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_trib
-msgid "Tributação"
-msgstr "Tributação"
-
-#. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_account_move_line__nfse10_tribISSQN
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_tribISSQN
+#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_tribISSQN
 msgid "Tributação do ISSQN sobre"
 msgstr "Tributação do ISSQN sobre"
 
 #. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_BM
+#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_BM
 msgid "Tributação do ISSQN sobre (BM)"
 msgstr "Tributação do ISSQN sobre (BM)"
 
 #. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_BM
+#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_BM
 msgid ""
 "Tributação do ISSQN sobre o serviço prestado:\n"
 "1 - Operação tributável;\n"
@@ -1297,8 +1144,7 @@ msgstr ""
 "4 - Imunidade;"
 
 #. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_account_move_line__nfse10_tribISSQN
-#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_tribISSQN
+#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_tribISSQN
 msgid ""
 "Tributação do ISSQN sobre o serviço prestado:\n"
 "1 - Operação tributável;\n"
@@ -1313,40 +1159,24 @@ msgstr ""
 "4 - Não incidência;"
 
 #. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_account_move_line__nfse10_tribFed
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_tribFed
-msgid "Tributos Federais"
-msgstr "Tributos federais"
-
-#. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_account_move_line__nfse10_tribMun
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_tribMun
-msgid "Tributos Municipais"
-msgstr "Tributos municipais"
-
-#. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_account_move_line__nfse10_vBCPisCofins
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_vBCPisCofins
+#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_vBCPisCofins
 msgid "Valor da Base de Cálculo do PIS/COFINS"
 msgstr "Valor da base de cálculo do PIS/COFINS"
 
 #. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_account_move_line__nfse10_vBCPisCofins
-#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_vBCPisCofins
+#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_vBCPisCofins
 msgid ""
 "Valor da Base de Cálculo do PIS/COFINS, relativo à apuração própria (R$)."
 msgstr ""
 "Valor da base de cálculo do PIS/COFINS, relativo à apuração própria (R$)."
 
 #. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_account_move_line__nfse10_pAliq
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_pAliq
+#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_pAliq
 msgid "Valor da alíquota"
 msgstr "Valor da alíquota"
 
 #. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_account_move_line__nfse10_pAliq
-#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_pAliq
+#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_pAliq
 msgid ""
 "Valor da alíquota (%) do serviço prestado relativo ao município sujeito "
 "ativo (município de incidência) do ISSQN.\n"
@@ -1365,62 +1195,52 @@ msgstr ""
 "emitente."
 
 #. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_account_move_line__nfse10_vCofins
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_vCofins
+#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_vCofins
 msgid "Valor do débito"
 msgstr "Valor do débito"
 
 #. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_account_move_line__nfse10_vCofins
-#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_vCofins
+#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_vCofins
 msgid "Valor do débito de COFINS apuração própria (R$)."
 msgstr "Valor do débito da COFINS de apuração própria (R$)."
 
 #. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_account_move_line__nfse10_vPis
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_vPis
+#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_vPis
 msgid "Valor do débito de PIS apuração própria"
 msgstr "Valor do débito do PIS de apuração própria"
 
 #. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_account_move_line__nfse10_vPis
-#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_vPis
+#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_vPis
 msgid "Valor do débito de PIS apuração própria (R$)."
 msgstr "Valor do débito do PIS de apuração própria (R$)."
 
 #. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_account_move_line__nfse10_vDescIncond
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_vDescIncond
+#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_vDescIncond
 msgid "Valor monetário"
 msgstr "Valor monetário"
 
 #. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_account_move_line__nfse10_vRetCP
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_vRetCP
+#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_vRetCP
 msgid "Valor monetário do CP(R$)"
 msgstr "Valor monetário da CP (R$)"
 
 #. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_account_move_line__nfse10_vRetCSLL
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_vRetCSLL
+#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_vRetCSLL
 msgid "Valor monetário do CSLL (R$)"
 msgstr "Valor monetário da CSLL (R$)"
 
 #. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_account_move_line__nfse10_vRetIRRF
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_vRetIRRF
+#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_vRetIRRF
 msgid "Valor monetário do IRRF (R$)"
 msgstr "Valor monetário do IRRF (R$)"
 
 #. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_account_move_line__nfse10_vDescCond
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_vDescCond
+#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_vDescCond
 msgid "Valor monetário do desconto condicionado"
 msgstr "Valor monetário do desconto condicionado"
 
 #. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_account_move_line__nfse10_vDescCond
-#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_vDescCond
+#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_vDescCond
 msgid ""
 "Valor monetário do desconto condicionado (R$). (Para os códigos de "
 "tributação nacional do subitem 99.03, vDescCond = pCopropriedade x "
@@ -1431,8 +1251,7 @@ msgstr ""
 "vDescCondTot)"
 
 #. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_account_move_line__nfse10_vDescIncond
-#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_vDescIncond
+#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_vDescIncond
 msgid ""
 "Valor monetário do desconto incondicionado (R$). (Para os códigos de "
 "tributação nacional do subitem 99.03, vDescIncond = pCopropriedade x "
@@ -1443,14 +1262,12 @@ msgstr ""
 "vDescIncondTot)"
 
 #. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_account_move_line__nfse10_vServ
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_vServ
+#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_vServ
 msgid "Valor monetário do serviço (R$)"
 msgstr "Valor monetário do serviço (R$)"
 
 #. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_account_move_line__nfse10_vServ
-#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_vServ
+#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_vServ
 msgid ""
 "Valor monetário do serviço (R$). (Para os códigos de tributação nacional do "
 "subitem 99.03, vServ = pCopropriedade x vTotOper)"
@@ -1459,22 +1276,22 @@ msgstr ""
 "subitem 99.03, vServ = pCopropriedade x vTotOper)"
 
 #. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_vReceb
+#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_vReceb
 msgid "Valor monetário recebido"
 msgstr "Valor monetário recebido"
 
 #. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_vReceb
+#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_vReceb
 msgid "Valor monetário recebido pelo intermediário do serviço (R$)"
 msgstr "Valor monetário recebido pelo intermediário do serviço (R$)"
 
 #. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_vTotTrib
+#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_vTotTrib
 msgid "Valor monetário total aproximado"
 msgstr "Valor monetário total aproximado"
 
 #. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_vTotTrib
+#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_vTotTrib
 msgid ""
 "Valor monetário total aproximado dos tributos, em conformidade com o artigo "
 "1o da Lei no 12.741/2012"
@@ -1483,14 +1300,12 @@ msgstr ""
 "1º da Lei nº 12.741/2012"
 
 #. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_account_move_line__nfse10_pTotTribSN
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_pTotTribSN
+#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_pTotTribSN
 msgid "Valor percentual aproximado do total"
 msgstr "Valor percentual aproximado do total"
 
 #. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_account_move_line__nfse10_pTotTribSN
-#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_pTotTribSN
+#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_pTotTribSN
 msgid ""
 "Valor percentual aproximado do total dos tributos da alíquota do Simples "
 "Nacional (%)"
@@ -1499,44 +1314,24 @@ msgstr ""
 "Nacional (%)"
 
 #. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_account_move_line__nfse10_pTotTribFed
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_pTotTribFed
+#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_pTotTribFed
 msgid "Valor percentual total aproximado"
 msgstr "Valor percentual total aproximado"
 
 #. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_account_move_line__nfse10_pTotTribEst
-#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_pTotTribEst
+#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_pTotTribEst
 msgid "Valor percentual total aproximado dos tributos estaduais (%)."
 msgstr "Valor percentual total aproximado dos tributos estaduais (%)."
 
 #. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_account_move_line__nfse10_pTotTribFed
-#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_pTotTribFed
+#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_pTotTribFed
 msgid "Valor percentual total aproximado dos tributos federais (%)."
 msgstr "Valor percentual total aproximado dos tributos federais (%)."
 
 #. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_account_move_line__nfse10_pTotTribMun
-#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_pTotTribMun
+#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_pTotTribMun
 msgid "Valor percentual total aproximado dos tributos municipais (%)."
 msgstr "Valor percentual total aproximado dos tributos municipais (%)."
-
-#. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_account_move_line__nfse10_pTotTrib
-#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_pTotTrib
-msgid ""
-"Valor percentual total aproximado dos tributos, em conformidade com o artigo "
-"1o da Lei no 12.741/2012"
-msgstr ""
-"Valor percentual total aproximado dos tributos, em conformidade com o artigo "
-"1º da Lei nº 12.741/2012"
-
-#. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_account_move_line__nfse10_vServPrest
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_vServPrest
-msgid "Valores Serviço"
-msgstr "Valores do serviço"
 
 #. module: l10n_br_nfse_nacional
 #: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_account_bank_statement_line__nfse10_verAplic
@@ -1546,7 +1341,7 @@ msgid "Versão do aplicativo que gerou o DPS"
 msgstr "Versão do aplicativo que gerou a DPS"
 
 #. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_atvEvento
+#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_atvEvento
 msgid "atvEvento"
 msgstr "atvEvento"
 
@@ -1556,13 +1351,6 @@ msgid "endExt"
 msgstr "endExt"
 
 #. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_account_bank_statement_line__nfse10_infDPS
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_account_move__nfse10_infDPS
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_infDPS
-msgid "infDPS"
-msgstr "infDPS"
-
-#. module: l10n_br_nfse_nacional
 #: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_account_bank_statement_line__nfse10_interm
 #: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_account_move__nfse10_interm
 #: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_interm
@@ -1570,23 +1358,14 @@ msgid "interm"
 msgstr "interm"
 
 #. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_account_move_line__nfse10_pTotTribEst
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_pTotTribEst
+#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_pTotTribEst
 msgid "pTotTribEst"
 msgstr "pTotTribEst"
 
 #. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_account_move_line__nfse10_pTotTribMun
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_pTotTribMun
+#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_pTotTribMun
 msgid "pTotTribMun"
 msgstr "pTotTribMun"
-
-#. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_account_bank_statement_line__nfse10_serv
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_account_move__nfse10_serv
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_serv
-msgid "serv"
-msgstr "serv"
 
 #. module: l10n_br_nfse_nacional
 #: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_account_bank_statement_line__nfse10_toma
@@ -1596,11 +1375,110 @@ msgid "toma"
 msgstr "toma"
 
 #. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document_line__nfse10_vAjusteBC
+#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_vAjusteBC
 msgid "vAjusteBC"
 msgstr "vAjusteBC"
 
-#. module: l10n_br_nfse_nacional
-#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_versao
-msgid "versao"
-msgstr "versao"
+#~ msgid "Código Serviço"
+#~ msgstr "Código do serviço"
+
+#~ msgid "Descontos"
+#~ msgstr "Descontos"
+
+#~ msgid "Fiscal Document Line"
+#~ msgstr "Linha do documento fiscal"
+
+#~ msgid ""
+#~ "Grupo de informações de outros tributos relacionados ao serviço prestado"
+#~ msgstr ""
+#~ "Grupo de informações de outros tributos relacionados ao serviço prestado"
+
+#~ msgid "Grupo de informações do DPS relativas"
+#~ msgstr "Grupo de informações da DPS relativas"
+
+#~ msgid "Grupo de informações do DPS relativas ao Serviço Prestado"
+#~ msgstr "Grupo de informações da DPS relativas ao serviço prestado"
+
+#~ msgid "Grupo de informações dos tributos PIS/COFINS"
+#~ msgstr "Grupo de informações dos tributos PIS/COFINS"
+
+#~ msgid ""
+#~ "Grupo de informações para totais aproximados dos tributos relacionados ao "
+#~ "serviço prestado"
+#~ msgstr ""
+#~ "Grupo de informações para totais aproximados dos tributos relacionados ao "
+#~ "serviço prestado"
+
+#~ msgid ""
+#~ "Grupo de informações relacionados ao Imposto Sobre Serviços de Qualquer "
+#~ "Natureza - ISSQN"
+#~ msgstr ""
+#~ "Grupo de informações relacionadas ao Imposto Sobre Serviços de Qualquer "
+#~ "Natureza - ISSQN"
+
+#~ msgid ""
+#~ "Grupo de informações relacionados aos tributos relacionados ao serviço "
+#~ "prestado"
+#~ msgstr "Grupo de informações relacionadas aos tributos do serviço prestado"
+
+#~ msgid "Grupo de informações relativas ao código do serviço prestado"
+#~ msgstr "Grupo de informações relativas ao código do serviço prestado"
+
+#~ msgid "Grupo de informações relativas ao local da prestação do serviço"
+#~ msgstr "Grupo de informações relativas ao local da prestação do serviço"
+
+#~ msgid ""
+#~ "Grupo de informações relativas aos descontos condicionados e "
+#~ "incondicionados"
+#~ msgstr ""
+#~ "Grupo de informações relativas aos descontos condicionados e "
+#~ "incondicionados"
+
+#~ msgid "Grupo de informações relativas aos valores do serviço prestado"
+#~ msgstr "Grupo de informações relativas aos valores do serviço prestado"
+
+#~ msgid "Grupo de informações relativas à valores"
+#~ msgstr "Grupo de informações relativas a valores"
+
+#~ msgid "Grupo de informações relativas à valores do serviço prestado"
+#~ msgstr "Grupo de informações relativas aos valores do serviço prestado"
+
+#~ msgid "Local Prestação"
+#~ msgstr "Local da prestação"
+
+#~ msgid "PIS/COFINS"
+#~ msgstr "PIS/COFINS"
+
+#~ msgid "Percentual Total de Tributos"
+#~ msgstr "Percentual total de tributos"
+
+#~ msgid "Total Tributos"
+#~ msgstr "Total de tributos"
+
+#~ msgid "Tributação"
+#~ msgstr "Tributação"
+
+#~ msgid "Tributos Federais"
+#~ msgstr "Tributos federais"
+
+#~ msgid "Tributos Municipais"
+#~ msgstr "Tributos municipais"
+
+#~ msgid ""
+#~ "Valor percentual total aproximado dos tributos, em conformidade com o "
+#~ "artigo 1o da Lei no 12.741/2012"
+#~ msgstr ""
+#~ "Valor percentual total aproximado dos tributos, em conformidade com o "
+#~ "artigo 1º da Lei nº 12.741/2012"
+
+#~ msgid "Valores Serviço"
+#~ msgstr "Valores do serviço"
+
+#~ msgid "infDPS"
+#~ msgstr "infDPS"
+
+#~ msgid "serv"
+#~ msgstr "serv"
+
+#~ msgid "versao"
+#~ msgstr "versao"
