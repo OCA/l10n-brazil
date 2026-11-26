@@ -2609,6 +2609,18 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_account
+#. odoo-python
+#: code:addons/l10n_br_account/models/document.py:0
+msgid "This document is already linked to %(invoice)s."
+msgstr ""
+
+#. module: l10n_br_account
+#. odoo-python
+#: code:addons/l10n_br_account/models/document.py:0
+msgid "This document is already posted on %(invoice)s."
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__public_entity_type
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__public_entity_type
 msgid "Tipo de Entidade Governamental"
