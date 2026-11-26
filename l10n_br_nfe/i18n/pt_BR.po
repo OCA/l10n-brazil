@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2026-11-26 02:46+0000\n"
+"PO-Revision-Date: 2026-11-26 17:13+0000\n"
 "Last-Translator: Luis Felipe Miléo <mileo@kmee.com.br>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -227,7 +227,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_md_event__access_key
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_recipient_manifestation_event_wizard__access_key
 msgid "Access Key"
-msgstr "Chave de Acesso"
+msgstr "Chave de acesso"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_danfe_profile__active
@@ -451,7 +451,7 @@ msgstr "Base de cálculo da retenção da previdência social"
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_account_move__nfe40_vBCIRRF
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_vBCIRRF
 msgid "Base de Cálculo do IRRF"
-msgstr "Base de Cálculo do IRRF"
+msgstr "Base de cálculo do IRRF"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_account_move_line__nfe40_choice_ipitrib
@@ -521,7 +521,7 @@ msgstr "CMT-Capacidade máxima de tração - em toneladas 4 casas decimais"
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__nfe40_CNAE
 msgid "CNAE Fiscal"
-msgstr "CNAE Fiscal"
+msgstr "CNAE fiscal"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_CNPJ
@@ -802,7 +802,7 @@ msgstr "Recibo da transportadora"
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_account_move_line__nfe40_CFOP
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_CFOP
 msgid "Cfop"
-msgstr "Cfop"
+msgstr "CFOP"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml_products__new_cfop_id
@@ -926,12 +926,12 @@ msgstr "Combustível"
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml_products__price_unit_com
 msgid "Comercial Price Unit"
-msgstr "Preço Unitário Comercial"
+msgstr "Preço unitário comercial"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml_products__quantity_com
 msgid "Comercial Quantity"
-msgstr "Quantidade Comercial"
+msgstr "Quantidade comercial"
 
 #. module: l10n_br_nfe
 #: model:ir.model,name:l10n_br_nfe.model_res_company
@@ -1007,7 +1007,7 @@ msgstr "Consumidor -"
 #. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.report_danfe_nfce
 msgid "Consumidor Nao Identificado"
-msgstr "Consumidor Não Identificado"
+msgstr "Consumidor não identificado"
 
 #. module: l10n_br_nfe
 #: model:ir.model,name:l10n_br_nfe.model_res_partner
@@ -1591,7 +1591,7 @@ msgstr "Dados dos volumes"
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_account_move__danfe_layout
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__danfe_layout
 msgid "Danfe Layout"
-msgstr "Layout do Danfe"
+msgstr "Layout do DANFE"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_dCompet
@@ -1904,7 +1904,7 @@ msgstr "Exibir dados do lote"
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_md_event__display_name
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_recipient_manifestation_event_wizard__display_name
 msgid "Display Name"
-msgstr "Nome Exibido"
+msgstr "Nome exibido"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_danfe_profile__display_pis_cofins
@@ -1929,7 +1929,7 @@ msgstr "Informações do documento"
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_md_event__document_number
 msgid "Document Number"
-msgstr "Número do Documento"
+msgstr "Número do documento"
 
 #. module: l10n_br_nfe
 #: model:ir.model,name:l10n_br_nfe.model_l10n_br_fiscal_document_supplement
@@ -2111,7 +2111,7 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.document_import_wizard_form
 msgid "Existing Document"
-msgstr "Documento Existente"
+msgstr "Documento existente"
 
 #. module: l10n_br_nfe
 #: model:ir.model,name:l10n_br_nfe.model_nfe_40_exportind
@@ -2174,12 +2174,12 @@ msgstr "Documento Fiscal"
 #. module: l10n_br_nfe
 #: model:ir.model,name:l10n_br_nfe.model_l10n_br_fiscal_document_line
 msgid "Fiscal Document Line"
-msgstr "Linha do Documento Fiscal"
+msgstr "Linha do documento fiscal"
 
 #. module: l10n_br_nfe
 #: model:ir.model,name:l10n_br_nfe.model_l10n_br_fiscal_document_related
 msgid "Fiscal Document Related"
-msgstr "Documento Fiscal Relacionado"
+msgstr "Documento fiscal relacionado"
 
 #. module: l10n_br_nfe
 #: model:ir.model,name:l10n_br_nfe.model_l10n_br_fiscal_document_type
@@ -2189,7 +2189,7 @@ msgstr "Tipo de Documento Fiscal"
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml_products__price_unit_trib
 msgid "Fiscal Price Unit"
-msgstr "Preço Unitário Fiscal"
+msgstr "Preço unitário fiscal"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_danfe_profile__font_size
@@ -2848,12 +2848,12 @@ msgstr "Importar NF-e XML"
 #: model:ir.actions.act_window,name:l10n_br_nfe.imported_document_action
 #: model:ir.ui.menu,name:l10n_br_nfe.imported_document_menu
 msgid "Imported Document"
-msgstr "Documento Importado"
+msgstr "Documento importado"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_import_wizard__imported_products_ids
 msgid "Imported Products"
-msgstr "Produtos Importados"
+msgstr "Produtos importados"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__nfe_authorize_accountant_download_xml
@@ -3349,7 +3349,7 @@ msgstr "Inscrição na SUFRAMA (nfe_ISUF)"
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml_products__ncm_internal
 msgid "Internal NCM Code"
-msgstr "Código NCM Interno"
+msgstr "Código NCM interno"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_nfe_import_xml_products__uom_internal
@@ -3370,7 +3370,7 @@ msgstr "Exibição das faturas"
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__is_anonymous_consumer
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__is_anonymous_consumer
 msgid "Is Anonymous Consumer"
-msgstr "É Consumidor Anônimo"
+msgstr "É consumidor anônimo"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_account_move_line__nfe40_cListServ
@@ -3396,7 +3396,7 @@ msgstr "Justificativa da entrada"
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_md_event__write_uid
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_recipient_manifestation_event_wizard__write_uid
 msgid "Last Updated by"
-msgstr "Última Atualização por"
+msgstr "Última atualização por"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_autxml__write_date
@@ -3405,7 +3405,7 @@ msgstr "Última Atualização por"
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_md_event__write_date
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_recipient_manifestation_event_wizard__write_date
 msgid "Last Updated on"
-msgstr "Última Atualização em"
+msgstr "Última atualização em"
 
 #. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.danfe_profile_form
@@ -3724,7 +3724,7 @@ msgstr "Série Padrão da NF-e"
 #. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_res_company_form
 msgid "NF-e Default Settings"
-msgstr "Configurações Padrão da NF-e"
+msgstr "Configurações padrão da NF-e"
 
 #. module: l10n_br_nfe
 #: model:ir.actions.act_window,name:l10n_br_nfe.l10n_br_nfe_recipient_manifestation_event_action
@@ -3744,7 +3744,7 @@ msgstr "NFC-e"
 #. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_res_company_form
 msgid "NFC-e Default Settings"
-msgstr "Configurações Padrão da NFC-e"
+msgstr "Configurações padrão da NFC-e"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__nfce_danfe_layout
@@ -4790,22 +4790,22 @@ msgstr "Descrição do produto"
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml_products__product_id
 msgid "Product Internal Reference"
-msgstr "Referência Interna do Produto"
+msgstr "Referência interna do produto"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml_products__product_name
 msgid "Product Name"
-msgstr "Nome do Produto"
+msgstr "Nome do produto"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml_products__product_supplier_id
 msgid "Product Supplier"
-msgstr "Fornecedor do Produto"
+msgstr "Fornecedor do produto"
 
 #. module: l10n_br_nfe
 #: model:ir.model,name:l10n_br_nfe.model_uom_uom
 msgid "Product Unit of Measure"
-msgstr "Unidade de Medida do Produto"
+msgstr "Unidade de medida do produto"
 
 #. module: l10n_br_nfe
 #: model:ir.model,name:l10n_br_nfe.model_product_product
@@ -5250,7 +5250,7 @@ msgstr "Lista de preços do fornecedor"
 #. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_res_config_settings_form
 msgid "Synchronous Processing"
-msgstr "Processamento Síncrono"
+msgstr "Processamento síncrono"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_guiatransito__nfe40_serieGuia
@@ -5680,7 +5680,7 @@ msgstr "Transmissão"
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__nfe_transmission
 msgid "Transmission Type"
-msgstr "Tipo de Transmissão"
+msgstr "Tipo de transmissão"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_CST
@@ -6731,7 +6731,7 @@ msgstr "Código NCM no XML"
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml_products__product_code
 msgid "XML Product Code"
-msgstr "Código do Produto no XML"
+msgstr "Código do produto no XML"
 
 #. module: l10n_br_nfe
 #. odoo-python
