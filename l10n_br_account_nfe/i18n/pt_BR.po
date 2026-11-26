@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2026-11-26 17:13+0000\n"
+"PO-Revision-Date: 2026-11-26 18:55+0000\n"
 "Last-Translator: Luis Felipe Miléo <mileo@kmee.com.br>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -192,7 +192,7 @@ msgstr ""
 #. module: l10n_br_account_nfe
 #: model:ir.model.fields.selection,name:l10n_br_account_nfe.selection__nfe_40_detpag__nfe40_indPag__1
 msgid "Pagamento à Prazo"
-msgstr "Pagamento à Prazo"
+msgstr "Pagamento a prazo"
 
 #. module: l10n_br_account_nfe
 #: model:ir.model.fields.selection,name:l10n_br_account_nfe.selection__nfe_40_detpag__nfe40_indPag__0
@@ -211,14 +211,14 @@ msgid ""
 "Payment Mode %(mode)s should have a Fiscal Payment Mode filled to be used in "
 "the Fiscal Document!"
 msgstr ""
-"Modo de Pagamento %(mode)s deve ter um Modo de Pagamento Fiscal preenchido "
-"para ser usado no Documento Fiscal!"
+"O modo de pagamento %(mode)s precisa do meio de pagamento da NF preenchido "
+"para ser usado no documento fiscal!"
 
 #. module: l10n_br_account_nfe
 #. odoo-python
 #: code:addons/l10n_br_account_nfe/models/document.py:0
 msgid "Payment Mode cannot be empty for this NF-e/NFC-e"
-msgstr "O Modo de Pagamento não pode estar vazio para esta NF-e/NFC-e"
+msgstr "O modo de pagamento não pode ficar vazio nesta NF-e/NFC-e"
 
 #. module: l10n_br_account_nfe
 #: model:ir.model,name:l10n_br_account_nfe.model_account_payment_mode
@@ -228,12 +228,12 @@ msgstr "Modos de Pagamento"
 #. module: l10n_br_account_nfe
 #: model_terms:account.payment.term,note:l10n_br_account_nfe.account_payment_term_30_60_90
 msgid "Payment terms: 30/60/90"
-msgstr "Condição de pagamento: 30/60/90"
+msgstr "Condições de pagamento: 30/60/90"
 
 #. module: l10n_br_account_nfe
 #: model:ir.model,name:l10n_br_account_nfe.model_ir_actions_report
 msgid "Report Action"
-msgstr "Relatar ação"
+msgstr "Ação de relatório"
 
 #~ msgid "14 - Duplicata Mercanti"
 #~ msgstr "14 - Duplicata Mercanti"
