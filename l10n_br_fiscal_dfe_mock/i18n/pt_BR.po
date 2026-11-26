@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-10-09 23:32+0000\n"
-"PO-Revision-Date: 2026-11-26 17:13+0000\n"
+"PO-Revision-Date: 2026-11-26 18:55+0000\n"
 "Last-Translator: Luis Felipe Miléo <mileo@kmee.com.br>\n"
 "Language-Team: Brazilian Portuguese\n"
 "Language: pt_BR\n"
@@ -107,7 +107,7 @@ msgstr "Desabilitar simulação"
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe_mock.field_dfe_mock_generate_wizard__display_name
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe_mock.field_dfe_mock_nsu__display_name
 msgid "Display Name"
-msgstr "Nome de Exibição"
+msgstr "Nome exibido"
 
 #. module: l10n_br_fiscal_dfe_mock
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe_mock.dfe_mock_generate_wizard_form
@@ -289,12 +289,13 @@ msgstr ""
 #: code:addons/l10n_br_fiscal_dfe_mock/wizards/dfe_mock_generate_wizard.py:0
 msgid "No demo partners found. Install l10n_br_base demo data."
 msgstr ""
-"Nenhum parceiro demo encontrado. Instale os dados demo do l10n_br_base."
+"Nenhum parceiro de demonstração encontrado. Instale os dados de demonstração "
+"do l10n_br_base."
 
 #. module: l10n_br_fiscal_dfe_mock
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal_dfe_mock.dfe_mock_nsu_action
 msgid "No mock NSUs yet"
-msgstr "Nenhum NSU mock ainda"
+msgstr "Nenhum NSU simulado ainda"
 
 #. module: l10n_br_fiscal_dfe_mock
 #. odoo-python
@@ -358,7 +359,7 @@ msgstr "Registrar cancelamento da NFS-e"
 #: model:ir.actions.server,name:l10n_br_fiscal_dfe_mock.action_reset_consumed_multi
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe_mock.dfe_mock_nsu_form
 msgid "Reset Consumed"
-msgstr "Resetar Consumido"
+msgstr "Marcar como não consumido"
 
 #. module: l10n_br_fiscal_dfe_mock
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe_mock.field_dfe_mock_nsu__schema_type
@@ -436,8 +437,8 @@ msgid ""
 "When enabled, DF-e distribution queries are answered from the local mock NSU "
 "pool instead of SEFAZ."
 msgstr ""
-"Quando ativado, as consultas de distribuição DF-e são respondidas pelo pool "
-"local de NSU mock ao invés da SEFAZ."
+"Quando ativado, as consultas à distribuição DF-e são respondidas pelo banco "
+"local de NSU simulados, e não pela SEFAZ."
 
 #. module: l10n_br_fiscal_dfe_mock
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe_mock.dfe_mock_nsu_form
