@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2026-11-26 17:13+0000\n"
+"PO-Revision-Date: 2026-11-26 18:55+0000\n"
 "Last-Translator: Luis Felipe Miléo <mileo@kmee.com.br>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -148,10 +148,11 @@ msgid ""
 "title=\"Values set here are company-specific.\" aria-label=\"Values set here "
 "are company-specific.\" role=\"img\"/>"
 msgstr ""
-"<span class=\"o_form_label\">Layout de Impressão de DANFE</span>\n"
+"<span class=\"o_form_label\">Layout de impressão do DANFE</span>\n"
 "                                <span class=\"fa fa-lg fa-building-o\" "
-"title=\"Valores definidor aqui são específicos da empresa.\" aria-"
-"label=\"Valores definidor aqui são específicos da empresa.\" role=\"img\"/>"
+"title=\"Os valores definidos aqui são específicos de cada empresa.\" aria-"
+"label=\"Os valores definidos aqui são específicos de cada empresa.\" "
+"role=\"img\"/>"
 
 #. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_res_config_settings_form
@@ -237,7 +238,7 @@ msgstr "Ativo"
 #. module: l10n_br_nfe
 #: model_terms:ir.actions.act_window,help:l10n_br_nfe.nfe_document_action
 msgid "Add a new NFe"
-msgstr "Adicionar uma nova NFe"
+msgstr "Adicionar uma nova NF-e"
 
 #. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.danfe_profile_form
@@ -807,7 +808,7 @@ msgstr "CFOP"
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml_products__new_cfop_id
 msgid "Change CFOP"
-msgstr "Mudar CFOP"
+msgstr "Alterar CFOP"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_veicprod__nfe40_chassi
@@ -914,9 +915,9 @@ msgid ""
 "mercadoria sujeita aos regimes de  substituicao tributária e de antecipação "
 "do recolhimento  do imposto"
 msgstr ""
-"Código especificador da Substuicao Tributaria - CEST, que identifica a "
-"mercadoria sujeita aos regimes de  substituicao tributária e de antecipação "
-"do recolhimento  do imposto"
+"Código especificador da substituição tributária - CEST, que identifica a "
+"mercadoria sujeita aos regimes de substituição tributária e de antecipação "
+"do recolhimento do imposto"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice_prod__nfe40_comb
@@ -972,7 +973,7 @@ msgstr "Condição do veículo (1 - acabado; 2 - inacabado; 3 - semi-acabado)"
 #. module: l10n_br_nfe
 #: model:ir.model,name:l10n_br_nfe.model_res_config_settings
 msgid "Config Settings"
-msgstr "Ajustes de Configurações"
+msgstr "Configurações"
 
 #. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.l10n_br_nfe_recipient_manifestation_event_form
@@ -1061,7 +1062,7 @@ msgstr "Contingência off-line da NFC-e"
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_account_move__nfe40_indIEDest
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_indIEDest
 msgid "Contribuinte do ICMS (NFe)"
-msgstr "Contribuinte do ICMS (NFe)"
+msgstr "Contribuinte do ICMS (NF-e)"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_veicprod__nfe40_cCor
@@ -1490,7 +1491,7 @@ msgstr "DANFE NFC-e"
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document__danfe_layout__5
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_company__nfce_danfe_layout__5
 msgid "DANFE NFC-e por email"
-msgstr "DANFE NFC-e por email"
+msgstr "DANFE NFC-e por e-mail"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document__danfe_layout__4
@@ -2013,7 +2014,7 @@ msgstr "Emitida em Contingência"
 #. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_res_company_form
 msgid "Enable Sync Transmission"
-msgstr "Habilitar Transmissão Sincrona"
+msgstr "Habilitar transmissão síncrona"
 
 #. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_res_company_form
@@ -2023,7 +2024,7 @@ msgstr "Habilitar web services de contingência"
 #. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_res_config_settings_form
 msgid "Enables synchronous processing in the transmission of the NFe."
-msgstr "Permite o processamento síncrono na transmissão da NFe."
+msgstr "Permite o processamento síncrono na transmissão da NF-e."
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_xEnder
@@ -2861,8 +2862,7 @@ msgstr "Produtos importados"
 msgid ""
 "Include Accountant Partner data in persons authorized to download NFe XML"
 msgstr ""
-"Incluir dado do Parceiro Contábil nas pessoas autorizadas para fazerem "
-"download do XML da NF-e"
+"Incluir os dados do contador nas pessoas autorizadas a baixar o XML da NF-e"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__nfe_authorize_technical_download_xml
@@ -2871,8 +2871,8 @@ msgid ""
 "Include Technical Support Partner data in persons authorized to download NFe "
 "XML"
 msgstr ""
-"Incluir dado do Suporte Técnico do Parceiro nas pessoas autorizadas para "
-"fazerem download do XML da NF-e"
+"Incluir os dados do suporte técnico nas pessoas autorizadas a baixar o XML "
+"da NF-e"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_procref__nfe40_nProc
@@ -3755,7 +3755,7 @@ msgstr "Layout da NFC-e"
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_tenvinfe__nfe40_NFe
 msgid "NFe"
-msgstr "NFe"
+msgstr "NF-e"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_account_bank_statement_line__nfe_environment
@@ -3781,7 +3781,7 @@ msgstr "Gerente de NF-e"
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_config_settings__nfe_version_name
 msgid "NFe Proc Version"
-msgstr "Versão do Proc da NFe"
+msgstr "Versão do nfeProc"
 
 #. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.view_nfe_recipient_manifestation_event_wizard_form
@@ -3812,7 +3812,7 @@ msgstr "Versão da NF-e"
 #. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.document_import_wizard_form
 msgid "NFe XML Products"
-msgstr "Produtos no XML da NFe"
+msgstr "Produtos no XML da NF-e"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_danfe_profile__name
@@ -4439,7 +4439,7 @@ msgstr "Parceiro adquirente"
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_product_supplierinfo__partner_uom_factor
 msgid "Partner UOM Factor"
-msgstr "Fator de Unidade de Medida do Parceiro"
+msgstr "Fator da unidade de medida do parceiro"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_product_supplierinfo__partner_uom_id
@@ -5343,7 +5343,7 @@ msgstr "Texto com o QR-Code impresso no DANFE NFC-e"
 #: model:ir.model.fields,help:l10n_br_nfe.field_nfe_40_di__nfe40_UFDesemb
 #: model:ir.model.fields,help:l10n_br_nfe.field_nfe_40_di__nfe40_UFTerceiro
 msgid "The state code."
-msgstr "O código de estado."
+msgstr "O código do estado."
 
 #. module: l10n_br_nfe
 #: model:ir.model.constraint,message:l10n_br_nfe.constraint_l10n_br_nfe_autxml_autxml_partner_document_uniq
@@ -5732,7 +5732,7 @@ msgstr "Unidade comercial"
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml_products__uom_conversion_factor
 msgid "UOM Conversion Factor"
-msgstr "Fator de Conversão de Unidade de Medida"
+msgstr "Fator de conversão da unidade de medida"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml_products__uom_trib
@@ -5788,7 +5788,7 @@ msgstr "Não realizada"
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_import_xml_products__uom_internal
 msgid "Uom Internal"
-msgstr "UOM Interno"
+msgstr "Unidade de medida interna"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_res_company__nfe40_xNome
