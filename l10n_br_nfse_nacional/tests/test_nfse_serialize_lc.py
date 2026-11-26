@@ -2,6 +2,8 @@
 # Copyright 2026 KMEE INFORMATICA LTDA
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+import re
+
 from odoo.exceptions import UserError
 
 from .test_nfse_serialize import TestNfseSerialize
@@ -18,15 +20,14 @@ class TestNfseExportLC(TestNfseSerialize):
         ]
         super().setUpClass(nfse_list)
 
+    def _xml(self):
+        """Serializing the document is what declares its service."""
+        return self.nfse_list[0]["nfse"]._serialize([])[0].to_xml()
+
     def test_serialize_xml(self):
         for nfse_data in self.nfse_list:
-            nfse_data[
-                "nfse"
-            ].document_key = "420240420000000000000000007000000000000002"
-            nfse_data["nfse"].document_serie = "00007"
-            nfse_data["nfse"].document_number = "2"
             diff = self.serialize_xml(nfse_data)
-            self.assertEqual(len(diff), 0)
+            self.assertEqual(len(diff), 0, diff)
 
     def test_tot_trib_uses_percent_group(self):
         """Outside Simples Nacional the burden goes in pTotTrib, never indTotTrib.
@@ -34,11 +35,11 @@ class TestNfseExportLC(TestNfseSerialize):
         Informing indTotTrib or pTotTribSN is what the national environment
         rejects with E0713.
         """
-        line = self.nfse_list[0]["nfse"].fiscal_line_ids[0]
-        self.assertFalse(line.nfse10_indTotTrib)
-        self.assertFalse(line.nfse10_pTotTribSN)
-        self.assertTrue(line.nfse10_pTotTrib)
-        self.assertEqual(line.nfse10_pTotTribEst, "0.00")
+        xml = self._xml()
+        self.assertIn("<pTotTrib>", xml)
+        self.assertNotIn("<pTotTribSN>", xml)
+        self.assertNotIn("<indTotTrib>", xml)
+        self.assertNotIn("<vTotTrib", xml)
 
     def test_dps_key_is_composed_from_the_document(self):
         """The DPS key is composed by the module, never typed by hand.
@@ -72,9 +73,25 @@ class TestNfseExportLC(TestNfseSerialize):
         The ADN takes the rate from the municipal parameters and refuses an
         informed rate in cases such as E0625.
         """
-        line = self.nfse_list[0]["nfse"].fiscal_line_ids[0]
-        line.issqn_percent = 2.5
-        self.assertFalse(line.nfse10_pAliq)
+        self.nfse_list[0]["nfse"].fiscal_line_ids.issqn_percent = 2.5
+        xml = self._xml()
+        self.assertIn("<tribMun>", xml)
+        # <pAliq> itself: <pAliqPis> and <pAliqCofins> are tributacaoFederal
+        self.assertIsNone(re.search(r"<pAliq[ >/]", xml))
+
+    def test_empty_groups_are_still_declared(self):
+        """The DPS declares its groups even when they hold no value.
+
+        vDescCondIncond and tribFed are optional in the leiaute, so a
+        stacking algorithm that prunes empty groups drops them: the DPS then
+        differs from the one the ADN produces, and installing l10n_br_nfe
+        next to this module used to be enough to trigger it because both
+        stack on the same l10n_br_fiscal.document model.
+        """
+        xml = self._xml()
+        self.assertIn("<vDescCondIncond", xml)
+        self.assertIn("<tribFed>", xml)
+        self.assertIn("<piscofins>", xml)
 
     def test_dhemi_matches_local_timezone(self):
         nfse = self.nfse_list[0]["nfse"]
