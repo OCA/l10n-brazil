@@ -1,7 +1,6 @@
 # Copyright (C) 2019  Renato Lima - Akretion <renato.lima@akretion.com.br>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-import json
 import logging
 from datetime import timedelta
 
@@ -160,10 +159,11 @@ class DataNcmNbsAbstract(models.AbstractModel):
         today = fields.Date.today()
         data_max = today - timedelta(days=config_date)
 
-        all_records = self.env[self._name].search([])
-
-        not_estimated = all_records.filtered(
-            lambda r: r.product_tmpl_qty > 0 and not r.tax_estimate_ids
+        # product_tmpl_qty is not stored, so it cannot go in the domain
+        not_estimated = (
+            self.env[self._name]
+            .search([("tax_estimate_ids", "=", False)])
+            .filtered(lambda r: r.product_tmpl_qty > 0)
         )
 
         query = f"""
@@ -202,17 +202,13 @@ class DataNcmNbsAbstract(models.AbstractModel):
         )
 
     @api.model
-    def fields_view_get(
-        self, view_id=None, view_type="form", toolbar=False, submenu=False
-    ):
-        res = super().fields_view_get(view_id, view_type, toolbar, submenu)
+    def get_view(self, view_id=None, view_type="form", **options):
+        res = super().get_view(view_id, view_type, **options)
         if view_type == "form":
             xml = etree.XML(res["arch"])
             xml_button = xml.xpath("//button[@name='action_ibpt_inquiry']")
             if xml_button and not self.env.company.ibpt_api:
-                modifiers = json.loads(xml_button[0].get("modifiers", "{}"))
-                modifiers["invisible"] = 1
-                xml_button[0].set("modifiers", json.dumps(modifiers))
+                xml_button[0].set("invisible", "1")
                 res["arch"] = etree.tostring(xml, pretty_print=True)
         if res.get("toolbar") and not self.env.company.ibpt_api:
             res["toolbar"]["action"] = []

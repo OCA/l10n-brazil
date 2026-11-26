@@ -1,8 +1,6 @@
 # Copyright (C) 2019  Renato Lima - Akretion <renato.lima@akretion.com.br>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-import json
-
 from erpbrasil.base import misc
 from lxml import etree
 
@@ -73,9 +71,7 @@ class DataAbstract(models.AbstractModel):
             r.code_unmasked = misc.punctuation_rm(r.code)
 
     @api.model
-    def fields_view_get(
-        self, view_id=None, view_type="form", toolbar=False, submenu=False
-    ):
+    def get_view(self, view_id=None, view_type="form", **options):
         """
         Modify search view architecture to enhance 'code' field filtering.
 
@@ -85,18 +81,17 @@ class DataAbstract(models.AbstractModel):
         record when typing into the 'code' filter in the search panel.
         """
 
-        model_view = super().fields_view_get(view_id, view_type, toolbar, submenu)
+        model_view = super().get_view(view_id, view_type, **options)
 
         if view_type == "search":
             doc = etree.XML(model_view["arch"])
             for node in doc.xpath("//field[@name='code']"):
-                modifiers = json.loads(node.get("modifiers", "{}"))
-                modifiers["filter_domain"] = (
+                node.set(
+                    "filter_domain",
                     "['|', '|', ('code', 'ilike', self), "
                     "('code_unmasked', 'ilike', self + '%'),"
-                    "('name', 'ilike', self + '%')]"
+                    "('name', 'ilike', self + '%')]",
                 )
-                node.set("modifiers", json.dumps(modifiers))
             model_view["arch"] = etree.tostring(doc)
 
         return model_view

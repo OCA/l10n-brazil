@@ -108,7 +108,6 @@ class ResCompany(models.Model):
 
     legal_nature_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.legal.nature",
-        string="Legal Nature",
         compute="_compute_fiscal_address",
         inverse="_inverse_legal_nature_id",
     )
@@ -206,13 +205,11 @@ class ResCompany(models.Model):
 
     ibpt_update_days = fields.Integer(string="IBPT Token Updates", default=15)
 
-    accountant_id = fields.Many2one(comodel_name="res.partner", string="Accountant")
+    accountant_id = fields.Many2one(comodel_name="res.partner")
 
     accounting_office = fields.Many2one(comodel_name="res.partner")
 
-    technical_support_id = fields.Many2one(
-        comodel_name="res.partner", string="Technical Support"
-    )
+    technical_support_id = fields.Many2one(comodel_name="res.partner")
 
     piscofins_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax.pis.cofins",
@@ -312,7 +309,6 @@ class ResCompany(models.Model):
     tax_definition_ids = fields.One2many(
         comodel_name="l10n_br_fiscal.tax.definition",
         inverse_name="company_id",
-        string="Tax Definition",
     )
 
     processador_edoc = fields.Selection(
@@ -631,6 +627,8 @@ class ResCompany(models.Model):
             record.simplified_tax_range_id = annex._get_range(record.annual_revenue)
 
     def _compute_simplified_tax_ids(self):
+        # small taxonomy table, every annex is needed
+        # pylint: disable=no-search-all
         annexes = self.env["l10n_br_fiscal.simplified.tax"].search([])
         for record in self:
             record.simplified_tax_ids = annexes

@@ -542,13 +542,11 @@ class FiscalDocumentLineMixin(models.AbstractModel):
                     "estimate_tax": compute_result.get("estimate_tax", 0.0),
                 }
             )
-            in_draft_mode = line != line._origin
-            if in_draft_mode:
-                line.update(to_update)
-            else:
-                line.write(to_update)
+            line.update(to_update)
 
     def _tax_groups_by_domain(self):
+        # small taxonomy table, the whole set is needed to map the tax domains
+        # pylint: disable=no-search-all
         groups = self.env["l10n_br_fiscal.tax.group"].search([])
         return {group.tax_domain: group for group in groups}
 
@@ -1032,7 +1030,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         details = []
         if company.report_line_classification:
             if self.service_type_id:
-                details.append(self.env._("Service %s") % self.service_type_id.code)
+                details.append(self.env._("Service %s", self.service_type_id.code))
                 if self.nbs_id:
                     details.append(f"NBS {self.nbs_id.code}")
             elif self.ncm_id and (self.ncm_id.code_unmasked or "").strip("0"):
@@ -1051,13 +1049,11 @@ class FiscalDocumentLineMixin(models.AbstractModel):
 
     currency_id = fields.Many2one(
         comodel_name="res.currency",
-        string="Currency",
         compute="_compute_currency_id",
     )
 
     product_id = fields.Many2one(
         comodel_name="product.product",
-        string="Product",
         index=True,
     )
 
@@ -1082,11 +1078,10 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         store=True,
     )
 
-    partner_id = fields.Many2one(comodel_name="res.partner", string="Partner")
+    partner_id = fields.Many2one(comodel_name="res.partner")
 
     company_id = fields.Many2one(
         comodel_name="res.company",
-        string="Company",
     )
 
     ind_final = fields.Selection(
@@ -1348,7 +1343,6 @@ class FiscalDocumentLineMixin(models.AbstractModel):
 
     city_taxation_code_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.city.taxation.code",
-        string="City Taxation Code",
         help=(
             "City Taxation Code for Municipal NFS-e or "
             "ISS Municipal Taxation Code for National NFS-e."
@@ -1371,7 +1365,6 @@ class FiscalDocumentLineMixin(models.AbstractModel):
 
     operation_indicator_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.operation.indicator",
-        string="Operation Indicator",
         compute="_compute_product_fiscal_fields",
         store=True,
         readonly=False,
@@ -2147,7 +2140,6 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     # CBS/IBS Tax Classification
     tax_classification_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax.classification",
-        string="Tax Classification",
         compute="_compute_fiscal_tax_ids",
         store=True,
         precompute=True,
