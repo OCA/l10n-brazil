@@ -13,21 +13,17 @@ class StateTaxNumbers(models.Model):
 
     partner_id = fields.Many2one(
         comodel_name="res.partner",
-        string="Partner",
         ondelete="cascade",
     )
 
     company_id = fields.Many2one(
         comodel_name="res.company",
-        string="Company",
         ondelete="cascade",
     )
 
     l10n_br_ie_code = fields.Char(string="State Tax Number", size=16, required=True)
 
-    state_id = fields.Many2one(
-        comodel_name="res.country.state", string="State", required=True
-    )
+    state_id = fields.Many2one(comodel_name="res.country.state", required=True)
 
     _state_tax_numbers_uniq = models.Constraint(
         "unique (state_id, partner_id)",
