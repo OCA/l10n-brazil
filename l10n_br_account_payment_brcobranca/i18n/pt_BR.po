@@ -6,16 +6,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2024-09-20 20:06+0000\n"
-"Last-Translator: Rodrigo Sottomaior Macedo "
-"<sottomaiormacedotec@sottomaiormacedo.tech>\n"
+"PO-Revision-Date: 2026-11-26 02:46+0000\n"
+"Last-Translator: Luis Felipe Miléo <mileo@kmee.com.br>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.6.2\n"
+"X-Generator: Weblate 2026.11.2\n"
 
 #. module: l10n_br_account_payment_brcobranca
 #: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_journal__return_auto_reconcile
@@ -61,7 +60,7 @@ msgstr "CNAB 400"
 #. module: l10n_br_account_payment_brcobranca
 #: model:ir.model,name:l10n_br_account_payment_brcobranca.model_l10n_br_cnab_config
 msgid "CNAB Config"
-msgstr ""
+msgstr "Configuração CNAB"
 
 #. module: l10n_br_account_payment_brcobranca
 #: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_move_line__cnab_returned_ref
@@ -125,12 +124,14 @@ msgid ""
 "Missing column! Column %(col)s you try to import is not present in the move "
 "line!"
 msgstr ""
+"Coluna ausente! A coluna %(col)s que você tenta importar não existe na linha "
+"do lançamento!"
 
 #. module: l10n_br_account_payment_brcobranca
 #. odoo-python
 #: code:addons/l10n_br_account_payment_brcobranca/models/account_journal.py:0
 msgid "Nothing to import: the file is empty!"
-msgstr ""
+msgstr "Nada a importar: o arquivo está vazio!"
 
 #. module: l10n_br_account_payment_brcobranca
 #: model:ir.model,name:l10n_br_account_payment_brcobranca.model_account_payment_line
@@ -176,6 +177,11 @@ msgid ""
 "Account: %(account)s\n"
 "Detailed line ID: %(aml)s\n"
 msgstr ""
+"A linha da fatura %(name)s já está reconciliada.\n"
+"\n"
+"Fatura: %(invoice)s\n"
+"Conta: %(account)s\n"
+"ID do item de diário: %(aml)s\n"
 
 #. module: l10n_br_account_payment_brcobranca
 #. odoo-python
@@ -184,6 +190,8 @@ msgid ""
 "The lenght of the field 'documento' can't be more than 25 caracters:\n"
 " %(doc)s"
 msgstr ""
+"O campo 'documento' não pode ter mais de 25 caracteres:\n"
+" %(doc)s"
 
 #. module: l10n_br_account_payment_brcobranca
 #. odoo-python
@@ -192,6 +200,8 @@ msgid ""
 "The lenght of the field 'numero' can't be more than 10 caracters:\n"
 " %(num)s"
 msgstr ""
+"O campo 'numero' não pode ter mais de 10 caracteres:\n"
+" %(num)s"
 
 #. module: l10n_br_account_payment_brcobranca
 #: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_journal__import_type
