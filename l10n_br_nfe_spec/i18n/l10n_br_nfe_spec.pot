@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 18.0\n"
+"Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -12,46 +12,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
-
-#. module: l10n_br_nfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_di__nfe40_tpViaTransp__1
-msgid "1 - Maritima"
-msgstr ""
-
-#. module: l10n_br_nfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_di__nfe40_tpIntermedio__1
-msgid "1 - Por conta própria"
-msgstr ""
-
-#. module: l10n_br_nfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_di__nfe40_tpViaTransp__10
-msgid "10 - Entrada/Saída Ficta"
-msgstr ""
-
-#. module: l10n_br_nfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_di__nfe40_tpViaTransp__11
-msgid "11 - Courier"
-msgstr ""
-
-#. module: l10n_br_nfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_di__nfe40_tpViaTransp__12
-msgid "12 - Em mãos"
-msgstr ""
-
-#. module: l10n_br_nfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_di__nfe40_tpViaTransp__13
-msgid "13 - Por reboque"
-msgstr ""
-
-#. module: l10n_br_nfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_di__nfe40_tpViaTransp__2
-msgid "2 - Fluvial"
-msgstr ""
-
-#. module: l10n_br_nfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_di__nfe40_tpIntermedio__2
-msgid "2 - Por conta e ordem"
-msgstr ""
 
 #. module: l10n_br_nfe_spec
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_refecf__nfe40_mod__2b
@@ -66,46 +26,6 @@ msgstr ""
 #. module: l10n_br_nfe_spec
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_refecf__nfe40_mod__2d
 msgid "2D"
-msgstr ""
-
-#. module: l10n_br_nfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_di__nfe40_tpIntermedio__3
-msgid "3 - Encomenda"
-msgstr ""
-
-#. module: l10n_br_nfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_di__nfe40_tpViaTransp__3
-msgid "3 - Lacustre"
-msgstr ""
-
-#. module: l10n_br_nfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_di__nfe40_tpViaTransp__4
-msgid "4 - Aerea"
-msgstr ""
-
-#. module: l10n_br_nfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_di__nfe40_tpViaTransp__5
-msgid "5 - Postal"
-msgstr ""
-
-#. module: l10n_br_nfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_di__nfe40_tpViaTransp__6
-msgid "6 - Ferroviaria"
-msgstr ""
-
-#. module: l10n_br_nfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_di__nfe40_tpViaTransp__7
-msgid "7 - Rodoviaria"
-msgstr ""
-
-#. module: l10n_br_nfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_di__nfe40_tpViaTransp__8
-msgid "8 - Conduto/Rede Transmissão"
-msgstr ""
-
-#. module: l10n_br_nfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_di__nfe40_tpViaTransp__9
-msgid "9 - Meios Próprios"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
@@ -124,8 +44,6 @@ msgid "AAMM da emissão da NF de produtor"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document__nfe40_UFSaidaPais__ac
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document_line__nfe40_UFST__ac
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_avulsa__nfe40_UF__ac
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_comb__nfe40_UFCons__ac
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_detpag__nfe40_UFPag__ac
@@ -143,8 +61,6 @@ msgid "AC"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document__nfe40_UFSaidaPais__al
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document_line__nfe40_UFST__al
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_avulsa__nfe40_UF__al
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_comb__nfe40_UFCons__al
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_detpag__nfe40_UFPag__al
@@ -162,8 +78,6 @@ msgid "AL"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document__nfe40_UFSaidaPais__am
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document_line__nfe40_UFST__am
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_avulsa__nfe40_UF__am
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_comb__nfe40_UFCons__am
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_detpag__nfe40_UFPag__am
@@ -181,8 +95,6 @@ msgid "AM"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document__nfe40_UFSaidaPais__ap
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document_line__nfe40_UFST__ap
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_avulsa__nfe40_UF__ap
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_comb__nfe40_UFCons__ap
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_detpag__nfe40_UFPag__ap
@@ -213,6 +125,11 @@ msgstr ""
 #: model:ir.model,name:l10n_br_nfe_spec.model_nfe_40_adi
 #: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_di__nfe40_adi
 msgid "Adições (NT 2011/004)"
+msgstr ""
+
+#. module: l10n_br_nfe_spec
+#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_di__nfe40_tpViaTransp__4
+msgid "Aerea"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
@@ -563,8 +480,6 @@ msgid "Autorização específica"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document__nfe40_UFSaidaPais__ba
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document_line__nfe40_UFST__ba
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_avulsa__nfe40_UF__ba
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_comb__nfe40_UFCons__ba
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_detpag__nfe40_UFPag__ba
@@ -644,7 +559,6 @@ msgid "Base de Cálculo do ISS"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document_line__nfe40_indBemMovelUsado__1
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_prod__nfe40_indBemMovelUsado__1
 msgid "Bem Móvel Usado"
 msgstr ""
@@ -655,8 +569,6 @@ msgid "Brasil"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document__nfe40_UFSaidaPais__ce
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document_line__nfe40_UFST__ce
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_avulsa__nfe40_UF__ce
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_comb__nfe40_UFCons__ce
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_detpag__nfe40_UFPag__ce
@@ -1138,6 +1050,11 @@ msgid "Condição do veículo (1 - acabado; 2 - inacabado; 3 - semi-acabado)"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
+#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_di__nfe40_tpViaTransp__8
+msgid "Conduto"
+msgstr ""
+
+#. module: l10n_br_nfe_spec
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_ide__nfe40_indFinal__1
 msgid "Consumidor Final)"
 msgstr ""
@@ -1174,19 +1091,16 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_nfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document__nfe40_modFrete__2
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_transp__nfe40_modFrete__2
 msgid "Contratação do Frete por conta de terceiros"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document__nfe40_modFrete__0
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_transp__nfe40_modFrete__0
 msgid "Contratação do Frete por conta do Remetente (CIF)"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document__nfe40_modFrete__1
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_transp__nfe40_modFrete__1
 msgid "Contratação do Frete por conta do destinatário/remetente (FOB)"
 msgstr ""
@@ -1214,6 +1128,11 @@ msgstr ""
 #. module: l10n_br_nfe_spec
 #: model:ir.model.fields,help:l10n_br_nfe_spec.field_nfe_40_veicprod__nfe40_cCor
 msgid "Cor do veículo (código de cada montadora)"
+msgstr ""
+
+#. module: l10n_br_nfe_spec
+#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_di__nfe40_tpViaTransp__11
+msgid "Courier"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
@@ -1279,11 +1198,6 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_nfe_spec.field_nfe_40_ttribnfe__nfe40_gCredPresOper
 msgid ""
 "Crédito Presumido da Operação. Informado conforme indicador no cClassTrib."
-msgstr ""
-
-#. module: l10n_br_nfe_spec
-#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_di__nfe40_UFDesemb
-msgid "Customs Clearance Code"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
@@ -1955,44 +1869,36 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_nfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document__nfe40_tpImp__4
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_ide__nfe40_tpImp__4
 msgid "DANFE NFC-e"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document__nfe40_tpImp__5
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_ide__nfe40_tpImp__5
 msgid "DANFE NFC-e em mensagem eletrônica"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document__nfe40_tpImp__2
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_ide__nfe40_tpImp__2
 msgid "DANFE Paisagem"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document__nfe40_tpImp__1
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_ide__nfe40_tpImp__1
 msgid "DANFE Retrato"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document__nfe40_tpImp__3
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_ide__nfe40_tpImp__3
 msgid "DANFE Simplificado"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document__nfe40_tpImp__6
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_ide__nfe40_tpImp__6
 msgid "DANFE Simplificado Tipo 2 (nas condições do Ajuste SINIEF 13/26)."
 msgstr ""
 
 #. module: l10n_br_nfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document__nfe40_UFSaidaPais__df
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document_line__nfe40_UFST__df
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_avulsa__nfe40_UF__df
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_comb__nfe40_UFCons__df
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_detpag__nfe40_UFPag__df
@@ -2517,13 +2423,196 @@ msgid "Digito Verificador da Chave de Acesso da NF-e"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_adi__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_agropecuario__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_arma__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_autxml__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_avulsa__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_cana__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_card__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_cide__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_cobr__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_cofins__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_cofinsaliq__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_cofinsnt__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_cofinsoutr__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_cofinsqtde__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_cofinsst__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_comb__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_compra__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_deduc__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_defensivo__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_dest__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_det__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_det_obscont__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_det_obsfisco__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_detevento__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_detexport__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_detpag__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_dfereferenciado__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_di__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_dup__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_emit__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_encerrante__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_exporta__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_exportind__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_fat__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_fordia__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_gcbsmonoadrem__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_gcbsmonoadrem_gmonopadrao__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_gcbsmonoadrem_gmonoret__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_gcbsmonoadrem_gmonoreten__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_gcbsmonoadrem_gpbiodiferenca__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_gcbsmonoadvalorem__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_gcbsmonoadvalorem_gmonopadrao__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_gcbsmonoadvalorem_gmonoret__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_gcbsmonoadvalorem_gmonoreten__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_gcbsmonoadvalorem_gpbiodiferenca__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_gcred__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_gibsmonoadrem__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_gibsmonoadrem_gmonopadrao__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_gibsmonoadrem_gmonoret__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_gibsmonoadrem_gmonoreten__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_gibsmonoadrem_gpbiodiferenca__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_gibsmonoadvalorem__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_gibsmonoadvalorem_gmonopadrao__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_gibsmonoadvalorem_gmonoret__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_gibsmonoadvalorem_gmonoreten__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_gibsmonoadvalorem_gpbiodiferenca__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_gmono__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_gpagantecipado__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_guiatransito__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_icms__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_icmspart__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_icmsst__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_icmstot__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_icmsufdest__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_ide__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_ii__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_imposto__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_impostodevol__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_infadic__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_infadic_obscont__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_infadic_obsfisco__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_infcanc__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_infintermed__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_infnfe__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_infnfesupl__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_infpaa__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_infprodemb__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_infprodnff__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_infprot__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_infrec__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_infsolicnff__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_ipi__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_ipint__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_ipitrib__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_issqn__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_issqntot__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_lacres__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_med__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_nfref__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_obsitem__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_origcomb__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_paasignature__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_pag__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_pis__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_pisaliq__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_pisnt__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_pisoutr__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_pisqtde__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_pisst__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_procref__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_prod__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_rastro__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_refecf__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_refnf__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_refnfp__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_rettransp__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_rettrib__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tajustecompet__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_talczfmcbs__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_talczfmcbsnfe__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tcibs__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tcibs_gcbs__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tcibs_gibsmun__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tcibs_gibsuf__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tcibsnfe__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tcibsnfe_gcbs__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tcibsnfe_gibsmun__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tcibsnfe_gibsuf__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tcompragov__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tcompragovreduzido__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tconsrecinfe__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tconssitnfe__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tcredpres__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tcredpresibszfm__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tcredpresoper__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tdevtrib__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tdif__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tendereco__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tenderemi__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tenvinfe__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_testornocred__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tevento__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tevento_infevento__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tibscbsmonotot__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tibscbsmonotot_gcbs__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tibscbsmonotot_gestornocred__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tibscbsmonotot_gibs__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tibscbsmonotot_gibsmun__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tibscbsmonotot_gibsuf__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tibscbstot__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tibscbstot_gcbs__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tibscbstot_gestornocred__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tibscbstot_gibs__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tibscbstot_gibsmun__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tibscbstot_gibsuf__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tinfresptec__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tipi__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tis__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tistot__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tlocal__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tmonofasia__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tnfe__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tnfeproc__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_total__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tpagref__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tprocevento__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tprotnfe__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_transp__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_transporta__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tred__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tretcancnfe__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tretconsrecinfe__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tretconssitnfe__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tretenvinfe__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tretevento__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tretevento_infevento__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_ttransfcred__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_ttribbpe__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_ttribcompragov__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_ttribcte__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_ttribnf3e__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_ttribnfag__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_ttribnfce__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_ttribnfcom__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_ttribnfe__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_ttribnfgas__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_ttribregular__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tveiculo__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_veicprod__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_vol__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_spec_mixin_nfe__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_br_nfe_spec
 #: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_veicprod__nfe40_dist
 msgid "Distância entre eixos"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document__nfe40_UFSaidaPais__es
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document_line__nfe40_UFST__es
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_avulsa__nfe40_UF__es
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_comb__nfe40_UFCons__es
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_detpag__nfe40_UFPag__es
@@ -2541,7 +2630,6 @@ msgid "ES"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document_line__nfe40_UFST__ex
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_comb__nfe40_UFCons__ex
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_icmspart__nfe40_UFST__ex
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_tendereco__nfe40_UF__ex
@@ -2549,6 +2637,11 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_transporta__nfe40_UF__ex
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_tveiculo__nfe40_UF__ex
 msgid "EX"
+msgstr ""
+
+#. module: l10n_br_nfe_spec
+#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_di__nfe40_tpViaTransp__12
+msgid "Em maos"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
@@ -2605,6 +2698,11 @@ msgstr ""
 #. module: l10n_br_nfe_spec
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_ipint__nfe40_CST__01
 msgid "Entrada tributada com alíquota zero"
+msgstr ""
+
+#. module: l10n_br_nfe_spec
+#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_di__nfe40_tpViaTransp__10
+msgid "Entrada/Saida Ficta"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
@@ -2675,7 +2773,6 @@ msgid "Exportação indireta"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document__nfe40_idDest__3
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_ide__nfe40_idDest__3
 msgid "Exterior)"
 msgstr ""
@@ -2683,6 +2780,11 @@ msgstr ""
 #. module: l10n_br_nfe_spec
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_veicprod__nfe40_tpOp__2
 msgid "Faturamento direto"
+msgstr ""
+
+#. module: l10n_br_nfe_spec
+#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_di__nfe40_tpViaTransp__6
+msgid "Ferroviaria"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
@@ -2700,6 +2802,11 @@ msgid ""
 "4 - Devolução/Retorno\n"
 "5 - Nota de crédito\n"
 "6 - Nota de débito"
+msgstr ""
+
+#. module: l10n_br_nfe_spec
+#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_di__nfe40_tpViaTransp__2
+msgid "Fluvial"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
@@ -2763,8 +2870,6 @@ msgid "Fornecimentos diários"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document__nfe40_UFSaidaPais__go
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document_line__nfe40_UFST__go
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_avulsa__nfe40_UF__go
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_comb__nfe40_UFCons__go
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_detpag__nfe40_UFPag__go
@@ -3355,6 +3460,191 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_nfe_spec
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_adi__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_agropecuario__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_arma__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_autxml__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_avulsa__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_cana__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_card__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_cide__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_cobr__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_cofins__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_cofinsaliq__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_cofinsnt__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_cofinsoutr__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_cofinsqtde__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_cofinsst__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_comb__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_compra__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_deduc__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_defensivo__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_dest__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_det__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_det_obscont__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_det_obsfisco__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_detevento__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_detexport__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_detpag__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_dfereferenciado__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_di__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_dup__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_emit__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_encerrante__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_exporta__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_exportind__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_fat__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_fordia__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_gcbsmonoadrem__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_gcbsmonoadrem_gmonopadrao__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_gcbsmonoadrem_gmonoret__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_gcbsmonoadrem_gmonoreten__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_gcbsmonoadrem_gpbiodiferenca__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_gcbsmonoadvalorem__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_gcbsmonoadvalorem_gmonopadrao__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_gcbsmonoadvalorem_gmonoret__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_gcbsmonoadvalorem_gmonoreten__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_gcbsmonoadvalorem_gpbiodiferenca__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_gcred__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_gibsmonoadrem__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_gibsmonoadrem_gmonopadrao__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_gibsmonoadrem_gmonoret__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_gibsmonoadrem_gmonoreten__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_gibsmonoadrem_gpbiodiferenca__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_gibsmonoadvalorem__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_gibsmonoadvalorem_gmonopadrao__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_gibsmonoadvalorem_gmonoret__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_gibsmonoadvalorem_gmonoreten__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_gibsmonoadvalorem_gpbiodiferenca__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_gmono__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_gpagantecipado__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_guiatransito__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_icms__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_icmspart__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_icmsst__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_icmstot__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_icmsufdest__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_ide__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_ii__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_imposto__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_impostodevol__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_infadic__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_infadic_obscont__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_infadic_obsfisco__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_infcanc__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_infintermed__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_infnfe__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_infnfesupl__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_infpaa__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_infprodemb__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_infprodnff__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_infprot__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_infrec__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_infsolicnff__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_ipi__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_ipint__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_ipitrib__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_issqn__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_issqntot__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_lacres__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_med__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_nfref__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_obsitem__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_origcomb__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_paasignature__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_pag__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_pis__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_pisaliq__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_pisnt__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_pisoutr__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_pisqtde__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_pisst__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_procref__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_prod__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_rastro__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_refecf__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_refnf__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_refnfp__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_rettransp__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_rettrib__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tajustecompet__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_talczfmcbs__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_talczfmcbsnfe__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tcibs__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tcibs_gcbs__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tcibs_gibsmun__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tcibs_gibsuf__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tcibsnfe__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tcibsnfe_gcbs__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tcibsnfe_gibsmun__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tcibsnfe_gibsuf__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tcompragov__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tcompragovreduzido__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tconsrecinfe__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tconssitnfe__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tcredpres__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tcredpresibszfm__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tcredpresoper__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tdevtrib__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tdif__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tendereco__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tenderemi__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tenvinfe__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_testornocred__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tevento__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tevento_infevento__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tibscbsmonotot__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tibscbsmonotot_gcbs__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tibscbsmonotot_gestornocred__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tibscbsmonotot_gibs__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tibscbsmonotot_gibsmun__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tibscbsmonotot_gibsuf__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tibscbstot__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tibscbstot_gcbs__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tibscbstot_gestornocred__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tibscbstot_gibs__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tibscbstot_gibsmun__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tibscbstot_gibsuf__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tinfresptec__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tipi__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tis__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tistot__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tlocal__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tmonofasia__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tnfe__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tnfeproc__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_total__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tpagref__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tprocevento__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tprotnfe__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_transp__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_transporta__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tred__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tretcancnfe__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tretconsrecinfe__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tretconssitnfe__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tretenvinfe__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tretevento__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tretevento_infevento__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_ttransfcred__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_ttribbpe__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_ttribcompragov__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_ttribcte__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_ttribnf3e__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_ttribnfag__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_ttribnfce__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_ttribnfcom__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_ttribnfe__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_ttribnfgas__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_ttribregular__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tveiculo__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_veicprod__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_vol__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_spec_mixin_nfe__id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_br_nfe_spec
 #: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_refnfp__nfe40_IE
 msgid "IE do emitente da NF de Produtor"
 msgstr ""
@@ -3605,8 +3895,14 @@ msgid "Indicador"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
-#: model:ir.model.fields,help:l10n_br_nfe_spec.field_nfe_40_detpag__nfe40_indPag
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_detpag__nfe40_indPag
 msgid "Indicador da Forma de Pagamento"
+msgstr ""
+
+#. module: l10n_br_nfe_spec
+#: model:ir.model.fields,help:l10n_br_nfe_spec.field_nfe_40_detpag__nfe40_indPag
+msgid ""
+"Indicador da Forma de Pagamento:0-Pagamento à Vista;1-Pagamento à Prazo;"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
@@ -3631,11 +3927,6 @@ msgstr ""
 #. module: l10n_br_nfe_spec
 #: model:ir.model.fields,help:l10n_br_nfe_spec.field_nfe_40_issqn__nfe40_indIncentivo
 msgid "Indicador de Incentivo Fiscal. 1=Sim; 2=Não"
-msgstr ""
-
-#. module: l10n_br_nfe_spec
-#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_detpag__nfe40_indPag
-msgid "Indicador de Pagamento"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
@@ -4005,13 +4296,11 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_nfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document__nfe40_idDest__2
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_ide__nfe40_idDest__2
 msgid "Interestadual"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document__nfe40_idDest__1
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_ide__nfe40_idDest__1
 msgid "Interna"
 msgstr ""
@@ -4044,6 +4333,11 @@ msgstr ""
 #. module: l10n_br_nfe_spec
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_procref__nfe40_indProc__1
 msgid "Justiça Federal"
+msgstr ""
+
+#. module: l10n_br_nfe_spec
+#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_di__nfe40_tpViaTransp__3
+msgid "Lacustre"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
@@ -4084,8 +4378,6 @@ msgid "Logradouro"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document__nfe40_UFSaidaPais__ma
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document_line__nfe40_UFST__ma
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_avulsa__nfe40_UF__ma
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_comb__nfe40_UFCons__ma
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_detpag__nfe40_UFPag__ma
@@ -4103,8 +4395,6 @@ msgid "MA"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document__nfe40_UFSaidaPais__mg
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document_line__nfe40_UFST__mg
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_avulsa__nfe40_UF__mg
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_comb__nfe40_UFCons__mg
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_detpag__nfe40_UFPag__mg
@@ -4122,8 +4412,6 @@ msgid "MG"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document__nfe40_UFSaidaPais__ms
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document_line__nfe40_UFST__ms
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_avulsa__nfe40_UF__ms
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_comb__nfe40_UFCons__ms
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_detpag__nfe40_UFPag__ms
@@ -4141,8 +4429,6 @@ msgid "MS"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document__nfe40_UFSaidaPais__mt
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document_line__nfe40_UFST__mt
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_avulsa__nfe40_UF__mt
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_comb__nfe40_UFCons__mt
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_detpag__nfe40_UFPag__mt
@@ -4171,8 +4457,18 @@ msgid "Margem Valor Agregado (%)"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
+#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_di__nfe40_tpViaTransp__1
+msgid "Maritima"
+msgstr ""
+
+#. module: l10n_br_nfe_spec
 #: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_avulsa__nfe40_matr
 msgid "Matrícula do agente"
+msgstr ""
+
+#. module: l10n_br_nfe_spec
+#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_di__nfe40_tpViaTransp__9
+msgid "Meios Proprios"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
@@ -4443,7 +4739,6 @@ msgid "Mês e Ano de Referência, formato: MM/AAAA"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document_line__nfe40_indEscala__n
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_prod__nfe40_indEscala__n
 msgid "N"
 msgstr ""
@@ -5204,7 +5499,6 @@ msgid "Outras saídas"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document_line__nfe40_motDesICMS__9
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_icmspart__nfe40_motDesICMS__9
 msgid "Outros"
 msgstr ""
@@ -5215,15 +5509,12 @@ msgid "Outros)"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document_line__nfe40_CST__90
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_icmspart__nfe40_CST__90
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_procref__nfe40_indProc__9
 msgid "Outros."
 msgstr ""
 
 #. module: l10n_br_nfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document__nfe40_UFSaidaPais__pa
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document_line__nfe40_UFST__pa
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_avulsa__nfe40_UF__pa
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_comb__nfe40_UFCons__pa
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_detpag__nfe40_UFPag__pa
@@ -5241,8 +5532,6 @@ msgid "PA"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document__nfe40_UFSaidaPais__pb
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document_line__nfe40_UFST__pb
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_avulsa__nfe40_UF__pb
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_comb__nfe40_UFCons__pb
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_detpag__nfe40_UFPag__pb
@@ -5260,8 +5549,6 @@ msgid "PB"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document__nfe40_UFSaidaPais__pe
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document_line__nfe40_UFST__pe
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_avulsa__nfe40_UF__pe
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_comb__nfe40_UFCons__pe
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_detpag__nfe40_UFPag__pe
@@ -5279,8 +5566,6 @@ msgid "PE"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document__nfe40_UFSaidaPais__pi
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document_line__nfe40_UFST__pi
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_avulsa__nfe40_UF__pi
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_comb__nfe40_UFCons__pi
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_detpag__nfe40_UFPag__pi
@@ -5318,8 +5603,6 @@ msgid "PL_005d - 11/08/09 - validação do Id"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document__nfe40_UFSaidaPais__pr
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document_line__nfe40_UFST__pr
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_avulsa__nfe40_UF__pr
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_comb__nfe40_UFCons__pr
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_detpag__nfe40_UFPag__pr
@@ -5668,6 +5951,16 @@ msgid "Placa do veículo (NT2011/004)"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
+#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_di__nfe40_tpViaTransp__13
+msgid "Por reboque."
+msgstr ""
+
+#. module: l10n_br_nfe_spec
+#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_di__nfe40_tpViaTransp__5
+msgid "Postal"
+msgstr ""
+
+#. module: l10n_br_nfe_spec
 #: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_veicprod__nfe40_pot
 msgid "Potência máxima do motor do veículo"
 msgstr ""
@@ -5914,8 +6207,6 @@ msgid "Quantidade tributada sujeita à retenção na monofasia"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document__nfe40_UFSaidaPais__rj
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document_line__nfe40_UFST__rj
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_avulsa__nfe40_UF__rj
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_comb__nfe40_UFCons__rj
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_detpag__nfe40_UFPag__rj
@@ -5933,8 +6224,6 @@ msgid "RJ"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document__nfe40_UFSaidaPais__rn
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document_line__nfe40_UFST__rn
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_avulsa__nfe40_UF__rn
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_comb__nfe40_UFCons__rn
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_detpag__nfe40_UFPag__rn
@@ -5952,8 +6241,6 @@ msgid "RN"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document__nfe40_UFSaidaPais__ro
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document_line__nfe40_UFST__ro
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_avulsa__nfe40_UF__ro
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_comb__nfe40_UFCons__ro
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_detpag__nfe40_UFPag__ro
@@ -5971,8 +6258,6 @@ msgid "RO"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document__nfe40_UFSaidaPais__rr
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document_line__nfe40_UFST__rr
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_avulsa__nfe40_UF__rr
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_comb__nfe40_UFCons__rr
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_detpag__nfe40_UFPag__rr
@@ -5990,8 +6275,6 @@ msgid "RR"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document__nfe40_UFSaidaPais__rs
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document_line__nfe40_UFST__rs
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_avulsa__nfe40_UF__rs
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_comb__nfe40_UFCons__rs
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_detpag__nfe40_UFPag__rs
@@ -6034,7 +6317,6 @@ msgid "Razão Social ou nome do transportador"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document_line__nfe40_CST__20
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_icmspart__nfe40_CST__20
 msgid "Redução de base de cálculo"
 msgstr ""
@@ -6127,14 +6409,16 @@ msgid "Retenção de Tributos Federais"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document_line__nfe40_indEscala__s
+#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_di__nfe40_tpViaTransp__7
+msgid "Rodoviaria"
+msgstr ""
+
+#. module: l10n_br_nfe_spec
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_prod__nfe40_indEscala__s
 msgid "S"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document__nfe40_UFSaidaPais__sc
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document_line__nfe40_UFST__sc
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_avulsa__nfe40_UF__sc
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_comb__nfe40_UFCons__sc
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_detpag__nfe40_UFPag__sc
@@ -6152,8 +6436,6 @@ msgid "SC"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document__nfe40_UFSaidaPais__se
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document_line__nfe40_UFST__se
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_avulsa__nfe40_UF__se
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_comb__nfe40_UFCons__se
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_detpag__nfe40_UFPag__se
@@ -6176,8 +6458,6 @@ msgid "SEFAZ"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document__nfe40_UFSaidaPais__sp
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document_line__nfe40_UFST__sp
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_avulsa__nfe40_UF__sp
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_comb__nfe40_UFCons__sp
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_detpag__nfe40_UFPag__sp
@@ -6230,13 +6510,11 @@ msgid "Secex/RFB"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document__nfe40_tpImp__0
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_ide__nfe40_tpImp__0
 msgid "Sem DANFE"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document__nfe40_modFrete__9
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_transp__nfe40_modFrete__9
 msgid "Sem Ocorrência de transporte."
 msgstr ""
@@ -6294,6 +6572,16 @@ msgid "Sigla da UF de Embarque ou de transposição de fronteira"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_di__nfe40_UFTerceiro
+msgid "Sigla da UF do adquirente"
+msgstr ""
+
+#. module: l10n_br_nfe_spec
+#: model:ir.model.fields,help:l10n_br_nfe_spec.field_nfe_40_di__nfe40_UFTerceiro
+msgid "Sigla da UF do adquirente ou do encomendante"
+msgstr ""
+
+#. module: l10n_br_nfe_spec
 #: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_icmspart__nfe40_UFST
 msgid "Sigla da UF para qual é devido o ICMS ST"
 msgstr ""
@@ -6334,11 +6622,6 @@ msgid "Solicitação do pedido de emissão da NFF"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
-#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_di__nfe40_UFTerceiro
-msgid "State Code"
-msgstr ""
-
-#. module: l10n_br_nfe_spec
 #: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_guiatransito__nfe40_serieGuia
 msgid "Série da Guia"
 msgstr ""
@@ -6361,8 +6644,6 @@ msgid "Série do Documento Fiscal, informar zero se inexistentesérie"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document__nfe40_UFSaidaPais__to
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document_line__nfe40_UFST__to
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_avulsa__nfe40_UF__to
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_comb__nfe40_UFCons__to
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_detpag__nfe40_UFPag__to
@@ -6423,12 +6704,6 @@ msgstr ""
 #. module: l10n_br_nfe_spec
 #: model:ir.model.fields,help:l10n_br_nfe_spec.field_nfe_40_infnfesupl__nfe40_qrCode
 msgid "Texto com o QR-Code impresso no DANFE NFC-e"
-msgstr ""
-
-#. module: l10n_br_nfe_spec
-#: model:ir.model.fields,help:l10n_br_nfe_spec.field_nfe_40_di__nfe40_UFDesemb
-#: model:ir.model.fields,help:l10n_br_nfe_spec.field_nfe_40_di__nfe40_UFTerceiro
-msgid "The state code."
 msgstr ""
 
 #. module: l10n_br_nfe_spec
@@ -6916,19 +7191,16 @@ msgid "Totalização do estorno de crédito"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document__nfe40_modFrete__4
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_transp__nfe40_modFrete__4
 msgid "Transporte próprio por conta do destinatário"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document__nfe40_modFrete__3
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_transp__nfe40_modFrete__3
 msgid "Transporte próprio por conta do remetente"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document_line__nfe40_CST__10
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_icmspart__nfe40_CST__10
 msgid "Tributada e com cobrança do ICMS por substituição tributária"
 msgstr ""
@@ -6986,6 +7258,11 @@ msgstr ""
 msgid ""
 "UF do CNPJ do estabelecimento onde o pagamento foi "
 "processado/transacionado/recebido."
+msgstr ""
+
+#. module: l10n_br_nfe_spec
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_di__nfe40_UFDesemb
+msgid "UF onde ocorreu o desembaraço aduaneiro"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
@@ -8308,7 +8585,11 @@ msgid "email do destinatário"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document__nfe40_tpNF__0
+#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_di__nfe40_tpIntermedio__3
+msgid "encomenda"
+msgstr ""
+
+#. module: l10n_br_nfe_spec
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_ide__nfe40_tpNF__0
 msgid "entrada"
 msgstr ""
@@ -8457,7 +8738,6 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_nfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document_line__nfe40_indTot__0
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_prod__nfe40_indTot__0
 msgid "o valor do item (vProd) não compõe o valor total da NF-e (vProd)"
 msgstr ""
@@ -8514,6 +8794,16 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_nfe_spec
+#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_di__nfe40_tpIntermedio__2
+msgid "por conta e ordem"
+msgstr ""
+
+#. module: l10n_br_nfe_spec
+#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_di__nfe40_tpIntermedio__1
+msgid "por conta propria"
+msgstr ""
+
+#. module: l10n_br_nfe_spec
 #: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tnfeproc__nfe40_protNFe
 msgid "protNFe"
 msgstr ""
@@ -8546,7 +8836,6 @@ msgid "retEvento"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
-#: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__l10n_br_fiscal_document__nfe40_tpNF__1
 #: model:ir.model.fields.selection,name:l10n_br_nfe_spec.selection__nfe_40_ide__nfe40_tpNF__1
 msgid "saída)"
 msgstr ""
