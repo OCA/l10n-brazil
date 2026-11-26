@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2026-11-25 23:46+0000\n"
+"PO-Revision-Date: 2026-11-26 18:55+0000\n"
 "Last-Translator: Luis Felipe Miléo <mileo@kmee.com.br>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -424,14 +424,14 @@ msgstr ""
 #. module: l10n_br_nfse_nacional
 #: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_obra
 msgid "Grupo de informações do DPS relativas (nfse_obra)"
-msgstr ""
+msgstr "Grupo de informações do DPS relativas (nfse_obra)"
 
 #. module: l10n_br_nfse_nacional
 #: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_account_bank_statement_line__nfse10_prest
 #: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_account_move__nfse10_prest
 #: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_prest
 msgid "Grupo de informações do DPS relativas (nfse_prest)"
-msgstr ""
+msgstr "Grupo de informações do DPS relativas (nfse_prest)"
 
 #. module: l10n_br_nfse_nacional
 #: model:ir.model.fields,help:l10n_br_nfse_nacional.field_account_bank_statement_line__nfse10_interm
