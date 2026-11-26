@@ -412,6 +412,7 @@ msgstr ""
 
 #. module: l10n_br_fiscal_fci
 #: model:ir.model.fields,help:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_file__message_has_error
+#: model:ir.model.fields,help:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_file__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
 msgstr ""
 
@@ -706,6 +707,11 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_br_fiscal_fci/wizards/fci_import_wizard.py:0
 msgid "Return file of the FCI %s imported."
+msgstr ""
+
+#. module: l10n_br_fiscal_fci
+#: model:ir.model.fields,field_description:l10n_br_fiscal_fci.field_l10n_br_fiscal_fci_file__message_has_sms_error
+msgid "SMS Delivery error"
 msgstr ""
 
 #. module: l10n_br_fiscal_fci
