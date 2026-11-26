@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2026-11-25 23:46+0000\n"
+"PO-Revision-Date: 2026-11-26 17:13+0000\n"
 "Last-Translator: Luis Felipe Miléo <mileo@kmee.com.br>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -576,7 +576,7 @@ msgstr "Cooperativa"
 #. module: l10n_br_nfse
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_res_company__cultural_sponsor
 msgid "Cultural Sponsor"
-msgstr "Incentivador Cultural"
+msgstr "Incentivador cultural"
 
 #. module: l10n_br_nfse
 #: model:ir.model.fields.selection,name:l10n_br_nfse.selection__l10n_br_fiscal_document__rps_type__3
@@ -1078,7 +1078,7 @@ msgstr "Mixin base de assistente fiscal"
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_product_product__fiscal_deductions_value
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_product_template__fiscal_deductions_value
 msgid "Fiscal Deductions"
-msgstr "Deduções Fiscais"
+msgstr "Deduções fiscais"
 
 #. module: l10n_br_nfse
 #: model:ir.model,name:l10n_br_nfse.model_l10n_br_fiscal_document
@@ -1088,12 +1088,12 @@ msgstr "Documento Fiscal"
 #. module: l10n_br_nfse
 #: model:ir.model,name:l10n_br_nfse.model_l10n_br_fiscal_document_line
 msgid "Fiscal Document Line"
-msgstr "Linha do Documento Fiscal"
+msgstr "Linha do documento fiscal"
 
 #. module: l10n_br_nfse
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse.nfse_res_company_form
 msgid "General Settings"
-msgstr "Configurações Gerais"
+msgstr "Configurações gerais"
 
 #. module: l10n_br_nfse
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtcvaloresibscbs__nfse10_uf
@@ -1715,7 +1715,7 @@ msgstr ""
 #. module: l10n_br_nfse
 #: model:ir.model.fields.selection,name:l10n_br_nfse.selection__l10n_br_fiscal_document__taxation_special_regime__1
 msgid "Microempresa Municipal"
-msgstr "Microempresa Municipal"
+msgstr "Microempresa municipal"
 
 #. module: l10n_br_nfse
 #: model:ir.model.fields.selection,name:l10n_br_nfse.selection__l10n_br_fiscal_document__taxation_special_regime__5
@@ -1930,7 +1930,7 @@ msgstr "Nome da localidade de incidência do IBS/CBS"
 #. module: l10n_br_nfse
 #: model:ir.actions.report,name:l10n_br_nfse.report_br_nfse_danfe
 msgid "Nota de Serviço"
-msgstr "Nota de Serviço"
+msgstr "Nota de serviço"
 
 #. module: l10n_br_nfse
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tccomexterior__nfse10_nDI
@@ -2204,7 +2204,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_account_move__operation_nature
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_l10n_br_fiscal_document__operation_nature
 msgid "Operation Nature"
-msgstr "Natureza da Operação"
+msgstr "Natureza da operação"
 
 #. module: l10n_br_nfse
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcexigsuspensa__nfse10_tpSusp
@@ -2226,7 +2226,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_account_move_line__other_retentions_value
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_l10n_br_fiscal_document_line__other_retentions_value
 msgid "Other Retentions"
-msgstr "Outras Retenções"
+msgstr "Outras retenções"
 
 #. module: l10n_br_nfse
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
@@ -2366,7 +2366,7 @@ msgstr "RECIBO PROVISÓRIO DE SERVIÇOS - RPS"
 #. module: l10n_br_nfse
 #: model:ir.model.fields.selection,name:l10n_br_nfse.selection__l10n_br_fiscal_document__rps_type__2
 msgid "RPS Nota Fiscal Conjugada (Mista)"
-msgstr "RPS Nota Fiscal Conjugada (Mista)"
+msgstr "RPS nota fiscal conjugada (mista)"
 
 #. module: l10n_br_nfse
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_account_bank_statement_line__rps_number
@@ -2378,7 +2378,7 @@ msgstr "Número do RPS"
 #. module: l10n_br_nfse
 #: model:ir.model.fields.selection,name:l10n_br_nfse.selection__l10n_br_fiscal_document__rps_type__1
 msgid "Recibo provisório de Serviços"
-msgstr "Recibo provisório de Serviços"
+msgstr "Recibo provisório de serviços"
 
 #. module: l10n_br_nfse
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_l10n_br_fiscal_base_wizard_mixin__rps_number
@@ -2395,7 +2395,7 @@ msgstr "Número do RPS"
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_account_move__rps_type
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_l10n_br_fiscal_document__rps_type
 msgid "Rps Type"
-msgstr "Tipo de Rps"
+msgstr "Tipo de RPS"
 
 #. module: l10n_br_nfse
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
@@ -2415,7 +2415,7 @@ msgstr "Sigla da unidade da federação do município do endereço do emitente."
 #. module: l10n_br_nfse
 #: model:ir.model.fields.selection,name:l10n_br_nfse.selection__l10n_br_fiscal_document__taxation_special_regime__3
 msgid "Sociedade de Profissionais"
-msgstr "Sociedade de Profissionais"
+msgstr "Sociedade de profissionais"
 
 #. module: l10n_br_nfse
 #: model:ir.model,name:l10n_br_nfse.model_nfse_10_tcatvevento
@@ -3348,7 +3348,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_account_move__verify_code
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_l10n_br_fiscal_document__verify_code
 msgid "Verify Code"
-msgstr "Código de Verificação"
+msgstr "Código de verificação"
 
 #. module: l10n_br_nfse
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcinfnfse__nfse10_verAplic
