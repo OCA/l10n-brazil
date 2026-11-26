@@ -234,5 +234,6 @@ class TestCbsPayments(TransactionCase):
     def test_daily_cron_opens_every_service(self):
         with patch(f"{PERIOD_CLASS}._create_request", return_value=True) as created:
             self.request_model._cron_request_daily()
-        services = [call.args[1] for call in created.call_args_list]
+        # The patched method is a mock, so the recordset is not bound as args[0].
+        services = [call.args[-1] for call in created.call_args_list]
         self.assertEqual(services, ["debits", "credits", "payments", "withholdings"])
