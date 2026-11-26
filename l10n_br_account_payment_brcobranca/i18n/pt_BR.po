@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2026-11-26 17:13+0000\n"
+"PO-Revision-Date: 2026-11-26 18:55+0000\n"
 "Last-Translator: Luis Felipe Miléo <mileo@kmee.com.br>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -19,7 +19,7 @@ msgstr ""
 #. module: l10n_br_account_payment_brcobranca
 #: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_journal__return_auto_reconcile
 msgid "Automatic Reconcile payment returns"
-msgstr "Reconciliar automaticamente as devoluções de pagamento"
+msgstr "Reconciliar automaticamente os retornos de pagamento"
 
 #. module: l10n_br_account_payment_brcobranca
 #. odoo-python
@@ -65,21 +65,19 @@ msgstr "Configuração CNAB"
 #. module: l10n_br_account_payment_brcobranca
 #: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_move_line__cnab_returned_ref
 msgid "CNAB Returned Reference"
-msgstr "Referência Retornada CNAB"
+msgstr "Referência do retorno do CNAB"
 
 #. module: l10n_br_account_payment_brcobranca
 #: model:ir.model.fields,help:l10n_br_account_payment_brcobranca.field_account_journal__import_type
 msgid ""
 "Choose here the method by which you want to import account moves for this "
 "journal."
-msgstr ""
-"Escolha aqui o método pelo qual você deseja importar lançamentos de diário "
-"para este diário."
+msgstr "Escolha o método de importação dos lançamentos contábeis deste diário."
 
 #. module: l10n_br_account_payment_brcobranca
 #: model:ir.model.fields,help:l10n_br_account_payment_brcobranca.field_account_journal__return_auto_reconcile
 msgid "Enable automatic payment return reconciliation."
-msgstr "Habilitar reconciliação do retorno de pagamento automático."
+msgstr "Habilita a reconciliação automática do retorno de pagamento."
 
 #. module: l10n_br_account_payment_brcobranca
 #: model:ir.ui.menu,name:l10n_br_account_payment_brcobranca.move_importer_menu_brcobranca
@@ -89,7 +87,7 @@ msgstr "Importar arquivo de lote"
 #. module: l10n_br_account_payment_brcobranca
 #: model:ir.model,name:l10n_br_account_payment_brcobranca.model_credit_statement_import
 msgid "Import Batch File wizard"
-msgstr "Importar Arquivo de Lote wizard"
+msgstr "Assistente de importação de arquivo de lote"
 
 #. module: l10n_br_account_payment_brcobranca
 #. odoo-python
@@ -98,9 +96,9 @@ msgid ""
 "It is not possible generated boletos\n"
 "Make sure the Invoice are in Confirm state and Payment Mode method are CNAB."
 msgstr ""
-"Não é possível gerar boletos\n"
-"Esteja certo de que as Faturas estejam no estado Confirmado e Método do Modo "
-"de Pagamento sejam CNAB."
+"Não é possível gerar os boletos\n"
+"Confira se as faturas estão lançadas e se o modo de pagamento usa o método "
+"CNAB."
 
 #. module: l10n_br_account_payment_brcobranca
 #: model:ir.model,name:l10n_br_account_payment_brcobranca.model_account_journal
@@ -147,15 +145,14 @@ msgstr "Ordem de Pagamento"
 #. odoo-python
 #: code:addons/l10n_br_account_payment_brcobranca/models/account_journal.py:0
 msgid "Statement import error The statement cannot be created: %(st)s"
-msgstr ""
-"Erro de importação de declaração A declaração não pode ser criada: %(st)s"
+msgstr "Erro na importação do extrato. O extrato não pode ser criado: %(st)s"
 
 #. module: l10n_br_account_payment_brcobranca
 #. odoo-python
 #: code:addons/l10n_br_account_payment_brcobranca/constants/br_cobranca.py:0
 msgid "The Bank %(bank)s CNAB %(cnab_code)s is not implemented in BRCobranca."
 msgstr ""
-"O Banco %(bank)s CNAB %(cnab_code)s não está implementada em BRCobranca."
+"O CNAB %(cnab_code)s do banco %(bank)s não está implementado no BRCobranca."
 
 #. module: l10n_br_account_payment_brcobranca
 #. odoo-python
@@ -164,7 +161,7 @@ msgid ""
 "The CNAB %(cnab_type)s for Bank %(bank_name)s are not implemented in "
 "BRCobranca."
 msgstr ""
-"O CNAB %(cnab_type)s para Banco %(bank_name)s não são implementadas em "
+"O CNAB %(cnab_type)s do banco %(bank_name)s não está implementado no "
 "BRCobranca."
 
 #. module: l10n_br_account_payment_brcobranca
