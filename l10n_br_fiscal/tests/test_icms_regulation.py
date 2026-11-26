@@ -1,7 +1,9 @@
 # Copyright 2019 Akretion - Renato Lima <renato.lima@akretion.com.br>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from odoo import Command
+from datetime import timedelta
+
+from odoo import Command, fields
 from odoo.tests import TransactionCase, tagged
 
 from ..constants.fiscal import FINAL_CUSTOMER_NO, FINAL_CUSTOMER_YES, TAX_DOMAIN_ICMS
@@ -118,6 +120,61 @@ class TestICMSRegulation(TransactionCase):
             ind_final=FINAL_CUSTOMER_NO,
         )
         self.assertEqual(tax_icms.percent_amount, 12.00)
+
+    def test_icms_sc_sc_ind_final_yes_ncm_specific_expired_falls_back(self):
+        """A tax definition whose validity has already ended must not be
+        selected by the ICMS mapping domain (default reference_date=now()),
+        even though it otherwise matches state/NCM/ind_final; the generic
+        definition must be used instead."""
+        definition = self._create_ncm_specific_ind_final_yes_definition()
+        definition.date_end = fields.Datetime.now() - timedelta(days=1)
+
+        tax_icms = self.find_icms_tax(
+            in_state_id=self.sc_state_id,
+            out_state_id=self.sc_state_id,
+            ncm_id=self.ncm_test_id,
+            ind_final=FINAL_CUSTOMER_YES,
+        )
+        self.assertEqual(tax_icms.percent_amount, 17.00)
+
+    def test_icms_sc_sc_ind_final_yes_ncm_specific_not_yet_valid_falls_back(self):
+        """A tax definition whose validity has not started yet must not be
+        selected by the ICMS mapping domain (default reference_date=now())."""
+        definition = self._create_ncm_specific_ind_final_yes_definition()
+        definition.date_start = fields.Datetime.now() + timedelta(days=1)
+
+        tax_icms = self.find_icms_tax(
+            in_state_id=self.sc_state_id,
+            out_state_id=self.sc_state_id,
+            ncm_id=self.ncm_test_id,
+            ind_final=FINAL_CUSTOMER_YES,
+        )
+        self.assertEqual(tax_icms.percent_amount, 17.00)
+
+    def test_icms_sc_sc_ind_final_yes_ncm_specific_reference_date_in_window(self):
+        """Passing an explicit reference_date inside the tax definition's
+        validity window must select it, even though it is not valid "now"."""
+        definition = self._create_ncm_specific_ind_final_yes_definition()
+        definition.date_start = fields.Datetime.now() + timedelta(days=10)
+        definition.date_end = fields.Datetime.now() + timedelta(days=20)
+
+        self.partner.state_id = self.sc_state_id
+        self.company.partner_id.l10n_br_ie_code = False
+        self.company.l10n_br_ie_code = False
+        self.company.state_id = self.sc_state_id
+        self.product.ncm_id = self.ncm_test_id
+
+        tax_icms, _ = self.icms_regulation.map_tax(
+            company=self.company,
+            partner=self.partner,
+            product=self.product,
+            nbm=self.nbm,
+            operation_line=self.venda_operation_line_id,
+            ind_final=FINAL_CUSTOMER_YES,
+            reference_date=definition.date_start + timedelta(days=1),
+        )
+        tax_icms = tax_icms.filtered(lambda t: t.tax_domain == TAX_DOMAIN_ICMS)
+        self.assertEqual(tax_icms.percent_amount, 18.00)
 
     def test_map_tax_def_icmsst_true(self):
         self.company.state_id = self.sp_state_id
