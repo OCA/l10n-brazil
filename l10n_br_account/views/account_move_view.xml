@@ -21,6 +21,13 @@
                 >['|','|','|', '|', ('document_number','ilike',self), ('name','ilike',self), ('invoice_origin','ilike',self), ('ref', 'ilike', self), ('partner_id', 'child_of', self)]</attribute>
                 <attribute name="string">Account Number</attribute>
             </field>
+            <filter name="posted" position="after">
+                <filter
+                    name="cancelled_fiscal_document"
+                    string="Cancelled fiscal document"
+                    domain="[('state', '=', 'posted'), ('state_edoc', '=', 'cancelada'), ('imported_document', '=', True)]"
+                />
+            </filter>
         </field>
     </record>
 
@@ -48,6 +55,20 @@
                     display="always"
                 />
             </xpath>
+            <field name="status_in_payment" position="before">
+                <field name="fiscal_document_id" column_invisible="True" />
+                <field name="state_edoc" column_invisible="True" />
+                <field
+                    name="fiscal_document_status"
+                    widget="badge"
+                    optional="show"
+                    invisible="not fiscal_document_id"
+                    decoration-danger="state_edoc in ('cancelada', 'denegada', 'rejeitada')"
+                    decoration-warning="state_edoc in ('a_enviar', 'enviada')"
+                    decoration-success="state_edoc == 'autorizada'"
+                    decoration-muted="state_edoc in ('em_digitacao', 'inutilizada')"
+                />
+            </field>
         </field>
     </record>
 
@@ -59,6 +80,17 @@
         <field name="inherit_id" ref="account.view_move_form" />
         <field name="priority">200</field>
         <field name="arch" type="xml">
+            <xpath expr="//header" position="after">
+                <field name="state_edoc" invisible="1" />
+                <field name="imported_document" invisible="1" />
+                <div
+                    class="alert alert-warning"
+                    role="alert"
+                    invisible="state != 'posted' or state_edoc != 'cancelada' or not imported_document or issuer != 'partner'"
+                >
+                    The fiscal document was cancelled at the source. Check this bill and decide how to handle it.
+                </div>
+            </xpath>
             <div name="button_box" position="inside">
                 <button
                     name="open_fiscal_document"
