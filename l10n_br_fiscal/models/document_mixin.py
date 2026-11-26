@@ -193,7 +193,7 @@ class FiscalDocumentMixin(models.AbstractModel):
                 names = ", ".join(name for name, _amount in withheld)
                 rows.append(
                     (
-                        self.env._("(-) Withholdings (%s)") % names,
+                        self.env._("(-) Withholdings (%s)", names),
                         sum(amount for _name, amount in withheld),
                         False,
                     )
@@ -429,7 +429,6 @@ class FiscalDocumentMixin(models.AbstractModel):
     #
     company_id = fields.Many2one(
         comodel_name="res.company",
-        string="Company",
     )
 
     partner_id = fields.Many2one(
@@ -475,7 +474,6 @@ class FiscalDocumentMixin(models.AbstractModel):
 
     currency_id = fields.Many2one(
         comodel_name="res.currency",
-        string="Currency",
     )
 
     amount_price_gross = fields.Monetary(

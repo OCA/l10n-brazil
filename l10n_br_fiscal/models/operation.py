@@ -1,7 +1,7 @@
 # Copyright (C) 2013  Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import fields, models
+from odoo import api, fields, models
 from odoo.exceptions import UserError
 
 from ..constants.fiscal import (
@@ -134,7 +134,6 @@ class Operation(models.Model):
 
     company_id = fields.Many2one(
         comodel_name="res.company",
-        string="Company",
         readonly=True,
         tracking=True,
     )
@@ -166,7 +165,6 @@ class Operation(models.Model):
     comment_ids = fields.Many2many(
         comodel_name="l10n_br_fiscal.comment",
         domain=[("object", "=", FISCAL_COMMENT_DOCUMENT)],
-        string="Comment",
     )
 
     _fiscal_operation_code_uniq = models.Constraint(
@@ -186,13 +184,13 @@ class Operation(models.Model):
         self.write({"state": "draft"})
         self.line_ids.write({"state": "draft"})
 
-    def unlink(self):
+    @api.ondelete(at_uninstall=False)
+    def _unlink_except_approved(self):
         operations = self.filtered(lambda line: line.state == "approved")
         if operations:
             raise UserError(
                 self.env._("You cannot delete an Operation which is not draft !")
             )
-        return super().unlink()
 
     def get_document_serie(self, company, document_type):
         self.ensure_one()

@@ -5,7 +5,7 @@ import re
 
 from erpbrasil.base.fiscal.edoc import ChaveEdoc
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import UserError
 
 
@@ -15,7 +15,6 @@ class DfeSpecificSearchWizard(models.TransientModel):
 
     company_id = fields.Many2one(
         comodel_name="res.company",
-        string="Company",
         default=lambda self: self.env.company.id,
     )
 
@@ -55,11 +54,10 @@ class DfeSpecificSearchWizard(models.TransientModel):
         """Strip non-digit characters from the access key."""
         return re.sub(r"[^0-9]", "", raw_key or "")
 
-    @staticmethod
-    def _validate_access_key(key):
+    def _validate_access_key(self, key):
         """Validate access key using ChaveEdoc (format + check digit)."""
         if not key:
-            raise UserError(_("Please enter an access key."))
+            raise UserError(self.env._("Please enter an access key."))
         try:
             ChaveEdoc(chave=key, validar=True)
         except ValueError as exc:
@@ -68,12 +66,12 @@ class DfeSpecificSearchWizard(models.TransientModel):
     def _validate_nsu(self, nsu):
         """Validate NSU value and check if it already exists."""
         if not nsu or not nsu.strip():
-            raise UserError(_("Please enter an NSU."))
+            raise UserError(self.env._("Please enter an NSU."))
         digits_only = re.sub(r"[^0-9]", "", nsu)
         if not digits_only:
-            raise UserError(_("NSU must contain only numbers."))
+            raise UserError(self.env._("NSU must contain only numbers."))
         if all(char == "0" for char in digits_only):
-            raise UserError(_("NSU cannot be zero."))
+            raise UserError(self.env._("NSU cannot be zero."))
         existing = self.env["l10n_br_fiscal_dfe.dfe"].search(
             [
                 ("nsu", "=", digits_only.zfill(15)),
@@ -84,7 +82,7 @@ class DfeSpecificSearchWizard(models.TransientModel):
         )
         if existing:
             raise UserError(
-                _(
+                self.env._(
                     "NSU %(nsu)s already exists in the database (DF-e #%(dfe_id)s).",
                     nsu=nsu,
                     dfe_id=existing.id,
@@ -108,8 +106,8 @@ class DfeSpecificSearchWizard(models.TransientModel):
             "type": "ir.actions.client",
             "tag": "display_notification",
             "params": {
-                "title": _("Success"),
-                "message": _("Specific search triggered successfully"),
+                "title": self.env._("Success"),
+                "message": self.env._("Specific search triggered successfully"),
                 "type": "success",
                 "next": {"type": "ir.actions.client", "tag": "reload"},
             },

@@ -5,7 +5,7 @@ import re
 import zipfile
 from io import BytesIO
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import UserError
 
 
@@ -87,7 +87,6 @@ class L10nBrFiscalDfeDocument(models.Model):
 
     partner_id = fields.Many2one(
         comodel_name="res.partner",
-        string="Partner",
         compute="_compute_partner_id",
         store=True,
     )
@@ -101,7 +100,6 @@ class L10nBrFiscalDfeDocument(models.Model):
 
     fiscal_document_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.document",
-        string="Fiscal Document",
         compute="_compute_fiscal_document_id",
         search="_search_fiscal_document_id",
         help="Fiscal document already imported with this access key.",
@@ -297,7 +295,9 @@ class L10nBrFiscalDfeDocument(models.Model):
         complete_dfe = self._get_complete_dfe()
         if not complete_dfe:
             raise UserError(
-                _("It is only possible to download XML when DF-e is completed.")
+                self.env._(
+                    "It is only possible to download XML when DF-e is completed."
+                )
             )
         return complete_dfe.action_download_xml()
 
@@ -310,7 +310,9 @@ class L10nBrFiscalDfeDocument(models.Model):
             if complete_dfe and complete_dfe.attachment_id:
                 attachments |= complete_dfe.attachment_id
         if not attachments:
-            raise UserError(_("No complete XML found in the selected documents."))
+            raise UserError(
+                self.env._("No complete XML found in the selected documents.")
+            )
 
         buf = BytesIO()
         with zipfile.ZipFile(buf, "w", zipfile.ZIP_DEFLATED) as zf:
@@ -349,14 +351,14 @@ class L10nBrFiscalDfeDocument(models.Model):
         self.ensure_one()
         state = self.document_state
         if state == "3":
-            return _("This document was cancelled at the source.")
+            return self.env._("This document was cancelled at the source.")
         if state == "2":
-            return _("This document was denied at the source.")
+            return self.env._("This document was denied at the source.")
         if state and state != "1":
-            return _("Only an authorized document can be imported.")
+            return self.env._("Only an authorized document can be imported.")
         if state == "1" or self._has_complete_xml():
             if state != "1":
-                return _("Only an authorized document can be imported.")
+                return self.env._("Only an authorized document can be imported.")
             return self._get_import_invoice_block_reason()
         return False
 

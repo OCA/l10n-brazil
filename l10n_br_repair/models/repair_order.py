@@ -17,7 +17,6 @@ class RepairOrder(models.Model):
 
     fiscal_operation_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.operation",
-        string="Fiscal Operation",
         compute="_compute_fiscal_operation_id",
         store=True,
         readonly=False,

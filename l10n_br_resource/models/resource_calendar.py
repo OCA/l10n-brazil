@@ -35,9 +35,9 @@ class ResourceCalendar(models.Model):
 
     parent_path = fields.Char(index=True)
 
-    country_id = fields.Many2one("res.country", "Country")
+    country_id = fields.Many2one("res.country")
     state_id = fields.Many2one(
-        "res.country.state", "State", domain="[('country_id','=',country_id)]"
+        "res.country.state", domain="[('country_id','=',country_id)]"
     )
     l10n_br_city_id = fields.Many2one(
         "res.city", "Municipality", domain="[('state_id','=',state_id)]"

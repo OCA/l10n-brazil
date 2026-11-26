@@ -26,7 +26,6 @@ class DocumentLine(models.Model):
 
     document_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.document",
-        string="Document",
         ondelete="cascade",
     )
 

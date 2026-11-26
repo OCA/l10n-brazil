@@ -87,7 +87,6 @@ class TaxDefinition(models.Model):
 
     tax_group_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax.group",
-        string="Tax Group",
         required=True,
         readonly=True,
     )
@@ -98,7 +97,6 @@ class TaxDefinition(models.Model):
 
     tax_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax",
-        string="Tax",
         readonly=True,
         domain="[('tax_group_id', '=', tax_group_id)]",
     )
@@ -134,7 +132,6 @@ class TaxDefinition(models.Model):
 
     company_id = fields.Many2one(
         comodel_name="res.company",
-        string="Company",
         readonly=True,
     )
 
@@ -324,13 +321,13 @@ class TaxDefinition(models.Model):
     def action_draft(self):
         self.write({"state": "draft"})
 
-    def unlink(self):
+    @api.ondelete(at_uninstall=False)
+    def _unlink_except_approved(self):
         operations = self.filtered(lambda line: line.state == "approved")
         if operations:
             raise UserError(
                 self.env._("You cannot delete an Tax Definition which is not draft !")
             )
-        return super().unlink()
 
     def action_search_ncms(self):
         ncm = self.env["l10n_br_fiscal.ncm"]

@@ -136,7 +136,6 @@ class Document(models.Model):
     # Authorization Event Related Fields
     authorization_event_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.event",
-        string="Authorization Event",
         readonly=True,
         copy=False,
     )
@@ -179,7 +178,6 @@ class Document(models.Model):
     # Cancel Event Related Fields
     cancel_event_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.event",
-        string="Cancel Event",
         copy=False,
     )
 
@@ -208,7 +206,6 @@ class Document(models.Model):
     # Invalidate Event Related Fields
     invalidate_event_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.event",
-        string="Invalidate Event",
         copy=False,
     )
 
@@ -947,7 +944,7 @@ class Document(models.Model):
         shown = names[: self.NOTIFICATION_NAMES_LIMIT]
         hidden = len(names) - len(shown)
         if hidden:
-            shown = shown + [self.env._("+%s more") % hidden]
+            shown = shown + [self.env._("+%s more", hidden)]
         return "; ".join(shown)
 
     def _notify_status_check(self, changed, kept, failed, without_key, skipped):
@@ -958,18 +955,20 @@ class Document(models.Model):
         ]
         lines = []
         if changed:
-            lines.append(self.env._("Changed: %s") % self._truncated_names(changed))
+            lines.append(self.env._("Changed: %s", self._truncated_names(changed)))
         if kept:
-            lines.append(self.env._("Unchanged: %s") % len(kept))
+            lines.append(self.env._("Unchanged: %s", len(kept)))
         if failed:
-            lines.append(self.env._("Failed: %s") % self._truncated_names(failed))
+            lines.append(self.env._("Failed: %s", self._truncated_names(failed)))
         if without_key:
             lines.append(
-                self.env._("Without a key to ask about: %s")
-                % self._truncated_names(without_key)
+                self.env._(
+                    "Without a key to ask about: %s",
+                    self._truncated_names(without_key),
+                )
             )
         if skipped:
-            lines.append(self.env._("Not asked about this time: %s") % len(skipped))
+            lines.append(self.env._("Not asked about this time: %s", len(skipped)))
         return {
             "type": "ir.actions.client",
             "tag": "display_notification",

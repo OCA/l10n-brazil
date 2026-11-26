@@ -8,7 +8,7 @@ import re
 from lxml import objectify
 from markupsafe import Markup
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 
 from ..constants.dfe import (
@@ -190,7 +190,7 @@ class ResCompany(models.Model):
 
         if code == CSTAT_NO_DOCS:
             self._dfe_log(
-                _(
+                self.env._(
                     "No documents found: %(code)s - %(message)s",
                     code=code,
                     message=message,
@@ -199,7 +199,7 @@ class ResCompany(models.Model):
                 result=result,
             )
         else:
-            msg_error = _(
+            msg_error = self.env._(
                 "Error validating document distribution: \n\n%(code)s - %(message)s",
                 code=code,
                 message=message,
@@ -223,11 +223,11 @@ class ResCompany(models.Model):
                 "type": "ir.actions.client",
                 "tag": "display_notification",
                 "params": {
-                    "title": _(
+                    "title": self.env._(
                         "Cooldown active (%(code)s)",
                         code=status_code or "—",
                     ),
-                    "message": _(
+                    "message": self.env._(
                         "Next query scheduled in %(minutes)s minutes.",
                         minutes=minutes,
                     ),
@@ -250,7 +250,7 @@ class ResCompany(models.Model):
             return
         resp = result.resposta
         self._dfe_log(
-            _(
+            self.env._(
                 "Specific search OK: %(cstat)s - %(motivo)s",
                 cstat=resp.cStat,
                 motivo=resp.xMotivo,
@@ -289,7 +289,7 @@ class ResCompany(models.Model):
                 )
             except Exception as exc:
                 self._dfe_log(
-                    _("Error on searching documents.\n%(error)s", error=exc),
+                    self.env._("Error on searching documents.\n%(error)s", error=exc),
                     log_type="error",
                     fiscal_type=fiscal_type,
                 )
@@ -315,7 +315,7 @@ class ResCompany(models.Model):
                 max_nsu = resp_max
 
             self._dfe_log(
-                _(
+                self.env._(
                     "Distribution query OK: "
                     "%(cstat)s - %(motivo)s "
                     "(ultNSU=%(ult)s, maxNSU=%(mx)s)",
@@ -398,7 +398,7 @@ class ResCompany(models.Model):
             self = company.with_context(lang=user.lang or "pt_BR")
             # Since 17.0, message_notify escapes str bodies: build Markup
             body = Markup(
-                _(
+                self.env._(
                     "<p>%(count)s new third-party DF-e document(s) found.</p>"
                     '<p><a href="%(url)s">View documents</a></p>'
                 )
@@ -417,7 +417,7 @@ class ResCompany(models.Model):
     def action_search_specific(self, fiscal_type):
         self.ensure_one()
         return {
-            "name": _("Specific Document Search"),
+            "name": self.env._("Specific Document Search"),
             "type": "ir.actions.act_window",
             "res_model": "dfe.specific.search.wizard",
             "views": [[False, "form"]],

@@ -81,9 +81,9 @@ class AccountPaymentMode(models.Model):
                 raise ValidationError(
                     self.env._(
                         "The Payment Mode can not be used for CNAB with the field"
-                        " %s active. \n Please uncheck it to continue."
+                        " %s active. \n Please uncheck it to continue.",
+                        field,
                     )
-                    % field
                 )
 
     @api.onchange("payment_method_id")

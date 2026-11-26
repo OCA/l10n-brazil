@@ -25,7 +25,6 @@ class Nbs(models.Model):
 
     operation_indicator_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.operation.indicator",
-        string="Operation Indicator",
         help="Default cIndOp (Operation Indicator) for this NBS, according "
         "to Annex VII of Technical Note No. 004/2025. Automatically "
         "propagated to products linked to this NBS and, from there, to "

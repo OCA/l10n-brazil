@@ -17,7 +17,6 @@ class ResCompany(models.Model):
 
     certificate_id = fields.Many2one(
         comodel_name="certificate.certificate",
-        string="Certificate",
         domain="[('company_id', '=', id), ('scope', '=', 'l10n_br')]",
         help="Certificate used to sign and transmit the fiscal documents.",
     )

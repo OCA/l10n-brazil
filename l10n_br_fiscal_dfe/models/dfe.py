@@ -5,7 +5,7 @@ import logging
 
 from lxml import etree
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 
 from ..constants.dfe import DFE_DESCRIPTION_MAP, EVENT_TYPE_LABELS, OPERATION_TYPE
 
@@ -46,7 +46,6 @@ class DFe(models.Model):
 
     company_id = fields.Many2one(
         comodel_name="res.company",
-        string="Company",
         default=lambda self: self.env.company,
         readonly=True,
     )
@@ -83,7 +82,7 @@ class DFe(models.Model):
             elif code in EVENT_TYPE_LABELS:
                 rec.event_type_dfe_label = EVENT_TYPE_LABELS[code]
             else:
-                rec.event_type_dfe_label = _("Other (%(code)s)", code=code)
+                rec.event_type_dfe_label = self.env._("Other (%(code)s)", code=code)
 
     @api.depends("access_key", "document_type_dfe")
     def _compute_display_name(self):

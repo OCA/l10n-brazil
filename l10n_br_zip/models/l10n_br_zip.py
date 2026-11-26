@@ -37,17 +37,15 @@ class L10nBrZip(models.Model):
 
     district = fields.Char()
 
-    country_id = fields.Many2one(comodel_name="res.country", string="Country")
+    country_id = fields.Many2one(comodel_name="res.country")
 
     state_id = fields.Many2one(
         comodel_name="res.country.state",
-        string="State",
         domain="[('country_id','=',country_id)]",
     )
 
     city_id = fields.Many2one(
         comodel_name="res.city",
-        string="City",
         required=True,
         domain="[('state_id','=',state_id)]",
     )

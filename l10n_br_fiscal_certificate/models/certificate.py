@@ -7,7 +7,7 @@ from contextlib import suppress
 
 from cryptography import x509
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.tools.misc import format_date
 
 
@@ -74,7 +74,7 @@ class Certificate(models.Model):
                 parts.append(certificate.subject_common_name)
             if certificate.date_end:
                 parts.append(
-                    _(
+                    self.env._(
                         "Valid: %s",
                         format_date(self.env, certificate.date_end.date()),
                     )

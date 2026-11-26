@@ -11,18 +11,15 @@ class CityTaxationCode(models.Model):
 
     service_type_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.service.type",
-        string="Service Type",
         domain=[("internal_type", "=", "normal")],
     )
 
     state_id = fields.Many2one(
         comodel_name="res.country.state",
-        string="State",
         domain=[("country_id.code", "=", "BR")],
     )
 
     city_id = fields.Many2one(
-        string="City",
         comodel_name="res.city",
         domain="[('state_id', '=', state_id)]",
     )
@@ -36,5 +33,4 @@ class CityTaxationCode(models.Model):
         comodel_name="l10n_br_fiscal.tax.definition",
         relation="tax_definition_city_taxation_code_rel",  # (orm default is too long)
         readonly=True,
-        string="Tax Definition",
     )

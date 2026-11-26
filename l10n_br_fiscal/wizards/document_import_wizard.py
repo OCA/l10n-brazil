@@ -8,7 +8,7 @@ from erpbrasil.base.fiscal.cnpj_cpf import validar_cnpj, validar_cpf
 from erpbrasil.base.fiscal.edoc import detectar_chave_edoc
 from erpbrasil.base.misc import punctuation_rm
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import UserError
 
 from ..constants.fiscal import (
@@ -33,7 +33,6 @@ class DocumentImportWizard(models.TransientModel):
 
     company_id = fields.Many2one(
         comodel_name="res.company",
-        string="Company",
         default=lambda self: self.env.company.id,
     )
 
@@ -59,7 +58,6 @@ class DocumentImportWizard(models.TransientModel):
 
     fiscal_operation_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.operation",
-        string="Fiscal Operation",
         domain="[('fiscal_operation_type', '=', fiscal_operation_type)]",
     )
 
@@ -140,7 +138,9 @@ class DocumentImportWizard(models.TransientModel):
                 ("name", "ilike", name or legal_name),
             ]
         else:
-            raise UserError(_("No CNPJ or Legal Name to search for a partner!"))
+            raise UserError(
+                self.env._("No CNPJ or Legal Name to search for a partner!")
+            )
         return self.env["res.partner"].search(domain, limit=1)
 
     def _import_edoc(self):
@@ -196,17 +196,12 @@ class DocumentImportWizard(models.TransientModel):
         with (the_fiscal_document_type_code, the_name_of_the_importation_wizard)
         """
         raise UserError(
-            _("Importation not implemented for %s!")
-            % (
-                type(
-                    binding,
-                )
-            )
+            self.env._("Importation not implemented for %s!", type(binding))
         )
 
     def action_open_document(self):
         return {
-            "name": _("Document Imported"),
+            "name": self.env._("Document Imported"),
             "type": "ir.actions.act_window",
             "target": "current",
             "views": [[False, "form"]],

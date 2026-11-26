@@ -168,7 +168,6 @@ class L10nBrCNABBoletoFields(models.AbstractModel):
 
     boleto_discount_code_id = fields.Many2one(
         comodel_name="l10n_br_cnab.code",
-        string="Boleto Discount Code",
         tracking=True,
     )
 
