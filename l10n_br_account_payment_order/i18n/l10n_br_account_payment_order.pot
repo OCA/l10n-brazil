@@ -2360,13 +2360,17 @@ msgstr ""
 #. module: l10n_br_account_payment_order
 #. odoo-python
 #: code:addons/l10n_br_account_payment_order/models/l10n_br_cnab_change_methods.py:0
-msgid "Movement Instruction Code Updated for Request to Write Off, because Invoice %(invoice_name)s was cancelled."
+msgid ""
+"Movement Instruction Code Updated for Request to Write Off, because Invoice "
+"%(invoice_name)s was cancelled."
 msgstr ""
 
 #. module: l10n_br_account_payment_order
 #. odoo-python
 #: code:addons/l10n_br_account_payment_order/models/l10n_br_cnab_change_methods.py:0
-msgid "Movement Instruction Code Updated for Request to Write Off, because payment of %(amount)s done outside CNAB."
+msgid ""
+"Movement Instruction Code Updated for Request to Write Off, because payment "
+"of %(amount)s done outside CNAB."
 msgstr ""
 
 #. module: l10n_br_account_payment_order
