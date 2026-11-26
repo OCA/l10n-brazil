@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2026-11-26 17:13+0000\n"
+"PO-Revision-Date: 2026-11-26 18:55+0000\n"
 "Last-Translator: Luis Felipe Miléo <mileo@kmee.com.br>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -55,7 +55,7 @@ msgstr "6 - Cadastro completo (Simples Nacional, porte e situação)"
 #. module: l10n_br_cnpj_search
 #: model_terms:ir.ui.view,arch_db:l10n_br_cnpj_search.l10n_br_cnpj_search_res_config_settings_form
 msgid "<span class=\"o_form_label\">Brazilian CNPJ service API</span>"
-msgstr "<span class=\"o_form_label\">API de Serviço do CNPJ Brasileiro</span>"
+msgstr "<span class=\"o_form_label\">API de consulta de CNPJ</span>"
 
 #. module: l10n_br_cnpj_search
 #: model_terms:ir.ui.view,arch_db:l10n_br_cnpj_search.res_partner_wizard_view
@@ -83,14 +83,12 @@ msgstr "Filial"
 #: model_terms:ir.ui.view,arch_db:l10n_br_cnpj_search.l10n_br_cnpj_search_res_config_settings_form
 msgid ""
 "Brazilian CNPJ service API to search partner information using cnpj code."
-msgstr ""
-"API do serviço CNPJ brasileiro para busca de informações de parceiros "
-"utilizando código cnpj."
+msgstr "API de consulta de CNPJ para buscar os dados do parceiro pelo CNPJ."
 
 #. module: l10n_br_cnpj_search
 #: model:ir.model,name:l10n_br_cnpj_search.model_l10n_br_base_party_mixin
 msgid "Brazilian partner and company data mixin"
-msgstr "Mixin de dados de parceiros e empresas brasileiras"
+msgstr "Mixin de dados de parceiros e empresas brasileiros"
 
 #. module: l10n_br_cnpj_search
 #: model:ir.model.fields,help:l10n_br_cnpj_search.field_res_config_settings__cpfcnpj_skip_partners
@@ -125,7 +123,7 @@ msgstr "CNPJ"
 #. module: l10n_br_cnpj_search
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_config_settings__cnpj_provider
 msgid "CNPJ Search Provider"
-msgstr "Provedor de Pesquisa de CNPJ"
+msgstr "Provedor da consulta de CNPJ"
 
 #. module: l10n_br_cnpj_search
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_l10n_br_base_party_mixin__cnpj_status
@@ -154,14 +152,13 @@ msgstr "Motivo da situação cadastral"
 #. module: l10n_br_cnpj_search
 #: model:ir.model,name:l10n_br_cnpj_search.model_l10n_br_cnpj_search_webservice_abstract
 msgid "CNPJ Webservice"
-msgstr "Webservice CNPJ"
+msgstr "Webservice de consulta de CNPJ"
 
 #. module: l10n_br_cnpj_search
 #: model:ir.model,name:l10n_br_cnpj_search.model_partner_search_wizard
 msgid "CNPJ based search wizard allowing to update partner data."
 msgstr ""
-"Assistente de pesquisa baseado em CNPJ que permite atualizar dados de "
-"parceiros."
+"Assistente de consulta de CNPJ que permite atualizar os dados do parceiro."
 
 #. module: l10n_br_cnpj_search
 #: model_terms:ir.ui.view,arch_db:l10n_br_cnpj_search.res_partner_wizard_view
@@ -201,7 +198,7 @@ msgstr "CPF.CNPJ: buscar inscrição estadual (pacote 16)"
 #. module: l10n_br_cnpj_search
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__child_ids
 msgid "Child"
-msgstr "Filhos"
+msgstr "Contatos filhos"
 
 #. module: l10n_br_cnpj_search
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__city_id
@@ -284,7 +281,7 @@ msgstr "Classificação do porte da empresa (ex.: Empresa de Pequeno Porte)."
 #. module: l10n_br_cnpj_search
 #: model:ir.model,name:l10n_br_cnpj_search.model_res_config_settings
 msgid "Config Settings"
-msgstr "Ajustes de Configurações"
+msgstr "Configurações"
 
 #. module: l10n_br_cnpj_search
 #: model_terms:ir.ui.view,arch_db:l10n_br_cnpj_search.res_partner_wizard_view
@@ -422,8 +419,8 @@ msgid ""
 "It is necessary to activate the option to validate de CNPJ to use this "
 "functionality."
 msgstr ""
-"É necessário ativar a opção de validação de CNPJ para que você possa "
-"utilizar essa funcionalidade."
+"É necessário ativar a opção de validação do CNPJ para usar esta "
+"funcionalidade."
 
 #. module: l10n_br_cnpj_search
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__l10n_br_ie_code
@@ -538,7 +535,7 @@ msgstr "Parceiro"
 #: model_terms:ir.ui.view,arch_db:l10n_br_cnpj_search.l10n_br_cnpj_search_fiscal_company_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_cnpj_search.l10n_br_cnpj_search_fiscal_partner_form
 msgid "Pesquisar CNPJ"
-msgstr "Pesquisar CNPJ"
+msgstr "Consultar CNPJ"
 
 #. module: l10n_br_cnpj_search
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__phone
@@ -549,7 +546,7 @@ msgstr "Telefone"
 #. odoo-python
 #: code:addons/l10n_br_cnpj_search/models/l10n_br_base_party_mixin.py:0
 msgid "Please enter your CNPJ"
-msgstr "Por favor digite seu CNPJ"
+msgstr "Informe o CNPJ"
 
 #. module: l10n_br_cnpj_search
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__provider_name
@@ -623,12 +620,12 @@ msgstr "Estado"
 #. module: l10n_br_cnpj_search
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__street_name
 msgid "Street Name"
-msgstr "Nome da Rua"
+msgstr "Logradouro"
 
 #. module: l10n_br_cnpj_search
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__street_number
 msgid "Street Number"
-msgstr "Número do Endereço"
+msgstr "Número"
 
 #. module: l10n_br_cnpj_search
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_partner_search_wizard__street2
@@ -654,7 +651,7 @@ msgstr "Atualizar parceiro"
 #. module: l10n_br_cnpj_search
 #: model:ir.model.fields,field_description:l10n_br_cnpj_search.field_res_config_settings__serpro_trial
 msgid "Use SERPRO Trial"
-msgstr "Use o teste SERPRO"
+msgstr "Usar a versão de teste do SERPRO"
 
 #. module: l10n_br_cnpj_search
 #: model:ir.model.fields,help:l10n_br_cnpj_search.field_l10n_br_base_party_mixin__cnpj_branch_type
