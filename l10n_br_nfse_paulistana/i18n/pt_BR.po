@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2026-11-26 17:13+0000\n"
+"PO-Revision-Date: 2026-11-26 18:55+0000\n"
 "Last-Translator: Luis Felipe Miléo <mileo@kmee.com.br>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -47,7 +47,7 @@ msgstr "Última Modificação em"
 #. module: l10n_br_nfse_paulistana
 #: model:ir.model.fields,field_description:l10n_br_nfse_paulistana.field_res_company__provedor_nfse
 msgid "NFSe Provider"
-msgstr "Provedor de NFSe"
+msgstr "Provedor de NFS-e"
 
 #. module: l10n_br_nfse_paulistana
 #: model:ir.model.fields.selection,name:l10n_br_nfse_paulistana.selection__res_company__provedor_nfse__paulistana
