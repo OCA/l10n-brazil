@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2026-11-25 23:46+0000\n"
+"PO-Revision-Date: 2026-11-26 17:13+0000\n"
 "Last-Translator: Luis Felipe Miléo <mileo@kmee.com.br>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -90,7 +90,7 @@ msgstr "ID da cidade"
 #. module: l10n_br_portal
 #: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
 msgid "Company Name"
-msgstr "Nome da Empresa"
+msgstr "Nome da empresa"
 
 #. module: l10n_br_portal
 #: model:ir.model.fields,field_description:l10n_br_portal.field_res_partner__company_size
@@ -341,7 +341,7 @@ msgstr ""
 #. module: l10n_br_portal
 #: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
 msgid "Your Name"
-msgstr "Seu Nome"
+msgstr "Seu nome"
 
 #. module: l10n_br_portal
 #: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
