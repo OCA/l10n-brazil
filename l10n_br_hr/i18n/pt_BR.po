@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-09-26 11:58+0000\n"
-"PO-Revision-Date: 2026-11-26 17:13+0000\n"
+"PO-Revision-Date: 2026-11-26 18:55+0000\n"
 "Last-Translator: Luis Felipe Miléo <mileo@kmee.com.br>\n"
 "Language-Team: \n"
 "Language: pt_BR\n"
@@ -30,7 +30,7 @@ msgstr "A-"
 #. module: l10n_br_hr
 #: model:ir.model.fields.selection,name:l10n_br_hr.selection__hr_employee__blood_type__ab+
 msgid "AB+"
-msgstr "AB +"
+msgstr "AB+"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields.selection,name:l10n_br_hr.selection__hr_employee__blood_type__ab-
@@ -106,7 +106,7 @@ msgstr "Tipo sanguíneo"
 #. module: l10n_br_hr
 #: model:ir.model,name:l10n_br_hr.model_l10n_br_hr_cbo
 msgid "Brazilian Classification of Occupation"
-msgstr "Classificação Brasileira de Ocupação"
+msgstr "Classificação Brasileira de Ocupações"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_job__cbo_id
@@ -117,7 +117,7 @@ msgstr "CBO"
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_res_company__cnpj_cei
 msgid "CNPJ/CEI Tomadora/Obra"
-msgstr "CNPJ / CEI Tomadora / Obra"
+msgstr "CNPJ/CEI da tomadora/obra"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__vat
@@ -148,22 +148,22 @@ msgstr "CTPS"
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__ctps_uf_id
 msgid "CTPS district"
-msgstr "Distrito da CTPS"
+msgstr "UF da CTPS"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__ctps_date
 msgid "CTPS emission date"
-msgstr "Data de emissão do CTPS"
+msgstr "Data de emissão da CTPS"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee__ctps
 msgid "CTPS number"
-msgstr "Número CTPS"
+msgstr "Número da CTPS"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__ctps_series
 msgid "CTPS series"
-msgstr "Série CTPS"
+msgstr "Série da CTPS"
 
 #. module: l10n_br_hr
 #: model_terms:ir.ui.view,arch_db:l10n_br_hr.view_l10n_br_hr_employee_form
@@ -173,19 +173,19 @@ msgstr "Características"
 #. module: l10n_br_hr
 #: model:ir.model,name:l10n_br_hr.model_hr_civil_certificate_type
 msgid "Civil Certificate Type"
-msgstr "Tipo de Certificado Civil"
+msgstr "Tipo de certidão civil"
 
 #. module: l10n_br_hr
 #: model_terms:ir.ui.view,arch_db:l10n_br_hr.view_l10n_br_hr_employee_form
 msgid "Civil certificate"
-msgstr "Certificado civil"
+msgstr "Certidão civil"
 
 #. module: l10n_br_hr
 #: model:ir.actions.act_window,name:l10n_br_hr.action_hr_civil_certificate_type
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__civil_certificate_type_id
 #: model:ir.ui.menu,name:l10n_br_hr.menu_hr_civil_certificate_type
 msgid "Civil certificate type"
-msgstr "Tipo de certificado civil"
+msgstr "Tipo de certidão civil"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_civil_certificate_type__code
@@ -243,17 +243,17 @@ msgstr "Código"
 #. module: l10n_br_hr
 #: model_terms:ir.ui.view,arch_db:l10n_br_hr.view_l10n_br_hr_cbo_form
 msgid "Código Brasileiro de Ocupação"
-msgstr "Código Brasileiro de Ocupação"
+msgstr "Classificação Brasileira de Ocupações"
 
 #. module: l10n_br_hr
 #: model:ir.actions.act_window,name:l10n_br_hr.action_l10n_br_hr_cbo
 msgid "Código Brasileiro de Ocupações"
-msgstr "Código Brasileiro de Ocupações"
+msgstr "Classificação Brasileira de Ocupações"
 
 #. module: l10n_br_hr
 #: model:ir.model,name:l10n_br_hr.model_hr_deficiency
 msgid "Deficiencies"
-msgstr "Deficiência"
+msgstr "Deficiências"
 
 #. module: l10n_br_hr
 #: model:ir.actions.act_window,name:l10n_br_hr.action_hr_deficiency
@@ -270,7 +270,7 @@ msgstr "Descrição da deficiência"
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__organ_exp
 msgid "Dispatcher organ"
-msgstr "Órgão despachante"
+msgstr "Órgão expedidor"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_civil_certificate_type__display_name
@@ -289,17 +289,17 @@ msgstr "Documentos"
 #. module: l10n_br_hr
 #: model_terms:ir.ui.view,arch_db:l10n_br_hr.view_l10n_br_hr_employee_form
 msgid "Driver License"
-msgstr "Carteira de motorista"
+msgstr "CNH"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__driver_categ
 msgid "Driver license category"
-msgstr "Categoria da carteira de motorista"
+msgstr "Categoria da CNH"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__driver_license
 msgid "Driver license number"
-msgstr "Número da carteira de motorista"
+msgstr "Número da CNH"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__rg_emission
@@ -324,14 +324,14 @@ msgstr "Funcionários"
 #. module: l10n_br_hr
 #: model:ir.model,name:l10n_br_hr.model_hr_ethnicity
 msgid "Ethnicities"
-msgstr "Etnias"
+msgstr "Raça/cor"
 
 #. module: l10n_br_hr
 #: model:ir.actions.act_window,name:l10n_br_hr.action_hr_ethnicity
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__ethnicity
 #: model:ir.ui.menu,name:l10n_br_hr.menu_hr_ethnicity
 msgid "Ethnicity"
-msgstr "Etnia"
+msgstr "Raça/cor"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__expiration_date
@@ -361,7 +361,7 @@ msgstr "Funcionário cedido"
 #. module: l10n_br_hr
 #: model:ir.model,name:l10n_br_hr.model_l10n_br_hr_data_abstract
 msgid "HR Data Abstract"
-msgstr "Resumo de Dados do RH"
+msgstr "Dados de RH abstratos"
 
 #. module: l10n_br_hr
 #: model_terms:ir.ui.view,arch_db:l10n_br_hr.view_l10n_br_hr_employee_form
@@ -380,22 +380,22 @@ msgstr "ID"
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__identity_city_id
 msgid "ID expedition city"
-msgstr "ID expedição cidade"
+msgstr "Cidade de expedição da identidade"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__identity_uf_id
 msgid "ID expedition district"
-msgstr "ID expedição distrito"
+msgstr "UF de expedição da identidade"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__identity_validity
 msgid "ID expiration date"
-msgstr "Data de validade do ID"
+msgstr "Data de expiração da identidade"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__identity_type_id
 msgid "ID type"
-msgstr "Tipo de identificação"
+msgstr "Tipo de identidade"
 
 #. module: l10n_br_hr
 #: model_terms:ir.ui.view,arch_db:l10n_br_hr.view_l10n_br_hr_employee_form
@@ -410,7 +410,7 @@ msgstr "Número de identificação para o tipo selecionado"
 #. module: l10n_br_hr
 #: model:ir.model,name:l10n_br_hr.model_hr_identity_type
 msgid "Identity Types"
-msgstr "Tipo de Identidade"
+msgstr "Tipos de identidade"
 
 #. module: l10n_br_hr
 #: model:ir.actions.act_window,name:l10n_br_hr.action_hr_identity_type
@@ -422,13 +422,13 @@ msgstr "Tipo de identidade"
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_identity_type__initials
 msgid "Initials"
-msgstr "Iniciais"
+msgstr "Sigla"
 
 #. module: l10n_br_hr
 #. odoo-python
 #: code:addons/l10n_br_hr/models/hr_employee.py:0
 msgid "Invalid PIS/PASEP"
-msgstr "PIS / PASEP inválido"
+msgstr "PIS/PASEP inválido"
 
 #. module: l10n_br_hr
 #: model:ir.model,name:l10n_br_hr.model_hr_job
@@ -461,12 +461,12 @@ msgstr "Estado civil"
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__cresv_categ
 msgid "Military service status category"
-msgstr "Categoria de status de serviço militar"
+msgstr "Categoria do certificado de reservista"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__creservist
 msgid "Military service status certificate"
-msgstr "Certificado de status de serviço militar"
+msgstr "Certificado de reservista"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__mother_name
@@ -485,7 +485,7 @@ msgstr "Nome"
 #. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee__l10n_br_rg_code
 msgid "National ID number"
-msgstr "Número de Identificação Nacional"
+msgstr "Número do RG"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__country_id
@@ -526,7 +526,7 @@ msgstr "Operador Industrial"
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__pis_pasep
 #: model_terms:ir.ui.view,arch_db:l10n_br_hr.view_l10n_br_hr_employee_form
 msgid "PIS/PASEP"
-msgstr "PIS / PASEP"
+msgstr "PIS/PASEP"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__pis_pasep_formatted
@@ -545,7 +545,7 @@ msgstr ""
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__pis_pasep_date
 msgid "PIS/PASEP emission date"
-msgstr "Data de Emissão PIS/PASEP"
+msgstr "Data de emissão do PIS/PASEP"
 
 #. module: l10n_br_hr
 #: model_terms:ir.ui.view,arch_db:l10n_br_hr.view_l10n_br_hr_employee_form
@@ -560,12 +560,12 @@ msgstr "RG"
 #. module: l10n_br_hr
 #: model_terms:ir.ui.view,arch_db:l10n_br_hr.view_hr_ethnicity_form
 msgid "Raça/Cor"
-msgstr "Raça / Cor"
+msgstr "Raça/cor"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__registration
 msgid "Registration number"
-msgstr "Número de registro"
+msgstr "Matrícula"
 
 #. module: l10n_br_hr
 #: model:ir.ui.menu,name:l10n_br_hr.menu_l10n_br_hr_relatorios_root
@@ -586,7 +586,7 @@ msgstr "Segunda categoria"
 #. odoo-python
 #: code:addons/l10n_br_hr/models/hr_employee.py:0
 msgid "Separated"
-msgstr "Separado"
+msgstr "Separado(a)"
 
 #. module: l10n_br_hr
 #: model:hr.department,name:l10n_br_hr.demo_department_ti
@@ -629,12 +629,12 @@ msgstr "Técnico de Segurança do Trabalho"
 #: model:ir.model.fields,field_description:l10n_br_hr.field_res_partner__union_entity_code
 #: model:ir.model.fields,field_description:l10n_br_hr.field_res_users__union_entity_code
 msgid "Union Entity code"
-msgstr "Código do Sindicato"
+msgstr "Código da entidade sindical"
 
 #. module: l10n_br_hr
 #: model_terms:ir.ui.view,arch_db:l10n_br_hr.view_l10n_br_hr_employee_form
 msgid "Voter Registration"
-msgstr "Registro de Eleitor"
+msgstr "Título de eleitor"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__voter_section
@@ -644,7 +644,7 @@ msgstr "Seção eleitoral"
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__voter_title
 msgid "Voter Title"
-msgstr "Título Eleitoral"
+msgstr "Título de eleitor"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__voter_zone
