@@ -5,6 +5,15 @@
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="l10n_br_base.l10n_br_base_partner_form" />
         <field name="arch" type="xml">
+            <page name="fiscal" position="attributes">
+                <attribute name="invisible">not show_l10n_br_fiscal</attribute>
+            </page>
+            <group name="fiscal_numbers" position="attributes">
+                <attribute name="invisible">not show_l10n_br</attribute>
+            </group>
+            <group name="other_infos" position="attributes">
+                <attribute name="invisible">not show_l10n_br</attribute>
+            </group>
             <group name="other_infos" position="inside">
                 <field name="rntrc_code" />
             </group>

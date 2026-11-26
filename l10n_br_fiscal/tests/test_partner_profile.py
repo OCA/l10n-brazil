@@ -29,3 +29,23 @@ class TestPartnerFiscalProfile(TransactionCase):
 
         self.assertEqual(action["res_model"], "res.partner")
         self.assertEqual(self.env["res.partner"].search(action["domain"]), partner)
+
+    def test_show_fiscal_tab(self):
+        """The Fiscal tab shows for Brazilian partners and, in a Brazilian
+        company, for foreign partners too (fiscal profile of exports)."""
+        br, us = self.env.ref("base.br"), self.env.ref("base.us")
+        company_br = self.env["res.company"].create(
+            {"name": "Company BR", "country_id": br.id}
+        )
+        company_us = self.env["res.company"].create(
+            {"name": "Company US", "country_id": us.id}
+        )
+        partner_br = self.env["res.partner"].create(
+            {"name": "Partner BR", "country_id": br.id}
+        )
+        partner_us = self.env["res.partner"].create(
+            {"name": "Partner US", "country_id": us.id}
+        )
+        self.assertTrue(partner_br.with_company(company_us).show_l10n_br_fiscal)
+        self.assertTrue(partner_us.with_company(company_br).show_l10n_br_fiscal)
+        self.assertFalse(partner_us.with_company(company_us).show_l10n_br_fiscal)
