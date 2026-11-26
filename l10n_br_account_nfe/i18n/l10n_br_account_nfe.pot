@@ -65,7 +65,7 @@ msgstr ""
 
 #. module: l10n_br_account_nfe
 #: model:ir.model.fields.selection,name:l10n_br_account_nfe.selection__account_payment_mode__fiscal_payment_mode__14
-msgid "14 - Duplicata Mercanti"
+msgid "14 - Duplicata Mercantil"
 msgstr ""
 
 #. module: l10n_br_account_nfe
