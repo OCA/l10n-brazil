@@ -207,6 +207,15 @@ class TestTaxClassification(TransactionCase):
         company: without a mapped group the create fails on the NOT NULL
         tax_group_id the core computes.
         """
+        AccountTaxGroup = self.env.get("account.tax.group")
+        if (
+            AccountTaxGroup is None
+            or "fiscal_tax_group_id" not in AccountTaxGroup._fields
+        ):
+            # Without l10n_br_account no account.tax is created from the fiscal
+            # tax, and account.tax.group, when account is installed, has no
+            # fiscal_tax_group_id.
+            return None
         account_group = self.env["account.tax.group"].search(
             [("fiscal_tax_group_id", "=", fiscal_group.id)], limit=1
         )
