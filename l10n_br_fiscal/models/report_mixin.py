@@ -5,7 +5,7 @@
 
 from lxml.builder import E
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 
 from ..constants.fiscal import (
     CFOP_DESTINATION,
@@ -62,52 +62,52 @@ class FiscalReportFilterMixin(models.AbstractModel):
         return [
             {
                 "name": "out",
-                "label": _("Outgoing"),
+                "label": self.env._("Outgoing"),
                 "domains": [[("fiscal_operation_type", "=", FISCAL_OUT)]],
             },
             {
                 "name": "in",
-                "label": _("Incoming"),
+                "label": self.env._("Incoming"),
                 "domains": [[("fiscal_operation_type", "=", FISCAL_IN)]],
             },
             None,
             {
                 "name": "cfop_internal",
-                "label": _("Internal Operation"),
+                "label": self.env._("Internal Operation"),
                 "domains": [[("cfop_destination", "=", CFOP_DESTINATION_INTERNAL)]],
             },
             {
                 "name": "cfop_interstate",
-                "label": _("Interstate Operation"),
+                "label": self.env._("Interstate Operation"),
                 "domains": [[("cfop_destination", "=", CFOP_DESTINATION_EXTERNAL)]],
             },
             {
                 "name": "cfop_foreign",
-                "label": _("Foreign Operation"),
+                "label": self.env._("Foreign Operation"),
                 "domains": [[("cfop_destination", "=", CFOP_DESTINATION_EXPORT)]],
             },
             None,
             {
                 "name": "final_customer",
-                "label": _("Final Customer"),
+                "label": self.env._("Final Customer"),
                 "domains": [[("ind_final", "=", FINAL_CUSTOMER_YES)]],
             },
             # own block: filters of the same block are combined with OR
             None,
             {
                 "name": "products",
-                "label": _("Products (ICMS)"),
+                "label": self.env._("Products (ICMS)"),
                 "domains": [[("tax_icms_or_issqn", "=", TAX_DOMAIN_ICMS)]],
             },
             {
                 "name": "services",
-                "label": _("Services (ISSQN)"),
+                "label": self.env._("Services (ISSQN)"),
                 "domains": [[("tax_icms_or_issqn", "=", TAX_DOMAIN_ISSQN)]],
             },
             None,
             {
                 "name": "with_icmsst",
-                "label": _("With ICMS ST"),
+                "label": self.env._("With ICMS ST"),
                 "domains": [
                     [("icmsst_value", "!=", 0)],
                     [("amount_icmsst_value", "!=", 0)],
@@ -115,7 +115,7 @@ class FiscalReportFilterMixin(models.AbstractModel):
             },
             {
                 "name": "with_difal",
-                "label": _("With ICMS DIFAL"),
+                "label": self.env._("With ICMS DIFAL"),
                 "domains": [
                     [("icms_destination_value", "!=", 0)],
                     [("amount_icms_destination_value", "!=", 0)],
@@ -123,7 +123,7 @@ class FiscalReportFilterMixin(models.AbstractModel):
             },
             {
                 "name": "with_ipi",
-                "label": _("With IPI"),
+                "label": self.env._("With IPI"),
                 "domains": [
                     [("ipi_value", "!=", 0)],
                     [("amount_ipi_value", "!=", 0)],
@@ -131,12 +131,12 @@ class FiscalReportFilterMixin(models.AbstractModel):
             },
             {
                 "name": "with_withholding",
-                "label": _("With Withholdings"),
+                "label": self.env._("With Withholdings"),
                 "domains": [[("amount_tax_withholding", "!=", 0)]],
             },
             {
                 "name": "with_cbs_ibs",
-                "label": _("With CBS/IBS"),
+                "label": self.env._("With CBS/IBS"),
                 "domains": [
                     ["|", ("cbs_value", "!=", 0), ("ibs_value", "!=", 0)],
                     ["|", ("amount_cbs_value", "!=", 0), ("amount_ibs_value", "!=", 0)],
@@ -145,25 +145,25 @@ class FiscalReportFilterMixin(models.AbstractModel):
             None,
             {
                 "name": "issuer_company",
-                "label": _("Own Issue"),
+                "label": self.env._("Own Issue"),
                 "domains": [[("issuer", "=", DOCUMENT_ISSUER_COMPANY)]],
                 "requires": ["state_edoc"],
             },
             {
                 "name": "issuer_partner",
-                "label": _("Third-party Issue"),
+                "label": self.env._("Third-party Issue"),
                 "domains": [[("issuer", "=", DOCUMENT_ISSUER_PARTNER)]],
                 "requires": ["state_edoc"],
             },
             None,
             {
                 "name": "edoc_not_void",
-                "label": _("Not Cancelled"),
+                "label": self.env._("Not Cancelled"),
                 "domains": [[("state_edoc", "not in", EDOC_VOID_STATES)]],
             },
             {
                 "name": "edoc_void",
-                "label": _("Cancelled, Denied or Voided"),
+                "label": self.env._("Cancelled, Denied or Voided"),
                 "domains": [[("state_edoc", "in", EDOC_VOID_STATES)]],
             },
         ]
@@ -229,7 +229,7 @@ class FiscalReportFilterMixin(models.AbstractModel):
                         domain=repr(domain),
                     )
                 )
-        group = E.group(expand="0", string=_("Fiscal"))
+        group = E.group(expand="0", string=self.env._("Fiscal"))
         for fname, requires in self._fiscal_report_groupbys():
             # only stored fields can be grouped (e.g. not the related ones
             # of stock.move nor the fields delegated to account.move)
@@ -264,13 +264,11 @@ class FiscalReportMixin(models.AbstractModel):
 
     fiscal_operation_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.operation",
-        string="Fiscal Operation",
         readonly=True,
     )
 
     fiscal_operation_line_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.operation.line",
-        string="Fiscal Operation Line",
         readonly=True,
     )
 
@@ -329,7 +327,6 @@ class FiscalReportMixin(models.AbstractModel):
 
     service_type_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.service.type",
-        string="Service Type",
         readonly=True,
     )
 
@@ -359,13 +356,11 @@ class FiscalReportMixin(models.AbstractModel):
 
     tax_classification_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax.classification",
-        string="Tax Classification",
         readonly=True,
     )
 
     partner_state_id = fields.Many2one(
         comodel_name="res.country.state",
-        string="Partner State",
         readonly=True,
     )
 

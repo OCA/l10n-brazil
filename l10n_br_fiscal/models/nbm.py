@@ -28,7 +28,6 @@ class Nbm(models.Model):
     tax_definition_ids = fields.Many2many(
         comodel_name="l10n_br_fiscal.tax.definition",
         readonly=True,
-        string="Tax Definition",
     )
 
     @api.model_create_multi

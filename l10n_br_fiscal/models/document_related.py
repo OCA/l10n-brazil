@@ -36,7 +36,6 @@ class DocumentRelated(models.Model):
 
     state_id = fields.Many2one(
         comodel_name="res.country.state",
-        string="State",
         domain=[("country_id.code", "=", "BR")],
     )
 
