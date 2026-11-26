@@ -19,27 +19,22 @@ msgstr ""
 #. module: l10n_br_account_renegotiation
 #. odoo-python
 #: code:addons/l10n_br_account_renegotiation/models/account_move.py:0
-msgid "%(date)s: %(amount)s"
-msgstr "%(date)s: %(amount)s"
-
-#. module: l10n_br_account_renegotiation
-#. odoo-python
-#: code:addons/l10n_br_account_renegotiation/models/account_move.py:0
 msgid ""
-"<p><strong>Payment Installments Renegotiated</strong></p><p><strong>Previous"
-" installments:</strong><br/>%(old)s</p><p><strong>New "
-"installments:</strong><br/>%(new)s</p>"
+"<p><strong>Payment Installments Renegotiated</strong></p><p><strong>Previous "
+"installments:</strong><br/>%(old)s</p><p><strong>New installments:</"
+"strong><br/>%(new)s</p>"
 msgstr ""
-"<p><strong>Parcelas renegociadas</strong></p><p><strong>Parcelas "
-"anteriores:</strong><br/>%(old)s</p><p><strong>Novas parcelas:</strong><br/>%"
-"(new)s</p>"
+"<p><strong>Parcelas renegociadas</strong></p><p><strong>Parcelas anteriores:"
+"</strong><br/>%(old)s</p><p><strong>Novas parcelas:</strong><br/>%(new)s</p>"
 
 #. module: l10n_br_account_renegotiation
 #: model_terms:ir.ui.view,arch_db:l10n_br_account_renegotiation.view_installment_renegotiation_wizard_form
 msgid ""
 "<strong>Note:</strong> This action will modify the payment due dates\n"
-"                    and amounts on the posted invoice. The fiscal document (NFe) will\n"
-"                    not be affected. A record of this change will be logged in the\n"
+"                    and amounts on the posted invoice. The fiscal document "
+"(NFe) will\n"
+"                    not be affected. A record of this change will be logged "
+"in the\n"
 "                    invoice's chatter."
 msgstr ""
 "<strong>Observação:</strong> esta ação altera os vencimentos e os valores "
@@ -52,7 +47,8 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_br_account_renegotiation.view_installment_renegotiation_wizard_form
 msgid ""
 "<strong>Warning:</strong> The total amount must remain unchanged.\n"
-"                    Please adjust the installment amounts so the difference is zero."
+"                    Please adjust the installment amounts so the difference "
+"is zero."
 msgstr ""
 "<strong>Atenção:</strong> o valor total não pode mudar.\n"
 "                    Ajuste os valores das parcelas até a diferença ficar "
@@ -271,8 +267,8 @@ msgstr "Linha da fatura em que esta parcela se baseia (se houver)"
 #. odoo-python
 #: code:addons/l10n_br_account_renegotiation/wizards/installment_renegotiation_wizard.py:0
 msgid ""
-"The total amount of installments must remain unchanged. Current difference: "
-"%(diff)s"
+"The total amount of installments must remain unchanged. Current difference: %"
+"(diff)s"
 msgstr "O total das parcelas não pode mudar. Diferença atual: %(diff)s"
 
 #. module: l10n_br_account_renegotiation
@@ -310,3 +306,6 @@ msgstr "Só é possível renegociar parcelas de faturas lançadas."
 #: code:addons/l10n_br_account_renegotiation/wizards/installment_renegotiation_wizard.py:0
 msgid "You must have at least one installment."
 msgstr "É preciso ter pelo menos uma parcela."
+
+#~ msgid "%(date)s: %(amount)s"
+#~ msgstr "%(date)s: %(amount)s"
