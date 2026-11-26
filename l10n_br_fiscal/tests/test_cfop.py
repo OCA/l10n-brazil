@@ -103,8 +103,13 @@ class TestCfopTypeMove(TransactionCase):
 
 class TestCfop(TransactionCase):
     def test_is_import_follows_the_code(self):
-        """``is_import`` is a compute without depends, so it never refreshes."""
-        cfop = self.env.ref("l10n_br_fiscal.cfop_1101")
+        """``is_import`` follows the first digit of the code.
+
+        Exercised on a new (unsaved) record on purpose: a CFOP shipped by the
+        data files is tracked by its xml_id, and the editable data mixin
+        forbids renaming such a record (its xml_id would no longer match).
+        """
+        cfop = self.env["l10n_br_fiscal.cfop"].new({"code": "1101"})
         self.assertFalse(cfop.is_import)
 
         cfop.invalidate_recordset()
