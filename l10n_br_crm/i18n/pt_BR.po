@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2026-11-25 23:46+0000\n"
+"PO-Revision-Date: 2026-11-26 17:12+0000\n"
 "Last-Translator: Luis Felipe Miléo <mileo@kmee.com.br>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -60,12 +60,12 @@ msgstr "CNPJ/CPF sem caracteres especiais"
 #. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__city_id
 msgid "City of Address"
-msgstr "Cidade do Endereço"
+msgstr "Cidade do endereço"
 
 #. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__cnae_main_id
 msgid "Cnae Main"
-msgstr "Cnae Principal"
+msgstr "CNAE principal"
 
 #. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__company_size
@@ -165,7 +165,7 @@ msgstr "Cod. Municipal"
 #. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__name_surname
 msgid "Name and Surname"
-msgstr "Nome e Sobrenome"
+msgstr "Nome e sobrenome"
 
 #. module: l10n_br_crm
 #: model:ir.model.fields,help:l10n_br_crm.field_crm_lead__legal_responsible_name
@@ -241,12 +241,12 @@ msgstr "Número"
 #. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__l10n_br_isuf_code
 msgid "Suframa"
-msgstr "Suframa"
+msgstr "SUFRAMA"
 
 #. module: l10n_br_crm
 #: model:ir.model.fields,help:l10n_br_crm.field_crm_lead__legal_name
 msgid "Used in fiscal documents"
-msgstr "Usado em Documentos Fiscais"
+msgstr "Usado em documentos fiscais"
 
 #. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__vat_formatted_cnpj
