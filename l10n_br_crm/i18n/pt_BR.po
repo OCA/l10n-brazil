@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2026-11-26 17:12+0000\n"
+"PO-Revision-Date: 2026-11-26 18:55+0000\n"
 "Last-Translator: Luis Felipe Miléo <mileo@kmee.com.br>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -50,7 +50,7 @@ msgstr "CNPJ/CPF"
 #. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__cnpj_cpf_stripped
 msgid "CNPJ/CPF Stripped"
-msgstr "CNPJ/CPF Despojado"
+msgstr "CNPJ/CPF sem formatação"
 
 #. module: l10n_br_crm
 #: model:ir.model.fields,help:l10n_br_crm.field_crm_lead__cnpj_cpf_stripped
@@ -105,7 +105,7 @@ msgstr "Bairro"
 #. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__equity_capital
 msgid "Equity Capital"
-msgstr "Capital Próprio"
+msgstr "Capital social"
 
 #. module: l10n_br_crm
 #: model:ir.model.fields,help:l10n_br_crm.field_crm_lead__legal_responsible_function
@@ -120,7 +120,7 @@ msgstr "Matriz / Filial"
 #. module: l10n_br_crm
 #: model:ir.model.fields,help:l10n_br_crm.field_crm_lead__show_l10n_br
 msgid "Indicates if Brazilian localization fields should be displayed."
-msgstr "Indica se os campos de localização brasileira devem ser exibidos."
+msgstr "Indica se os campos da localização brasileira devem ser exibidos."
 
 #. module: l10n_br_crm
 #. odoo-python
@@ -135,7 +135,7 @@ msgstr ""
 #. module: l10n_br_crm
 #: model:ir.model,name:l10n_br_crm.model_crm_lead
 msgid "Lead/Opportunity"
-msgstr "Prospectos/Oportunidades"
+msgstr "Lead/oportunidade"
 
 #. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__legal_name
@@ -160,7 +160,7 @@ msgstr "Cargo do responsável legal"
 #. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__l10n_br_im_code
 msgid "Municipal Tax Number"
-msgstr "Cod. Municipal"
+msgstr "Inscrição municipal"
 
 #. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__name_surname
@@ -175,7 +175,7 @@ msgstr "Nome do responsável legal pela empresa."
 #. module: l10n_br_crm
 #: model:ir.model.fields,help:l10n_br_crm.field_crm_lead__name_surname
 msgid "Name used in fiscal documents"
-msgstr "Nome usado nos Docs. Fiscais"
+msgstr "Nome usado nos documentos fiscais"
 
 #. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__opening_date
@@ -216,7 +216,7 @@ msgstr "Mostrar formato de CNPJ/CPF"
 #. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__show_l10n_br
 msgid "Show L10N Br"
-msgstr "Exibir L10N Br"
+msgstr "Exibir localização brasileira"
 
 #. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__simples_option_date
@@ -226,12 +226,12 @@ msgstr "Data de opção pelo Simples Nacional"
 #. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__l10n_br_ie_code
 msgid "State Tax Number"
-msgstr "Número de inscrição estadual"
+msgstr "Inscrição estadual"
 
 #. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__street_name
 msgid "Street Name"
-msgstr "Nome da Rua"
+msgstr "Logradouro"
 
 #. module: l10n_br_crm
 #: model:ir.model.fields,field_description:l10n_br_crm.field_crm_lead__street_number
