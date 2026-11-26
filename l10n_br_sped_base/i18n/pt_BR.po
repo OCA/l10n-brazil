@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2026-10-20 20:14+0000\n"
+"PO-Revision-Date: 2026-11-26 02:46+0000\n"
 "Last-Translator: Luis Felipe Miléo <mileo@kmee.com.br>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -14,67 +14,67 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.15.2\n"
+"X-Generator: Weblate 2026.11.2\n"
 
 #. module: l10n_br_sped_base
 #: model:ir.model.fields.selection,name:l10n_br_sped_base.selection__l10n_br_sped_signer__qualification__203
 msgid "203 - Administrador"
-msgstr ""
+msgstr "203 - Administrador"
 
 #. module: l10n_br_sped_base
 #: model:ir.model.fields.selection,name:l10n_br_sped_base.selection__l10n_br_sped_signer__qualification__204
 msgid "204 - Advogado"
-msgstr ""
+msgstr "204 - Advogado"
 
 #. module: l10n_br_sped_base
 #: model:ir.model.fields.selection,name:l10n_br_sped_base.selection__l10n_br_sped_signer__qualification__205
 msgid "205 - Diretor"
-msgstr ""
+msgstr "205 - Diretor"
 
 #. module: l10n_br_sped_base
 #: model:ir.model.fields.selection,name:l10n_br_sped_base.selection__l10n_br_sped_signer__qualification__206
 msgid "206 - Empresario"
-msgstr ""
+msgstr "206 - Empresário"
 
 #. module: l10n_br_sped_base
 #: model:ir.model.fields.selection,name:l10n_br_sped_base.selection__l10n_br_sped_signer__qualification__207
 msgid "207 - Inventariante"
-msgstr ""
+msgstr "207 - Inventariante"
 
 #. module: l10n_br_sped_base
 #: model:ir.model.fields.selection,name:l10n_br_sped_base.selection__l10n_br_sped_signer__qualification__208
 msgid "208 - Liquidante"
-msgstr ""
+msgstr "208 - Liquidante"
 
 #. module: l10n_br_sped_base
 #: model:ir.model.fields.selection,name:l10n_br_sped_base.selection__l10n_br_sped_signer__qualification__209
 msgid "209 - Presidente"
-msgstr ""
+msgstr "209 - Presidente"
 
 #. module: l10n_br_sped_base
 #: model:ir.model.fields.selection,name:l10n_br_sped_base.selection__l10n_br_sped_signer__qualification__222
 msgid "222 - Procurador"
-msgstr ""
+msgstr "222 - Procurador"
 
 #. module: l10n_br_sped_base
 #: model:ir.model.fields.selection,name:l10n_br_sped_base.selection__l10n_br_sped_signer__qualification__223
 msgid "223 - Gestor judicial"
-msgstr ""
+msgstr "223 - Gestor judicial"
 
 #. module: l10n_br_sped_base
 #: model:ir.model.fields.selection,name:l10n_br_sped_base.selection__l10n_br_sped_signer__qualification__226
 msgid "226 - Socio"
-msgstr ""
+msgstr "226 - Sócio"
 
 #. module: l10n_br_sped_base
 #: model:ir.model.fields.selection,name:l10n_br_sped_base.selection__l10n_br_sped_signer__qualification__309
 msgid "309 - Contador"
-msgstr ""
+msgstr "309 - Contador"
 
 #. module: l10n_br_sped_base
 #: model:ir.model.fields.selection,name:l10n_br_sped_base.selection__l10n_br_sped_signer__qualification__312
 msgid "312 - Tecnico contabil"
-msgstr ""
+msgstr "312 - Técnico contábil"
 
 #. module: l10n_br_sped_base
 #: model:ir.model.fields,help:l10n_br_sped_base.field_res_company__l10n_br_sped_signer_ids
@@ -82,11 +82,13 @@ msgid ""
 "A escrituracao e assinada, no minimo, pelo responsavel legal da pessoa "
 "juridica e pelo contabilista: registro 0930 da ECF e J930 da ECD."
 msgstr ""
+"A escrituração é assinada, no mínimo, pelo responsável legal da pessoa "
+"jurídica e pelo contabilista: registro 0930 da ECF e J930 da ECD."
 
 #. module: l10n_br_sped_base
 #: model:ir.model.fields,field_description:l10n_br_sped_base.field_l10n_br_sped_declaration__message_needaction
 msgid "Action Needed"
-msgstr "Ação Necessária"
+msgstr "Requer ação"
 
 #. module: l10n_br_sped_base
 #: model:ir.model.fields,field_description:l10n_br_sped_base.field_l10n_br_sped_declaration__activity_ids
@@ -96,22 +98,22 @@ msgstr "Atividades"
 #. module: l10n_br_sped_base
 #: model:ir.model.fields,field_description:l10n_br_sped_base.field_l10n_br_sped_declaration__activity_exception_decoration
 msgid "Activity Exception Decoration"
-msgstr "Decoração de Exceção de Atividade"
+msgstr "Decoração de atividade excepcional"
 
 #. module: l10n_br_sped_base
 #: model:ir.model.fields,field_description:l10n_br_sped_base.field_l10n_br_sped_declaration__activity_state
 msgid "Activity State"
-msgstr "Estado da Atividade"
+msgstr "Status da atividade"
 
 #. module: l10n_br_sped_base
 #: model:ir.model.fields,field_description:l10n_br_sped_base.field_l10n_br_sped_declaration__activity_type_icon
 msgid "Activity Type Icon"
-msgstr "Ícone do Tipo de Atividade"
+msgstr "Ícone do tipo de atividade"
 
 #. module: l10n_br_sped_base
 #: model:ir.model.fields,field_description:l10n_br_sped_base.field_l10n_br_sped_declaration__message_attachment_count
 msgid "Attachment Count"
-msgstr "Contagem de Anexos"
+msgstr "Total de anexos"
 
 #. module: l10n_br_sped_base
 #: model:ir.model.fields,field_description:l10n_br_sped_base.field_l10n_br_sped_declaration__brl_currency_id
@@ -122,12 +124,12 @@ msgstr "Moeda da escrituração"
 #. module: l10n_br_sped_base
 #: model:ir.model.fields,field_description:l10n_br_sped_base.field_l10n_br_sped_signer__cpf_cnpj
 msgid "CPF/CNPJ"
-msgstr ""
+msgstr "CPF/CNPJ"
 
 #. module: l10n_br_sped_base
 #: model:ir.model.fields,field_description:l10n_br_sped_base.field_l10n_br_sped_signer__crc
 msgid "CRC"
-msgstr ""
+msgstr "CRC"
 
 #. module: l10n_br_sped_base
 #: model:ir.model.fields,field_description:l10n_br_sped_base.field_res_partner__crc_code
@@ -144,7 +146,7 @@ msgstr "UF do CRC"
 #. module: l10n_br_sped_base
 #: model:ir.model,name:l10n_br_sped_base.model_res_company
 msgid "Companies"
-msgstr ""
+msgstr "Empresas"
 
 #. module: l10n_br_sped_base
 #: model:ir.model.fields,field_description:l10n_br_sped_base.field_l10n_br_sped_declaration__company_id
@@ -161,17 +163,17 @@ msgstr "Contato"
 #. module: l10n_br_sped_base
 #: model:ir.model.fields,field_description:l10n_br_sped_base.field_l10n_br_sped_signer__partner_id
 msgid "Contato"
-msgstr ""
+msgstr "Contato"
 
 #. module: l10n_br_sped_base
 #: model:ir.model.fields,field_description:l10n_br_sped_base.field_l10n_br_sped_signer__create_uid
 msgid "Created by"
-msgstr ""
+msgstr "Criado por"
 
 #. module: l10n_br_sped_base
 #: model:ir.model.fields,field_description:l10n_br_sped_base.field_l10n_br_sped_signer__create_date
 msgid "Created on"
-msgstr ""
+msgstr "Criado em"
 
 #. module: l10n_br_sped_base
 #: model:ir.model.fields,field_description:l10n_br_sped_base.field_l10n_br_sped_declaration__debug
@@ -181,7 +183,7 @@ msgstr "Depuração"
 #. module: l10n_br_sped_base
 #: model:ir.model.fields,field_description:l10n_br_sped_base.field_l10n_br_sped_signer__display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Nome exibido"
 
 #. module: l10n_br_sped_base
 #: model:ir.model.fields.selection,name:l10n_br_sped_base.selection__l10n_br_sped_declaration__state__done
@@ -191,12 +193,12 @@ msgstr "Concluído"
 #. module: l10n_br_sped_base
 #: model:ir.model.fields.selection,name:l10n_br_sped_base.selection__l10n_br_sped_declaration__state__draft
 msgid "Draft"
-msgstr "Rascunho"
+msgstr "Provisório"
 
 #. module: l10n_br_sped_base
 #: model:ir.model.fields,field_description:l10n_br_sped_base.field_l10n_br_sped_signer__email
 msgid "Email"
-msgstr ""
+msgstr "E-mail"
 
 #. module: l10n_br_sped_base
 #: model:ir.model.fields,field_description:l10n_br_sped_base.field_l10n_br_sped_declaration__DT_FIN
@@ -206,7 +208,7 @@ msgstr "Data Final"
 #. module: l10n_br_sped_base
 #: model:ir.model.fields,field_description:l10n_br_sped_base.field_l10n_br_sped_declaration__fiscal_comment_ids
 msgid "Fiscal Comment"
-msgstr "Comentário Fiscal"
+msgstr "Comentário fiscal"
 
 #. module: l10n_br_sped_base
 #: model:ir.model.fields,field_description:l10n_br_sped_base.field_l10n_br_sped_declaration__fiscal_document_ids
@@ -216,7 +218,7 @@ msgstr "Documento Fiscal"
 #. module: l10n_br_sped_base
 #: model:ir.model.fields,field_description:l10n_br_sped_base.field_l10n_br_sped_declaration__fiscal_document_line_ids
 msgid "Fiscal Document Line"
-msgstr "Linha do Documento Fiscal"
+msgstr "Linha do documento fiscal"
 
 #. module: l10n_br_sped_base
 #: model:ir.model.fields,field_description:l10n_br_sped_base.field_l10n_br_sped_declaration__fiscal_document_partner_ids
@@ -242,7 +244,7 @@ msgstr "Unidade de medida fiscal"
 #. odoo-python
 #: code:addons/l10n_br_sped_base/models/sped_declaration.py:0
 msgid "Flush Registers"
-msgstr ""
+msgstr "Limpar registros"
 
 #. module: l10n_br_sped_base
 #: model:ir.model.fields,field_description:l10n_br_sped_base.field_l10n_br_sped_declaration__message_follower_ids
@@ -252,34 +254,34 @@ msgstr "Seguidores"
 #. module: l10n_br_sped_base
 #: model:ir.model.fields,field_description:l10n_br_sped_base.field_l10n_br_sped_declaration__message_partner_ids
 msgid "Followers (Partners)"
-msgstr "Seguidores (Parceiros)"
+msgstr "Seguidores (parceiros)"
 
 #. module: l10n_br_sped_base
 #: model:ir.model.fields,help:l10n_br_sped_base.field_l10n_br_sped_declaration__activity_type_icon
 msgid "Font awesome icon e.g. fa-tasks"
-msgstr "Ícone do font awesome ex. fa-task"
+msgstr "Ícone do Font Awesome, ex.: fa-tasks"
 
 #. module: l10n_br_sped_base
 #. odoo-python
 #: code:addons/l10n_br_sped_base/models/sped_declaration.py:0
 msgid "Generate SPED File"
-msgstr ""
+msgstr "Gerar arquivo do SPED"
 
 #. module: l10n_br_sped_base
 #: model:ir.model.fields,field_description:l10n_br_sped_base.field_l10n_br_sped_declaration__has_message
 msgid "Has Message"
-msgstr "Tem mensagem"
+msgstr "Tem uma mensagem"
 
 #. module: l10n_br_sped_base
 #: model:ir.model.fields,field_description:l10n_br_sped_base.field_l10n_br_sped_signer__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: l10n_br_sped_base
 #: model:ir.model.fields,help:l10n_br_sped_base.field_l10n_br_sped_declaration__res_id
 #: model:ir.model.fields,help:l10n_br_sped_base.field_l10n_br_sped_mixin__res_id
 msgid "ID of the target record in the database"
-msgstr "ID do registro de destino no banco de dados"
+msgstr "ID do registro de destino na base de dados"
 
 #. module: l10n_br_sped_base
 #: model:ir.model.fields,field_description:l10n_br_sped_base.field_l10n_br_sped_declaration__activity_exception_icon
@@ -297,7 +299,7 @@ msgid ""
 "If True, will pull draft account moves and draft fiscal documents from a "
 "larger date period to help developpers develop and debug the mappings"
 msgstr ""
-"Se marcado, busca lançamentos contábeis e documentos fiscais em rascunho de "
+"Se marcado, busca lançamentos contábeis e documentos fiscais provisórios de "
 "um período de datas maior, para ajudar desenvolvedores a criar e depurar os "
 "mapeamentos"
 
@@ -326,7 +328,7 @@ msgstr "Gerado a partir do Odoo"
 #: model:ir.model.fields,field_description:l10n_br_sped_base.field_l10n_br_sped_declaration__is_imported
 #: model:ir.model.fields,field_description:l10n_br_sped_base.field_l10n_br_sped_mixin__is_imported
 msgid "Is Imported"
-msgstr "Importado"
+msgstr "É importado"
 
 #. module: l10n_br_sped_base
 #: model:ir.model.fields,field_description:l10n_br_sped_base.field_res_partner__is_accountant
@@ -337,17 +339,17 @@ msgstr "É contador?"
 #. module: l10n_br_sped_base
 #: model:ir.model.fields,field_description:l10n_br_sped_base.field_l10n_br_sped_signer__write_uid
 msgid "Last Updated by"
-msgstr ""
+msgstr "Última atualização por"
 
 #. module: l10n_br_sped_base
 #: model:ir.model.fields,field_description:l10n_br_sped_base.field_l10n_br_sped_signer__write_date
 msgid "Last Updated on"
-msgstr ""
+msgstr "Última atualização em"
 
 #. module: l10n_br_sped_base
 #: model:ir.model.fields,field_description:l10n_br_sped_base.field_l10n_br_sped_declaration__message_has_error
 msgid "Message Delivery error"
-msgstr "Erro de Entrega da Mensagem"
+msgstr "Erro na entrega da mensagem"
 
 #. module: l10n_br_sped_base
 #: model:ir.model.fields,field_description:l10n_br_sped_base.field_l10n_br_sped_declaration__message_ids
@@ -357,17 +359,17 @@ msgstr "Mensagens"
 #. module: l10n_br_sped_base
 #: model:ir.model.fields,field_description:l10n_br_sped_base.field_l10n_br_sped_declaration__my_activity_date_deadline
 msgid "My Activity Deadline"
-msgstr "Prazo Final das Minhas Atividades"
+msgstr "Prazo da minha atividade"
 
 #. module: l10n_br_sped_base
 #: model:ir.model.fields,field_description:l10n_br_sped_base.field_l10n_br_sped_declaration__activity_calendar_event_id
 msgid "Next Activity Calendar Event"
-msgstr "Próximo Evento do Calendário de Atividades"
+msgstr "Próximo evento do calendário de atividades"
 
 #. module: l10n_br_sped_base
 #: model:ir.model.fields,field_description:l10n_br_sped_base.field_l10n_br_sped_declaration__activity_date_deadline
 msgid "Next Activity Deadline"
-msgstr "Prazo Final da Próxima Atividade"
+msgstr "Prazo da próxima atividade"
 
 #. module: l10n_br_sped_base
 #: model:ir.model.fields,field_description:l10n_br_sped_base.field_l10n_br_sped_declaration__activity_summary
@@ -377,17 +379,17 @@ msgstr "Resumo da próxima atividade"
 #. module: l10n_br_sped_base
 #: model:ir.model.fields,field_description:l10n_br_sped_base.field_l10n_br_sped_declaration__activity_type_id
 msgid "Next Activity Type"
-msgstr "Tipo da Próxima Atividade"
+msgstr "Tipo da próxima atividade"
 
 #. module: l10n_br_sped_base
 #: model:ir.model.fields,field_description:l10n_br_sped_base.field_l10n_br_sped_signer__name
 msgid "Nome"
-msgstr ""
+msgstr "Nome"
 
 #. module: l10n_br_sped_base
 #: model:ir.model.fields,field_description:l10n_br_sped_base.field_l10n_br_sped_declaration__message_needaction_counter
 msgid "Number of Actions"
-msgstr "Número de Ações"
+msgstr "Número de ações"
 
 #. module: l10n_br_sped_base
 #: model:ir.model.fields,field_description:l10n_br_sped_base.field_l10n_br_sped_declaration__message_has_error_counter
@@ -397,7 +399,7 @@ msgstr "Número de erros"
 #. module: l10n_br_sped_base
 #: model:ir.model.fields,help:l10n_br_sped_base.field_l10n_br_sped_declaration__message_needaction_counter
 msgid "Number of messages requiring action"
-msgstr "Número de mensagens que exigem ação"
+msgstr "Número de mensagens que requerem ação"
 
 #. module: l10n_br_sped_base
 #: model:ir.model.fields,help:l10n_br_sped_base.field_l10n_br_sped_declaration__message_has_error_counter
@@ -410,6 +412,8 @@ msgid ""
 "Numero de inscricao no Conselho Regional de Contabilidade, obrigatorio para "
 "contador e tecnico contabil."
 msgstr ""
+"Número de inscrição no Conselho Regional de Contabilidade, obrigatório para "
+"contador e técnico contábil."
 
 #. module: l10n_br_sped_base
 #. odoo-python
@@ -418,6 +422,8 @@ msgid ""
 "O signatario %(nome)s e contabilista e precisa do numero de inscricao no CRC "
 "para assinar a ECF."
 msgstr ""
+"O signatário %(nome)s é contabilista e precisa do número de inscrição no CRC "
+"para assinar a ECF."
 
 #. module: l10n_br_sped_base
 #: model:ir.model.fields,field_description:l10n_br_sped_base.field_l10n_br_sped_declaration__res_model
@@ -434,18 +440,18 @@ msgstr "Referência do Odoo"
 #. module: l10n_br_sped_base
 #: model:ir.model.fields,help:l10n_br_sped_base.field_l10n_br_sped_signer__partner_id
 msgid "Preenche nome, CPF/CNPJ, e-mail e telefone a partir do contato."
-msgstr ""
+msgstr "Preenche nome, CPF/CNPJ, e-mail e telefone a partir do contato."
 
 #. module: l10n_br_sped_base
 #. odoo-python
 #: code:addons/l10n_br_sped_base/models/sped_declaration.py:0
 msgid "Pull Registers from Odoo"
-msgstr ""
+msgstr "Buscar registros do Odoo"
 
 #. module: l10n_br_sped_base
 #: model:ir.model.fields,field_description:l10n_br_sped_base.field_l10n_br_sped_signer__qualification
 msgid "Qualificacao"
-msgstr ""
+msgstr "Qualificação"
 
 #. module: l10n_br_sped_base
 #: model:ir.model.fields,field_description:l10n_br_sped_base.field_l10n_br_sped_declaration__res_id
@@ -457,44 +463,45 @@ msgstr "ID do registro"
 #. odoo-python
 #: code:addons/l10n_br_sped_base/models/sped_mixin.py:0
 msgid "Register %(code)s doesn't match Odoo %(kind)s SPED structure!"
-msgstr "O registro %(code)s não corresponde à estrutura SPED %(kind)s do Odoo!"
+msgstr ""
+"O registro %(code)s não corresponde à estrutura do SPED %(kind)s do Odoo!"
 
 #. module: l10n_br_sped_base
 #. odoo-python
 #: code:addons/l10n_br_sped_base/models/sped_declaration.py:0
 msgid "Reset to Draft"
-msgstr ""
+msgstr "Voltar para provisório"
 
 #. module: l10n_br_sped_base
 #: model:ir.model.fields,field_description:l10n_br_sped_base.field_l10n_br_sped_declaration__activity_user_id
 msgid "Responsible User"
-msgstr "Usuário Responsável"
+msgstr "Usuário responsável"
 
 #. module: l10n_br_sped_base
 #: model:ir.ui.menu,name:l10n_br_sped_base.menu_root
 msgid "SPED"
-msgstr ""
+msgstr "SPED"
 
 #. module: l10n_br_sped_base
 #: model:ir.model.fields,field_description:l10n_br_sped_base.field_l10n_br_sped_signer__sequence
 msgid "Sequence"
-msgstr ""
+msgstr "Sequência"
 
 #. module: l10n_br_sped_base
 #. odoo-python
 #: code:addons/l10n_br_sped_base/models/sped_declaration.py:0
 msgid "Set to Done"
-msgstr ""
+msgstr "Marcar como concluído"
 
 #. module: l10n_br_sped_base
 #: model:ir.model,name:l10n_br_sped_base.model_l10n_br_sped_signer
 msgid "Signatario da Escrituracao do Sped"
-msgstr ""
+msgstr "Signatário da escrituração do SPED"
 
 #. module: l10n_br_sped_base
 #: model:ir.model.fields,field_description:l10n_br_sped_base.field_res_company__l10n_br_sped_signer_ids
 msgid "Signatarios da escrituracao"
-msgstr ""
+msgstr "Signatários da escrituração"
 
 #. module: l10n_br_sped_base
 #: model:ir.model,name:l10n_br_sped_base.model_l10n_br_sped_declaration
@@ -522,7 +529,7 @@ msgid ""
 "State of the declaration. When the state is set to 'Done', the parameters "
 "become read-only."
 msgstr ""
-"Situação da declaração. Quando a situação é 'Concluído', os parâmetros ficam "
+"Estado da declaração. Quando o estado é 'Concluído', os parâmetros ficam "
 "somente leitura."
 
 #. module: l10n_br_sped_base
@@ -534,14 +541,14 @@ msgid ""
 "Planned: Future activities."
 msgstr ""
 "Status baseado em atividades\n"
-"Atrasado: Data definida já passou\n"
-"Hoje: Data de atividade é hoje\n"
-"Planejado: Atividades futuras."
+"Atrasado: data de vencimento já passou\n"
+"Hoje: data da atividade é hoje\n"
+"Planejado: atividades futuras."
 
 #. module: l10n_br_sped_base
 #: model:ir.model.fields,field_description:l10n_br_sped_base.field_l10n_br_sped_signer__phone
 msgid "Telefone"
-msgstr ""
+msgstr "Telefone"
 
 #. module: l10n_br_sped_base
 #: model:ir.model.fields,help:l10n_br_sped_base.field_l10n_br_sped_declaration__activity_exception_decoration
@@ -559,12 +566,12 @@ msgstr ""
 #. module: l10n_br_sped_base
 #: model:ir.model.fields,field_description:l10n_br_sped_base.field_l10n_br_sped_declaration__website_message_ids
 msgid "Website Messages"
-msgstr "Mensagens do Website"
+msgstr "Mensagens do site"
 
 #. module: l10n_br_sped_base
 #: model:ir.model.fields,help:l10n_br_sped_base.field_l10n_br_sped_declaration__website_message_ids
 msgid "Website communication history"
-msgstr "Histórico de comunicação do website"
+msgstr "Histórico de comunicação do site"
 
 #. module: l10n_br_sped_base
 #: model:ir.model,name:l10n_br_sped_base.model_l10n_br_sped_mixin
