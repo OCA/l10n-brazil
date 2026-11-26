@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2026-11-25 23:46+0000\n"
+"PO-Revision-Date: 2026-11-26 18:55+0000\n"
 "Last-Translator: Luis Felipe Miléo <mileo@kmee.com.br>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -21,7 +21,8 @@ msgstr ""
 #: code:addons/l10n_br_nfse_dfe/models/res_company.py:0
 msgid "ADN rate limit (HTTP 429). Next query respects Retry-After."
 msgstr ""
-"Limite de taxa do ADN (HTTP 429). A próxima consulta respeita Retry-After."
+"Limite de consultas do ADN (HTTP 429). A próxima consulta respeita o Retry-"
+"After."
 
 #. module: l10n_br_nfse_dfe
 #. odoo-python
@@ -58,12 +59,12 @@ msgstr "DF-e"
 #. module: l10n_br_nfse_dfe
 #: model:ir.actions.server,name:l10n_br_nfse_dfe.ir_cron_search_nfse_dfe_documents_ir_actions_server
 msgid "DF-e - Search NFS-e Documents"
-msgstr "DF-e - Pesquisa de Documentos NFS-e"
+msgstr "DF-e - Consulta de documentos NFS-e"
 
 #. module: l10n_br_nfse_dfe
 #: model:ir.model,name:l10n_br_nfse_dfe.model_l10n_br_fiscal_dfe_distribution_log
 msgid "DF-e Distribution Log"
-msgstr "Log de Distribuição DF-e"
+msgstr "Log da distribuição DF-e"
 
 #. module: l10n_br_nfse_dfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse_dfe.nfse_dfe_document_tree
@@ -85,7 +86,7 @@ msgstr "Produto padrão de importação de NFS-e"
 #. odoo-python
 #: code:addons/l10n_br_nfse_dfe/models/res_company.py:0
 msgid "Documents found."
-msgstr "Documentos encontrados."
+msgstr "Documentos localizados."
 
 #. module: l10n_br_nfse_dfe
 #: model:ir.model.fields,help:l10n_br_nfse_dfe.field_res_company__nfse_dfe_environment
@@ -103,7 +104,7 @@ msgid ""
 "Error searching NFS-e documents.\n"
 "%(error)s"
 msgstr ""
-"Erro ao pesquisar documentos de NFS-e.\n"
+"Erro ao consultar documentos de NFS-e.\n"
 "%(error)s"
 
 #. module: l10n_br_nfse_dfe
@@ -114,7 +115,7 @@ msgstr "Documento Fiscal"
 #. module: l10n_br_nfse_dfe
 #: model:ir.model,name:l10n_br_nfse_dfe.model_l10n_br_fiscal_document_line
 msgid "Fiscal Document Line"
-msgstr "Linha do Documento Fiscal"
+msgstr "Linha do documento fiscal"
 
 #. module: l10n_br_nfse_dfe
 #: model:ir.model.fields,field_description:l10n_br_nfse_dfe.field_dfe_specific_search_wizard__fiscal_type
@@ -127,7 +128,7 @@ msgstr "Tipo Fiscal"
 #. module: l10n_br_nfse_dfe
 #: model:ir.model,name:l10n_br_nfse_dfe.model_l10n_br_fiscal_dfe_document
 msgid "Fiscal document from distribution service"
-msgstr "Documento fiscal do serviço de distribuição"
+msgstr "Documento fiscal da distribuição DF-e"
 
 #. module: l10n_br_nfse_dfe
 #: model:ir.model.fields,help:l10n_br_nfse_dfe.field_res_company__nfse_import_fiscal_operation_id
@@ -148,7 +149,7 @@ msgstr "Importar"
 #. module: l10n_br_nfse_dfe
 #: model:ir.model,name:l10n_br_nfse_dfe.model_l10n_br_fiscal_document_import_wizard
 msgid "Import Document Wizard"
-msgstr "Assistente de Importação de Documentos"
+msgstr "Assistente de importação de documento"
 
 #. module: l10n_br_nfse_dfe
 #. odoo-python
@@ -182,17 +183,17 @@ msgstr "NFS-e DF-e"
 #. module: l10n_br_nfse_dfe
 #: model:ir.model.fields,field_description:l10n_br_nfse_dfe.field_res_company__nfse_dfe_last_query
 msgid "NFS-e DF-e Last Query"
-msgstr "Última Consulta DF-e (NFS-e)"
+msgstr "Última consulta DF-e (NFS-e)"
 
 #. module: l10n_br_nfse_dfe
 #: model:ir.model.fields,field_description:l10n_br_nfse_dfe.field_res_company__nfse_dfe_last_status
 msgid "NFS-e DF-e Last Status"
-msgstr "Último Status DF-e (NFS-e)"
+msgstr "Última situação DF-e (NFS-e)"
 
 #. module: l10n_br_nfse_dfe
 #: model:ir.model.fields,field_description:l10n_br_nfse_dfe.field_res_company__nfse_dfe_last_status_code
 msgid "NFS-e DF-e Last Status Code"
-msgstr "Último Código de Status DF-e (NFS-e)"
+msgstr "Último código da situação DF-e (NFS-e)"
 
 #. module: l10n_br_nfse_dfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse_dfe.nfse_dfe_res_company_form
@@ -207,7 +208,7 @@ msgstr "Último NSU (NFS-e)"
 #. module: l10n_br_nfse_dfe
 #: model:ir.model.fields,field_description:l10n_br_nfse_dfe.field_res_company__nfse_max_nsu
 msgid "NFS-e Max NSU"
-msgstr "NSU Máximo (NFS-e)"
+msgstr "NSU máximo (NFS-e)"
 
 #. module: l10n_br_nfse_dfe
 #. odoo-python
@@ -218,13 +219,13 @@ msgstr "O NSU %(nsu)s da NFS-e não foi encontrado na resposta do ADN."
 #. module: l10n_br_nfse_dfe
 #: model:ir.model.fields,field_description:l10n_br_nfse_dfe.field_res_company__nfse_dfe_next_query
 msgid "NFS-e Next Scheduled Query"
-msgstr "Próxima Consulta Agendada (NFS-e)"
+msgstr "Próxima consulta agendada (NFS-e)"
 
 #. module: l10n_br_nfse_dfe
 #. odoo-python
 #: code:addons/l10n_br_nfse_dfe/models/res_company.py:0
 msgid "NFS-e distribution OK (ultNSU=%(nsu)s)."
-msgstr "Distribuição de NFS-e OK (ultNSU=%(nsu)s)."
+msgstr "Consulta à distribuição de NFS-e OK (ultNSU=%(nsu)s)."
 
 #. module: l10n_br_nfse_dfe
 #. odoo-python
@@ -264,7 +265,7 @@ msgstr "Próxima Consulta"
 #. odoo-python
 #: code:addons/l10n_br_nfse_dfe/models/res_company.py:0
 msgid "No NFS-e documents found."
-msgstr "Nenhum documento de NFS-e encontrado."
+msgstr "Nenhum documento de NFS-e localizado."
 
 #. module: l10n_br_nfse_dfe
 #. odoo-python
@@ -299,7 +300,7 @@ msgstr "Produção"
 #. odoo-python
 #: code:addons/l10n_br_nfse_dfe/models/res_company.py:0
 msgid "Rate limited by the ADN."
-msgstr "Limite de requisições atingido pelo ADN."
+msgstr "Consultas limitadas pelo ADN."
 
 #. module: l10n_br_nfse_dfe
 #: model:ir.model.fields.selection,name:l10n_br_nfse_dfe.selection__res_company__nfse_dfe_environment__producao_restrita
@@ -315,7 +316,7 @@ msgstr "Serviço"
 #. module: l10n_br_nfse_dfe
 #: model:ir.model.fields,field_description:l10n_br_nfse_dfe.field_l10n_br_fiscal_document_import_wizard__product_id
 msgid "Service Product"
-msgstr "Produto de Serviço"
+msgstr "Produto de serviço"
 
 #. module: l10n_br_nfse_dfe
 #: model:ir.model.fields,help:l10n_br_nfse_dfe.field_res_company__nfse_import_product_id
@@ -329,17 +330,17 @@ msgstr ""
 #. module: l10n_br_nfse_dfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse_dfe.nfse_dfe_document_tree
 msgid "State"
-msgstr "Estado"
+msgstr "Situação"
 
 #. module: l10n_br_nfse_dfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse_dfe.nfse_dfe_res_company_form
 msgid "Status"
-msgstr "Status"
+msgstr "Situação"
 
 #. module: l10n_br_nfse_dfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse_dfe.nfse_dfe_res_company_form
 msgid "Status Code"
-msgstr "Código de Status"
+msgstr "Código da situação"
 
 #. module: l10n_br_nfse_dfe
 #. odoo-python
@@ -369,7 +370,8 @@ msgstr "Não foi possível ler o certificado e-CNPJ."
 #. odoo-python
 #: code:addons/l10n_br_nfse_dfe/models/res_company.py:0
 msgid "The service rate limit is active. Try again later."
-msgstr "O limite de taxa do serviço está ativo. Tente novamente mais tarde."
+msgstr ""
+"O limite de consultas do serviço está ativo. Tente novamente mais tarde."
 
 #. module: l10n_br_nfse_dfe
 #. odoo-python
@@ -397,7 +399,7 @@ msgstr "Tipo"
 #. module: l10n_br_nfse_dfe
 #: model:ir.model,name:l10n_br_nfse_dfe.model_dfe_specific_search_wizard
 msgid "Wizard to search specific DFe"
-msgstr "Assistente para pesquisa específica de DF-e"
+msgstr "Assistente de consulta específica de DF-e"
 
 #. module: l10n_br_nfse_dfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse_dfe.nfse_dfe_document_tree
@@ -408,7 +410,7 @@ msgstr "XML"
 #. odoo-python
 #: code:addons/l10n_br_nfse_dfe/models/dfe_document.py:0
 msgid "You can only import the NFS-e when the DF-e is completed."
-msgstr "Você só pode importar a NFS-e quando o DF-e estiver completo."
+msgstr "Só é possível importar a NFS-e quando o DF-e estiver completo."
 
 #~ msgid "Search NFS-e"
 #~ msgstr "Pesquisar NFS-e"
