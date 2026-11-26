@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2026-11-25 23:46+0000\n"
+"PO-Revision-Date: 2026-11-26 02:46+0000\n"
 "Last-Translator: Luis Felipe Miléo <mileo@kmee.com.br>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -278,7 +278,7 @@ msgstr "Alíquota da CIDE (em reais)"
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_cide__nfe40_vAliqProd
 msgid "Alíquota do CIDE (em reais)"
-msgstr "Alíquota do CIDE (em reais)"
+msgstr "Alíquota da CIDE (em reais)"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_pICMSEfet
@@ -404,7 +404,7 @@ msgstr "BC da retenção do ICMS"
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_cide__nfe40_qBCProd
 msgid "BC do CIDE"
-msgstr "BC do CIDE"
+msgstr "BC da CIDE"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_nfe_40_cide__nfe40_qBCProd
@@ -3050,7 +3050,7 @@ msgid ""
 "9 - Operação não presencial, outros."
 msgstr ""
 "Indicador de presença do comprador no estabelecimento comercial no momento "
-"da oepração:\n"
+"da operação:\n"
 "0 - Não se aplica (ex.: Nota Fiscal complementar ou de ajuste);\n"
 "1 - Operação presencial;\n"
 "2 - Operação não presencial, internet;\n"
@@ -4218,7 +4218,7 @@ msgstr "Número do documento de importação (DI, DSI, DIRE, DUImp) (NT2011/004)
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_account_move_line__nfe40_nItemPed
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_nItemPed
 msgid "Número do Item do Pedido de Compra"
-msgstr "Número do Item do pedido de compra"
+msgstr "Número do item do pedido de compra"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_account_move_line__nfe40_nItemPed
@@ -4227,7 +4227,7 @@ msgid ""
 "Número do Item do Pedido de Compra - Identificação do número do item do "
 "pedido de Compra"
 msgstr ""
-"Número do Item do pedido de compra - Identificação do número do item do "
+"Número do item do pedido de compra - Identificação do número do item do "
 "pedido de compra"
 
 #. module: l10n_br_nfe
@@ -5376,8 +5376,8 @@ msgid ""
 "Tipo Retorno do Pedido de Consulta do Recido do Lote de Notas Fiscais\n"
 "Eletrônicas"
 msgstr ""
-"Tipo Retorno do Pedido de Consulta do Recido do Lote de Notas Fiscais\n"
-"Eletrônicas"
+"Tipo retorno do pedido de consulta do recibo do lote de notas fiscais\n"
+"eletrônicas"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_guiatransito__nfe40_tpGuia
@@ -6181,7 +6181,7 @@ msgstr "Valor desconto incondicionado"
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_cide__nfe40_vCIDE
 msgid "Valor do CIDE"
-msgstr "Valor do CIDE"
+msgstr "Valor da CIDE"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_account_move_line__nfe40_vCOFINS
@@ -6548,7 +6548,7 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_vItem
 msgid "Valor total do Item"
-msgstr "Valor total do Item"
+msgstr "Valor total do item"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_vItem
@@ -6556,7 +6556,7 @@ msgid ""
 "Valor total do Item, correspondente à sua participação no total da nota. A "
 "soma dos itens deverá corresponder ao total da nota."
 msgstr ""
-"Valor total do Item, correspondente à sua participação no total da nota. A "
+"Valor total do item, correspondente à sua participação no total da nota. A "
 "soma dos itens deverá corresponder ao total da nota."
 
 #. module: l10n_br_nfe
