@@ -16,12 +16,6 @@ msgstr ""
 #. module: l10n_br_account_renegotiation
 #. odoo-python
 #: code:addons/l10n_br_account_renegotiation/models/account_move.py:0
-msgid "%(date)s: %(amount)s"
-msgstr ""
-
-#. module: l10n_br_account_renegotiation
-#. odoo-python
-#: code:addons/l10n_br_account_renegotiation/models/account_move.py:0
 msgid ""
 "<p><strong>Payment Installments Renegotiated</strong></p><p><strong>Previous"
 " installments:</strong><br/>%(old)s</p><p><strong>New "
