@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-10-09 23:32+0000\n"
-"PO-Revision-Date: 2026-11-26 02:46+0000\n"
+"PO-Revision-Date: 2026-11-26 17:13+0000\n"
 "Last-Translator: Luis Felipe Miléo <mileo@kmee.com.br>\n"
 "Language-Team: Brazilian Portuguese\n"
 "Language: pt_BR\n"
@@ -25,7 +25,7 @@ msgstr "44 dígitos para a NF-e, 50 para a NFS-e."
 #. module: l10n_br_fiscal_dfe_mock
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe_mock.field_dfe_mock_nsu__access_key
 msgid "Access Key"
-msgstr "Chave de Acesso"
+msgstr "Chave de acesso"
 
 #. module: l10n_br_fiscal_dfe_mock
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe_mock.dfe_mock_generate_wizard_form
@@ -112,7 +112,7 @@ msgstr "Nome de Exibição"
 #. module: l10n_br_fiscal_dfe_mock
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe_mock.dfe_mock_generate_wizard_form
 msgid "Document Types"
-msgstr "Tipos de Documento"
+msgstr "Tipos de documento"
 
 #. module: l10n_br_fiscal_dfe_mock
 #: model:ir.model.fields.selection,name:l10n_br_fiscal_dfe_mock.selection__dfe_mock_nsu__schema_type__evento
@@ -188,7 +188,7 @@ msgstr "NSU simulados gerados"
 #. module: l10n_br_fiscal_dfe_mock
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe_mock.dfe_mock_nsu_search
 msgid "Group By"
-msgstr "Agrupar Por"
+msgstr "Agrupar por"
 
 #. module: l10n_br_fiscal_dfe_mock
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe_mock.field_dfe_mock_generate_wizard__id
@@ -205,13 +205,13 @@ msgstr "XML formatado"
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe_mock.field_dfe_mock_generate_wizard__write_uid
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe_mock.field_dfe_mock_nsu__write_uid
 msgid "Last Updated by"
-msgstr "Última Atualização por"
+msgstr "Última atualização por"
 
 #. module: l10n_br_fiscal_dfe_mock
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe_mock.field_dfe_mock_generate_wizard__write_date
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe_mock.field_dfe_mock_nsu__write_date
 msgid "Last Updated on"
-msgstr "Última Atualização em"
+msgstr "Última atualização em"
 
 #. module: l10n_br_fiscal_dfe_mock
 #. odoo-javascript
@@ -364,7 +364,7 @@ msgstr "Resetar Consumido"
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe_mock.field_dfe_mock_nsu__schema_type
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe_mock.dfe_mock_nsu_search
 msgid "Schema Type"
-msgstr "Tipo de Schema"
+msgstr "Tipo de schema"
 
 #. module: l10n_br_fiscal_dfe_mock
 #. odoo-python
@@ -419,7 +419,7 @@ msgstr "Esta NFS-e não tem chave de acesso para cancelar."
 #. module: l10n_br_fiscal_dfe_mock
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe_mock.dfe_mock_nsu_search
 msgid "Unconsumed"
-msgstr "Não Consumido"
+msgstr "Não consumido"
 
 #. module: l10n_br_fiscal_dfe_mock
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal_dfe_mock.dfe_mock_nsu_action
