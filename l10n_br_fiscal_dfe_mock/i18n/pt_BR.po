@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-10-09 23:32+0000\n"
-"PO-Revision-Date: 2026-10-20 21:09+0000\n"
+"PO-Revision-Date: 2026-11-26 02:46+0000\n"
 "Last-Translator: Luis Felipe Miléo <mileo@kmee.com.br>\n"
 "Language-Team: Brazilian Portuguese\n"
 "Language: pt_BR\n"
@@ -15,12 +15,12 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.15.2\n"
+"X-Generator: Weblate 2026.11.2\n"
 
 #. module: l10n_br_fiscal_dfe_mock
 #: model:ir.model.fields,help:l10n_br_fiscal_dfe_mock.field_dfe_mock_nsu__access_key
 msgid "44 digits for NF-e, 50 for NFS-e."
-msgstr ""
+msgstr "44 dígitos para a NF-e, 50 para a NFS-e."
 
 #. module: l10n_br_fiscal_dfe_mock
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe_mock.field_dfe_mock_nsu__access_key
@@ -36,6 +36,12 @@ msgid ""
 "pool,\n"
 "                    as a new event."
 msgstr ""
+"NFS-e nacionais autorizadas, emitidas para esta empresa como o\n"
+"                    ADN as distribui. O cancelamento pelo prestador não é "
+"uma\n"
+"                    situação da nota: registre-o depois no banco de NSU "
+"simulados,\n"
+"                    como um novo evento."
 
 #. module: l10n_br_fiscal_dfe_mock
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe_mock.dfe_mock_generate_wizard_form
@@ -88,12 +94,14 @@ msgid ""
 "DF-e queries are answered by the local pool, with no communication with "
 "SEFAZ."
 msgstr ""
+"As consultas DF-e são respondidas pelo banco local, sem comunicação com a "
+"SEFAZ."
 
 #. module: l10n_br_fiscal_dfe_mock
 #. odoo-javascript
 #: code:addons/l10n_br_fiscal_dfe_mock/static/src/components/dfe_banner/dfe_banner_mock.xml:0
 msgid "Disable Mock"
-msgstr ""
+msgstr "Desabilitar simulação"
 
 #. module: l10n_br_fiscal_dfe_mock
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe_mock.field_dfe_mock_generate_wizard__display_name
@@ -109,13 +117,13 @@ msgstr "Tipos de Documento"
 #. module: l10n_br_fiscal_dfe_mock
 #: model:ir.model.fields.selection,name:l10n_br_fiscal_dfe_mock.selection__dfe_mock_nsu__schema_type__evento
 msgid "EVENTO"
-msgstr ""
+msgstr "EVENTO"
 
 #. module: l10n_br_fiscal_dfe_mock
 #. odoo-javascript
 #: code:addons/l10n_br_fiscal_dfe_mock/static/src/components/dfe_banner/dfe_banner_mock.xml:0
 msgid "Enable Mock"
-msgstr ""
+msgstr "Habilitar simulação"
 
 #. module: l10n_br_fiscal_dfe_mock
 #. odoo-python
@@ -124,13 +132,15 @@ msgid ""
 "Events reference the NF-e generated in the same run. Select resNFe or "
 "procNFe as well."
 msgstr ""
+"Os eventos se referem à NF-e gerada na mesma execução. Selecione também "
+"resNFe ou procNFe."
 
 #. module: l10n_br_fiscal_dfe_mock
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe_mock.field_dfe_mock_generate_wizard__fiscal_type
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe_mock.field_dfe_mock_nsu__fiscal_type
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe_mock.dfe_mock_nsu_search
 msgid "Fiscal Type"
-msgstr ""
+msgstr "Tipo Fiscal"
 
 #. module: l10n_br_fiscal_dfe_mock
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe_mock.dfe_mock_generate_wizard_form
@@ -173,7 +183,7 @@ msgstr "Gerar resNFe"
 #. odoo-python
 #: code:addons/l10n_br_fiscal_dfe_mock/wizards/dfe_mock_generate_wizard.py:0
 msgid "Generated Mock NSUs"
-msgstr "NSUs simulados gerados"
+msgstr "NSU simulados gerados"
 
 #. module: l10n_br_fiscal_dfe_mock
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe_mock.dfe_mock_nsu_search
@@ -189,7 +199,7 @@ msgstr "ID"
 #. module: l10n_br_fiscal_dfe_mock
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe_mock.field_dfe_mock_nsu__xml_pretty
 msgid "Indented XML"
-msgstr ""
+msgstr "XML formatado"
 
 #. module: l10n_br_fiscal_dfe_mock
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe_mock.field_dfe_mock_generate_wizard__write_uid
@@ -207,7 +217,7 @@ msgstr "Última Atualização em"
 #. odoo-javascript
 #: code:addons/l10n_br_fiscal_dfe_mock/static/src/components/dfe_banner/dfe_banner_mock.xml:0
 msgid "MOCK MODE ACTIVE"
-msgstr ""
+msgstr "MODO DE SIMULAÇÃO ATIVO"
 
 #. module: l10n_br_fiscal_dfe_mock
 #: model:ir.ui.menu,name:l10n_br_fiscal_dfe_mock.dfe_mock_separator
@@ -218,44 +228,44 @@ msgstr "Simulação"
 #: model:ir.actions.act_window,name:l10n_br_fiscal_dfe_mock.dfe_mock_nsu_action
 #: model:ir.ui.menu,name:l10n_br_fiscal_dfe_mock.dfe_mock_nsu_menu
 msgid "Mock NSU Pool"
-msgstr "Pool de NSU simulados"
+msgstr "Banco de NSU simulados"
 
 #. module: l10n_br_fiscal_dfe_mock
 #. odoo-javascript
 #: code:addons/l10n_br_fiscal_dfe_mock/static/src/components/dfe_banner/dfe_banner_mock.esm.js:0
 msgid "Mock mode is off — DF-e queries reach the real SEFAZ."
-msgstr ""
+msgstr "Modo de simulação desligado: as consultas DF-e vão à SEFAZ real."
 
 #. module: l10n_br_fiscal_dfe_mock
 #: model:ir.model.fields.selection,name:l10n_br_fiscal_dfe_mock.selection__dfe_mock_generate_wizard__fiscal_type__nfe
 #: model:ir.model.fields.selection,name:l10n_br_fiscal_dfe_mock.selection__dfe_mock_nsu__fiscal_type__nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe_mock.dfe_mock_nsu_search
 msgid "NF-e"
-msgstr ""
+msgstr "NF-e"
 
 #. module: l10n_br_fiscal_dfe_mock
 #. odoo-python
 #: code:addons/l10n_br_fiscal_dfe_mock/models/dfe_mock_nsu.py:0
 msgid "NF-e cancellation"
-msgstr ""
+msgstr "Cancelamento da NF-e"
 
 #. module: l10n_br_fiscal_dfe_mock
 #: model:ir.model.fields.selection,name:l10n_br_fiscal_dfe_mock.selection__dfe_mock_generate_wizard__fiscal_type__nfse
 #: model:ir.model.fields.selection,name:l10n_br_fiscal_dfe_mock.selection__dfe_mock_nsu__fiscal_type__nfse
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe_mock.dfe_mock_nsu_search
 msgid "NFS-e"
-msgstr ""
+msgstr "NFS-e"
 
 #. module: l10n_br_fiscal_dfe_mock
 #. odoo-python
 #: code:addons/l10n_br_fiscal_dfe_mock/models/dfe_mock_nsu.py:0
 msgid "NFS-e cancellation"
-msgstr ""
+msgstr "Cancelamento da NFS-e"
 
 #. module: l10n_br_fiscal_dfe_mock
 #: model:ir.model.fields.selection,name:l10n_br_fiscal_dfe_mock.selection__dfe_mock_nsu__schema_type__nfse
 msgid "NFSe"
-msgstr ""
+msgstr "NFSe"
 
 #. module: l10n_br_fiscal_dfe_mock
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe_mock.field_dfe_mock_nsu__nsu
@@ -265,13 +275,14 @@ msgstr "NSU"
 #. module: l10n_br_fiscal_dfe_mock
 #: model:ir.model.constraint,message:l10n_br_fiscal_dfe_mock.constraint_dfe_mock_nsu_nsu_company_unique
 msgid "NSU must be unique per company and fiscal type."
-msgstr ""
+msgstr "O NSU deve ser único por empresa e tipo fiscal."
 
 #. module: l10n_br_fiscal_dfe_mock
 #. odoo-python
 #: code:addons/l10n_br_fiscal_dfe_mock/wizards/dfe_mock_generate_wizard.py:0
 msgid "No demo partner has a CNPJ to issue a mock NFS-e with."
 msgstr ""
+"Nenhum parceiro de demonstração tem CNPJ para emitir uma NFS-e simulada."
 
 #. module: l10n_br_fiscal_dfe_mock
 #. odoo-python
@@ -289,7 +300,7 @@ msgstr "Nenhum NSU mock ainda"
 #. odoo-python
 #: code:addons/l10n_br_fiscal_dfe_mock/models/res_company.py:0
 msgid "Only fiscal managers can change the DF-e mock settings."
-msgstr ""
+msgstr "Somente gerentes fiscais podem alterar a simulação do DF-e."
 
 #. module: l10n_br_fiscal_dfe_mock
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe_mock.field_dfe_mock_generate_wizard__quantity
@@ -309,6 +320,8 @@ msgid ""
 "Queued %(count)s cancellation event(s). Run the NF-e distribution to store "
 "the event. The note stays authorized."
 msgstr ""
+"%(count)s evento(s) de cancelamento na fila. Consulte a distribuição DF-e da "
+"NF-e para gravar o evento. A nota continua autorizada."
 
 #. module: l10n_br_fiscal_dfe_mock
 #. odoo-python
@@ -317,6 +330,8 @@ msgid ""
 "Queued %(count)s cancellation event(s). Run the NFS-e distribution to update "
 "the inbox."
 msgstr ""
+"%(count)s evento(s) de cancelamento na fila. Consulte a distribuição DF-e da "
+"NFS-e para atualizar a caixa de entrada."
 
 #. module: l10n_br_fiscal_dfe_mock
 #: model:ir.model,name:l10n_br_fiscal_dfe_mock.model_l10n_br_nfe_md_event
@@ -327,17 +342,17 @@ msgstr "Manifestação do Destinatário"
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe_mock.dfe_mock_nsu_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe_mock.dfe_mock_nsu_tree
 msgid "Register Cancellation"
-msgstr ""
+msgstr "Registrar cancelamento"
 
 #. module: l10n_br_fiscal_dfe_mock
 #: model:ir.actions.server,name:l10n_br_fiscal_dfe_mock.action_register_nfe_cancellation_multi
 msgid "Register NF-e Cancellation"
-msgstr ""
+msgstr "Registrar cancelamento da NF-e"
 
 #. module: l10n_br_fiscal_dfe_mock
 #: model:ir.actions.server,name:l10n_br_fiscal_dfe_mock.action_register_nfse_cancellation_multi
 msgid "Register NFS-e Cancellation"
-msgstr ""
+msgstr "Registrar cancelamento da NFS-e"
 
 #. module: l10n_br_fiscal_dfe_mock
 #: model:ir.actions.server,name:l10n_br_fiscal_dfe_mock.action_reset_consumed_multi
@@ -364,6 +379,8 @@ msgid ""
 "Select the NF-e summary or the complete NF-e. The cancellation is a new "
 "event in the feed, not a change of this row."
 msgstr ""
+"Selecione o resumo da NF-e ou a NF-e completa. O cancelamento é um novo "
+"evento na distribuição, não uma alteração desta linha."
 
 #. module: l10n_br_fiscal_dfe_mock
 #. odoo-python
@@ -372,30 +389,32 @@ msgid ""
 "Select the NFS-e note. The cancellation is a new event in the feed, not a "
 "change of this row."
 msgstr ""
+"Selecione a NFS-e. O cancelamento é um novo evento na distribuição, não uma "
+"alteração desta linha."
 
 #. module: l10n_br_fiscal_dfe_mock
 #. odoo-python
 #: code:addons/l10n_br_fiscal_dfe_mock/models/dfe_mock_nsu.py:0
 msgid "This NF-e already has a cancellation event in the mock pool."
-msgstr ""
+msgstr "Esta NF-e já tem um evento de cancelamento no banco de NSU simulados."
 
 #. module: l10n_br_fiscal_dfe_mock
 #. odoo-python
 #: code:addons/l10n_br_fiscal_dfe_mock/models/dfe_mock_nsu.py:0
 msgid "This NF-e note has no access key to cancel."
-msgstr ""
+msgstr "Esta NF-e não tem chave de acesso para cancelar."
 
 #. module: l10n_br_fiscal_dfe_mock
 #. odoo-python
 #: code:addons/l10n_br_fiscal_dfe_mock/models/dfe_mock_nsu.py:0
 msgid "This NFS-e already has a cancellation event in the mock pool."
-msgstr ""
+msgstr "Esta NFS-e já tem um evento de cancelamento no banco de NSU simulados."
 
 #. module: l10n_br_fiscal_dfe_mock
 #. odoo-python
 #: code:addons/l10n_br_fiscal_dfe_mock/models/dfe_mock_nsu.py:0
 msgid "This NFS-e note has no access key to cancel."
-msgstr ""
+msgstr "Esta NFS-e não tem chave de acesso para cancelar."
 
 #. module: l10n_br_fiscal_dfe_mock
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe_mock.dfe_mock_nsu_search
@@ -409,7 +428,7 @@ msgid ""
 "                NSU records for testing DF-e distribution."
 msgstr ""
 "Use o menu <b>Gerar NSU simulados</b> para criar registros\n"
-"                NSU fictícios para testar a distribuição DF-e."
+"                de NSU fictícios para testar a distribuição DF-e."
 
 #. module: l10n_br_fiscal_dfe_mock
 #: model:ir.model.fields,help:l10n_br_fiscal_dfe_mock.field_res_company__dfe_mock_mode
