@@ -18,6 +18,21 @@ class TestSpecModel(TransactionCase, FakeModelLoader):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        # The remaining schema models import access rights for these groups.
+        # Real consumers provide them in their own security data.
+        for name, label in (
+            ("group_user", "Spec Test User"),
+            ("group_manager", "Spec Test Manager"),
+        ):
+            group = cls.env["res.groups"].create({"name": label})
+            cls.env["ir.model.data"].create(
+                {
+                    "module": "spec_driven_model",
+                    "name": name,
+                    "model": "res.groups",
+                    "res_id": group.id,
+                }
+            )
         cls.loader = FakeModelLoader(cls.env, cls.__module__)
         cls.loader.backup_registry()
 

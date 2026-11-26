@@ -6060,7 +6060,9 @@ msgstr ""
 
 #. module: l10n_br_sped_ecf
 #: model:ir.model.fields,help:l10n_br_sped_ecf.field_l10n_br_sped_ecf_0000__message_has_error
+#: model:ir.model.fields,help:l10n_br_sped_ecf.field_l10n_br_sped_ecf_0000__message_has_sms_error
 #: model:ir.model.fields,help:l10n_br_sped_ecf.field_l10n_br_sped_ecf_9_0000__message_has_error
+#: model:ir.model.fields,help:l10n_br_sped_ecf.field_l10n_br_sped_ecf_9_0000__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
 msgstr ""
 
@@ -13055,6 +13057,12 @@ msgid ""
 "data fim da escrituração. E 0010.FORMA_APUR = “T” - Deve existir um registro"
 " [T01..T04] para cada trimestre marcado no 0010.FORMA_TRIB_PER[1..4] como "
 "“A”"
+msgstr ""
+
+#. module: l10n_br_sped_ecf
+#: model:ir.model.fields,field_description:l10n_br_sped_ecf.field_l10n_br_sped_ecf_0000__message_has_sms_error
+#: model:ir.model.fields,field_description:l10n_br_sped_ecf.field_l10n_br_sped_ecf_9_0000__message_has_sms_error
+msgid "SMS Delivery error"
 msgstr ""
 
 #. module: l10n_br_sped_ecf

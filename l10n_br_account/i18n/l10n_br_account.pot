@@ -5655,6 +5655,13 @@ msgid "Nomenclatura de Valor aduaneio e Estatístico"
 msgstr ""
 
 #. module: l10n_br_account
+#. odoo-python
+#: code:addons/l10n_br_account/wizards/document_import_wizard.py:0
+#, python-format
+msgid "None of the uploaded files is an XML: %(names)s"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__cte40_nOCA
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__cte40_nOCA
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__cte40_nOCA
@@ -7188,6 +7195,20 @@ msgstr ""
 msgid ""
 "The partner responsible for sending the goods, typically the issuer of the "
 "document. This field is primarily used when issuing the CT-e."
+msgstr ""
+
+#. module: l10n_br_account
+#. odoo-python
+#: code:addons/l10n_br_account/models/document.py:0
+#, python-format
+msgid "This document is already linked to %(invoice)s."
+msgstr ""
+
+#. module: l10n_br_account
+#. odoo-python
+#: code:addons/l10n_br_account/models/document.py:0
+#, python-format
+msgid "This document is already posted on %(invoice)s."
 msgstr ""
 
 #. module: l10n_br_account
