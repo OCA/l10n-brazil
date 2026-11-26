@@ -35,7 +35,6 @@ class PurchaseOrder(models.Model):
     )
     currency_id = fields.Many2one(
         "res.currency",
-        "Currency",
         required=True,
         default=lambda self: self.env.ref("base.EUR").id,
     )

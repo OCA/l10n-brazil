@@ -7,7 +7,7 @@ from collections import OrderedDict, defaultdict
 from importlib import import_module
 from inspect import getmembers, isclass
 
-from odoo import _, api, models
+from odoo import api, models
 from odoo.api import Environment
 from odoo.orm import model_classes
 from odoo.tools import mute_logger, sql
@@ -206,7 +206,7 @@ class SpecModel(models.Model):
         for rec in self:
             if rec.display_name == "False" or not rec.display_name:
                 # a new record keeps the client "New" breadcrumb
-                rec.display_name = _("Open...") if rec.id else False
+                rec.display_name = self.env._("Open...") if rec.id else False
         return res
 
     @classmethod
