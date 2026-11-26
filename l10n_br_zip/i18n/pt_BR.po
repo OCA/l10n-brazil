@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2026-11-26 17:12+0000\n"
+"PO-Revision-Date: 2026-11-26 18:55+0000\n"
 "Last-Translator: Luis Felipe Miléo <mileo@kmee.com.br>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -24,7 +24,7 @@ msgstr "API CEP"
 #. module: l10n_br_zip
 #: model:ir.model,name:l10n_br_zip.model_format_address_mixin
 msgid "Address Format"
-msgstr "Formato Endereço"
+msgstr "Formato de endereço"
 
 #. module: l10n_br_zip
 #: model:ir.model,name:l10n_br_zip.model_l10n_br_zip
@@ -58,7 +58,7 @@ msgstr "Cidade"
 #. module: l10n_br_zip
 #: model:ir.model,name:l10n_br_zip.model_res_config_settings
 msgid "Config Settings"
-msgstr "Ajuste de Configurações"
+msgstr "Configurações"
 
 #. module: l10n_br_zip
 #: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip__country_id
@@ -81,7 +81,7 @@ msgstr "Criado em"
 #. module: l10n_br_zip
 #: model:ir.model.fields,field_description:l10n_br_zip.field_res_config_settings__cep_update_days
 msgid "Days to Update CEP"
-msgstr "Dias para atualizar CEP"
+msgstr "Dias para atualizar o CEP"
 
 #. module: l10n_br_zip
 #: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip__display_name
@@ -107,7 +107,7 @@ msgstr "Erro no BrazilCEP: "
 #: code:addons/l10n_br_zip/models/l10n_br_zip.py:0
 #, python-format
 msgid "Error loading attribute: "
-msgstr "Erro Lendo Atributo: "
+msgstr "Erro ao carregar o atributo: "
 
 #. module: l10n_br_zip
 #: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip__id
@@ -125,7 +125,7 @@ msgstr "ID do objeto"
 #: code:addons/l10n_br_zip/models/l10n_br_zip.py:0
 #, python-format
 msgid "It is necessary to inform the State, municipality and public place"
-msgstr "É necessário informar o Estado, município e logradouro"
+msgstr "É necessário informar o estado, o município e o logradouro"
 
 #. module: l10n_br_zip
 #: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip____last_update
@@ -177,7 +177,7 @@ msgstr "Pesquisar CEP"
 #. module: l10n_br_zip
 #: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip__zip_complement
 msgid "Range"
-msgstr "Intervalo"
+msgstr "Faixa"
 
 #. module: l10n_br_zip
 #: model_terms:ir.ui.view,arch_db:l10n_br_zip.l10n_br_zip_tree
@@ -193,17 +193,17 @@ msgstr "Estado"
 #. module: l10n_br_zip
 #: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip__street_number
 msgid "Street Number"
-msgstr "Numero"
+msgstr "Número"
 
 #. module: l10n_br_zip
 #: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip__street_type
 msgid "Street Type"
-msgstr "Tipo de Rua"
+msgstr "Tipo de logradouro"
 
 #. module: l10n_br_zip
 #: model:ir.model.fields.selection,name:l10n_br_zip.selection__res_config_settings__cep_ws_provider__viacep
 msgid "VIA CEP"
-msgstr "VIA CEP"
+msgstr "ViaCEP"
 
 #. module: l10n_br_zip
 #: model_terms:ir.ui.view,arch_db:l10n_br_zip.l10n_br_zip_res_company_form
@@ -213,12 +213,12 @@ msgstr "CEP"
 #. module: l10n_br_zip
 #: model:ir.model.fields,field_description:l10n_br_zip.field_res_config_settings__cep_ws_provider
 msgid "ZIP Search Provider"
-msgstr "Provedor de Pesquisa do CEP"
+msgstr "Provedor da consulta de CEP"
 
 #. module: l10n_br_zip
 #: model:ir.model,name:l10n_br_zip.model_l10n_br_zip_search
 msgid "Zipcode Search"
-msgstr "Pesquisa de código zipcode"
+msgstr "Consulta de CEP"
 
 #. module: l10n_br_zip
 #: model_terms:ir.ui.view,arch_db:l10n_br_zip.l10n_br_base_res_config_settings_form
