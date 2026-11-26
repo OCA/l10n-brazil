@@ -1588,6 +1588,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcbeneficiomunicipal__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tccomexterior__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcdocajustebc__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcdps__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcemitente__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcenderecoemitente__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcenderext__brl_currency_id
@@ -2205,6 +2206,11 @@ msgstr ""
 #. module: l10n_br_nfse
 #: model:ir.model,name:l10n_br_nfse.model_nfse_10_tccomexterior
 msgid "TCComExterior"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model:ir.model,name:l10n_br_nfse.model_nfse_10_tcdps
+msgid "TCDPS"
 msgstr ""
 
 #. module: l10n_br_nfse
@@ -3070,6 +3076,11 @@ msgid "gUnidImob"
 msgstr ""
 
 #. module: l10n_br_nfse
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcdps__nfse10_infDPS
+msgid "infDPS"
+msgstr ""
+
+#. module: l10n_br_nfse
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
 msgid "no site"
 msgstr ""
@@ -3133,6 +3144,11 @@ msgstr ""
 #. module: l10n_br_nfse
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtctotaltribregular__nfse10_vTribRegIBSMun
 msgid "vTribRegIBSMun"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcdps__nfse10_versao
+msgid "versao"
 msgstr ""
 
 #. module: l10n_br_nfse
