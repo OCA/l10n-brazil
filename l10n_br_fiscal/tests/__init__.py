@@ -28,4 +28,5 @@ from . import (
     test_document_entry_cst,
     test_entry_cst_screen,
     test_tax_creditability,
+    test_document_import_wizard,
 )

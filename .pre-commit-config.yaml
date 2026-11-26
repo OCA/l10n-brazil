@@ -23,7 +23,7 @@ exclude: |
   # You don't usually want a bot to modify your legal texts
   (LICENSE.*|COPYING.*)
 default_language_version:
-  python: python3
+  python: python3.10
   node: "16.17.0"
 repos:
   - repo: local
@@ -40,12 +40,17 @@ repos:
         entry: found a en.po file
         language: fail
         files: '[a-zA-Z0-9_]*/i18n/en\.po$'
+      - id: obsolete dotfiles
+        name: obsolete dotfiles
+        entry: found obsolete files; remove them
+        files: '^(\.travis\.yml|\.t2d\.yml|CONTRIBUTING\.md)$'
+        language: fail
   - repo: https://github.com/sbidoul/whool
-    rev: v1.2
+    rev: v1.3
     hooks:
       - id: whool-init
   - repo: https://github.com/oca/maintainer-tools
-    rev: d5fab7ee87fceee858a3d01048c78a548974d935
+    rev: 31bdbd8e4cb94be6534f0e82b1cafb84a455f671
     hooks:
       # update the NOT INSTALLABLE ADDONS section above
       - id: oca-update-pre-commit-excluded-addons
@@ -97,6 +102,7 @@ repos:
         additional_dependencies:
           - "eslint@8.24.0"
           - "eslint-plugin-jsdoc@"
+          - "globals@"
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.3.0
     hooks:
