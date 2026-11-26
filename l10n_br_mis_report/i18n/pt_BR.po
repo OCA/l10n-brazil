@@ -6,27 +6,26 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2022-09-16 22:07+0000\n"
-"Last-Translator: Douglas Custódio <douglascstd@yahoo.com>\n"
+"PO-Revision-Date: 2026-11-26 02:46+0000\n"
+"Last-Translator: Luis Felipe Miléo <mileo@kmee.com.br>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.3.2\n"
+"X-Generator: Weblate 2026.11.2\n"
 
 #. module: l10n_br_mis_report
 #: model:mis.report.kpi,description:l10n_br_mis_report.dre_generic_outras_receitas_despesas_operacionais
 #: model:mis.report.kpi,description:l10n_br_mis_report.dre_simple_outras_receitas_despesas_operacionais
-#, fuzzy
 msgid "(+/-) OUTRAS RECEITAS E DESPESAS OPERACIONAIS"
 msgstr "(+/-) OUTRAS RECEITAS E DESPESAS OPERACIONAIS"
 
 #. module: l10n_br_mis_report
 #: model:mis.report.kpi,description:l10n_br_mis_report.dre_outras_receitas_despesas
 msgid "(+/-) Outras Receitas e Despesas Operacionais"
-msgstr ""
+msgstr "(+/-) Outras Receitas e Despesas Operacionais"
 
 #. module: l10n_br_mis_report
 #: model:mis.report.kpi,description:l10n_br_mis_report.dre_generic_resultado_financeiro
@@ -38,7 +37,7 @@ msgstr "(+/-) RESULTADO FINANCEIRO"
 #. module: l10n_br_mis_report
 #: model:mis.report.kpi,description:l10n_br_mis_report.bp_amortizacao
 msgid "(-) Amortização Acumulada"
-msgstr ""
+msgstr "(-) Amortização Acumulada"
 
 #. module: l10n_br_mis_report
 #: model:mis.report.kpi,description:l10n_br_mis_report.dre_generic_header_custo_vendas
@@ -50,7 +49,7 @@ msgstr "(-) CUSTO DAS VENDAS"
 #. module: l10n_br_mis_report
 #: model:mis.report.kpi,description:l10n_br_mis_report.dre_csll
 msgid "(-) Contribuição Social sobre o Lucro Líquido"
-msgstr ""
+msgstr "(-) Contribuição Social sobre o Lucro Líquido"
 
 #. module: l10n_br_mis_report
 #: model:mis.report.kpi,description:l10n_br_mis_report.dre_generic_header_despesas_operacionais
@@ -69,7 +68,7 @@ msgstr "(-) Deduções de Tributos, Abatimentos e Devoluções"
 #. module: l10n_br_mis_report
 #: model:mis.report.kpi,description:l10n_br_mis_report.bp_depreciacao
 msgid "(-) Depreciação Acumulada"
-msgstr ""
+msgstr "(-) Depreciação Acumulada"
 
 #. module: l10n_br_mis_report
 #: model:mis.report.kpi,description:l10n_br_mis_report.balanco_patrimonial_generic_depreciacao_amortizacao
@@ -87,161 +86,161 @@ msgstr "(-) Despesa com Contribuição Social"
 #: model:mis.report.kpi,description:l10n_br_mis_report.dre_generic_imposto_renda_pj
 #: model:mis.report.kpi,description:l10n_br_mis_report.dre_simple_imposto_renda_pj
 msgid "(-) Despesa com Imposto de Renda da Pessoa Jurídica"
-msgstr ""
+msgstr "(-) Despesa com Imposto de Renda da Pessoa Jurídica"
 
 #. module: l10n_br_mis_report
 #: model:mis.report.kpi,description:l10n_br_mis_report.dre_despesas_financeiras
 #: model:mis.report.kpi,description:l10n_br_mis_report.dre_generic_despesas_financeiras
 #: model:mis.report.kpi,description:l10n_br_mis_report.dre_simple_despesas_financeiras
 msgid "(-) Despesas Financeiras"
-msgstr ""
+msgstr "(-) Despesas Financeiras"
 
 #. module: l10n_br_mis_report
 #: model:mis.report.kpi,description:l10n_br_mis_report.dre_irpj
 msgid "(-) Imposto de Renda da Pessoa Jurídica"
-msgstr ""
+msgstr "(-) Imposto de Renda da Pessoa Jurídica"
 
 #. module: l10n_br_mis_report
 #: model:mis.report.kpi,description:l10n_br_mis_report.bp_perdas_estimadas
 msgid "(-) Perdas Estimadas com Créditos de Liquidação Duvidosa"
-msgstr ""
+msgstr "(-) Perdas Estimadas com Créditos de Liquidação Duvidosa"
 
 #. module: l10n_br_mis_report
 #: model:mis.report.kpi,description:l10n_br_mis_report.balanco_patrimonial_generic_prejuizos
 #: model:mis.report.kpi,description:l10n_br_mis_report.balanco_patrimonial_simple_prejuizos
 #: model:mis.report.kpi,description:l10n_br_mis_report.bp_prejuizos_acumulados
 msgid "(-) Prejuízos Acumulados"
-msgstr ""
+msgstr "(-) Prejuízos Acumulados"
 
 #. module: l10n_br_mis_report
 #: model:mis.report.kpi,description:l10n_br_mis_report.dre_generic_lucro_bruto
 #: model:mis.report.kpi,description:l10n_br_mis_report.dre_lucro_bruto
 #: model:mis.report.kpi,description:l10n_br_mis_report.dre_simple_lucro_bruto
 msgid "= LUCRO BRUTO"
-msgstr ""
+msgstr "= LUCRO BRUTO"
 
 #. module: l10n_br_mis_report
 #: model:mis.report.kpi,description:l10n_br_mis_report.dre_generic_receita
 #: model:mis.report.kpi,description:l10n_br_mis_report.dre_simple_receita
 msgid "= RECEITA"
-msgstr ""
+msgstr "= RECEITA"
 
 #. module: l10n_br_mis_report
 #: model:mis.report.kpi,description:l10n_br_mis_report.dre_receita_liquida
 msgid "= RECEITA LÍQUIDA"
-msgstr ""
+msgstr "= RECEITA LÍQUIDA"
 
 #. module: l10n_br_mis_report
 #: model:mis.report.kpi,description:l10n_br_mis_report.dre_generic_resultado_antes_lucro
 #: model:mis.report.kpi,description:l10n_br_mis_report.dre_simple_resultado_antes_lucro
 msgid "= RESULTADO ANTES DAS DESPESAS COM TRIBUTOS SOBRE O LUCRO"
-msgstr ""
+msgstr "= RESULTADO ANTES DAS DESPESAS COM TRIBUTOS SOBRE O LUCRO"
 
 #. module: l10n_br_mis_report
 #: model:mis.report.kpi,description:l10n_br_mis_report.dre_resultado_antes_tributos
 msgid "= RESULTADO ANTES DO IRPJ E DA CSLL"
-msgstr ""
+msgstr "= RESULTADO ANTES DO IRPJ E DA CSLL"
 
 #. module: l10n_br_mis_report
 #: model:mis.report.kpi,description:l10n_br_mis_report.dre_resultado_financeiro
 msgid "= RESULTADO FINANCEIRO"
-msgstr ""
+msgstr "= RESULTADO FINANCEIRO"
 
 #. module: l10n_br_mis_report
 #: model:mis.report.kpi,description:l10n_br_mis_report.dre_resultado_liquido
 msgid "= RESULTADO LÍQUIDO DO EXERCÍCIO"
-msgstr ""
+msgstr "= RESULTADO LÍQUIDO DO EXERCÍCIO"
 
 #. module: l10n_br_mis_report
 #: model:mis.report.kpi,description:l10n_br_mis_report.dre_generic_resultado
 #: model:mis.report.kpi,description:l10n_br_mis_report.dre_simple_resultado
 msgid "= RESULTADO LÍQUIDO DO PERÍODO"
-msgstr ""
+msgstr "= RESULTADO LÍQUIDO DO PERÍODO"
 
 #. module: l10n_br_mis_report
 #: model:mis.report.kpi,description:l10n_br_mis_report.dre_resultado_operacional
 msgid "= RESULTADO OPERACIONAL"
-msgstr ""
+msgstr "= RESULTADO OPERACIONAL"
 
 #. module: l10n_br_mis_report
 #: model:mis.report.kpi,description:l10n_br_mis_report.dre_generic_resultado_operacional
 #: model:mis.report.kpi,description:l10n_br_mis_report.dre_simple_resultado_operacional
 msgid "= RESULTADO OPERACIONAL ANTES DO RESULTADO FINANCEIRO"
-msgstr ""
+msgstr "= RESULTADO OPERACIONAL ANTES DO RESULTADO FINANCEIRO"
 
 #. module: l10n_br_mis_report
 #: model:mis.report.kpi,description:l10n_br_mis_report.dre_despesas_operacionais
 msgid "= TOTAL DAS DESPESAS OPERACIONAIS"
-msgstr ""
+msgstr "= TOTAL DAS DESPESAS OPERACIONAIS"
 
 #. module: l10n_br_mis_report
 #: model:mis.report.kpi,description:l10n_br_mis_report.bp_ativo_circulante
 msgid "= TOTAL DO ATIVO CIRCULANTE"
-msgstr ""
+msgstr "= TOTAL DO ATIVO CIRCULANTE"
 
 #. module: l10n_br_mis_report
 #: model:mis.report.kpi,description:l10n_br_mis_report.bp_ativo_nao_circulante
 msgid "= TOTAL DO ATIVO NÃO CIRCULANTE"
-msgstr ""
+msgstr "= TOTAL DO ATIVO NÃO CIRCULANTE"
 
 #. module: l10n_br_mis_report
 #: model:mis.report.kpi,description:l10n_br_mis_report.bp_passivo_circulante
 msgid "= TOTAL DO PASSIVO CIRCULANTE"
-msgstr ""
+msgstr "= TOTAL DO PASSIVO CIRCULANTE"
 
 #. module: l10n_br_mis_report
 #: model:mis.report.kpi,description:l10n_br_mis_report.bp_passivo_nao_circulante
 msgid "= TOTAL DO PASSIVO NÃO CIRCULANTE"
-msgstr ""
+msgstr "= TOTAL DO PASSIVO NÃO CIRCULANTE"
 
 #. module: l10n_br_mis_report
 #: model:mis.report.kpi,description:l10n_br_mis_report.bp_patrimonio_liquido
 msgid "= TOTAL DO PATRIMÔNIO LÍQUIDO"
-msgstr ""
+msgstr "= TOTAL DO PATRIMÔNIO LÍQUIDO"
 
 #. module: l10n_br_mis_report
 #: model:mis.report.kpi,description:l10n_br_mis_report.balanco_patrimonial_generic_header_1
 #: model:mis.report.kpi,description:l10n_br_mis_report.balanco_patrimonial_simple_header_1
 #: model:mis.report.kpi,description:l10n_br_mis_report.bp_header_ativo
 msgid "ATIVO"
-msgstr ""
+msgstr "ATIVO"
 
 #. module: l10n_br_mis_report
 #: model:mis.report.instance.period,name:l10n_br_mis_report.instance_dre_mensal_acum_ant
 msgid "Acumulado do exercício anterior"
-msgstr ""
+msgstr "Acumulado do exercício anterior"
 
 #. module: l10n_br_mis_report
 #: model:mis.report.instance.period,name:l10n_br_mis_report.instance_dre_mensal_acum
 msgid "Acumulado no exercício"
-msgstr ""
+msgstr "Acumulado no exercício"
 
 #. module: l10n_br_mis_report
 #: model:mis.report,name:l10n_br_mis_report.balanco_patrimonial_generic
 msgid "BP (l10n_br_coa_generic) (descontinuado)"
-msgstr ""
+msgstr "BP (l10n_br_coa_generic) (descontinuado)"
 
 #. module: l10n_br_mis_report
 #: model:mis.report,name:l10n_br_mis_report.balanco_patrimonial_simple
 msgid "BP (l10n_br_coa_simple) (descontinuado)"
-msgstr ""
+msgstr "BP (l10n_br_coa_simple) (descontinuado)"
 
 #. module: l10n_br_mis_report
 #: model:mis.report,name:l10n_br_mis_report.bp
 msgid "BP - Balanço Patrimonial"
-msgstr ""
+msgstr "BP - Balanço Patrimonial"
 
 #. module: l10n_br_mis_report
 #: model:mis.report,description:l10n_br_mis_report.balanco_patrimonial_generic
 #: model:mis.report,description:l10n_br_mis_report.balanco_patrimonial_simple
 #: model:mis.report,description:l10n_br_mis_report.bp
 msgid "Balanço Patrimonial"
-msgstr ""
+msgstr "Balanço Patrimonial"
 
 #. module: l10n_br_mis_report
 #: model:mis.report.instance,name:l10n_br_mis_report.instance_bp_exercicio
 msgid "Balanço Patrimonial - exercício atual e anterior"
-msgstr ""
+msgstr "Balanço Patrimonial - exercício atual e anterior"
 
 #. module: l10n_br_mis_report
 #: model:mis.report.kpi,description:l10n_br_mis_report.balanco_patrimonial_generic_circulante_ativo
@@ -251,21 +250,21 @@ msgstr ""
 #: model:mis.report.kpi,description:l10n_br_mis_report.bp_header_circulante
 #: model:mis.report.kpi,description:l10n_br_mis_report.bp_header_passivo_circulante
 msgid "CIRCULANTE"
-msgstr ""
+msgstr "CIRCULANTE"
 
 #. module: l10n_br_mis_report
 #: model:mis.report.kpi,description:l10n_br_mis_report.balanco_patrimonial_generic_caixa
 #: model:mis.report.kpi,description:l10n_br_mis_report.balanco_patrimonial_simple_caixa
 #: model:mis.report.kpi,description:l10n_br_mis_report.bp_caixa
 msgid "Caixa e Equivalentes de Caixa"
-msgstr ""
+msgstr "Caixa e Equivalentes de Caixa"
 
 #. module: l10n_br_mis_report
 #: model:mis.report.kpi,description:l10n_br_mis_report.balanco_patrimonial_generic_capital_social
 #: model:mis.report.kpi,description:l10n_br_mis_report.balanco_patrimonial_simple_capital_social
 #: model:mis.report.kpi,description:l10n_br_mis_report.bp_capital_social
 msgid "Capital Social"
-msgstr ""
+msgstr "Capital Social"
 
 #. module: l10n_br_mis_report
 #: model:mis.report.kpi,description:l10n_br_mis_report.balanco_patrimonial_generic_contas_a_pagar
@@ -274,178 +273,178 @@ msgstr ""
 #: model:mis.report.kpi,description:l10n_br_mis_report.balanco_patrimonial_simple_contas_a_pagar_longo
 #: model:mis.report.kpi,description:l10n_br_mis_report.bp_contas_a_pagar
 msgid "Contas a Pagar"
-msgstr ""
+msgstr "Contas a Pagar"
 
 #. module: l10n_br_mis_report
 #: model:mis.report.kpi,description:l10n_br_mis_report.bp_contas_a_pagar_lp
 msgid "Contas a Pagar a Longo Prazo"
-msgstr ""
+msgstr "Contas a Pagar a Longo Prazo"
 
 #. module: l10n_br_mis_report
 #: model:mis.report.kpi,description:l10n_br_mis_report.balanco_patrimonial_generic_contas_a_receber
 #: model:mis.report.kpi,description:l10n_br_mis_report.balanco_patrimonial_simple_contas_a_receber
 #: model:mis.report.kpi,description:l10n_br_mis_report.bp_contas_a_receber
 msgid "Contas a Receber"
-msgstr ""
+msgstr "Contas a Receber"
 
 #. module: l10n_br_mis_report
 #: model:mis.report.kpi,description:l10n_br_mis_report.dre_generic_custo_vendas
 #: model:mis.report.kpi,description:l10n_br_mis_report.dre_simple_custo_vendas
 msgid "Custo dos Produtos, Mercadorias e Serviços"
-msgstr ""
+msgstr "Custo dos Produtos, Mercadorias e Serviços"
 
 #. module: l10n_br_mis_report
 #: model:mis.report.kpi,description:l10n_br_mis_report.dre_custo_vendas
 msgid "Custo dos Produtos, Mercadorias e Serviços Vendidos"
-msgstr ""
+msgstr "Custo dos Produtos, Mercadorias e Serviços Vendidos"
 
 #. module: l10n_br_mis_report
 #: model:mis.report,name:l10n_br_mis_report.dre_generic
 msgid "DRE (l10n_br_coa_generic) (descontinuado)"
-msgstr ""
+msgstr "DRE (l10n_br_coa_generic) (descontinuado)"
 
 #. module: l10n_br_mis_report
 #: model:mis.report,name:l10n_br_mis_report.dre_simple
 msgid "DRE (l10n_br_coa_simple) (descontinuado)"
-msgstr ""
+msgstr "DRE (l10n_br_coa_simple) (descontinuado)"
 
 #. module: l10n_br_mis_report
 #: model:mis.report,name:l10n_br_mis_report.dre
 msgid "DRE - Demonstração do Resultado do Exercício"
-msgstr ""
+msgstr "DRE - Demonstração do Resultado do Exercício"
 
 #. module: l10n_br_mis_report
 #: model:mis.report.instance,name:l10n_br_mis_report.instance_dre_exercicio
 msgid "DRE - exercício atual e anterior"
-msgstr ""
+msgstr "DRE - exercício atual e anterior"
 
 #. module: l10n_br_mis_report
 #: model:mis.report.instance,name:l10n_br_mis_report.instance_dre_mensal
 msgid "DRE - mês e acumulado no exercício"
-msgstr ""
+msgstr "DRE - mês e acumulado no exercício"
 
 #. module: l10n_br_mis_report
 #: model:mis.report.instance,name:l10n_br_mis_report.instance_dre_trimestral
 msgid "DRE - trimestral (apuração do IRPJ e da CSLL)"
-msgstr ""
+msgstr "DRE - trimestral (apuração do IRPJ e da CSLL)"
 
 #. module: l10n_br_mis_report
 #: model:mis.report,description:l10n_br_mis_report.dre
 #: model:mis.report,description:l10n_br_mis_report.dre_generic
 #: model:mis.report,description:l10n_br_mis_report.dre_simple
 msgid "Demonstração do Resultado do Exercício"
-msgstr ""
+msgstr "Demonstração do Resultado do Exercício"
 
 #. module: l10n_br_mis_report
 #: model:mis.report.kpi,description:l10n_br_mis_report.dre_despesas_administrativas
 #: model:mis.report.kpi,description:l10n_br_mis_report.dre_generic_despesas_administrativas
 #: model:mis.report.kpi,description:l10n_br_mis_report.dre_simple_despesas_administrativas
 msgid "Despesas Administrativas"
-msgstr ""
+msgstr "Despesas Administrativas"
 
 #. module: l10n_br_mis_report
 #: model:mis.report.kpi,description:l10n_br_mis_report.dre_despesas_vendas
 #: model:mis.report.kpi,description:l10n_br_mis_report.dre_generic_despesas_vendas
 #: model:mis.report.kpi,description:l10n_br_mis_report.dre_simple_despesas_vendas
 msgid "Despesas com Vendas"
-msgstr ""
+msgstr "Despesas com Vendas"
 
 #. module: l10n_br_mis_report
 #: model:mis.report.kpi,description:l10n_br_mis_report.balanco_patrimonial_generic_emprestimos_financiamentos
 #: model:mis.report.kpi,description:l10n_br_mis_report.balanco_patrimonial_simple_emprestimos_financiamentos
 #: model:mis.report.kpi,description:l10n_br_mis_report.bp_emprestimos
 msgid "Empréstimos e Financiamentos"
-msgstr ""
+msgstr "Empréstimos e Financiamentos"
 
 #. module: l10n_br_mis_report
 #: model:mis.report.kpi,description:l10n_br_mis_report.balanco_patrimonial_generic_estoques
 #: model:mis.report.kpi,description:l10n_br_mis_report.balanco_patrimonial_simple_estoques
 #: model:mis.report.kpi,description:l10n_br_mis_report.bp_estoques
 msgid "Estoques"
-msgstr ""
+msgstr "Estoques"
 
 #. module: l10n_br_mis_report
 #: model:mis.report.instance.period,name:l10n_br_mis_report.instance_bp_exercicio_ant
 #: model:mis.report.instance.period,name:l10n_br_mis_report.instance_dre_exercicio_ant
 msgid "Exercício anterior"
-msgstr ""
+msgstr "Exercício anterior"
 
 #. module: l10n_br_mis_report
 #: model:mis.report.instance.period,name:l10n_br_mis_report.instance_bp_exercicio_atual
 #: model:mis.report.instance.period,name:l10n_br_mis_report.instance_dre_exercicio_atual
 msgid "Exercício atual"
-msgstr ""
+msgstr "Exercício atual"
 
 #. module: l10n_br_mis_report
 #: model:date.range.type,name:l10n_br_mis_report.date_range_type_exercicio
 msgid "Exercício social"
-msgstr ""
+msgstr "Exercício social"
 
 #. module: l10n_br_mis_report
 #: model:mis.report.kpi,description:l10n_br_mis_report.balanco_patrimonial_generic_financiamentos_longo
 #: model:mis.report.kpi,description:l10n_br_mis_report.balanco_patrimonial_simple_financiamentos_longo
 msgid "Financiamentos"
-msgstr ""
+msgstr "Financiamentos"
 
 #. module: l10n_br_mis_report
 #: model:mis.report.kpi,description:l10n_br_mis_report.bp_financiamentos_lp
 msgid "Financiamentos a Longo Prazo"
-msgstr ""
+msgstr "Financiamentos a Longo Prazo"
 
 #. module: l10n_br_mis_report
 #: model:mis.report.kpi,description:l10n_br_mis_report.balanco_patrimonial_generic_fornecedores
 #: model:mis.report.kpi,description:l10n_br_mis_report.balanco_patrimonial_simple_fornecedores
 #: model:mis.report.kpi,description:l10n_br_mis_report.bp_fornecedores
 msgid "Fornecedores"
-msgstr ""
+msgstr "Fornecedores"
 
 #. module: l10n_br_mis_report
 #: model:mis.report.kpi,description:l10n_br_mis_report.balanco_patrimonial_generic_imobilizado
 #: model:mis.report.kpi,description:l10n_br_mis_report.balanco_patrimonial_simple_imobilizado
 #: model:mis.report.kpi,description:l10n_br_mis_report.bp_imobilizado
 msgid "Imobilizado"
-msgstr ""
+msgstr "Imobilizado"
 
 #. module: l10n_br_mis_report
 #: model:mis.report.kpi,description:l10n_br_mis_report.balanco_patrimonial_generic_intangivel
 #: model:mis.report.kpi,description:l10n_br_mis_report.balanco_patrimonial_simple_intangivel
 #: model:mis.report.kpi,description:l10n_br_mis_report.bp_intangivel
 msgid "Intangível"
-msgstr ""
+msgstr "Intangível"
 
 #. module: l10n_br_mis_report
 #: model:mis.report.kpi,description:l10n_br_mis_report.balanco_patrimonial_generic_investimentos
 #: model:mis.report.kpi,description:l10n_br_mis_report.balanco_patrimonial_simple_investimentos
 #: model:mis.report.kpi,description:l10n_br_mis_report.bp_investimentos
 msgid "Investimentos"
-msgstr ""
+msgstr "Investimentos"
 
 #. module: l10n_br_mis_report
 #: model:mis.report.kpi,description:l10n_br_mis_report.balanco_patrimonial_generic_lucros_prejuizos
 #: model:mis.report.kpi,description:l10n_br_mis_report.balanco_patrimonial_simple_lucros_prejuizos
 #: model:mis.report.kpi,description:l10n_br_mis_report.bp_lucros_acumulados
 msgid "Lucros Acumulados"
-msgstr ""
+msgstr "Lucros Acumulados"
 
 #. module: l10n_br_mis_report
 #: model:mis.report.instance.period,name:l10n_br_mis_report.instance_dre_mensal_mes_ant
 msgid "Mesmo mês do exercício anterior"
-msgstr ""
+msgstr "Mesmo mês do exercício anterior"
 
 #. module: l10n_br_mis_report
 #: model:mis.report.instance.period,name:l10n_br_mis_report.instance_dre_trimestral_tri_ant_ano
 msgid "Mesmo trimestre do exercício anterior"
-msgstr ""
+msgstr "Mesmo trimestre do exercício anterior"
 
 #. module: l10n_br_mis_report
 #: model:mis.report.instance.period,name:l10n_br_mis_report.instance_dre_mensal_mes
 msgid "Mês"
-msgstr ""
+msgstr "Mês"
 
 #. module: l10n_br_mis_report
 #: model:date.range.type,name:l10n_br_mis_report.date_range_type_mes
 msgid "Mês de competência"
-msgstr ""
+msgstr "Mês de competência"
 
 #. module: l10n_br_mis_report
 #: model:mis.report.kpi,description:l10n_br_mis_report.balanco_patrimonial_generic_nao_circulante_ativo
@@ -455,164 +454,164 @@ msgstr ""
 #: model:mis.report.kpi,description:l10n_br_mis_report.bp_header_nao_circulante
 #: model:mis.report.kpi,description:l10n_br_mis_report.bp_header_passivo_nao_circulante
 msgid "NÃO CIRCULANTE"
-msgstr ""
+msgstr "NÃO CIRCULANTE"
 
 #. module: l10n_br_mis_report
 #: model:mis.report.kpi,description:l10n_br_mis_report.balanco_patrimonial_generic_obrigacoes_fiscais
 #: model:mis.report.kpi,description:l10n_br_mis_report.balanco_patrimonial_simple_obrigacoes_fiscais
 #: model:mis.report.kpi,description:l10n_br_mis_report.bp_obrigacoes_fiscais
 msgid "Obrigações Fiscais"
-msgstr ""
+msgstr "Obrigações Fiscais"
 
 #. module: l10n_br_mis_report
 #: model:mis.report.kpi,description:l10n_br_mis_report.bp_obrigacoes_trabalhistas
 msgid "Obrigações Trabalhistas"
-msgstr ""
+msgstr "Obrigações Trabalhistas"
 
 #. module: l10n_br_mis_report
 #: model:mis.report.kpi,description:l10n_br_mis_report.balanco_patrimonial_generic_obrigacoes_trabalhistas_sociais
 #: model:mis.report.kpi,description:l10n_br_mis_report.balanco_patrimonial_simple_obrigacoes_trabalhistas_sociais
 msgid "Obrigações Trabalhistas e Sociais"
-msgstr ""
+msgstr "Obrigações Trabalhistas e Sociais"
 
 #. module: l10n_br_mis_report
 #: model:mis.report.kpi,description:l10n_br_mis_report.dre_despesas_gerais
 #: model:mis.report.kpi,description:l10n_br_mis_report.dre_generic_despesas_gerais
 #: model:mis.report.kpi,description:l10n_br_mis_report.dre_simple_despesas_gerais
 msgid "Outras Despesas Gerais"
-msgstr ""
+msgstr "Outras Despesas Gerais"
 
 #. module: l10n_br_mis_report
 #: model:mis.report.kpi,description:l10n_br_mis_report.balanco_patrimonial_generic_outros_creditos
 #: model:mis.report.kpi,description:l10n_br_mis_report.balanco_patrimonial_simple_outros_creditos
 msgid "Outros Creditos"
-msgstr ""
+msgstr "Outros Créditos"
 
 #. module: l10n_br_mis_report
 #: model:mis.report.kpi,description:l10n_br_mis_report.bp_outros_creditos
 msgid "Outros Créditos"
-msgstr ""
+msgstr "Outros Créditos"
 
 #. module: l10n_br_mis_report
 #: model:mis.report.kpi,description:l10n_br_mis_report.bp_header_passivo
 msgid "PASSIVO E PATRIMÔNIO LÍQUIDO"
-msgstr ""
+msgstr "PASSIVO E PATRIMÔNIO LÍQUIDO"
 
 #. module: l10n_br_mis_report
 #: model:mis.report.kpi,description:l10n_br_mis_report.balanco_patrimonial_generic_header_2
 #: model:mis.report.kpi,description:l10n_br_mis_report.balanco_patrimonial_simple_header_2
 msgid "PASSIVO e PATRIMÔNIO LÍQUIDO"
-msgstr ""
+msgstr "PASSIVO E PATRIMÔNIO LÍQUIDO"
 
 #. module: l10n_br_mis_report
 #: model:mis.report.kpi,description:l10n_br_mis_report.balanco_patrimonial_generic_patrimonio_liquido
 #: model:mis.report.kpi,description:l10n_br_mis_report.balanco_patrimonial_simple_patrimonio_liquido
 #: model:mis.report.kpi,description:l10n_br_mis_report.bp_header_pl
 msgid "PATRIMÔNIO LÍQUIDO"
-msgstr ""
+msgstr "PATRIMÔNIO LÍQUIDO"
 
 #. module: l10n_br_mis_report
 #: model:mis.report.kpi,description:l10n_br_mis_report.balanco_patrimonial_generic_provisoes
 #: model:mis.report.kpi,description:l10n_br_mis_report.balanco_patrimonial_simple_provisoes
 #: model:mis.report.kpi,description:l10n_br_mis_report.bp_provisoes
 msgid "Provisões"
-msgstr ""
+msgstr "Provisões"
 
 #. module: l10n_br_mis_report
 #: model:mis.report.kpi,description:l10n_br_mis_report.dre_header_receita
 msgid "RECEITA BRUTA DE VENDAS E SERVIÇOS"
-msgstr ""
+msgstr "RECEITA BRUTA DE VENDAS E SERVIÇOS"
 
 #. module: l10n_br_mis_report
 #: model:mis.report.kpi,description:l10n_br_mis_report.balanco_patrimonial_generic_realizavel_longo_prazo
 #: model:mis.report.kpi,description:l10n_br_mis_report.balanco_patrimonial_simple_realizavel_longo_prazo
 #: model:mis.report.kpi,description:l10n_br_mis_report.bp_realizavel_longo_prazo
 msgid "Realizável a Longo Prazo"
-msgstr ""
+msgstr "Realizável a Longo Prazo"
 
 #. module: l10n_br_mis_report
 #: model:mis.report.kpi,description:l10n_br_mis_report.dre_receita_bruta
 msgid "Receita Bruta de Vendas e Serviços"
-msgstr ""
+msgstr "Receita Bruta de Vendas e Serviços"
 
 #. module: l10n_br_mis_report
 #: model:mis.report.kpi,description:l10n_br_mis_report.dre_generic_receitas_financeiras
 #: model:mis.report.kpi,description:l10n_br_mis_report.dre_receitas_financeiras
 #: model:mis.report.kpi,description:l10n_br_mis_report.dre_simple_receitas_financeiras
 msgid "Receitas Financeiras"
-msgstr ""
+msgstr "Receitas Financeiras"
 
 #. module: l10n_br_mis_report
 #: model:mis.report.kpi,description:l10n_br_mis_report.balanco_patrimonial_generic_reservas_capital
 #: model:mis.report.kpi,description:l10n_br_mis_report.balanco_patrimonial_simple_reservas_capital
 #: model:mis.report.kpi,description:l10n_br_mis_report.bp_reservas_capital
 msgid "Reservas de Capital"
-msgstr ""
+msgstr "Reservas de Capital"
 
 #. module: l10n_br_mis_report
 #: model:mis.report.kpi,description:l10n_br_mis_report.balanco_patrimonial_generic_reservas_lucros
 #: model:mis.report.kpi,description:l10n_br_mis_report.balanco_patrimonial_simple_reservas_lucros
 #: model:mis.report.kpi,description:l10n_br_mis_report.bp_reservas_lucros
 msgid "Reservas de Lucros"
-msgstr ""
+msgstr "Reservas de Lucros"
 
 #. module: l10n_br_mis_report
 #: model:mis.report.kpi,description:l10n_br_mis_report.bp_resultado_anteriores
 msgid "Resultado de Exercícios Anteriores a Destinar"
-msgstr ""
+msgstr "Resultado de Exercícios Anteriores a Destinar"
 
 #. module: l10n_br_mis_report
 #: model:mis.report.kpi,description:l10n_br_mis_report.bp_resultado_exercicio
 msgid "Resultado do Exercício"
-msgstr ""
+msgstr "Resultado do Exercício"
 
 #. module: l10n_br_mis_report
 #: model:mis.report.kpi,description:l10n_br_mis_report.balanco_patrimonial_generic_total_ativo
 #: model:mis.report.kpi,description:l10n_br_mis_report.balanco_patrimonial_simple_total_ativo
 #: model:mis.report.kpi,description:l10n_br_mis_report.bp_total_ativo
 msgid "TOTAL DO ATIVO"
-msgstr ""
+msgstr "TOTAL DO ATIVO"
 
 #. module: l10n_br_mis_report
 #: model:mis.report.kpi,description:l10n_br_mis_report.bp_total_passivo
 msgid "TOTAL DO PASSIVO E DO PATRIMÔNIO LÍQUIDO"
-msgstr ""
+msgstr "TOTAL DO PASSIVO E DO PATRIMÔNIO LÍQUIDO"
 
 #. module: l10n_br_mis_report
 #: model:mis.report.kpi,description:l10n_br_mis_report.balanco_patrimonial_generic_total_passivo_patrimonio_liq
 #: model:mis.report.kpi,description:l10n_br_mis_report.balanco_patrimonial_simple_total_passivo_patrimonio_liq
 msgid "TOTAL DO PASSIVO E PATRIMÔNIO LÍQUIDO"
-msgstr ""
+msgstr "TOTAL DO PASSIVO E PATRIMÔNIO LÍQUIDO"
 
 #. module: l10n_br_mis_report
 #: model:mis.report.instance.period,name:l10n_br_mis_report.instance_dre_trimestral_tri_ant
 msgid "Trimestre anterior"
-msgstr ""
+msgstr "Trimestre anterior"
 
 #. module: l10n_br_mis_report
 #: model:mis.report.instance.period,name:l10n_br_mis_report.instance_dre_trimestral_tri
 msgid "Trimestre atual"
-msgstr ""
+msgstr "Trimestre atual"
 
 #. module: l10n_br_mis_report
 #: model:date.range.type,name:l10n_br_mis_report.date_range_type_trimestre
 msgid "Trimestre de apuração"
-msgstr ""
+msgstr "Trimestre de apuração"
 
 #. module: l10n_br_mis_report
 #: model:mis.report.kpi,description:l10n_br_mis_report.dre_generic_header_receita
 #: model:mis.report.kpi,description:l10n_br_mis_report.dre_simple_header_receita
 msgid "VENDAS DE PRODUTOS, MERCADORIAS E SERVIÇOS"
-msgstr ""
+msgstr "VENDAS DE PRODUTOS, MERCADORIAS E SERVIÇOS"
 
 #. module: l10n_br_mis_report
 #: model:mis.report.instance.period,name:l10n_br_mis_report.instance_bp_exercicio_var
 #: model:mis.report.instance.period,name:l10n_br_mis_report.instance_dre_exercicio_var
 msgid "Variação"
-msgstr ""
+msgstr "Variação"
 
 #. module: l10n_br_mis_report
 #: model:mis.report.kpi,description:l10n_br_mis_report.dre_generic_receita_vendas
 #: model:mis.report.kpi,description:l10n_br_mis_report.dre_simple_receita_vendas
 msgid "Vendas de Produtos, Mercadorias e Serviços"
-msgstr ""
+msgstr "Vendas de Produtos, Mercadorias e Serviços"
