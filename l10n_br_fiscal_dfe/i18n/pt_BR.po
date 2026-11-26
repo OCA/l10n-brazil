@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2026-11-26 17:12+0000\n"
+"PO-Revision-Date: 2026-11-26 18:55+0000\n"
 "Last-Translator: Luis Felipe Miléo <mileo@kmee.com.br>\n"
 "Language-Team: \n"
 "Language: pt_BR\n"
@@ -48,7 +48,7 @@ msgstr "Chave de acesso"
 #. module: l10n_br_fiscal_dfe
 #: model:ir.model.fields,help:l10n_br_fiscal_dfe.field_dfe_specific_search_wizard__access_key
 msgid "Access Key of the electronic fiscal document to be searched."
-msgstr "Chave de Acesso do documento fiscal eletrônico a ser pesquisado."
+msgstr "Chave de acesso do documento fiscal eletrônico a consultar."
 
 #. module: l10n_br_fiscal_dfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.l10n_br_fiscal_dfe_document_tree
@@ -84,9 +84,9 @@ msgid ""
 "bill is posted. Posted while a vendor bill is posted. Empty when the source "
 "cancelled or denied the document."
 msgstr ""
-"Disponível enquanto o documento permanece autorizado na origem e nenhuma "
-"fatura de fornecedor foi lançada. Preenchido quando uma fatura de fornecedor "
-"é lançada. Vazio quando a origem cancela ou recusa o documento."
+"Disponível enquanto o documento continua autorizado na origem e nenhuma "
+"fatura de fornecedor está lançada. Lançado enquanto há uma fatura de "
+"fornecedor lançada. Vazio quando a origem cancelou ou denegou o documento."
 
 #. module: l10n_br_fiscal_dfe
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_document__import_block_reason
@@ -120,7 +120,7 @@ msgstr "Cancelada/Denegada"
 #. module: l10n_br_fiscal_dfe
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_document__color_status
 msgid "Color Status"
-msgstr "Status de Cor"
+msgstr "Situação por cor"
 
 #. module: l10n_br_fiscal_dfe
 #: model:ir.model,name:l10n_br_fiscal_dfe.model_res_company
@@ -193,7 +193,7 @@ msgstr "Distribuição DF-e"
 #. module: l10n_br_fiscal_dfe
 #: model:ir.model,name:l10n_br_fiscal_dfe.model_l10n_br_fiscal_dfe_distribution_log
 msgid "DF-e Distribution Log"
-msgstr "Log de Distribuição DF-e"
+msgstr "Log da distribuição DF-e"
 
 #. module: l10n_br_fiscal_dfe
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_dfe__dfe_document_id
@@ -214,7 +214,7 @@ msgstr "Logs da distribuição DF-e"
 #. module: l10n_br_fiscal_dfe
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_res_users__dfe_notification
 msgid "DF-e Notification"
-msgstr "Notificação DF-e"
+msgstr "Notificações do DF-e"
 
 #. module: l10n_br_fiscal_dfe
 #: model:ir.ui.menu,name:l10n_br_fiscal_dfe.menu_l10n_br_fiscal_dfe_root
@@ -272,7 +272,7 @@ msgstr "Nome exibido"
 #. module: l10n_br_fiscal_dfe
 #: model:ir.actions.act_window,name:l10n_br_fiscal_dfe.dfe_distribution_log_action
 msgid "Distribution Log"
-msgstr "Log de Distribuição"
+msgstr "Log da distribuição"
 
 #. module: l10n_br_fiscal_dfe
 #: model:ir.ui.menu,name:l10n_br_fiscal_dfe.dfe_distribution_log_menu
@@ -285,8 +285,8 @@ msgstr "Logs da distribuição"
 msgid ""
 "Distribution query OK: %(cstat)s - %(motivo)s (ultNSU=%(ult)s, maxNSU=%(mx)s)"
 msgstr ""
-"Consulta de distribuição OK: %(cstat)s - %(motivo)s (ultNSU=%(ult)s, maxNSU=%"
-"(mx)s)"
+"Consulta à distribuição DF-e OK: %(cstat)s - %(motivo)s (ultNSU=%(ult)s, "
+"maxNSU=%(mx)s)"
 
 #. module: l10n_br_fiscal_dfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.l10n_br_fiscal_dfe_document_form
@@ -358,7 +358,7 @@ msgid ""
 "Error on searching documents.\n"
 "%(error)s"
 msgstr ""
-"Erro ao pesquisar documentos.\n"
+"Erro ao consultar documentos.\n"
 "%(error)s"
 
 #. module: l10n_br_fiscal_dfe
@@ -369,7 +369,7 @@ msgid ""
 "\n"
 "%(code)s - %(message)s"
 msgstr ""
-"Erro ao validar a distribuição do documento: \n"
+"Erro na resposta da distribuição DF-e: \n"
 "\n"
 "%(code)s - %(message)s"
 
@@ -407,7 +407,7 @@ msgstr "Documento fiscal já importado com esta chave de acesso."
 #. module: l10n_br_fiscal_dfe
 #: model:ir.model,name:l10n_br_fiscal_dfe.model_l10n_br_fiscal_dfe_document
 msgid "Fiscal document from distribution service"
-msgstr "Documento fiscal do serviço de distribuição"
+msgstr "Documento fiscal da distribuição DF-e"
 
 #. module: l10n_br_fiscal_dfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.l10n_br_fiscal_dfe_document_search
@@ -438,7 +438,7 @@ msgstr "Importar"
 #: model:ir.model.fields.selection,name:l10n_br_fiscal_dfe.selection__l10n_br_fiscal_dfe_distribution_log__log_type__info
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.dfe_distribution_log_search
 msgid "Info"
-msgstr "Informação"
+msgstr "Info"
 
 #. module: l10n_br_fiscal_dfe
 #. odoo-python
@@ -564,7 +564,7 @@ msgstr "Nenhum XML completo encontrado nos documentos selecionados."
 #. odoo-python
 #: code:addons/l10n_br_fiscal_dfe/models/res_company.py:0
 msgid "No documents found: %(code)s - %(message)s"
-msgstr "Nenhum documento encontrado: %(code)s - %(message)s"
+msgstr "Nenhum documento localizado: %(code)s - %(message)s"
 
 #. module: l10n_br_fiscal_dfe
 #. odoo-python
@@ -575,7 +575,7 @@ msgstr "Só um documento autorizado pode ser importado."
 #. module: l10n_br_fiscal_dfe
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_dfe__operation_type
 msgid "Operation Type"
-msgstr "Tipo de Operação"
+msgstr "Tipo da operação"
 
 #. module: l10n_br_fiscal_dfe
 #. odoo-python
@@ -672,7 +672,7 @@ msgstr "Tipo de schema"
 #. module: l10n_br_fiscal_dfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.view_dfe_specific_search_wizard_form
 msgid "Search"
-msgstr "Pesquisar"
+msgstr "Buscar"
 
 #. module: l10n_br_fiscal_dfe
 #. odoo-javascript
@@ -683,17 +683,17 @@ msgstr "Buscar todos"
 #. module: l10n_br_fiscal_dfe
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_dfe_specific_search_wizard__search_type
 msgid "Search Type"
-msgstr "Tipo de Pesquisa"
+msgstr "Tipo de consulta"
 
 #. module: l10n_br_fiscal_dfe
 #: model:ir.model.fields.selection,name:l10n_br_fiscal_dfe.selection__dfe_specific_search_wizard__search_type__access_key
 msgid "Search by Access Key"
-msgstr "Pesquisar por Chave de Acesso"
+msgstr "Consulta por chave de acesso"
 
 #. module: l10n_br_fiscal_dfe
 #: model:ir.model.fields.selection,name:l10n_br_fiscal_dfe.selection__dfe_specific_search_wizard__search_type__nsu
 msgid "Search by NSU"
-msgstr "Pesquisar por NSU"
+msgstr "Consulta por NSU"
 
 #. module: l10n_br_fiscal_dfe
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_document__serie
@@ -709,7 +709,7 @@ msgstr "Consulta específica de DF-e"
 #. odoo-python
 #: code:addons/l10n_br_fiscal_dfe/models/res_company.py:0
 msgid "Specific Document Search"
-msgstr "Pesquisa Específica de Documento"
+msgstr "Consulta específica de documento"
 
 #. module: l10n_br_fiscal_dfe
 #. odoo-javascript
@@ -721,19 +721,19 @@ msgstr "Consulta específica"
 #. odoo-python
 #: code:addons/l10n_br_fiscal_dfe/models/res_company.py:0
 msgid "Specific search OK: %(cstat)s - %(motivo)s"
-msgstr "Pesquisa específica OK: %(cstat)s - %(motivo)s"
+msgstr "Consulta específica OK: %(cstat)s - %(motivo)s"
 
 #. module: l10n_br_fiscal_dfe
 #. odoo-python
 #: code:addons/l10n_br_fiscal_dfe/wizards/specific_search_wizard.py:0
 msgid "Specific search triggered successfully"
-msgstr "Pesquisa específica acionada com sucesso"
+msgstr "Consulta específica executada com sucesso"
 
 #. module: l10n_br_fiscal_dfe
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_document__document_state_label
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.l10n_br_fiscal_dfe_document_tree
 msgid "State"
-msgstr "Estado"
+msgstr "Situação"
 
 #. module: l10n_br_fiscal_dfe
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_document__document_state
@@ -819,13 +819,13 @@ msgstr "Utilização"
 #. odoo-javascript
 #: code:addons/l10n_br_fiscal_dfe/static/src/components/dfe_banner/dfe_banner.xml:0
 msgid "View NSU records"
-msgstr "Ver registros NSU"
+msgstr "Ver registros de NSU"
 
 #. module: l10n_br_fiscal_dfe
 #. odoo-javascript
 #: code:addons/l10n_br_fiscal_dfe/static/src/components/dfe_banner/dfe_banner.xml:0
 msgid "View query logs"
-msgstr "Ver logs de consulta"
+msgstr "Ver logs das consultas"
 
 #. module: l10n_br_fiscal_dfe
 #: model:ir.model.fields.selection,name:l10n_br_fiscal_dfe.selection__l10n_br_fiscal_dfe_distribution_log__log_type__warning
@@ -849,7 +849,7 @@ msgstr "Com dados SOAP"
 #. module: l10n_br_fiscal_dfe
 #: model:ir.model,name:l10n_br_fiscal_dfe.model_dfe_specific_search_wizard
 msgid "Wizard to search specific DFe"
-msgstr "Assistente para pesquisa específica de DF-e"
+msgstr "Assistente de consulta específica de DF-e"
 
 #. module: l10n_br_fiscal_dfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.dfe_tree
