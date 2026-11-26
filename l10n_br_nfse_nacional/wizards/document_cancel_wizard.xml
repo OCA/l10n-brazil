@@ -8,6 +8,7 @@
         <field name="inherit_id" ref="l10n_br_fiscal_edi.document_cancel_wizard_form" />
         <field name="arch" type="xml">
             <field name="justification" position="before">
+                <field name="document_type_id" invisible="1" />
                 <field name="document_type" invisible="1" />
                 <field
                     name="nfse_nacional_motive"
