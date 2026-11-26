@@ -8929,6 +8929,20 @@ msgid "Shipping Address"
 msgstr "Endereço de entrega"
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,help:l10n_br_fiscal.field_res_partner__show_l10n_br_fiscal
+#: model:ir.model.fields,help:l10n_br_fiscal.field_res_users__show_l10n_br_fiscal
+msgid ""
+"Should display the Fiscal tab? True for Brazilian partners and for any "
+"partner when the current company is Brazilian."
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_partner__show_l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_users__show_l10n_br_fiscal
+msgid "Show L10N Br Fiscal"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__account_invoice_report__ind_final__1
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__contract_contract__ind_final__1
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__contract_line__ind_final__1
