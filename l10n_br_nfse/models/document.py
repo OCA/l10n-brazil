@@ -172,6 +172,10 @@ class Document(models.Model):
         cbs_valor = 0
         base_calculo_pis = 0
         base_calculo_cofins = 0
+        base_calculo_csll = 0
+        base_calculo_ir = 0
+        base_calculo_inss = 0
+        base_calculo_icms = 0
 
         for line in lines:
             result_line.update(line._prepare_line_service())
@@ -204,8 +208,16 @@ class Document(models.Model):
             situacao_tributaria_cofins = result_line.get("situacao_tributaria_cofins")
             base_calculo_pis += result_line.get("base_calculo_pis", 0)
             base_calculo_cofins += result_line.get("base_calculo_cofins", 0)
+            base_calculo_csll += result_line.get("base_calculo_csll", 0)
+            base_calculo_ir += result_line.get("base_calculo_ir", 0)
+            base_calculo_inss += result_line.get("base_calculo_inss", 0)
+            base_calculo_icms += result_line.get("base_calculo_icms", 0)
             aliquota_pis = result_line.get("aliquota_pis") or 0
             aliquota_cofins = result_line.get("aliquota_cofins") or 0
+            aliquota_csll = result_line.get("aliquota_csll") or 0
+            aliquota_ir = result_line.get("aliquota_ir") or 0
+            aliquota_inss = result_line.get("aliquota_inss") or 0
+            aliquota_icms = result_line.get("aliquota_icms") or 0
             tipo_retencao_pis_cofins = (
                 result_line.get("tipo_retencao_pis_cofins") or "2"
             )
@@ -285,8 +297,16 @@ class Document(models.Model):
             "situacao_tributaria_cofins": situacao_tributaria_cofins,
             "base_calculo_pis": round(base_calculo_pis, 2),
             "base_calculo_cofins": round(base_calculo_cofins, 2),
+            "base_calculo_csll": round(base_calculo_csll, 2),
+            "base_calculo_ir": round(base_calculo_ir, 2),
+            "base_calculo_inss": round(base_calculo_inss, 2),
+            "base_calculo_icms": round(base_calculo_icms, 2),
             "aliquota_pis": round(aliquota_pis, 2),
             "aliquota_cofins": round(aliquota_cofins, 2),
+            "aliquota_csll": round(aliquota_csll, 2),
+            "aliquota_ir": round(aliquota_ir, 2),
+            "aliquota_inss": round(aliquota_inss, 2),
+            "aliquota_icms": round(aliquota_icms, 2),
             "tipo_retencao_pis_cofins": tipo_retencao_pis_cofins,
             "codigo_tributacao_iss": ISSQN_TO_TRIBUTACAO_ISS[
                 self.fiscal_line_ids[0].issqn_eligibility
@@ -332,6 +352,7 @@ class Document(models.Model):
             "natureza_operacao": self.operation_nature,
             "regime_especial_tributacao": self.taxation_special_regime,
             "finalidade_emissao": "0",
+            "consumidor_final": False,
             "indicador_destinatario": "1"
             if (self.partner_id.is_company and self.partner_id.l10n_br_ie_code)
             else "9",

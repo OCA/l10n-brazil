@@ -43,6 +43,13 @@ msgstr ""
 
 #. module: l10n_br_pos_nfce
 #. odoo-javascript
+#: code:addons/l10n_br_pos_nfce/static/src/js/Screens/PaymentScreen/PaymentScreen.esm.js:0
+#, python-format
+msgid "Cliente não identificado"
+msgstr ""
+
+#. module: l10n_br_pos_nfce
+#. odoo-javascript
 #: code:addons/l10n_br_pos_nfce/static/src/xml/Screens/ReceiptScreen/NfceFiscalInfoReceipt.xml:0
 #, python-format
 msgid "Consulte pela chave de acesso em:"
@@ -224,6 +231,13 @@ msgstr ""
 #: code:addons/l10n_br_pos_nfce/static/src/js/Screens/OrderManagementScreen/ControlButtons/CancelOrderButton.esm.js:0
 #, python-format
 msgid "Reason for Cancellation?"
+msgstr ""
+
+#. module: l10n_br_pos_nfce
+#. odoo-javascript
+#: code:addons/l10n_br_pos_nfce/static/src/js/Screens/PaymentScreen/PaymentScreen.esm.js:0
+#, python-format
+msgid "Selecione um cliente identificado para emitir a NF-e."
 msgstr ""
 
 #. module: l10n_br_pos_nfce
