@@ -2110,11 +2110,17 @@ msgstr "Se marcado, novas mensagens solicitarão sua atenção."
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_mode__message_has_error
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_mode__message_has_sms_error
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__message_has_error
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__message_has_sms_error
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_code__message_has_error
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_code__message_has_sms_error
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_config__message_has_error
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_config__message_has_sms_error
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_data_abstract__message_has_error
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_data_abstract__message_has_sms_error
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_return_log__message_has_error
+#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_return_log__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
 msgstr "Se marcado, algumas mensagens têm erro de entrega."
 
@@ -2864,6 +2870,16 @@ msgid "Return Move Code"
 msgstr "Código de movimento de retorno"
 
 #. module: l10n_br_account_payment_order
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__message_has_sms_error
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__message_has_sms_error
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_code__message_has_sms_error
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_config__message_has_sms_error
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_data_abstract__message_has_sms_error
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_log__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr "Erro de Entrega de SMS"
+
+#. module: l10n_br_account_payment_order
 #: model:ir.model.fields.selection,name:l10n_br_account_payment_order.selection__account_payment_line__pix_transfer_type__saving
 msgid "Saving Account (Conta Poupança)"
 msgstr "Conta poupança"
@@ -3104,9 +3120,10 @@ msgid ""
 "related to invoice %(invoice_name)s created, the CNAB file should be sent to "
 "bank, because only after that it is possible make another CNAB Instruction."
 msgstr ""
-"Existe uma ordem de pagamento CNAB %(order_name)s na situação %(order_state)"
-"s relacionada à fatura %(invoice_name)s. O arquivo CNAB deve ser enviado ao "
-"banco, pois só depois disso é possível fazer outra instrução CNAB."
+"Existe uma ordem de pagamento CNAB %(order_name)s na situação %"
+"(order_state)s relacionada à fatura %(invoice_name)s. O arquivo CNAB deve "
+"ser enviado ao banco, pois só depois disso é possível fazer outra instrução "
+"CNAB."
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_bank_statement_line__payment_method_code
@@ -3423,9 +3440,6 @@ msgstr "Você não pode excluir ordem CNAB."
 
 #~ msgid "Journal Entry Ref"
 #~ msgstr "Referência de Lançamento Contábil"
-
-#~ msgid "SMS Delivery error"
-#~ msgstr "Erro de Entrega de SMS"
 
 #~ msgid "pix transfer type identification"
 #~ msgstr "identificação do tipo de transferência pix"
