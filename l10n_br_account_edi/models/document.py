@@ -45,7 +45,9 @@ class Document(models.Model):
         # the invoice is born in the company of the document, whichever the user
         # has selected
         self = self.with_company(self.company_id)
-        reason = self._edi_no_payable_reason()
+        reason = (
+            self._vendor_bill_import_block_reason() or self._edi_no_payable_reason()
+        )
         if reason:
             raise UserError(reason)
         if not self.env["account.move"].check_access_rights(

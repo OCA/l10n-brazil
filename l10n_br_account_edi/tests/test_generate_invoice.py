@@ -111,6 +111,17 @@ class TestGenerateInvoice(AccountEdiCase):
             document.action_generate_invoice()
         self.assertFalse(document.move_ids)
 
+    def test_a_document_in_use_gets_no_second_invoice(self):
+        document = self._imported_document()
+        move = self._generate(document)
+
+        with self.assertRaisesRegex(UserError, "already linked"):
+            document.action_generate_invoice()
+        move.state = "posted"
+        with self.assertRaisesRegex(UserError, "already posted"):
+            document.action_generate_invoice()
+        self.assertEqual(document.move_ids, move)
+
     def test_user_without_accounting_rights_gets_a_clear_message(self):
         user = self.env["res.users"].create(
             {
