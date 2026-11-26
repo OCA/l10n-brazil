@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2026-11-26 17:13+0000\n"
+"PO-Revision-Date: 2026-11-26 18:55+0000\n"
 "Last-Translator: Luis Felipe Miléo <mileo@kmee.com.br>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -19,22 +19,22 @@ msgstr ""
 #. module: l10n_br_fiscal_closing
 #: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__document_nfe_ids
 msgid " NFe Documents"
-msgstr " Documentos NFe"
+msgstr " Documentos NF-e"
 
 #. module: l10n_br_fiscal_closing
 #: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__file_honorarios
 msgid "Accountant Fee"
-msgstr "Taxa de Serviço Contábil"
+msgstr "Honorários contábeis"
 
 #. module: l10n_br_fiscal_closing
 #: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__notes
 msgid "Accountant notes"
-msgstr "Observações Contábeis"
+msgstr "Observações do contador"
 
 #. module: l10n_br_fiscal_closing
 #: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__message_needaction
 msgid "Action Needed"
-msgstr "Ação Necessária"
+msgstr "Requer ação"
 
 #. module: l10n_br_fiscal_closing
 #: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__activity_ids
@@ -44,12 +44,12 @@ msgstr "Atividades"
 #. module: l10n_br_fiscal_closing
 #: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__activity_exception_decoration
 msgid "Activity Exception Decoration"
-msgstr "Decoração de Exceção de Atividade"
+msgstr "Decoração de atividade excepcional"
 
 #. module: l10n_br_fiscal_closing
 #: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__activity_state
 msgid "Activity State"
-msgstr "Estado da Atividade"
+msgstr "Status da atividade"
 
 #. module: l10n_br_fiscal_closing
 #: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__activity_type_icon
@@ -64,17 +64,17 @@ msgstr "Todos"
 #. module: l10n_br_fiscal_closing
 #: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__message_attachment_count
 msgid "Attachment Count"
-msgstr "Contagem de Anexos"
+msgstr "Total de anexos"
 
 #. module: l10n_br_fiscal_closing
 #: model:ir.model.fields,help:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__block
 msgid "Avoid new fiscal moves"
-msgstr "Ignorar novos movimentos fiscais"
+msgstr "Impede novos movimentos fiscais no período"
 
 #. module: l10n_br_fiscal_closing
 #: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__block
 msgid "Block period"
-msgstr "Período de Bloqueio"
+msgstr "Bloquear o período"
 
 #. module: l10n_br_fiscal_closing
 #: model:ir.model.fields.selection,name:l10n_br_fiscal_closing.selection__l10n_br_fiscal_closing__export_type__period
@@ -84,22 +84,22 @@ msgstr "Por período"
 #. module: l10n_br_fiscal_closing
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_closing.fiscal_closing_form
 msgid "CFe"
-msgstr "CFE"
+msgstr "CF-e"
 
 #. module: l10n_br_fiscal_closing
 #: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__document_cfe_ids
 msgid "CFe Documents"
-msgstr "Documentos CFes"
+msgstr "Documentos CF-e"
 
 #. module: l10n_br_fiscal_closing
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_closing.fiscal_closing_form
 msgid "CFe ECF"
-msgstr "CFe ECF"
+msgstr "Cupom fiscal ECF"
 
 #. module: l10n_br_fiscal_closing
 #: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__document_cfeecf_ids
 msgid "CFe ECF Documents"
-msgstr "Documentos CFe ECF"
+msgstr "Documentos de cupom fiscal ECF"
 
 #. module: l10n_br_fiscal_closing
 #: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__file_cofins
@@ -114,12 +114,12 @@ msgstr "CSLL"
 #. module: l10n_br_fiscal_closing
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_closing.fiscal_closing_form
 msgid "CTE"
-msgstr "CTE"
+msgstr "CT-e"
 
 #. module: l10n_br_fiscal_closing
 #: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__document_cte_ids
 msgid "CTE Documents"
-msgstr "Documentos CTE"
+msgstr "Documentos CT-e"
 
 #. module: l10n_br_fiscal_closing
 #. odoo-python
@@ -137,7 +137,7 @@ msgstr "Fechar"
 #: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_account_move__close_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_document__close_id
 msgid "Close ID"
-msgstr "ID do Fechamento Fiscal"
+msgstr "Fechamento fiscal"
 
 #. module: l10n_br_fiscal_closing
 #: model:ir.model.fields.selection,name:l10n_br_fiscal_closing.selection__l10n_br_fiscal_closing__state__closed
@@ -215,7 +215,7 @@ msgstr "Documento Fiscal"
 #. module: l10n_br_fiscal_closing
 #: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__raiz
 msgid "Folder structure path"
-msgstr "Caminho da estrutura da pasta"
+msgstr "Caminho da estrutura de pastas"
 
 #. module: l10n_br_fiscal_closing
 #: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__message_follower_ids
@@ -230,23 +230,23 @@ msgstr "Seguidores (parceiros)"
 #. module: l10n_br_fiscal_closing
 #: model:ir.model.fields,help:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__activity_type_icon
 msgid "Font awesome icon e.g. fa-tasks"
-msgstr "Ícone do font awesome ex. fa-task"
+msgstr "Ícone do Font Awesome, ex.: fa-tasks"
 
 #. module: l10n_br_fiscal_closing
 #: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__group_folder
 msgid "Group documents"
-msgstr "Grupo de Documentos"
+msgstr "Agrupar documentos"
 
 #. module: l10n_br_fiscal_closing
 #: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__has_message
 msgid "Has Message"
-msgstr "Tem mensagem"
+msgstr "Tem uma mensagem"
 
 #. module: l10n_br_fiscal_closing
 #. odoo-python
 #: code:addons/l10n_br_fiscal_closing/models/closing.py:0
 msgid "I/O Error"
-msgstr "Erro de I/O"
+msgstr "Erro de entrada e saída"
 
 #. module: l10n_br_fiscal_closing
 #: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__file_icms
@@ -297,7 +297,7 @@ msgstr "Se marcado, novas mensagens solicitarão sua atenção."
 #: model:ir.model.fields,help:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__message_has_error
 #: model:ir.model.fields,help:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
-msgstr "Se marcado, algumas mensagens tem erro de entrega."
+msgstr "Se marcado, algumas mensagens têm erro de entrega."
 
 #. module: l10n_br_fiscal_closing
 #: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__include_pdf_file
@@ -307,7 +307,7 @@ msgstr "Incluir arquivos PDF"
 #. module: l10n_br_fiscal_closing
 #: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__message_is_follower
 msgid "Is Follower"
-msgstr "É Seguidor"
+msgstr "É um seguidor"
 
 #. module: l10n_br_fiscal_closing
 #: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__write_uid
@@ -322,7 +322,7 @@ msgstr "Última atualização em"
 #. module: l10n_br_fiscal_closing
 #: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__message_has_error
 msgid "Message Delivery error"
-msgstr "Erro de Entrega da Mensagem"
+msgstr "Erro na entrega da mensagem"
 
 #. module: l10n_br_fiscal_closing
 #: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__message_ids
@@ -337,32 +337,32 @@ msgstr "Mês"
 #. module: l10n_br_fiscal_closing
 #: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__my_activity_date_deadline
 msgid "My Activity Deadline"
-msgstr "Prazo Final das Minhas Atividades"
+msgstr "Prazo da minha atividade"
 
 #. module: l10n_br_fiscal_closing
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_closing.fiscal_closing_form
 msgid "NFCe"
-msgstr "NFCe"
+msgstr "NFC-e"
 
 #. module: l10n_br_fiscal_closing
 #: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__document_nfce_ids
 msgid "NFCe Documents"
-msgstr "Documentos NFCe"
+msgstr "Documentos NFC-e"
 
 #. module: l10n_br_fiscal_closing
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_closing.fiscal_closing_form
 msgid "NFSe"
-msgstr "NFSe"
+msgstr "NFS-e"
 
 #. module: l10n_br_fiscal_closing
 #: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__document_nfse_ids
 msgid "NFSe Documents"
-msgstr "Documentos NFSe"
+msgstr "Documentos NFS-e"
 
 #. module: l10n_br_fiscal_closing
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_closing.fiscal_closing_form
 msgid "NFe"
-msgstr "NFe"
+msgstr "NF-e"
 
 #. module: l10n_br_fiscal_closing
 #: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__name
@@ -382,7 +382,7 @@ msgstr "Próximo evento do calendário de atividades"
 #. module: l10n_br_fiscal_closing
 #: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__activity_date_deadline
 msgid "Next Activity Deadline"
-msgstr "Prazo Final da Próxima Atividade"
+msgstr "Prazo da próxima atividade"
 
 #. module: l10n_br_fiscal_closing
 #: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__activity_summary
@@ -407,7 +407,7 @@ msgstr "Número de erros"
 #. module: l10n_br_fiscal_closing
 #: model:ir.model.fields,help:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__message_needaction_counter
 msgid "Number of messages requiring action"
-msgstr "Número de mensagens que exigem ação"
+msgstr "Número de mensagens que requerem ação"
 
 #. module: l10n_br_fiscal_closing
 #: model:ir.model.fields,help:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__message_has_error_counter
@@ -422,7 +422,7 @@ msgstr "Aberto"
 #. module: l10n_br_fiscal_closing
 #: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__attachment_ids
 msgid "Other accountant files"
-msgstr "Outros arquivos de contador"
+msgstr "Outros arquivos para o contador"
 
 #. module: l10n_br_fiscal_closing
 #: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__file_pis
@@ -472,7 +472,7 @@ msgstr "Erro de Entrega de SMS"
 #. module: l10n_br_fiscal_closing
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_closing.fiscal_closing_form
 msgid "Send by email:"
-msgstr "Enviar por email:"
+msgstr "Enviar por e-mail:"
 
 #. module: l10n_br_fiscal_closing
 #: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__state
@@ -488,14 +488,14 @@ msgid ""
 "Planned: Future activities."
 msgstr ""
 "Status baseado em atividades\n"
-"Atrasado: Data definida já passou\n"
-"Hoje: Data de atividade é hoje\n"
-"Planejado: Atividades futuras."
+"Atrasado: data de vencimento já passou\n"
+"Hoje: data da atividade é hoje\n"
+"Planejado: atividades futuras."
 
 #. module: l10n_br_fiscal_closing
 #: model:ir.model.constraint,message:l10n_br_fiscal_closing.constraint_l10n_br_fiscal_closing_fiscal_closing_unique
 msgid "The closing must be unique for the company in a period of time."
-msgstr "O fechamento deve ser único para a empresa em um período de tempo."
+msgstr "Já existe um fechamento fiscal desta empresa para este período."
 
 #. module: l10n_br_fiscal_closing
 #: model:ir.model.fields,help:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__activity_exception_decoration
@@ -505,12 +505,12 @@ msgstr "Tipo da atividade de exceção no registro."
 #. module: l10n_br_fiscal_closing
 #: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__website_message_ids
 msgid "Website Messages"
-msgstr "Mensagens do Website"
+msgstr "Mensagens do site"
 
 #. module: l10n_br_fiscal_closing
 #: model:ir.model.fields,help:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__website_message_ids
 msgid "Website communication history"
-msgstr "Histórico de comunicação do website"
+msgstr "Histórico de comunicação do site"
 
 #. module: l10n_br_fiscal_closing
 #: model:ir.model.fields,field_description:l10n_br_fiscal_closing.field_l10n_br_fiscal_closing__year
