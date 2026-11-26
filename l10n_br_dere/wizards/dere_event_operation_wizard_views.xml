@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="view_dere_event_operation_wizard_form" model="ir.ui.view">
+        <field name="name">l10n_br_dere.event.operation.wizard.form</field>
+        <field name="model">l10n_br_dere.event.operation.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="declaration_id" readonly="1" />
+                    <field name="table_period_id" readonly="1" />
+                    <field name="event_type" readonly="1" />
+                    <field name="tp_oper" readonly="1" />
+                    <field
+                        name="mot_excl"
+                        invisible="tp_oper != '3'"
+                        required="tp_oper == '3'"
+                    />
+                    <field
+                        name="change_validity"
+                        invisible="not table_period_id or tp_oper != '2'"
+                    />
+                    <field
+                        name="nova_ini_valid"
+                        invisible="not change_validity or tp_oper != '2'"
+                    />
+                    <field
+                        name="nova_fim_valid"
+                        invisible="not change_validity or tp_oper != '2'"
+                    />
+                    <field
+                        name="fin_evt"
+                        invisible="tp_oper != '4'"
+                        required="tp_oper == '4'"
+                    />
+                    <field
+                        name="deduction_line_ids"
+                        invisible="tp_oper != '4'"
+                        widget="many2many_tags"
+                    />
+                </group>
+                <footer>
+                    <button
+                        name="action_confirm"
+                        type="object"
+                        string="Confirm"
+                        class="btn-primary"
+                    />
+                    <button string="Cancel" class="btn-secondary" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>
