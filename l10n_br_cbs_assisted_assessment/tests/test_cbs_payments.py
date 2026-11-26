@@ -13,7 +13,9 @@ from .common import CLIENT_CLASS
 CBS_REQUEST_LOG = (
     "odoo.addons.l10n_br_cbs_assisted_assessment.models.assisted_assessment_request"
 )
-DOCUMENT_KEY = f"3526{'1'.rjust(40, '0')}"
+# NF-e key accepted by l10n_br_fiscal_edi (model 55 and a valid check digit).
+# A zero-padded key is rejected once that module is installed with the suite.
+DOCUMENT_KEY = "35260811222333000181550010000000011317534953"
 PERIOD_CLASS = (
     "odoo.addons.l10n_br_assisted_assessment.models.assisted_assessment"
     ".AssistedAssessment"
