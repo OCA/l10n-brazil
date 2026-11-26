@@ -4122,6 +4122,13 @@ msgid "IBS/CBS Tax Classification"
 msgstr "Classificação tributária do IBS e da CBS"
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_cfop__tax_classification_id
+msgid ""
+"IBS/CBS tax classification of the operations of this CFOP. Takes precedence "
+"over the one of the fiscal operation line and over the one of the company."
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__account_invoice_report__tax_icms_or_issqn__icms
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__contract_line__tax_icms_or_issqn__icms
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document_line__tax_icms_or_issqn__icms
@@ -9472,6 +9479,7 @@ msgstr "Imposto CSLL RET"
 #. module: l10n_br_fiscal
 #: model:ir.actions.act_window,name:l10n_br_fiscal.tax_classification_action
 #: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_tax_classification
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_cfop__tax_classification_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__tax_classification_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__tax_classification_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_report__tax_classification_id
