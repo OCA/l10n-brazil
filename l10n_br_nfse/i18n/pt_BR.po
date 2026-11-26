@@ -808,7 +808,8 @@ msgstr "Data da competência"
 #. module: l10n_br_nfse
 #: model:ir.model.fields,help:l10n_br_nfse.field_nfse_10_tcdocajustebc__nfse10_dtCompDoc
 msgid "Data da competência do documento dedutível. Ano, mês e dia (AAAA-MM-DD)"
-msgstr "Data da competência do documento dedutível. Ano, mês e dia (AAAA-MM-DD)"
+msgstr ""
+"Data da competência do documento dedutível. Ano, mês e dia (AAAA-MM-DD)"
 
 #. module: l10n_br_nfse
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcdocajustebc__nfse10_dtEmiDoc
@@ -1754,6 +1755,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcbeneficiomunicipal__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tccomexterior__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcdocajustebc__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcdps__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcemitente__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcenderecoemitente__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcenderext__brl_currency_id
@@ -2433,6 +2435,11 @@ msgid "TCComExterior"
 msgstr "TCComExterior"
 
 #. module: l10n_br_nfse
+#: model:ir.model,name:l10n_br_nfse.model_nfse_10_tcdps
+msgid "TCDPS"
+msgstr ""
+
+#. module: l10n_br_nfse
 #: model:ir.model,name:l10n_br_nfse.model_nfse_10_tcdocajustebc
 msgid "TCDocAjusteBC"
 msgstr "TCDocAjusteBC"
@@ -2927,8 +2934,8 @@ msgid ""
 msgstr ""
 "Valor da base de cálculo do ISSQN (R$) = Valor do serviço - Desconto "
 "incondicionado - Ajustes (deduções/reduções) - Benefício municipal\n"
-"\t\t\t\t\t\tvBC = vServ - descIncond - (vAjusteBCISSQN + "
-"vCalcAjusteBCISSQN) - (vRedBCBM ou VCalcBM)"
+"\t\t\t\t\t\tvBC = vServ - descIncond - (vAjusteBCISSQN + vCalcAjusteBCISSQN) "
+"- (vRedBCBM ou VCalcBM)"
 
 #. module: l10n_br_nfse
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtcvaloresibscbs__nfse10_vBC
@@ -3236,8 +3243,8 @@ msgid ""
 msgstr ""
 "Valor monetário utilizado para não inclusão na base de cálculo do IBS e da "
 "CBS da NFS-e que está sendo emitida (R$). (Informar o valor total da parcela "
-"não integrante da base de cálculo - IPTU, condomínio, redutor social, etc. -"
-", não devendo ser inserido o valor proporcional do coproprietário)"
+"não integrante da base de cálculo - IPTU, condomínio, redutor social, etc. "
+"-, não devendo ser inserido o valor proporcional do coproprietário)"
 
 #. module: l10n_br_nfse
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcbeneficiomunicipal__nfse10_pRedBCBM
@@ -3419,6 +3426,11 @@ msgid "gUnidImob"
 msgstr "gUnidImob"
 
 #. module: l10n_br_nfse
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcdps__nfse10_infDPS
+msgid "infDPS"
+msgstr ""
+
+#. module: l10n_br_nfse
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
 msgid "no site"
 msgstr "no site"
@@ -3491,6 +3503,11 @@ msgstr "vTotTribMun"
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcrtctotaltribregular__nfse10_vTribRegIBSMun
 msgid "vTribRegIBSMun"
 msgstr "vTribRegIBSMun"
+
+#. module: l10n_br_nfse
+#: model:ir.model.fields,field_description:l10n_br_nfse.field_nfse_10_tcdps__nfse10_versao
+msgid "versao"
+msgstr ""
 
 #. module: l10n_br_nfse
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
