@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2026-11-25 23:46+0000\n"
+"PO-Revision-Date: 2026-11-26 18:55+0000\n"
 "Last-Translator: Luis Felipe Miléo <mileo@kmee.com.br>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -24,12 +24,12 @@ msgstr "Conta"
 #. module: l10n_br_coa
 #: model:ir.model,name:l10n_br_coa.model_account_chart_template
 msgid "Account Chart Template"
-msgstr "Template do Plano de Contas"
+msgstr "Modelo de plano de contas"
 
 #. module: l10n_br_coa
 #: model:ir.model,name:l10n_br_coa.model_account_tax_mixin
 msgid "Account Tax Mixin"
-msgstr "Mixin da Conta de Imposto"
+msgstr "Mixin de imposto"
 
 #. module: l10n_br_coa
 #: model:account.account.tag,name:l10n_br_coa.account_tag_provision_expense
@@ -223,7 +223,7 @@ msgstr "COFINS Saída Dedutível"
 #: model:account.account.tag,name:l10n_br_coa.tax_tag_cofins_wh
 #: model:account.tax.group,name:l10n_br_coa.1_tax_group_cofins_wh
 msgid "COFINS WH"
-msgstr "COFINS WH"
+msgstr "COFINS RET"
 
 #. module: l10n_br_coa
 #: model:account.tax,name:l10n_br_coa.1_tax_template_in_cofins_wh
@@ -307,7 +307,7 @@ msgstr "CSLL Saída Dedutível"
 #: model_terms:account.tax,description:l10n_br_coa.6_tax_template_in_csll_wh
 #: model_terms:account.tax,description:l10n_br_coa.6_tax_template_out_csll_wh
 msgid "CSLL WH"
-msgstr "CSLL WH"
+msgstr "CSLL RET"
 
 #. module: l10n_br_coa
 #: model:account.tax,name:l10n_br_coa.1_tax_template_in_csll_wh
@@ -678,7 +678,7 @@ msgstr "INSS Saída"
 #: model:account.account.tag,name:l10n_br_coa.tax_tag_inss_wh
 #: model:account.tax.group,name:l10n_br_coa.1_tax_group_inss_wh
 msgid "INSS WH"
-msgstr "INSS WH"
+msgstr "INSS RET"
 
 #. module: l10n_br_coa
 #: model:account.tax,name:l10n_br_coa.1_tax_template_in_inss_wh
@@ -818,7 +818,7 @@ msgstr "IRPJ Saída Dedutível"
 #: model_terms:account.tax,description:l10n_br_coa.6_tax_template_in_irpj_wh
 #: model_terms:account.tax,description:l10n_br_coa.6_tax_template_out_irpj_wh
 msgid "IRPJ WH"
-msgstr "IRPJ WH"
+msgstr "IRPJ RET"
 
 #. module: l10n_br_coa
 #: model:account.tax,name:l10n_br_coa.1_tax_template_in_irpj_wh
@@ -890,7 +890,7 @@ msgstr "ISSQN Saída Dedutível"
 #: model:account.account.tag,name:l10n_br_coa.tax_tag_issqn_wh
 #: model:account.tax.group,name:l10n_br_coa.1_tax_group_issqn_wh
 msgid "ISSQN WH"
-msgstr "ISSQN WH"
+msgstr "ISSQN RET"
 
 #. module: l10n_br_coa
 #: model:account.tax,name:l10n_br_coa.1_tax_template_in_issqn_wh
@@ -1015,7 +1015,7 @@ msgstr "PIS Saída Dedutível"
 #: model:account.account.tag,name:l10n_br_coa.tax_tag_pis_wh
 #: model:account.tax.group,name:l10n_br_coa.1_tax_group_pis_wh
 msgid "PIS WH"
-msgstr "PIS WH"
+msgstr "PIS RET"
 
 #. module: l10n_br_coa
 #: model:account.tax,name:l10n_br_coa.1_tax_template_in_pis_wh
