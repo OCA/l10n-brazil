@@ -38,6 +38,24 @@ class TestNFeWebServices(TestNFeExport):
         {
             "nfeAutorizacaoLote": "retEnviNFe/lote_recebido.xml",
             "nfeRetAutorizacaoLote": "retConsReciNFe/autorizada.xml",
+        }
+    )
+    def test_send_revalidates_stale_xml_error(self):
+        """A document fixed after a failed validation must be transmittable
+        again: the send re-validates against the current data instead of
+        blocking on the stored (now stale) ``xml_error_message``."""
+        nfe = self.nfe_list[0]["nfe"]
+        # Simulate a validation error stored by an earlier confirm with bad
+        # data, while the document's current data is in fact valid.
+        nfe.xml_error_message = "stale validation error from a previous confirm"
+        nfe.action_document_send()
+        self.assertFalse(nfe.xml_error_message)
+        self.assertEqual(nfe.state_edoc, SITUACAO_EDOC_AUTORIZADA)
+
+    @nfe_mock(
+        {
+            "nfeAutorizacaoLote": "retEnviNFe/lote_recebido.xml",
+            "nfeRetAutorizacaoLote": "retConsReciNFe/autorizada.xml",
             "nfeRecepcaoEvento": "retEnvEvento/nfe_cancelamento.xml",
         }
     )
