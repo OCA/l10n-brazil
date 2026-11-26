@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2026-11-25 23:46+0000\n"
+"PO-Revision-Date: 2026-11-26 17:13+0000\n"
 "Last-Translator: Luis Felipe Miléo <mileo@kmee.com.br>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -2077,7 +2077,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_transporte_lacre__display_name
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_transporte_perigoso__display_name
 msgid "Display Name"
-msgstr "Nome Exibido"
+msgstr "Nome exibido"
 
 #. module: l10n_br_mdfe
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_aereo__document_id
@@ -2224,7 +2224,7 @@ msgstr "Embarcação"
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_move__mdfe30_procEmi
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_fiscal_document__mdfe30_procEmi
 msgid "Emission Process"
-msgstr "Processo de Emissão"
+msgstr "Processo de emissão"
 
 #. module: l10n_br_mdfe
 #: model:ir.model.fields.selection,name:l10n_br_mdfe.selection__l10n_br_fiscal_document__mdfe_transmission__1
@@ -2407,7 +2407,7 @@ msgstr "Documento Fiscal"
 #. module: l10n_br_mdfe
 #: model:ir.model,name:l10n_br_mdfe.model_l10n_br_fiscal_document_related
 msgid "Fiscal Document Related"
-msgstr "Documento Fiscal Relacionado"
+msgstr "Documento fiscal relacionado"
 
 #. module: l10n_br_mdfe
 #: model:ir.model,name:l10n_br_mdfe.model_l10n_br_fiscal_document_type
@@ -2805,7 +2805,7 @@ msgstr "ITAQUI"
 #. module: l10n_br_mdfe
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_mdfe_30_infprot__mdfe30_Id
 msgid "Id"
-msgstr "Id"
+msgstr "ID"
 
 #. module: l10n_br_mdfe
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_modal_rodoviario_vale_pedagio_dispositivo__mdfe30_nCompra
@@ -3601,7 +3601,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_transporte_lacre__write_uid
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_transporte_perigoso__write_uid
 msgid "Last Updated by"
-msgstr "Última Atualização por"
+msgstr "Última atualização por"
 
 #. module: l10n_br_mdfe
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_autxml__write_date
@@ -3634,7 +3634,7 @@ msgstr "Última Atualização por"
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_transporte_lacre__write_date
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_transporte_perigoso__write_date
 msgid "Last Updated on"
-msgstr "Última Atualização em"
+msgstr "Última atualização em"
 
 #. module: l10n_br_mdfe
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_product_lotacao_local__mdfe30_latitude
@@ -3673,7 +3673,7 @@ msgstr "Portos Carregados"
 #. module: l10n_br_mdfe
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_l10n_br_mdfe_product_lotacao_local__local_type
 msgid "Local Type"
-msgstr "Tipo de Local"
+msgstr "Tipo de local"
 
 #. module: l10n_br_mdfe
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_partner__mdfe30_xLgr
@@ -5869,7 +5869,7 @@ msgstr "Documento Relacionado"
 #. module: l10n_br_mdfe
 #: model:ir.model,name:l10n_br_mdfe.model_ir_actions_report
 msgid "Report Action"
-msgstr "Ação de Relatório"
+msgstr "Ação de relatório"
 
 #. module: l10n_br_mdfe
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_account_bank_statement_line__mdfe30_infRespTec
