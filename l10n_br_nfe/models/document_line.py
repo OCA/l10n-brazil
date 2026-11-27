@@ -1037,6 +1037,12 @@ class NFeLine(spec_models.StackedModel):
         export_dict["pIBSMun"] = "0.0000"
         export_dict["vIBSMun"] = "0.00"
 
+    def _export_tag_nfe_40_gibsmun_gred(self, xsd_fields, class_obj, export_dict):
+        """gRed of the gIBSMun group (parent qualified hook)."""
+        if self.ibs_reduction:
+            export_dict["pRedAliq"] = self.ibs_reduction
+            export_dict["pAliqEfet"] = "0.0000"
+
     def _export_tag_nfe_40_gcbs(self, xsd_fields, class_obj, export_dict):
         export_dict["pCBS"] = self.cbs_percent
         export_dict["vCBS"] = self.cbs_value

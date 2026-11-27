@@ -161,8 +161,9 @@ class TestNFeIBSCBS(TransactionCase):
         # each parent gets its own reduction
         self.assertEqual(result.gIBSCBS.gIBSUF.gRed.pRedAliq, "60.0000")
         self.assertEqual(result.gIBSCBS.gCBS.gRed.pRedAliq, "30.0000")
-        # gIBSMun has no gRed hook
-        self.assertIsNone(result.gIBSCBS.gIBSMun.gRed)
+        # gIBSMun has no pAliqEfet, it is zeroed out whatever pRedAliq
+        self.assertEqual(result.gIBSCBS.gIBSMun.gRed.pRedAliq, "60.0000")
+        self.assertEqual(result.gIBSCBS.gIBSMun.gRed.pAliqEfet, "0.0000")
 
     def test_export_ibscbs_gred_absent_without_reduction(self):
         """Test gRed is omitted when there is no reduction"""
