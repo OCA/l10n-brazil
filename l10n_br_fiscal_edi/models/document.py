@@ -874,7 +874,9 @@ class Document(models.Model):
 
     def view_pdf(self):
         self.ensure_one()
-        if not self.file_report_id or not self.authorization_file_id:
+        if not self.file_report_id or not (
+            self.authorization_file_id or self.original_xml_file_id
+        ):
             self.make_pdf()
         if not self.file_report_id:
             raise UserError(_("No PDF file generated!"))

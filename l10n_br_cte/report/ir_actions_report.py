@@ -35,6 +35,8 @@ class IrActionsReport(models.Model):
             cte_xml = base64.b64decode(cte.authorization_file_id.datas)
         elif cte.send_file_id:
             cte_xml = base64.b64decode(cte.send_file_id.datas)
+        elif cte.original_xml_file_id:
+            cte_xml = cte.original_xml_file_id.raw
 
         if not cte_xml:
             raise UserError(_("No xml file was found."))

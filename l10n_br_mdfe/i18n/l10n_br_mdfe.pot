@@ -6225,6 +6225,20 @@ msgid "The field %(label)s must contain only numbers. Found: '%(value)s'"
 msgstr ""
 
 #. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document_import.py:0
+#, python-format
+msgid "The file %s is not a valid MDF-e."
+msgstr ""
+
+#. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document_import.py:0
+#, python-format
+msgid "This MDF-e is not authorized (status %s)."
+msgstr ""
+
+#. module: l10n_br_mdfe
 #: model:ir.model.constraint,message:l10n_br_mdfe.constraint_l10n_br_mdfe_autxml_autxml_partner_document_uniq
 msgid "This partner is already authorized to download this document XML."
 msgstr ""

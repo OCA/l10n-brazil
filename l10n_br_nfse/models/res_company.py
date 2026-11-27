@@ -49,6 +49,12 @@ class ResCompany(models.Model):
         string="Use City NFSe PDF",
         default=False,
     )
+    nfse_import_product_id = fields.Many2one(
+        comodel_name="product.product",
+        string="Default NFS-e Import Product",
+        domain="[('type', '=', 'service')]",
+        help="Service product applied when a national NFS-e is imported.",
+    )
 
     def _prepare_company_service(self):
         return {

@@ -35,6 +35,8 @@ class IrActionsReport(models.Model):
             mdfe_xml = base64.b64decode(mdfe.authorization_file_id.datas)
         elif mdfe.send_file_id:
             mdfe_xml = base64.b64decode(mdfe.send_file_id.datas)
+        elif mdfe.original_xml_file_id:
+            mdfe_xml = mdfe.original_xml_file_id.raw
 
         if not mdfe_xml:
             raise UserError(_("No xml file was found."))
