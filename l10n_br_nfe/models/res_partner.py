@@ -335,13 +335,11 @@ class ResPartner(spec_models.SpecModel):
             # Caso o CNPJ/CPF esteja em branco e o parceiro tenha um parent_id
             # É exportado o CNPJ/CPF do parent_id é importate para o endereço
             # de entrega/retirada
-            if not self.vat and self.parent_id:
-                cnpj_cpf = punctuation_rm(self.parent_id.vat)
-            else:
-                cnpj_cpf = punctuation_rm(self.vat)
-
-            if xsd_field == self.nfe40_choice_tlocal:
-                return cnpj_cpf
+            partner = self
+            if class_obj._name == "nfe.40.tlocal" and not self.vat and self.parent_id:
+                partner = self.parent_id
+            if xsd_field == partner.nfe40_choice_tlocal:
+                return punctuation_rm(partner.vat)
 
         if self.country_id.code != "BR":
             if xsd_field == "nfe40_xBairro":

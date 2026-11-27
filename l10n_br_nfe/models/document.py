@@ -1008,7 +1008,10 @@ class NFe(spec_models.StackedModel):
         denormalized inner attribute has been set.
         """
         self.ensure_one()
-        if field_name in self._get_stacking_points().keys():
+        if (
+            field_name.startswith("nfe40_")
+            and field_name in self._get_stacking_points()
+        ):
             if field_name == "nfe40_ISSQNtot" and not any(
                 t == "issqn"
                 for t in self.nfe40_det.mapped("product_id.tax_icms_or_issqn")
