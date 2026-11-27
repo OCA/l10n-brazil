@@ -1,0 +1,5 @@
+- [Kmee](https://www.kmee.com.br):
+  - Diego Paradeda \<diego.paradeda@kmee.com.br\>
+  - Gabriel Cardoso de Faria \<gabriel.cardoso@kmee.com.br\>
+- [Escodoo](https://www.escodoo.com.br):
+  - Marcel Savegnago \<marcel.savegnago@escodoo.com.br\>

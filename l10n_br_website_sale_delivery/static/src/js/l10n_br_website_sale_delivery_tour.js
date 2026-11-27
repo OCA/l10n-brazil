@@ -1,140 +1,101 @@
 odoo.define("l10n_br_website_sale_delivery.tour", function (require) {
     "use strict";
 
-    var ajax = require("web.ajax");
-    var session = require("web.session");
-    var tour = require("web_tour.tour");
+    const tour = require("web_tour.tour");
+    const tourUtils = require("website_sale.tour_utils");
+    const carrierSelector = "#delivery_method .o_delivery_carrier_select";
+    const checkout = {trigger: 'a[href="/shop/checkout?express=1"]'};
 
-    var domReady = new Promise(function (resolve) {
-        $(resolve);
-    });
-    var ready = Promise.all([domReady, session.is_bound, ajax.loadXML()]);
+    function fill(name, value) {
+        return {trigger: 'input[name="' + name + '"]:visible', run: "text " + value};
+    }
 
-    tour.register(
-        "l10n_br_website_sale_delivery_tour",
+    function selectCarrier(name) {
+        return {
+            trigger:
+                carrierSelector + ':has(label:containsExact("' + name + '")) input',
+        };
+    }
+
+    function checkAmounts(name, delivery, total) {
+        return {
+            trigger:
+                carrierSelector +
+                ':has(label:containsExact("' +
+                name +
+                '")) input:checked',
+            extra_trigger:
+                '#order_delivery .oe_currency_value:containsExact("' + delivery + '")',
+            run: () => {
+                const displayedTotal = $("#order_total .oe_currency_value")
+                    .text()
+                    .trim();
+                if (displayedTotal !== total) {
+                    throw new Error(
+                        "Expected checkout total " + total + ", got " + displayedTotal
+                    );
+                }
+            },
+        };
+    }
+
+    tour.register("l10n_br_website_sale_delivery_tour", {test: true}, [
+        {trigger: "#add_to_cart"},
+        tourUtils.goToCart(),
+        checkout,
+        fill("name", "Freight Checkout Customer"),
+        fill("email", "freight-checkout@example.com"),
+        fill("phone", "12981901669"),
+        fill("zip", "12246250"),
+        fill("street_number", "23"),
         {
-            test: true,
-            url: "/shop",
-            wait_for: ready,
+            trigger:
+                'select[name="city_id"]:has(option:selected:contains("São José dos Campos"))',
+            run: () => null,
         },
-        [
-            {
-                content: "search storage box",
-                trigger: 'form input[name="search"]',
-                run: "text storage box",
+        fill("vat", "89604455095"),
+        {trigger: ".checkout_autoformat .a-submit"},
+        selectCarrier("Freight Test Free"),
+        checkAmounts("Freight Test Free", "0.00", "100.00"),
+        selectCarrier("Freight Test Poste"),
+        checkAmounts("Freight Test Poste", "20.00", "120.00"),
+        {
+            trigger: "#delivery_method",
+            run: () => {
+                window.location.href = "/shop/cart";
             },
-            {
-                content: "search storage box",
-                trigger: 'form:has(input[name="search"]) .oe_search_button',
+        },
+        {trigger: 'input.js_quantity[value="1"] ~ a[aria-label="Add one"]'},
+        {
+            content: "Check the cart total after increasing the quantity",
+            trigger: '.my_cart_quantity:containsExact("2")',
+            run: () => {
+                const displayed = $(".js_cart_summary").text().replace(/\s+/g, " ");
+                if (
+                    !displayed.includes("Delivery: R$ 20.00") ||
+                    !displayed.includes("Total: R$ 220.00")
+                ) {
+                    throw new Error("Unexpected cart summary: " + displayed);
+                }
             },
-            {
-                content: "select storage box",
-                trigger: '.oe_product_cart:first a:contains("Storage Box")',
-                timeout: 10000,
+        },
+        checkout,
+        selectCarrier("Freight Test Poste"),
+        checkAmounts("Freight Test Poste", "20.00", "220.00"),
+        {
+            trigger: "#delivery_method",
+            run: () => {
+                document.body.dataset.freightBeforeReload = "true";
+                window.location.reload();
             },
-            {
-                content: "click on add to cart",
-                trigger:
-                    '#product_detail form[action^="/shop/cart/update"]' +
-                    " .btn-primary",
-            },
-            {
-                content: "click in modal on 'Proceed to checkout' button",
-                trigger: 'a:contains("Process Checkout")',
-                run: function () {
-                    window.location.href = "/shop/address";
-                    // Redirect in JS to avoid the RPC loop (20x1sec)
-                },
-                timeout: 20000,
-            },
-            {
-                content: "Complete name",
-                trigger: "input[name='name']",
-                run: "text Paradeda",
-            },
-            {
-                content: "Complete phone",
-                trigger: "input[name='phone']",
-                run: "text 12981901669",
-            },
-            {
-                content: "Complete zip",
-                trigger: "input[name='zip']",
-                run: "text 12246250",
-            },
-            {
-                content: "check state is São Paulo",
-                trigger: 'select[name=state_id]:contains("São Paulo")',
-                run: function () {
-                    setTimeout(function () {
-                        console.log("wait for zip");
-                    }, 8000);
-                },
-                timeout: 5000,
-            },
-            {
-                content: "check city is São José dos Campos",
-                trigger: 'select[name=city_id]:contains("São José dos Campos")',
-                timeout: 5000,
-            },
-            {
-                content: "Complete number",
-                trigger: "input[name='street_number']",
-                run: "text 23",
-            },
-            {
-                content: "click in Next",
-                trigger: 'a:contains("Next")',
-                timeout: 20000,
-            },
-            {
-                content:
-                    "Free delivery charges - Make sure the price is loaded asynchronously",
-                extra_trigger: '#delivery_carrier input[name="delivery_type"]:checked',
-                trigger:
-                    '#delivery_method .o_delivery_carrier_select:contains("Free delivery charges")',
-                run: "click",
-            },
-            {
-                content: "Check Free delivery chargese",
-                extra_trigger:
-                    '#delivery_carrier label:containsExact("Free delivery charges")',
-                trigger: "#delivery_carrier span:contains('Free')",
-            },
-            {
-                content: "The Test Poste - Ensure price was loaded asynchronously",
-                extra_trigger: '#delivery_carrier input[name="delivery_type"]:checked',
-                trigger:
-                    '#delivery_method .o_delivery_carrier_select:contains("The Test Poste")',
-                run: "click",
-            },
-            {
-                content: "Check The Test Poste",
-                extra_trigger:
-                    '#delivery_carrier label:containsExact("The Test Poste")',
-                trigger: "#delivery_carrier span:contains('20.0')",
-            },
-
-            {
-                content: "Pay Now",
-                // Either there are multiple payment methods, and one is checked, either there is only one, and therefore there are no radio inputs
-                extra_trigger:
-                    '#payment_method label:contains("Wire Transfer") input:checked,#payment_method:not(:has("input:radio:visible"))',
-                trigger: 'button[id="o_payment_form_pay"]:visible:not(:disabled)',
-            },
-            {
-                content: "finish",
-                trigger: '.oe_website_sale:contains("Please make a payment to:")',
-                // Leave /shop/confirmation to prevent RPC loop to
-                //      /shop/payment/get_status.
-                // The RPC could be handled in python while the tour is
-                //      killed (and the session), leading to crashes
-                run: function () {
-                    // Redirect in JS to avoid the RPC loop (20x1sec)
-                    window.location.href = "/aboutus";
-                },
-                timeout: 30000,
-            },
-        ]
-    );
+        },
+        {
+            ...checkAmounts("Freight Test Poste", "20.00", "220.00"),
+            content: "Confirm the freight and total after reloading checkout",
+            trigger:
+                "body:not([data-freight-before-reload]) " +
+                carrierSelector +
+                ':has(label:containsExact("Freight Test Poste")) input:checked',
+        },
+    ]);
 });
