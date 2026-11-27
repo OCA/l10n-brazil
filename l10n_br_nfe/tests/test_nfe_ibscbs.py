@@ -96,8 +96,8 @@ class TestNFeIBSCBS(TransactionCase):
 
         result = self._export_ibscbs(line)
         self.assertIsNotNone(result)
-        # CST is only exported when the line has an IBS CST
-        self.assertIsNone(result.CST)
+        # without an IBS CST, the CST comes from the cClassTrib (UB14-20)
+        self.assertEqual(result.CST, "000")
         self.assertEqual(result.cClassTrib, "000001")
         self.assertIsNotNone(result.gIBSCBS)
         self.assertEqual(result.gIBSCBS.vBC, "100.00")
@@ -250,8 +250,9 @@ class TestNFeIBSCBS(TransactionCase):
 
         result = self._export_ibscbs(line)
         self.assertIsNotNone(result)
-        # The CST comes only from the IBS CST, there is no CBS fallback
-        self.assertIsNone(result.CST)
+        # without an IBS CST, the CST comes from the cClassTrib, not from
+        # the CBS CST
+        self.assertEqual(result.CST, "000")
 
     def test_export_ibscbs_hook_only_populates_dict(self):
         """Test the IBSCBS hook only populates export_dict with values"""
@@ -259,8 +260,7 @@ class TestNFeIBSCBS(TransactionCase):
 
         export_dict = {}
         line._export_tag_nfe_40_ibscbs([], None, export_dict)
-        # CST is only set when the line has an IBS CST
-        self.assertNotIn("CST", export_dict)
+        self.assertEqual(export_dict.get("CST"), "000")
         self.assertEqual(export_dict.get("cClassTrib"), "000001")
 
     def test_export_ibscbs_hook_without_tax_classification(self):
@@ -657,16 +657,11 @@ class TestNFeIBSCBSFiscalOperation(TransactionCase):
         self.assertIsNotNone(det.imposto.IBSCBS)
         self.assertEqual(det.imposto.IBSCBS.CST, "410")
         self.assertEqual(det.imposto.IBSCBS.cClassTrib, "410002")
-        # immunity: the group is exported with zero values
-        self.assertEqual(det.imposto.IBSCBS.gIBSCBS.vBC, "0.00")
-        self.assertEqual(det.imposto.IBSCBS.gIBSCBS.vIBS, "0.00")
-        self.assertEqual(det.imposto.IBSCBS.gIBSCBS.gIBSUF.pIBSUF, "0.0000")
-        self.assertEqual(det.imposto.IBSCBS.gIBSCBS.gCBS.vCBS, "0.00")
-        # no reduction configured, so no gRed
-        self.assertIsNone(det.imposto.IBSCBS.gIBSCBS.gIBSUF.gRed)
-        self.assertIsNone(det.imposto.IBSCBS.gIBSCBS.gCBS.gRed)
-        # CST 410 keeps the gIBSCBS choice branch
+        # immunity (CST 410) has no ind_gIBSCBS: no group of the choice
+        # (rule UB13-20) and no credit reversal for 410002
+        self.assertIsNone(det.imposto.IBSCBS.gIBSCBS)
         self.assertIsNone(det.imposto.IBSCBS.gIBSCBSMono)
+        self.assertIsNone(det.imposto.IBSCBS.gEstornoCred)
 
     def test_export_total_binding_ibscbstot(self):
         """Test the totals are exported for a document with a classification"""
