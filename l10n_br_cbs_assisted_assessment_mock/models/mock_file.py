@@ -39,6 +39,12 @@ class CbsAssessmentMockFile(models.Model):
         default=lambda self: self.env.company,
     )
     service = fields.Selection(selection=SERVICE_TYPES, required=True, index=True)
+    period_id = fields.Many2one(
+        comodel_name="l10n_br_assisted_assessment.period",
+        string="Assessment Period",
+        index=True,
+        ondelete="set null",
+    )
     state = fields.Selection(
         selection=[("draft", "Draft"), ("served", "Served")],
         default="draft",
@@ -65,11 +71,13 @@ class CbsAssessmentMockFile(models.Model):
     @api.model
     def _open_request(self, company, service):
         """Bind a local file to a new mock ticket and return the opening answer."""
+        period = self._period_being_requested(company)
         prepared = self.search(
             [
                 ("company_id", "=", company.id),
                 ("service", "=", service),
                 ("state", "=", "draft"),
+                ("period_id", "=", period.id),
             ],
             order="id",
             limit=1,
@@ -78,7 +86,6 @@ class CbsAssessmentMockFile(models.Model):
             payload = prepared.payload
             mock_file = prepared
         else:
-            period = self._current_period(company)
             payload = json.dumps(
                 self._build_payload(period, service), ensure_ascii=False, indent=2
             )
@@ -86,6 +93,7 @@ class CbsAssessmentMockFile(models.Model):
                 {
                     "company_id": company.id,
                     "service": service,
+                    "period_id": period.id,
                     "payload": payload,
                 }
             )
@@ -111,6 +119,7 @@ class CbsAssessmentMockFile(models.Model):
                     ("company_id", "=", period.company_id.id),
                     ("service", "=", service),
                     ("state", "=", "draft"),
+                    ("period_id", "=", period.id),
                 ],
                 limit=1,
             )
@@ -121,11 +130,27 @@ class CbsAssessmentMockFile(models.Model):
                     {
                         "company_id": period.company_id.id,
                         "service": service,
+                        "period_id": period.id,
                         "payload": payload,
                     }
                 )
             stored |= draft
         return stored
+
+    @api.model
+    def _period_being_requested(self, company):
+        """Return the period of the request that is opening right now.
+
+        ``_transmit`` passes it in the context. A missing value falls back to
+        the current month so a call made outside a period still has a file.
+        """
+        period_id = self.env.context.get("cbs_assessment_mock_period_id")
+        period = self.env["l10n_br_assisted_assessment.period"].browse(
+            period_id or False
+        )
+        if period and period.company_id == company:
+            return period
+        return self._current_period(company)
 
     @api.model
     def _current_period(self, company):

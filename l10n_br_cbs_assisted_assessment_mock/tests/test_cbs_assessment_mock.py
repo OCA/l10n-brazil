@@ -83,6 +83,7 @@ class TestCbsAssessmentMock(TransactionCase):
             {
                 "company_id": self.company.id,
                 "service": "debits",
+                "period_id": period.id,
                 "payload": json.dumps(
                     {
                         "apuracao": [
@@ -149,6 +150,55 @@ class TestCbsAssessmentMock(TransactionCase):
             ]
         )
         self.assertEqual(len(drafts), 1)
+        self.assertEqual(drafts.period_id, period)
+
+    def test_unprepared_request_stays_in_the_period_it_was_opened_from(self):
+        today = fields.Date.context_today(self.file_model)
+        current = f"{today.year:04d}-{today.month:02d}"
+        other = "2026-01" if current != "2026-01" else "2026-02"
+        period = self.period_model._get_or_create(self.company, "cbs", other)
+        with self._block_http():
+            request = period.action_request_credits()
+            self._finish(request)
+        self.assertEqual(request.period_ids.mapped("per_apur"), [other])
+        self.assertFalse(
+            self.period_model.search(
+                [
+                    ("company_id", "=", self.company.id),
+                    ("tribute", "=", "cbs"),
+                    ("per_apur", "=", current),
+                ]
+            )
+        )
+
+    def test_draft_is_not_served_to_another_period(self):
+        august = self.period_model._get_or_create(self.company, "cbs", "2026-08")
+        september = self.period_model._get_or_create(self.company, "cbs", "2026-09")
+        wizard = self.env["l10n_br_cbs_assisted_assessment.mock.generate"].create(
+            {
+                "company_id": self.company.id,
+                "period_id": august.id,
+                "credits": False,
+                "payments": False,
+                "withholdings": False,
+            }
+        )
+        wizard.action_generate()
+        with self._block_http():
+            request = september.action_request_debits()
+            self._finish(request)
+        self.assertIn('"pa": "09/2026"', request.payload)
+        self.assertEqual(
+            self.file_model.search_count(
+                [
+                    ("company_id", "=", self.company.id),
+                    ("service", "=", "debits"),
+                    ("state", "=", "draft"),
+                    ("period_id", "=", august.id),
+                ]
+            ),
+            1,
+        )
 
     def test_period_toggle_writes_the_company(self):
         self.company.cbs_assessment_mock_mode = False

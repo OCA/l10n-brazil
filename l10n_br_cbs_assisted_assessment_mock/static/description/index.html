@@ -406,10 +406,11 @@ serviço a partir dos documentos fiscais autorizados daquele mês. Saídas
 viram débitos, entradas viram créditos, e os pagamentos trazem um DARF
 RAD e um PCONT. Sem documento no período, o arquivo leva uma linha de
 exemplo.</p>
-<p>A solicitação seguinte daquele serviço consome o arquivo preparado. Se
-não houver arquivo esperando, a abertura monta um para o mês corrente.
-<em>Verificar Status</em> conclui na hora e <em>Download</em> aplica o JSON, como no
-transporte real.</p>
+<p>A solicitação daquele período e serviço consome o arquivo preparado para
+eles. Um arquivo de outro mês não é reaproveitado. Se não houver arquivo
+esperando, a abertura monta um para o período de onde o botão foi
+acionado, e não para o mês do relógio. <em>Verificar Status</em> conclui na
+hora e <em>Download</em> aplica o JSON, como no transporte real.</p>
 </div>
 <div class="section" id="bug-tracker">
 <h1><a class="toc-backref" href="#toc-entry-2">Bug Tracker</a></h1>
