@@ -756,6 +756,16 @@ class CTe(spec_models.StackedModel):
             if "cte40_ICMSOutraUF" in xsd_fields:
                 xsd_fields.remove("cte40_ICMSOutraUF")
 
+            if not record.cte40_choice_icms:
+                line = record.fiscal_line_ids[:1]
+                raise UserError(
+                    _(
+                        "The CT-e requires ICMS on its line, and the line %(line)s "
+                        "has no ICMS CST. Choose an operation line and a service "
+                        "that tax ICMS, not ISSQN."
+                    )
+                    % {"line": line.name or line.display_name or _("without name")}
+                )
             xsd_fields = [record.cte40_choice_icms]
             icms_tag = (
                 record.cte40_choice_icms.replace("cte40_", "")
@@ -1537,6 +1547,8 @@ class CTe(spec_models.StackedModel):
         self, values, model=None, parent_dict=None, defaults_model=None
     ):
         res = super()._prepare_import_dict(values, model, parent_dict, defaults_model)
+        if self.env.context.get("spec_schema", "cte") != "cte":
+            return res
         res["imported_document"] = True
         if "cte40_mod" in values:
             res["document_type_id"] = (
@@ -1624,7 +1636,7 @@ class CTe(spec_models.StackedModel):
     @api.model
     def _get_concrete_model(self, model_name):
         result = super()._get_concrete_model(model_name)
-        if self._module == "l10n_br_cte" and not result:
+        if self._module == "l10n_br_cte" and result is None:
             model_type = model_name.split(".")[-1]
             model_name = model_name.rpartition(".")[0] + ".tcte_" + model_type
             result = super()._get_concrete_model(model_name)
@@ -1986,60 +1998,60 @@ class CTe(spec_models.StackedModel):
             document.fiscal_operation_type = "in"
             document.issuer = "partner"
 
-            icms = None
-            for icms_tag in ICMS_SUB_TAGS:
-                icms = getattr(binding.infCte.imp.ICMS, icms_tag)
-                if icms:
-                    break
+        icms = None
+        for icms_tag in ICMS_SUB_TAGS:
+            icms = getattr(binding.infCte.imp.ICMS, icms_tag)
             if icms:
-                cst = icms.CST.value
-                percent = icms.pICMS if hasattr(icms, "pICMS") else None
-                base = icms.vBC if hasattr(icms, "vBC") else 0.0
-                value = icms.vICMS if hasattr(icms, "vICMS") else 0.0
-                cst_id = self.env.ref(f"l10n_br_fiscal.cst_icms_{cst}").id
-                tax_group_id = self.env.ref("l10n_br_fiscal.tax_group_icms").id
-                tax_domain = [("tax_group_id", "=", tax_group_id)]
-                if percent:
-                    tax_domain.append(("percent_amount", "=", percent))
-                tax_domain_with_cst = None
-                cst_kind = "cst_{}_id".format(self.env.context.get("edoc_type", "in"))
-                tax_domain_with_cst = tax_domain + [(cst_kind, "=", cst_id)]
-                # TODO deal with pRed like in l10n_br_nfe _import tax_attrs?
-                icms_tax_id = self.env["l10n_br_fiscal.tax"].search(
-                    tax_domain_with_cst,
-                    limit=1,
+                break
+        if icms:
+            cst = icms.CST.value
+            percent = icms.pICMS if hasattr(icms, "pICMS") else None
+            base = icms.vBC if hasattr(icms, "vBC") else 0.0
+            value = icms.vICMS if hasattr(icms, "vICMS") else 0.0
+            cst_id = self.env.ref(f"l10n_br_fiscal.cst_icms_{cst}").id
+            tax_group_id = self.env.ref("l10n_br_fiscal.tax_group_icms").id
+            tax_domain = [("tax_group_id", "=", tax_group_id)]
+            if percent:
+                tax_domain.append(("percent_amount", "=", percent))
+            tax_domain_with_cst = None
+            cst_kind = "cst_{}_id".format(self.env.context.get("edoc_type", "in"))
+            tax_domain_with_cst = tax_domain + [(cst_kind, "=", cst_id)]
+            # TODO deal with pRed like in l10n_br_nfe _import tax_attrs?
+            icms_tax_id = self.env["l10n_br_fiscal.tax"].search(
+                tax_domain_with_cst,
+                limit=1,
+            )
+
+            line_attrs = {
+                "name": "Frete",  # TODO improve
+                "price_unit": binding.infCte.vPrest.vTPrest,
+                "quantity": 1,
+                "fiscal_tax_ids": [Command.link(icms_tax_id.id)],
+                "icms_cst_id": cst_id,
+                "icms_tax_id": icms_tax_id.id,
+                "icms_base": base,
+                "icms_percent": percent,
+                "icms_value": value,
+            }
+            if binding.infCte.ide.CFOP:
+                line_attrs["cfop_id"] = (
+                    self.env["l10n_br_fiscal.cfop"]
+                    .search([("code", "=", binding.infCte.ide.CFOP)], limit=1)
+                    .id
                 )
 
-                line_attrs = {
-                    "name": "Frete",  # TODO improve
-                    "price_unit": binding.infCte.vPrest.vTPrest,
-                    "quantity": 1,
-                    "fiscal_tax_ids": [Command.link(icms_tax_id.id)],
-                    "icms_cst_id": cst_id,
-                    "icms_tax_id": icms_tax_id.id,
-                    "icms_base": base,
-                    "icms_percent": percent,
-                    "icms_value": value,
-                }
-                if binding.infCte.ide.CFOP:
-                    line_attrs["cfop_id"] = (
-                        self.env["l10n_br_fiscal.cfop"]
-                        .search([("code", "=", binding.infCte.ide.CFOP)], limit=1)
-                        .id
+            # Extract IBSCBS values if present
+            self._add_ibscbs_line_attrs(binding, line_attrs)
+
+            for comp in binding.infCte.vPrest.comp or [None]:
+                if comp is not None:
+                    line_attrs.update(
+                        {
+                            "name": comp.xNome,
+                            "price_unit": comp.vComp,
+                        }
                     )
-
-                # Extract IBSCBS values if present
-                self._add_ibscbs_line_attrs(binding, line_attrs)
-
-                for comp in binding.infCte.vPrest.comp or [None]:
-                    if comp is not None:
-                        line_attrs.update(
-                            {
-                                "name": comp.xNome,
-                                "price_unit": comp.vComp,
-                            }
-                        )
-                    document.fiscal_line_ids = [Command.create(line_attrs)]
+                document.fiscal_line_ids = [Command.create(line_attrs)]
 
         return document
 

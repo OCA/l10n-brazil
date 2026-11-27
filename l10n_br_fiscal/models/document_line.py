@@ -2,6 +2,13 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from odoo import api, fields, models
+from odoo.tools import float_compare
+
+from ..tools import cfop_geography_warning
+
+# The review of an imported line converts quantity and price on purpose, and the
+# total declared in the file must survive it.
+IMPORT_REVIEW_CONTEXT_KEY = "import_review_apply"
 
 
 class DocumentLine(models.Model):
@@ -97,9 +104,122 @@ class DocumentLine(models.Model):
 
     additional_data = fields.Text()
 
+    # Values as the counterparty declared them in an imported fiscal file. The
+    # document is created faithful to the file, and the review of each line
+    # converts it to the internal nomenclature without losing what was declared.
+    partner_uom_code = fields.Char(
+        string="Unit Declared by Partner",
+        readonly=True,
+        copy=False,
+        help="Unit of measure as declared by the counterparty in the imported "
+        "document.",
+    )
+
+    partner_quantity = fields.Float(
+        string="Quantity Declared by Partner",
+        digits="Product Unit of Measure",
+        readonly=True,
+        copy=False,
+        help="Quantity as declared by the counterparty, in its own unit.",
+    )
+
+    partner_price_unit = fields.Float(
+        string="Unit Price Declared by Partner",
+        digits="Product Price",
+        readonly=True,
+        copy=False,
+        help="Unit price as declared by the counterparty, in its own unit.",
+    )
+
+    cfop_warning = fields.Char(
+        string="CFOP Alert",
+        compute="_compute_cfop_warning",
+        help="Warns when the CFOP declared by the counterparty contradicts the "
+        "geography of the issuer and of the company, to spot a supplier mistake "
+        "before it reaches the fiscal books.",
+    )
+
+    def write(self, vals):
+        edited = self.browse()
+        if (
+            "partner_price_gross" not in vals
+            and {"quantity", "price_unit"} & vals.keys()
+            and not self.env.context.get(IMPORT_REVIEW_CONTEXT_KEY)
+        ):
+            # A quantity or a price changed by a person gives the total back to
+            # the calculation; writing the same values back changes nothing.
+            edited = self.filtered(
+                lambda line: line.partner_price_gross
+                and any(
+                    name in vals
+                    and float_compare(vals[name], line[name], precision_digits=8)
+                    for name in ("quantity", "price_unit")
+                )
+            )
+        if edited:
+            super(DocumentLine, edited).write(dict(vals, partner_price_gross=0.0))
+        result = super(DocumentLine, self - edited).write(vals)
+        if vals.get("cfop_id") and "cfop_manual" not in vals:
+            # The automatic remap goes through the compute, which never calls
+            # write: a CFOP written on an imported line is a decision of a person.
+            self.filtered(
+                lambda line: line._is_imported() and not line.cfop_manual
+            ).write({"cfop_manual": True})
+        return result
+
+    @api.depends(
+        "partner_cfop_id",
+        "document_id.partner_id.state_id",
+        "document_id.partner_id.country_id",
+    )
+    def _compute_cfop_warning(self):
+        for line in self:
+            line.cfop_warning = (
+                cfop_geography_warning(
+                    line.partner_cfop_id.code,
+                    line.document_id.partner_id,
+                    line.company_id,
+                )
+                if line.document_id.fiscal_operation_type == "in"
+                else False
+            )
+
+    def _get_partner_product_code(self):
+        """Code of the product in the catalog of the counterparty."""
+        self.ensure_one()
+        return False
+
+    def _get_partner_product_name(self):
+        """Name of the product in the catalog of the counterparty."""
+        self.ensure_one()
+        return False
+
+    @api.depends("fiscal_operation_id", "partner_id", "product_id")
+    def _compute_fiscal_operation_line_id(self):
+        """An imported line keeps the operation line it has while it belongs to the
+        operation of the line: the product that the review gives it must not take
+        the operation line away, or the line stops adding to the financial total of
+        the document (and the document has nothing to pay)."""
+        kept = {
+            line: line.fiscal_operation_line_id
+            for line in self
+            if line._is_imported()
+            and line.fiscal_operation_line_id
+            and line.fiscal_operation_line_id.fiscal_operation_id
+            == line.fiscal_operation_id
+        }
+        result = super()._compute_fiscal_operation_line_id()
+        for line, operation_line in kept.items():
+            line.fiscal_operation_line_id = operation_line
+        return result
+
     @api.depends("product_id")
     def _compute_name(self):
         for line in self:
+            if line._is_imported() and line.name:
+                # the description declared in the file
+                line.name = line.name
+                continue
             if line.product_id:
                 line.name = line.product_id.display_name
             else:
@@ -108,6 +228,12 @@ class DocumentLine(models.Model):
     @api.depends("product_id")
     def _compute_uom_id(self):
         for line in self:
+            if line._is_imported() and (line.uom_id or line.partner_uom_code):
+                # the unit declared in the file, even when it matched no unit: the
+                # product does not give a unit the file did not bring, and the
+                # review applies the internal one
+                line.uom_id = line.uom_id
+                continue
             if line.fiscal_operation_type == "in":
                 line.uom_id = line.product_id.uom_po_id
             else:

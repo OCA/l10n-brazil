@@ -8,6 +8,9 @@ from io import BytesIO
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
+# Model of the document (positions 21 and 22 of the access key) -> fiscal type
+FISCAL_TYPE_BY_MODEL = {"55": "nfe", "57": "cte"}
+
 
 class L10nBrFiscalDfeDocument(models.Model):
     """Generic DF-e document, grouped by access key.
@@ -18,6 +21,7 @@ class L10nBrFiscalDfeDocument(models.Model):
     """
 
     _name = "l10n_br_fiscal_dfe.document"
+    _inherit = ["mail.thread", "mail.activity.mixin"]
     _description = "Fiscal document from distribution service"
     _order = "id desc"
 
@@ -48,7 +52,8 @@ class L10nBrFiscalDfeDocument(models.Model):
 
     currency_id = fields.Many2one(
         comodel_name="res.currency",
-        default=lambda self: self.env.company.currency_id,
+        related="company_id.currency_id",
+        string="Currency",
     )
 
     document_amount = fields.Monetary(string="Document Total Value")
@@ -108,6 +113,13 @@ class L10nBrFiscalDfeDocument(models.Model):
         compute="_compute_fiscal_document_id",
         search="_search_fiscal_document_id",
         help="Fiscal document already imported with this access key.",
+    )
+
+    import_requested_user_id = fields.Many2one(
+        comodel_name="res.users",
+        string="Import Requested By",
+        help="User that asked to import this access key before the complete XML "
+        "was here. The fiscal document is created when the XML arrives.",
     )
 
     @api.depends("access_key")
@@ -286,22 +298,116 @@ class L10nBrFiscalDfeDocument(models.Model):
         return {
             "type": "ir.actions.act_url",
             "url": (
-                f"/web/content/{zip_attachment.id}"
-                f"/{zip_attachment.name}?download=true"
+                f"/web/content/{zip_attachment.id}/{zip_attachment.name}?download=true"
             ),
             "target": "self",
         }
 
-    def import_document(self):
-        """Import the document into the fiscal system.
+    @api.model
+    def _dfe_fiscal_type_from_key(self, access_key):
+        """Fiscal type of the document that has this access key."""
+        fiscal_type = FISCAL_TYPE_BY_MODEL.get(access_key[20:22])
+        if not fiscal_type:
+            raise UserError(
+                _("Only NF-e (model 55) and CT-e (model 57) can be imported by key.")
+            )
+        return fiscal_type
 
-        Must be implemented by fiscal type specific modules
-        (e.g., l10n_br_nfe_dfe for NF-e, l10n_br_cte_dfe for CT-e).
-        """
-        raise NotImplementedError(
-            "import_document() must be implemented in fiscal type specific modules "
-            "(e.g., l10n_br_nfe_dfe, l10n_br_cte_dfe)."
+    def _dfe_import_block_reason(self):
+        """Why the document cannot be imported, or False."""
+        self.ensure_one()
+        if self.document_state == "3":
+            return _("This note was cancelled by the issuer.")
+        if self.document_state == "2":
+            return _("This note was denied by the tax authority.")
+        return False
+
+    def import_document(self):
+        """Import the document into the fiscal system: from the complete XML, or,
+        when only the summary is here, asking for the XML first."""
+        self.ensure_one()
+        if not (self.env.su or self.env.user.has_group("l10n_br_fiscal.group_user")):
+            raise UserError(
+                _("Only the fiscal users can import a document from the inbox.")
+            )
+        return (
+            self.env["l10n_br_fiscal_edi.document.import.wizard"]
+            .create({"dfe_document_id": self.id})
+            .action_import()
         )
+
+    def action_view_imported_document(self):
+        """Open the fiscal document created from this note.
+
+        It is the document of the import, whatever the type of the note, and not the
+        invoice of it: whoever imports is a fiscal user and may have no access to
+        accounting. The companies of the note go in the context, so that it opens
+        also for a user whose company switcher does not have it on.
+        """
+        self.ensure_one()
+        document = self.fiscal_document_id
+        allowed = list(self.env.context.get("allowed_company_ids") or [])
+        allowed = allowed or self.env.companies.ids
+        allowed += [cid for cid in document.company_id.ids if cid not in allowed]
+        return {
+            "type": "ir.actions.act_window",
+            "res_model": document._name,
+            "res_id": document.id,
+            "views": [(False, "form")],
+            "view_mode": "form",
+            "context": {"allowed_company_ids": allowed},
+        }
+
+    def _dfe_import_confirmation_message(self):
+        """What the user must confirm before the complete XML is asked for, or
+        False when nothing has to be confirmed."""
+        self.ensure_one()
+        return False
+
+    def _dfe_import_request(self):
+        """Ask for the complete XML of a document that only has the summary. A
+        fiscal type that can release it overrides this."""
+        self.ensure_one()
+        raise UserError(
+            _(
+                "The complete XML of this document is not available. Upload its "
+                "XML file instead."
+            )
+        )
+
+    def _dfe_import_requested_xml(self):
+        """Create the fiscal document of an import asked by access key, now that
+        the complete XML is here. It runs as who asked, so the author is kept."""
+        self.ensure_one()
+        user = self.import_requested_user_id
+        attachment = self._get_complete_dfe().attachment_id
+        if not user or not attachment:
+            return
+        self.sudo().import_requested_user_id = False
+        attachment = attachment.with_context(bin_size=False)
+        documents, errors, _warnings = (
+            self.env["l10n_br_fiscal.document"]
+            .with_user(user)
+            .with_context(allowed_company_ids=self.company_id.ids, lang=user.lang)
+            ._edi_import_files([(attachment.name, attachment.raw)], dfe_document=self)
+        )
+        for document in documents:
+            document.activity_schedule(
+                "mail.mail_activity_data_todo",
+                user_id=user.id,
+                note=_("Document created from the access key %s.") % self.access_key,
+            )
+        for _file, message in errors:
+            self.company_id._dfe_log(
+                message, log_type="error", fiscal_type=self.fiscal_type
+            )
+        if errors:
+            self.sudo().activity_schedule(
+                "mail.mail_activity_data_warning",
+                user_id=user.id,
+                summary=_("The note could not be imported"),
+                note="\n".join(message for _file, message in errors),
+            )
 
     def make_pdf(self):
         """Generate a PDF representation of the document.

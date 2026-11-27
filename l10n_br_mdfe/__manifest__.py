@@ -39,6 +39,7 @@
     "demo": [
         "demo/fiscal_document_demo.xml",
         "demo/company_demo.xml",
+        "demo/document_import_demo.xml",
     ],
     "post_init_hook": "post_init_hook",
     "installable": True,

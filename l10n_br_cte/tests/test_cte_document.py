@@ -3,6 +3,7 @@
 
 from datetime import datetime
 
+from odoo.exceptions import UserError
 from odoo.tests import TransactionCase
 
 
@@ -95,3 +96,11 @@ class CTeDocumentTest(TransactionCase):
         self.assertTrue(self.cte_id.document_key)
         self.assertTrue(self.cte_id.key_random_code)
         self.assertTrue(self.cte_id.key_check_digit)
+
+    def test_a_line_without_icms_gets_a_clear_error_on_export(self):
+        cte = self.env.ref("l10n_br_cte.demo_cte_lc_modal_rodoviario")
+        cte.fiscal_line_ids.name = "Servico"
+        cte.fiscal_line_ids.icms_cst_id = False
+        self.assertFalse(cte.cte40_choice_icms)
+        with self.assertRaisesRegex(UserError, "requires ICMS on its line.*Servico"):
+            cte._export_fields_cte_40_timp([], None, {})

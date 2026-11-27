@@ -122,6 +122,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_dfe_specific_search_wizard__access_key
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_dfe__access_key
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_document__access_key
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_edi_document_import_wizard__access_key
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.dfe_form
 msgid "Access Key"
 msgstr ""
@@ -129,6 +130,13 @@ msgstr ""
 #. module: l10n_br_fiscal_dfe
 #: model:ir.model.fields,help:l10n_br_fiscal_dfe.field_dfe_specific_search_wizard__access_key
 msgid "Access Key of the electronic fiscal document to be searched."
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,help:l10n_br_fiscal_dfe.field_l10n_br_fiscal_edi_document_import_wizard__access_key
+msgid ""
+"Access key of a note issued to a company of the user: the note is taken from"
+" the DF-e inbox or asked from the distribution service."
 msgstr ""
 
 #. module: l10n_br_fiscal_dfe
@@ -194,6 +202,17 @@ msgstr ""
 #. module: l10n_br_fiscal_dfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.dfe_document_banner
 msgid "Complete documents not imported"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields.selection,name:l10n_br_fiscal_dfe.selection__l10n_br_fiscal_edi_document_import_wizard__state__confirm
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.document_import_wizard_form
+msgid "Confirm"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_edi_document_import_wizard__confirm_message
+msgid "Confirm Message"
 msgstr ""
 
 #. module: l10n_br_fiscal_dfe
@@ -303,6 +322,11 @@ msgid "Date"
 msgstr ""
 
 #. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_edi_document_import_wizard__dfe_document_id
+msgid "Dfe Document"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_dfe_specific_search_wizard__display_name
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_dfe__display_name
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_distribution_log__display_name
@@ -350,6 +374,14 @@ msgid "Document Total Value"
 msgstr ""
 
 #. module: l10n_br_fiscal_dfe
+#. odoo-python
+#: code:addons/l10n_br_fiscal_dfe/models/dfe_document.py:0
+#: code:addons/l10n_br_fiscal_dfe/models/document_import.py:0
+#, python-format
+msgid "Document created from the access key %s."
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
 #: model:ir.model.fields,help:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_document__document_state
 msgid ""
 "Document situation code as received from the distribution service (semantics"
@@ -359,6 +391,11 @@ msgstr ""
 #. module: l10n_br_fiscal_dfe
 #: model:ir.actions.server,name:l10n_br_fiscal_dfe.action_server_download_xmls_zip
 msgid "Download XMLs (zip)"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields.selection,name:l10n_br_fiscal_dfe.selection__l10n_br_fiscal_edi_document_import_wizard__state__draft
+msgid "Draft"
 msgstr ""
 
 #. module: l10n_br_fiscal_dfe
@@ -430,6 +467,13 @@ msgid "Fiscal Type"
 msgstr ""
 
 #. module: l10n_br_fiscal_dfe
+#. odoo-python
+#: code:addons/l10n_br_fiscal_dfe/models/document_import.py:0
+#, python-format
+msgid "Fiscal document %s created."
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
 #: model:ir.model.fields,help:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_document__fiscal_document_id
 msgid "Fiscal document already imported with this access key."
 msgstr ""
@@ -459,9 +503,42 @@ msgid "Import"
 msgstr ""
 
 #. module: l10n_br_fiscal_dfe
+#. odoo-python
+#: code:addons/l10n_br_fiscal_dfe/wizards/document_import_wizard.py:0
+#, python-format
+msgid "Import Fiscal Document"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model,name:l10n_br_fiscal_dfe.model_l10n_br_fiscal_edi_document_import_wizard
+msgid "Import Fiscal Documents from Files"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#. odoo-python
+#: code:addons/l10n_br_fiscal_dfe/wizards/document_import_wizard.py:0
+#, python-format
+msgid "Import requested"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
 #: model:ir.model.fields.selection,name:l10n_br_fiscal_dfe.selection__l10n_br_fiscal_dfe_distribution_log__log_type__info
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.dfe_distribution_log_search
 msgid "Info"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#. odoo-python
+#: code:addons/l10n_br_fiscal_dfe/wizards/document_import_wizard.py:0
+#, python-format
+msgid "Inform the access key or upload at least one file."
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#. odoo-python
+#: code:addons/l10n_br_fiscal_dfe/wizards/document_import_wizard.py:0
+#, python-format
+msgid "Inform the access key or upload files, not both."
 msgstr ""
 
 #. module: l10n_br_fiscal_dfe
@@ -586,6 +663,20 @@ msgstr ""
 #: code:addons/l10n_br_fiscal_dfe/models/res_company.py:0
 #, python-format
 msgid "No documents found: %(code)s - %(message)s"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#. odoo-python
+#: code:addons/l10n_br_fiscal_dfe/wizards/document_import_wizard.py:0
+#, python-format
+msgid "Note already imported"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#. odoo-python
+#: code:addons/l10n_br_fiscal_dfe/models/dfe_document.py:0
+#, python-format
+msgid "Only NF-e (model 55) and CT-e (model 57) can be imported by key."
 msgstr ""
 
 #. module: l10n_br_fiscal_dfe
@@ -739,6 +830,7 @@ msgstr ""
 
 #. module: l10n_br_fiscal_dfe
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_document__document_state_label
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_edi_document_import_wizard__state
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.l10n_br_fiscal_dfe_document_tree
 msgid "State"
 msgstr ""
@@ -765,6 +857,58 @@ msgid "Summary"
 msgstr ""
 
 #. module: l10n_br_fiscal_dfe
+#. odoo-python
+#: code:addons/l10n_br_fiscal_dfe/models/dfe_document.py:0
+#, python-format
+msgid ""
+"The complete XML of this document is not available. Upload its XML file "
+"instead."
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#. odoo-python
+#: code:addons/l10n_br_fiscal_dfe/wizards/document_import_wizard.py:0
+#, python-format
+msgid ""
+"The distribution service could not be reached now. Try again later or upload"
+" the XML file of the note."
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#. odoo-python
+#: code:addons/l10n_br_fiscal_dfe/wizards/document_import_wizard.py:0
+#, python-format
+msgid ""
+"The fiscal document will be created when the complete XML arrives from the "
+"distribution service."
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#. odoo-python
+#: code:addons/l10n_br_fiscal_dfe/models/dfe_document.py:0
+#, python-format
+msgid "The note could not be imported"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#. odoo-python
+#: code:addons/l10n_br_fiscal_dfe/wizards/document_import_wizard.py:0
+#, python-format
+msgid ""
+"The note was not found in the distribution service. Upload its XML file "
+"instead."
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#. odoo-python
+#: code:addons/l10n_br_fiscal_dfe/wizards/document_import_wizard.py:0
+#, python-format
+msgid ""
+"The request is registered. The fiscal document will be created when the "
+"complete XML arrives."
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
 #: model:ir.actions.act_window,name:l10n_br_fiscal_dfe.dfe_document_action
 msgid "Third-party DF-e Documents"
 msgstr ""
@@ -772,6 +916,27 @@ msgstr ""
 #. module: l10n_br_fiscal_dfe
 #: model:ir.ui.menu,name:l10n_br_fiscal_dfe.dfe_document_menu
 msgid "Third-party Documents"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#. odoo-python
+#: code:addons/l10n_br_fiscal_dfe/wizards/document_import_wizard.py:0
+#, python-format
+msgid "This note was already imported; the existing document was opened."
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#. odoo-python
+#: code:addons/l10n_br_fiscal_dfe/models/dfe_document.py:0
+#, python-format
+msgid "This note was cancelled by the issuer."
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#. odoo-python
+#: code:addons/l10n_br_fiscal_dfe/models/dfe_document.py:0
+#, python-format
+msgid "This note was denied by the tax authority."
 msgstr ""
 
 #. module: l10n_br_fiscal_dfe
@@ -807,6 +972,13 @@ msgstr ""
 #. module: l10n_br_fiscal_dfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal_dfe.dfe_document_banner
 msgid "View query logs"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#. odoo-python
+#: code:addons/l10n_br_fiscal_dfe/wizards/document_import_wizard.py:0
+#, python-format
+msgid "Waiting for the XML"
 msgstr ""
 
 #. module: l10n_br_fiscal_dfe
@@ -846,3 +1018,23 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_dfe__xml_pretty
 msgid "XML Pretty"
 msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#. odoo-python
+#: code:addons/l10n_br_fiscal_dfe/models/dfe_document.py:0
+#, python-format
+msgid "Only the fiscal users can import a document from the inbox."
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,field_description:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_document__import_requested_user_id
+msgid "Import Requested By"
+msgstr ""
+
+#. module: l10n_br_fiscal_dfe
+#: model:ir.model.fields,help:l10n_br_fiscal_dfe.field_l10n_br_fiscal_dfe_document__import_requested_user_id
+msgid ""
+"User that asked to import this access key before the complete XML was "
+"here. The fiscal document is created when the XML arrives."
+msgstr ""
+

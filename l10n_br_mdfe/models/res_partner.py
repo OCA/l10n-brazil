@@ -32,6 +32,8 @@ class ResPartner(spec_models.SpecModel):
         values = super()._prepare_import_dict(
             values, model, parent_dict, defaults_model
         )
+        if self.env.context.get("spec_schema", "mdfe") != "mdfe":
+            return values
         if not values.get("name") and values.get("legal_name"):
             values["name"] = values["legal_name"]
         return values

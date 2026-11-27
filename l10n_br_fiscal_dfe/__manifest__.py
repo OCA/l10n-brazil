@@ -12,7 +12,7 @@
     "author": "Engenere, KMEE, Odoo Community Association (OCA)",
     "maintainers": ["felipemotter", "antoniospneto", "rvalyi"],
     "website": "https://github.com/OCA/l10n-brazil",
-    "depends": ["l10n_br_fiscal", "queue_job"],
+    "depends": ["l10n_br_fiscal", "l10n_br_fiscal_edi", "queue_job"],
     "data": [
         # Security
         "security/dfe_security.xml",
@@ -30,5 +30,6 @@
         "views/res_users_views.xml",
         # Wizards
         "wizards/specific_search_wizard.xml",
+        "wizards/document_import_wizard.xml",
     ],
 }

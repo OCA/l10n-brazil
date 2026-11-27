@@ -6,10 +6,8 @@ from unittest import mock
 from odoo.exceptions import UserError
 from odoo.tests.common import TransactionCase
 
-from odoo.addons.l10n_br_nfse_dfe.services.nfse_xml import (
-    decode_arquivo_xml,
-    parse_nfse_xml,
-)
+from odoo.addons.l10n_br_nfse.services.nfse_xml import parse_nfse_xml
+from odoo.addons.l10n_br_nfse_dfe.services.nfse_dfe_xml import decode_arquivo_xml
 
 
 class TestNfseMockDistribution(TransactionCase):
