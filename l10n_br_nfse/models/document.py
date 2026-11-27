@@ -107,7 +107,15 @@ class Document(models.Model):
             or self.state_edoc != SITUACAO_EDOC_AUTORIZADA
         ):
             raise UserError(self.env._("Only an authorized NFS-e can be replaced."))
-        moves = self.move_ids[:1] if "move_ids" in self._fields else None
+        moves = self.move_ids if "move_ids" in self._fields else []
+        if len(moves) > 1:
+            raise UserError(
+                self.env._(
+                    "The NFS-e %(document)s is linked to more than one invoice: "
+                    "replace it from the invoice to be corrected.",
+                    document=self.display_name,
+                )
+            )
         if moves:
             new = moves.copy()
             new.fiscal_document_id.nfse_replaced_document_id = self
@@ -140,7 +148,7 @@ class Document(models.Model):
             "target": "current",
         }
 
-    def _nfse_mark_replaced(self, sent_xml="", answer_xml=""):
+    def _nfse_mark_replaced(self, sent_xml, answer_xml):
         """Cancel the replaced NFS-e (and its invoice) after the provider
         accepted the substitution, without calling the provider again."""
         self.ensure_one()
@@ -154,15 +162,13 @@ class Document(models.Model):
     def _nfse_replaced_event(self):
         self.ensure_one()
         sent, answer = self.env.context["nfse_replaced_xml"]
-        if not sent:
-            return
         self.cancel_event_id = self.event_ids.create_event_save_xml(
             company_id=self.company_id,
             environment=(
                 EVENT_ENV_PROD if self.nfse_environment == "1" else EVENT_ENV_HML
             ),
             event_type="2",
-            xml_file=sent,
+            xml_file=sent or answer,
             document_id=self,
         )
         self.cancel_event_id.set_done(

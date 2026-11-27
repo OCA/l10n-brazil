@@ -6,6 +6,7 @@ from unittest import mock
 from lxml import etree
 from nfelib.nfse.bindings.v1_0.dps_v1_01 import Dps
 
+from odoo.exceptions import UserError
 from odoo.tests.common import TransactionCase, tagged
 
 from ..constants.nfse_nacional import PROVEDOR_NFSE_NACIONAL
@@ -135,6 +136,22 @@ class TestNfseReplace(TransactionCase):
         # the ADN registers the replacement itself: only the DPS was posted
         self.assertEqual(post.call_count, 1)
         self.assertNotIn("/eventos", post.call_args[0][0])
+
+    def test_replace_without_sent_xml_registers_the_event(self):
+        new = self._replacement()
+        new._nfse_mark_replaced("", "<NFSe/>")
+        self.assertEqual(self.old.state_edoc, "cancelada")
+        self.assertTrue(self.old.cancel_event_id.file_request_id)
+
+    def test_replace_refuses_more_than_one_invoice(self):
+        if "move_ids" not in self.old._fields:
+            self.skipTest("l10n_br_account is not installed")
+        moves = self.env["account.move"].browse([1, 2])
+        with (
+            mock.patch.object(type(self.old), "move_ids", moves),
+            self.assertRaisesRegex(UserError, "more than one invoice"),
+        ):
+            self.old.action_nfse_replace()
 
     def test_replace_rejected_keeps_the_old_one(self):
         new = self._replacement()

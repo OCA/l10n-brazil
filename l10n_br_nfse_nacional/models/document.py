@@ -445,7 +445,7 @@ class L10nBrFiscalDocument(spec_models.SpecModel):
         pem += cert.public_bytes(Encoding.PEM)
         return pem
 
-    def _adn_process_response(self, response, sent_xml=""):
+    def _adn_process_response(self, response, sent_xml):
         self.ensure_one()
         body = response.body or {}
         authorized = response.status_code in (200, 201) and bool(
