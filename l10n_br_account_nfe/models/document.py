@@ -3,7 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 
-from odoo import Command, _, api, fields, models
+from odoo import Command, api, fields, models
 from odoo.exceptions import UserError
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
@@ -165,10 +165,12 @@ class DocumentNfe(models.Model):
                 continue
 
             if not rec.move_ids.payment_mode_id:
-                raise UserError(_("Payment Mode cannot be empty for this NF-e/NFC-e"))
+                raise UserError(
+                    self.env._("Payment Mode cannot be empty for this NF-e/NFC-e")
+                )
             if not rec.move_ids.payment_mode_id.fiscal_payment_mode:
                 raise UserError(
-                    _(
+                    self.env._(
                         "Payment Mode %(mode)s should have "
                         "a Fiscal Payment Mode filled to be used in "
                         "the Fiscal Document!",

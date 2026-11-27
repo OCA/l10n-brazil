@@ -8,7 +8,6 @@ class AccountMoveReversal(models.TransientModel):
 
     payment_mode_id = fields.Many2one(
         comodel_name="account.payment.mode",
-        string="Payment Mode",
     )
 
     def default_get(self, fields_list):
