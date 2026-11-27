@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="base.br" model="res.country">
+        <field
+            name="address_view_id"
+            ref="l10n_br_base.l10n_br_base_res_partner_address"
+        />
+    </record>
+</odoo>
