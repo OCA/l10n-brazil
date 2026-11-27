@@ -18,6 +18,7 @@
                 <field name="suggested_action" />
                 <field name="notes" />
                 <field name="state" />
+                <field name="period_state" column_invisible="1" />
                 <field name="currency_id" column_invisible="1" />
                 <button
                     name="action_mark_handled"
@@ -38,7 +39,7 @@
                     type="object"
                     icon="fa-pencil"
                     title="Edit Reason"
-                    invisible="state != 'ignored'"
+                    invisible="state != 'ignored' or period_state in ('confirmed', 'expired')"
                 />
             </list>
         </field>
@@ -66,7 +67,7 @@
                         name="action_open_ignore"
                         type="object"
                         string="Edit Reason"
-                        invisible="state != 'ignored'"
+                        invisible="state != 'ignored' or period_state in ('confirmed', 'expired')"
                     />
                     <field
                         name="state"
@@ -77,24 +78,36 @@
                 <sheet>
                     <group>
                         <group>
-                            <field name="period_id" />
-                            <field name="divergence_type" />
-                            <field name="document_key" />
-                            <field name="document_id" />
-                            <field name="adjustment_document_id" />
+                            <field name="period_state" invisible="1" />
+                            <field name="period_id" readonly="1" />
+                            <field name="divergence_type" readonly="1" />
+                            <field name="document_key" readonly="1" />
+                            <field
+                                name="document_id"
+                                readonly="period_state in ('confirmed', 'expired')"
+                            />
+                            <field
+                                name="adjustment_document_id"
+                                readonly="period_state in ('confirmed', 'expired')"
+                            />
                             <field
                                 name="company_id"
                                 groups="base.group_multi_company"
+                                readonly="1"
                             />
                         </group>
                         <group>
-                            <field name="line_id" />
-                            <field name="line_type" />
+                            <field name="line_id" readonly="1" />
+                            <field name="line_type" readonly="1" />
                             <field name="fisco_value" readonly="1" />
                             <field name="local_value" readonly="1" />
-                            <field name="difference" />
-                            <field name="suggested_action" />
-                            <field name="notes" string="Reason" />
+                            <field name="difference" readonly="1" />
+                            <field name="suggested_action" readonly="1" />
+                            <field
+                                name="notes"
+                                string="Reason"
+                                readonly="period_state in ('confirmed', 'expired')"
+                            />
                             <field name="handled_by_id" invisible="not handled_by_id" />
                             <field name="handled_date" invisible="not handled_date" />
                             <field name="ignored_by_id" invisible="not ignored_by_id" />

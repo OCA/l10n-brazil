@@ -730,6 +730,19 @@ class TestAssessmentReconciliation(TransactionCase):
         self.assertEqual(divergence.ignored_by_id, ignored_by)
         self.assertEqual(divergence.ignored_date, ignored_date)
 
+    def test_closed_review_freezes_the_divergence(self):
+        self._upsert_debits({self._key(1): 100.0})
+        divergence = self._reconcile_against({"debit": {self._key(1): 130.0}})
+        divergence.notes = "Accepted as a rounding."
+        divergence.action_mark_ignored()
+        self.period.action_confirm()
+        with self.assertRaises(UserError):
+            divergence.notes = "Changed after the review was closed."
+        with self.assertRaises(UserError):
+            divergence.action_open_ignore()
+        self.assertEqual(divergence.notes, "Accepted as a rounding.")
+        self.assertEqual(divergence.state, "ignored")
+
     def test_local_totals_include_both_directions_before_download(self):
         booked = {
             "debit": {self._key(1): 80.0},

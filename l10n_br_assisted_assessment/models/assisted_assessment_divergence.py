@@ -34,6 +34,7 @@ class AssistedAssessmentDivergence(models.Model):
         index=True,
     )
     company_id = fields.Many2one(related="period_id.company_id", store=True)
+    period_state = fields.Selection(related="period_id.state", string="Period Status")
     currency_id = fields.Many2one(related="period_id.currency_id", store=True)
     line_id = fields.Many2one(
         comodel_name="l10n_br_assisted_assessment.line",
@@ -193,8 +194,24 @@ class AssistedAssessmentDivergence(models.Model):
                 return True
         return False
 
+    def _check_review_open(self):
+        """A closed local review keeps the divergence and its reason."""
+        closed = self.filtered(
+            lambda record: record.period_id.state in ("confirmed", "expired")
+        )
+        if closed:
+            raise UserError(
+                _(
+                    "The local review of %s is closed. This divergence can no "
+                    "longer be changed.",
+                    ", ".join(closed.period_id.mapped("display_name")),
+                )
+            )
+
     def write(self, vals):
         if not self.env.context.get("assisted_assessment_reconcile"):
+            if vals:
+                self._check_review_open()
             if {"fisco_value", "local_value"} & set(vals):
                 raise UserError(_("Assessed and booked values cannot be edited."))
             if "notes" in vals and not (vals.get("notes") or "").strip():
@@ -222,10 +239,12 @@ class AssistedAssessmentDivergence(models.Model):
     def action_open_ignore(self):
         """Ask for the reason, then ignore or replace the stored reason.
 
-        The same dialog edits a reason already recorded. That update does not
-        count as a new decision, so the original user and date stay.
+        The same dialog edits a reason already recorded, until the local
+        review is closed. That update does not count as a new decision, so
+        the original user and date stay.
         """
         self.ensure_one()
+        self._check_review_open()
         editing = self.state == "ignored"
         return {
             "type": "ir.actions.act_window",

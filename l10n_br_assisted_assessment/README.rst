@@ -119,7 +119,9 @@ A rotina mensal tem três passos:
    escrituração) exige vincular a nota de crédito ou de débito de
    ajuste, ou registrar o motivo em Reason; ignorar abre uma janela
    pedindo esse motivo. O mesmo botão, como *Edit Reason*, altera o
-   texto depois, sem trocar quem ignorou nem a data.
+   texto enquanto a revisão local ainda não foi encerrada, sem trocar
+   quem ignorou nem a data. Depois de encerrada, a divergência e o
+   motivo ficam congelados.
 
 Uma ação agendada diária avisa os responsáveis quando o prazo se
 aproxima e marca o período como expirado depois que ele passa. A
