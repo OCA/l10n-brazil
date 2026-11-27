@@ -76,11 +76,8 @@ class FiscalDocumentLine(models.Model):
     )
 
     _proxy_shadowed_columns = {
-        "proxy_partner_id": "partner_id",
         "proxy_product_id": "product_id",
-        "proxy_name": "name",
         "proxy_quantity": "quantity",
-        "proxy_price_unit": "price_unit",
     }
 
     def _fill_proxy_column(self, column_name):
