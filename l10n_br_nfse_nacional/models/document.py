@@ -4,6 +4,7 @@
 
 import base64
 import gzip
+import logging
 import os
 import re
 import tempfile
@@ -50,6 +51,8 @@ from ..transport.adn_rest import AdnRestClient
 
 BRAZIL_TZ = pytz.timezone("America/Sao_Paulo")
 
+_logger = logging.getLogger(__name__)
+
 
 def filter_nfse_nacional(record):
     return (
@@ -65,6 +68,38 @@ def _nfse10_amount(value):
     The export skips an empty element, so a zero amount stays False.
     """
     return f"{value:.2f}" if value else False
+
+
+# Line amounts the single service of a DPS declares, summed over every fiscal
+# line when the company declares all of them in that service.
+NFSE_NACIONAL_SUMMED_FIELDS = (
+    "price_gross",  # vServ
+    "discount_value",  # vDescIncond
+    "issqn_desc_cond_amount",  # vDescCond
+    "inss_wh_value",  # vRetCP
+    "irpj_wh_value",  # vRetIRRF
+    "csll_wh_value",  # vRetCSLL
+    "pis_value",  # vPis
+    "cofins_value",  # vCofins
+    "issqn_wh_value",  # tpRetISSQN (the withheld amount itself is not exported)
+    "pis_wh_value",  # tpRetPisCofins
+    "cofins_wh_value",  # tpRetPisCofins
+)
+
+# The rates of the same service. A rate is not additive: the consolidated
+# percentage is the value weighted average of the line rates.
+NFSE_NACIONAL_FEDERAL_RATE_FIELDS = (
+    "pis_percent",
+    "cofins_percent",
+    "irpj_percent",
+    "csll_percent",
+    "inss_percent",
+)
+NFSE_NACIONAL_RATE_FIELDS = NFSE_NACIONAL_FEDERAL_RATE_FIELDS + ("issqn_percent",)
+
+# The code the DPS cannot leave empty: two blank values there are a difference
+# like any other, while an optional code a line simply does not inform is not.
+NFSE_NACIONAL_REQUIRED_CODES = ("cTribNac",)
 
 
 class L10nBrFiscalDocument(spec_models.StackedModel):
@@ -149,6 +184,10 @@ class L10nBrFiscalDocument(spec_models.StackedModel):
     nfse10_toma = fields.Many2one("res.partner", compute="_compute_nfse10_toma")
     nfse10_interm = fields.Many2one("res.partner")
 
+    nfse_nacional_concat_lines = fields.Boolean(
+        related="company_id.nfse_nacional_concat_lines"
+    )
+
     nfse_key = fields.Char(
         string="NFS-e Access Key", size=50, copy=False, readonly=True
     )
@@ -157,9 +196,186 @@ class L10nBrFiscalDocument(spec_models.StackedModel):
     edoc_error_message = fields.Text(readonly=True, copy=False)
 
     def _nfse10_service_line(self):
-        """Return the fiscal line the single DPS service is computed from."""
+        """Return the fiscal line the codes of the single DPS service come from.
+
+        Off the consolidation option that is the first line of the document,
+        whatever it holds (legacy behaviour). On, a line that declares a
+        service is preferred: cServ describes a service, and the amounts of
+        that single service are then summed over the whole document.
+        """
         self.ensure_one()
-        return self.fiscal_line_ids[:1]
+        if not self.nfse_nacional_concat_lines:
+            return self.fiscal_line_ids[:1]
+        product_lines = self.fiscal_line_ids.filtered("product_id")
+        return product_lines[:1] or self.fiscal_line_ids[:1]
+
+    def _nfse10_weighted_percent(self, field_name):
+        """Consolidated rate of the single service: a rate is not additive.
+
+        The line rates are averaged, weighted by the line value, so that the
+        percentage declared for the whole service stays coherent with the
+        amounts summed for it.
+        """
+        self.ensure_one()
+        lines = self.fiscal_line_ids
+        total = sum(lines.mapped("price_gross"))
+        if not total:
+            return 0.0
+        return (
+            sum((line.price_gross or 0.0) * (line[field_name] or 0.0) for line in lines)
+            / total
+        )
+
+    def _nfse10_service_amounts(self):
+        """Amounts and rates the single service of the DPS declares.
+
+        Off the consolidation option the values of the line the service is
+        built from are declared, as the DPS always did. On, the amounts are
+        summed over every fiscal line of the document, so a document whose
+        services are described line by line is not transmitted with the
+        amounts of its first line only.
+        """
+        self.ensure_one()
+        line = self._nfse10_service_line()
+        amounts = {
+            field_name: line[field_name] or 0.0
+            for field_name in NFSE_NACIONAL_SUMMED_FIELDS + NFSE_NACIONAL_RATE_FIELDS
+        }
+        # the PIS/COFINS base of a line falls back to the other contribution
+        amounts["pis_base"] = line.pis_base or line.cofins_base or 0.0
+        if not self.nfse_nacional_concat_lines:
+            return amounts
+        lines = self.fiscal_line_ids
+        for field_name in NFSE_NACIONAL_SUMMED_FIELDS:
+            amounts[field_name] = sum(lines.mapped(field_name))
+        amounts["pis_base"] = sum(
+            doc_line.pis_base or doc_line.cofins_base or 0.0 for doc_line in lines
+        )
+        for field_name in NFSE_NACIONAL_RATE_FIELDS:
+            amounts[field_name] = self._nfse10_weighted_percent(field_name)
+        return amounts
+
+    def _nfse10_service_description(self):
+        """Describe the single service of the DPS.
+
+        xDescServ is required by the schema (max 2000 characters, at least one
+        non blank character), so the concatenation of the lines is truncated
+        and trimmed, and the description of the service line is the last
+        resort.
+        """
+        self.ensure_one()
+        line = self._nfse10_service_line()
+        if not self.nfse_nacional_concat_lines:
+            return line.name
+        names = [
+            doc_line.name
+            for doc_line in self.fiscal_line_ids
+            if doc_line.product_id and doc_line.name
+        ]
+        return "\n".join(names)[:2000].rstrip() or line.name
+
+    def _nfse10_trib_issqn_code(self, line):
+        """tribISSQN of the single service: taxable, immune, exempt..."""
+        issqn_nt = self.env.ref("l10n_br_fiscal.tax_issqn_nt", False)
+        if line.issqn_eligibility == "4":
+            return "3"
+        if line.issqn_eligibility == "5":
+            return "2"
+        if issqn_nt and line.issqn_tax_id == issqn_nt:
+            return "4"
+        return "1"
+
+    def _nfse10_pis_cst(self, line):
+        """PIS/COFINS CST of the single service, in the group vocabulary."""
+        valid_cst = dict(self._fields["nfse10_CST"].selection)
+        cst = line.pis_cst_code
+        return cst if cst in valid_cst else "00"
+
+    def _nfse10_service_codes(self, line):
+        """Codes the DPS declares once for its single service.
+
+        They describe the service, not an amount: they can neither be summed
+        nor averaged, so the lines must agree on them (see the consistency
+        check below).
+        """
+        self.ensure_one()
+        return {
+            "cTribNac": line.national_taxation_code_id.code_unmasked or None,
+            "cTribMun": line.city_taxation_code_id.code_unmasked or None,
+            "cNBS": line.nbs_id.code_unmasked or None,
+            "cLocPrestacao": line.issqn_fg_city_id.ibge_code or None,
+            "tribISSQN": self._nfse10_trib_issqn_code(line),
+            "PIS/COFINS CST": self._nfse10_pis_cst(line),
+            "RTC cClassTrib": line.tax_classification_id.code or None,
+            "RTC CST": (line.ibs_cst_id or line.cbs_cst_id).code or None,
+            "RTC cIndOp": line.operation_indicator_id.code or None,
+        }
+
+    def _nfse10_service_mismatches(self):
+        """Return the `label: line -> value` descriptions of a split needed.
+
+        Blank values are left out of the comparison for the optional codes: a
+        line that simply does not inform cTribMun or cNBS must not block a
+        document whose other lines agree on it. The required code (cTribNac)
+        is always compared, and so is an optional one as soon as a line
+        carries it.
+        """
+        self.ensure_one()
+        lines = self.fiscal_line_ids.filtered("product_id")
+        if len(lines) < 2:
+            return []
+        collected = {}
+        for line in lines:
+            for label, value in self._nfse10_service_codes(line).items():
+                if not value and label not in NFSE_NACIONAL_REQUIRED_CODES:
+                    continue
+                collected.setdefault(label, []).append((line.name, value))
+        mismatches = []
+        for label, declared in collected.items():
+            if len({value for _name, value in declared}) < 2:
+                continue
+            details = ", ".join(
+                f"{name or _('line without description')} -> {value or _('empty')}"
+                for name, value in declared
+            )
+            mismatches.append(f"{label}: {details}")
+        return mismatches
+
+    def _check_nfse_service_consistency(self):
+        """Refuse to declare one code for a document holding several services.
+
+        The DPS has a single cServ element and a single RTC classification:
+        picking one of them silently would transmit a document whose code does
+        not describe the services it bills. With the consolidation option on
+        the mismatch is an error; off, the legacy export is kept but the
+        mismatch is logged so nobody transmits the wrong code by accident.
+        """
+        self.ensure_one()
+        mismatches = self._nfse10_service_mismatches()
+        if not mismatches:
+            return
+        if not self.nfse_nacional_concat_lines:
+            _logger.warning(
+                "NFS-e %s: the DPS declares a single service but its lines "
+                "differ on %s. Only the first line is declared; enable "
+                '"Declare all lines in the DPS" or split the document.',
+                self.display_name,
+                "; ".join(mismatches),
+            )
+            return
+        raise UserError(
+            _(
+                "The DPS of %(document)s declares a single service, but its "
+                "lines cannot be merged into one:\n\n%(details)s\n\n"
+                "Split the document into one NFS-e per service, or turn off "
+                '"%(option)s" to declare only the first line.'
+            )
+            % {
+                "document": self.display_name,
+                "details": "\n".join(mismatches),
+                "option": _("Declare all lines in the DPS"),
+            }
+        )
 
     def _prepare_nfse10_service(self):
         """Declare the single service of the DPS from the fiscal lines.
@@ -167,79 +383,75 @@ class L10nBrFiscalDocument(spec_models.StackedModel):
         The serv, valores and trib groups of infDPS are stacked on the
         document as plain fields, like the NF-e totals: the schema holds one
         service per document, so the values of that service are prepared here
-        from the line that describes it, right before the export. A document
-        imported from a received DPS has no fiscal line and keeps the values
-        the DPS declared.
+        from the fiscal lines, right before the export. A document imported
+        from a received DPS has no fiscal line and keeps the values the DPS
+        declared.
         """
         self.ensure_one()
         line = self._nfse10_service_line()
         if not line:
             return
+        self._check_nfse_service_consistency()
+        codes = self._nfse10_service_codes(line)
+        amounts = self._nfse10_service_amounts()
         # serv/cServ and serv/locPrest
-        self.nfse10_cTribNac = line.national_taxation_code_id.code_unmasked
-        self.nfse10_cTribMun = line.city_taxation_code_id.code_unmasked
-        self.nfse10_cNBS = line.nbs_id.code_unmasked
-        self.nfse10_cLocPrestacao = line.issqn_fg_city_id.ibge_code
-        self.nfse10_xDescServ = line.name
+        self.nfse10_cTribNac = codes["cTribNac"]
+        self.nfse10_cTribMun = codes["cTribMun"]
+        self.nfse10_cNBS = codes["cNBS"]
+        self.nfse10_cLocPrestacao = codes["cLocPrestacao"]
+        self.nfse10_xDescServ = self._nfse10_service_description()
         # valores/vServPrest and valores/vDescCondIncond
-        self.nfse10_vServ = _nfse10_amount(line.price_gross)
-        self.nfse10_vDescIncond = _nfse10_amount(line.discount_value)
-        self.nfse10_vDescCond = _nfse10_amount(line.issqn_desc_cond_amount)
+        self.nfse10_vServ = _nfse10_amount(amounts["price_gross"])
+        self.nfse10_vDescIncond = _nfse10_amount(amounts["discount_value"])
+        self.nfse10_vDescCond = _nfse10_amount(amounts["issqn_desc_cond_amount"])
         # valores/trib/tribMun
-        self._prepare_nfse10_trib_mun(line)
+        self._prepare_nfse10_trib_mun(codes, amounts)
         # valores/trib/tribFed
-        self.nfse10_vRetCP = _nfse10_amount(line.inss_wh_value)
-        self.nfse10_vRetIRRF = _nfse10_amount(line.irpj_wh_value)
-        self.nfse10_vRetCSLL = _nfse10_amount(line.csll_wh_value)
-        self._prepare_nfse10_piscofins(line)
-        self._prepare_nfse10_tot_trib(line)
+        self.nfse10_vRetCP = _nfse10_amount(amounts["inss_wh_value"])
+        self.nfse10_vRetIRRF = _nfse10_amount(amounts["irpj_wh_value"])
+        self.nfse10_vRetCSLL = _nfse10_amount(amounts["csll_wh_value"])
+        self._prepare_nfse10_piscofins(codes, amounts)
+        self._prepare_nfse10_tot_trib(amounts)
 
-    def _prepare_nfse10_trib_mun(self, line):
+    def _prepare_nfse10_trib_mun(self, codes, amounts):
         # issqn_eligibility defaults to "2" (Não incidência) and is rarely set,
         # so only its explicit export and immunity values are taken from it.
         # Non-incidence (such as the rental of movable goods, STF SV 31) comes
         # from the ISSQN NT tax of the fiscal operation.
-        issqn_nt = self.env.ref("l10n_br_fiscal.tax_issqn_nt", False)
-        if line.issqn_eligibility == "4":
-            self.nfse10_tribISSQN = "3"
-        elif line.issqn_eligibility == "5":
-            self.nfse10_tribISSQN = "2"
-        elif issqn_nt and line.issqn_tax_id == issqn_nt:
-            self.nfse10_tribISSQN = "4"
-        else:
-            self.nfse10_tribISSQN = "1"
+        self.nfse10_tribISSQN = codes["tribISSQN"]
         # pAliq is optional in the XSD and, for a municipality that joined the
         # national system, the ADN takes the ISSQN rate from its own municipal
         # parameters. Informing it anyway is refused by business rules such as
         # E0625 (rate informed without ISSQN withholding), so it is left out.
         self.nfse10_pAliq = False
-        self.nfse10_tpRetISSQN = "2" if line.issqn_wh_value > 0 else "1"
+        self.nfse10_tpRetISSQN = "2" if amounts["issqn_wh_value"] > 0 else "1"
 
-    def _prepare_nfse10_piscofins(self, line):
-        valid_cst = dict(self._fields["nfse10_CST"].selection)
-        cst = line.pis_cst_code
-        self.nfse10_CST = cst if cst in valid_cst else "00"
-        self.nfse10_vBCPisCofins = _nfse10_amount(line.pis_base or line.cofins_base)
-        self.nfse10_pAliqPis = _nfse10_amount(line.pis_percent)
-        self.nfse10_pAliqCofins = _nfse10_amount(line.cofins_percent)
-        self.nfse10_vPis = _nfse10_amount(line.pis_value)
-        self.nfse10_vCofins = _nfse10_amount(line.cofins_value)
+    def _prepare_nfse10_piscofins(self, codes, amounts):
+        self.nfse10_CST = codes["PIS/COFINS CST"]
+        self.nfse10_vBCPisCofins = _nfse10_amount(amounts["pis_base"])
+        self.nfse10_pAliqPis = _nfse10_amount(amounts["pis_percent"])
+        self.nfse10_pAliqCofins = _nfse10_amount(amounts["cofins_percent"])
+        self.nfse10_vPis = _nfse10_amount(amounts["pis_value"])
+        self.nfse10_vCofins = _nfse10_amount(amounts["cofins_value"])
         self.nfse10_tpRetPisCofins = (
-            "1" if (line.pis_wh_value or line.cofins_wh_value) else "2"
+            "1" if (amounts["pis_wh_value"] or amounts["cofins_wh_value"]) else "2"
         )
 
-    def _prepare_nfse10_tot_trib(self, line):
+    def _prepare_nfse10_tot_trib(self, amounts):
         # totTrib is a mandatory xs:choice among vTotTrib, pTotTrib, indTotTrib
         # and pTotTribSN. The national environment refuses indTotTrib and
         # pTotTribSN for a company outside the Simples Nacional (E0713), which
         # informs the approximate burden in pTotTrib instead.
         #
-        # The figures come from the burden of the line, shared with the other
-        # NFS-e layouts: it reads the regime of the company and, outside the
-        # Simples Nacional, adds the withheld IRPJ, CSLL and INSS to PIS and
-        # COFINS (leaving them out understates pTotTribFed and the DANFSE
-        # approximate total).
-        burden = line._nfse_approximate_tax_burden_from_taxes()
+        # The regime comes from the burden of the service line, shared with the
+        # other NFS-e layouts. The percentages are the ones of the single
+        # service: the line rates, or their value weighted average when the
+        # whole document is declared in the DPS (a rate is not additive).
+        # Outside the Simples Nacional the federal one adds the withheld IRPJ,
+        # CSLL and INSS to PIS and COFINS: leaving them out understates
+        # pTotTribFed and the DANFSE approximate total.
+        burden = self._nfse10_service_line()._nfse_approximate_tax_burden_from_taxes()
+        federal = sum(amounts[field] for field in NFSE_NACIONAL_FEDERAL_RATE_FIELDS)
         if burden["simples"]:
             percent = burden["simples_percent"]
             self.nfse10_indTotTrib = False if percent else "0"
@@ -250,9 +462,9 @@ class L10nBrFiscalDocument(spec_models.StackedModel):
             return
         self.nfse10_indTotTrib = False
         self.nfse10_pTotTribSN = False
-        self.nfse10_pTotTribFed = f"{burden['federal_percent']:.2f}"
+        self.nfse10_pTotTribFed = f"{federal:.2f}"
         self.nfse10_pTotTribEst = f"{burden['state_percent']:.2f}"
-        self.nfse10_pTotTribMun = f"{burden['municipal_percent']:.2f}"
+        self.nfse10_pTotTribMun = f"{amounts['issqn_percent']:.2f}"
 
     @api.depends("partner_id.cnpj_cpf_stripped", "partner_id.nfse10_cNaoNIF")
     def _compute_nfse10_toma(self):
@@ -304,6 +516,20 @@ class L10nBrFiscalDocument(spec_models.StackedModel):
     # NFS-e tag: IBSCBS
     # Inverse Methods
     ##########################
+
+    def _nfse_ibscbs_line(self):
+        """Return the line the DPS IBSCBS group is built from.
+
+        A DPS declares a single servico, so the RTC data of the group comes
+        from the same line already declaring the serv and valores groups. The
+        method is shared with the other NFS-e layouts, which keep their own
+        first line: only a document of this provider follows the consolidated
+        service line.
+        """
+        self.ensure_one()
+        if not filter_nfse_nacional(self):
+            return super()._nfse_ibscbs_line()
+        return self._nfse10_service_line()
 
     def _export_tag_nfse_10_ibscbs(self, xsd_fields, class_obj, export_dict):
         """Export the IBSCBS group declared in the DPS (leiaute 1.04.01, RTC).
@@ -384,7 +610,12 @@ class L10nBrFiscalDocument(spec_models.StackedModel):
         for record in self.filtered(filter_nfse_nacional):
             record._prepare_nfse10_service()
             inf_dps = record._build_binding("nfse", "10")
-            nfse = Dps(infDPS=inf_dps, versao="1.00", signature=None)
+            # Leiaute 1.04.01 (NT 009): the ADN only accepts the IBSCBS
+            # group from DPS version 1.01 on (E0854), so the version
+            # follows the group instead of being a constant. A document
+            # without RTC data keeps the legacy 1.00 shape.
+            versao = "1.01" if record._nfse_export_ibscbs() else "1.00"
+            nfse = Dps(infDPS=inf_dps, versao=versao, signature=None)
             edocs.append(nfse)
         return edocs
 

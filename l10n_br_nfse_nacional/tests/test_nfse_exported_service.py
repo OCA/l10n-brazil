@@ -34,7 +34,7 @@ class TestNfseExportedService(TransactionCase):
             ("1", "1"),
         ):
             self.line.issqn_eligibility = eligibility
-            document._prepare_nfse10_trib_mun(self.line)
+            document._prepare_nfse10_service()
             self.assertEqual(document.nfse10_tribISSQN, expected)
 
     def test_a_new_line_is_taxable_and_not_exempt(self):
@@ -43,8 +43,7 @@ class TestNfseExportedService(TransactionCase):
         document = self.env["l10n_br_fiscal.document"].new({})
         line = self.env["l10n_br_fiscal.document.line"].new({})
         self.assertEqual(line.issqn_eligibility, "1")
-        document._prepare_nfse10_trib_mun(line)
-        self.assertEqual(document.nfse10_tribISSQN, "1")
+        self.assertEqual(document._nfse10_trib_issqn_code(line), "1")
 
     def test_a_taker_abroad_carries_its_own_tax_number(self):
         self.abroad.vat = "ESA58818501"
