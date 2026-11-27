@@ -3078,7 +3078,8 @@ msgstr "Indicador do tipo de arma de fogo"
 #. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_nfe_40_arma__nfe40_tpArma
 msgid "Indicador do tipo de arma de fogo (0 - Uso permitido; 1 - Uso restrito)"
-msgstr "Indicador do tipo de arma de fogo (0 - Uso permitido; 1 - Uso restrito)"
+msgstr ""
+"Indicador do tipo de arma de fogo (0 - Uso permitido; 1 - Uso restrito)"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_res_partner__is_anonymous_consumer
@@ -5996,6 +5997,8 @@ msgid "Valor Total do ICMS ST"
 msgstr "Valor total do ICMS ST"
 
 #. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_account_bank_statement_line__nfe40_vICMSDeson
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_account_move__nfe40_vICMSDeson
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_vICMSDeson
 msgid "Valor Total do ICMS desonerado"
 msgstr "Valor total do ICMS desonerado"
@@ -6049,7 +6052,8 @@ msgstr "Valor total do seguro"
 #. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_vServ
 msgid "Valor Total dos Serviços sob não-incidência ou não tributados pelo ICMS"
-msgstr "Valor total dos serviços sob não-incidência ou não tributados pelo ICMS"
+msgstr ""
+"Valor total dos serviços sob não-incidência ou não tributados pelo ICMS"
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_account_bank_statement_line__nfe40_vProd
