@@ -6,7 +6,7 @@ import logging
 import sys
 from enum import Enum
 
-from odoo import _, api, fields
+from odoo import api, fields
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     CFOP_DESTINATION_EXTERNAL,
@@ -1555,8 +1555,11 @@ class NFeLine(spec_models.StackedModel):
         """
         cst_field = "cst_{}_id".format(self.env.context.get("edoc_type", "in"))
         vals = {
-            "name": _("ICMS %(percent)s%% Com Red. %(red)s%%")
-            % {"percent": percent, "red": percent_reduction},
+            "name": self.env._(
+                "ICMS %(percent)s%% Com Red. %(red)s%%",
+                percent=percent,
+                red=percent_reduction,
+            ),
             "tax_group_id": tax_group_id,
             "percent_amount": percent,
             "percent_reduction": percent_reduction,

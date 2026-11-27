@@ -22,7 +22,7 @@ from nfelib.nfe.ws.edoc_legacy import NFeAdapter as edoc_nfe
 from requests import Session
 from xsdata.formats.dataclass.parsers import XmlParser
 
-from odoo import Command, _, api, fields
+from odoo import Command, api, fields
 from odoo.exceptions import UserError, ValidationError
 from odoo.modules import module as odoo_module
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
@@ -1204,7 +1204,7 @@ class NFe(spec_models.StackedModel):
                 for line in rec.fiscal_line_ids:
                     if not line.product_id.default_code and not line.nfe40_cProd:
                         raise ValidationError(
-                            _(
+                            self.env._(
                                 "The product %s must have a default code or the "
                                 "product code line field (nfe40_cProd) should be "
                                 "filled.",
@@ -1234,7 +1234,7 @@ class NFe(spec_models.StackedModel):
                     or key_date.month != document_date.month
                 ):
                     raise ValidationError(
-                        _(
+                        self.env._(
                             "The document date does not match the date in the document "
                             "key."
                         )
@@ -1252,7 +1252,7 @@ class NFe(spec_models.StackedModel):
                     record.nfe40_cDV = chave.digito_verificador
                 except Exception as e:
                     raise ValidationError(
-                        _(
+                        self.env._(
                             "%(name)s:\n %(error)s",
                             name=record.document_type_id.name,
                             error=e,
@@ -1361,7 +1361,7 @@ class NFe(spec_models.StackedModel):
         company_nfe_environment = self.company_id.nfe_environment
         if self.nfe_environment != company_nfe_environment:
             raise UserError(
-                _(
+                self.env._(
                     "Nf-e environment: %(nfe_environment)s cannot be different "
                     "from what is configured in the company: "
                     "%(company_nfe_environment)s",
@@ -1580,7 +1580,9 @@ class NFe(spec_models.StackedModel):
 
             for field in required_fields_gen_edoc:
                 raise ValidationError(
-                    _("To Generate EDoc Key, you need to fill the %s field.") % field
+                    self.env._(
+                        "To Generate EDoc Key, you need to fill the %s field.", field
+                    )
                 )
 
             date = fields.Datetime.context_timestamp(record, record.document_date)
@@ -1936,7 +1938,7 @@ class NFe(spec_models.StackedModel):
         if self.document_type_id.code in [MODELO_FISCAL_NFE]:
             if not justificative or len(justificative) < 15:
                 raise ValidationError(
-                    _(
+                    self.env._(
                         "Please enter a justification that is at least 15 characters "
                         "long."
                     )
@@ -1985,7 +1987,7 @@ class NFe(spec_models.StackedModel):
         processador = self._edoc_processor()
 
         if not self.authorization_protocol:
-            raise UserError(_("Authorization Protocol Not Found!"))
+            raise UserError(self.env._("Authorization Protocol Not Found!"))
 
         event_vals = {
             "chave": self.document_key,
@@ -2045,15 +2047,13 @@ class NFe(spec_models.StackedModel):
         length = len(justificative)
         if not NFE_CORRECTION_LENGTH_MIN <= length <= NFE_CORRECTION_LENGTH_MAX:
             raise UserError(
-                _(
+                self.env._(
                     "The correction letter (CC-e) justification must have between "
-                    "%(min)s and %(max)s characters, but it has %(length)s."
+                    "%(min)s and %(max)s characters, but it has %(length)s.",
+                    min=NFE_CORRECTION_LENGTH_MIN,
+                    max=NFE_CORRECTION_LENGTH_MAX,
+                    length=length,
                 )
-                % {
-                    "min": NFE_CORRECTION_LENGTH_MIN,
-                    "max": NFE_CORRECTION_LENGTH_MAX,
-                    "length": length,
-                }
             )
         processador = self._edoc_processor()
 

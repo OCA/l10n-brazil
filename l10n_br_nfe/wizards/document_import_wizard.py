@@ -9,7 +9,7 @@ from collections import Counter
 
 from erpbrasil.base.fiscal.cnpj_cpf import formata
 
-from odoo import Command, _, api, fields, models
+from odoo import Command, api, fields, models
 from odoo.exceptions import UserError
 from odoo.fields import Domain
 
@@ -20,7 +20,6 @@ class DocumentImportWizard(models.TransientModel):
     _inherit = "l10n_br_fiscal.document.import.wizard"
 
     imported_products_ids = fields.One2many(
-        string="Imported Products",
         comodel_name="l10n_br_nfe.import_xml.products",
         inverse_name="import_xml_id",
     )
@@ -96,7 +95,7 @@ class DocumentImportWizard(models.TransientModel):
 
         if document.modelo_documento != nfe_model_code:
             raise UserError(
-                _(
+                self.env._(
                     "Incorrect fiscal document model! Accepted one is %s",
                     nfe_model_code,
                 )
@@ -396,7 +395,6 @@ class NfeImportProducts(models.TransientModel):
 
     product_supplier_id = fields.Many2one(
         comodel_name="product.supplierinfo",
-        string="Product Supplier",
     )
 
     uom_internal = fields.Many2one(

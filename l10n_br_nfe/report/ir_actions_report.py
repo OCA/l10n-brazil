@@ -5,7 +5,7 @@ from io import BytesIO
 
 from brazilfiscalreport.danfe import Danfe
 
-from odoo import _, api, models
+from odoo import api, models
 from odoo.exceptions import UserError
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import SITUACAO_EDOC_CANCELADA
@@ -29,7 +29,7 @@ class IrActionsReport(models.Model):
 
     def _render_danfe(self, nfe):
         if nfe.document_type != "55":
-            raise UserError(_("You can only print a DANFE of a NFe(55)."))
+            raise UserError(self.env._("You can only print a DANFE of a NFe(55)."))
 
         nfe_xml = False
         if nfe.authorization_file_id:
@@ -40,7 +40,7 @@ class IrActionsReport(models.Model):
             nfe_xml = base64.b64decode(nfe.original_xml_file_id.datas)
 
         if not nfe_xml:
-            raise UserError(_("No xml file was found."))
+            raise UserError(self.env._("No xml file was found."))
 
         return self.render_danfe_brazilfiscalreport(nfe, nfe_xml)
 

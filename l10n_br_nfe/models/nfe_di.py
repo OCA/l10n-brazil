@@ -48,9 +48,7 @@ class NFeDI(models.AbstractModel):
         selection=TPINTERMEDIO_DI,
     )
 
-    partner_acquirer_id = fields.Many2one(
-        comodel_name="res.partner", string="Partner Acquirer"
-    )
+    partner_acquirer_id = fields.Many2one(comodel_name="res.partner")
 
     nfe40_CNPJ = fields.Char(
         related="partner_acquirer_id.nfe40_CNPJ",

@@ -1,4 +1,4 @@
-from odoo import _, fields, models
+from odoo import fields, models
 
 
 class NfeRecipientManifestationEventWizard(models.TransientModel):
@@ -40,8 +40,8 @@ class NfeRecipientManifestationEventWizard(models.TransientModel):
             "type": "ir.actions.client",
             "tag": "display_notification",
             "params": {
-                "title": _("Success"),
-                "message": _("Recipient Manifestation created successfully"),
+                "title": self.env._("Success"),
+                "message": self.env._("Recipient Manifestation created successfully"),
                 "type": "success",
                 "next": {"type": "ir.actions.act_window_close"},
             },

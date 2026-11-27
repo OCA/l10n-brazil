@@ -8,7 +8,7 @@ from erpbrasil.transmissao import TransmissaoSOAP
 from nfelib.nfe.ws.edoc_legacy import MDeAdapter as edoc_mde
 from requests import Session
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 
 from odoo.addons.l10n_br_fiscal_edi.tools import tax_authority_date_to_utc
@@ -41,7 +41,6 @@ class NfeRecipientManifestationEvent(models.Model):
 
     company_id = fields.Many2one(
         comodel_name="res.company",
-        string="Company",
         default=lambda self: self.env.company,
         index=True,
         required=True,
@@ -138,7 +137,7 @@ class NfeRecipientManifestationEvent(models.Model):
 
         if not valid:
             raise ValidationError(
-                _(
+                self.env._(
                     "Error on validating event: %(code)s - %(msg)s",
                     code=code,
                     msg=message,
