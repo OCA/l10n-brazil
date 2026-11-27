@@ -1,0 +1,1018 @@
+# Copyright (C) 2013  Renato Lima - Akretion
+# License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
+
+from odoo import api, fields, models
+from odoo.tools import float_compare, float_is_zero
+
+from ..constants.fiscal import (
+    CFOP_DESTINATION_EXPORT,
+    CFOP_DESTINATION_EXTERNAL,
+    FINAL_CUSTOMER_NO,
+    FINAL_CUSTOMER_YES,
+    FISCAL_IN,
+    FISCAL_OUT,
+    NFE_IND_IE_DEST_1,
+    NFE_IND_IE_DEST_2,
+    NFE_IND_IE_DEST_9,
+    TAX_BASE_TYPE,
+    TAX_BASE_TYPE_PERCENT,
+    TAX_BASE_TYPE_VALUE,
+    TAX_DOMAIN_ICMS,
+    TAX_DOMAIN_ICMS_FCP,
+    TAX_DOMAIN_ICMS_ST,
+)
+from ..constants.icms import (
+    ICMS_BASE_TYPE,
+    ICMS_BASE_TYPE_DEFAULT,
+    ICMS_CST_RELIEF,
+    ICMS_DIFAL_INSIDE_BASE,
+    ICMS_DIFAL_PARTITION,
+    ICMS_ORIGIN_TAX_IMPORTED,
+    ICMS_SN_CST_WITH_CREDIT,
+    ICMS_ST_BASE_TYPE,
+    ICMS_ST_BASE_TYPE_DEFAULT,
+    ICSM_CST_CSOSN_ST_BASE,
+)
+
+TAX_DICT_VALUES = {
+    "name": False,
+    "fiscal_tax_id": False,
+    "tax_include": False,
+    "tax_withholding": False,
+    "tax_domain": False,
+    "cst_id": False,
+    "cst_code": False,
+    "base_type": "percent",
+    "base": 0.00,
+    "base_reduction": 0.00,
+    "percent_amount": 0.00,
+    "percent_reduction": 0.00,
+    "value_amount": 0.00,
+    "uot_id": False,
+    "tax_value": 0.00,
+    "add_to_base": 0.00,
+    "remove_from_base": 0.00,
+    "compute_reduction": True,
+    "compute_with_tax_value": False,
+    "icms_dest_base": 0.00,
+    "icms_origin_value": 0.00,
+    "icms_dest_value": 0.00,
+}
+
+ICMS_ST_BASE_TYPE_REL = {
+    "0": TAX_BASE_TYPE_VALUE,
+    "1": TAX_BASE_TYPE_VALUE,
+    "2": TAX_BASE_TYPE_VALUE,
+    "3": TAX_BASE_TYPE_VALUE,
+    "4": TAX_BASE_TYPE_PERCENT,
+    "5": TAX_BASE_TYPE_VALUE,
+    # the operation value without margin: a percent base with no MVA
+    "6": TAX_BASE_TYPE_PERCENT,
+}
+
+
+class Tax(models.Model):
+    """
+    Represents a specific Brazilian fiscal tax (e.g., ICMS, IPI, PIS, COFINS)
+    and acts as the core engine for calculating its value in a given context.
+
+    This model is distinct from Odoo's generic `account.tax`. Each record
+    defines a particular tax, its domain (e.g., 'icms', 'ipi'), how its
+    base is calculated (percentage, fixed value, per quantity), applicable
+    rates, percentage reductions, and links to its Tax Group and default
+    CST codes (Código de Situação Tributária).
+
+    Key Responsibilities:
+    1.  **Tax Definition**: Stores the parameters for a single fiscal tax,
+        including its calculation method, rates (percent_amount,
+        value_amount), base reduction (percent_reduction), and specific
+        attributes for complex taxes like ICMS (e.g., icms_base_type,
+        icmsst_base_type, icmsst_mva_percent).
+
+    2.  **Tax Calculation Engine (`compute_taxes` method)**:
+        The primary entry point for tax computation. When called on a
+        recordset of `l10n_br_fiscal.tax` objects (representing all taxes
+        potentially applicable to a transaction line), it iterates through
+        them in a defined sequence. For each tax, it:
+        a.  Initializes a standard dictionary (`TAX_DICT_VALUES`) to hold
+            results.
+        b.  Invokes a specialized internal method (e.g., `_compute_icms`,
+            `_compute_ipi`, or the generic `_compute_tax`) to perform
+            the actual calculation logic for that tax domain. These
+            internal methods determine the tax base, apply reductions,
+            and calculate the tax value.
+        c.  Handles inter-tax dependencies (e.g., IPI value affecting
+            ICMS base).
+        d.  Aggregates results, including total tax included in price,
+            tax not included, and withholding amounts.
+
+    3.  **Contextual Adaptation**: The calculation methods
+        (`_compute_<tax_domain>`) take numerous keyword arguments
+        (`**kwargs`) representing the full fiscal context (company, partner,
+        product, operation details, other calculated taxes, etc.) to ensure
+        taxes are computed according to specific scenarios (e.g., interstate
+        operations, final consumer, import/export).
+
+    This model, in conjunction with `l10n_br_fiscal.tax.definition` (which
+    determines *which* of these `l10n_br_fiscal.tax` records apply),
+    forms the heart of the Brazilian tax calculation system in this
+    localization.
+    """
+
+    _name = "l10n_br_fiscal.tax"
+    _order = "sequence, tax_domain, name"
+    _description = "Fiscal Tax"
+
+    name = fields.Char(size=256, required=True)
+
+    sequence = fields.Integer(
+        related="tax_group_id.sequence",
+        help="The sequence field is used to define the "
+        "order in which taxes are displayed.",
+        store=True,
+    )
+
+    compute_sequence = fields.Integer(
+        related="tax_group_id.compute_sequence",
+        help="The sequence field is used to define "
+        "order in which the tax lines are applied.",
+    )
+
+    tax_scope = fields.Selection(
+        related="tax_group_id.tax_scope",
+        store=True,
+    )
+
+    tax_base_type = fields.Selection(
+        selection=TAX_BASE_TYPE,
+        default=TAX_BASE_TYPE_PERCENT,
+        required=True,
+        compute="_compute_tax_base_type",
+        store=True,
+    )
+
+    percent_amount = fields.Float(
+        string="Percent", digits="Fiscal Tax Percent", required=True
+    )
+
+    percent_reduction = fields.Float(
+        digits="Fiscal Tax Percent",
+        required=True,
+    )
+
+    percent_debit_credit = fields.Float(
+        string="Percent Debit/Credit",
+        digits="Fiscal Tax Percent",
+        required=True,
+    )
+
+    currency_id = fields.Many2one(
+        comodel_name="res.currency",
+        default=lambda self: self.env.ref("base.BRL"),
+    )
+
+    value_amount = fields.Float(
+        string="Value", digits="Fiscal Tax Value", required=True
+    )
+
+    uot_id = fields.Many2one(comodel_name="uom.uom", string="Tax UoM")
+
+    withholding_min_value = fields.Float(
+        string="Minimum Withholding Value",
+        digits="Fiscal Tax Value",
+        default=0.00,
+        help="Legal waiver of withholding (dispensa de retenção): when the "
+        "value computed for this withholding tax is equal or lower than this "
+        "amount, the tax is not withheld. For instance R$ 10,00 for the IRRF "
+        "on professional services, per art. 67 of Lei 9.430/1996 and "
+        "Solução de Consulta COSIT 258/2024.\n"
+        "Kept empty (0,00) means no waiver. It applies to the value computed "
+        "for one document line: the Brazilian law sets the limit per payment "
+        "or credit event, which the fiscal engine cannot know when it "
+        "computes the document.",
+    )
+
+    tax_group_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.tax.group",
+        string="Fiscal Tax Group",
+        required=True,
+    )
+
+    tax_domain = fields.Selection(
+        related="tax_group_id.tax_domain",
+        string="Tax Domain",
+        readonly=True,
+        store=True,
+    )
+
+    cst_tax_domain = fields.Char(
+        compute="_compute_cst_tax_domain",
+        string="CST Tax Domain",
+    )
+
+    cst_in_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.cst",
+        string="CST In",
+        domain="[('cst_type', 'in', ('in', 'all')), "
+        "('tax_domain', '=', cst_tax_domain)]",
+    )
+
+    cst_out_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.cst",
+        string="CST Out",
+        domain="[('cst_type', 'in', ('out', 'all')), "
+        "('tax_domain', '=', cst_tax_domain)]",
+    )
+
+    # ICMS Fields
+    icms_base_type = fields.Selection(
+        selection=ICMS_BASE_TYPE,
+        required=True,
+        default=ICMS_BASE_TYPE_DEFAULT,
+    )
+
+    icmsst_base_type = fields.Selection(
+        selection=ICMS_ST_BASE_TYPE,
+        string="ICMS ST Base Type",
+        required=True,
+        default=ICMS_ST_BASE_TYPE_DEFAULT,
+    )
+
+    icmsst_mva_percent = fields.Float(
+        string="MVA Percent",
+        digits="Fiscal Tax Percent",
+        required=True,
+    )
+
+    icmsst_value = fields.Float(
+        string="PFC Value", digits="Fiscal Tax Value", required=True
+    )
+
+    _fiscal_tax_code_uniq = models.Constraint(
+        "unique (name)",
+        "Tax already exists with this name!",
+    )
+
+    @api.depends("tax_domain")
+    def _compute_cst_tax_domain(self):
+        # ICMS ST doesn't have its own CST records, it reuses the ICMS ones.
+        for tax in self:
+            if tax.tax_domain == TAX_DOMAIN_ICMS_ST:
+                tax.cst_tax_domain = TAX_DOMAIN_ICMS
+            else:
+                tax.cst_tax_domain = tax.tax_domain
+
+    @api.model
+    def cst_from_tax(self, fiscal_operation_type=FISCAL_OUT):
+        self.ensure_one()
+        cst = self.env["l10n_br_fiscal.cst"]
+        if fiscal_operation_type == FISCAL_IN:
+            cst = self.cst_in_id
+
+        if fiscal_operation_type == FISCAL_OUT:
+            cst = self.cst_out_id
+        return cst
+
+    @api.model
+    def _fiscal_operation_type(self, operation_line):
+        """Return the fiscal operation type of ``operation_line``.
+
+        The operation line reaches the compute methods straight from the
+        caller's kwargs, so besides a record it can be an empty recordset,
+        ``False`` (the default declared in l10n_br_account) or ``None``. Only a
+        record answers for ``fiscal_operation_type``, so guard before reading it
+        and fall back to the outgoing operation, as everywhere else here.
+        """
+        if not operation_line:
+            return FISCAL_OUT
+        return operation_line.fiscal_operation_type or FISCAL_OUT
+
+    @api.model
+    def _is_import_entry(self, **kwargs):
+        """An entry whose base follows the customs value instead of the price.
+
+        The accessory costs of an import are the customs expenses, which travel
+        in ii_customhouse_charges and are added explicitly by every import
+        branch below. other_value belongs to a domestic operation, where the
+        law does put it in the base, and it only reaches an import through
+        base_with_additional_values.
+        """
+        cfop = kwargs.get("cfop")
+        if not cfop or cfop.destination != CFOP_DESTINATION_EXPORT:
+            return False
+        operation_line = kwargs.get("operation_line")
+        return self._fiscal_operation_type(operation_line) == FISCAL_IN
+
+    @api.model
+    def _compute_tax_base(self, tax, tax_dict, **kwargs):
+        company = kwargs.get("company") or tax.env.company
+        currency = kwargs.get("currency") or company.currency_id
+        fiscal_price = kwargs.get("fiscal_price", 0.00)
+        fiscal_quantity = kwargs.get("fiscal_quantity", 0.00)
+        compute_reduction = kwargs.get("compute_reduction", True)
+        discount_value = kwargs.get("discount_value", 0.00)
+        insurance_value = kwargs.get("insurance_value", 0.00)
+        freight_value = kwargs.get("freight_value", 0.00)
+        other_value = kwargs.get("other_value", 0.00)
+
+        if tax.tax_group_id.base_with_additional_values:
+            additional_values = [freight_value, insurance_value]
+            if not self._is_import_entry(**kwargs):
+                additional_values.append(other_value)
+            tax_dict["add_to_base"] += sum(additional_values)
+        tax_dict["remove_from_base"] += sum([discount_value])
+
+        base = 0.00
+
+        if not tax_dict.get("percent_amount") and tax.percent_amount:
+            tax_dict["percent_amount"] = tax.percent_amount
+
+        if not tax_dict.get("value_amount") and tax.value_amount:
+            tax_dict["value_amount"] = tax.value_amount
+
+        if tax_dict["base_type"] == "percent":
+            # Compute initial Tax Base for base_type Percent
+            base = currency.round(fiscal_price * fiscal_quantity)
+
+        if tax_dict["base_type"] == "quantity":
+            # Compute initial Tax Base for base_type Quantity
+            base = fiscal_quantity
+
+        if tax_dict["base_type"] == "fixed":
+            # Compute initial Tax Base
+            base = currency.round(tax_dict["value_amount"] * fiscal_quantity)
+
+        # Update Base Value
+        base_amount = currency.round(
+            (base + tax_dict["add_to_base"]) - tax_dict["remove_from_base"]
+        )
+
+        # Compute Tax Base Reduction
+        base_reduction = base_amount * abs(tax.percent_reduction / 100)
+
+        # Compute Tax Base Amount
+        if compute_reduction:
+            base_amount = currency.round(base_amount - base_reduction)
+
+        if tax_dict.get("icmsst_mva_percent"):
+            base_amount = currency.round(
+                base_amount * (1 + (tax_dict["icmsst_mva_percent"] / 100))
+            )
+
+        if tax_dict.get("compute_with_tax_value"):
+            base_amount = currency.round(
+                base_amount / (1 - (tax_dict["percent_amount"] / 100))
+            )
+
+        if (
+            not tax.percent_amount
+            and not tax.value_amount
+            and not tax_dict.get("percent_amount")
+            and not tax_dict.get("value_amount")
+        ):
+            tax_dict["base"] = 0.00
+        else:
+            tax_dict["base"] = base_amount
+
+        return tax_dict
+
+    @api.model
+    def _compute_tax(self, tax, taxes_dict, **kwargs):
+        """Generic calculation of Brazilian taxes"""
+
+        company = kwargs.get("company") or tax.env.company
+        currency = kwargs.get("currency") or company.currency_id
+        operation_line = kwargs.get("operation_line")
+        fiscal_operation_type = self._fiscal_operation_type(operation_line)
+
+        tax_dict = taxes_dict.get(tax.tax_domain)
+        tax_dict.update(
+            {
+                "name": tax.name,
+                "base_type": tax.tax_base_type,
+                "tax_include": tax.tax_group_id.tax_include,
+                "tax_withholding": tax.tax_group_id.tax_withholding,
+                "fiscal_tax_id": tax.id,
+                "tax_domain": tax.tax_domain,
+                "percent_reduction": tax.percent_reduction,
+                "percent_amount": tax_dict.get("percent_amount", tax.percent_amount),
+                "cst_id": tax.cst_from_tax(fiscal_operation_type),
+            }
+        )
+
+        if tax.tax_group_id.base_without_icms:
+            # Get Computed ICMS Tax
+            tax_dict_icms = taxes_dict.get("icms", {})
+            tax_dict["remove_from_base"] += tax_dict_icms.get("tax_value", 0.00)
+
+        # TODO futuramente levar em consideração outros tipos de base de calculo
+        if float_is_zero(tax_dict.get("base", 0.00), currency.decimal_places):
+            tax_dict = self._compute_tax_base(tax, tax_dict, **kwargs)
+
+        base_amount = tax_dict.get("base", 0.00)
+
+        if tax_dict["base_type"] == "percent":
+            tax_dict["tax_value"] = currency.round(
+                base_amount * (tax_dict["percent_amount"] / 100)
+            )
+
+        if tax_dict["base_type"] in ("quantity", "fixed"):
+            tax_dict["tax_value"] = currency.round(
+                base_amount * tax_dict["value_amount"]
+            )
+
+        return tax_dict
+
+    @api.model
+    def _compute_estimate_taxes(self, **kwargs):
+        company = kwargs.get("company") or self.env.company
+        product = kwargs.get("product")
+        fiscal_price = kwargs.get("fiscal_price")
+        fiscal_quantity = kwargs.get("fiscal_quantity")
+        currency = kwargs.get("currency") or company.currency_id
+        ncm = kwargs.get("ncm") or product.ncm_id
+        nbs = kwargs.get("nbs") or product.nbs_id
+        icms_origin = kwargs.get("icms_origin") or product.icms_origin
+        op_line = kwargs.get("operation_line")
+        amount_estimate_tax = 0.00
+        amount_total = currency.round(fiscal_price * fiscal_quantity)
+
+        if op_line and (
+            op_line.fiscal_operation_type == FISCAL_OUT
+            and op_line.fiscal_operation_id.fiscal_type == "sale"
+        ):
+            if nbs:
+                amount_estimate_tax = currency.round(
+                    amount_total * (nbs.estimate_tax_national / 100)
+                )
+            elif ncm:
+                if icms_origin in ICMS_ORIGIN_TAX_IMPORTED:
+                    amount_estimate_tax = currency.round(
+                        amount_total * (ncm.estimate_tax_imported / 100)
+                    )
+                else:
+                    amount_estimate_tax = currency.round(
+                        amount_total * (ncm.estimate_tax_national / 100)
+                    )
+
+        return amount_estimate_tax
+
+    @api.model
+    def _compute_icms(self, tax, taxes_dict, **kwargs):
+        tax_dict = taxes_dict.get(tax.tax_domain)
+        partner = kwargs.get("partner")
+        company = kwargs.get("company")
+        product = kwargs.get("product")
+        currency = kwargs.get("currency", company.currency_id)
+        ncm = kwargs.get("ncm")
+        nbm = kwargs.get("nbm")
+        cest = kwargs.get("cest")
+        operation_line = kwargs.get("operation_line")
+        cfop = kwargs.get("cfop")
+        fiscal_operation_type = self._fiscal_operation_type(operation_line)
+        ind_final = kwargs.get("ind_final", FINAL_CUSTOMER_NO)
+        cst = kwargs.get("icms_cst_id", self.env["l10n_br_fiscal.cst"])
+
+        # Get Computed IPI Tax
+        tax_dict_ipi = taxes_dict.get("ipi", {})
+
+        if partner.ind_ie_dest in (NFE_IND_IE_DEST_2, NFE_IND_IE_DEST_9) or (
+            ind_final == FINAL_CUSTOMER_YES
+        ):
+            # Add IPI in ICMS Base
+            tax_dict["add_to_base"] += tax_dict_ipi.get("tax_value", 0.00)
+
+        # Adiciona na base de calculo do ICMS nos casos de entrada de importação
+        if (
+            cfop
+            and cfop.destination == CFOP_DESTINATION_EXPORT
+            and fiscal_operation_type == FISCAL_IN
+        ):
+            tax_dict_ii = taxes_dict.get("ii", {})
+            tax_dict["add_to_base"] += tax_dict_ii.get("tax_value", 0.00)
+
+            tax_dict_pis = taxes_dict.get("pis", {})
+            tax_dict["add_to_base"] += tax_dict_pis.get("tax_value", 0.00)
+
+            tax_dict_cofins = taxes_dict.get("cofins", {})
+            tax_dict["add_to_base"] += tax_dict_cofins.get("tax_value", 0.00)
+
+            tax_dict["add_to_base"] += kwargs.get("ii_customhouse_charges", 0.00)
+
+            tax_dict["compute_with_tax_value"] = True
+
+        tax_dict.update(self._compute_tax(tax, taxes_dict, **kwargs))
+        tax_dict.update({"icms_base_type": tax.icms_base_type})
+
+        # DIFAL: only for non-taxpayers, a taxpayer recipient pays its own
+        # DIFAL (LC 87/1996, art. 4, par. 2)
+        if (
+            cfop
+            and company.icms_regulation_id
+            and cfop.destination == CFOP_DESTINATION_EXTERNAL
+            and partner.ind_ie_dest == NFE_IND_IE_DEST_9
+            and tax_dict.get("tax_value")
+            and (
+                fiscal_operation_type == FISCAL_OUT
+                or (
+                    fiscal_operation_type == FISCAL_IN
+                    and operation_line.fiscal_operation_id.fiscal_type != "return_in"
+                )
+            )
+        ):
+            icms_tax_difal, _ = company.icms_regulation_id.map_tax_def_icms_difal(
+                company, partner, product, ncm, nbm, cest, operation_line, ind_final
+            )
+
+            # Difal - Origin Percent
+            icms_origin_perc = tax_dict.get("percent_amount")
+
+            # Difal - Destination Percent
+            icms_dest_perc = 0.00
+            if icms_tax_difal:
+                icms_dest_perc = icms_tax_difal[0].percent_amount
+
+            # Difal - FCP Percent
+            # FCP is computed after ICMS, so its rate is read from the tax itself
+            icmsfcp_tax = self.filtered(lambda t: t.tax_domain == TAX_DOMAIN_ICMS_FCP)
+            icmsfcp_perc = icmsfcp_tax[:1].percent_amount
+
+            # Difal - Base: the same single base for origin and destination
+            # (LC 87/1996, art. 13, X), grossed up in some states (par. 7)
+            difal_icms_base = tax_dict.get("base")
+            if partner.state_id.code in ICMS_DIFAL_INSIDE_BASE:
+                difal_icms_base = currency.round(
+                    difal_icms_base / (1 - ((icms_dest_perc + icmsfcp_perc) / 100))
+                )
+
+            # Difal - Value (Conv. ICMS 236/2021, cl. 2, par. 1)
+            difal_value = currency.round(
+                difal_icms_base * ((icms_dest_perc - icms_origin_perc) / 100)
+            )
+
+            # Difal - Sharing Percent
+            date_year = fields.Date.today().year
+
+            if date_year >= 2019:
+                tax_dict.update(ICMS_DIFAL_PARTITION[2019])
+            else:
+                if date_year == 2018:
+                    tax_dict.update(ICMS_DIFAL_PARTITION[2018])
+                if date_year == 2017:
+                    tax_dict.update(ICMS_DIFAL_PARTITION[2017])
+                else:
+                    tax_dict.update(ICMS_DIFAL_PARTITION[2016])
+
+            difal_share_origin = tax_dict.get("difal_origin_perc")
+
+            difal_share_dest = tax_dict.get("difal_dest_perc")
+
+            difal_origin_value = currency.round(difal_value * difal_share_origin / 100)
+            difal_dest_value = currency.round(difal_value * difal_share_dest / 100)
+
+            tax_dict.update(
+                {
+                    "icms_origin_perc": icms_origin_perc,
+                    "icms_dest_perc": icms_dest_perc,
+                    "icms_dest_base": difal_icms_base,
+                    "icms_sharing_percent": difal_share_dest,
+                    "icms_origin_value": difal_origin_value,
+                    "icms_dest_value": difal_dest_value,
+                }
+            )
+
+        if kwargs.get("icms_relief_id") and cst["code"] in ICMS_CST_RELIEF:
+            icms_base = kwargs.get("price_unit", 0.00) * kwargs.get("quantity", 0.00)
+            icms_percent = tax_dict.get("percent_amount", 0.00) / 100
+            icms_reduction = tax_dict.get("percent_reduction", 0.00) / 100
+            if cst["code"] in ["30", "40"]:
+                icms_relief = icms_base * icms_percent
+                tax_dict.update({"icms_relief": icms_relief})
+            elif cst["code"] in ["20", "70"]:
+                icms_relief = (
+                    icms_base
+                    * (1 - (icms_percent * (1 - icms_reduction)))
+                    / (1 - icms_percent)
+                    - icms_base
+                )
+                tax_dict.update({"icms_relief": icms_relief})
+            else:
+                icms_relief = (icms_base / (1 - icms_percent)) * icms_percent
+                tax_dict.update({"icms_relief": icms_relief})
+        else:
+            tax_dict.update({"icms_relief": 0})
+
+        return taxes_dict
+
+    @api.model
+    def _compute_icmsfcp(self, tax, taxes_dict, **kwargs):
+        """Compute ICMS FCP"""
+        tax_dict = taxes_dict.get(tax.tax_domain)
+        partner = kwargs.get("partner")
+        company = kwargs.get("company")
+        icms_cst_id = kwargs.get("icms_cst_id") or self.env["l10n_br_fiscal.cst"]
+
+        if taxes_dict.get("icms"):
+            if company.state_id != partner.state_id:
+                tax_dict["base"] = taxes_dict["icms"].get("icms_dest_base", 0.0)
+            else:
+                tax_dict["base"] = taxes_dict["icms"].get("base", 0.0)
+        elif taxes_dict.get("icmssn"):
+            tax_dict["base"] = taxes_dict["icmssn"].get("base", 0.0)
+
+        tax_dict.pop("percent_amount", None)
+
+        tax_dict.update(self._compute_tax(tax, taxes_dict, **kwargs))
+
+        tax_dict.update({"icms_base_type": tax.icms_base_type})
+
+        tax_dict["fcpst_base"] = taxes_dict.get("icmsst", {}).get("base", 0.00)
+
+        # TODO Improve this condition
+        if icms_cst_id.code in ICSM_CST_CSOSN_ST_BASE:
+            tax_dict["fcpst_value"] = tax_dict["fcpst_base"] * (
+                tax_dict["percent_amount"] / 100
+            )
+            tax_dict["fcpst_value"] -= tax_dict["tax_value"]
+
+        return self._compute_tax(tax, taxes_dict, **kwargs)
+
+    @api.model
+    def _compute_icmsst(self, tax, taxes_dict, **kwargs):
+        company = kwargs.get("company")
+        currency = kwargs.get("currency", company.currency_id)
+        operation_line = kwargs.get("operation_line")
+        fiscal_operation_type = self._fiscal_operation_type(operation_line)
+        tax_dict = taxes_dict.get(tax.tax_domain)
+
+        # Get Computed IPI Tax
+        tax_dict_ipi = taxes_dict.get("ipi", {})
+        tax_dict["add_to_base"] += tax_dict_ipi.get("tax_value", 0.00)
+
+        # Get Computed ICMS Tax to Update CST
+        tax_dict_icms = taxes_dict.get("icms", {})
+        tax_dict_icms["cst_id"] = tax.cst_from_tax(fiscal_operation_type)
+
+        if taxes_dict.get(tax.tax_domain):
+            taxes_dict[tax.tax_domain]["icmsst_mva_percent"] = tax.icmsst_mva_percent
+            taxes_dict[tax.tax_domain]["percent_debit_credit"] = (
+                tax.percent_debit_credit
+            )
+
+        taxes_dict[tax.tax_domain].update(
+            self._compute_tax_base(tax, taxes_dict.get(tax.tax_domain), **kwargs)
+        )
+
+        tax_dict = self._compute_tax(tax, taxes_dict, **kwargs)
+        if tax_dict.get("icmsst_mva_percent"):
+            if tax_dict_icms.get("tax_value", 0.0) > tax_dict["tax_value"]:
+                if tax_dict.get("percent_debit_credit"):
+                    icms_value_limited = currency.round(
+                        tax_dict_icms.get("base", 0.0)
+                        * (tax_dict["percent_debit_credit"] / 100)
+                    )
+                    tax_dict["tax_value"] -= icms_value_limited
+                else:
+                    tax_dict["tax_value"] = 0.0
+            else:
+                tax_dict["tax_value"] -= tax_dict_icms.get("tax_value", 0.0)
+
+        return tax_dict
+
+    @api.model
+    def _compute_icmsfcpst(self, tax, taxes_dict, **kwargs):
+        """Compute ICMS FCP ST"""
+        tax_dict = taxes_dict.get(tax.tax_domain)
+
+        if taxes_dict.get("icmsst"):
+            tax_dict["base"] = taxes_dict["icmsst"].get("base", 0.0)
+        else:
+            tax_dict["base"] = 0
+
+        # pop percent_amount to get it from tax_id
+        tax_dict.pop("percent_amount", None)
+
+        return self._compute_tax(tax, taxes_dict, **kwargs)
+
+    @api.model
+    def _compute_icmssn(self, tax, taxes_dict, **kwargs):
+        tax_dict = taxes_dict.get(tax.tax_domain)
+        partner = kwargs.get("partner")
+        company = kwargs.get("company")
+        cst = kwargs.get("cst", self.env["l10n_br_fiscal.cst"])
+        cfop = kwargs.get("cfop") or self.env["l10n_br_fiscal.cfop"]
+
+        # Range of the Simples Nacional annex that taxes the operation
+        tax_range = company._get_simplified_tax_range(cfop)
+        tax_dict["icmssn_range_id"] = tax_range.id
+
+        # Get Computed IPI Tax
+        tax_dict_ipi = taxes_dict.get("ipi", {})
+
+        # Partner not ICMS's Contributor
+        if partner.ind_ie_dest == NFE_IND_IE_DEST_9:
+            # Add IPI in ICMS Base
+            tax_dict["add_to_base"] += tax_dict_ipi.get("tax_value", 0.00)
+
+        # Partner ICMS's Contributor
+        if partner.ind_ie_dest in (NFE_IND_IE_DEST_1, NFE_IND_IE_DEST_2):
+            if cst.code in ICMS_SN_CST_WITH_CREDIT:
+                icms_sn_percent = tax_range._get_effective_tax_percent(
+                    company.annual_revenue, TAX_DOMAIN_ICMS
+                )
+
+                tax_dict["percent_amount"] = icms_sn_percent
+                tax_dict["value_amount"] = icms_sn_percent
+
+        taxes_dict.update(
+            self._compute_tax_base(tax, taxes_dict.get(tax.tax_domain), **kwargs)
+        )
+
+        return self._compute_tax(tax, taxes_dict, **kwargs)
+
+    @api.model
+    def _compute_ipi(self, tax, taxes_dict, **kwargs):
+        tax_dict = taxes_dict.get(tax.tax_domain)
+        cfop = kwargs.get("cfop")
+        operation_line = kwargs.get("operation_line")
+        fiscal_operation_type = self._fiscal_operation_type(operation_line)
+
+        # Se for entrada de importação o II entra na base de calculo do IPI
+        if (
+            cfop
+            and cfop.destination == CFOP_DESTINATION_EXPORT
+            and fiscal_operation_type == FISCAL_IN
+        ):
+            tax_dict_ii = taxes_dict.get("ii", {})
+            tax_dict["add_to_base"] += tax_dict_ii.get("tax_value", 0.00)
+
+        return self._compute_tax(tax, taxes_dict, **kwargs)
+
+    @api.model
+    def _compute_ibs(self, tax, taxes_dict, **kwargs):
+        """The IBS (Tax on Goods and Services) must have the
+        following taxes removed from its calculation base:
+        ICMS, PIS, and COFINS."""
+        cfop = kwargs.get("cfop")
+        operation_line = kwargs.get("operation_line")
+        fiscal_operation_type = self._fiscal_operation_type(operation_line)
+        tax_dict = taxes_dict.get(tax.tax_domain)
+        tax_dict_ii = taxes_dict.get("ii", {})
+        tax_dict_is = taxes_dict.get("is", {})
+        tax_dict_icms = taxes_dict.get("icms", {})
+        tax_dict_issqn = taxes_dict.get("issqn", {})
+        tax_dict_pis = taxes_dict.get("pis", {})
+        tax_dict_cofins = taxes_dict.get("cofins", {})
+        if (
+            cfop
+            and cfop.destination == CFOP_DESTINATION_EXPORT
+            and fiscal_operation_type == FISCAL_IN
+        ):
+            tax_dict["add_to_base"] += (
+                tax_dict_ii.get("tax_value", 0.00)
+                + tax_dict_is.get("tax_value", 0.00)
+                + kwargs.get("ii_customhouse_charges", 0.00)
+            )
+        else:
+            tax_dict["remove_from_base"] += (
+                tax_dict_icms.get("tax_value", 0.00)
+                + tax_dict_issqn.get("tax_value", 0.00)
+                + tax_dict_pis.get("tax_value", 0.00)
+                + tax_dict_cofins.get("tax_value", 0.00)
+            )
+        return self._compute_tax(tax, taxes_dict, **kwargs)
+
+    @api.model
+    def _compute_cbs(self, tax, taxes_dict, **kwargs):
+        """The CBS (Contribution on Goods and Services) must have the
+        following taxes removed from its calculation base:
+        ICMS, PIS, and COFINS."""
+        cfop = kwargs.get("cfop")
+        operation_line = kwargs.get("operation_line")
+        fiscal_operation_type = self._fiscal_operation_type(operation_line)
+        tax_dict = taxes_dict.get(tax.tax_domain)
+        tax_dict_ii = taxes_dict.get("ii", {})
+        tax_dict_is = taxes_dict.get("is", {})
+        tax_dict_icms = taxes_dict.get("icms", {})
+        tax_dict_issqn = taxes_dict.get("issqn", {})
+        tax_dict_pis = taxes_dict.get("pis", {})
+        tax_dict_cofins = taxes_dict.get("cofins", {})
+        if (
+            cfop
+            and cfop.destination == CFOP_DESTINATION_EXPORT
+            and fiscal_operation_type == FISCAL_IN
+        ):
+            tax_dict["add_to_base"] += (
+                tax_dict_ii.get("tax_value", 0.00)
+                + tax_dict_is.get("tax_value", 0.00)
+                + kwargs.get("ii_customhouse_charges", 0.00)
+            )
+        else:
+            tax_dict["remove_from_base"] += (
+                tax_dict_icms.get("tax_value", 0.00)
+                + tax_dict_issqn.get("tax_value", 0.00)
+                + tax_dict_pis.get("tax_value", 0.00)
+                + tax_dict_cofins.get("tax_value", 0.00)
+            )
+        return self._compute_tax(tax, taxes_dict, **kwargs)
+
+    @api.model
+    def _compute_is(self, tax, taxes_dict, **kwargs):
+        """The IS tax (Selective Tax) must have the
+        following taxes removed from its calculation base:
+        ICMS, PIS, and COFINS."""
+        cfop = kwargs.get("cfop")
+        operation_line = kwargs.get("operation_line")
+        fiscal_operation_type = self._fiscal_operation_type(operation_line)
+        tax_dict = taxes_dict.get(tax.tax_domain)
+        tax_dict_ii = taxes_dict.get("ii", {})
+        tax_dict_icms = taxes_dict.get("icms", {})
+        tax_dict_pis = taxes_dict.get("pis", {})
+        tax_dict_cofins = taxes_dict.get("cofins", {})
+        if (
+            cfop
+            and cfop.destination == CFOP_DESTINATION_EXPORT
+            and fiscal_operation_type == FISCAL_IN
+        ):
+            tax_dict["add_to_base"] += tax_dict_ii.get("tax_value", 0.00) + kwargs.get(
+                "ii_customhouse_charges", 0.00
+            )
+        else:
+            tax_dict["remove_from_base"] += (
+                tax_dict_icms.get("tax_value", 0.00)
+                + tax_dict_pis.get("tax_value", 0.00)
+                + tax_dict_cofins.get("tax_value", 0.00)
+            )
+        return self._compute_tax(tax, taxes_dict, **kwargs)
+
+    @api.model
+    def _compute_tax_sequence(self, taxes_dict, **kwargs):
+        """
+        Method to determine the order in which taxes will be calculated.
+
+        By default, the `compute_sequence` field of the tax object is used
+        to sort the sequence for tax calculation. The default processing
+        order is based on these `compute_sequence` values, conceptually
+        like:
+
+            {
+                'tax_domain_A': its_compute_sequence_value,
+                'tax_domain_B': its_compute_sequence_value,
+                # ... and so on for other tax domains
+            }
+        # Lower compute_sequence values are typically processed earlier.
+        """
+        # Pega por padrão os valores do campo compute_sequence
+        compute_sequence = {t.tax_domain: t.compute_sequence for t in self}
+
+        # Caso seja uma nota de entrada de importação é alterado a sequencia
+        cfop = kwargs.get("cfop")
+        operation_line = kwargs.get("operation_line")
+        if cfop and operation_line:
+            fiscal_operation_type = self._fiscal_operation_type(operation_line)
+            if (
+                cfop.destination == CFOP_DESTINATION_EXPORT
+                and fiscal_operation_type == FISCAL_IN
+            ):
+                compute_sequence.update(icms=100)
+
+        return compute_sequence
+
+    def compute_taxes(self, **kwargs):
+        """
+        Compute all applicable Brazilian taxes based on a set of input parameters.
+
+        This method orchestrates the calculation of various taxes (ICMS, IPI, PIS,
+        COFINS, ISSQN, etc.) by calling specialized internal _compute_<tax_domain>
+        methods. It respects a defined computation sequence for taxes and handles
+        interdependencies, such as IPI influencing the ICMS base under certain
+        conditions.
+
+        The result includes the calculated tax values for each domain, amounts
+        included in the price, amounts not included, and withholding amounts.
+        It also calculates an estimated total tax amount as per "Lei da Transparência".
+
+        :param company: res.company record of the emitting company.
+        :param partner: res.partner record of the recipient/customer.
+        :param product: product.product record being taxed.
+        :param price_unit: float, the unit price of the product/service before
+            discounts.
+        :param quantity: float, the quantity of the product/service.
+        :param uom_id: uom.uom record, unit of measure for the quantity.
+        :param fiscal_price: float, the fiscal price unit (e.g., for tax
+            calculation if different from commercial price).
+        :param fiscal_quantity: float, the fiscal quantity (e.g., for tax
+            calculation if different from commercial quantity).
+        :param uot_id: uom.uom record, unit of taxation if different from uom_id.
+        :param discount_value: float, total discount amount for the line.
+        :param insurance_value: float, total insurance amount for the line.
+        :param other_value: float, total other costs/fees for the line.
+        :param freight_value: float, total freight amount for the line.
+        :param ii_customhouse_charges: float, customs house charges for Import Tax
+            (II).
+        :param ii_iof_value: float, IOF value related to Import Tax (II).
+        :param ncm: l10n_br_fiscal.ncm record, NCM code for the product.
+        :param nbs: l10n_br_fiscal.nbs record, NBS code for the service.
+        :param nbm: l10n_br_fiscal.nbm record, NBM code for the product.
+        :param cest: l10n_br_fiscal.cest record, CEST code for the product.
+        :param operation_line: l10n_br_fiscal.operation.line record defining
+            the fiscal context.
+        :param cfop: l10n_br_fiscal.cfop record, the determined CFOP for the
+            operation.
+        :param icms_origin: str, ICMS origin code for the product.
+        :param icms_cst_id: l10n_br_fiscal.cst record, the ICMS CST code.
+        :param icms_relief_id: l10n_br_fiscal.icms.relief record, if ICMS relief
+            applies.
+        :param ind_final: str, indicates if the operation is for a final
+            consumer ('0' or '1').
+
+        :return: dict containing:
+            - 'amount_included': float, sum of tax values included in the price.
+            - 'amount_not_included': float, sum of tax values not included in
+              the price (added on top).
+            - 'amount_withholding': float, sum of withholding tax values.
+            - 'estimate_tax': float, estimated total tax amount for transparency.
+            - 'taxes': dict, where keys are tax domains (e.g., 'icms', 'ipi')
+              and values are dictionaries with detailed calculation results for
+              that tax (base, percent, value, cst, etc., as defined in
+              TAX_DICT_VALUES).
+        """
+
+        result_amounts = {
+            "amount_included": 0.00,
+            "amount_not_included": 0.00,
+            "amount_withholding": 0.00,
+            "estimate_tax": 0.00,
+            "taxes": {},
+        }
+        taxes = {}
+        sequence = self._compute_tax_sequence(taxes, **kwargs)
+
+        for tax in self.sorted(key=lambda t: sequence.get(t.tax_domain)):
+            taxes[tax.tax_domain] = dict(TAX_DICT_VALUES)
+            # Define CST FROM TAX
+            operation_line = kwargs.get("operation_line")
+            fiscal_operation_type = self._fiscal_operation_type(operation_line)
+            kwargs.update({"cst": tax.cst_from_tax(fiscal_operation_type)})
+            # Resolve the specific compute method with a default instead of
+            # catching AttributeError around the call: the exception is meant to
+            # say "there is no _compute_<domain> for this tax domain", but it
+            # also swallows any AttributeError raised *inside* the specific
+            # method. When that happened the tax silently fell back to the
+            # generic computation, skipping its own base adjustments, with no
+            # error anywhere.
+            compute_method = getattr(self, f"_compute_{tax.tax_domain}", None)
+            if compute_method:
+                taxes[tax.tax_domain].update(compute_method(tax, taxes, **kwargs))
+            else:
+                taxes[tax.tax_domain].update(tax._compute_tax(tax, taxes, **kwargs))
+
+            tax_domain = taxes[tax.tax_domain]
+            tax_value = tax_domain.get("tax_value", 0.00)
+            if (
+                tax_domain["tax_withholding"]
+                and tax_value
+                and tax.withholding_min_value
+                and self._is_withholding_waived(tax, tax_value, **kwargs)
+            ):
+                tax_domain["tax_value"] = tax_value = 0.00
+            if tax_domain["tax_withholding"]:
+                result_amounts["amount_withholding"] += tax_value
+            else:
+                if tax_domain["tax_include"]:
+                    result_amounts["amount_included"] += tax_value
+                else:
+                    result_amounts["amount_not_included"] += tax_value
+
+        # Estimate taxes
+        result_amounts["estimate_tax"] = self._compute_estimate_taxes(**kwargs)
+        result_amounts["taxes"] = taxes
+        return result_amounts
+
+    @api.model
+    def _is_withholding_waived(self, tax, tax_value, **kwargs):
+        """Tell if ``tax_value`` falls under the legal withholding waiver of
+        ``tax`` (``withholding_min_value``), i.e. is equal or lower than it.
+
+        The comparison uses the currency rounding, so a value that rounds to
+        the minimum (R$ 10,00) is still waived, as the law says "igual ou
+        inferior".
+        """
+        company = kwargs.get("company") or tax.env.company
+        currency = kwargs.get("currency") or company.currency_id
+        return (
+            float_compare(
+                tax_value,
+                tax.withholding_min_value,
+                precision_rounding=currency.rounding,
+            )
+            <= 0
+        )
+
+    @api.depends("icmsst_base_type")
+    def _compute_tax_base_type(self):
+        for tax in self:
+            if tax.icmsst_base_type:
+                tax.tax_base_type = ICMS_ST_BASE_TYPE_REL.get(tax.icmsst_base_type)
+            elif tax.tax_base_type is None:
+                tax.tax_base_type = False

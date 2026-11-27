@@ -1,0 +1,565 @@
+# Copyright 2020 Akretion - Renato Lima <renato.lima@akretion.com.br>
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+
+from unittest.mock import patch
+
+from odoo.tests import TransactionCase
+from odoo.tools import float_compare
+
+from ..constants.fiscal import FINAL_CUSTOMER_NO, FINAL_CUSTOMER_YES
+from ..constants.icms import ICMS_ORIGIN_DEFAULT, ICMS_ORIGIN_TAX_IMPORTED
+from .tools import load_fiscal_fixture_files
+
+
+class TestFiscalTax(TransactionCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        load_fiscal_fixture_files(cls.env)
+
+    def _check_compute_taxes_result(self, test_result, compute_result, currency):
+        for tax_domain in test_result["taxes"]:
+            for tax_field in test_result["taxes"][tax_domain]:
+                self.assertEqual(
+                    float_compare(
+                        test_result["taxes"][tax_domain][tax_field],
+                        compute_result["taxes"][tax_domain][tax_field],
+                        precision_rounding=currency.rounding,
+                    ),
+                    0,
+                    "{} {} {} {}".format(
+                        tax_domain,
+                        tax_field,
+                        test_result["taxes"][tax_domain][tax_field],
+                        compute_result["taxes"][tax_domain][tax_field],
+                    ),
+                )
+
+        self.assertEqual(
+            float_compare(
+                compute_result["amount_included"],
+                test_result["amount_included"],
+                precision_rounding=currency.rounding,
+            ),
+            0,
+            f"Amount included diff: "
+            f"{compute_result['amount_included']} - "
+            f"{test_result['amount_included']}.",
+        )
+        self.assertEqual(
+            float_compare(
+                compute_result["amount_not_included"],
+                test_result["amount_not_included"],
+                precision_rounding=currency.rounding,
+            ),
+            0,
+            f"Amount not included diff: "
+            f"{compute_result['amount_not_included']} - "
+            f"{test_result['amount_not_included']}.",
+        )
+        self.assertEqual(
+            float_compare(
+                compute_result["amount_withholding"],
+                test_result["amount_withholding"],
+                precision_rounding=currency.rounding,
+            ),
+            0,
+            f"Amount Withholding diff: "
+            f"{compute_result['amount_withholding']} - "
+            f"{test_result['amount_withholding']}.",
+        )
+        self.assertEqual(
+            float_compare(
+                compute_result["estimate_tax"],
+                test_result["estimate_tax"],
+                precision_rounding=currency.rounding,
+            ),
+            0,
+            f"Estimate Tax diff: "
+            f"{compute_result['estimate_tax']} - "
+            f"{test_result['estimate_tax']}.",
+        )
+
+    def _create_compute_taxes_kwargs(self):
+        return {
+            "company": self.env.ref("l10n_br_base.empresa_lucro_presumido"),
+            "partner": self.env.ref("l10n_br_base.res_partner_cliente5_pe"),
+            "product": self.env.ref("product.product_product_12"),
+            "price_unit": 3.143539,
+            "quantity": 11.000,
+            "uom_id": self.env.ref("uom.product_uom_unit"),
+            "fiscal_price": 3.143539,
+            "fiscal_quantity": 11.000,
+            "uot_id": self.env.ref("uom.product_uom_unit"),
+            "discount_value": 0.00,
+            "insurance_value": 0.00,
+            "other_value": 0.00,
+            "freight_value": 0.00,
+            "ii_customhouse_charges": 0.00,
+            "ii_iof_value": 0.00,
+            "ncm": self.env.ref("l10n_br_fiscal.ncm_72132000"),
+            "nbs": False,
+            "nbm": False,
+            "cest": False,
+            "operation_line": self.env.ref("l10n_br_fiscal.fo_venda_venda"),
+            "cfop": self.env.ref("l10n_br_fiscal.cfop_6101"),
+            "icms_origin": ICMS_ORIGIN_DEFAULT,
+            "ind_final": FINAL_CUSTOMER_YES,
+        }
+
+    def test_compute_taxes_01(self):
+        """Testa o calculo dos impostos venda para pessoa física"""
+
+        kwargs = self._create_compute_taxes_kwargs()
+        currency = kwargs["company"].currency_id
+
+        fiscal_taxes = self.env["l10n_br_fiscal.tax"]
+        fiscal_taxes |= (
+            self.env.ref("l10n_br_fiscal.tax_icms_7")
+            + self.env.ref("l10n_br_fiscal.tax_ipi_15")
+            + self.env.ref("l10n_br_fiscal.tax_pis_0_65")
+            + self.env.ref("l10n_br_fiscal.tax_cofins_3")
+            + self.env.ref("l10n_br_fiscal.tax_ibs_0_1")
+            + self.env.ref("l10n_br_fiscal.tax_cbs_0_9")
+        )
+
+        compute_result = fiscal_taxes.compute_taxes(**kwargs)
+
+        test_result = {
+            "amount_included": 4.34,
+            "amount_not_included": 5.19,
+            "amount_withholding": 0.0,
+            "estimate_tax": 0.0,
+            "taxes": {
+                "ipi": {
+                    "base": 34.58,
+                    "base_reduction": 0.0,
+                    "percent_amount": 15.0,
+                    "percent_reduction": 0.0,
+                    "value_amount": 0.0,
+                    "tax_value": 5.19,
+                },
+                "icms": {
+                    "base": 39.77,
+                    "base_reduction": 0.0,
+                    "percent_amount": 7.0,
+                    "percent_reduction": 0.0,
+                    "value_amount": 0.0,
+                    "tax_value": 2.78,
+                    "add_to_base": 5.19,
+                },
+                "pis": {
+                    "base": 34.58,
+                    "base_reduction": 0.0,
+                    "percent_amount": 0.65,
+                    "percent_reduction": 0.0,
+                    "value_amount": 0.0,
+                    "tax_value": 0.22,
+                },
+                "cofins": {
+                    "base": 34.58,
+                    "base_reduction": 0.0,
+                    "percent_amount": 3.0,
+                    "percent_reduction": 0.0,
+                    "value_amount": 0.0,
+                    "tax_value": 1.04,
+                },
+                "ibs": {
+                    "base": 30.54,
+                    "base_reduction": 0.0,
+                    "percent_amount": 0.10,
+                    "percent_reduction": 0.0,
+                    "value_amount": 0.0,
+                    "tax_value": 0.03,
+                },
+                "cbs": {
+                    "base": 30.54,
+                    "base_reduction": 0.0,
+                    "percent_amount": 0.90,
+                    "percent_reduction": 0.0,
+                    "value_amount": 0.0,
+                    "tax_value": 0.27,
+                },
+            },
+        }
+
+        self._check_compute_taxes_result(test_result, compute_result, currency)
+
+    def test_compute_taxes_02(self):
+        """Testa o calculo dos impostos venda para pessoa física"""
+
+        kwargs = self._create_compute_taxes_kwargs()
+        currency = kwargs["company"].currency_id
+        kwargs["ind_final"] = FINAL_CUSTOMER_NO
+
+        fiscal_taxes = self.env["l10n_br_fiscal.tax"]
+        fiscal_taxes |= (
+            self.env.ref("l10n_br_fiscal.tax_icms_7")
+            + self.env.ref("l10n_br_fiscal.tax_ipi_15")
+            + self.env.ref("l10n_br_fiscal.tax_pis_0_65")
+            + self.env.ref("l10n_br_fiscal.tax_cofins_3")
+        )
+
+        compute_result = fiscal_taxes.compute_taxes(**kwargs)
+
+        test_result = {
+            "amount_included": 3.68,
+            "amount_not_included": 5.19,
+            "amount_withholding": 0.0,
+            "estimate_tax": 0.0,
+            "taxes": {
+                "ipi": {
+                    "base": 34.58,
+                    "base_reduction": 0.0,
+                    "percent_amount": 15.0,
+                    "percent_reduction": 0.0,
+                    "value_amount": 0.0,
+                    "tax_value": 5.19,
+                },
+                "icms": {
+                    "base": 34.58,
+                    "base_reduction": 0.0,
+                    "percent_amount": 7.0,
+                    "percent_reduction": 0.0,
+                    "value_amount": 0.0,
+                    "tax_value": 2.42,
+                    "add_to_base": 0.0,
+                },
+                "pis": {
+                    "base": 34.58,
+                    "base_reduction": 0.0,
+                    "percent_amount": 0.65,
+                    "percent_reduction": 0.0,
+                    "value_amount": 0.0,
+                    "tax_value": 0.22,
+                },
+                "cofins": {
+                    "base": 34.58,
+                    "base_reduction": 0.0,
+                    "percent_amount": 3.0,
+                    "percent_reduction": 0.0,
+                    "value_amount": 0.0,
+                    "tax_value": 1.04,
+                },
+            },
+        }
+
+        self._check_compute_taxes_result(test_result, compute_result, currency)
+
+    def test_compute_taxes_03(self):
+        """Testa o calculo dos impostos de compra - entrada de importação"""
+
+        kwargs = self._create_compute_taxes_kwargs()
+        currency = kwargs["company"].currency_id
+
+        kwargs["partner"] = self.env.ref("base.res_partner_12")
+        kwargs["price_unit"] = 49.63180
+        kwargs["quantity"] = 5.00
+        kwargs["fiscal_price"] = 49.63180
+        kwargs["fiscal_quantity"] = 5.00
+        kwargs["insurance_value"] = 0.00
+        kwargs["other_value"] = 74.87
+        kwargs["freight_value"] = 0.00
+        kwargs["ii_customhouse_charges"] = 7.72
+        kwargs["ii_iof_value"] = 0.00
+        kwargs["operation_line"] = self.env.ref("l10n_br_fiscal.fo_compras_compras")
+        kwargs["cfop"] = self.env.ref("l10n_br_fiscal.cfop_3101")
+
+        fiscal_taxes = self.env["l10n_br_fiscal.tax"]
+        fiscal_taxes |= (
+            self.env.ref("l10n_br_fiscal.tax_icms_17")
+            + self.env.ref("l10n_br_fiscal.tax_ii_10")
+            + self.env.ref("l10n_br_fiscal.tax_ipi_15")
+            + self.env.ref("l10n_br_fiscal.tax_pis_monofasico_2_10")
+            + self.env.ref("l10n_br_fiscal.tax_cofins_monofasico_10_68")
+        )
+
+        compute_result = fiscal_taxes.compute_taxes(**kwargs)
+
+        test_result = {
+            "amount_included": 128.90,
+            "amount_not_included": 40.95,
+            "amount_withholding": 0.0,
+            "estimate_tax": 0.0,
+            "taxes": {
+                "ii": {
+                    "base": 248.16,
+                    "base_reduction": 0.0,
+                    "percent_amount": 10.0,
+                    "percent_reduction": 0.0,
+                    "value_amount": 0.0,
+                    "tax_value": 24.82,
+                },
+                "ipi": {
+                    "base": 272.98,
+                    "base_reduction": 0.0,
+                    "percent_amount": 15.0,
+                    "percent_reduction": 0.0,
+                    "value_amount": 0.0,
+                    "tax_value": 40.95,
+                },
+                "icms": {
+                    "base": 425.73,
+                    "base_reduction": 0.0,
+                    "percent_amount": 17.00,
+                    "percent_reduction": 0.0,
+                    "value_amount": 0.0,
+                    "tax_value": 72.37,
+                    "add_to_base": 105.20,
+                    "remove_from_base": 0.0,
+                },
+                "pis": {
+                    "base": 248.16,
+                    "base_reduction": 0.0,
+                    "percent_amount": 2.10,
+                    "percent_reduction": 0.0,
+                    "value_amount": 0.0,
+                    "tax_value": 5.21,
+                },
+                "cofins": {
+                    "base": 248.16,
+                    "base_reduction": 0.0,
+                    "percent_amount": 10.68,
+                    "percent_reduction": 0.0,
+                    "value_amount": 0.0,
+                    "tax_value": 26.50,
+                },
+            },
+        }
+
+        self._check_compute_taxes_result(test_result, compute_result, currency)
+
+    def test_icmsst_forces_icms_cst_10(self):
+        """When ICMS ST also applies to the line, the ICMS tax CST must be
+        forced to "10" (Tributada e com cobrança do ICMS por substituição
+        tributária), instead of the ICMS tax's own default CST.
+
+        Uses "Empresa Lucro Presumido" because ``map_fiscal_taxes`` only
+        consults the ICMS Regulation when ``company.tax_framework`` is the
+        "normal" framework (Simples Nacional companies never reach that
+        step) - this demo company already has both the normal framework
+        and an ICMS Regulation configured.
+        """
+        company = self.env.ref("l10n_br_base.empresa_lucro_presumido")
+        partner = self.env.ref("l10n_br_base.res_partner_cliente1_sp")
+        product = self.env.ref("product.product_product_1")
+        line = self.env.ref("l10n_br_fiscal.fo_venda_revendast")
+
+        product.tax_icms_or_issqn = "icms"
+        product.fiscal_type = "00"
+        product.ncm_id = self.env.ref("l10n_br_fiscal.ncm_48191000")
+        product.cest_id = self.env.ref("l10n_br_fiscal.cest_2112300")
+
+        mapping_result = line.map_fiscal_taxes(
+            company=company,
+            partner=partner,
+            product=product,
+            nbm=self.env["l10n_br_fiscal.nbm"],
+            nbs=self.env["l10n_br_fiscal.nbs"],
+            city_taxation_code=self.env["l10n_br_fiscal.city.taxation.code"],
+            national_taxation_code=self.env["l10n_br_fiscal.national.taxation.code"],
+            service_type=self.env["l10n_br_fiscal.service.type"],
+        )
+        self.assertIn("icmsst", mapping_result["taxes"])
+
+        fiscal_taxes = self.env["l10n_br_fiscal.tax"]
+        for tax in mapping_result["taxes"].values():
+            fiscal_taxes |= tax
+
+        compute_result = fiscal_taxes.compute_taxes(
+            company=company,
+            partner=partner,
+            product=product,
+            price_unit=100.00,
+            quantity=1.00,
+            fiscal_price=100.00,
+            fiscal_quantity=1.00,
+            operation_line=line,
+            cfop=mapping_result["cfop"],
+            ncm=product.ncm_id,
+            cest=product.cest_id,
+        )
+
+        self.assertEqual(compute_result["taxes"]["icms"]["cst_id"].code, "10")
+
+    def test_icmsst_base_type_operation_value(self):
+        """modBCST 6 (Valor da Operação) is accepted and uses a percent base."""
+        tax = self.env["l10n_br_fiscal.tax"].search(
+            [("tax_domain", "=", "icmsst")], limit=1
+        )
+        tax.icmsst_base_type = "6"
+        self.assertEqual(tax.tax_base_type, "percent")
+
+    def test_the_foreign_origins_without_similar_use_the_imported_estimate(self):
+        """Origins 6 and 7 are foreign and were missing from the list."""
+        self.assertIn("6", ICMS_ORIGIN_TAX_IMPORTED)
+        self.assertIn("7", ICMS_ORIGIN_TAX_IMPORTED)
+        self.assertNotIn("4", ICMS_ORIGIN_TAX_IMPORTED)
+        self.assertNotIn("5", ICMS_ORIGIN_TAX_IMPORTED)
+
+    def test_compute_taxes_without_cfop(self):
+        """A line with no CFOP must not fall back to the generic computation.
+
+        That is the service line taxed by ISSQN: l10n_br_account calls the
+        engine with ``cfop=None``. IBS and CBS still have to remove ICMS, PIS
+        and COFINS from their own base, an adjustment the specific method
+        makes and the generic one does not.
+        """
+        kwargs = self._create_compute_taxes_kwargs()
+        kwargs["cfop"] = None
+        kwargs["operation_line"] = False
+        currency = kwargs["company"].currency_id
+
+        fiscal_taxes = self.env["l10n_br_fiscal.tax"]
+        fiscal_taxes |= (
+            self.env.ref("l10n_br_fiscal.tax_icms_7")
+            + self.env.ref("l10n_br_fiscal.tax_pis_0_65")
+            + self.env.ref("l10n_br_fiscal.tax_cofins_3")
+            + self.env.ref("l10n_br_fiscal.tax_ibs_0_1")
+            + self.env.ref("l10n_br_fiscal.tax_cbs_0_9")
+        )
+
+        taxes = fiscal_taxes.compute_taxes(**kwargs)["taxes"]
+
+        gross_base = currency.round(kwargs["fiscal_price"] * kwargs["fiscal_quantity"])
+        removed = (
+            taxes["icms"]["tax_value"]
+            + taxes["pis"]["tax_value"]
+            + taxes["cofins"]["tax_value"]
+        )
+        for tax_domain in ("ibs", "cbs"):
+            self.assertEqual(
+                float_compare(
+                    taxes[tax_domain]["base"],
+                    gross_base - removed,
+                    precision_rounding=currency.rounding,
+                ),
+                0,
+                f"{tax_domain}: the base should exclude ICMS, PIS and COFINS, "
+                f"got {taxes[tax_domain]['base']}",
+            )
+
+    def test_compute_taxes_icmsfcp_without_cst(self):
+        """l10n_br_account calls the engine without icms_cst_id."""
+        kwargs = self._create_compute_taxes_kwargs()
+        fiscal_taxes = self.env.ref("l10n_br_fiscal.tax_icms_7") + self.env.ref(
+            "l10n_br_fiscal.tax_icmsfcp_2"
+        )
+        self.assertIn("icmsfcp", fiscal_taxes.compute_taxes(**kwargs)["taxes"])
+
+    def test_compute_taxes_error_is_not_swallowed(self):
+        """An error inside a _compute_<domain> must not become a generic one.
+
+        The dispatch resolves the specific method with a default instead of
+        catching AttributeError around the call. Without that, any failure
+        inside the specific method is silently traded for the generic
+        computation, the tax comes out wrong and nothing is reported.
+        """
+        kwargs = self._create_compute_taxes_kwargs()
+        fiscal_taxes = self.env.ref("l10n_br_fiscal.tax_icms_7")
+
+        def _raise_attribute_error(*args, **kwargs):
+            raise AttributeError("the specific computation failed")
+
+        with patch.object(type(fiscal_taxes), "_compute_icms", _raise_attribute_error):
+            with self.assertRaises(AttributeError):
+                fiscal_taxes.compute_taxes(**kwargs)
+
+    def test_compute_taxes_withholding_waiver(self):
+        """IRRF of R$ 10,00 or less is not withheld (dispensa legal).
+
+        Art. 67 of Lei 9.430/1996, art. 714 of RIR/2018 and Solução de
+        Consulta COSIT 258/2024: the IRRF on professional services of
+        R$ 10,00 or less is not withheld. The waiver lives on the tax
+        (``withholding_min_value``) so it does not touch the other
+        withholdings, which follow their own legal limits.
+        """
+        kwargs = self._create_compute_taxes_kwargs()
+        currency = kwargs["company"].currency_id
+        irpj_wh = self.env.ref("l10n_br_fiscal.tax_irpj_wh_1")
+
+        def _assert_irpj_wh(price, expected_value):
+            kwargs.update(
+                {
+                    "price_unit": price,
+                    "fiscal_price": price,
+                    "quantity": 1.0,
+                    "fiscal_quantity": 1.0,
+                }
+            )
+            compute_result = irpj_wh.compute_taxes(**kwargs)
+            irpj = compute_result["taxes"]["irpj_wh"]
+            self.assertEqual(
+                float_compare(
+                    irpj["base"], price, precision_rounding=currency.rounding
+                ),
+                0,
+            )
+            # the base and the rate are kept: the calculation is documented
+            self.assertEqual(
+                float_compare(irpj["percent_amount"], 1.5, precision_rounding=0.01),
+                0,
+            )
+            self.assertEqual(
+                float_compare(
+                    irpj["tax_value"],
+                    expected_value,
+                    precision_rounding=currency.rounding,
+                ),
+                0,
+                f"IRRF on {price}: expected {expected_value}, got {irpj['tax_value']}",
+            )
+            self.assertEqual(
+                float_compare(
+                    compute_result["amount_withholding"],
+                    expected_value,
+                    precision_rounding=currency.rounding,
+                ),
+                0,
+            )
+
+        # 406,27 x 1,5% = 6,09, the case reported on issue #5392
+        _assert_irpj_wh(406.27, 0.00)
+        # 666,67 x 1,5% = 10,00: the limit itself is dispensed
+        _assert_irpj_wh(666.67, 0.00)
+        # 700,00 x 1,5% = 10,50: above the limit, withheld
+        _assert_irpj_wh(700.00, 10.50)
+        _assert_irpj_wh(5000.00, 75.00)
+
+        # withdrawing the waiver (0,00) restores the plain computation
+        irpj_wh.withholding_min_value = 0.00
+        _assert_irpj_wh(406.27, 6.09)
+        irpj_wh.withholding_min_value = 10.00
+
+        # a withholding tax with no waiver configured keeps its value
+        kwargs.update(
+            {
+                "price_unit": 100.00,
+                "fiscal_price": 100.00,
+                "quantity": 1.0,
+                "fiscal_quantity": 1.0,
+            }
+        )
+        issqn_wh = self.env.ref("l10n_br_fiscal.tax_issqn_wh_3")
+        self.assertFalse(issqn_wh.withholding_min_value)
+        issqn_result = issqn_wh.compute_taxes(**kwargs)
+        self.assertEqual(
+            float_compare(
+                issqn_result["taxes"]["issqn_wh"]["tax_value"],
+                3.00,
+                precision_rounding=currency.rounding,
+            ),
+            0,
+        )
+
+    def test_product_operation_indicator_follows_the_nbs(self):
+        nbs = self.env.ref("l10n_br_fiscal.nbs_101011100")
+        nbs_without = self.env["l10n_br_fiscal.nbs"].create(
+            {"code": "9.9999.99.99", "name": "NBS sem indicador"}
+        )
+        product = self.env["product.template"].create(
+            {"name": "Obra", "nbs_id": nbs.id}
+        )
+        self.assertEqual(product.operation_indicator_id, nbs.operation_indicator_id)
+        product.nbs_id = nbs_without
+        self.assertEqual(product.operation_indicator_id, nbs.operation_indicator_id)

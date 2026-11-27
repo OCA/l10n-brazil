@@ -1,0 +1,538 @@
+# Copyright (C) 2013  Renato Lima - Akretion
+# Copyright (C) 2019  KMEE
+# License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
+
+from ast import literal_eval
+
+from odoo import api, fields, models
+from odoo.exceptions import UserError, ValidationError
+
+from ..constants.fiscal import (
+    COMMENT_TYPE_COMMERCIAL,
+    COMMENT_TYPE_FISCAL,
+    DOCUMENT_ISSUER_COMPANY,
+    DOCUMENT_ISSUER_DICT,
+    DOCUMENT_ISSUER_PARTNER,
+    DOCUMENT_STATE_CANCEL,
+    DOCUMENT_STATE_DRAFT,
+    DOCUMENT_STATE_OPEN,
+    DOCUMENT_STATES,
+    EDOC_PURPOSE,
+    EDOC_PURPOSE_NORMAL,
+    EDOC_REFUND_CREDIT_TYPE,
+    EDOC_REFUND_DEBIT_TYPE,
+    FISCAL_IN_OUT_DICT,
+    PUBLIC_ENTIRY_TYPE,
+    SITUACAO_EDOC_AUTORIZADA,
+    SITUACAO_EDOC_DENEGADA,
+    SITUACAO_EDOC_INUTILIZADA,
+    SITUACAO_FISCAL,
+)
+
+
+class Document(models.Model):
+    """
+    Base implementation for Brazilian fiscal documents.
+
+    This model serves as the foundational structure for various fiscal
+    documents within the Brazilian localization. It's designed to be
+    extensible, allowing other OCA modules to build upon it, ideally
+    minimizing the need for additional custom coding for common fiscal
+    document functionalities.
+
+    Key aspects to note:
+    - The fiscal document manages two primary states:
+        - Electronic Document State (`state_edoc`): Reflects the status
+          of the document in its electronic lifecycle (e.g., Draft,
+          Authorized, Cancelled).
+        - Fiscal State (`state_fiscal`): Represents the document's status
+          from a purely fiscal accounting perspective (e.g., Regular,
+          Cancelled for fiscal purposes). This state is less automated
+          and often managed by the fiscal responsible to ensure correct
+          reporting, such as in SPED Fiscal.
+
+    This model inherits common fields and methods from
+    `l10n_br_fiscal.document.mixin` and includes features for document
+    numbering, key validation, partner and company fiscal details, line
+    items and returns.
+    """
+
+    _name = "l10n_br_fiscal.document"
+    _inherit = [
+        "l10n_br_fiscal.document.mixin",
+        "mail.thread",
+        "mail.activity.mixin",
+    ]
+    _description = "Fiscal Document"
+    _check_company_auto = True
+
+    name = fields.Char(
+        compute="_compute_name",
+        store=True,
+        index=True,
+    )
+
+    state_edoc = fields.Selection(
+        selection=DOCUMENT_STATES,
+        string="Situação e-doc",
+        default=DOCUMENT_STATE_DRAFT,
+        copy=False,
+        required=True,
+        readonly=True,
+        # tracking=True,
+        index=True,
+    )
+
+    state_fiscal = fields.Selection(
+        selection=SITUACAO_FISCAL,
+        string="Situação Fiscal",
+        copy=False,
+        # tracking=True,
+        index=True,
+    )
+
+    fiscal_operation_id = fields.Many2one(
+        "l10n_br_fiscal.operation",
+        domain="[('state', '=', 'approved')]",
+    )
+
+    fiscal_operation_type = fields.Selection(
+        store=True,
+    )
+
+    document_date = fields.Datetime(
+        copy=False,
+    )
+
+    user_id = fields.Many2one(
+        comodel_name="res.users",
+        index=True,
+        default=lambda self: self.env.user,
+    )
+
+    document_electronic = fields.Boolean(
+        related="document_type_id.electronic",
+        string="Electronic?",
+        store=True,
+    )
+
+    date_in_out = fields.Datetime(
+        string="Date IN/OUT",
+        copy=False,
+    )
+
+    document_related_ids = fields.One2many(
+        comodel_name="l10n_br_fiscal.document.related",
+        inverse_name="document_id",
+        string="Fiscal Document Related",
+    )
+
+    partner_id = fields.Many2one(
+        comodel_name="res.partner",
+        inverse="_inverse_partner_id",
+    )
+
+    @api.onchange("partner_id")
+    def _inverse_partner_id(self):
+        for doc in self:
+            for line in doc.fiscal_line_ids:
+                if line.partner_id != doc.partner_id:
+                    line.partner_id = doc.partner_id
+
+    partner_shipping_id = fields.Many2one(
+        comodel_name="res.partner",
+        string="Shipping Address",
+    )
+
+    company_id = fields.Many2one(
+        comodel_name="res.company",
+        default=lambda self: self.env.company,
+    )
+
+    fiscal_line_ids = fields.One2many(
+        comodel_name="l10n_br_fiscal.document.line",
+        inverse_name="document_id",
+        string="Document Lines",
+        copy=True,
+        check_company=True,
+    )
+
+    edoc_purpose = fields.Selection(
+        selection=EDOC_PURPOSE,
+        string="Finalidade",
+        default=EDOC_PURPOSE_NORMAL,
+        compute="_compute_edoc_purpose",
+        store=True,
+        precompute=True,
+    )
+
+    edoc_refund_debit_type = fields.Selection(
+        selection=EDOC_REFUND_DEBIT_TYPE,
+        string="Tipo de Nota de Débito",
+    )
+
+    edoc_refund_credit_type = fields.Selection(
+        selection=EDOC_REFUND_CREDIT_TYPE,
+        string="Tipo de Nota de Crédito",
+    )
+
+    public_entity_type = fields.Selection(
+        selection=PUBLIC_ENTIRY_TYPE,
+        string="Tipo de Entidade Governamental",
+    )
+
+    document_type = fields.Char(
+        string="Document Type Code",
+        related="document_type_id.code",
+        store=True,
+    )
+
+    imported_document = fields.Boolean(string="Imported", copy=False)
+
+    currency_id = fields.Many2one(
+        related="company_id.currency_id",
+        comodel_name="res.currency",
+        string="Currency",
+    )
+
+    # this related "state" field is required for the status bar widget
+    # while state_edoc avoids colliding with the state field
+    # of objects where the fiscal mixin might be injected.
+    state = fields.Selection(related="state_edoc", string="State")
+
+    partner_legal_name = fields.Char(
+        string="Legal Name",
+        related="partner_id.legal_name",
+    )
+    partner_cnpj_cpf = fields.Char(
+        string="CNPJ",
+        related="partner_id.vat",
+    )
+    partner_l10n_br_ie_code = fields.Char(
+        string="State Tax Number",
+        related="partner_id.l10n_br_ie_code",
+    )
+
+    processador_edoc = fields.Selection(
+        related="company_id.processador_edoc",
+    )
+    company_l10n_br_ie_code_st = fields.Char(
+        string="Company ST State Tax Number",
+    )
+
+    fiscal_additional_data = fields.Text()
+
+    customer_additional_data = fields.Text()
+
+    @api.constrains("document_number")
+    def _check_number(self):
+        for record in self:
+            if not record.document_number:
+                return
+            domain = [
+                ("id", "!=", record.id),
+                ("company_id", "=", record.company_id.id),
+                ("issuer", "=", record.issuer),
+                ("document_type_id", "=", record.document_type_id.id),
+                ("document_serie", "=", record.document_serie),
+                ("document_number", "=", record.document_number),
+            ]
+
+            invalid_number = False
+
+            if record.issuer == DOCUMENT_ISSUER_PARTNER:
+                domain.append(("partner_id", "=", record.partner_id.id))
+            else:
+                if record.document_serie_id:
+                    invalid_number = record.document_serie_id._is_invalid_number(
+                        record.document_number
+                    )
+
+            documents = record.env["l10n_br_fiscal.document"].search_count(domain)
+
+            if documents or invalid_number:
+                raise ValidationError(
+                    self.env._(
+                        "There is already a fiscal document with this "
+                        "Serie: %(serie)s, Number: %(number)s!",
+                        serie=record.document_serie,
+                        number=record.document_number,
+                    )
+                )
+
+    @api.onchange("fiscal_operation_type")
+    def _onchange_fiscal_operation_type(self):
+        domain = [("state", "=", "approved")]
+        if self.fiscal_operation_type:
+            domain.append(("fiscal_operation_type", "=", self.fiscal_operation_type))
+        if (
+            self.fiscal_operation_id
+            and self.fiscal_operation_id.fiscal_operation_type
+            != self.fiscal_operation_type
+        ):
+            self.fiscal_operation_id = False
+        return {"domain": {"fiscal_operation_id": domain}}
+
+    def _compute_document_name(self):
+        self.ensure_one()
+        name = ""
+        type_serie_number = ""
+
+        if self.document_type:
+            type_serie_number += self.document_type
+        if self.document_serie:
+            type_serie_number += "/" + self.document_serie.zfill(3)
+        document_number = self.document_number or self._get_provisional_number()
+        if document_number:
+            type_serie_number += "/" + document_number
+
+        if self.env.context.get("fiscal_document_complete_name"):
+            name += DOCUMENT_ISSUER_DICT.get(self.issuer, "")
+            if self.issuer == DOCUMENT_ISSUER_COMPANY and self.fiscal_operation_type:
+                name += "/" + FISCAL_IN_OUT_DICT.get(self.fiscal_operation_type, "")
+            name += "/" + type_serie_number
+            if self.document_date:
+                name += " - " + self.document_date.strftime("%d/%m/%Y")
+            if not self.partner_id.vat:
+                name += " - " + self.env._("Unidentified Consumer")
+            elif self.partner_id.legal_name:
+                name += " - " + self.partner_id.legal_name
+                name += " - " + self.partner_id.vat
+            else:
+                name += " - " + self.partner_id.name
+                name += " - " + self.partner_id.vat
+        elif self.env.context.get("fiscal_document_no_company"):
+            name += type_serie_number
+        else:
+            name += "{name}/{type_serie_number}".format(
+                name=self.company_id.name or "",
+                type_serie_number=type_serie_number,
+            )
+        return name
+
+    def _get_provisional_number(self):
+        """Number identifying the document before it is authorized.
+
+        A document issued from a provisional document (the NFS-e RPS)
+        overrides this so that a draft still has a readable name.
+        """
+        return False
+
+    def _compute_display_name(self):
+        for record in self:
+            record.display_name = record._compute_document_name()
+
+    @api.depends(
+        "issuer",
+        "fiscal_operation_type",
+        "document_type",
+        "document_serie",
+        "document_number",
+        "document_date",
+        "partner_id",
+    )
+    def _compute_name(self):
+        for r in self:
+            r.name = r._compute_document_name()
+
+    @api.model
+    def _get_fiscal_lines_field_name(self):
+        return "fiscal_line_ids"
+
+    def _import_document_serie(self):
+        """Serie of an imported document issued by the company, by its code."""
+        self.ensure_one()
+        if self.document_serie_id:
+            return self.document_serie_id
+        serie = self.env["l10n_br_fiscal.document.serie"].search(
+            [
+                ("company_id", "=", self.company_id.id),
+                ("document_type_id", "=", self.document_type_id.id),
+                ("code", "=", self.document_serie),
+            ],
+            limit=1,
+        )
+        if not serie:
+            raise UserError(
+                self.env._(
+                    "Configure the serie %(serie)s of %(document_type)s for "
+                    "%(company)s before importing the documents it issued.",
+                    serie=self.document_serie,
+                    document_type=self.document_type_id.name,
+                    company=self.company_id.name,
+                )
+            )
+        return serie
+
+    @api.ondelete(at_uninstall=False)
+    def _unlink_except_forbidden_state(self):
+        forbidden_states_unlink = [
+            DOCUMENT_STATE_OPEN,
+            SITUACAO_EDOC_AUTORIZADA,
+            DOCUMENT_STATE_CANCEL,
+            SITUACAO_EDOC_DENEGADA,
+            SITUACAO_EDOC_INUTILIZADA,
+        ]
+
+        for record in self.filtered(lambda d: d.state_edoc in forbidden_states_unlink):
+            raise ValidationError(
+                self.env._(
+                    "You cannot delete fiscal document number %(number)s with "
+                    "the status: %(state)s!",
+                    number=record.document_number,
+                    state=record.state_edoc,
+                )
+            )
+
+    def _create_return(self):
+        return_docs = self.env[self._name]
+        for record in self:
+            fsc_op = record.fiscal_operation_id.return_fiscal_operation_id
+            if not fsc_op:
+                raise ValidationError(
+                    self.env._(
+                        "The fiscal operation %(fiscal_op)s has no"
+                        " return Fiscal Operation defined",
+                        fiscal_op=record.fiscal_operation_id,
+                    )
+                )
+
+            new_doc = record.copy()
+            new_doc.fiscal_operation_id = fsc_op
+
+            for line in new_doc.fiscal_line_ids:
+                fsc_op_line = line.fiscal_operation_id.return_fiscal_operation_id
+                if not fsc_op_line:
+                    raise ValidationError(
+                        self.env._(
+                            "The fiscal operation %(fiscal_op)s has no return "
+                            "Fiscal Operation defined",
+                            fiscal_op=line.fiscal_operation_id,
+                        )
+                    )
+                line.fiscal_operation_id = fsc_op_line
+            return_docs |= new_doc
+        return return_docs
+
+    def action_create_return(self):
+        action = self.env.ref("l10n_br_fiscal.document_all_action").read()[0]
+        return_docs = self._create_return()
+
+        if return_docs:
+            action["domain"] = literal_eval(action["domain"] or "[]")
+            action["domain"].append(("id", "in", return_docs.ids))
+
+        return action
+
+    def _document_export(self, **kwargs):
+        """Placeholder for modules to implement their own export logic."""
+
+    # the following actions are meant to be implemented in other modules such as
+    # l10n_br_fiscal_edi. They are defined here so they can be overriden in modules
+    # that don't depend on l10n_br_fiscal_edi (such as l10n_br_account).
+
+    def _check_document_split(self):
+        """Refuse a document whose lines need separate documents."""
+        for document in self:
+            if document.issuer != DOCUMENT_ISSUER_COMPANY:
+                continue
+            doc_type = document.document_type_id
+            lines = document.fiscal_line_ids.filtered(
+                lambda ln: ln.product_id or ln.service_type_id
+            )
+            groups = lines.grouped(
+                lambda ln, dt=doc_type: ln._get_document_split_key(dt)
+            )
+            if len(groups) < 2:
+                continue
+            fields = [
+                lines._fields[name]
+                for name in lines[:1]._get_document_split_fields(doc_type)
+                if len(set(lines.mapped(name))) > 1
+            ]
+            rows = []
+            for group in groups.values():
+                codes = ", ".join(
+                    f"{field._description_string(self.env)}: "
+                    f"{field.convert_to_display_name(group[:1][field.name], group[:1])}"
+                    for field in fields
+                )
+                names = [
+                    ln.name or ln.service_type_id.display_name or "" for ln in group
+                ]
+                rows.append(f"- {', '.join(names)} ({codes})")
+            raise UserError(
+                self.env._(
+                    "The lines of the fiscal document %(document)s must be issued in "
+                    "separate documents, because they differ in the service:\n"
+                    "%(groups)s",
+                    document=document.display_name,
+                    groups="\n".join(rows),
+                )
+            )
+
+    def action_document_confirm(self):
+        """Open the fiscal document, changing its state to 'open'"""
+        self._check_document_split()
+        self.write({"state_edoc": DOCUMENT_STATE_OPEN})
+
+    def action_document_back2draft(self):
+        """Reset the fiscal document to draft, changing its state to 'draft'"""
+        self.write({"state_edoc": DOCUMENT_STATE_DRAFT})
+
+    def action_document_cancel(self):
+        """Cancel the fiscal document, changing its state to 'cancel'"""
+        self.write({"state_edoc": DOCUMENT_STATE_CANCEL})
+
+    def action_document_send(self):
+        """Placeholder to be overridden by l10n_br_fiscal_edi. Defined here
+        so that l10n_br_account (which does not depend on l10n_br_fiscal_edi)
+        can call it without crashing.
+        """
+
+    def action_document_invalidate(self):
+        """Placeholder to be overridden by l10n_br_fiscal_edi. Defined here
+        so that l10n_br_account (which does not depend on l10n_br_fiscal_edi)
+        can call it without crashing.
+        """
+
+    def view_xml(self):
+        """Placeholder to be overridden by l10n_br_fiscal_edi. Defined here
+        so that l10n_br_account (which does not depend on l10n_br_fiscal_edi)
+        can call it without crashing.
+        """
+
+    def view_pdf(self):
+        """Placeholder to be overridden by l10n_br_fiscal_edi. Defined here
+        so that l10n_br_account (which does not depend on l10n_br_fiscal_edi)
+        can call it without crashing.
+        """
+
+    @api.depends("fiscal_operation_id")
+    def _compute_edoc_purpose(self):
+        for record in self:
+            record.edoc_purpose = record.fiscal_operation_id.edoc_purpose
+
+    def __document_comment_vals(self):
+        return {
+            "user": self.env.user,
+            "ctx": self.env.context,
+            "doc": self,
+        }
+
+    def _document_comment(self):
+        for d in self:
+            # Fiscal Comments
+            d.fiscal_additional_data = d.comment_ids.filtered(
+                lambda c: c.comment_type == COMMENT_TYPE_FISCAL
+            ).compute_message(
+                d.__document_comment_vals(), d.manual_fiscal_additional_data
+            )
+
+            # Commercial Comments
+            d.customer_additional_data = d.comment_ids.filtered(
+                lambda c: c.comment_type == COMMENT_TYPE_COMMERCIAL
+            ).compute_message(
+                d.__document_comment_vals(), d.manual_customer_additional_data
+            )
+            d.fiscal_line_ids._document_comment()
