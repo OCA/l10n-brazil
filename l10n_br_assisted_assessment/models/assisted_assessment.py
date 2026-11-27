@@ -446,20 +446,24 @@ class AssistedAssessment(models.Model):
             ) and record.credit_delivery in ("received", "none")
 
     def _direction_delivery(self, line_type, service, skipped):
-        """Return how far one direction got for this period."""
+        """Return how far one direction got for this period.
+
+        An open request wins over a file already applied, so a new call does
+        not stay hidden behind Delivered.
+        """
         self.ensure_one()
-        delivered = self.request_ids.filtered(
-            lambda request: request.service == service and request.state == "done"
-        )
-        has_lines = self.line_ids.filtered(lambda line: line.line_type == line_type)
-        if delivered or has_lines:
-            return "received"
         pending = (self.origin_request_ids | self.request_ids).filtered(
             lambda request: request.service == service
             and request.state in OPEN_REQUEST_STATES
         )
         if pending:
             return "requested"
+        delivered = self.request_ids.filtered(
+            lambda request: request.service == service and request.state == "done"
+        )
+        has_lines = self.line_ids.filtered(lambda line: line.line_type == line_type)
+        if delivered or has_lines:
+            return "received"
         if skipped:
             return "none"
         return "pending"

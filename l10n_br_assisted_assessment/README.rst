@@ -100,7 +100,9 @@ A rotina mensal tem três passos:
    addon de transporte; sem ele, cole o arquivo na solicitação e
    aplique. Débitos e créditos são serviços separados, então uma direção
    que ainda não foi baixada (nem marcada como ausente) não gera
-   divergência de documento só na escrituração.
+   divergência de documento só na escrituração. O selo da direção volta
+   para em progresso quando uma nova solicitação é aberta, mesmo que um
+   arquivo anterior já tenha sido aplicado.
 2. **Conciliar** com o escriturado. Cada linha da apuração é casada pela
    chave de acesso a um documento fiscal autorizado e classificada como
    valor diferente, documento só na apuração, documento só na

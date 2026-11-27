@@ -579,6 +579,26 @@ class TestAssessmentReconciliation(TransactionCase):
         self.assertEqual(self.period.credit_delivery, "requested")
         self.assertFalse(self.period.directions_ready)
 
+    def test_a_new_request_reopens_a_delivered_direction(self):
+        self._upsert_debits({self._key(1): 100.0})
+        self.period.no_credits = True
+        self.assertEqual(self.period.debit_delivery, "received")
+        self.assertEqual(self.period.credit_delivery, "none")
+        debit = self._new_request(
+            service="debits", state="requested", period_id=self.period.id
+        )
+        credit = self._new_request(
+            service="credits", state="downloaded", period_id=self.period.id
+        )
+        self.assertEqual(self.period.debit_delivery, "requested")
+        self.assertEqual(self.period.credit_delivery, "requested")
+        self.assertFalse(self.period.directions_ready)
+        debit.state = "error"
+        credit.state = "error"
+        self.assertEqual(self.period.debit_delivery, "received")
+        self.assertEqual(self.period.credit_delivery, "none")
+        self.assertTrue(self.period.directions_ready)
+
     def test_done_request_reports_only_what_it_delivered(self):
         request = self._new_request(payload="{}", period_id=self.period.id)
         parsed = {
