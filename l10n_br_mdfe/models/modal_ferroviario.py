@@ -1,7 +1,7 @@
 # Copyright 2023 KMEE
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from odoo import _, api, fields
+from odoo import api, fields
 from odoo.exceptions import UserError
 
 from odoo.addons.spec_driven_model.models import spec_models
@@ -56,11 +56,11 @@ class MDFeModalFerroviarioVagao(spec_models.SpecModel):
         for _record in self.filtered(
             lambda v: v.mdfe30_serie and len(v.mdfe30_serie) != 3
         ):
-            raise UserError(_("Wagon serie must have exactly 3 digits."))
+            raise UserError(self.env._("Wagon serie must have exactly 3 digits."))
 
     @api.constrains("mdfe30_tpVag")
     def check_tp_vag(self):
         for _record in self.filtered(
             lambda v: v.mdfe30_serie and len(v.mdfe30_tpVag) != 3
         ):
-            raise UserError(_("Wagon type must have exactly 3 digits."))
+            raise UserError(self.env._("Wagon type must have exactly 3 digits."))

@@ -13,7 +13,7 @@ from nfelib.mdfe.bindings.v3_0.mdfe_v3_00 import Mdfe
 from nfelib.nfe.ws.edoc_legacy import MDFeAdapter as edoc_mdfe
 from requests import Session
 
-from odoo import Command, _, api, fields
+from odoo import Command, api, fields
 from odoo.exceptions import UserError, ValidationError
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
@@ -822,7 +822,7 @@ class MDFe(spec_models.StackedModel):
 
             elif total_dfe == 1 and not self.mdfe30_infPag:
                 raise UserError(
-                    _(
+                    self.env._(
                         "Payment information (infPag) "
                         "must be provided when the MDF-e contains "
                         "only one DF-e (full load)."
@@ -1015,30 +1015,37 @@ class MDFe(spec_models.StackedModel):
             cnpj_cpf = record.company_id.vat
             if not cnpj_cpf:
                 raise ValidationError(
-                    _(
+                    self.env._(
                         "To Generate EDoc Key, you need to fill the CNPJ/CPF "
-                        "field on company %s."
+                        "field on company %s.",
+                        record.company_id.display_name,
                     )
-                    % record.company_id.display_name
                 )
             if not record.company_id.state_id:
                 raise ValidationError(
-                    _("To Generate EDoc Key, you need to fill the State on company %s.")
-                    % record.company_id.display_name
+                    self.env._(
+                        "To Generate EDoc Key, you need to fill the State on "
+                        "company %s.",
+                        record.company_id.display_name,
+                    )
                 )
             if not record.document_type_id:
-                raise ValidationError(_("Document Type is not defined."))
+                raise ValidationError(self.env._("Document Type is not defined."))
             if not record.document_number:
                 raise ValidationError(
-                    _("To Generate EDoc Key, you need to fill the Document Number.")
+                    self.env._(
+                        "To Generate EDoc Key, you need to fill the Document Number."
+                    )
                 )
             if not record.document_serie:
                 raise ValidationError(
-                    _("To Generate EDoc Key, you need to fill the Document Serie.")
+                    self.env._(
+                        "To Generate EDoc Key, you need to fill the Document Serie."
+                    )
                 )
             if not record.mdfe_transmission:
                 raise ValidationError(
-                    _(
+                    self.env._(
                         "To Generate EDoc Key, you need to fill the "
                         "MDFe Transmission field."
                     )
@@ -1060,11 +1067,12 @@ class MDFe(spec_models.StackedModel):
                 cleaned = punctuation_rm(str(value or ""))
                 if cleaned and not cleaned.isdigit():
                     raise ValidationError(
-                        _(
+                        self.env._(
                             "The field %(label)s must contain only numbers. "
-                            "Found: '%(value)s'"
+                            "Found: '%(value)s'",
+                            label=label,
+                            value=value,
                         )
-                        % {"label": label, "value": value}
                     )
                 cleaned_fields[label] = cleaned
             chave_kw = {
@@ -1114,60 +1122,68 @@ class MDFe(spec_models.StackedModel):
         company = self.company_id
         certificate = company.sudo().certificate
 
-        check(company, _("Company"))
-        check(company.vat, _("Company CNPJ/CPF"))
-        check(company.state_id, _("Company State"))
-        check(certificate, _("Digital Certificate"))
+        check(company, self.env._("Company"))
+        check(company.vat, self.env._("Company CNPJ/CPF"))
+        check(company.state_id, self.env._("Company State"))
+        check(certificate, self.env._("Digital Certificate"))
         if certificate:
             check(
                 certificate.with_context(bin_size=False).content,
-                _("Digital Certificate File"),
+                self.env._("Digital Certificate File"),
             )
-            check(certificate.pkcs12_password, _("Digital Certificate Password"))
+            check(
+                certificate.pkcs12_password, self.env._("Digital Certificate Password")
+            )
 
-        check(self.document_type_id, _("Document Type"))
-        check(self.document_serie, _("Document Serie"))
-        check(self.document_number, _("Document Number"))
-        check(self.document_date, _("Document Date"))
-        check(self.mdfe_version, _("MDF-e Version"))
-        check(self.mdfe_environment, _("MDF-e Environment"))
-        check(self.mdfe_emit_type, _("MDF-e Emit Type"))
+        check(self.document_type_id, self.env._("Document Type"))
+        check(self.document_serie, self.env._("Document Serie"))
+        check(self.document_number, self.env._("Document Number"))
+        check(self.document_date, self.env._("Document Date"))
+        check(self.mdfe_version, self.env._("MDF-e Version"))
+        check(self.mdfe_environment, self.env._("MDF-e Environment"))
+        check(self.mdfe_emit_type, self.env._("MDF-e Emit Type"))
         # mdfe_transp_type is only required when a third-party owner is set.
         # It is validated together with mdfe30_prop in _check_mdfe_road_required_fields.
-        check(self.mdfe_modal, _("MDF-e Modal"))
-        check(self.mdfe_transmission, _("MDF-e Transmission"))
-        check(self.mdfe_initial_state_id, _("MDF-e Initial State"))
-        check(self.mdfe_final_state_id, _("MDF-e Final State"))
-        check(self.mdfe_loading_city_ids, _("MDF-e Loading City"))
-        check(self.mdfe30_infMunDescarga, _("MDF-e Unloading City"))
+        check(self.mdfe_modal, self.env._("MDF-e Modal"))
+        check(self.mdfe_transmission, self.env._("MDF-e Transmission"))
+        check(self.mdfe_initial_state_id, self.env._("MDF-e Initial State"))
+        check(self.mdfe_final_state_id, self.env._("MDF-e Final State"))
+        check(self.mdfe_loading_city_ids, self.env._("MDF-e Loading City"))
+        check(self.mdfe30_infMunDescarga, self.env._("MDF-e Unloading City"))
 
         for descarga in self.mdfe30_infMunDescarga:
-            label = descarga.city_id.display_name or _("Unloading City")
-            check(descarga.city_id, _("MDF-e Unloading City"))
+            label = descarga.city_id.display_name or self.env._("Unloading City")
+            check(descarga.city_id, self.env._("MDF-e Unloading City"))
             if descarga.document_type == "nfe":
                 check(
-                    descarga.nfe_ids, _("NF-e documents for unloading city %s") % label
+                    descarga.nfe_ids,
+                    self.env._("NF-e documents for unloading city %s", label),
                 )
             elif descarga.document_type == "cte":
                 check(
-                    descarga.cte_ids, _("CT-e documents for unloading city %s") % label
+                    descarga.cte_ids,
+                    self.env._("CT-e documents for unloading city %s", label),
                 )
             elif descarga.document_type == "mdfe":
                 check(
                     descarga.mdfe_ids,
-                    _("MDF-e transport documents for unloading city %s") % label,
+                    self.env._(
+                        "MDF-e transport documents for unloading city %s", label
+                    ),
                 )
 
             for document in descarga.nfe_ids + descarga.cte_ids + descarga.mdfe_ids:
-                check(document.document_key, _("Document Key for %s") % label)
+                check(document.document_key, self.env._("Document Key for %s", label))
 
         if self.mdfe_modal == "1":
             self._check_mdfe_road_required_fields(missing_fields)
 
         if missing_fields:
             raise UserError(
-                _("Fill in the required MDF-e fields before sending:\n- %s")
-                % "\n- ".join(missing_fields)
+                self.env._(
+                    "Fill in the required MDF-e fields before sending:\n- %s",
+                    "\n- ".join(missing_fields),
+                )
             )
 
     def _check_mdfe_road_required_fields(self, missing_fields):
@@ -1175,16 +1191,16 @@ class MDFe(spec_models.StackedModel):
             if not value:
                 missing_fields.append(label)
 
-        check(self.mdfe30_placa, _("Vehicle Plate"))
-        check(self.mdfe30_tara, _("Vehicle Tare in KG"))
-        check(self.mdfe30_tpRod, _("Vehicle Wheel Type"))
-        check(self.mdfe30_tpCar, _("Vehicle Body Type"))
-        check(self.mdfe30_condutor, _("Vehicle Driver"))
+        check(self.mdfe30_placa, self.env._("Vehicle Plate"))
+        check(self.mdfe30_tara, self.env._("Vehicle Tare in KG"))
+        check(self.mdfe30_tpRod, self.env._("Vehicle Wheel Type"))
+        check(self.mdfe30_tpCar, self.env._("Vehicle Body Type"))
+        check(self.mdfe30_condutor, self.env._("Vehicle Driver"))
 
         if self.mdfe30_prop:
             if self.mdfe30_prop == self.company_id.partner_id:
                 missing_fields.append(
-                    _(
+                    self.env._(
                         "Vehicle Owner must be different from the MDF-e issuer. "
                         "If the vehicle belongs to your company, clear the "
                         "Transport Type field instead of filling an owner."
@@ -1192,14 +1208,14 @@ class MDFe(spec_models.StackedModel):
                 )
             elif not self.mdfe_transp_type:
                 missing_fields.append(
-                    _(
+                    self.env._(
                         "Transport Type must be informed when a third-party "
                         "vehicle owner is specified."
                     )
                 )
         elif self.mdfe_transp_type:
             missing_fields.append(
-                _(
+                self.env._(
                     "Vehicle Owner is required when Transport Type is informed. "
                     "If the vehicle belongs to your company, clear the "
                     "Transport Type field."
@@ -1209,13 +1225,15 @@ class MDFe(spec_models.StackedModel):
         if self.mdfe30_prop:
             owner_rntrc = self.mdfe30_prop.rntrc_code
             if not owner_rntrc:
-                missing_fields.append(_("Vehicle Owner RNTRC"))
+                missing_fields.append(self.env._("Vehicle Owner RNTRC"))
             elif not owner_rntrc.isdigit() or len(owner_rntrc) != 8:
-                missing_fields.append(_("Owner RNTRC must contain exactly 8 digits."))
+                missing_fields.append(
+                    self.env._("Owner RNTRC must contain exactly 8 digits.")
+                )
 
         for condutor in self.mdfe30_condutor:
-            check(condutor.mdfe30_xNome, _("Driver Name"))
-            check(condutor.mdfe30_CPF, _("Driver CPF"))
+            check(condutor.mdfe30_xNome, self.env._("Driver Name"))
+            check(condutor.mdfe30_CPF, self.env._("Driver CPF"))
 
     def _document_export(self, pretty_print=True):
         result = super()._document_export()

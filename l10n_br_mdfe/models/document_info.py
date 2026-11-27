@@ -25,12 +25,10 @@ class MDFeMunicipioDescarga(spec_models.SpecModel):
 
     state_id = fields.Many2one(
         comodel_name="res.country.state",
-        string="State",
         compute="_compute_state_id",
     )
 
     city_id = fields.Many2one(
-        string="City",
         comodel_name="res.city",
         required=True,
     )

@@ -6,7 +6,7 @@ from io import BytesIO
 
 from brazilfiscalreport.damdfe import Damdfe, DamdfeConfig, Margins
 
-from odoo import _, api, models
+from odoo import api, models
 from odoo.exceptions import UserError
 
 
@@ -28,7 +28,7 @@ class IrActionsReport(models.Model):
 
     def _render_damdfe(self, mdfe):
         if mdfe.document_type != "58":
-            raise UserError(_("You can only print a DAMDFE of a MDFe(58)."))
+            raise UserError(self.env._("You can only print a DAMDFE of a MDFe(58)."))
 
         mdfe_xml = False
         if mdfe.authorization_file_id:
@@ -37,7 +37,7 @@ class IrActionsReport(models.Model):
             mdfe_xml = base64.b64decode(mdfe.send_file_id.datas)
 
         if not mdfe_xml:
-            raise UserError(_("No xml file was found."))
+            raise UserError(self.env._("No xml file was found."))
 
         return self.render_damdfe_brazilfiscalreport(mdfe, mdfe_xml)
 
