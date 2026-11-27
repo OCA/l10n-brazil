@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record
+        id="l10n_br_account_product_view_account_invoice_report_search"
+        model="ir.ui.view"
+    >
+        <field name="name">l10n_br_account.invoice.report.search</field>
+        <field name="model">account.invoice.report</field>
+        <field name="inherit_id" ref="account.view_account_invoice_report_search" />
+        <field name="arch" type="xml">
+            <filter name="category_product" position="after">
+                <filter
+                    string="Product"
+                    name="product"
+                    context="{'group_by':'product_id'}"
+                />
+                <filter
+                    string="Service Type"
+                    name="service_type"
+                    context="{'group_by':'service_type_id'}"
+                />
+            </filter>
+            <xpath expr="//search" position="inside">
+                <separator name="l10n_br_fiscal_report_filters" />
+            </xpath>
+        </field>
+    </record>
+</odoo>
