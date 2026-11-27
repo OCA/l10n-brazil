@@ -64,8 +64,7 @@ class TestXMLValidation(TransactionCase):
         fiscal_operation = self.env.ref("l10n_br_fiscal.fo_venda")
         nat_op = "Retorno de mercadoria ou bem remetido para conserto ou reparo"
         legal_name = (
-            "Comercio Importacao e Exportacao de Produtos Industriais "
-            "e Agricolas Ltda"
+            "Comercio Importacao e Exportacao de Produtos Industriais e Agricolas Ltda"
         )
         fiscal_operation.name = nat_op
         partner.legal_name = legal_name

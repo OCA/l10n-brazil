@@ -96,7 +96,10 @@ class DocumentImportWizard(models.TransientModel):
 
         if document.modelo_documento != nfe_model_code:
             raise UserError(
-                _(f"Incorrect fiscal document model! Accepted one is {nfe_model_code}")
+                _(
+                    "Incorrect fiscal document model! Accepted one is %s",
+                    nfe_model_code,
+                )
             )
 
     def _create_imported_products_by_xml(self, binding):
