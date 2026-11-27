@@ -421,6 +421,12 @@ class AccountMoveLine(models.Model):
         "ii": ("ii_value", "ii_base"),
         "ibs": ("ibs_value", "ibs_base"),
         "cbs": ("cbs_value", "cbs_base"),
+        "issqn_wh": ("issqn_wh_value", "issqn_wh_base"),
+        "pis_wh": ("pis_wh_value", "pis_wh_base"),
+        "cofins_wh": ("cofins_wh_value", "cofins_wh_base"),
+        "csll_wh": ("csll_wh_value", "csll_wh_base"),
+        "irpj_wh": ("irpj_wh_value", "irpj_wh_base"),
+        "inss_wh": ("inss_wh_value", "inss_wh_base"),
     }
 
     def _override_taxes_from_import(self, taxes, fiscal_line, sign):
@@ -440,13 +446,12 @@ class AccountMoveLine(models.Model):
                 or repartition_line.tax_id
             )
             fiscal_group = acc_tax.tax_group_id.fiscal_tax_group_id
-            if fiscal_group.tax_withholding:
-                # Clear withholding taxes: XML doesn't bring WH item per item
+            field_names = self._IMPORTED_TAX_FIELD_MAP.get(fiscal_group.tax_domain)
+            if not field_names and fiscal_group.tax_withholding:
+                # no withheld value to read from the document line
                 tax["amount"] = 0.0
                 tax["base"] = 0.0
-                continue
-            field_names = self._IMPORTED_TAX_FIELD_MAP.get(fiscal_group.tax_domain)
-            if field_names:
+            elif field_names:
                 # compute_all returns one entry per tax repartition line:
                 # each entry must carry only its share (factor) of the
                 # imported tax value, otherwise taxes with more than one
@@ -455,6 +460,25 @@ class AccountMoveLine(models.Model):
                 fiscal_value = getattr(fiscal_line, field_names[0]) or 0.0
                 tax["amount"] = sign * fiscal_value * factor
                 tax["base"] = sign * (getattr(fiscal_line, field_names[1]) or 0.0)
+
+    def _get_imported_unbilled_withholding(self):
+        """Withheld value of the imported fiscal line whose domain has no
+        withholding tax in the move line: no tax line is generated for it,
+        so it is not taken off the amount to pay."""
+        self.ensure_one()
+        fiscal_line = self.fiscal_document_line_id
+        if not fiscal_line.document_id.imported_document:
+            return 0.0
+        billed_domains = set(
+            self.tax_ids.mapped("tax_group_id.fiscal_tax_group_id.tax_domain")
+        )
+        return sum(
+            fiscal_line[value_field] or 0.0
+            for domain, (value_field, _base_field) in (
+                self._IMPORTED_TAX_FIELD_MAP.items()
+            )
+            if domain.endswith("_wh") and domain not in billed_domains
+        )
 
     @api.depends(
         "tax_ids",
