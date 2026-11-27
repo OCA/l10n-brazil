@@ -41,30 +41,52 @@ pela prefeitura de Barueri.
 .. contents::
    :local:
 
-Installation
-============
-
--  Este módulo tem uma depedencia do pacote python erpbrasil.edoc
--  Este módulo tem uma depedencia do pacote python erpbrasil.assinatura
--  Este módulo tem uma depedencia do pacote python erpbrasil.transmissao
--  Este módulo tem uma depedencia do pacote python erpbrasil.base
--  Este módulo tem uma depedencia do pacote python nfselib.barueri
-
 Configuration
 =============
 
-É apenas necessário a instalação e configuração do módulo l10n_br_nfse.
+Em Configurações > Empresas > Fiscal, escolha o Provedor NFS-e "Barueri"
+e informe a Inscrição Municipal da empresa.
+
+Em cada serviço, o Código de Tributação da Cidade é o código de serviço
+da Prefeitura de Barueri com 9 dígitos (por exemplo 140101220). O
+registro 4 do arquivo (Ambiente de Dados Nacional) usa o NBS, o
+Indicador da Operação e a Classificação Tributária do IBS/CBS do produto
+ou da linha.
+
+O tomador precisa de número no endereço e de e-mail: Barueri rejeita o
+RPS sem eles (erros 240 e 246).
+
+Retenções federais: a retenção vem dos impostos retidos do
+l10n_br_fiscal (IRPJ RET, PIS RET, COFINS RET, CSLL RET e INSS RET)
+definidos na empresa, na linha da operação fiscal ou no perfil fiscal do
+parceiro. Cada valor retido gera um registro tipo 3 (01 IRRF, 02
+PIS/PASEP, 03 COFINS, 04 CSLL, 05 Contribuição Previdenciária). O
+leiaute não tem código para o ISS retido.
+
+Compra governamental: no parceiro, marque Entidade Pública e informe o
+Tipo de Entidade Governamental. O arquivo leva então o registro tipo 5.
 
 Usage
 =====
 
-Após ser criado uma Nota Fiscal de Serviço Eletrônicas (NFS-e) é
-possível confirmá-la e transmiti-la.
+Confirme a NFS-e e transmita. O módulo envia o arquivo de RPS (leiaute
+PMB004), consulta o lote e lê o arquivo de retorno: a nota fica
+autorizada com o número e o código de autenticidade de Barueri, ou
+rejeitada com os códigos de erro de cada registro. Um lote ainda em
+processamento fica como enviado e é consultado de novo pelo botão de
+situação ou pelo agendamento.
+
+O botão "NFS-e na Prefeitura de Barueri" abre a nota autorizada no
+portal da Prefeitura.
 
 Known issues / Roadmap
 ======================
 
-
+-  Cancelamento da NFS-e pelo Odoo (RPS com situação "C"). Por enquanto
+   o cancelamento de uma nota autorizada é bloqueado e deve ser feito no
+   portal da Prefeitura de Barueri.
+-  Registro tipo 5 além da compra governamental (locação de bem móvel,
+   doação, destinatário diferente do tomador).
 
 Bug Tracker
 ===========
@@ -83,6 +105,7 @@ Authors
 -------
 
 * KMEE
+* Pop Solutions
 
 Contributors
 ------------
@@ -95,6 +118,8 @@ Contributors
 
    -  Marcel Savegnago <marcel.savegnago@escodoo.com.br>
    -  Cristiano Mafra Junior <cristiano.mafra@escodoo.com.br>
+
+-  Marcos Mendez <m@pop.coop>
 
 Maintainers
 -----------

@@ -1,1 +1,2 @@
-from . import test_fiscal_document_nfse_barueri
+from . import test_nfse_barueri
+from . import test_nfse_barueri_transmission
