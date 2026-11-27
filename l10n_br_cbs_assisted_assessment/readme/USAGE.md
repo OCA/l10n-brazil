@@ -6,8 +6,9 @@ arquivo e o aplica. Débitos e créditos alimentam as linhas da apuração.
 Pagamentos e recolhimentos aparecem na aba _Payments_ e no menu
 _CBS Payments_, sem alterar o estado do período. O grupo apresentado pela
 administração tributária mostra o andamento de cada um, como já faz para
-débitos e créditos: em progresso enquanto a solicitação está aberta e
-entregue quando o arquivo é aplicado.
+débitos e créditos: em progresso enquanto houver solicitação aberta,
+mesmo que um arquivo anterior já tenha sido aplicado, e entregue quando
+essa solicitação termina.
 
 Uma recusa deixa a solicitação no estado _Erro_, com o código e a mensagem
 que voltaram, em vez de abrir um diálogo: o motivo precisa permanecer no

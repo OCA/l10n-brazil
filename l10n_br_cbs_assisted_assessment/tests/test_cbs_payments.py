@@ -239,6 +239,18 @@ class TestCbsPayments(TransactionCase):
         payment.state = "error"
         self.assertEqual(period.payment_delivery, "pending")
 
+    def test_a_new_payment_request_reopens_a_delivered_service(self):
+        period = self.period_model._get_or_create(self.company, "cbs", "2026-08")
+        done = self._new_request(service="payments", state="done", period_id=period.id)
+        done.period_ids = period
+        self.assertEqual(period.payment_delivery, "received")
+        again = self._new_request(
+            service="payments", state="requested", period_id=period.id
+        )
+        self.assertEqual(period.payment_delivery, "requested")
+        again.state = "error"
+        self.assertEqual(period.payment_delivery, "received")
+
     def test_open_payment_request_blocks_the_same_service_only(self):
         period = self.period_model._get_or_create(self.company, "cbs", "2026-09")
         self._new_request(service="payments", state="requested")

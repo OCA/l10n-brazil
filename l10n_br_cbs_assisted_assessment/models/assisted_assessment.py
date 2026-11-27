@@ -27,16 +27,17 @@ class AssistedAssessment(models.Model):
         selection=DIRECTION_DELIVERY,
         string="Payments",
         compute="_compute_payment_delivery",
-        help="How far the payments request got. It stays in progress until the "
-        "file is applied, and it does not change the period status.",
+        help="How far the payments request got. An open request shows in "
+        "progress even after a previous file was applied, and it does not "
+        "change the period status.",
     )
     withholding_delivery = fields.Selection(
         selection=DIRECTION_DELIVERY,
         string="Withholdings",
         compute="_compute_payment_delivery",
-        help="How far the acquirer withholdings request got. It stays in "
-        "progress until the file is applied, and it does not change the period "
-        "status.",
+        help="How far the acquirer withholdings request got. An open request "
+        "shows in progress even after a previous file was applied, and it "
+        "does not change the period status.",
     )
 
     @api.depends(
@@ -58,10 +59,20 @@ class AssistedAssessment(models.Model):
             period.withholding_delivery = period._service_delivery(SERVICE_WITHHOLDINGS)
 
     def _service_delivery(self, service):
-        """Return how far one DARF service got for this period."""
+        """Return how far one DARF service got for this period.
+
+        An open request wins over a file already applied, so a new call does
+        not stay hidden behind Delivered.
+        """
         self.ensure_one()
         if self.tribute != TRIBUTE_CBS:
             return False
+        pending = (self.origin_request_ids | self.request_ids).filtered(
+            lambda request: request.service == service
+            and request.state in OPEN_REQUEST_STATES
+        )
+        if pending:
+            return "requested"
         delivered = self.request_ids.filtered(
             lambda request: request.service == service and request.state == "done"
         )
@@ -70,12 +81,6 @@ class AssistedAssessment(models.Model):
         )
         if delivered or has_lines:
             return "received"
-        pending = (self.origin_request_ids | self.request_ids).filtered(
-            lambda request: request.service == service
-            and request.state in OPEN_REQUEST_STATES
-        )
-        if pending:
-            return "requested"
         return "pending"
 
     def action_request_payments(self):
