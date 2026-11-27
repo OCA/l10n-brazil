@@ -63,7 +63,7 @@ from odoo.addons.spec_driven_model.models import spec_models
 from ..constants.cte import (
     CTE_CST,
     CTE_ENVIRONMENTS,
-    CTE_IBSCBS_IN_VTPREST_DATE,
+    CTE_IBSCBS_IN_VTOTDFE_DATE,
     CTE_ICMS_SELECTION,
     CTE_INDIETOMA,
     CTE_INDIETOMA_DEFAULT,
@@ -902,7 +902,7 @@ class CTe(spec_models.StackedModel):
         """IBS/CBS already added to fiscal_amount_total by the fiscal engine.
 
         With the default tax groups (tax_include) IBS and CBS stay out of the
-        total; if the setup adds them, they must not enter vTPrest twice.
+        total; if the setup adds them, they must not enter vTotDFe twice.
         """
         self.ensure_one()
         amount = 0.0
@@ -925,14 +925,7 @@ class CTe(spec_models.StackedModel):
     )
     @api.depends_context("tz")
     def _compute_cte40_vprest_totals(self):
-        """vTPrest, vTPrestLiq and vTotDFe as in NT CT-e 2026.004.
-
-        - vTPrestLiq: amount of the service without IBS/CBS.
-        - vTPrest: the net amount in 2026; from 2027 on (by the issue date)
-          the net amount plus IBS and CBS.
-        - vTotDFe: repeats vTPrest (rule 365), IBS/CBS are never added again.
-          Only informed when the CT-e has IBS/CBS, as before.
-        """
+        """vTPrest without IBS/CBS; vTotDFe adds them from 2027 (NT 2026.004 v1.01)."""
         for record in self:
             currency = record.brl_currency_id or record.currency_id
             net_amount = (
@@ -942,14 +935,14 @@ class CTe(spec_models.StackedModel):
             total = net_amount
             if (
                 ibscbs_amount
-                and record._get_cte_reference_date() >= CTE_IBSCBS_IN_VTPREST_DATE
+                and record._get_cte_reference_date() >= CTE_IBSCBS_IN_VTOTDFE_DATE
             ):
                 total += ibscbs_amount
             if currency:
                 net_amount = currency.round(net_amount)
                 total = currency.round(total)
             record.cte40_vTPrestLiq = net_amount
-            record.cte40_vTPrest = total
+            record.cte40_vTPrest = net_amount
             record.cte40_vTotDFe = total if ibscbs_amount else 0.0
 
     # ##########################

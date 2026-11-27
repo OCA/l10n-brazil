@@ -106,7 +106,5 @@ CTE_CST = [
     ("01", "01 - Simples Nacional"),
 ]
 
-# NT CT-e 2026.004: from 2027 on IBS and CBS are part of vTPrest and vTotDFe
-# repeats vTPrest (rule 365). The year is decided by the issue date (dhEmi),
-# as in rules 316, 321 and 326 of the same NT.
-CTE_IBSCBS_IN_VTPREST_DATE = date(2027, 1, 1)
+# NT CT-e 2026.004 v1.01: vTotDFe adds IBS and CBS from this issue date (dhEmi) on
+CTE_IBSCBS_IN_VTOTDFE_DATE = date(2027, 1, 1)

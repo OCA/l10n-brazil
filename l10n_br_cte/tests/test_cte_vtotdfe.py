@@ -9,12 +9,7 @@ from odoo.tests import TransactionCase, tagged
 
 @tagged("post_install", "-at_install")
 class TestCTeVTotDFe(TransactionCase):
-    """Totals of the CT-e under NT CT-e 2026.004.
-
-    From 2027 on (by the issue date, dhEmi) IBS and CBS are part of vTPrest
-    and vTotDFe repeats vTPrest (rule 365), so IBS and CBS are never added
-    twice. In 2026 vTPrest has no IBS/CBS. vTPrestLiq is vTPrest without them.
-    """
+    """vTPrest without IBS/CBS; vTotDFe adds them from 2027 (NT 2026.004 v1.01)."""
 
     @classmethod
     def setUpClass(cls):
@@ -53,11 +48,11 @@ class TestCTeVTotDFe(TransactionCase):
     def _assert_totals(self, net, total):
         cte = self.cte
         self.assertAlmostEqual(cte.cte40_vTPrestLiq, net, places=2)
-        self.assertAlmostEqual(cte.cte40_vTPrest, total, places=2)
-        self.assertAlmostEqual(cte.cte40_vTotDFe, cte.cte40_vTPrest, places=2)
+        self.assertAlmostEqual(cte.cte40_vTPrest, net, places=2)
+        self.assertAlmostEqual(cte.cte40_vTotDFe, total, places=2)
 
     @freeze_time("2027-03-01 12:00:00")
-    def test_2026_issue_date_without_ibs_cbs_in_vtprest(self):
+    def test_2026_issue_date_without_ibs_cbs_in_vtotdfe(self):
         """CT-e issued in 2026, processed with the clock in 2027."""
         self._set_ibs_cbs()
         self._set_issue_date("2026-12-31 15:00:00")
@@ -68,7 +63,7 @@ class TestCTeVTotDFe(TransactionCase):
         self._assert_totals(net, net)
 
     @freeze_time("2026-10-13 12:00:00")
-    def test_2027_issue_date_ibs_cbs_in_vtprest_once(self):
+    def test_2027_issue_date_ibs_cbs_in_vtotdfe_once(self):
         """CT-e issued in 2027, processed with the clock in 2026."""
         self._set_ibs_cbs()
         self._set_issue_date("2027-01-01 15:00:00")
@@ -93,7 +88,7 @@ class TestCTeVTotDFe(TransactionCase):
         self._set_issue_date("2027-02-01 12:00:00")
         total = self.cte.fiscal_amount_total
         self._assert_totals(total - self.ibs_cbs_value, total)
-        # in 2026 they stay out of vTPrest
+        # in 2026 they stay out of vTotDFe
         self._set_issue_date("2026-11-20 12:00:00")
         self._assert_totals(total - self.ibs_cbs_value, total - self.ibs_cbs_value)
 
