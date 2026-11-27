@@ -346,3 +346,43 @@ class TestInvoiceRefund(AccountMoveBRCommon):
         )
 
         self.assertEqual(move_reversal.journal_id.id, self.refund_journal.id)
+
+    def test_refund_as_credit_note(self):
+        """A refund on a credit note operation is a credit note, whose type
+        is set on the refund (NT 2025.002)."""
+        credit_note = self.env["l10n_br_fiscal.operation"].create(
+            {
+                "name": "Nota de Crédito",
+                "code": "NC",
+                "fiscal_operation_type": "in",
+                "fiscal_type": "sale_refund",
+                "edoc_purpose": "5",
+            }
+        )
+        invoice = self._create_test_invoice("Test Credit Note", "Credit Note Test")
+        # the reversal needs the fiscal operation of the source invoice
+        invoice.with_context(
+            check_move_validity=False
+        ).fiscal_operation_id = self.env.ref("l10n_br_fiscal.fo_venda")
+        invoice.with_context(
+            check_move_validity=False, force_delete=True
+        ).invoice_line_ids.write(
+            {
+                "fiscal_operation_id": self.env.ref("l10n_br_fiscal.fo_venda").id,
+                "fiscal_operation_line_id": self.env.ref(
+                    "l10n_br_fiscal.fo_venda_venda"
+                ).id,
+            }
+        )
+        move_reversal = self._create_move_reversal(
+            invoice,
+            force_fiscal_operation_id=credit_note,
+            journal_id=self.refund_journal.id,
+        )
+        reversal = move_reversal.reverse_moves()
+        refund = self.env["account.move"].browse(reversal["res_id"])
+
+        self.assertEqual(refund.edoc_purpose, "5")
+        self.assertFalse(refund.edoc_refund_credit_type)
+        refund.edoc_refund_credit_type = "04"
+        self.assertEqual(refund.fiscal_document_id.edoc_refund_credit_type, "04")
