@@ -193,8 +193,11 @@ class TestCbsPayments(TransactionCase):
         self.assertEqual(matched.document_id, document)
         self.assertEqual(matched.amount_total, 103)
         self.assertIn(period, request.period_ids)
+        self.assertEqual(period.payment_delivery, "received")
+        self.assertEqual(period.withholding_delivery, "pending")
         july = self.period_model._get_or_create(self.company, "cbs", "2026-07")
         self.assertEqual(july.state, "draft")
+        self.assertEqual(july.payment_delivery, "received")
 
         updated = self._new_request(
             state="downloaded",
@@ -221,6 +224,20 @@ class TestCbsPayments(TransactionCase):
             5,
         )
         self.assertEqual(rad.request_id, updated)
+
+    def test_payment_delivery_follows_the_open_request(self):
+        period = self.period_model._get_or_create(self.company, "cbs", "2026-09")
+        self.assertEqual(period.payment_delivery, "pending")
+        self.assertEqual(period.withholding_delivery, "pending")
+        payment = self._new_request(
+            service="payments", state="requested", period_id=period.id
+        )
+        self.assertEqual(period.payment_delivery, "requested")
+        self.assertEqual(period.withholding_delivery, "pending")
+        self._new_request(service="withholdings", state="notified", period_id=period.id)
+        self.assertEqual(period.withholding_delivery, "requested")
+        payment.state = "error"
+        self.assertEqual(period.payment_delivery, "pending")
 
     def test_open_payment_request_blocks_the_same_service_only(self):
         period = self.period_model._get_or_create(self.company, "cbs", "2026-09")

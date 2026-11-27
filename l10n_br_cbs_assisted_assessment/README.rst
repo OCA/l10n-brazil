@@ -106,7 +106,10 @@ ciclo é automático: o callback marca a solicitação como pronta para
 download, e a ação agendada baixa o arquivo e o aplica. Débitos e
 créditos alimentam as linhas da apuração. Pagamentos e recolhimentos
 aparecem na aba *Payments* e no menu *CBS Payments*, sem alterar o
-estado do período.
+estado do período. O grupo apresentado pela administração tributária
+mostra o andamento de cada um, como já faz para débitos e créditos: em
+progresso enquanto a solicitação está aberta e entregue quando o arquivo
+é aplicado.
 
 Uma recusa deixa a solicitação no estado *Erro*, com o código e a
 mensagem que voltaram, em vez de abrir um diálogo: o motivo precisa
