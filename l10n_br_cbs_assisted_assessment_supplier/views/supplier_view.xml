@@ -128,6 +128,12 @@
         <field name="name">CBS Suppliers</field>
         <field name="model_id" ref="model_l10n_br_cbs_assisted_assessment_supplier" />
         <field name="state">code</field>
+        <!-- A server action without groups requires write access on the model.
+             The board is read-only, so the same group as the menu authorizes it. -->
+        <field
+            name="groups_id"
+            eval="[(4, ref('l10n_br_assisted_assessment.group_user'))]"
+        />
         <field name="code">action = model.action_open()</field>
     </record>
     <menuitem

@@ -269,3 +269,16 @@ class TestCbsSupplier(TransactionCase):
             1,
         )
         self.assertEqual(self.period.cbs_supplier_count, 1)
+
+    def test_menu_opens_without_write_access(self):
+        self._credit(KEY_APPROPRIATED, 12.0, partner=self.partner)
+        user = self.env.ref("base.user_admin")
+        action = self.env.ref(
+            "l10n_br_cbs_assisted_assessment_supplier.action_cbs_supplier_open"
+        )
+        result = action.with_user(user).run()
+        self.assertEqual(result["res_model"], self.supplier_model._name)
+        self.assertEqual(
+            self.supplier_model.search_count([("period_id", "=", self.period.id)]),
+            1,
+        )
