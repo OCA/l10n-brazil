@@ -11,7 +11,7 @@ from datetime import datetime
 import pytz
 import requests
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import UserError
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
@@ -307,7 +307,7 @@ class Document(models.Model):
             if xml_required or xml:
                 record.authorization_event_id.set_done(
                     status_code=4,
-                    response=_("Successfully Processed"),
+                    response=self.env._("Successfully Processed"),
                     protocol_date=record.authorization_date,
                     protocol_number=record.authorization_protocol,
                     file_response_xml=xml,
@@ -346,7 +346,7 @@ class Document(models.Model):
     def _process_error_status(self, record, json_data):
         """Process error authorization status."""
         erros = json_data.get("erros", [])
-        error_msg = erros[0]["mensagem"] if erros else _("Authorization error")
+        error_msg = erros[0]["mensagem"] if erros else self.env._("Authorization error")
         record.write(
             {
                 "edoc_error_message": error_msg,
@@ -386,7 +386,7 @@ class Document(models.Model):
                     if record.state_edoc != SITUACAO_EDOC_CANCELADA:
                         record._document_cancel(record.cancel_reason)
 
-            return _(json["status"])
+            return self.env._(json["status"])
 
         return "Unable to retrieve the document status."
 
@@ -425,7 +425,7 @@ class Document(models.Model):
                     if record.state_edoc != SITUACAO_EDOC_CANCELADA:
                         record._document_cancel(record.cancel_reason)
 
-            return _(json["status"])
+            return self.env._(json["status"])
 
         return "Unable to retrieve the document status."
 
@@ -481,7 +481,7 @@ class Document(models.Model):
         )
         event.set_done(
             status_code=4,
-            response=_("Successfully Processed"),
+            response=self.env._("Successfully Processed"),
             protocol_date=fields.Datetime.to_string(fields.Datetime.now()),
             protocol_number="",
             file_response_xml=xml,
@@ -601,7 +601,7 @@ class Document(models.Model):
                 return response
 
             raise UserError(
-                _(
+                self.env._(
                     "%(code)s - %(status)s",
                     code=code or response.status_code,
                     status=status,
@@ -609,7 +609,7 @@ class Document(models.Model):
             )
 
         raise UserError(
-            _(
+            self.env._(
                 "%(code)s - %(msg)s",
                 code=response.status_code,
                 msg=json_data.get("mensagem", ""),

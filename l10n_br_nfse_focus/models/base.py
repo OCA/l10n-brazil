@@ -6,7 +6,7 @@
 
 import requests
 
-from odoo import _, models
+from odoo import models
 from odoo.exceptions import UserError
 
 
@@ -50,7 +50,7 @@ class FocusnfeNfseBase(models.AbstractModel):
                 payload = response.json()
                 msg = payload.get("mensagem") or ""
                 raise UserError(
-                    _(
+                    self.env._(
                         "Error communicating with %(service)s service: %(error)s",
                         service=service_name,
                         error=msg,
@@ -61,12 +61,12 @@ class FocusnfeNfseBase(models.AbstractModel):
         except requests.HTTPError as e:
             detail = self._extract_focus_nfse_error_detail(e.response)
             raise UserError(
-                _("Error communicating with %(service)s service: %(error)s%(detail)s")
-                % {
-                    "service": service_name,
-                    "error": e,
-                    "detail": f" - {detail}" if detail else "",
-                }
+                self.env._(
+                    "Error communicating with %(service)s service: %(error)s%(detail)s",
+                    service=service_name,
+                    error=e,
+                    detail=f" - {detail}" if detail else "",
+                )
             ) from e
 
     @staticmethod
