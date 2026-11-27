@@ -23,9 +23,12 @@ class AccountTax(models.Model):
                 lambda line: line.repartition_type == "tax"
             ):
                 if repartition_line.document_type == "refund":
-                    if not refund_account_id:
-                        continue
-                    repartition_line.account_id = refund_account_id
+                    # The factor follows the invoice line whether or not there
+                    # is a refund account: core requires both distributions to
+                    # match, and the Factur-X of the invoice is validated with
+                    # them.
+                    if refund_account_id:
+                        repartition_line.account_id = refund_account_id
                 else:
                     repartition_line.account_id = account_id
                 repartition_line.factor_percent = factor_percent

@@ -30,6 +30,8 @@ for row in _load_csv_data("l10n_br_coa/data/l10n_br_coa_tax_accounts.csv"):
     )
 
 
+BR_CHARTS = ("br_oca", "br_oca_generic", "br_oca_simple")
+
 DEFAULT_TAX_TEMPLATES_ACCOUNTS = {}
 for row in _load_csv_data("l10n_br_coa/data/l10n_br_coa_tax_templates_accounts.csv"):
     DEFAULT_TAX_TEMPLATES_ACCOUNTS[row["tax_template_xmlid"]] = (
@@ -40,6 +42,34 @@ for row in _load_csv_data("l10n_br_coa/data/l10n_br_coa_tax_templates_accounts.c
 
 class AccountChartTemplate(models.AbstractModel):
     _inherit = "account.chart.template"
+
+    @api.model
+    def _get_accounts_data_values(
+        self, company, template_data, bank_prefix="", code_digits=0
+    ):
+        """The utility liquidity transfer account is born classified.
+
+        The core creates it alone when loading the chart, looking for the
+        first free code after the `transfer_account_code_prefix`: declaring
+        it in the chart would only make the core create a second one beside
+        it. Without the classification the account stays out of the reports,
+        which select by tag, and a transfer between banks still in transit at
+        the end of the period would show up as an unexplained difference on
+        the balance sheet and the cash flow statement. It IS cash and
+        equivalents: a passage account between two liquidity accounts.
+        """
+        vals_list = super()._get_accounts_data_values(
+            company, template_data, bank_prefix=bank_prefix, code_digits=code_digits
+        )
+        tag = self.env.ref(
+            "l10n_br_coa.account_tag_cash_and_equivalents", raise_if_not_found=False
+        )
+        if tag:
+            transfer = vals_list.get("transfer_account_id")
+            if transfer is not None:
+                transfer["name"] = self.env._("Liquidity Transfer")
+                transfer["tag_ids"] = [(4, tag.id)]
+        return vals_list
 
     @template("br_oca")
     def _get_br_oca_template_data(self):
@@ -108,15 +138,42 @@ class AccountChartTemplate(models.AbstractModel):
                     "account_purchase_tax_id": False,
                 }
             )
-            flavor = "itg"
-            if (
-                template_code == "br_oca_generic"
-                or hasattr(company, "tax_framework")
-                and company.tax_framework == "3"
-            ):
-                flavor = "cfc"
-            self._populate_default_br_tax_accounts(company, flavor=flavor)
+            if company.parent_id:
+                # A branch uses the taxes and accounts of its parent company:
+                # populating them here would only leave unused xmlids behind.
+                return result
+            flavor, review_suffix = self._get_br_tax_accounts_params(
+                company, template_code
+            )
+            self._populate_default_br_tax_accounts(
+                company, flavor=flavor, review_suffix=review_suffix
+            )
         return result
+
+    @api.model
+    def _get_br_tax_accounts_params(self, company, template_code=None):
+        """Return the (flavor, review_suffix) used to place the tax accounts.
+
+        One rule for the chart load, for `load_fiscal_taxes` and for the
+        migrations: all of them have to look for the same codes, otherwise each
+        one creates its own set of accounts beside the chart ones.
+
+        `tax_framework` is a fiscal field: `l10n_br_coa` only depends on
+        `account`, so the chart load can run where l10n_br_fiscal is not
+        installed and the attribute does not exist at all.
+        """
+        template_code = template_code or company.chart_template
+        if template_code not in BR_CHARTS:
+            # Brazilian taxes added to another chart by `load_fiscal_taxes`.
+            return "cfc", ".BR"
+        tax_framework = getattr(company, "tax_framework", False)
+        if (
+            template_code == "br_oca_generic"
+            or hasattr(company, "tax_framework")
+            and tax_framework == "3"
+        ):
+            return "cfc", ".GEN"
+        return "itg", ".GEN"
 
     def _set_tax_group_accs(self, template_code, tax_data):
         group_to_accounts = self._get_tax_group_accounts(template_code)
@@ -196,7 +253,11 @@ class AccountChartTemplate(models.AbstractModel):
                 company.chart_template,
             )
             return {}
-        Account = self.env["account.account"]
+        # The account code belongs to a company: the search and the creation
+        # have to run in the company being loaded, not in the one of the
+        # environment (the user's), otherwise the chart account is never found
+        # and a duplicate with the review suffix is created beside it.
+        Account = self.env["account.account"].with_company(company)
         IrModelData = self.env["ir.model.data"].sudo()
         created_accounts_refs = {}
         # Track codes we've already created in this batch to handle duplicates
@@ -226,7 +287,11 @@ class AccountChartTemplate(models.AbstractModel):
             # and if xml_id_name_part is related to a tax template for which the tax
             # repartion_line_ids have accounts already, then skip account creation
             existing_account = Account.search(
-                [("code", "in", [code, code_gen]), ("company_ids", "in", [company.id])],
+                [
+                    ("code", "in", [code, code_gen]),
+                    # parent_of: a branch uses the accounts of its parent
+                    ("company_ids", "parent_of", company.id),
+                ],
                 limit=1,
             )
             if not existing_account:
