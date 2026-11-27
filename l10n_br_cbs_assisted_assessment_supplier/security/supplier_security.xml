@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="supplier_company_rule" model="ir.rule">
+        <field name="name">CBS assessment supplier multi-company</field>
+        <field name="model_id" ref="model_l10n_br_cbs_assisted_assessment_supplier" />
+        <field name="global" eval="True" />
+        <field name="domain_force">[('company_id', 'in', company_ids + [False])]</field>
+    </record>
+</odoo>

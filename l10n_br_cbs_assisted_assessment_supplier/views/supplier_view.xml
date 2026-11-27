@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="view_cbs_supplier_list" model="ir.ui.view">
+        <field name="name">l10n_br_cbs_assisted_assessment.supplier.list</field>
+        <field name="model">l10n_br_cbs_assisted_assessment.supplier</field>
+        <field name="arch" type="xml">
+            <list
+                create="false"
+                edit="false"
+                delete="false"
+                decoration-warning="collection_status == 'we_pay'"
+                decoration-danger="credit_status == 'no_credit'"
+            >
+                <field name="period_id" />
+                <field name="partner_id" />
+                <field name="tax_id" />
+                <field name="tax_framework" optional="show" />
+                <field name="inbound_cbs" />
+                <field name="credit_appropriated" />
+                <field name="credit_not_appropriable" />
+                <field name="credit_suspended" optional="hide" />
+                <field name="credit_denied" />
+                <field name="rad_paid" />
+                <field name="credit_status" widget="badge" />
+                <field name="collection_status" widget="badge" />
+                <field name="company_id" groups="base.group_multi_company" />
+                <field name="currency_id" column_invisible="1" />
+            </list>
+        </field>
+    </record>
+    <record id="view_cbs_supplier_form" model="ir.ui.view">
+        <field name="name">l10n_br_cbs_assisted_assessment.supplier.form</field>
+        <field name="model">l10n_br_cbs_assisted_assessment.supplier</field>
+        <field name="arch" type="xml">
+            <form create="false" edit="false" delete="false">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="partner_id" readonly="1" />
+                        </h1>
+                        <h2 invisible="partner_id">
+                            <field name="tax_id" readonly="1" />
+                        </h2>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="period_id" readonly="1" />
+                            <field name="tax_id" readonly="1" />
+                            <field name="tax_framework" readonly="1" />
+                            <field
+                                name="company_id"
+                                groups="base.group_multi_company"
+                            />
+                        </group>
+                        <group>
+                            <field name="credit_status" readonly="1" />
+                            <field name="collection_status" readonly="1" />
+                        </group>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="inbound_cbs" readonly="1" />
+                            <field name="credit_appropriated" readonly="1" />
+                            <field name="credit_not_appropriable" readonly="1" />
+                        </group>
+                        <group>
+                            <field name="credit_suspended" readonly="1" />
+                            <field name="credit_denied" readonly="1" />
+                            <field name="rad_paid" readonly="1" />
+                            <field name="currency_id" invisible="1" />
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="view_cbs_supplier_search" model="ir.ui.view">
+        <field name="name">l10n_br_cbs_assisted_assessment.supplier.search</field>
+        <field name="model">l10n_br_cbs_assisted_assessment.supplier</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="partner_id" />
+                <field name="tax_id" />
+                <field name="period_id" />
+                <filter
+                    name="takes_credit"
+                    string="Takes Credit"
+                    domain="[('credit_status', '=', 'credits')]"
+                />
+                <filter
+                    name="no_credit"
+                    string="Does Not Take Credit"
+                    domain="[('credit_status', '=', 'no_credit')]"
+                />
+                <filter
+                    name="we_pay"
+                    string="We Pay as Acquirer"
+                    domain="[('collection_status', '=', 'we_pay')]"
+                />
+                <filter
+                    name="collects"
+                    string="Supplier Collects"
+                    domain="[('collection_status', '=', 'collects')]"
+                />
+                <group expand="0" string="Group By">
+                    <filter
+                        name="group_period"
+                        string="Period"
+                        context="{'group_by': 'period_id'}"
+                    />
+                    <filter
+                        name="group_credit"
+                        string="Credit"
+                        context="{'group_by': 'credit_status'}"
+                    />
+                    <filter
+                        name="group_collection"
+                        string="Collection"
+                        context="{'group_by': 'collection_status'}"
+                    />
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="action_cbs_supplier_open" model="ir.actions.server">
+        <field name="name">CBS Suppliers</field>
+        <field name="model_id" ref="model_l10n_br_cbs_assisted_assessment_supplier" />
+        <field name="state">code</field>
+        <field name="code">action = model.action_open()</field>
+    </record>
+    <menuitem
+        id="menu_cbs_supplier"
+        name="CBS Suppliers"
+        parent="l10n_br_assisted_assessment.menu_assessment_root"
+        action="action_cbs_supplier_open"
+        sequence="25"
+        groups="l10n_br_assisted_assessment.group_user"
+    />
+</odoo>
