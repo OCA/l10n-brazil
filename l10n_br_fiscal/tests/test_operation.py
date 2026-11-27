@@ -293,6 +293,7 @@ class TestOperation(TransactionCase):
         """Pending documents count whatever their date, volumes only in the
         period, and each link of the card opens its own documents."""
         operation = self.env.ref("l10n_br_fiscal.fo_venda").copy()
+        operation.state = "approved"
         buckets = operation._dashboard_buckets()
         old, to_send, authorized, cancelled = self.env[
             "l10n_br_fiscal.document"
