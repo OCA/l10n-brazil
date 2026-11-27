@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo noupdate="1">
+    <!-- Two notes in the DF-e inbox of the company "Empresa Lucro Real", to try the
+         import from the inbox (Fiscal > DF-e Queries > NF-e from Third Parties):
+         - 35261173623891000106550010000042011062777198 (Dell): the complete XML
+           is there, the button Import creates the fiscal document;
+         - 35261186144802000190550010000042021062777202 (Intel): only the summary,
+           the import asks to confirm the acknowledgement (ciencia) of the
+           operation first. -->
+
+    <record id="demo_dfe_document_complete" model="l10n_br_fiscal_dfe.document">
+        <field name="access_key">35261173623891000106550010000042011062777198</field>
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_real" />
+        <field name="fiscal_type">nfe</field>
+        <field name="emitter">Dell Computadores do Brasil LTDA</field>
+        <field name="vat">73.623.891/0001-06</field>
+        <field name="document_number">4201</field>
+        <field name="serie">1</field>
+        <field name="document_amount">140.00</field>
+        <field name="document_state">1</field>
+        <field
+            name="document_emission_date"
+            eval="(DateTime.today() - relativedelta(days=3)).strftime('%Y-%m-%d %H:%M:%S')"
+        />
+    </record>
+
+    <record id="demo_dfe_complete_attachment" model="ir.attachment">
+        <field
+            name="name"
+        >procNFe_35261173623891000106550010000042011062777198.xml</field>
+        <field name="res_model">l10n_br_fiscal_dfe.document</field>
+        <field name="res_id" ref="demo_dfe_document_complete" />
+        <field
+            name="datas"
+            type="base64"
+            file="l10n_br_nfe_dfe/demo/import/nfe_caixa_xml_completo.xml"
+        />
+    </record>
+
+    <record id="demo_dfe_complete" model="l10n_br_fiscal_dfe.dfe">
+        <field name="access_key">35261173623891000106550010000042011062777198</field>
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_real" />
+        <field name="fiscal_type">nfe</field>
+        <field name="dfe_document_id" ref="demo_dfe_document_complete" />
+        <field name="document_type_dfe">complete</field>
+        <field name="schema_type">procNFe</field>
+        <field name="attachment_id" ref="demo_dfe_complete_attachment" />
+    </record>
+
+    <record id="demo_dfe_document_summary" model="l10n_br_fiscal_dfe.document">
+        <field name="access_key">35261186144802000190550010000042021062777202</field>
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_real" />
+        <field name="fiscal_type">nfe</field>
+        <field name="emitter">Intel do Brasil</field>
+        <field name="vat">86.144.802/0001-90</field>
+        <field name="document_number">4202</field>
+        <field name="serie">1</field>
+        <field name="document_amount">140.00</field>
+        <field name="document_state">1</field>
+        <field
+            name="document_emission_date"
+            eval="(DateTime.today() - relativedelta(days=2)).strftime('%Y-%m-%d %H:%M:%S')"
+        />
+    </record>
+
+    <record id="demo_dfe_summary" model="l10n_br_fiscal_dfe.dfe">
+        <field name="access_key">35261186144802000190550010000042021062777202</field>
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_real" />
+        <field name="fiscal_type">nfe</field>
+        <field name="dfe_document_id" ref="demo_dfe_document_summary" />
+        <field name="document_type_dfe">summary</field>
+        <field name="schema_type">resNFe</field>
+    </record>
+</odoo>

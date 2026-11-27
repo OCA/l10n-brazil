@@ -18,6 +18,7 @@
                         <group>
                             <field name="nfe_auto_fetch" />
                             <field name="auto_manifest_nfe" />
+                            <field name="nfe_manifest_on_document_confirm" />
                         </group>
                     </group>
                     <group name="nfe_dfe_last_query" string="Last Query">

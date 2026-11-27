@@ -146,3 +146,80 @@ class TestOperation(TransactionCase):
         product.cest_id = self.env.ref("l10n_br_fiscal.cest_2112300")
 
         self.assertEqual(operation.line_definition(company, partner, product), line)
+
+    def _create_inbound_operation(self, cfop_code, name, approve=True):
+        operation = self.env["l10n_br_fiscal.operation"].create(
+            {
+                "code": name,
+                "name": name,
+                "fiscal_operation_type": "in",
+                "fiscal_type": "purchase",
+            }
+        )
+        line = self.env["l10n_br_fiscal.operation.line"].create(
+            {
+                "fiscal_operation_id": operation.id,
+                "name": name,
+                "cfop_internal_id": self.env.ref(f"l10n_br_fiscal.cfop_{cfop_code}").id,
+            }
+        )
+        if approve:
+            operation.action_approve()
+        return line
+
+    def test_find_by_issuer_cfop_translates_the_issuer_cfop(self):
+        """The line that receives a note is found by the CFOP of the issuer, given
+        as a code or as a record."""
+        lines = self.env["l10n_br_fiscal.operation.line"]
+        line = lines._find_by_issuer_cfop("5102")
+        self.assertEqual(line.fiscal_operation_type, "in")
+        self.assertIn("1102", line.mapped("cfop_internal_id.code"))
+        self.assertEqual(
+            lines._find_by_issuer_cfop(self.env.ref("l10n_br_fiscal.cfop_5102")), line
+        )
+
+    def test_find_by_issuer_cfop_looks_only_in_the_operation_given(self):
+        """When the operation is already chosen, the line of another operation that
+        has the same CFOP is not the answer."""
+        lines = self.env["l10n_br_fiscal.operation.line"]
+        own = self._create_inbound_operation("1102", "TEST-OWN-OPERATION")
+        other = self._create_inbound_operation("1403", "TEST-OTHER-OPERATION")
+        self.assertEqual(
+            lines._find_by_issuer_cfop("5102", operation=own.fiscal_operation_id),
+            own,
+        )
+        self.assertFalse(
+            lines._find_by_issuer_cfop("5102", operation=other.fiscal_operation_id)
+        )
+
+    def test_find_by_issuer_cfop_needs_an_issuer_cfop(self):
+        """A CFOP that is already ours has no issuer counterpart to look for."""
+        lines = self.env["l10n_br_fiscal.operation.line"]
+        self.assertFalse(lines._find_by_issuer_cfop("1102", "Compra"))
+        self.assertFalse(lines._find_by_issuer_cfop(False))
+
+    def test_find_by_issuer_cfop_uses_the_inverse_cfop_of_the_record(self):
+        """CFOP 5101 is received as 1102 (its inverse), not as 1101."""
+        line = self._create_inbound_operation("1102", "TEST-INVERSE")
+        found = self.env["l10n_br_fiscal.operation.line"]._find_by_issuer_cfop(
+            "5101", "TEST-INVERSE"
+        )
+        self.assertEqual(found, line)
+
+    def test_find_by_issuer_cfop_ignores_lines_not_approved(self):
+        line = self._create_inbound_operation("1403", "TEST-DRAFT", approve=False)
+        found = self.env["l10n_br_fiscal.operation.line"]._find_by_issuer_cfop(
+            "5403", "TEST-DRAFT"
+        )
+        self.assertNotEqual(found, line)
+
+    def test_find_by_issuer_cfop_breaks_a_tie_by_the_nature_of_the_operation(self):
+        """Several operations can share the CFOP, and the natureza da operacao of
+        the file tells them apart."""
+        lines = self.env["l10n_br_fiscal.operation.line"]
+        first = lines._find_by_issuer_cfop("5102")
+        line = self._create_inbound_operation("1102", "Same CFOP as the first one")
+        self.assertNotEqual(first, line)
+        self.assertEqual(
+            lines._find_by_issuer_cfop("5102", "Same CFOP as the first one"), line
+        )

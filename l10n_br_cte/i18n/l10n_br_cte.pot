@@ -1874,6 +1874,16 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_res_company__cte_import_product_id
+msgid "Default CT-e Import Product"
+msgstr ""
+
+#. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_res_company__cte_import_service_product_id
+msgid "Default Transport Service Provided"
+msgstr ""
+
+#. module: l10n_br_cte
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_transported_vehicles__cte40_xCor
 msgid "Descrição da cor"
 msgstr ""
@@ -2311,6 +2321,15 @@ msgstr ""
 msgid ""
 "Formato de impressão do DACTE OS\n"
 "Preencher com: 1 - Retrato; 2 - Paisagem."
+msgstr ""
+
+#. module: l10n_br_cte
+#: model:ir.model.fields,help:l10n_br_cte.field_res_company__cte_import_product_id
+msgid ""
+"Freight service suggested on the line of a CT-e that the company receives "
+"when it is imported. The person confirms the suggestion in the review. "
+"Without it the line waits for the choice of the product. The CT-e issued by "
+"the company does not use it (see the transport service provided)."
 msgstr ""
 
 #. module: l10n_br_cte
@@ -2797,6 +2816,11 @@ msgstr ""
 #. module: l10n_br_cte
 #: model:ir.model.fields,help:l10n_br_cte.field_cte_40_tctesimp_infcte__cte40_toma
 msgid "Identificação do tomador do serviço no CT-e"
+msgstr ""
+
+#. module: l10n_br_cte
+#: model_terms:ir.ui.view,arch_db:l10n_br_cte.cte_res_company_form
+msgid "Import"
 msgstr ""
 
 #. module: l10n_br_cte
@@ -4349,6 +4373,15 @@ msgid "Oeste"
 msgstr ""
 
 #. module: l10n_br_cte
+#. odoo-python
+#: code:addons/l10n_br_cte/models/document_import.py:0
+#, python-format
+msgid ""
+"Only the CT-e (model 57) can be imported as a fiscal document. The file "
+"%(name)s is a %(kind)s."
+msgstr ""
+
+#. module: l10n_br_cte
 #: model:ir.model,name:l10n_br_cte.model_l10n_br_cte_modal_rodo_occ
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_cte_modal_rodo__cte40_occ
 #: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte40_occ
@@ -5013,6 +5046,13 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_cte
+#. odoo-python
+#: code:addons/l10n_br_cte/models/document_import.py:0
+#, python-format
+msgid "The file %s is not a valid CT-e."
+msgstr ""
+
+#. module: l10n_br_cte
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__insurance_policy
 #: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document_mixin__insurance_policy
 msgid ""
@@ -5053,6 +5093,13 @@ msgstr ""
 msgid ""
 "The partner responsible for sending the goods, typically the issuer of the "
 "document. This field is primarily used when issuing the CT-e."
+msgstr ""
+
+#. module: l10n_br_cte
+#. odoo-python
+#: code:addons/l10n_br_cte/models/document_import.py:0
+#, python-format
+msgid "This CT-e is not authorized (status %s)."
 msgstr ""
 
 #. module: l10n_br_cte
@@ -5553,6 +5600,14 @@ msgstr ""
 #. module: l10n_br_cte
 #: model:ir.model.fields,help:l10n_br_cte.field_res_company__dacte_margin_top
 msgid "Top margin in mm for the DACTE layout."
+msgstr ""
+
+#. module: l10n_br_cte
+#: model:ir.model.fields,help:l10n_br_cte.field_res_company__cte_import_service_product_id
+msgid ""
+"Transport service suggested on the line of a CT-e that the company issued in"
+" another system when it is imported. The person confirms the suggestion in "
+"the review. Without it the line waits for the choice of the product."
 msgstr ""
 
 #. module: l10n_br_cte
@@ -6124,3 +6179,36 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_cte.field_cte_40_tprotgtve__cte40_versao
 msgid "versao"
 msgstr ""
+
+#. module: l10n_br_cte
+#: model:ir.model.fields,field_description:l10n_br_cte.field_l10n_br_fiscal_document__cte_company_role
+msgid "Role of the Company in the CT-e"
+msgstr ""
+
+#. module: l10n_br_cte
+#: model:ir.model.fields,help:l10n_br_cte.field_l10n_br_fiscal_document__cte_company_role
+msgid ""
+"What the company is in a CT-e that it received: the taker of the "
+"freight, who owes it, or one of the other parties, for whom the CT-e "
+"is only registered."
+msgstr ""
+
+#. module: l10n_br_cte
+#: model:ir.model.fields.selection,name:l10n_br_cte.selection__l10n_br_fiscal_document__cte_company_role__other
+msgid "Sender, recipient, shipper or receiver"
+msgstr ""
+
+#. module: l10n_br_cte
+#: model:ir.model.fields.selection,name:l10n_br_cte.selection__l10n_br_fiscal_document__cte_company_role__taker
+msgid "Taker"
+msgstr ""
+
+#. module: l10n_br_cte
+#. odoo-python
+#: code:addons/l10n_br_cte/models/document_import.py:0
+#, python-format
+msgid ""
+"The company is not the taker of this CT-e: it stays registered, with "
+"no amount to pay."
+msgstr ""
+

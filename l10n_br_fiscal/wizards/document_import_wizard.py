@@ -248,38 +248,11 @@ class DocumentImportWizard(models.TransientModel):
             limit=1,
         )
 
-    def _counterpart_cfop_code(self, cfop, fiscal_operation_type):
-        code = str(cfop or "")
-        if fiscal_operation_type != "in":
-            return code
-        counterpart = {"5": "1", "6": "2", "7": "3"}.get(code[:1])
-        if not counterpart:
-            return ""
-        return counterpart + code[1:]
-
-    def _find_fiscal_operation_line(self, cfop, nat_op, fiscal_operation_type):
-        code = self._counterpart_cfop_code(cfop, fiscal_operation_type)
-        if not code:
-            return self.env["l10n_br_fiscal.operation.line"]
-        operation_lines = self.env["l10n_br_fiscal.operation.line"].search(
-            [
-                ("state", "=", "approved"),
-                ("fiscal_operation_type", "=", fiscal_operation_type),
-                "|",
-                "|",
-                ("cfop_internal_id.code", "=", code),
-                ("cfop_external_id.code", "=", code),
-                ("cfop_export_id.code", "=", code),
-            ],
-        )
-        for line in operation_lines:
-            if line.fiscal_operation_id.name == nat_op:
-                return line
-        return operation_lines[:1]
-
     def _find_fiscal_operation(self, cfop, nat_op, fiscal_operation_type):
         """try to find a matching fiscal operation via an operation line"""
-        line = self._find_fiscal_operation_line(cfop, nat_op, fiscal_operation_type)
+        line = self.env["l10n_br_fiscal.operation.line"]._find_by_issuer_cfop(
+            cfop, nat_op, fiscal_operation_type
+        )
         if line:
             return line.fiscal_operation_id
 

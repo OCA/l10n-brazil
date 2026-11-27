@@ -1,15 +1,24 @@
 # Copyright 2025 - TODAY Akretion - Raphael Valyi <raphael.valyi@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-import base64
 import os
+import re
+from datetime import timedelta
 
 from odoo import Command
 from odoo.exceptions import UserError
 from odoo.tests import TransactionCase
-from odoo.tests.common import Form
 
 from odoo.addons import l10n_br_account_nfe
+
+FIXTURE = os.path.join(
+    l10n_br_account_nfe.__path__[0],
+    "tests",
+    "nfe",
+    "35231149647316000169550010000661061151600085-nfe.xml",
+)
+FIXTURE_DEST = re.compile(rb"(<dest>\s*)<(?:CNPJ|CPF)>\d+</(?:CNPJ|CPF)>")
+DUE_ACCOUNT_TYPES = ("asset_receivable", "liability_payable")
 
 
 class NFeImportTest(TransactionCase):
@@ -23,8 +32,6 @@ class NFeImportTest(TransactionCase):
                 "login": "accountman",
                 "password": "accountman",
                 "groups_id": [
-                    # we purposely don't give Fiscal access rights now to ensure
-                    # non fiscal operations are still allowed
                     Command.set(cls.env.user.groups_id.ids),
                     Command.link(cls.env.ref("account.group_account_manager").id),
                     Command.link(cls.env.ref("account.group_account_user").id),
@@ -41,7 +48,6 @@ class NFeImportTest(TransactionCase):
                 "company_id": cls.company.id,
             }
         )
-
         cls.env = cls.env(
             user=cls.user,
             context=dict(
@@ -50,111 +56,55 @@ class NFeImportTest(TransactionCase):
                 allowed_company_ids=[cls.company.id],
             ),
         )
+        cls.operation = cls.env.ref("l10n_br_fiscal.fo_compras")
+
+    def _xml(self, replace=()):
+        with open(FIXTURE, "rb") as xml_file:
+            content = xml_file.read()
+        recipient = self.company.partner_id.cnpj_cpf_stripped
+        content = FIXTURE_DEST.sub(rb"\1<CNPJ>%s</CNPJ>" % recipient.encode(), content)
+        for old, new in replace:
+            content = re.sub(old, new, content, flags=re.S)
+        return content
+
+    def _import(self, content):
+        documents, errors, _warnings = self.env[
+            "l10n_br_fiscal.document"
+        ]._edi_import_files([("nfe.xml", content)])
+        self.assertFalse(errors)
+        return documents
+
+    def _review(self, document):
+        """What the user does on the lines: choose a product for each one."""
+        document.fiscal_operation_id = self.operation
+        for line in document.fiscal_line_ids:
+            line._apply_import_depara(
+                product=self.env["product.product"].create({"name": line.name}),
+                uom=self.env["uom.uom"]._match_by_fiscal_code(line.partner_uom_code),
+                fiscal_operation=self.operation,
+            )
+
+    def _generate(self, document):
+        action = document.action_generate_invoice()
+        return self.env["account.move"].browse(action["res_id"])
+
+    def _payables(self, partner):
+        return self.env["account.move.line"].search(
+            [
+                ("partner_id", "=", partner.id),
+                ("account_id.account_type", "in", DUE_ACCOUNT_TYPES),
+            ]
+        )
+
+    def _due_lines(self, move):
+        return move.line_ids.filtered(
+            lambda line: line.account_id.account_type in DUE_ACCOUNT_TYPES
+        ).sorted("date_maturity")
 
     def test_import_in_nfe(self):
-        file_path = os.path.join(
-            l10n_br_account_nfe.__path__[0],
-            "tests",
-            "nfe",
-            "35231149647316000169550010000661061151600085-nfe.xml",
-        )
-        with open(file_path, "rb") as file:
-            file_content = file.read()
-
-        wizard = self.env["l10n_br_fiscal.document.import.wizard"].create({})
-        with Form(wizard) as import_form:
-            import_form.file = base64.b64encode(file_content)
-            import_form.fiscal_operation_id = self.env.ref("l10n_br_fiscal.fo_compras")
-            lines = import_form.imported_products_ids._records
-        for line in lines:  # ensure testing consistency
-            del line["id"]
-            del line["product_id"]
-            del line["ncm_internal"]
-            del line["cfop_warning"]
-        self.assertEqual(len(lines), 4)
-        self.assertDictEqual(
-            lines[0],
-            {
-                "icms_value": "487.90",
-                "uom_conversion_factor": 1.0,
-                "total": 4065.8,
-                "new_cfop_id": False,
-                "product_name": "PAPEL CELOFANE (CELULOSE) 35GSM 19x24CM",
-                "icms_percent": "12.0000",
-                "ipi_value": "132.14",
-                "uom_com": "KG",
-                "ncm_xml": "48111090",
-                "cfop_xml": "6101",
-                "ipi_percent": "3.2500",
-                "price_unit_com": 58.0,
-                "product_code": "1070147",
-                "quantity_com": 70.1,
-                "uom_internal": 12,
-            },
-        )
-        self.assertDictEqual(
-            lines[1],
-            {
-                "icms_value": "412.70",
-                "uom_conversion_factor": 1.0,
-                "total": 3439.2,
-                "new_cfop_id": False,
-                "product_name": "PAVIO P/VELA VOTIVA 50 X 150MM (C102018007170)",
-                "icms_percent": "12.0000",
-                "ipi_value": "0.00",
-                "uom_com": "MIL",
-                "ncm_xml": "34060000",
-                "cfop_xml": "6101",
-                "ipi_percent": "0.0000",
-                "price_unit_com": 57.32,
-                "product_code": "B100618007170",
-                "quantity_com": 60.0,
-                "uom_internal": 61,
-            },
-        )
-        self.assertDictEqual(
-            lines[2],
-            {
-                "quantity_com": 48.0,
-                "uom_conversion_factor": 1.0,
-                "icms_value": "330.16",
-                "ncm_xml": "34060000",
-                "icms_percent": "12.0000",
-                "uom_internal": 61,
-                "cfop_xml": "6101",
-                "product_code": "B101518007170",
-                "ipi_value": "0.00",
-                "product_name": "PAVIO P/VELA VOTIVA 57 X 150MM",
-                "uom_com": "MIL",
-                "price_unit_com": 57.32,
-                "total": 2751.36,
-                "new_cfop_id": False,
-                "ipi_percent": "0.0000",
-            },
-        )
-        self.assertDictEqual(
-            lines[3],
-            {
-                "icms_value": "206.35",
-                "uom_conversion_factor": 1.0,
-                "total": 1719.6,
-                "new_cfop_id": False,
-                "product_name": "PAVIO P/VELA VOTIVA 50 X 140MM (C102018007160)",
-                "icms_percent": "12.0000",
-                "ipi_value": "0.00",
-                "uom_com": "MIL",
-                "ncm_xml": "34060000",
-                "cfop_xml": "6101",
-                "ipi_percent": "0.0000",
-                "price_unit_com": 57.32,
-                "product_code": "B100618007160",
-                "quantity_com": 30.0,
-                "uom_internal": 61,
-            },
-        )
-
-        action = wizard.action_import_and_open_move()
-        move = self.env["account.move"].browse(action["res_id"])
+        document = self._import(self._xml())
+        self._review(document)
+        move = self._generate(document)
 
         self.assertEqual(move.partner_id.name, "FORNECEDER NFE DEMO LTDA")
         self.assertEqual(move.partner_id.vat, "04.712.500/0001-07")
@@ -162,9 +112,7 @@ class NFeImportTest(TransactionCase):
         self.assertEqual(
             move.document_type_id, self.env.ref("l10n_br_fiscal.document_55")
         )
-        self.assertEqual(
-            move.fiscal_operation_id, self.env.ref("l10n_br_fiscal.fo_compras")
-        )
+        self.assertEqual(move.fiscal_operation_id, self.operation)
         self.assertEqual(move.document_number, "66106")
         self.assertEqual(
             move.document_key, "35231149647316000169550010000661061151600085"
@@ -173,97 +121,118 @@ class NFeImportTest(TransactionCase):
         self.assertAlmostEqual(move.amount_price_gross, 11975.96, places=2)
         self.assertAlmostEqual(move.amount_discount_value, 0, places=2)
         self.assertAlmostEqual(move.amount_untaxed, 11975.96, places=2)
-        self.assertAlmostEqual(move.amount_freight_value, 0, places=2)
-        self.assertAlmostEqual(move.amount_insurance_value, 0, places=2)
-        self.assertAlmostEqual(move.amount_other_value, 0, places=2)
         self.assertAlmostEqual(move.amount_tax, 132.14, places=2)
         self.assertAlmostEqual(move.amount_total, 12108.10, places=2)
 
         self.assertEqual(len(move.invoice_line_ids), 4)
-
-        # The wizard stamps the effective incoming date (DT_E_S in the SPED
-        # bookkeeping), defaulting to the import date.
-        self.assertTrue(move.fiscal_document_id.date_in_out)
-
-        # The supplier declared CFOP 6101 (interstate sale); the de-para
-        # recomputes it to the company's inbound CFOP, but partner_cfop_id
-        # preserves the declared value for bookkeeping / SPED (C197).
+        line = move.invoice_line_ids[0]
+        self.assertEqual(line.quantity, 70.1)
+        self.assertAlmostEqual(line.price_unit, 58.0, places=2)
+        self.assertAlmostEqual(line.price_subtotal, 4065.80, places=2)
+        self.assertEqual(line.nfe40_xPed, "OC00589")
+        self.assertEqual(line.icms_tax_id.id, self.ref("l10n_br_fiscal.tax_icms_12"))
+        self.assertAlmostEqual(line.icms_value, 487.90, places=2)
+        self.assertEqual(line.ipi_tax_id.id, self.ref("l10n_br_fiscal.tax_ipi_3_25"))
+        self.assertAlmostEqual(line.ipi_value, 132.14, places=2)
+        self.assertAlmostEqual(line.pis_value, 23.26, places=2)
+        # the supplier declared CFOP 6101 (interstate sale); the de-para
+        # recomputes the one of the company, the declared one is preserved
         doc_line = move.fiscal_document_id.fiscal_line_ids[0]
         self.assertEqual(doc_line.partner_cfop_id.code, "6101")
         self.assertNotEqual(doc_line.cfop_id.code, "6101")
 
-        self.assertEqual(
-            move.invoice_line_ids[0].product_id.name,
-            "PAPEL CELOFANE (CELULOSE) 35GSM 19x24CM",
-        )
-        self.assertEqual(move.invoice_line_ids[0].product_id.code, "1070147")
-        self.assertEqual(move.invoice_line_ids[0].product_id.ncm_id.code, "48111090")
-        self.assertEqual(move.invoice_line_ids[0].quantity, 70.1)
-        self.assertAlmostEqual(move.invoice_line_ids[0].fiscal_quantity, 70.1, places=2)
-        self.assertAlmostEqual(move.invoice_line_ids[0].price_unit, 58.0, places=2)
-        self.assertAlmostEqual(move.invoice_line_ids[0].fiscal_price, 58.0, places=2)
-        self.assertAlmostEqual(
-            move.invoice_line_ids[0].price_subtotal, 4065.80, places=2
-        )
-        self.assertEqual(move.invoice_line_ids[0].nfe40_xPed, "OC00589")
-        self.assertEqual(move.invoice_line_ids[0].product_uom_id.code, "KG")
+    def test_installments_are_born_with_the_invoice_and_follow_the_duplicates(self):
+        document = self._import(self._xml())
+        self._review(document)
+        self.assertFalse(self._payables(document.partner_id))
+        self.assertFalse(document.move_ids)
 
+        move = self._generate(document)
+
+        due_lines = self._due_lines(move)
+        self.assertEqual(due_lines, self._payables(document.partner_id))
+        self.assertEqual(due_lines.mapped("credit"), [4035.63, 4035.63, 4036.84])
         self.assertEqual(
-            move.invoice_line_ids[0].icms_tax_id.id,
-            self.ref("l10n_br_fiscal.tax_icms_12"),
-        )
-        self.assertAlmostEqual(move.invoice_line_ids[0].icms_value, 487.90, places=2)
-        self.assertEqual(
-            move.invoice_line_ids[0].ipi_tax_id.id,
-            self.ref("l10n_br_fiscal.tax_ipi_3_25"),
-        )
-        self.assertAlmostEqual(move.invoice_line_ids[0].ipi_value, 132.14, places=2)
-        self.assertEqual(
-            move.invoice_line_ids[0].pis_tax_id.id,
-            self.ref("l10n_br_fiscal.tax_pis_0_65"),
-        )
-        self.assertAlmostEqual(move.invoice_line_ids[0].pis_value, 23.26, places=2)
-        self.assertEqual(
-            move.invoice_line_ids[0].cofins_tax_id.id,
-            self.ref("l10n_br_fiscal.tax_cofins_3"),
-        )
-        self.assertEqual(
-            move.invoice_line_ids[1].product_id.name,
-            "PAVIO P/VELA VOTIVA 50 X 150MM (C102018007170)",
-        )
-        self.assertEqual(move.invoice_line_ids[1].product_id.code, "B100618007170")
-        self.assertEqual(move.invoice_line_ids[1].product_id.ncm_id.code, "34060000")
-        self.assertEqual(move.invoice_line_ids[1].quantity, 60)
-        self.assertAlmostEqual(move.invoice_line_ids[1].fiscal_quantity, 60, places=2)
-        self.assertEqual(move.invoice_line_ids[1].product_uom_id.code, "MILHEI")
-        self.assertAlmostEqual(
-            move.invoice_line_ids[1].price_subtotal, 3439.20, places=2
+            [line.date_maturity.isoformat() for line in due_lines],
+            ["2026-12-09", "2026-12-24", "2027-01-08"],
         )
 
-        self.assertEqual(len(move.due_line_ids), 3)
-        self.assertAlmostEqual(move.due_line_ids[0].credit, 4035.63, places=2)
-        self.assertAlmostEqual(move.due_line_ids[1].credit, 4035.63, places=2)
-        self.assertAlmostEqual(move.due_line_ids[2].credit, 4036.84, places=2)
+    def test_installments_that_do_not_add_up_are_spread_by_their_weight(self):
+        xml = self._xml(
+            [(rb"<vDup>4035.63</vDup>", b"<vDup>1000.00</vDup>")],
+        )
+        document = self._import(xml)
+        self._review(document)
+        self.assertIn("installments add up", document.import_warning)
+
+        due_lines = self._due_lines(self._generate(document))
+
+        self.assertEqual(len(due_lines), 3)
+        self.assertAlmostEqual(sum(due_lines.mapped("credit")), 12108.10, places=2)
+        # declared 1000.00 + 1000.00 + 4036.84: the weight is kept
+        self.assertAlmostEqual(
+            due_lines[0].credit / due_lines[2].credit, 1000 / 4036.84, places=2
+        )
+        self.assertEqual(due_lines[0].credit, due_lines[1].credit)
 
     def test_import_incomplete_document_is_blocked(self):
         """A document with a line missing its product/uom/qty/price must not
         be importable into an account move (SPED data integrity)."""
-        file_path = os.path.join(
-            l10n_br_account_nfe.__path__[0],
-            "tests",
-            "nfe",
-            "35231149647316000169550010000661061151600085-nfe.xml",
-        )
-        with open(file_path, "rb") as file:
-            file_content = file.read()
-
-        wizard = self.env["l10n_br_fiscal.document.import.wizard"].create({})
-        with Form(wizard) as import_form:
-            import_form.file = base64.b64encode(file_content)
-            import_form.fiscal_operation_id = self.env.ref("l10n_br_fiscal.fo_compras")
-
-        _binding, document = wizard._import_edoc()
+        document = self._import(self._xml())
+        self._review(document)
         # Break one line to simulate an unmatched product.
         document.fiscal_line_ids[0].product_id = False
         with self.assertRaises(UserError):
-            document._check_document_import()
+            document.action_generate_invoice()
+        self.assertFalse(document.move_ids)
+
+    def test_import_without_installments_uses_payment_term(self):
+        """An NF-e that declares no duplicata must not lose the due dates
+        given by the payment term chosen for the vendor bill."""
+        payment_term = self.env["account.payment.term"].create(
+            {
+                "name": "Two installments",
+                "line_ids": [
+                    Command.create(
+                        {"value": "percent", "value_amount": 50.0, "days": 30}
+                    ),
+                    Command.create(
+                        {"value": "balance", "value_amount": 0.0, "days": 60}
+                    ),
+                ],
+            }
+        )
+        document = self._import(self._xml([(rb"<cobr>.*?</cobr>", b"")]))
+        self._review(document)
+        self.assertFalse(document.nfe40_dup)
+        move = self._generate(document)
+        move.invoice_payment_term_id = payment_term
+
+        due_lines = self._due_lines(move)
+        self.assertEqual(
+            due_lines.mapped("date_maturity"),
+            [
+                move.invoice_date + timedelta(days=30),
+                move.invoice_date + timedelta(days=60),
+            ],
+        )
+        self.assertAlmostEqual(sum(due_lines.mapped("credit")), 12108.10, places=2)
+
+    def test_upload_to_a_vendor_bill_imports_the_nfe_as_a_fiscal_document(self):
+        attachment = self.env["ir.attachment"].create(
+            {"name": "nfe.xml", "raw": self._xml()}
+        )
+        journal = self.env["account.journal"].search(
+            [("type", "=", "purchase"), ("company_id", "=", self.company.id)], limit=1
+        )
+
+        action = journal.create_document_from_attachment([attachment.id])
+
+        self.assertEqual(action["res_model"], "l10n_br_fiscal.document")
+        document = self.env["l10n_br_fiscal.document"].browse(action["res_id"])
+        self.assertEqual(
+            document.document_key, "35231149647316000169550010000661061151600085"
+        )
+        self.assertTrue(document.imported_document)
+        self.assertFalse(document.move_ids)
+        self.assertFalse(self._payables(document.partner_id))

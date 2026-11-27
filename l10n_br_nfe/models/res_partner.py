@@ -6,6 +6,7 @@ from erpbrasil.base.misc import format_zipcode, punctuation_rm
 
 from odoo import api, fields
 
+from odoo.addons.l10n_br_fiscal_edi.tools import EDI_IMPORT_NO_CREATE
 from odoo.addons.spec_driven_model.models import spec_models
 
 
@@ -277,6 +278,10 @@ class ResPartner(spec_models.SpecModel):
 
     @api.model
     def match_or_create_m2o(self, rec_dict, parent_dict, model=None):
+        schema = self.env.context.get("spec_schema")
+        if schema and schema != "nfe":
+            # another schema (the CT-e, loaded after this module) matches its own
+            return super().match_or_create_m2o(rec_dict, parent_dict, model)
         if model is not None and model != self:
             return False
 
@@ -302,6 +307,7 @@ class ResPartner(spec_models.SpecModel):
             if match:
                 if (
                     not self._context.get("dry_run")
+                    and not self._context.get(EDI_IMPORT_NO_CREATE)
                     and tax_framework
                     and match.tax_framework != tax_framework
                 ):

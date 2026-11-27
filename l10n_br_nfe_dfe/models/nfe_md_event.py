@@ -25,7 +25,8 @@ class NfeRecipientManifestationEvent(models.Model):
         """
         result = super().action_confirm()
         for record in self.filtered(lambda r: r.event_type == "ciente"):
-            company = record.company_id
+            # Technical schedule of the next query: not a right of who registers
+            company = record.company_id.sudo()
             # Never break 656 cooldown (would restart the 1h block timer)
             if company.nfe_dfe_last_status_code == CSTAT_CONSUMO_INDEVIDO:
                 continue

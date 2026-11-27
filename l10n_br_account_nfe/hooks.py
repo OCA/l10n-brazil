@@ -38,6 +38,19 @@ def load_simples_nacional_demo(env, registry):
             kind="demo",
         )
 
+    # the vendor bill and the customer invoice of the notes imported by the demo of
+    # l10n_br_nfe, which are of the company "Empresa Lucro Presumido"
+    if env.ref("base.module_l10n_br_nfe").demo:
+        tools.convert_file(
+            env.cr,
+            "l10n_br_account_nfe",
+            "demo/document_invoice_demo.xml",
+            None,
+            mode="init",
+            noupdate=True,
+            kind="demo",
+        )
+
     # back to the main company as the next modules to be installed
     # expect this to be the default company.
     env.user.company_id = env.ref("base.main_company")

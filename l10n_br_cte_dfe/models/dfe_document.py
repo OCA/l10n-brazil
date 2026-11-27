@@ -34,23 +34,6 @@ class L10nBrFiscalDfeDocument(models.Model):
             raise UserError(_("No complete DF-e found."))
         return complete
 
-    def action_view_imported_document(self):
-        """Open the invoice created from this DF-e.
-
-        Falls back to the fiscal document itself when accounting is not
-        installed, as this module does not depend on l10n_br_account.
-        """
-        self.ensure_one()
-        document = self.fiscal_document_id
-        moves = document.move_ids if "move_ids" in document._fields else document
-        record = moves[:1] or document
-        return {
-            "type": "ir.actions.act_window",
-            "res_model": record._name,
-            "res_id": record.id,
-            "view_mode": "form",
-        }
-
     def import_document(self):
         if self.fiscal_type != "cte":
             return super().import_document()
