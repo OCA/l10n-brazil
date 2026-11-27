@@ -686,6 +686,50 @@ class TestAssessmentReconciliation(TransactionCase):
         self.assertEqual(divergence.ignored_by_id, self.env.user)
         self.assertTrue(divergence.ignored_date)
 
+    def test_ignore_wizard_records_the_reason(self):
+        self._upsert_debits({self._key(1): 100.0})
+        divergence = self._reconcile_against({"debit": {self._key(1): 130.0}})
+        action = divergence.action_open_ignore()
+        wizard = (
+            self.env[action["res_model"]]
+            .with_context(**action["context"])
+            .create({"notes": "  Accepted as a rounding of another period.  "})
+        )
+        self.assertEqual(wizard.divergence_id, divergence)
+        wizard.action_confirm()
+        self.assertEqual(divergence.state, "ignored")
+        self.assertEqual(divergence.notes, "Accepted as a rounding of another period.")
+        self.assertEqual(divergence.ignored_by_id, self.env.user)
+        self.assertTrue(divergence.ignored_date)
+
+    def test_ignored_reason_can_be_edited(self):
+        self._upsert_debits({self._key(1): 100.0})
+        divergence = self._reconcile_against({"debit": {self._key(1): 130.0}})
+        action = divergence.action_open_ignore()
+        wizard = (
+            self.env[action["res_model"]]
+            .with_context(**action["context"])
+            .create({"notes": "Accepted as a rounding."})
+        )
+        wizard.action_confirm()
+        ignored_by = divergence.ignored_by_id
+        ignored_date = divergence.ignored_date
+        action = divergence.action_open_ignore()
+        self.assertEqual(action["name"], "Edit Reason")
+        wizard = (
+            self.env[action["res_model"]].with_context(**action["context"]).create({})
+        )
+        self.assertEqual(wizard.notes, "Accepted as a rounding.")
+        wizard.notes = "Corrected: the difference belongs to the previous period."
+        wizard.action_confirm()
+        self.assertEqual(divergence.state, "ignored")
+        self.assertEqual(
+            divergence.notes,
+            "Corrected: the difference belongs to the previous period.",
+        )
+        self.assertEqual(divergence.ignored_by_id, ignored_by)
+        self.assertEqual(divergence.ignored_date, ignored_date)
+
     def test_local_totals_include_both_directions_before_download(self):
         booked = {
             "debit": {self._key(1): 80.0},

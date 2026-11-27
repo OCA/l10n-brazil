@@ -27,11 +27,18 @@
                     invisible="state != 'open'"
                 />
                 <button
-                    name="action_mark_ignored"
+                    name="action_open_ignore"
                     type="object"
                     icon="fa-ban"
                     title="Ignore"
                     invisible="state != 'open'"
+                />
+                <button
+                    name="action_open_ignore"
+                    type="object"
+                    icon="fa-pencil"
+                    title="Edit Reason"
+                    invisible="state != 'ignored'"
                 />
             </list>
         </field>
@@ -50,12 +57,22 @@
                         invisible="state != 'open'"
                     />
                     <button
-                        name="action_mark_ignored"
+                        name="action_open_ignore"
                         type="object"
                         string="Ignore"
                         invisible="state != 'open'"
                     />
-                    <field name="state" widget="statusbar" />
+                    <button
+                        name="action_open_ignore"
+                        type="object"
+                        string="Edit Reason"
+                        invisible="state != 'ignored'"
+                    />
+                    <field
+                        name="state"
+                        widget="statusbar"
+                        options="{'clickable': false}"
+                    />
                 </header>
                 <sheet>
                     <group>
@@ -77,7 +94,7 @@
                             <field name="local_value" readonly="1" />
                             <field name="difference" />
                             <field name="suggested_action" />
-                            <field name="notes" />
+                            <field name="notes" string="Reason" />
                             <field name="handled_by_id" invisible="not handled_by_id" />
                             <field name="handled_date" invisible="not handled_date" />
                             <field name="ignored_by_id" invisible="not ignored_by_id" />

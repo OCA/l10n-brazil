@@ -23,6 +23,7 @@
         "views/assisted_assessment_bookkeeping_view.xml",
         "views/assisted_assessment_line_view.xml",
         "views/assisted_assessment_divergence_view.xml",
+        "wizards/divergence_ignore_view.xml",
         "views/assisted_assessment_request_view.xml",
         "views/assisted_assessment_view.xml",
         "views/res_company_view.xml",

@@ -219,6 +219,27 @@ class AssistedAssessmentDivergence(models.Model):
     def action_mark_ignored(self):
         return self.write({"state": "ignored"})
 
+    def action_open_ignore(self):
+        """Ask for the reason, then ignore or replace the stored reason.
+
+        The same dialog edits a reason already recorded. That update does not
+        count as a new decision, so the original user and date stay.
+        """
+        self.ensure_one()
+        editing = self.state == "ignored"
+        return {
+            "type": "ir.actions.act_window",
+            "name": _("Edit Reason") if editing else _("Ignore Divergence"),
+            "res_model": "l10n_br_assisted_assessment.divergence.ignore",
+            "view_mode": "form",
+            "target": "new",
+            "context": {
+                "default_divergence_id": self.id,
+                "default_notes": self.notes,
+                "default_editing": editing,
+            },
+        }
+
     def _requires_adjustment_proof(self):
         """Value gaps and booked-only debits are closed by an adjustment NF."""
         self.ensure_one()

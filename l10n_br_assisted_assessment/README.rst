@@ -117,7 +117,9 @@ A rotina mensal tem três passos:
    lá. Tratar um documento só na apuração exige vincular o documento
    fiscal; tratar uma diferença de valor (ou um débito só na
    escrituração) exige vincular a nota de crédito ou de débito de
-   ajuste, ou registrar o motivo em notas; ignorar exige uma nota.
+   ajuste, ou registrar o motivo em Reason; ignorar abre uma janela
+   pedindo esse motivo. O mesmo botão, como *Edit Reason*, altera o
+   texto depois, sem trocar quem ignorou nem a data.
 
 Uma ação agendada diária avisa os responsáveis quando o prazo se
 aproxima e marca o período como expirado depois que ele passa. A
