@@ -62,6 +62,31 @@ def filter_nfse_nacional(record):
     )
 
 
+def _nfse10_city_code(city_code, national_code):
+    """Return the cTribMun of the DPS from the city taxation code.
+
+    cTribMun is the 3 digit municipal complement of cTribNac. Many cities,
+    Barueri among them, publish their list as the national code followed by
+    that complement (140101 + 220 = 140101220), and the same code is what the
+    municipal webservices expect, so the city taxation code may hold all 9
+    digits. Declare only the complement in that case, and leave out a code
+    that is not a complement at all instead of failing the schema (pattern
+    [0-9]{3}).
+    """
+    if not city_code:
+        return None
+    if len(city_code) == 3 and city_code.isdigit():
+        return city_code
+    if (
+        national_code
+        and len(city_code) == len(national_code) + 3
+        and city_code.startswith(national_code)
+        and city_code[-3:].isdigit()
+    ):
+        return city_code[-3:]
+    return None
+
+
 def _nfse10_amount(value):
     """Format an amount the way the NFS-e schema expects it (2 decimals).
 
@@ -301,7 +326,10 @@ class L10nBrFiscalDocument(spec_models.StackedModel):
         self.ensure_one()
         return {
             "cTribNac": line.national_taxation_code_id.code_unmasked or None,
-            "cTribMun": line.city_taxation_code_id.code_unmasked or None,
+            "cTribMun": _nfse10_city_code(
+                line.city_taxation_code_id.code_unmasked,
+                line.national_taxation_code_id.code_unmasked,
+            ),
             "cNBS": line.nbs_id.code_unmasked or None,
             "cLocPrestacao": line.issqn_fg_city_id.ibge_code or None,
             "tribISSQN": self._nfse10_trib_issqn_code(line),
