@@ -12,6 +12,14 @@ _logger = logging.getLogger(__name__)
 class AccountChartTemplate(models.AbstractModel):
     _inherit = "account.chart.template"
 
+    def _pre_load_data(self, template_code, company, template_data, data):
+        data = super()._pre_load_data(template_code, company, template_data, data)
+        if "br_oca" in self._get_parent_template(template_code):
+            # the Brazilian documents are numbered by l10n_br_fiscal
+            for journal_vals in data.get("account.journal", {}).values():
+                journal_vals.pop("l10n_latam_use_documents", None)
+        return data
+
     def _load(self, template_code, company, install_demo, force_create=True):
         result = super()._load(template_code, company, install_demo, force_create)
         if company.currency_id == self.env.ref("base.BRL"):
