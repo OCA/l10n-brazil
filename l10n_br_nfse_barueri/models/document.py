@@ -214,8 +214,8 @@ class Document(models.Model):
             "codigo_tributacao_municipio"
         ]
         registro_tipo2.LocalPrestacaoServico = (
-            "1"
-        )  # String: 1=Município, 2=Fora do Município
+            "1"  # String: 1=Município, 2=Fora do Município
+        )
         registro_tipo2.ServicoPrestadoViasPublicas = "2"  # String: 1=Sim, 2=Não
         registro_tipo2.EnderecoLogradouroLocalServico = ""
         registro_tipo2.NumeroLogradouroLocalServico = ""
@@ -308,8 +308,8 @@ class Document(models.Model):
         registro_tipo4 = RegistroTipo4()
         registro_tipo4.TipoRegistro = 4
         registro_tipo4.OptanteSimplesNacional = (
-            1
-        )  # String: 1=Não optante, 2=MEI, 3=ME/EPP
+            1  # String: 1=Não optante, 2=MEI, 3=ME/EPP
+        )
         registro_tipo4.RegimeApuracaoSN = ""
         registro_tipo4.CodigoCidadeLocalPrestacao = str(
             self.company_id.city_id.ibge_code or ""
@@ -435,17 +435,17 @@ class Document(models.Model):
             status, mensagem = processador.analisa_retorno_consulta(processo)
             vals = dict()
             if status == 1 and int(record.status_code) in [-1, -2]:
-                vals[
-                    "return_filename"
-                ] = processo.resposta.ListaNfeArquivosRPS.NomeArqRetorno
+                vals["return_filename"] = (
+                    processo.resposta.ListaNfeArquivosRPS.NomeArqRetorno
+                )
                 vals["status_name"] = _("Successfully Processed")
                 vals["status_code"] = 1
                 vals = record._set_response(record, processador, protocolo, vals)
 
             if status == 2 and int(record.status_code) in [-1, -2]:
-                vals[
-                    "return_filename"
-                ] = processo.resposta.ListaNfeArquivosRPS.NomeArqRetorno
+                vals["return_filename"] = (
+                    processo.resposta.ListaNfeArquivosRPS.NomeArqRetorno
+                )
                 vals["status_name"] = _("Processed with Error")
                 vals["status_code"] = 2
                 vals = record._set_response(record, processador, protocolo, vals)
@@ -505,9 +505,9 @@ class Document(models.Model):
                     vals["status_code"] = int(
                         processo.resposta.ListaNfeArquivosRPS.SituacaoArq
                     )
-                    vals[
-                        "return_filename"
-                    ] = processo.resposta.ListaNfeArquivosRPS.NomeArqRetorno
+                    vals["return_filename"] = (
+                        processo.resposta.ListaNfeArquivosRPS.NomeArqRetorno
+                    )
 
         return vals, protocolo
 
