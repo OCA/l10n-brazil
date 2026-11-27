@@ -12,3 +12,7 @@ xsdata
 # l10n_br_nfe_spec tests: sample documents and xsdata bindings from nfelib
 # l10n_br_mdfe_spec tests: sample documents and xsdata bindings from nfelib
 nfelib
+# requests-pkcs12 pin from #5611 (l10n_br_nfe): 1.23 and later require
+# cryptography >= 42, see the signxml pin above
+requests-pkcs12==1.22
+odoo-addon-l10n_br_nfe @ git+https://github.com/OCA/l10n-brazil.git@refs/pull/5611/head#subdirectory=l10n_br_nfe
