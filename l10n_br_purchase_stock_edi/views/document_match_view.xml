@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="document_match_tree" model="ir.ui.view">
+        <field name="name">l10n_br_purchase_stock_edi.match.tree</field>
+        <field name="model">l10n_br_purchase_edi.match</field>
+        <field name="inherit_id" ref="l10n_br_purchase_edi.document_match_tree" />
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button
+                    name="action_open_receipt"
+                    type="object"
+                    string="Open Receipt"
+                    groups="stock.group_stock_user"
+                />
+                <button
+                    name="action_create_receipt"
+                    type="object"
+                    string="Create Receipt"
+                    groups="stock.group_stock_user"
+                />
+                <button
+                    name="action_no_stock_entry"
+                    type="object"
+                    string="No Stock Entry"
+                    groups="purchase.group_purchase_manager,stock.group_stock_manager"
+                />
+            </xpath>
+            <field name="reference" position="after">
+                <field name="stock_move_id" invisible="1" />
+            </field>
+        </field>
+    </record>
+
+    <record id="document_match_search" model="ir.ui.view">
+        <field name="name">l10n_br_purchase_stock_edi.match.search</field>
+        <field name="model">l10n_br_purchase_edi.match</field>
+        <field name="inherit_id" ref="l10n_br_purchase_edi.document_match_search" />
+        <field name="arch" type="xml">
+            <filter name="quotes" position="after">
+                <filter
+                    name="receipts"
+                    string="Receipts"
+                    domain="[('kind', '=', 'receipt')]"
+                />
+            </filter>
+        </field>
+    </record>
+</odoo>

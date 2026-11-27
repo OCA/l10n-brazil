@@ -137,13 +137,6 @@ msgid "Additional data manually entered by user"
 msgstr ""
 
 #. module: l10n_br_account
-#. odoo-python
-#: code:addons/l10n_br_account/wizards/document_import_wizard.py:0
-#, python-format
-msgid "Adjust Importation"
-msgstr ""
-
-#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__mdfe30_cAerDes
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__mdfe30_cAerDes
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__mdfe30_cAerDes
@@ -2643,11 +2636,6 @@ msgid "Financial Gross Amount"
 msgstr ""
 
 #. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_import_wizard__first_imported_move_id
-msgid "First Imported Move"
-msgstr ""
-
-#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__fiscal_additional_data
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__fiscal_additional_data
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__fiscal_additional_data
@@ -4167,16 +4155,6 @@ msgid "If empty, uses the journal of the journal entry to be reversed."
 msgstr ""
 
 #. module: l10n_br_account
-#: model_terms:ir.ui.view,arch_db:l10n_br_account.document_import_wizard_form
-msgid "Import Account Move"
-msgstr ""
-
-#. module: l10n_br_account
-#: model:ir.model,name:l10n_br_account.model_l10n_br_fiscal_document_import_wizard
-msgid "Import Document Wizard"
-msgstr ""
-
-#. module: l10n_br_account
 #: model_terms:ir.ui.view,arch_db:l10n_br_account.invoice_form
 msgid "Import Fiscal Document"
 msgstr ""
@@ -4186,20 +4164,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__imported_document
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__imported_document
 msgid "Imported"
-msgstr ""
-
-#. module: l10n_br_account
-#. odoo-python
-#: code:addons/l10n_br_account/wizards/document_import_wizard.py:0
-#, python-format
-msgid "Imported Invoice"
-msgstr ""
-
-#. module: l10n_br_account
-#. odoo-python
-#: code:addons/l10n_br_account/wizards/document_import_wizard.py:0
-#, python-format
-msgid "Imported Invoices"
 msgstr ""
 
 #. module: l10n_br_account
@@ -4938,11 +4902,6 @@ msgstr ""
 #. module: l10n_br_account
 #: model:ir.model.fields,help:l10n_br_account.field_account_move_line__nfe40_cListServ
 msgid "Item da lista de serviços da LC 116/03 em que se classifica o serviço."
-msgstr ""
-
-#. module: l10n_br_account
-#: model:ir.model,name:l10n_br_account.model_account_journal
-msgid "Journal"
 msgstr ""
 
 #. module: l10n_br_account

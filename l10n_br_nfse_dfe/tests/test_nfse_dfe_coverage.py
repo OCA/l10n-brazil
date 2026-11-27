@@ -17,21 +17,22 @@ from odoo import fields
 from odoo.exceptions import UserError, ValidationError
 from odoo.tests.common import TransactionCase
 
+from odoo.addons.l10n_br_nfse.models.document_key import (
+    L10nBrFiscalDocument as NfseDocument,
+)
+from odoo.addons.l10n_br_nfse.services.nfse_xml import (
+    normalize_access_key,
+    parse_nfse_datetime,
+    parse_nfse_xml,
+)
 from odoo.addons.l10n_br_nfse_dfe.models.dfe_document import (
     L10nBrFiscalDfeDocument as NfseDfeDocument,
 )
-from odoo.addons.l10n_br_nfse_dfe.models.document import (
-    L10nBrFiscalDocument as NfseDocument,
-)
-from odoo.addons.l10n_br_nfse_dfe.services.nfse_xml import (
-    NfseNacionalBinding,
+from odoo.addons.l10n_br_nfse_dfe.services.nfse_dfe_xml import (
     decode_arquivo_xml,
     is_cancel_event,
-    normalize_access_key,
-    parse_nfse_datetime,
     parse_nfse_event_xml,
     parse_nfse_file,
-    parse_nfse_xml,
     xml_root_is_nfse,
 )
 from odoo.addons.l10n_br_nfse_dfe.services.sefin_nfse import SefinNfseClient
@@ -90,7 +91,7 @@ class TestNfseXmlEdges(TransactionCase):
         self.assertTrue(decode_arquivo_xml(b"<NFSe/>").startswith(b"<"))
         self.assertTrue(decode_arquivo_xml("<NFSe/>").startswith(b"<"))
         with mock.patch(
-            "odoo.addons.l10n_br_nfse_dfe.services.nfse_xml.base64.b64decode",
+            "odoo.addons.l10n_br_nfse_dfe.services.nfse_dfe_xml.base64.b64decode",
             side_effect=ValueError("bad"),
         ):
             self.assertIsNone(decode_arquivo_xml("abc"))
@@ -518,14 +519,16 @@ class TestNfseDfeCoverage(TransactionCase):
             NfseDfeDocument._get_document_state_label(document),
             document.document_state,
         )
-        caught = None
-        try:
-            NfseDfeDocument.import_document(document)
-        except UserError as error:
-            caught = error
-        except NotImplementedError as error:
-            caught = error
-        self.assertIsNotNone(caught)
+        # The inbox of the NFS-e adds nothing to the import of a record of another
+        # type: the generic import serves it (here, asking for the XML of a summary,
+        # which the type decides how), where it used to be refused
+        with mock.patch.object(
+            type(document), "_dfe_import_request", return_value=None
+        ) as request, mock.patch.object(
+            type(document), "_dfe_import_confirmation_message", return_value=False
+        ):
+            document.import_document()
+        request.assert_called_once()
         nfse_key = "6" * 50
         nfse_doc = self.env["l10n_br_fiscal_dfe.document"].create(
             {
@@ -546,8 +549,14 @@ class TestNfseDfeCoverage(TransactionCase):
         )
         nfse_doc.dfe_ids = [(4, complete.id)]
         complete.create_xml_attachment(nfse_xml(access_key=nfse_key))
-        action = nfse_doc.import_document()
-        self.assertEqual(action["res_model"], "l10n_br_fiscal.document.import.wizard")
+        # the web client reads the sizes of the binary fields (bin_size): the XML
+        # is read as content all the same
+        self.assertTrue(nfse_doc.with_context(bin_size=True).import_document())
+        self.assertTrue(
+            self.env["l10n_br_fiscal.document"].search(
+                [("document_key", "=", nfse_key)]
+            )
+        )
 
         fiscal_vals = {
             "company_id": company.id,
@@ -570,57 +579,28 @@ class TestNfseDfeCoverage(TransactionCase):
         other = self.env["l10n_br_fiscal.document"].new({})
         NfseDocument._check_key(other)
 
-    def test_import_wizard_fallbacks(self):
-        wizard = self.env["l10n_br_fiscal.document.import.wizard"].create(
-            {
-                "company_id": self.company.id,
-                "file": base64.b64encode(b"<NFe></NFe>"),
-            }
+    def test_the_reader_helpers_answer_empty_for_what_is_missing(self):
+        documents = self.env["l10n_br_fiscal.document"]
+        self.assertFalse(documents._nfse_find_service_type("12"))
+        self.assertFalse(documents._nfse_find_service_type("999999"))
+        self.assertFalse(documents._nfse_find_nbs(""))
+        self.assertEqual(documents._nfse_percent(0, 1), 0.0)
+        self.assertEqual(documents._nfse_percent(101, 0.5), 0.0)
+        self.assertFalse(documents._nfse_cst("pis", False))
+        self.assertFalse(documents._nfse_cst("pis", "ZZZ"))
+        self.assertFalse(
+            documents._nfse_match_tax("l10n_br_fiscal.tax_group_issqn", 0.0)
         )
-        parent_parse = (
-            "odoo.addons.l10n_br_fiscal.wizards.document_import_wizard."
-            "DocumentImportWizard._parse_file"
-        )
-        with mock.patch(parent_parse, return_value="parsed") as parsed:
-            self.assertEqual(wizard._parse_file(), "parsed")
-        parsed.assert_called_once()
-        with self.assertRaises(UserError):
-            wizard._detect_binding(object())
-        wizard._extract_binding_data(object())
-        with mock.patch.object(type(wizard), "_parse_file", return_value=object()):
-            wizard._create_edoc_from_file()
-        short_key = NfseNacionalBinding({"access_key": "1"})
-        with mock.patch.object(type(wizard), "_parse_file", return_value=short_key):
-            with self.assertRaises(UserError):
-                wizard._create_edoc_from_file()
-        imported = self.env["l10n_br_fiscal.document.import.wizard"].create(
-            {
-                "company_id": self.company.id,
-                "file": base64.b64encode(nfse_xml(access_key="9" * 50)),
-            }
-        )
-        imported.partner_id = False
-        imported.issuer_partner_id = False
-        imported._create_edoc_from_file()
-        self.assertTrue(imported.document_id)
-        self.assertFalse(wizard._nfse_find_service_type("12"))
-        self.assertFalse(wizard._nfse_find_service_type("999999"))
-        self.assertFalse(wizard._nfse_find_nbs(""))
-        self.assertEqual(wizard._nfse_percent(0, 1), 0.0)
-        self.assertEqual(wizard._nfse_percent(101, 0.5), 0.0)
-        self.assertFalse(wizard._nfse_cst("pis", False))
-        self.assertFalse(wizard._nfse_cst("pis", "ZZZ"))
-        self.assertFalse(wizard._nfse_match_tax("l10n_br_fiscal.tax_group_issqn", 0.0))
         cst = self.env["l10n_br_fiscal.cst"].search([], limit=1)
         self.assertTrue(
-            wizard._nfse_match_tax("l10n_br_fiscal.tax_group_issqn", 5.0, 0.0, cst)
+            documents._nfse_match_tax("l10n_br_fiscal.tax_group_issqn", 5.0, 0.0, cst)
         )
-        self.assertFalse(wizard._nfse_amount_vals("issqn", 0, 0, 0, 0, False, False))
-        self.assertEqual(wizard._nfse_percent(10, 0), 0.0)
-        self.assertFalse(wizard._nfse_incidence_city(False))
-        self.assertFalse(wizard._nfse_incidence_city("0000000"))
-        with mock.patch.object(type(wizard.env), "ref", return_value=False):
-            wizard._nfse_default_operation()
+        self.assertFalse(documents._nfse_amount_vals("issqn", 0, 0, 0, 0, False, False))
+        self.assertEqual(documents._nfse_percent(10, 0), 0.0)
+        self.assertFalse(documents._nfse_incidence_city(False))
+        self.assertFalse(documents._nfse_incidence_city("0000000"))
+        with mock.patch.object(type(documents.env), "ref", return_value=False):
+            documents._nfse_default_operation()
         search_wizard = self.env["dfe.specific.search.wizard"].create(
             {
                 "company_id": self.company.id,

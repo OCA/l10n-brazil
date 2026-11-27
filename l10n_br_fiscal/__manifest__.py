@@ -111,7 +111,6 @@
         "views/national_taxation_code.xml",
         "views/operation_dashboard_view.xml",
         # Wizards
-        "wizards/document_import_wizard.xml",
         # Actions
         "views/l10n_br_fiscal_action.xml",
         # Menus

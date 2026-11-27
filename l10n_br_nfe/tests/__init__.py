@@ -1,7 +1,6 @@
 from . import test_nfce
 from . import test_nfe_structure
 from . import test_nfe_import
-from . import test_nfe_import_wizard
 from . import test_nfe_serialize
 from . import test_nfe_serialize_lc
 from . import test_nfe_serialize_sn
@@ -15,3 +14,5 @@ from . import test_nfe_workflow
 from . import test_nfe_legacy_edoc
 from . import test_autxml
 from . import test_nfe_additional_info
+from . import test_nfe_edi_set
+from . import test_nfe_lots

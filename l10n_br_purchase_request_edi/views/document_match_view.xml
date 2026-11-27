@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="document_match_tree" model="ir.ui.view">
+        <field name="name">l10n_br_purchase_request_edi.match.tree</field>
+        <field name="model">l10n_br_purchase_edi.match</field>
+        <field name="inherit_id" ref="l10n_br_purchase_edi.document_match_tree" />
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button
+                    name="action_create_order_from_request"
+                    type="object"
+                    string="Create Order from Request"
+                    groups="purchase.group_purchase_user,purchase_request.group_purchase_request_user"
+                />
+            </xpath>
+            <field name="reference" position="after">
+                <field
+                    name="purchase_request_line_id"
+                    invisible="1"
+                    groups="purchase_request.group_purchase_request_user"
+                />
+                <field name="requested_by_id" string="Requester" optional="hide" />
+            </field>
+        </field>
+    </record>
+
+    <record id="document_match_search" model="ir.ui.view">
+        <field name="name">l10n_br_purchase_request_edi.match.search</field>
+        <field name="model">l10n_br_purchase_edi.match</field>
+        <field name="inherit_id" ref="l10n_br_purchase_edi.document_match_search" />
+        <field name="arch" type="xml">
+            <filter name="quotes" position="after">
+                <filter
+                    name="requests"
+                    string="Purchase Requests"
+                    domain="[('kind', '=', 'request')]"
+                />
+            </filter>
+        </field>
+    </record>
+</odoo>

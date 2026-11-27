@@ -12,6 +12,8 @@ class ResCountryState(models.Model):
     @api.model
     def match_or_create_m2o(self, rec_dict, parent_dict, model=None):
         """If state not found, break hard, don't create it"""
+        if self.env.context.get("spec_schema", "mdfe") != "mdfe":
+            return super().match_or_create_m2o(rec_dict, parent_dict, model=model)
         if rec_dict.get("ibge_code"):
             domain = [("ibge_code", "=", rec_dict.get("ibge_code"))]
             match = self.search(domain, limit=1)

@@ -1,18 +1,17 @@
 # Copyright 2026 Escodoo - Marcel Savegnago <marcel.savegnago@escodoo.com.br>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-import base64
-
 from odoo.tests.common import TransactionCase
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     DOCUMENT_ISSUER_PARTNER,
     MODELO_FISCAL_NFSE,
 )
-from odoo.addons.l10n_br_nfse_dfe.services.nfse_xml import parse_nfse_xml
+from odoo.addons.l10n_br_nfse.services.nfse_xml import parse_nfse_xml
 from odoo.addons.l10n_br_nfse_dfe.tests.test_nfse_dfe import (
     ACCESS_KEY,
     PROVIDER_CNPJ,
+    TAKER_CNPJ,
     nfse_xml,
 )
 
@@ -48,23 +47,21 @@ class TestNfseImport(TransactionCase):
                 }
             )
 
-    def _wizard(self, retention="1"):
-        wizard = self.env["l10n_br_fiscal.document.import.wizard"].create(
-            {
-                "company_id": self.company.id,
-                "file": base64.b64encode(nfse_xml(retention=retention)),
-            }
+    def _import(self, content):
+        """Import the file with the generic service and return its document."""
+        # the company is the taker of the file, so every company is allowed
+        documents, errors, warnings = (
+            self.env["l10n_br_fiscal.document"]
+            .with_context(allowed_company_ids=self.env["res.company"].search([]).ids)
+            .with_company(self.company)
+            ._edi_import_files([("nfse.xml", content)])
         )
-        wizard._onchange_file()
-        return wizard
+        self.assertFalse(errors)
+        self._warnings = warnings
+        return documents
 
     def test_import_creates_inbound_service_document_once(self):
-        wizard = self._wizard()
-        self.assertEqual(wizard.document_type, MODELO_FISCAL_NFSE)
-        self.assertEqual(wizard.document_key, ACCESS_KEY)
-        self.assertEqual(wizard.partner_id, self.provider)
-        self.assertEqual(wizard.fiscal_operation_id.fiscal_operation_type, "in")
-        _binding, document = wizard._create_edoc_from_file()
+        document = self._import(nfse_xml(retention="1"))
         self.assertEqual(document.document_type_id.code, MODELO_FISCAL_NFSE)
         self.assertEqual(document.issuer, DOCUMENT_ISSUER_PARTNER)
         self.assertTrue(document.imported_document)
@@ -85,16 +82,15 @@ class TestNfseImport(TransactionCase):
         self.assertEqual(line.nbs_id, self.nbs)
         self.assertAlmostEqual(line.issqn_wh_value, 0.0)
 
-        again = self._wizard()
-        self.assertEqual(again.document_id, document)
-        before = self.env["l10n_br_fiscal.document"].search_count(
-            [("document_key", "=", ACCESS_KEY)]
+        again = self._import(nfse_xml(retention="1"))
+        self.assertEqual(again, document)
+        self.assertEqual(len(self._warnings), 1)
+        self.assertEqual(
+            self.env["l10n_br_fiscal.document"].search_count(
+                [("document_key", "=", ACCESS_KEY)]
+            ),
+            1,
         )
-        again._import_edoc()
-        after = self.env["l10n_br_fiscal.document"].search_count(
-            [("document_key", "=", ACCESS_KEY)]
-        )
-        self.assertEqual(before, after)
 
     def test_retention_codes_two_and_three_withhold_issqn(self):
         withheld = parse_nfse_xml(nfse_xml(retention="2"))
@@ -102,8 +98,7 @@ class TestNfseImport(TransactionCase):
         self.assertEqual(withheld["issqn_wh_value"], 0.4)
         not_withheld = parse_nfse_xml(nfse_xml(retention="1"))
         self.assertEqual(not_withheld["issqn_wh_value"], 0.0)
-        wizard = self._wizard(retention="2")
-        _binding, document = wizard._create_edoc_from_file()
+        document = self._import(nfse_xml(retention="2"))
         line = document.fiscal_line_ids
         self.assertEqual(line.issqn_tax_id, self.env.ref("l10n_br_fiscal.tax_issqn_2"))
         self.assertEqual(
@@ -131,14 +126,7 @@ class TestNfseImport(TransactionCase):
         self.assertEqual(parsed["issqn_wh_value"], 0.0)
         self.assertEqual(parsed["issqn_city_ibge"], "3205200")
 
-        wizard = self.env["l10n_br_fiscal.document.import.wizard"].create(
-            {
-                "company_id": self.company.id,
-                "file": base64.b64encode(_reform_nfse_xml()),
-            }
-        )
-        wizard._onchange_file()
-        _binding, document = wizard._create_edoc_from_file()
+        document = self._import(_reform_nfse_xml())
         line = document.fiscal_line_ids
         self.assertAlmostEqual(line.price_unit, 3914.0)
         self.assertAlmostEqual(line.issqn_value, 195.70)
@@ -213,21 +201,14 @@ class TestNfseImport(TransactionCase):
           <xBairro>Bela Vista</xBairro>
         </end>
       </prest>
+      <toma><CNPJ>{self.company.partner_id.cnpj_cpf_stripped}</CNPJ></toma>
       <serv><cServ><xDescServ>Consulting</xDescServ></cServ></serv>
       <valores><vServPrest><vServ>20.00</vServ></vServPrest></valores>
     </infDPS></DPS>
   </infNFSe>
 </NFSe>
 """.encode()
-        wizard = self.env["l10n_br_fiscal.document.import.wizard"].create(
-            {"company_id": self.company.id, "file": base64.b64encode(xml)}
-        )
-        wizard._onchange_file()
-        self.assertFalse(wizard.partner_id)
-        self.assertFalse(
-            self.env["res.partner"].search([("cnpj_cpf_stripped", "=", cnpj)], limit=1)
-        )
-        _binding, document = wizard._create_edoc_from_file()
+        document = self._import(xml)
         partner = self.env["res.partner"].search(
             [("cnpj_cpf_stripped", "=", cnpj)], limit=1
         )
@@ -245,16 +226,6 @@ class TestNfseImport(TransactionCase):
         self.assertEqual(partner.country_id.code, "BR")
         self.assertEqual(partner.phone, "1133334444")
         self.assertEqual(partner.email, "provider@example.com")
-
-    def test_default_import_product_fills_the_wizard(self):
-        product = self.env["product.product"].create(
-            {"name": "Imported NFS-e service", "type": "service"}
-        )
-        self.company.nfse_import_product_id = product
-        wizard = self._wizard()
-        self.assertEqual(wizard.product_id, product)
-        _binding, document = wizard._create_edoc_from_file()
-        self.assertEqual(document.fiscal_line_ids.product_id, product)
 
 
 def _reform_nfse_xml(nt009_layout=False):
@@ -320,7 +291,7 @@ def _reform_nfse_xml(nt009_layout=False):
         <serie>49999</serie>
         <nDPS>313</nDPS>
         <prest><CNPJ>{PROVIDER_CNPJ}</CNPJ><xNome>Provider Test</xNome></prest>
-        <toma><CNPJ>21244424000171</CNPJ><xNome>Taker</xNome></toma>
+        <toma><CNPJ>{TAKER_CNPJ}</CNPJ><xNome>Taker</xNome></toma>
         <serv><cServ>
           <cTribNac>070101</cTribNac>
           <xDescServ>Engineering</xDescServ>

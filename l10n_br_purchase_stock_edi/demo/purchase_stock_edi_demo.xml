@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+    Demo of the stock link, in the company "Empresa Lucro Presumido", with the
+    supplier of the purchases link.
+
+    Order PO-DEMO-STK-001 buys 10 units of a product tracked by lot. The note
+    35261011765432000100550010000030011300100010 declares the order and two
+    lots (rastro). The receipt of the order got the lots of the note and was
+    validated.
+-->
+<odoo noupdate="1">
+
+    <record id="demo_product_lot" model="product.template">
+        <field name="name">Cabo de aço rastreado demo</field>
+        <field name="detailed_type">product</field>
+        <field name="tracking">lot</field>
+        <field name="purchase_ok" eval="True" />
+        <field name="ncm_id" ref="l10n_br_fiscal.ncm_00000000" />
+    </record>
+
+    <record id="demo_supplierinfo_lot" model="product.supplierinfo">
+        <field name="partner_id" ref="l10n_br_purchase_edi.demo_supplier" />
+        <field name="product_tmpl_id" ref="demo_product_lot" />
+        <field
+            name="product_id"
+            search="[('product_tmpl_id', '=', ref('demo_product_lot'))]"
+        />
+        <field name="product_code">DEMO-STK-D</field>
+        <field name="price">140.0</field>
+    </record>
+
+    <record id="demo_order_lot" model="purchase.order">
+        <field name="name">PO-DEMO-STK-001</field>
+        <field name="partner_id" ref="l10n_br_purchase_edi.demo_supplier" />
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+    </record>
+    <record id="demo_order_lot_line" model="purchase.order.line">
+        <field name="order_id" ref="demo_order_lot" />
+        <field
+            name="product_id"
+            search="[('product_tmpl_id', '=', ref('demo_product_lot'))]"
+        />
+        <field name="name">Cabo de aço rastreado demo</field>
+        <field name="product_qty">10</field>
+        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="price_unit">140.0</field>
+        <field name="date_planned" eval="DateTime.now()" />
+    </record>
+    <function model="purchase.order" name="button_confirm">
+        <value eval="[ref('demo_order_lot')]" />
+    </function>
+
+    <!-- a second order, not received yet: its note shows Awaiting receipt, which
+         is not a divergence -->
+    <record id="demo_order_waiting" model="purchase.order">
+        <field name="name">PO-DEMO-STK-002</field>
+        <field name="partner_id" ref="l10n_br_purchase_edi.demo_supplier" />
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+    </record>
+    <record id="demo_order_waiting_line" model="purchase.order.line">
+        <field name="order_id" ref="demo_order_waiting" />
+        <field
+            name="product_id"
+            search="[('product_tmpl_id', '=', ref('demo_product_lot'))]"
+        />
+        <field name="name">Cabo de aço rastreado demo</field>
+        <field name="product_qty">5</field>
+        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="price_unit">140.0</field>
+        <field name="date_planned" eval="DateTime.now()" />
+    </record>
+    <function model="purchase.order" name="button_confirm">
+        <value eval="[ref('demo_order_waiting')]" />
+    </function>
+
+    <function model="l10n_br_fiscal.document" name="_edi_import_demo_files">
+        <value>l10n_br_purchase_stock_edi</value>
+        <value
+            eval="[
+                'demo/import/nfe_35261011765432000100550010000030011300100010.xml',
+                'demo/import/nfe_35261011765432000100550010000030021300200020.xml',
+            ]"
+        />
+    </function>
+
+    <!-- the receipt takes the lots of the note and is validated -->
+    <function model="stock.picking" name="action_propose_lots_from_import">
+        <value model="stock.picking" search="[('origin', '=', 'PO-DEMO-STK-001')]" />
+    </function>
+    <function model="stock.picking" name="button_validate">
+        <value model="stock.picking" search="[('origin', '=', 'PO-DEMO-STK-001')]" />
+        <value name="context" eval="{'skip_immediate': True, 'skip_backorder': True}" />
+    </function>
+
+    <!-- the receipt of the order of the purchases link demo (note 2001, already
+         invoiced) is validated too: the whole cycle, nothing awaiting -->
+    <function model="stock.picking" name="action_set_quantities_to_reservation">
+        <value model="stock.picking" search="[('origin', '=', 'PO-DEMO-EDI-001')]" />
+    </function>
+    <function model="stock.picking" name="button_validate">
+        <value model="stock.picking" search="[('origin', '=', 'PO-DEMO-EDI-001')]" />
+        <value name="context" eval="{'skip_immediate': True, 'skip_backorder': True}" />
+    </function>
+
+</odoo>

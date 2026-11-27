@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="view_picking_form" model="ir.ui.view">
+        <field name="name">l10n_br_purchase_stock_edi.picking.form</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button
+                    class="oe_stat_button"
+                    name="action_view_import_documents"
+                    type="object"
+                    help="Imported fiscal documents linked to this record"
+                    groups="l10n_br_fiscal.group_user"
+                    attrs="{'invisible': [('import_document_count', '=', 0)]}"
+                    icon="fa-file-text-o"
+                >
+                    <field
+                        name="import_document_count"
+                        widget="statinfo"
+                        string="Fiscal docs"
+                    />
+                </button>
+            </xpath>
+            <xpath expr="//header/button[@name='action_confirm']" position="before">
+                <field name="show_propose_lots_from_import" invisible="1" />
+                <button
+                    name="action_propose_lots_from_import"
+                    type="object"
+                    string="Propose Lots from the Document"
+                    attrs="{'invisible': [('show_propose_lots_from_import', '=', False)]}"
+                />
+            </xpath>
+        </field>
+    </record>
+</odoo>

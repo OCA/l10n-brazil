@@ -41,7 +41,6 @@
         "report/danfe_nfce.xml",
         "report/danfe_report.xml",
         # Wizards
-        "wizards/document_import_wizard.xml",
         "wizards/nfe_md_event_wizard.xml",
         # Actions,
         "views/nfe_action.xml",
@@ -52,6 +51,7 @@
         "demo/res_users_demo.xml",
         "demo/fiscal_document_demo.xml",
         "demo/company_demo.xml",
+        "demo/document_import_demo.xml",
     ],
     "post_init_hook": "post_init_hook",
     "installable": True,

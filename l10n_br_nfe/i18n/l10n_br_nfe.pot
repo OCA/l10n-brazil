@@ -221,16 +221,6 @@ msgid "Adições (NT 2011/004)"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_import_wizard_line__icms_percent
-msgid "Alíquota ICMS"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_import_wizard_line__ipi_percent
-msgid "Alíquota IPI"
-msgstr ""
-
-#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_rettransp__nfe40_pICMSRet
 msgid "Alíquota da Retenção"
 msgstr ""
@@ -311,6 +301,13 @@ msgstr ""
 msgid ""
 "Assinatura digital padrão RSA\n"
 "Converter o atributo Id do DFe para array de bytes e assinar com a chave privada do RSA com algoritmo SHA1 gerando um valor no formato base64."
+msgstr ""
+
+#. module: l10n_br_nfe
+#. odoo-python
+#: code:addons/l10n_br_nfe/models/document_import.py:0
+#, python-format
+msgid "Authorization protocol of the file: %(protocol)s, %(date)s."
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -1638,11 +1635,6 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.document_import_wizard_form
-msgid "Existing Document"
-msgstr ""
-
-#. module: l10n_br_nfe
 #: model:ir.model,name:l10n_br_nfe.model_nfe_40_exportind
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_detexport__nfe40_exportInd
 msgid "Exportação indireta"
@@ -1686,18 +1678,8 @@ msgid "Fiscal Document (nfe_det_infNFe_id)"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model,name:l10n_br_nfe.model_l10n_br_fiscal_document_import_wizard_line
-msgid "Fiscal Document Import Wizard Line"
-msgstr ""
-
-#. module: l10n_br_nfe
 #: model:ir.model,name:l10n_br_nfe.model_l10n_br_fiscal_document_type
 msgid "Fiscal Document Type"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_import_wizard_line__price_unit_trib
-msgid "Fiscal Price Unit"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -1992,11 +1974,6 @@ msgid "ICMS SN Crédito"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_import_wizard_line__icms_value
-msgid "ICMS Value"
-msgstr ""
-
-#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_choice_imposto
 msgid "ICMS/II/IPI ou ISSQN"
 msgstr ""
@@ -2102,11 +2079,6 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model,name:l10n_br_nfe.model_l10n_br_fiscal_tax_ipi_guideline
 msgid "IPI Guidelines"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_import_wizard_line__ipi_value
-msgid "IPI Value"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -2228,25 +2200,8 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.ui.menu,name:l10n_br_nfe.nfe_import_document
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.l10n_br_nfe_product_supplierinfo_form_view
 msgid "Import"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model:ir.model,name:l10n_br_nfe.model_l10n_br_fiscal_document_import_wizard
-msgid "Import Document Wizard"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model:ir.actions.act_window,name:l10n_br_nfe.l10n_br_nfe_import_xml_action
-msgid "Importar NF-e XML"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model:ir.actions.act_window,name:l10n_br_nfe.imported_document_action
-#: model:ir.ui.menu,name:l10n_br_nfe.imported_document_menu
-msgid "Imported Document"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -2973,18 +2928,8 @@ msgid "NFe Version"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.document_import_wizard_form
-msgid "NFe XML Products"
-msgstr ""
-
-#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_nfe_danfe_profile__name
 msgid "Name"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_import_wizard__nat_op
-msgid "Natureza da Operação"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -3431,6 +3376,13 @@ msgid ""
 "Obs.: Para medicamento isento de registro na ANVISA, informar o número da "
 "decisão que o isenta, como por exemplo o número da Resolução da Diretoria "
 "Colegiada da ANVISA (RDC)."
+msgstr ""
+
+#. module: l10n_br_nfe
+#. odoo-python
+#: code:addons/l10n_br_nfe/models/document_import.py:0
+#, python-format
+msgid "Only NF-e (model 55) XML files can be imported."
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -3888,11 +3840,6 @@ msgid "Quantity Precision"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_import_wizard_line__quantity_trib
-msgid "Quantity Trib"
-msgstr ""
-
-#. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.view_l10n_br_nfe_recipient_manifestation_event_filter
 msgid "Razão Social"
 msgstr ""
@@ -4200,9 +4147,23 @@ msgid "Texto com o QR-Code impresso no DANFE NFC-e"
 msgstr ""
 
 #. module: l10n_br_nfe
+#. odoo-python
+#: code:addons/l10n_br_nfe/models/document_import.py:0
+#, python-format
+msgid "The file is not a valid NF-e XML."
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_nfe_40_di__nfe40_UFDesemb
 #: model:ir.model.fields,help:l10n_br_nfe.field_nfe_40_di__nfe40_UFTerceiro
 msgid "The state code."
+msgstr ""
+
+#. module: l10n_br_nfe
+#. odoo-python
+#: code:addons/l10n_br_nfe/models/document_import.py:0
+#, python-format
+msgid "This NF-e is not authorized (status %s)."
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -4489,11 +4450,6 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_nfe_40_guiatransito__nfe40_UFGuia
 msgid "UFGuia"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_import_wizard_line__uom_trib
-msgid "UOM Fiscal"
 msgstr ""
 
 #. module: l10n_br_nfe

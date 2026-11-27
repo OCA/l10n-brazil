@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<NFSe versao="1.01" xmlns="http://www.sped.fazenda.gov.br/nfse">
+	<infNFSe Id="NFS42024042259594315000157000000000000126031234567890">
+		<xLocEmi>Blumenau</xLocEmi>
+		<xLocPrestacao>Blumenau</xLocPrestacao>
+		<nNFSe>1</nNFSe>
+		<cLocIncid>4202404</cLocIncid>
+		<xLocIncid>Blumenau</xLocIncid>
+		<xTribNac>Análise e desenvolvimento de sistemas.</xTribNac>
+		<xNBS>Serviços de desenvolvimento de software sob encomenda</xNBS>
+		<verAplic>SefinNac_Pre_1.5.0</verAplic>
+		<ambGer>2</ambGer>
+		<tpEmis>1</tpEmis>
+		<procEmi>1</procEmi>
+		<cStat>100</cStat>
+		<dhProc>2026-03-10T10:00:05-03:00</dhProc>
+		<nDFSe>123456</nDFSe>
+		<emit>
+			<CNPJ>59594315000157</CNPJ>
+			<IM>152422</IM>
+			<xNome>EMPRESA PRESTADORA DE TESTE LTDA</xNome>
+			<enderNac>
+				<xLgr>RUA DE TESTE</xLgr>
+				<nro>100</nro>
+				<xBairro>CENTRO</xBairro>
+				<cMun>4202404</cMun>
+				<UF>SC</UF>
+				<CEP>89010000</CEP>
+			</enderNac>
+		</emit>
+		<valores>
+			<vBC>1000.00</vBC>
+			<pAliqAplic>2.00</pAliqAplic>
+			<vISSQN>20.00</vISSQN>
+			<vLiq>1000.00</vLiq>
+		</valores>
+		<IBSCBS>
+			<cLocalidadeIncid>4202404</cLocalidadeIncid>
+			<xLocalidadeIncid>Blumenau</xLocalidadeIncid>
+			<valores>
+				<vBC>1000.00</vBC>
+				<uf>
+					<pIBSUF>0.10</pIBSUF>
+					<pAliqEfetUF>0.10</pAliqEfetUF>
+				</uf>
+				<mun>
+					<pIBSMun>0.00</pIBSMun>
+					<pAliqEfetMun>0.00</pAliqEfetMun>
+				</mun>
+				<fed>
+					<pCBS>0.90</pCBS>
+					<pAliqEfetCBS>0.90</pAliqEfetCBS>
+				</fed>
+			</valores>
+			<totCIBS>
+				<vTotNF>1000.00</vTotNF>
+				<gIBS>
+					<vIBSTot>1.00</vIBSTot>
+					<gIBSUFTot>
+						<vIBSUF>1.00</vIBSUF>
+					</gIBSUFTot>
+					<gIBSMunTot>
+						<vIBSMun>0.00</vIBSMun>
+					</gIBSMunTot>
+				</gIBS>
+				<gCBS>
+					<vCBS>9.00</vCBS>
+				</gCBS>
+			</totCIBS>
+		</IBSCBS>
+		<DPS versao="1.01">
+			<infDPS Id="DPS420240420000000000000000007000000000000001">
+				<tpAmb>2</tpAmb>
+				<dhEmi>2026-03-10T10:00:00-03:00</dhEmi>
+				<verAplic>20260310</verAplic>
+				<serie>00007</serie>
+				<nDPS>1</nDPS>
+				<dCompet>2026-03-10</dCompet>
+				<tpEmit>1</tpEmit>
+				<finNFSe>0</finNFSe>
+				<cLocEmi>4202404</cLocEmi>
+				<prest>
+					<CNPJ>59594315000157</CNPJ>
+					<IM>152422</IM>
+					<regTrib>
+						<opSimpNac>1</opSimpNac>
+						<regEspTrib>0</regEspTrib>
+					</regTrib>
+				</prest>
+				<toma>
+					<CNPJ>81583054000129</CNPJ>
+					<xNome>EMPRESA TOMADORA DE TESTE LTDA</xNome>
+				</toma>
+				<serv>
+					<locPrest>
+						<cLocPrestacao>4202404</cLocPrestacao>
+					</locPrest>
+					<cServ>
+						<cTribNac>010101</cTribNac>
+						<cNBS>115022000</cNBS>
+						<xDescServ>Desenvolvimento de sistema sob encomenda</xDescServ>
+					</cServ>
+				</serv>
+				<valores>
+					<vServPrest>
+						<vServ>1000.00</vServ>
+					</vServPrest>
+					<trib>
+						<tribMun>
+							<tribISSQN>1</tribISSQN>
+							<tpRetISSQN>1</tpRetISSQN>
+						</tribMun><tribFed><piscofins><CST>01</CST><vBCPisCofins>1000.00</vBCPisCofins><pAliqPis
+                                >0.65</pAliqPis><pAliqCofins>3.00</pAliqCofins><vPis
+                                >6.50</vPis><vCofins>30.00</vCofins><tpRetPisCofins
+                                >3</tpRetPisCofins></piscofins><vRetIRRF
+                            >15.00</vRetIRRF><vRetCSLL>46.50</vRetCSLL></tribFed>
+						<totTrib>
+							<indTotTrib>0</indTotTrib>
+						</totTrib>
+					</trib>
+				</valores>
+				<IBSCBS>
+					<cIndOp>100301</cIndOp>
+					<indDest>0</indDest>
+					<valores>
+						<trib>
+							<CST>000</CST>
+							<cClassTrib>000001</cClassTrib>
+						</trib>
+					</valores>
+				</IBSCBS>
+			</infDPS>
+		</DPS>
+	</infNFSe>
+	<Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
+		<SignedInfo>
+			<CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315" />
+			<SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256" />
+			<Reference URI="#NFS42024042259594315000157000000000000126031234567890">
+				<Transforms>
+					<Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" />
+					<Transform Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315" />
+				</Transforms>
+				<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256" />
+				<DigestValue>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</DigestValue>
+			</Reference>
+		</SignedInfo>
+		<SignatureValue>AAAA</SignatureValue>
+		<KeyInfo>
+			<X509Data>
+				<X509Certificate>AAAA</X509Certificate>
+			</X509Data>
+		</KeyInfo>
+	</Signature>
+</NFSe>

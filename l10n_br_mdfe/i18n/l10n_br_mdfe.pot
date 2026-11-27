@@ -2771,11 +2771,6 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_mdfe
-#: model:ir.model,name:l10n_br_mdfe.model_l10n_br_fiscal_document_import_wizard
-msgid "Import Document Wizard"
-msgstr ""
-
-#. module: l10n_br_mdfe
 #: model:ir.model.fields,field_description:l10n_br_mdfe.field_res_company__mdfe_authorize_accountant_download_xml
 msgid ""
 "Include Accountant Partner data in persons authorized to download MDFe XML"
@@ -6222,6 +6217,20 @@ msgstr ""
 #: code:addons/l10n_br_mdfe/models/document.py:0
 #, python-format
 msgid "The field %(label)s must contain only numbers. Found: '%(value)s'"
+msgstr ""
+
+#. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document_import.py:0
+#, python-format
+msgid "The file %s is not a valid MDF-e."
+msgstr ""
+
+#. module: l10n_br_mdfe
+#. odoo-python
+#: code:addons/l10n_br_mdfe/models/document_import.py:0
+#, python-format
+msgid "This MDF-e is not authorized (status %s)."
 msgstr ""
 
 #. module: l10n_br_mdfe

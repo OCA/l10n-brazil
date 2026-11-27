@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo noupdate="1">
+
+    <!-- The freight that the CT-e of a carrier is matched to, and the transport
+         that the company provides, in the company of the demo (Empresa Lucro
+         Presumido) -->
+    <record id="product_freight_purchased" model="product.product">
+        <field name="name">Frete comprado</field>
+        <field name="type">service</field>
+        <field name="list_price">0.0</field>
+        <field name="standard_price">0.0</field>
+        <field name="default_code">FRETE_COMPRADO</field>
+    </record>
+    <record id="product_transport_provided" model="product.product">
+        <field name="name">Serviço de transporte prestado</field>
+        <field name="type">service</field>
+        <field name="list_price">0.0</field>
+        <field name="standard_price">0.0</field>
+        <field name="default_code">TRANSPORTE_PRESTADO</field>
+    </record>
+    <function model="res.company" name="write">
+        <value eval="[ref('l10n_br_base.empresa_lucro_presumido')]" />
+        <value
+            eval="{
+                'cte_import_product_id': ref('product_freight_purchased'),
+                'cte_import_service_product_id': ref('product_transport_provided'),
+            }"
+        />
+    </function>
+
+    <!-- CT-e received from a carrier, with the collection of two installments
+         (access key 35240759594315000157570010000070011570007018): it stays in
+         the review, with the installments on the page of the document. -->
+    <!-- CT-e issued by the company in another system, with its authorization
+         protocol (access key 35240781583054000129570010000070021570007029): it
+         is imported as authorized. -->
+    <function model="l10n_br_fiscal.document" name="_edi_import_demo_files">
+        <value>l10n_br_cte</value>
+        <value
+            eval="[
+                'demo/import/cte_frete_comprado_com_cobranca.xml',
+                'demo/import/cte_proprio.xml',
+            ]"
+        />
+    </function>
+
+    <function model="l10n_br_fiscal.document.line" name="action_resolve_line">
+        <value
+            model="l10n_br_fiscal.document.line"
+            search="[('document_id.document_key', '=', '35240781583054000129570010000070021570007029')]"
+        />
+    </function>
+    <function model="l10n_br_fiscal.document" name="action_document_confirm">
+        <value
+            model="l10n_br_fiscal.document"
+            search="[('document_key', '=', '35240781583054000129570010000070021570007029')]"
+        />
+    </function>
+
+</odoo>
