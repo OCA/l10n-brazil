@@ -27,7 +27,7 @@ class TestUi(HttpCase):
         cls.product = cls.env["product.template"].create(
             {
                 "name": "Checkout Test Service",
-                "detailed_type": "service",
+                "type": "service",
                 "list_price": 20,
                 "website_published": True,
             }
@@ -83,10 +83,6 @@ class TestUi(HttpCase):
         self.start_tour(
             self.product.website_url,
             "l10n_br_website_sale_oca_foreign_tour",
-            code=(
-                f"sessionStorage.setItem('l10n_br_checkout_country', '{country.id}');"
-                "odoo.startTour('l10n_br_website_sale_oca_foreign_tour');"
-            ),
         )
         partner = self._get_checkout_order("checkout-fr@example.com").partner_invoice_id
         self.assertEqual(partner.country_id, country)

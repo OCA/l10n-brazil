@@ -5,7 +5,7 @@
     "name": "L10n Br Website Sale OCA",
     "summary": """
         Website sale localização brasileira.""",
-    "version": "16.0.2.1.0",
+    "version": "18.0.1.0.0",
     "development_status": "Beta",
     "license": "AGPL-3",
     "author": "KMEE, Odoo Community Association (OCA)",
@@ -21,10 +21,10 @@
     ],
     "assets": {
         "web.assets_frontend": [
-            "/l10n_br_website_sale_oca/static/src/js/l10n_br_address.js",
+            "/l10n_br_website_sale_oca/static/src/js/l10n_br_address.esm.js",
         ],
         "web.assets_tests": [
-            "/l10n_br_website_sale_oca/static/src/js/l10n_br_website_sale_oca_tour.js",
+            "/l10n_br_website_sale_oca/static/src/js/l10n_br_website_sale_oca_tour.esm.js",
         ],
     },
     "external_dependencies": {
