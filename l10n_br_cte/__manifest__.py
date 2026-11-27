@@ -4,7 +4,7 @@
 {
     "name": "CT-e",
     "summary": """Brazilian Electronic Invoice CT-e""",
-    "version": "18.0.1.7.1",
+    "version": "18.0.1.7.2",
     "category": "Localisation",
     "license": "AGPL-3",
     "author": "KMEE, Escodoo, Odoo Community Association (OCA)",
