@@ -28,7 +28,7 @@ class StockInvoiceOnshipping(models.TransientModel):
 
     fiscal_operation_journal = fields.Boolean(
         string="Account Jornal from Fiscal Operation",
-        default=_get_fiscal_operation_journal,
+        default=lambda self: self._get_fiscal_operation_journal(),
     )
 
     group = fields.Selection(
