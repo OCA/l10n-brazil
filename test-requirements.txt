@@ -12,3 +12,5 @@ xsdata
 # l10n_br_nfe_spec tests: sample documents and xsdata bindings from nfelib
 # l10n_br_mdfe_spec tests: sample documents and xsdata bindings from nfelib
 nfelib
+odoo-addon-l10n_br_stock_account @ git+https://github.com/OCA/l10n-brazil.git@refs/pull/5598/head#subdirectory=l10n_br_stock_account
+odoo-addon-sale_stock_picking_invoicing @ git+https://github.com/OCA/account-invoicing.git@refs/pull/2505/head#subdirectory=sale_stock_picking_invoicing
