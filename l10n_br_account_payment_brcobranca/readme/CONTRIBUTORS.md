@@ -1,0 +1,5 @@
+- [Akretion](https://akretion.com/pt-BR):
+  - Raphaël Valyi \<<raphael.valyi@akretion.com.br>\>
+  - Magno Costa \<<magno.costa@akretion.com.br>\>
+- [Engenere](https://engenere.one):
+  - Antônio S. Pereira Neto \<<neto@engenere.one>\>

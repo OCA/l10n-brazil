@@ -12,3 +12,4 @@ xsdata
 # l10n_br_nfe_spec tests: sample documents and xsdata bindings from nfelib
 # l10n_br_mdfe_spec tests: sample documents and xsdata bindings from nfelib
 nfelib
+odoo-addon-account_move_base_import @ git+https://github.com/OCA/account-reconcile.git@refs/pull/1076/head#subdirectory=account_move_base_import
