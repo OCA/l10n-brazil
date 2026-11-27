@@ -131,10 +131,27 @@ class ResCompany(models.Model):
 
     # ── Schema processors (NT 2014.002) ─────────────────────────────────
 
+    @staticmethod
+    def _nfe_dfe_issuer_vat(node):
+        """CNPJ or CPF of the issuer.
+
+        Both resNFe and the emit tag of procNFe bring one or the other: an
+        NF-e issued by a natural person, such as a rural producer, has only
+        the CPF. The raw text keeps the leading zeros that objectify drops
+        when it coerces the value to a number.
+        """
+        cnpj = getattr(node, "CNPJ", None)
+        if cnpj is not None:
+            return utils.mask_cnpj(cnpj.text.strip().zfill(14))
+        cpf = getattr(node, "CPF", None)
+        if cpf is not None:
+            return cpf.text.strip().zfill(11)
+        return False
+
     def _dfe_create_from_procNFe(self, root, nsu, fiscal_type="nfe"):
         nfe_key = str(root.protNFe.infProt.chNFe)
         dfe_document = self._dfe_get_or_create_document(nfe_key, "nfe")
-        supplier_cnpj = utils.mask_cnpj("%014d" % root.NFe.infNFe.emit.CNPJ)
+        supplier_vat = self._nfe_dfe_issuer_vat(root.NFe.infNFe.emit)
 
         dfe_record = (
             self.env["l10n_br_fiscal_dfe.dfe"]
@@ -155,7 +172,7 @@ class ResCompany(models.Model):
         dfe_document._update_metadata(
             {
                 "emitter": str(root.NFe.infNFe.emit.xNome),
-                "vat": supplier_cnpj,
+                "vat": supplier_vat,
                 "serie": str(root.NFe.infNFe.ide.serie),
                 "document_number": str(int(root.NFe.infNFe.ide.nNF)),
                 "document_amount": float(root.NFe.infNFe.total.ICMSTot.vNF),
@@ -173,7 +190,7 @@ class ResCompany(models.Model):
     def _dfe_create_from_resNFe(self, root, nsu, fiscal_type="nfe"):
         nfe_key = str(root.chNFe)
         dfe_document = self._dfe_get_or_create_document(nfe_key, "nfe")
-        supplier_cnpj = utils.mask_cnpj("%014d" % root.CNPJ)
+        supplier_vat = self._nfe_dfe_issuer_vat(root)
 
         dfe_record = (
             self.env["l10n_br_fiscal_dfe.dfe"]
@@ -194,7 +211,7 @@ class ResCompany(models.Model):
         dfe_document._update_metadata(
             {
                 "emitter": str(root.xNome),
-                "vat": supplier_cnpj,
+                "vat": supplier_vat,
                 "document_amount": float(root.vNF),
                 "document_emission_date": datetime.fromisoformat(str(root.dhEmi))
                 .astimezone(timezone.utc)
