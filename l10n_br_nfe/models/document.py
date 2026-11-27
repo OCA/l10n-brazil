@@ -582,7 +582,17 @@ class NFe(spec_models.StackedModel):
 
     nfe40_vICMS = fields.Monetary(related="amount_icms_value")
 
-    # <vICMSDeson>0.00</vICMSDeson> TODO
+    # Must match the sum of the items that carry the ICMS relief (vICMSDeson)
+    nfe40_vICMSDeson = fields.Monetary(compute="_compute_nfe40_vICMSDeson")
+
+    @api.depends("fiscal_line_ids.icms_relief_id", "fiscal_line_ids.icms_relief_value")
+    def _compute_nfe40_vICMSDeson(self):
+        for doc in self:
+            doc.nfe40_vICMSDeson = sum(
+                line.icms_relief_value
+                for line in doc.fiscal_line_ids
+                if line.icms_relief_id
+            )
 
     # Must match the sum of the items that carry ICMSUFDest
     nfe40_vFCPUFDest = fields.Monetary(compute="_compute_nfe40_ICMSUFDest_totals")
