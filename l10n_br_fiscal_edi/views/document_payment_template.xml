@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <!-- Installments and payments declared by a document, and the totals that go
+         with them. Values: currency, installments, payments, totals, warning. -->
+    <template id="document_payment_summary">
+        <div class="o_edi_payment_summary">
+            <t t-if="installments">
+                <h5>Installments</h5>
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th>Number</th>
+                            <th>Due date</th>
+                            <th class="text-end">Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr t-foreach="installments" t-as="installment">
+                            <td><span t-out="installment.number" /></td>
+                            <td><span
+                                    t-out="installment.date_due"
+                                    t-options='{"widget": "date"}'
+                                /></td>
+                            <td class="text-end"><span
+                                    t-out="installment.amount"
+                                    t-options='{"widget": "monetary", "display_currency": currency}'
+                                /></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </t>
+            <t t-if="payments">
+                <h5>Payments</h5>
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th>Means</th>
+                            <th>Term</th>
+                            <th class="text-end">Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr t-foreach="payments" t-as="payment">
+                            <td>
+                                <span t-out="payment.label or payment.means or '-'" />
+                                <span t-if="payment.description"> (<t
+                                        t-out="payment.description"
+                                    />)</span>
+                            </td>
+                            <td>
+                                <t
+                                    t-if="payment.term == 'installments'"
+                                >In installments</t>
+                                <t t-else="">Cash</t>
+                            </td>
+                            <td class="text-end"><span
+                                    t-out="payment.amount"
+                                    t-options='{"widget": "monetary", "display_currency": currency}'
+                                /></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </t>
+            <table class="table table-sm">
+                <tbody>
+                    <tr t-foreach="totals" t-as="total">
+                        <th><t t-out="total[0]" /></th>
+                        <td class="text-end"><span
+                                t-out="total[1]"
+                                t-options='{"widget": "monetary", "display_currency": currency}'
+                            /></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div t-if="warning" class="alert alert-warning" role="alert">
+                <t t-out="warning" />
+            </div>
+        </div>
+    </template>
+</odoo>
