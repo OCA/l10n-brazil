@@ -30,6 +30,11 @@ msgid "Admission type"
 msgstr "Tipo de admissão"
 
 #. module: l10n_br_hr_contract
+#: model:hr.contract.salary.unit,name:l10n_br_hr_contract.salary_unit_2
+msgid "Biweekly"
+msgstr ""
+
+#. module: l10n_br_hr_contract
 #: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract__by_death
 msgid "By death"
 msgstr "Por morte"
@@ -70,6 +75,11 @@ msgid "Created on"
 msgstr "Criado em"
 
 #. module: l10n_br_hr_contract
+#: model:hr.contract.salary.unit,name:l10n_br_hr_contract.salary_unit_4
+msgid "Daily"
+msgstr ""
+
+#. module: l10n_br_hr_contract
 #: model:ir.model.fields,help:l10n_br_hr_contract.field_hr_contract__by_death
 msgid "Death certificate/Process/Beneficiary"
 msgstr "Certidão de óbito/processo/beneficiário"
@@ -98,6 +108,11 @@ msgstr "Código de saque do FGTS"
 #: model:ir.model,name:l10n_br_hr_contract.model_l10n_br_hr_contract_data_abstract
 msgid "HR Data Base Abstract"
 msgstr "Dados base de RH abstratos"
+
+#. module: l10n_br_hr_contract
+#: model:hr.contract.salary.unit,name:l10n_br_hr_contract.salary_unit_5
+msgid "Hourly"
+msgstr ""
 
 #. module: l10n_br_hr_contract
 #: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_admission_type__id
@@ -160,6 +175,11 @@ msgid "Last Updated on"
 msgstr "Última atualização em"
 
 #. module: l10n_br_hr_contract
+#: model:hr.contract.salary.unit,name:l10n_br_hr_contract.salary_unit_1
+msgid "Monthly"
+msgstr ""
+
+#. module: l10n_br_hr_contract
 #: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract__monthly_hours
 msgid "Monthly hours"
 msgstr "Horas mensais"
@@ -190,6 +210,11 @@ msgstr "Data do aviso prévio"
 #: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract_notice_termination__name
 msgid "Notice of termination type"
 msgstr "Tipo de aviso prévio"
+
+#. module: l10n_br_hr_contract
+#: model:hr.contract.salary.unit,name:l10n_br_hr_contract.salary_unit_7
+msgid "Não aplicável - salário exclusivamente variável"
+msgstr ""
 
 #. module: l10n_br_hr_contract
 #: model:ir.model.fields.selection,name:l10n_br_hr_contract.selection__hr_contract__welfare_policy__rgps
@@ -266,6 +291,11 @@ msgstr ""
 "(union_entity_code) definido."
 
 #. module: l10n_br_hr_contract
+#: model:hr.contract.salary.unit,name:l10n_br_hr_contract.salary_unit_6
+msgid "Task"
+msgstr ""
+
+#. module: l10n_br_hr_contract
 #: model:ir.model,name:l10n_br_hr_contract.model_hr_contract_resignation_cause
 msgid "Termination Reason"
 msgstr "Motivo de desligamento"
@@ -308,6 +338,11 @@ msgstr "CNPJ do sindicato"
 #: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract__union_entity_code
 msgid "Union entity code"
 msgstr "Código da entidade sindical"
+
+#. module: l10n_br_hr_contract
+#: model:hr.contract.salary.unit,name:l10n_br_hr_contract.salary_unit_3
+msgid "Weekly"
+msgstr ""
 
 #. module: l10n_br_hr_contract
 #: model:ir.model.fields,field_description:l10n_br_hr_contract.field_hr_contract__weekly_hours
