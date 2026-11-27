@@ -8,6 +8,7 @@
         <field name="code">DSR</field>
         <field name="type">sale</field>
         <field name="company_id" ref="base.main_company" />
+        <field name="default_account_id" ref="l10n_generic_coa.1_income" />
     </record>
 
     <record id="devolucao_vendas_journal_main_company" model="account.journal">
@@ -15,6 +16,7 @@
         <field name="code">DDV</field>
         <field name="type">sale</field>
         <field name="company_id" ref="base.main_company" />
+        <field name="default_account_id" ref="l10n_generic_coa.1_income" />
     </record>
 
     <record id="entrada_remessa_journal_main_company" model="account.journal">
@@ -22,6 +24,7 @@
         <field name="code">DER</field>
         <field name="type">purchase</field>
         <field name="company_id" ref="base.main_company" />
+        <field name="default_account_id" ref="l10n_generic_coa.1_expense" />
     </record>
 
     <record id="devolucao_compras_journal_main_company" model="account.journal">
@@ -29,6 +32,7 @@
         <field name="code">DDC</field>
         <field name="type">purchase</field>
         <field name="company_id" ref="base.main_company" />
+        <field name="default_account_id" ref="l10n_generic_coa.1_expense" />
     </record>
 
     <!-- Account Journal for Lucro Presumido -->

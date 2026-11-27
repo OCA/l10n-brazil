@@ -160,9 +160,14 @@ class StockInvoiceOnshipping(models.TransientModel):
         # negativos, o metodo _prepare_br_fiscal_dict retorna o price_unit
         # negativo, por isso é preciso tira-lo antes do update, e no caso do
         # fiscal_price é feito um update para caso do valor ser diferente do
-        # price_unit
+        # price_unit.
+        # O fiscal_price do _prepare_br_fiscal_dict vem do price_unit "cru"
+        # do stock.move (nunca escrito nos casos de fatura automática via
+        # picking), por isso usamos aqui o price_unit já calculado em
+        # "values" (via _get_price_unit_invoice, que já aplica o fallback de
+        # custo da Operação Fiscal) para os dois campos ficarem sincronizados.
         del fiscal_values["price_unit"]
-        fiscal_values["fiscal_price"] = abs(fiscal_values.get("fiscal_price"))
+        fiscal_values["fiscal_price"] = abs(values.get("price_unit", 0.0))
 
         # Como é usada apenas uma move para chamar o _prepare_br_fiscal_dict
         # a quantidade/quantity do dicionario traz a quantidade referente a

@@ -209,13 +209,22 @@ class StockMove(models.Model):
         # No Brasil o caso de Ordens de Entrega com Operação Fiscal
         # de Saída precisam informar o Preço de Custo e não o de Venda
         # ex.: Simples Remessa, Remessa p/ Industrialiazação e etc.
-        # Mas o valor informado pelo usuário tem prioridade
+        # Mas o valor informado manualmente pelo usuário no proprio
+        # stock.move (price_unit) tem prioridade.
+        # Importante: a decisão NÃO pode depender de o preço calculado por
+        # super()/pelo core estar "zerado", pois o core usa o list_price do
+        # produto (que por padrão do Odoo já nasce com valor 1.0, nunca 0.0),
+        # mascarando o fallback de custo. Por isso a Operação Fiscal
+        # (default_price_unit) é a fonte da verdade aqui.
         price_unit = self.mapped("price_unit")[0]
-        if inv_type in ("out_invoice", "out_refund") and price_unit == 0.0:
-            result = product.with_company(self.company_id).standard_price
-        else:
+        if price_unit != 0.0:
             # Caso do Valor Informado pelo usuário tem prioridade
             result = price_unit
+        elif (
+            inv_type in ("out_invoice", "out_refund")
+            and self.fiscal_operation_id.default_price_unit == "cost_price"
+        ):
+            result = product.with_company(self.company_id).standard_price
 
         return result
 
