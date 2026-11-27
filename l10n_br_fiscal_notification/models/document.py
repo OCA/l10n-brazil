@@ -8,6 +8,8 @@ from odoo.addons.l10n_br_fiscal_edi.constants.fiscal import (
     FSM_STATE_CHANGE_CONTEXT,
 )
 
+FSM_TRIGGER_CONFIRM_IMPORTED = "action_confirm_imported"
+
 
 class Document(models.Model):
     _inherit = "l10n_br_fiscal.document"
@@ -64,7 +66,12 @@ class Document(models.Model):
         config = super().get_state_machine_config()
         transitions = []
         for transition in config["transitions"]:
-            if transition.get("dest") == DOCUMENT_STATE_AUTHORIZED:
+            # A document the company issued in another system and that is imported
+            # already authorized (a migration) is not announced to the customer.
+            if (
+                transition.get("dest") == DOCUMENT_STATE_AUTHORIZED
+                and transition.get("trigger") != FSM_TRIGGER_CONFIRM_IMPORTED
+            ):
                 after = transition.get("after", [])
                 if isinstance(after, str):
                     after = [after]

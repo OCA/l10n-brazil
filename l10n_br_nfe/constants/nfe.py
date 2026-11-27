@@ -85,3 +85,12 @@ FISCAL_PAYMENT_MODE = [
     ("90", "90 - Sem Pagamento"),
     ("99", "99 - Outros"),
 ]
+
+
+A_VISTA = "0"
+A_PRAZO = "1"
+
+SEM_PAGAMENTO = "90"
+
+NFE_IN = "0"
+NFE_OUT = "1"

@@ -20,6 +20,7 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     FISCAL_OUT,
     MODELO_FISCAL_NFE,
 )
+from odoo.addons.l10n_br_fiscal.models.document_line import IMPORT_REVIEW_CONTEXT_KEY
 
 from .constants import (
     MOVE_TO_OPERATION,
@@ -293,8 +294,14 @@ class AccountMove(models.Model):
         return result
 
     def _compute_imported_terms(self):
+        """Fill needed_terms from the installments declared by the imported
+        document. Meant to be overriden by the document type modules.
+
+        :return: True when the document declared its installments and
+            needed_terms was filled, False to let the payment term apply.
+        """
         self.ensure_one()
-        pass  # meant to be overriden
+        return False
 
     @api.depends(
         "invoice_payment_term_id",
@@ -322,8 +329,8 @@ class AccountMove(models.Model):
             invoice.needed_terms_dirty = True
             sign = 1 if invoice.is_inbound(include_receipts=True) else -1
             if invoice.is_invoice(True) and invoice.invoice_line_ids:
-                if invoice.imported_document:
-                    invoice._compute_imported_terms()
+                if invoice.imported_document and invoice._compute_imported_terms():
+                    pass
                 elif invoice.invoice_payment_term_id:
                     if is_draft:
                         tax_amount_currency = 0.0
@@ -337,8 +344,13 @@ class AccountMove(models.Model):
                         tax_amount = tax_amount_currency
                     else:
                         tax_amount_currency = tax_amount = 0.0
-                        untaxed_amount_currency = invoice.amount_financial_total * sign
-                        untaxed_amount = invoice.amount_financial_total * sign
+                        amount_to_pay = invoice.amount_financial_total + sum(
+                            invoice.invoice_line_ids.mapped(
+                                lambda line: line._get_imported_unbilled_withholding()
+                            )
+                        )
+                        untaxed_amount_currency = amount_to_pay * sign
+                        untaxed_amount = amount_to_pay * sign
                     invoice_payment_terms = (
                         invoice.invoice_payment_term_id._compute_terms(
                             date_ref=invoice.invoice_date
@@ -722,10 +734,15 @@ class AccountMove(models.Model):
             move_form.document_type_id = fiscal_document.document_type_id
             move_form.fiscal_document_id = fiscal_document
             move_form.fiscal_operation_id = fiscal_document.fiscal_operation_id
-            for field_name, value in (
-                ("date", fiscal_document.document_date),
-                ("document_serie", fiscal_document.document_serie),
-            ):
+            fields_to_copy = []
+            if not move_type.startswith("out_"):
+                # the accounting date of a customer invoice follows its date
+                fields_to_copy.append(("date", fiscal_document.document_date))
+            if fiscal_document.issuer == DOCUMENT_ISSUER_PARTNER:
+                fields_to_copy.append(
+                    ("document_serie", fiscal_document.document_serie)
+                )
+            for field_name, value in fields_to_copy:
                 if not move_form._get_modifier(field_name, "invisible"):
                     setattr(move_form, field_name, value)
             if not move_form._get_modifier("document_serie_id", "invisible"):
@@ -771,7 +788,15 @@ class AccountMove(models.Model):
                     }
                 )
 
+        serie = fiscal_document.document_serie
         move_form.save()
+        if (
+            fiscal_document.imported_document
+            and fiscal_document.document_serie != serie
+        ):
+            # the form has no series record to give back to a document of the
+            # company imported from a file: its series is the text of the file
+            fiscal_document.document_serie = serie
         move = self.env["account.move"].browse(move_form.id)
 
         invoice_line_write_vals = []
@@ -813,9 +838,10 @@ class AccountMove(models.Model):
                 )
 
         # Write safely bypassing strict validity checks mid-loop
-        move.with_context(check_move_validity=False).write(
-            {"invoice_line_ids": invoice_line_write_vals}
-        )
+        # the quantity and the price come from the document, not from a person
+        move.with_context(
+            check_move_validity=False, **{IMPORT_REVIEW_CONTEXT_KEY: True}
+        ).write({"invoice_line_ids": invoice_line_write_vals})
 
         if dummy_lines_to_unlink:
             dummy_lines_to_unlink.unlink()

@@ -223,12 +223,35 @@ class FiscalDocumentLineMixin(models.AbstractModel):
             arch = self.inject_fiscal_fields(arch)
         return arch, view
 
+    def _get_price_gross(self):
+        """Total of the products or services, before discounts and taxes.
+
+        A line imported from a fiscal file keeps the total the counterparty
+        declared: the unit price has the precision of the price, so quantity
+        times price may not give back the cents of the file.
+        """
+        self.ensure_one()
+        if self.partner_price_gross:
+            return self.partner_price_gross
+        round_curr = self.currency_id or self.env.ref("base.BRL")
+        return round_curr.round(self.price_unit * self.quantity)
+
+    def _get_declared_ncm(self):
+        """NCM of the registry that has the code declared by the counterparty."""
+        self.ensure_one()
+        if not self.partner_ncm_code:
+            return self.env["l10n_br_fiscal.ncm"]
+        return self.env["l10n_br_fiscal.ncm"].search(
+            [("code_unmasked", "=", self.partner_ncm_code)], limit=1
+        )
+
     @api.depends(
         "discount_value",
         "amount_tax_not_included",
         "amount_tax_withholding",
         "price_unit",
         "quantity",
+        "partner_price_gross",
         "fiscal_operation_line_id",
         "cfop_id",
         "icms_relief_value",
@@ -243,10 +266,8 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     )
     def _compute_fiscal_amounts(self):
         for record in self:
-            round_curr = record.currency_id or self.env.ref("base.BRL")
-
             # Total value of products or services
-            record.price_gross = round_curr.round(record.price_unit * record.quantity)
+            record.price_gross = record._get_price_gross()
             record.amount_fiscal = record.price_gross - record.discount_value
             record.fiscal_amount_tax = record.amount_tax_not_included
 
@@ -330,11 +351,11 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     def _compute_tax_classification_id(self):
         for line in self:
             if line.fiscal_operation_line_id:
-                line.tax_classification_id = (
-                    line.fiscal_operation_line_id._get_tax_classification(
-                        line.company_id
-                    )
+                classification = line.fiscal_operation_line_id._get_tax_classification(
+                    line.company_id
                 )
+                if classification or not line._is_imported():
+                    line.tax_classification_id = classification
 
     @api.depends(
         "partner_id",
@@ -367,12 +388,21 @@ class FiscalDocumentLineMixin(models.AbstractModel):
                     ind_final=line.ind_final,
                     tax_classification=line.tax_classification_id,
                 )
+                if line._is_imported():
+                    # The classification declared in the file stays when the
+                    # mapping has nothing to say about it, and a CFOP chosen by
+                    # a person survives any recompute.
+                    if mapping_result["cfop"] and not line.cfop_manual:
+                        line.cfop_id = mapping_result["cfop"]
+                    if mapping_result["ipi_guideline"]:
+                        line.ipi_guideline_id = mapping_result["ipi_guideline"]
+                    if mapping_result["icms_tax_benefit_id"]:
+                        line.icms_tax_benefit_id = mapping_result["icms_tax_benefit_id"]
+                    continue
+
                 line.cfop_id = mapping_result["cfop"]
                 line.ipi_guideline_id = mapping_result["ipi_guideline"]
                 line.icms_tax_benefit_id = mapping_result["icms_tax_benefit_id"]
-
-                if line._is_imported():
-                    continue
 
                 taxes = line.env["l10n_br_fiscal.tax"]
                 for tax in mapping_result["taxes"].values():
@@ -608,6 +638,10 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     )
     def _compute_price_unit_fiscal(self):  # OK when edited from aml?? c-> check
         for line in self:
+            if line._is_imported() and line.price_unit:
+                # the price declared in the file is not the price of the product
+                line.price_unit = line.price_unit
+                continue
             line.price_unit = {
                 "sale_price": line.product_id.list_price,
                 "cost_price": line.product_id.standard_price,
@@ -647,7 +681,12 @@ class FiscalDocumentLineMixin(models.AbstractModel):
                 continue
             p = line.product_id
             line.fiscal_type = p.fiscal_type
-            line.ncm_id = p.ncm_id
+            if line._is_imported():
+                # the NCM of an imported line is the one of the file, never the
+                # one of the product that was matched to it
+                line.ncm_id = line._get_declared_ncm() or line.ncm_id
+            else:
+                line.ncm_id = p.ncm_id
             line.nbm_id = p.nbm_id
             line.tax_icms_or_issqn = p.tax_icms_or_issqn
             line.icms_origin = p.icms_origin
@@ -974,12 +1013,20 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     @api.depends("product_id", "uom_id")
     def _compute_uot_id(self):
         for line in self:
+            if line._is_imported() and (line.uot_id or line.partner_uom_code):
+                # the taxation unit of the file (uTrib) does not depend on the
+                # product that was matched to it
+                line.uot_id = line.uot_id
+                continue
             p = line.product_id
             line.uot_id = (p.uot_id if p else False) or line.uom_id
 
     @api.depends("price_unit")
     def _compute_fiscal_price(self):
         for line in self:
+            if line._is_imported() and line.fiscal_price:
+                line.fiscal_price = line.fiscal_price
+                continue
             if line.product_id and line.price_unit:
                 line.fiscal_price = line.price_unit / (
                     line.product_id.uot_factor or 1.0
@@ -990,6 +1037,9 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     @api.depends("quantity")
     def _compute_fiscal_quantity(self):
         for line in self:
+            if line._is_imported() and line.fiscal_quantity:
+                line.fiscal_quantity = line.fiscal_quantity
+                continue
             if line.product_id and line.quantity:
                 line.fiscal_quantity = line.quantity * (
                     line.product_id.uot_factor or 1.0
@@ -1212,6 +1262,32 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         help="CFOP as declared by the counterparty in the imported document. "
         "It is preserved as-is for fiscal bookkeeping / SPED (e.g. C197), "
         "while cfop_id reflects the company's own operation after the de-para.",
+    )
+
+    cfop_manual = fields.Boolean(
+        string="CFOP Set Manually",
+        copy=False,
+        help="Set when the CFOP of an imported line was chosen by a person "
+        "instead of coming from the fiscal operation. The automatic remap does "
+        "not overwrite it.",
+    )
+
+    partner_ncm_code = fields.Char(
+        string="NCM Declared by Partner",
+        copy=False,
+        readonly=True,
+        help="NCM as declared by the counterparty in the imported document. The "
+        "line uses the NCM of the registry with this code, or none.",
+    )
+
+    partner_price_gross = fields.Monetary(
+        string="Gross Total Declared by Partner",
+        currency_field="currency_id",
+        copy=False,
+        help="Total of the item as declared by the counterparty (vProd). The "
+        "total of the line follows it, because quantity times unit price may "
+        "not give back the cents of the file. Cleared when a person changes the "
+        "quantity or the price.",
     )
 
     fiscal_price = fields.Float(
