@@ -172,7 +172,7 @@ class CbsAssessmentMockFile(models.Model):
         lines = period._local_document_lines([line_type])
         items = self._items_from_lines(lines, credit=line_type == LINE_CREDIT)
         if not items:
-            items = [self._sample_item(credit=line_type == LINE_CREDIT)]
+            items = [self._sample_item(period, credit=line_type == LINE_CREDIT)]
         collection = "creditos" if line_type == LINE_CREDIT else "debitos"
         return {"apuracao": [{"pa": self._pa(period), collection: items}]}
 
@@ -194,12 +194,24 @@ class CbsAssessmentMockFile(models.Model):
             "apuracao": [
                 {
                     "dataArrecadacao": fields.Date.to_string(
-                        fields.Date.context_today(self)
+                        self._collection_date(period)
                     ),
                     "pagamentos": payments,
                 }
             ]
         }
+
+    @api.model
+    def _collection_date(self, period):
+        """Return a collection day inside the assessment month.
+
+        The DARF due date falls in the following month. The collection date
+        of the sample file stays in the month being assessed.
+        """
+        start = period.date_from
+        if not start:
+            return fields.Date.context_today(self)
+        return start.replace(day=15)
 
     def _withholding_payment(self, period, documents):
         document, amount = self._first_document(documents)
@@ -292,8 +304,14 @@ class CbsAssessmentMockFile(models.Model):
         return grouped
 
     @api.model
-    def _sample_item(self, credit):
-        stamp = self._stamp(fields.Datetime.now())
+    def _sample_item(self, period, credit):
+        """Return one example line dated inside the assessment month.
+
+        An empty period has no fiscal document to copy. The stand-in still
+        has to belong to that month, otherwise the file looks like a document
+        issued later than the period it is filed in.
+        """
+        stamp = self._stamp(period._period_utc_bounds()[0])
         return {
             "origem": 0,
             "documento": 55,

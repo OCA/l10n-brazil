@@ -58,7 +58,9 @@ que nada é enviado à Receita.
 serviço a partir dos documentos fiscais autorizados daquele mês. Saídas
 viram débitos, entradas viram créditos, e os pagamentos trazem um DARF
 RAD e um PCONT. Sem documento no período, o arquivo leva uma linha de
-exemplo.
+exemplo com emissão dentro daquele mês. A arrecadação do DARF de exemplo
+também fica nesse mês. O vencimento segue o prazo do período, no mês
+seguinte.
 
 A solicitação daquele período e serviço consome o arquivo preparado para
 eles. Um arquivo de outro mês não é reaproveitado. Se não houver arquivo

@@ -76,6 +76,24 @@ class TestCbsAssessmentMock(TransactionCase):
         else:
             self.assertEqual(items[0]["chave"], SAMPLE_KEY)
             self.assertEqual(items[0]["cbs"]["apurado"], SAMPLE_AMOUNT)
+            self.assertTrue(items[0]["emissao"].startswith(period.per_apur))
+
+    def test_sample_line_stays_inside_an_older_period(self):
+        period = self.period_model._get_or_create(self.company, "cbs", "2026-10")
+        item = self.file_model._sample_item(period, credit=True)
+        self.assertTrue(item["emissao"].startswith("2026-10-"))
+        self.assertEqual(item["registro"], item["emissao"])
+        self.assertEqual(item["atualizacao"], item["emissao"])
+
+    def test_payment_collection_stays_inside_the_period(self):
+        period = self.period_model._get_or_create(self.company, "cbs", "2026-10")
+        for service in ("payments", "withholdings"):
+            payload = self.file_model._build_payload(period, service)
+            assessment = payload["apuracao"][0]
+            self.assertEqual(assessment["dataArrecadacao"], "2026-10-15")
+            due = assessment["pagamentos"][0]["composicao"][0]["vencimento"]
+            self.assertEqual(due, fields.Date.to_string(period.date_deadline))
+            self.assertTrue(due.startswith("2026-11-"))
 
     def test_prepared_file_is_served(self):
         period = self.period_model._get_or_create(self.company, "cbs", "2026-08")
