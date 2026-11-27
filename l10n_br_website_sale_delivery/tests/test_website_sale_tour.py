@@ -44,7 +44,7 @@ class TestUi(HttpCase):
         cls.product = cls.env["product.template"].create(
             {
                 "name": "Freight Test Storage Box",
-                "detailed_type": "consu",
+                "type": "consu",
                 "list_price": 100,
                 "taxes_id": [Command.clear()],
                 "website_published": True,
@@ -53,13 +53,15 @@ class TestUi(HttpCase):
         )
         cls.free_carrier = cls._create_carrier("Freight Test Free", 0)
         cls.paid_carrier = cls._create_carrier("Freight Test Poste", 20)
+        # Freight must not qualify its own order for free shipping.
+        cls.paid_carrier.write({"free_over": True, "amount": 210})
 
     @classmethod
     def _create_carrier(cls, name, price):
         product = cls.env["product.product"].create(
             {
                 "name": name,
-                "detailed_type": "service",
+                "type": "service",
                 "sale_ok": False,
                 "purchase_ok": False,
                 "list_price": price,
@@ -114,6 +116,18 @@ class TestUi(HttpCase):
         )
         self.assertEqual(self.currency.compare_amounts(order.amount_delivery, 20), 0)
         self.assertEqual(self.currency.compare_amounts(order.amount_total, 220), 0)
+        self.assertEqual(
+            self.currency.compare_amounts(
+                order._compute_amount_total_without_delivery(), 200
+            ),
+            0,
+        )
+        self.assertEqual(
+            self.currency.compare_amounts(
+                order._get_amount_total_excluding_delivery(), 200
+            ),
+            0,
+        )
         order.action_confirm()
         self.assertEqual(order.state, "sale")
         self.assertEqual(

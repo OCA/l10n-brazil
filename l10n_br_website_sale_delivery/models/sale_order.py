@@ -15,6 +15,30 @@ class SaleOrder(models.Model):
                 order.amount_delivery = order.amount_freight_value
         return result
 
+    def _get_website_fiscal_freight(self):
+        self.ensure_one()
+        if not self.website_id or self.company_id.country_id.code != "BR":
+            return 0.0
+        fiscal_lines = self._get_non_delivery_lines().filtered("fiscal_operation_id")
+        return sum(fiscal_lines.mapped("freight_value"))
+
+    def _compute_amount_total_without_delivery(self):
+        return (
+            super()._compute_amount_total_without_delivery()
+            - self._get_website_fiscal_freight()
+        )
+
+    def _get_amount_total_excluding_delivery(self):
+        if (
+            self.website_id
+            and self.company_id.country_id.code == "BR"
+            and self.fiscal_operation_id
+        ):
+            # Use the fiscal order total, which includes the freight distributed
+            # across product lines, as the basis for express checkout.
+            return self._compute_amount_total_without_delivery()
+        return super()._get_amount_total_excluding_delivery()
+
     @api.model_create_multi
     def create(self, vals_list):
         default_website = self.default_get(["website_id"]).get("website_id")
