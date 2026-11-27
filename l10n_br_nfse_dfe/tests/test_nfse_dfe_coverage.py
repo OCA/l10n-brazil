@@ -518,14 +518,16 @@ class TestNfseDfeCoverage(TransactionCase):
             NfseDfeDocument._get_document_state_label(document),
             document.document_state,
         )
-        caught = None
-        try:
-            NfseDfeDocument.import_document(document)
-        except UserError as error:
-            caught = error
-        except NotImplementedError as error:
-            caught = error
-        self.assertIsNotNone(caught)
+        # The inbox of the NFS-e adds nothing to the import of a record of another
+        # type: the generic import serves it (here, asking for the XML of a summary,
+        # which the type decides how), where it used to be refused
+        with mock.patch.object(
+            type(document), "_dfe_import_request", return_value=None
+        ) as request, mock.patch.object(
+            type(document), "_dfe_import_confirmation_message", return_value=False
+        ):
+            document.import_document()
+        request.assert_called_once()
         nfse_key = "6" * 50
         nfse_doc = self.env["l10n_br_fiscal_dfe.document"].create(
             {

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo noupdate="1">
+    <!-- Demonstration of the NF-e import, in the company "Empresa Lucro Presumido".
+         Open Fiscal > Imported Documents to see each state:
+         - 41011: from Dell, with two installments, the product is already in the
+           supplier mapping (de-para): comes in resolved;
+         - 41022: from Intel, in a unit (CXA) that matches nothing: pending;
+         - 41033: from AMD, the product is only suggested by the barcode: matched;
+         - 90011: issued by the company in another system, confirmed as authorized
+           with the protocol of the file. -->
+
+    <record id="demo_product_import_supplied" model="product.product">
+        <field name="name">Armário de escritório (demo da importação)</field>
+        <field name="default_code">ARM-DEMO</field>
+        <field name="type">consu</field>
+        <field name="uom_id" ref="uom.product_uom_unit" />
+        <field name="uom_po_id" ref="uom.product_uom_unit" />
+    </record>
+
+    <record id="demo_supplierinfo_import_dell" model="product.supplierinfo">
+        <field name="partner_id" ref="l10n_br_base.res_partner_dell" />
+        <field
+            name="product_tmpl_id"
+            model="product.template"
+            search="[('default_code', '=', 'ARM-DEMO')]"
+        />
+        <field name="product_id" ref="demo_product_import_supplied" />
+        <field name="product_code">DELL-ARM-01</field>
+        <field name="product_name">Armário de escritório com portas</field>
+        <field name="partner_uom_id" ref="uom.product_uom_unit" />
+        <field name="partner_uom_factor">1</field>
+        <field name="price">70</field>
+    </record>
+
+    <record id="demo_product_import_barcode" model="product.product">
+        <field name="name">Produto com código de barras (demo da importação)</field>
+        <field name="default_code">BAR-DEMO</field>
+        <field name="barcode">7891000100103</field>
+        <field name="type">consu</field>
+        <field name="uom_id" ref="uom.product_uom_unit" />
+        <field name="uom_po_id" ref="uom.product_uom_unit" />
+    </record>
+
+    <function model="l10n_br_fiscal.document" name="_edi_import_demo_files">
+        <value>l10n_br_nfe</value>
+        <value
+            eval="[
+                'demo/import/nfe_fornecedor_duplicatas.xml',
+                'demo/import/nfe_fornecedor_unidade_desconhecida.xml',
+                'demo/import/nfe_fornecedor_codigo_de_barras.xml',
+                'demo/import/nfe_propria_autorizada.xml',
+            ]"
+        />
+    </function>
+
+    <!-- The note of the company, issued elsewhere: its lines match the products of the
+         Odoo demo by code, so it is reviewed and goes to authorized -->
+    <function model="l10n_br_fiscal.document" name="action_document_confirm">
+        <value
+            model="l10n_br_fiscal.document"
+            search="[('document_key', '=', '35261081583054000129550010000090011760018051')]"
+        />
+    </function>
+</odoo>
