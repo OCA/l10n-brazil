@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <menuitem
+        id="nfe_sub_menu"
+        name="NF-e"
+        groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager"
+        parent="l10n_br_fiscal.document_menu"
+        sequence="100"
+    />
+    <menuitem
+        action="l10n_br_nfe_recipient_manifestation_event_action"
+        id="mde_consult_menu"
+        name="Recipient Manifestation"
+        groups="l10n_br_fiscal.group_manager"
+        parent="nfe_sub_menu"
+        sequence="25"
+    />
+    <menuitem
+        id="nfe_import_document"
+        action="l10n_br_nfe_import_xml_action"
+        name="Import"
+        parent="nfe_sub_menu"
+        sequence="46"
+        groups="l10n_br_fiscal.group_manager"
+    />
+    <!-- Imported Documents Menu-->
+    <menuitem
+        id="imported_document_menu"
+        action="imported_document_action"
+        name="Imported Document"
+        parent="nfe_sub_menu"
+        sequence="20"
+        groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager"
+    />
+    <menuitem
+        id="danfe_profile_menu"
+        action="danfe_profile_action"
+        name="DANFE Profiles"
+        parent="l10n_br_fiscal.others_config_menu"
+        sequence="100"
+        groups="l10n_br_fiscal.group_manager"
+    />
+</odoo>

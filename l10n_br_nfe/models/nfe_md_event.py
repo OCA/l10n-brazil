@@ -1,0 +1,172 @@
+# Copyright (C) 2023 KMEE Informatica LTDA
+# License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+
+import logging
+import re
+
+from erpbrasil.transmissao import TransmissaoSOAP
+from nfelib.nfe.ws.edoc_legacy import MDeAdapter as edoc_mde
+from requests import Session
+
+from odoo import api, fields, models
+from odoo.exceptions import ValidationError
+
+from odoo.addons.l10n_br_fiscal_edi.tools import tax_authority_date_to_utc
+
+from ..constants import mdest as MD
+
+_logger = logging.getLogger(__name__)
+
+# Codes with which SEFAZ registers a manifestation event. 136 ("Evento
+# registrado, mas nao vinculado a NF-e") is a success too: the event carries a
+# protocol, only its link to the NF-e is made later by the Ambiente Nacional
+# (seen when manifesting notes fetched from the DF-e backlog, days after their
+# emission).
+EVENT_REGISTERED_CODES = ["135", "136"]
+
+# Rejections meaning the manifestation is already settled at SEFAZ, so there is
+# nothing left to send: the event is marked as done instead of raising (a retry
+# would get the same answer forever).
+#   573: duplicate event, this manifestation was already registered.
+#   655: ciencia sent after the recipient already registered a final
+#        manifestation (confirmacao, desconhecimento or operacao nao realizada),
+#        which supersedes it.
+EVENT_SETTLED_CODES = ("573", "655")
+
+
+class NfeRecipientManifestationEvent(models.Model):
+    _name = "l10n_br_nfe.md_event"
+    _description = "Recipient Manifestation"
+    _order = "protocol_date DESC, id DESC"
+
+    company_id = fields.Many2one(
+        comodel_name="res.company",
+        default=lambda self: self.env.company,
+        index=True,
+        required=True,
+    )
+
+    document_number = fields.Char()
+
+    access_key = fields.Char(required=True)
+
+    serie = fields.Char()
+
+    event_type = fields.Selection(
+        string="Manifestation Type",
+        selection=MD.MANIFEST_TYPE,
+        default=MD.MANIF_CIENTE,
+        index=True,
+        required=True,
+    )
+
+    state = fields.Selection(
+        selection=[
+            ("draft", "Draft"),
+            ("done", "Done"),
+        ],
+        default="draft",
+    )
+
+    protocol = fields.Char()
+
+    protocol_date = fields.Datetime(string="Registration Date")
+
+    response_xml = fields.Text(string="Response XML")
+
+    environment = fields.Selection(related="company_id.nfe_environment")
+
+    document_type = fields.Selection(
+        selection=MD.DOC_TYPE,
+        default=MD.NFE,
+        required=True,
+    )
+
+    @api.depends("access_key")
+    def _compute_display_name(self):
+        for record in self:
+            record.display_name = record.access_key
+
+    def _get_processor(self):
+        # Use the certificate of the company of the record, which may
+        # differ from the current user company in multi-company setups.
+        certificado = self.company_id._get_br_ecertificate()
+        session = Session()
+        session.verify = False
+
+        return edoc_mde(
+            TransmissaoSOAP(certificado, session),
+            self.company_id.state_id.ibge_code,
+            ambiente=self.environment,
+        )
+
+    @api.model
+    def validate_event_response(self, result, valid_codes):
+        valid = False
+        if result.retorno.status_code != 200:
+            code = result.retorno.status_code
+            message = "Invalid Status Code"
+        elif not result.resposta.retEvento:
+            # the whole batch was rejected (e.g. schema error): there is no
+            # event result, report the batch status instead
+            code = result.resposta.cStat
+            message = result.resposta.xMotivo
+        else:
+            inf_evento = result.resposta.retEvento[0].infEvento
+            if inf_evento.cStat not in valid_codes:
+                if inf_evento.cStat in EVENT_SETTLED_CODES:
+                    _logger.warning(
+                        "MDE event already settled at SEFAZ (%s - %s) for key %s"
+                        " — marking as done",
+                        inf_evento.cStat,
+                        inf_evento.xMotivo,
+                        self.access_key,
+                    )
+                    self.response_xml = result.retorno._content.decode("utf-8")
+                    self.state = "done"
+                    valid = True
+                else:
+                    code = inf_evento.cStat
+                    message = inf_evento.xMotivo
+            else:
+                valid = True
+                self.protocol = inf_evento.nProt
+                self.protocol_date = tax_authority_date_to_utc(inf_evento.dhRegEvento)
+                self.response_xml = result.retorno._content.decode("utf-8")
+                self.state = "done"
+
+        if not valid:
+            raise ValidationError(
+                self.env._(
+                    "Error on validating event: %(code)s - %(msg)s",
+                    code=code,
+                    msg=message,
+                )
+            )
+
+    def _send_event(self, method, valid_codes):
+        processor = self._get_processor()
+        cnpj_partner = re.sub("[^0-9]", "", self.company_id.vat or "")
+
+        if hasattr(processor, method):
+            result = getattr(processor, method)(self.access_key, cnpj_partner)
+            self.validate_event_response(result, valid_codes)
+
+    def action_send_event(self, operation, valid_codes, new_state):
+        for record in self:
+            record._send_event(operation, valid_codes)
+            record.event_type = new_state
+
+    def action_confirm(self):
+        event_mapping = {
+            MD.MANIF_CIENTE: ("ciencia_da_operacao", EVENT_REGISTERED_CODES),
+            MD.MANIF_CONFIRMADO: ("confirmacao_da_operacao", EVENT_REGISTERED_CODES),
+            MD.MANIF_DESCONHECIDO: (
+                "desconhecimento_da_operacao",
+                EVENT_REGISTERED_CODES,
+            ),
+            MD.MANIF_NAO_REALIZADO: ("operacao_nao_realizada", EVENT_REGISTERED_CODES),
+        }
+        for record in self:
+            operation, valid_codes = event_mapping[record.event_type]
+            record.action_send_event(operation, valid_codes, record.event_type)
