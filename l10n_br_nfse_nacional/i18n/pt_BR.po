@@ -349,6 +349,16 @@ msgstr ""
 "Data em que se iniciou a prestação do serviço: dia, mês e ano (AAAAMMDD)"
 
 #. module: l10n_br_nfse_nacional
+#. odoo-python
+#: code:addons/l10n_br_nfse_nacional/models/document.py:0
+#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_account_bank_statement_line__nfse_nacional_concat_lines
+#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_account_move__nfse_nacional_concat_lines
+#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse_nacional_concat_lines
+#: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_res_company__nfse_nacional_concat_lines
+msgid "Declare all lines in the DPS"
+msgstr ""
+
+#. module: l10n_br_nfse_nacional
 #: model:ir.model.fields,field_description:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse10_xDescServ
 msgid "Descrição completa do serviço prestado"
 msgstr "Descrição completa do serviço prestado"
@@ -1000,6 +1010,16 @@ msgstr ""
 "3 - Optante - Microempresa ou empresa de pequeno porte (ME/EPP);"
 
 #. module: l10n_br_nfse_nacional
+#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_account_bank_statement_line__nfse_nacional_concat_lines
+#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_account_move__nfse_nacional_concat_lines
+#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_l10n_br_fiscal_document__nfse_nacional_concat_lines
+#: model:ir.model.fields,help:l10n_br_nfse_nacional.field_res_company__nfse_nacional_concat_lines
+msgid ""
+"Sum the values of every fiscal line and concatenate their descriptions in "
+"the DPS. Off: the DPS declares only the first line (legacy behaviour)."
+msgstr ""
+
+#. module: l10n_br_nfse_nacional
 #. odoo-python
 #: code:addons/l10n_br_nfse_nacional/report/ir_actions_report.py:0
 msgid ""
@@ -1008,6 +1028,19 @@ msgid ""
 msgstr ""
 "O DANFSe é gerado a partir da NFS-e autorizada pelo ADN, e o documento %s "
 "ainda não possui o XML de autorização."
+
+#. module: l10n_br_nfse_nacional
+#. odoo-python
+#: code:addons/l10n_br_nfse_nacional/models/document.py:0
+msgid ""
+"The DPS of %(document)s declares a single service, but its lines cannot be "
+"merged into one:\n"
+"\n"
+"%(details)s\n"
+"\n"
+"Split the document into one NFS-e per service, or turn off \"%(option)s\" to "
+"declare only the first line."
+msgstr ""
 
 #. module: l10n_br_nfse_nacional
 #. odoo-python
