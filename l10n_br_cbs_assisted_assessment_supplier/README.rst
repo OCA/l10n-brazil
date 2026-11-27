@@ -51,10 +51,10 @@ o transporte e o painel próprios.
 Usage
 =====
 
-No período CBS, *Suppliers* abre a lista daquele mês. O menu *Assisted
-Assessment / CBS Suppliers* monta a lista de todos os períodos CBS
-visíveis. As duas aberturas reconstroem as linhas a partir dos arquivos
-já gravados.
+No período CBS, o botão estatístico *Suppliers* abre a lista daquele
+mês. O menu *Assisted Assessment / CBS Suppliers* monta a lista de todos
+os períodos CBS visíveis. As duas aberturas reconstroem as linhas a
+partir dos arquivos já gravados.
 
 Cada fornecedor mostra o CBS das entradas autorizadas, o crédito
 apropriado, o que a Receita marcou como não apropriável ou prescrito, o

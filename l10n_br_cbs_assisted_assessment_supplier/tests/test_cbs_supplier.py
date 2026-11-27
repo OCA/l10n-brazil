@@ -268,3 +268,4 @@ class TestCbsSupplier(TransactionCase):
             self.supplier_model.search_count([("period_id", "=", self.period.id)]),
             1,
         )
+        self.assertEqual(self.period.cbs_supplier_count, 1)

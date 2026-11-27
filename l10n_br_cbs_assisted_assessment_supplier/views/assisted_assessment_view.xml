@@ -10,14 +10,23 @@
             ref="l10n_br_assisted_assessment.view_assessment_period_form"
         />
         <field name="arch" type="xml">
-            <button name="action_request_credits" position="after">
-                <button
-                    name="action_open_cbs_suppliers"
-                    type="object"
-                    string="Suppliers"
-                    invisible="tribute != 'cbs'"
-                />
-            </button>
+            <div class="oe_title" position="before">
+                <div class="oe_button_box" name="button_box">
+                    <button
+                        name="action_open_cbs_suppliers"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-truck"
+                        invisible="tribute != 'cbs'"
+                    >
+                        <field
+                            name="cbs_supplier_count"
+                            widget="statinfo"
+                            string="Suppliers"
+                        />
+                    </button>
+                </div>
+            </div>
         </field>
     </record>
 </odoo>

@@ -1,4 +1,4 @@
-No período CBS, *Suppliers* abre a lista daquele mês. O menu
+No período CBS, o botão estatístico *Suppliers* abre a lista daquele mês. O menu
 *Assisted Assessment / CBS Suppliers* monta a lista de todos os períodos
 CBS visíveis. As duas aberturas reconstroem as linhas a partir dos
 arquivos já gravados.
