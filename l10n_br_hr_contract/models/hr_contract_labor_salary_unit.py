@@ -13,4 +13,4 @@ class HrContractSalaryUnit(models.Model):
         "e-Social - S-2200 undSalFixo"
     )
 
-    name = fields.Char(string="Salary Unit")
+    name = fields.Char(string="Salary Unit", translate=True)
