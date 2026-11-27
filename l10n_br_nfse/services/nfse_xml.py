@@ -1,10 +1,7 @@
 # Copyright 2026 Escodoo - Marcel Savegnago <marcel.savegnago@escodoo.com.br>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-import base64
-import gzip
 import re
-import zlib
 from datetime import datetime, timezone
 from enum import Enum
 
@@ -13,12 +10,7 @@ from nfelib.nfse.bindings.v1_0.nfse_v1_01 import Nfse
 from xsdata.exceptions import ParserError
 from xsdata.formats.dataclass.parsers.config import ParserConfig
 
-from ..constants.nfse_dfe import (
-    NFSE_ACCESS_KEY_SIZE,
-    NFSE_CANCEL_EVENT_CODES,
-    NFSE_CANCEL_EVENT_NAMES,
-    NFSE_EVENT_CODE_BY_NAME,
-)
+from ..constants.nfse import NFSE_ACCESS_KEY_SIZE
 
 
 class NfseNacionalBinding:
@@ -38,6 +30,8 @@ class NfseNacionalBinding:
         self.provider_cnpj = values.get("provider_cnpj")
         self.provider_name = values.get("provider_name")
         self.provider = values.get("provider") or {}
+        self.taker = values.get("taker") or {}
+        self.tax_nature = values.get("tax_nature")
         self.service_value = values.get("service_value") or 0.0
         self.description = values.get("description")
         self.issqn_base = values.get("issqn_base") or 0.0
@@ -69,34 +63,6 @@ class NfseNacionalBinding:
         self.cofins_withheld = bool(values.get("cofins_withheld"))
         self.irpj_wh_value = values.get("irpj_wh_value") or 0.0
         self.csll_wh_value = values.get("csll_wh_value") or 0.0
-
-
-def decode_arquivo_xml(value):
-    """Return XML bytes from an ADN ``ArquivoXml`` or a wizard binary."""
-    if not value:
-        return None
-    if isinstance(value, bytes):
-        if value[:1] in (b"<", b"\x1f"):
-            raw = value
-        else:
-            try:
-                raw = base64.b64decode(value)
-            except (ValueError, TypeError):
-                raw = value
-    else:
-        text = str(value).strip()
-        if text.startswith("<"):
-            return text.encode("utf-8")
-        try:
-            raw = base64.b64decode(text)
-        except (ValueError, TypeError):
-            return None
-    if raw[:2] == b"\x1f\x8b":
-        try:
-            raw = gzip.decompress(raw)
-        except (OSError, EOFError, zlib.error):
-            return None
-    return raw
 
 
 def normalize_access_key(value):
@@ -419,6 +385,8 @@ def parse_nfse_xml(xml_bytes):
         "provider_cnpj": provider_cnpj or False,
         "provider_name": provider_name,
         "provider": provider,
+        "taker": _party(_node(inf_dps, "toma")),
+        "tax_nature": _node_text(inf_nfse, "xTribNac"),
         "service_value": _service_value(inf_nfse, inf_dps),
         "description": _node_text(service, "xDescServ"),
         "issqn_base": _amount(_node_text(note_values, "vBC")),
@@ -433,91 +401,3 @@ def parse_nfse_xml(xml_bytes):
         **_ibs_cbs_values(inf_nfse, inf_dps, xml_bytes),
         **_federal_tax_values(inf_dps),
     }
-
-
-def parse_nfse_file(file_data):
-    """Parse a base64 wizard file when it is a national NFS-e."""
-    xml_bytes = decode_arquivo_xml(file_data)
-    values = parse_nfse_xml(xml_bytes)
-    if not values:
-        return None
-    return NfseNacionalBinding(values)
-
-
-def normalize_event_code(code):
-    """Return the 6-digit national event code, or False."""
-    if not code:
-        return False
-    text = str(code).strip()
-    mapped = NFSE_EVENT_CODE_BY_NAME.get(text.upper())
-    if mapped:
-        return mapped
-    if text[:1] in {"e", "E"} and text[1:].isdigit():
-        text = text[1:]
-    if text.isdigit() and len(text) == 6:
-        return text
-    return False
-
-
-def is_cancel_event(code):
-    """True only for a cancellation that was actually registered."""
-    if not code:
-        return False
-    if str(code).strip().upper() in NFSE_CANCEL_EVENT_NAMES:
-        return True
-    return normalize_event_code(code) in NFSE_CANCEL_EVENT_CODES
-
-
-def _event_code_from_root(root):
-    """The national event has no ``tpEvento`` tag.
-
-    The code is the ``eNNNNNN`` child of ``infPedReg``, and it is also the
-    6 digits before the sequence in ``infPedReg/@Id``.
-    """
-    for node in root.xpath(".//*[local-name()='infPedReg']"):
-        for child in node:
-            name = _local_name(child.tag)
-            if re.fullmatch(r"[eE]\d{6}", name):
-                return name[1:]
-        digits = re.sub(r"\D", "", node.get("Id") or "")
-        if len(digits) >= 9:
-            return digits[-9:-3]
-    return False
-
-
-def parse_nfse_event_xml(xml_bytes):
-    """Map a national NFS-e event XML to a dict, or None."""
-    if not xml_bytes:
-        return None
-    try:
-        root = etree.fromstring(xml_bytes)
-    except etree.XMLSyntaxError:
-        return None
-    event_type = _event_code_from_root(root) or _text(
-        root,
-        ".//*[local-name()='infEvento']/*[local-name()='tpEvento']",
-        ".//*[local-name()='infPedReg']/*[local-name()='tpEvento']",
-    )
-    access_key = normalize_access_key(
-        _text(
-            root,
-            ".//*[local-name()='infPedReg']/*[local-name()='chNFSe']",
-            ".//*[local-name()='infEvento']/*[local-name()='chNFSe']",
-        )
-    )
-    if not event_type and not access_key and _local_name(root.tag) != "evento":
-        return None
-    return {
-        "access_key": access_key,
-        "event_type": normalize_event_code(event_type) or event_type,
-    }
-
-
-def xml_root_is_nfse(xml_bytes):
-    if not xml_bytes:
-        return False
-    try:
-        root = etree.fromstring(xml_bytes)
-    except etree.XMLSyntaxError:
-        return False
-    return _is_nfse_document(root)

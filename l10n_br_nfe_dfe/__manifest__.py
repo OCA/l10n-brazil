@@ -13,12 +13,17 @@
     "website": "https://github.com/OCA/l10n-brazil",
     "depends": ["l10n_br_fiscal_dfe", "l10n_br_nfe"],
     "data": [
+        # Security
+        "security/ir.model.access.csv",
         # Data
         "data/ir_cron.xml",
         "data/queue_job_data.xml",
         # Views
         "views/nfe_dfe_views.xml",
         "views/res_company_view.xml",
+    ],
+    "demo": [
+        "demo/dfe_demo.xml",
     ],
     "external_dependencies": {
         "python": [

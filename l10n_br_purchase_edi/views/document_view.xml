@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="document_form" model="ir.ui.view">
+        <field name="name">l10n_br_purchase_edi.document.form</field>
+        <field name="model">l10n_br_fiscal.document</field>
+        <field name="inherit_id" ref="l10n_br_fiscal_edi.document_form_import" />
+        <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('oe_button_box')]" position="inside">
+                <button
+                    class="oe_stat_button"
+                    name="action_view_import_purchase_orders"
+                    type="object"
+                    help="Show the purchase orders of the lines"
+                    groups="purchase.group_purchase_user"
+                    attrs="{'invisible': [('import_purchase_order_count', '=', 0)]}"
+                    icon="fa-shopping-cart"
+                >
+                    <field
+                        name="import_purchase_order_count"
+                        widget="statinfo"
+                        string="Purchases"
+                    />
+                </button>
+            </xpath>
+            <xpath expr="//form/header" position="inside">
+                <field name="has_suggested_import_origin" invisible="1" />
+                <field name="imported_document" invisible="1" />
+                <field name="edi_can_match_orders" invisible="1" />
+                <button
+                    name="action_confirm_import_origins"
+                    type="object"
+                    string="Confirm Origins"
+                    groups="l10n_br_fiscal.group_user"
+                    attrs="{'invisible': [('has_suggested_import_origin', '=', False)]}"
+                />
+                <button
+                    name="action_open_origin_match"
+                    type="object"
+                    string="Match with Orders"
+                    groups="l10n_br_fiscal.group_user"
+                    attrs="{'invisible': [('edi_can_match_orders', '=', False)]}"
+                />
+            </xpath>
+            <xpath
+                expr="//field[@name='fiscal_line_ids']/tree/field[@name='import_state']"
+                position="after"
+            >
+                <button
+                    name="action_open_import_origin"
+                    type="object"
+                    icon="fa-external-link"
+                    string="Open origin"
+                    title="Open origin"
+                    groups="purchase.group_purchase_user"
+                    attrs="{'invisible': [('import_origin_state', 'not in', ['suggested', 'resolved'])]}"
+                />
+                <field
+                    name="import_origin_state"
+                    string="Origin"
+                    widget="badge"
+                    decoration-warning="import_origin_state == 'pending'"
+                    decoration-info="import_origin_state == 'suggested'"
+                    decoration-success="import_origin_state in ('resolved', 'no_order')"
+                    optional="show"
+                    attrs="{'column_invisible': [('parent.imported_document', '=', False)]}"
+                />
+            </xpath>
+        </field>
+    </record>
+
+    <record id="document_line_form" model="ir.ui.view">
+        <field name="name">l10n_br_purchase_edi.document.line.form</field>
+        <field name="model">l10n_br_fiscal.document.line</field>
+        <field name="inherit_id" ref="l10n_br_fiscal_edi.document_line_form_import" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='import_state']" position="after">
+                <field
+                    name="import_origin_candidate_ids"
+                    invisible="1"
+                    groups="purchase.group_purchase_user"
+                />
+                <field
+                    name="import_purchase_line_id"
+                    options="{'no_create': True}"
+                    groups="purchase.group_purchase_user"
+                    attrs="{'invisible': [('fiscal_operation_type', '=', 'out')]}"
+                />
+                <field
+                    name="import_origin_state"
+                    attrs="{'invisible': [('import_origin_state', '=', False)]}"
+                />
+            </xpath>
+        </field>
+    </record>
+</odoo>

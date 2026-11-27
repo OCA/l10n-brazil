@@ -11,6 +11,8 @@ from . import (
     test_tax_benefit,
     test_document_edition,
     test_document_imported,
+    test_imported_line_values,
+    test_document_import_freight_operation,
     test_document_import_operation,
     test_ibpt_product,
     test_ibpt_service,

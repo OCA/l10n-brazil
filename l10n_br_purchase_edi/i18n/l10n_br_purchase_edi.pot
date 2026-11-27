@@ -1,0 +1,828 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_br_purchase_edi
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-23 06:46+0000\n"
+"PO-Revision-Date: 2026-11-23 06:46+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_br_purchase_edi
+#. odoo-python
+#: code:addons/l10n_br_purchase_edi/models/document.py:0
+#, python-format
+msgid ""
+"%(count)s line(s) have the origin (purchase order line) not decided yet. Use"
+" Confirm Origins to accept the suggestions, or Match with Orders to choose "
+"the order line of each one or to mark the line as without order. A line "
+"whose product is only a suggestion and that declares no order in the file "
+"gets its origin after Confirm Suggestions."
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#. odoo-python
+#: code:addons/l10n_br_purchase_edi/models/document_match.py:0
+#, python-format
+msgid "%(count)s line(s) marked as without purchase order."
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#. odoo-python
+#: code:addons/l10n_br_purchase_edi/models/document_match.py:0
+#, python-format
+msgid "%s possible order lines: choose one"
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#. odoo-python
+#: code:addons/l10n_br_purchase_edi/models/document_match.py:0
+#, python-format
+msgid ""
+"A quotation cannot be matched until the buyer confirms the order. Use Open "
+"Quotation."
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model:ir.model.fields,field_description:l10n_br_purchase_edi.field_l10n_br_purchase_edi_match__open_quantity
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase_edi.document_match_tree
+msgid "Balance"
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase_edi.document_match_tree
+msgid "Candidate"
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#. odoo-python
+#: code:addons/l10n_br_purchase_edi/models/document_match.py:0
+#, python-format
+msgid ""
+"Choosing the product of a line is for the fiscal profile. Ask for the "
+"product to be resolved before matching."
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model:ir.model.fields,help:l10n_br_purchase_edi.field_l10n_br_purchase_edi_match__partner_id
+msgid "Commercial partner of the document or of the order."
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model:ir.model.fields,field_description:l10n_br_purchase_edi.field_l10n_br_purchase_edi_match__company_id
+msgid "Company"
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase_edi.document_form
+msgid "Confirm Origins"
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model:ir.model.fields.selection,name:l10n_br_purchase_edi.selection__l10n_br_purchase_edi_match__line_state__confirmed
+msgid "Confirmed"
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase_edi.document_match_tree
+msgid "Create Order from the Document"
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model:ir.model.fields,field_description:l10n_br_purchase_edi.field_l10n_br_purchase_edi_match__currency_id
+msgid "Currency"
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model:ir.model.fields,field_description:l10n_br_purchase_edi.field_l10n_br_purchase_edi_match__date
+msgid "Date"
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model:ir.model.fields,field_description:l10n_br_purchase_edi.field_l10n_br_purchase_edi_match__description
+msgid "Description"
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase_edi.document_match_tree
+msgid "Diff. %"
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model:ir.model.fields,field_description:l10n_br_purchase_edi.field_l10n_br_purchase_edi_match__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model:ir.model.fields.selection,name:l10n_br_purchase_edi.selection__l10n_br_purchase_edi_match__line_state__draft
+msgid "Draft Quotation"
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model:ir.model.fields,field_description:l10n_br_purchase_edi.field_account_bank_statement_line__edi_can_match_orders
+#: model:ir.model.fields,field_description:l10n_br_purchase_edi.field_account_move__edi_can_match_orders
+#: model:ir.model.fields,field_description:l10n_br_purchase_edi.field_account_payment__edi_can_match_orders
+#: model:ir.model.fields,field_description:l10n_br_purchase_edi.field_l10n_br_fiscal_document__edi_can_match_orders
+msgid "Edi Can Match Orders"
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model:ir.model.fields,field_description:l10n_br_purchase_edi.field_l10n_br_purchase_edi_match__fiscal_document_id
+msgid "Fiscal Document"
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model:ir.model.fields,field_description:l10n_br_purchase_edi.field_purchase_order__import_document_ids
+msgid "Fiscal Documents"
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model:ir.model.fields,field_description:l10n_br_purchase_edi.field_l10n_br_purchase_edi_match__fiscal_line_id
+msgid "Fiscal Line"
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model:ir.model.fields,field_description:l10n_br_purchase_edi.field_purchase_order__import_document_count
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase_edi.purchase_order_form
+msgid "Fiscal docs"
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#. odoo-python
+#: code:addons/l10n_br_purchase_edi/models/document_match.py:0
+#, python-format
+msgid "Fiscal document %s"
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase_edi.document_match_search
+msgid "Group By"
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model:ir.model.fields,field_description:l10n_br_purchase_edi.field_account_bank_statement_line__has_suggested_import_origin
+#: model:ir.model.fields,field_description:l10n_br_purchase_edi.field_account_move__has_suggested_import_origin
+#: model:ir.model.fields,field_description:l10n_br_purchase_edi.field_account_payment__has_suggested_import_origin
+#: model:ir.model.fields,field_description:l10n_br_purchase_edi.field_l10n_br_fiscal_document__has_suggested_import_origin
+msgid "Has Suggested Import Origin"
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model:ir.model.fields,field_description:l10n_br_purchase_edi.field_l10n_br_purchase_edi_match__hint
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase_edi.document_match_tree
+msgid "Hint"
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model:ir.model.fields,field_description:l10n_br_purchase_edi.field_l10n_br_purchase_edi_match__id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model:ir.model.fields,field_description:l10n_br_purchase_edi.field_account_move_line__import_origin_candidate_ids
+#: model:ir.model.fields,field_description:l10n_br_purchase_edi.field_l10n_br_fiscal_document_line__import_origin_candidate_ids
+msgid "Import Origin Candidate"
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase_edi.purchase_order_form
+msgid "Imported fiscal documents linked to this record"
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model:ir.model.fields.selection,name:l10n_br_purchase_edi.selection__l10n_br_purchase_edi_match__kind__note
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase_edi.document_match_search
+msgid "Invoice"
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model:ir.model,name:l10n_br_purchase_edi.model_account_move
+msgid "Journal Entry"
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model:ir.model.fields,field_description:l10n_br_purchase_edi.field_l10n_br_purchase_edi_match__kind
+msgid "Kind"
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model:ir.model.fields,field_description:l10n_br_purchase_edi.field_l10n_br_purchase_edi_match____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase_edi.document_match_tree
+msgid "Match"
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model:ir.actions.act_window,name:l10n_br_purchase_edi.document_match_buyer_action
+#: model:ir.ui.menu,name:l10n_br_purchase_edi.document_match_buyer_menu
+msgid "Match Imported Documents"
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model:ir.actions.act_window,name:l10n_br_purchase_edi.document_match_action
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase_edi.document_form
+msgid "Match with Orders"
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#. odoo-python
+#: code:addons/l10n_br_purchase_edi/models/document.py:0
+#, python-format
+msgid "Match with Orders: %s"
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model:ir.model.fields.selection,name:l10n_br_purchase_edi.selection__l10n_br_purchase_edi_match__line_state__none
+msgid "No Open Order"
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#. odoo-python
+#: code:addons/l10n_br_purchase_edi/models/account_move.py:0
+#, python-format
+msgid ""
+"Not linked to the purchase order, the quantity does not fit in what is left "
+"of the order line: %s"
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model:ir.model.fields,field_description:l10n_br_purchase_edi.field_l10n_br_purchase_edi_match__note_price_unit
+msgid "Note Price Unit"
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model:ir.model.fields,field_description:l10n_br_purchase_edi.field_l10n_br_purchase_edi_match__note_quantity
+msgid "Note Quantity"
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase_edi.document_match_tree
+msgid "Note price"
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase_edi.document_match_tree
+msgid "Note qty"
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase_edi.document_match_tree
+msgid "Open Document"
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase_edi.document_match_tree
+msgid "Open Quotation"
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase_edi.document_form
+msgid "Open origin"
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model:ir.model.fields.selection,name:l10n_br_purchase_edi.selection__l10n_br_purchase_edi_match__kind__order
+msgid "Order"
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model:ir.model.fields,field_description:l10n_br_purchase_edi.field_l10n_br_purchase_edi_match__purchase_line_id
+msgid "Order Line"
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model:ir.model.fields,help:l10n_br_purchase_edi.field_l10n_br_purchase_edi_match__declared_reference
+msgid "Order and item the supplier declared in the file (xPed, nItemPed)."
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model:ir.model.fields,help:l10n_br_purchase_edi.field_l10n_br_purchase_edi_match__suggested_purchase_line_id
+msgid "Order line the invoice line points to, suggested or resolved."
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model:ir.model.fields,help:l10n_br_purchase_edi.field_l10n_br_purchase_edi_match__open_quantity
+msgid ""
+"Order: ordered less invoiced less claimed by the other imported documents "
+"that have no bill yet."
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase_edi.document_match_search
+msgid "Orders"
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase_edi.document_form
+msgid "Origin"
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model:ir.model.fields,field_description:l10n_br_purchase_edi.field_l10n_br_purchase_edi_match__suggested_purchase_line_id
+msgid "Origin Chosen"
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase_edi.document_match_search
+msgid "Origin Pending or Suggested"
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase_edi.document_match_search
+msgid "Origin Resolved"
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model:ir.model.fields,field_description:l10n_br_purchase_edi.field_account_move_line__import_origin_state
+#: model:ir.model.fields,field_description:l10n_br_purchase_edi.field_l10n_br_fiscal_document_line__import_origin_state
+msgid "Origin State"
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#. odoo-python
+#: code:addons/l10n_br_purchase_edi/models/document_match.py:0
+#, python-format
+msgid "Origin of %(count)s line(s) matched to the order %(order)s."
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#. odoo-python
+#: code:addons/l10n_br_purchase_edi/models/document_match.py:0
+#, python-format
+msgid "Origin of %(count)s line(s) undone."
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model:ir.model,name:l10n_br_purchase_edi.model_l10n_br_purchase_edi_match
+msgid "Origin of an imported fiscal document"
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model:ir.model.fields.selection,name:l10n_br_purchase_edi.selection__l10n_br_fiscal_document_line__import_origin_state__pending
+#: model:ir.model.fields.selection,name:l10n_br_purchase_edi.selection__l10n_br_purchase_edi_match__line_state__pending
+msgid "Pending"
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model:ir.model.fields,field_description:l10n_br_purchase_edi.field_l10n_br_purchase_edi_match__price_unit
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase_edi.document_match_tree
+msgid "Price"
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model:ir.model.fields,field_description:l10n_br_purchase_edi.field_l10n_br_purchase_edi_match__price_difference
+msgid "Price Difference"
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model:ir.model.fields,field_description:l10n_br_purchase_edi.field_l10n_br_purchase_edi_match__price_difference_percent
+msgid "Price Difference %"
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase_edi.document_match_tree
+msgid "Price diff."
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model:ir.model.fields,help:l10n_br_purchase_edi.field_l10n_br_purchase_edi_match__price_difference_percent
+msgid "Price difference as a percentage."
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model:ir.model.fields,help:l10n_br_purchase_edi.field_l10n_br_purchase_edi_match__note_price_unit
+msgid ""
+"Price of the line of the document being matched (context) for the same "
+"product, in the unit of this row."
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model:ir.model.fields,help:l10n_br_purchase_edi.field_l10n_br_purchase_edi_match__price_difference
+msgid ""
+"Price of the order line or quotation less the price of the line of the "
+"document being matched (context) for the same product, in the unit of the "
+"row."
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model:ir.model.fields,field_description:l10n_br_purchase_edi.field_l10n_br_purchase_edi_match__product_id
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase_edi.document_match_search
+msgid "Product"
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model:ir.model,name:l10n_br_purchase_edi.model_purchase_order
+#: model:ir.model.fields,field_description:l10n_br_purchase_edi.field_l10n_br_purchase_edi_match__purchase_order_id
+msgid "Purchase Order"
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model:ir.model,name:l10n_br_purchase_edi.model_purchase_order_line
+msgid "Purchase Order Line"
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model:ir.model.fields,field_description:l10n_br_purchase_edi.field_account_move_line__import_purchase_line_id
+#: model:ir.model.fields,field_description:l10n_br_purchase_edi.field_l10n_br_fiscal_document_line__import_purchase_line_id
+msgid "Purchase Order Line (origin)"
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model:ir.model.fields,field_description:l10n_br_purchase_edi.field_account_bank_statement_line__import_purchase_order_ids
+#: model:ir.model.fields,field_description:l10n_br_purchase_edi.field_account_move__import_purchase_order_ids
+#: model:ir.model.fields,field_description:l10n_br_purchase_edi.field_account_payment__import_purchase_order_ids
+#: model:ir.model.fields,field_description:l10n_br_purchase_edi.field_l10n_br_fiscal_document__import_purchase_order_ids
+msgid "Purchase Orders"
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model:ir.model.fields,help:l10n_br_purchase_edi.field_account_move_line__import_purchase_line_id
+#: model:ir.model.fields,help:l10n_br_purchase_edi.field_l10n_br_fiscal_document_line__import_purchase_line_id
+msgid ""
+"Purchase order line this imported document line corresponds to. It is "
+"suggested from the order reference of the file (xPed and nItemPed) or from "
+"the only open order line of the supplier for the product, and a person "
+"confirms or changes it."
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model:ir.model.fields,field_description:l10n_br_purchase_edi.field_account_bank_statement_line__import_purchase_order_count
+#: model:ir.model.fields,field_description:l10n_br_purchase_edi.field_account_move__import_purchase_order_count
+#: model:ir.model.fields,field_description:l10n_br_purchase_edi.field_account_payment__import_purchase_order_count
+#: model:ir.model.fields,field_description:l10n_br_purchase_edi.field_l10n_br_fiscal_document__import_purchase_order_count
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase_edi.document_form
+msgid "Purchases"
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase_edi.document_match_tree
+msgid "Qty"
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase_edi.document_match_tree
+msgid "Qty diff."
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model:ir.model.fields,field_description:l10n_br_purchase_edi.field_l10n_br_purchase_edi_match__quantity
+msgid "Quantity"
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model:ir.model.fields,field_description:l10n_br_purchase_edi.field_l10n_br_purchase_edi_match__quantity_difference
+msgid "Quantity Difference"
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model:ir.model.fields,help:l10n_br_purchase_edi.field_l10n_br_purchase_edi_match__quantity_difference
+msgid "Quantity of the document less the balance of the order line."
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model:ir.model.fields,help:l10n_br_purchase_edi.field_l10n_br_purchase_edi_match__note_quantity
+msgid ""
+"Quantity of the line of the document being matched (context) for the same "
+"product, in the unit of this row."
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model:ir.model.fields.selection,name:l10n_br_purchase_edi.selection__l10n_br_purchase_edi_match__kind__quote
+msgid "Quotation"
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model:ir.model.fields.selection,name:l10n_br_purchase_edi.selection__l10n_br_purchase_edi_match__line_state__sent
+msgid "Quotation Sent"
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase_edi.document_match_search
+msgid "Quotations"
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase_edi.document_match_tree
+msgid "Ref."
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model:ir.model.fields,field_description:l10n_br_purchase_edi.field_l10n_br_purchase_edi_match__reference
+msgid "Reference"
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#. odoo-python
+#: code:addons/l10n_br_purchase_edi/models/document_match.py:0
+#, python-format
+msgid "Resolve the product of the selected lines first."
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model:ir.model.fields.selection,name:l10n_br_purchase_edi.selection__l10n_br_fiscal_document_line__import_origin_state__resolved
+#: model:ir.model.fields.selection,name:l10n_br_purchase_edi.selection__l10n_br_purchase_edi_match__line_state__resolved
+msgid "Resolved"
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model:ir.model.fields,help:l10n_br_purchase_edi.field_account_move_line__import_origin_state
+#: model:ir.model.fields,help:l10n_br_purchase_edi.field_l10n_br_fiscal_document_line__import_origin_state
+msgid ""
+"Review of the origin of an imported line. Pending: the supplier has open "
+"order lines and none was chosen. Suggested: an automatic suggestion waits "
+"for confirmation. Resolved: a person chose it, or the supplier declared it "
+"with no doubt (order and item of the file). Without Order: a person decided "
+"there is no order. Empty when there is nothing to choose from."
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#. odoo-python
+#: code:addons/l10n_br_purchase_edi/models/document_match.py:0
+#, python-format
+msgid "Select invoice lines with a decided origin."
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#. odoo-python
+#: code:addons/l10n_br_purchase_edi/models/document_match.py:0
+#, python-format
+msgid "Select one order line to match."
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#. odoo-python
+#: code:addons/l10n_br_purchase_edi/models/document_match.py:0
+#, python-format
+msgid "Select only invoice lines to create the order."
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#. odoo-python
+#: code:addons/l10n_br_purchase_edi/models/document_match.py:0
+#, python-format
+msgid "Select the invoice lines to match."
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#. odoo-python
+#: code:addons/l10n_br_purchase_edi/models/document_match.py:0
+#, python-format
+msgid "Select the invoice lines without an order."
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#. odoo-python
+#: code:addons/l10n_br_purchase_edi/models/document_match.py:0
+#, python-format
+msgid "Select the lines of one document at a time."
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#. odoo-python
+#: code:addons/l10n_br_purchase_edi/models/document_match.py:0
+#, python-format
+msgid "Select the lines of one document."
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#. odoo-python
+#: code:addons/l10n_br_purchase_edi/models/document_match.py:0
+#, python-format
+msgid "Select the lines of one quotation."
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase_edi.document_form
+msgid "Show the purchase orders of the lines"
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model:ir.model.fields,field_description:l10n_br_purchase_edi.field_l10n_br_purchase_edi_match__line_state
+msgid "Situation"
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase_edi.document_match_tree
+msgid "State"
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model:ir.model.fields.selection,name:l10n_br_purchase_edi.selection__l10n_br_fiscal_document_line__import_origin_state__suggested
+#: model:ir.model.fields.selection,name:l10n_br_purchase_edi.selection__l10n_br_purchase_edi_match__line_state__suggested
+msgid "Suggested"
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model:ir.model.fields,field_description:l10n_br_purchase_edi.field_l10n_br_purchase_edi_match__partner_id
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase_edi.document_match_search
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase_edi.document_match_tree
+msgid "Supplier"
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model:ir.model.fields,field_description:l10n_br_purchase_edi.field_l10n_br_purchase_edi_match__declared_reference
+msgid "Supplier Reference"
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model:ir.model.fields,help:l10n_br_purchase_edi.field_account_bank_statement_line__edi_can_match_orders
+#: model:ir.model.fields,help:l10n_br_purchase_edi.field_account_move__edi_can_match_orders
+#: model:ir.model.fields,help:l10n_br_purchase_edi.field_account_payment__edi_can_match_orders
+#: model:ir.model.fields,help:l10n_br_purchase_edi.field_l10n_br_fiscal_document__edi_can_match_orders
+msgid ""
+"Technical: a purchase document imported from a partner and still in draft, "
+"the only kind that has an origin to choose."
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model:ir.model.fields,help:l10n_br_purchase_edi.field_account_bank_statement_line__has_suggested_import_origin
+#: model:ir.model.fields,help:l10n_br_purchase_edi.field_account_move__has_suggested_import_origin
+#: model:ir.model.fields,help:l10n_br_purchase_edi.field_account_payment__has_suggested_import_origin
+#: model:ir.model.fields,help:l10n_br_purchase_edi.field_l10n_br_fiscal_document__has_suggested_import_origin
+msgid ""
+"Technical: some line of the imported document has an origin suggestion "
+"waiting for confirmation."
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model:ir.model.fields,help:l10n_br_purchase_edi.field_purchase_order__import_document_ids
+msgid ""
+"Technical: the imported fiscal documents whose lines point to a line of this"
+" order."
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model:ir.model.fields,help:l10n_br_purchase_edi.field_account_move_line__import_origin_candidate_ids
+#: model:ir.model.fields,help:l10n_br_purchase_edi.field_l10n_br_fiscal_document_line__import_origin_candidate_ids
+msgid ""
+"Technical: the open purchase order lines the origin can be chosen from "
+"(supplier of the document, product of the line, company, confirmed order "
+"with a balance to invoice)."
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model:ir.model.fields,help:l10n_br_purchase_edi.field_account_bank_statement_line__import_purchase_order_ids
+#: model:ir.model.fields,help:l10n_br_purchase_edi.field_account_move__import_purchase_order_ids
+#: model:ir.model.fields,help:l10n_br_purchase_edi.field_account_payment__import_purchase_order_ids
+#: model:ir.model.fields,help:l10n_br_purchase_edi.field_l10n_br_fiscal_document__import_purchase_order_ids
+msgid ""
+"Technical: the purchase orders that the lines of the document point to, as "
+"resolved or as suggested."
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#. odoo-python
+#: code:addons/l10n_br_purchase_edi/models/document_match.py:0
+#, python-format
+msgid "The document %s is not in draft or already has a bill."
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#. odoo-python
+#: code:addons/l10n_br_purchase_edi/models/document_match.py:0
+#, python-format
+msgid ""
+"The fiscal document is for the fiscal profile. Ask someone from the fiscal "
+"team to open it."
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#. odoo-python
+#: code:addons/l10n_br_purchase_edi/models/document_line.py:0
+#, python-format
+msgid "The line has no origin to open."
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#. odoo-python
+#: code:addons/l10n_br_purchase_edi/models/document_match.py:0
+#, python-format
+msgid "The order %s is not confirmed."
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#. odoo-python
+#: code:addons/l10n_br_purchase_edi/models/document_line.py:0
+#, python-format
+msgid ""
+"The order line %(order_line)s is not of the company and of the supplier of "
+"the document."
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#. odoo-python
+#: code:addons/l10n_br_purchase_edi/models/document_line.py:0
+#, python-format
+msgid ""
+"The order line %(order_line)s is not of the product of the line %(line)s."
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#. odoo-python
+#: code:addons/l10n_br_purchase_edi/models/document_match.py:0
+#, python-format
+msgid "The order line is of another company or of another supplier."
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#. odoo-python
+#: code:addons/l10n_br_purchase_edi/models/document_match.py:0
+#, python-format
+msgid "The product of the line %(line)s is not the product of the order line."
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#. odoo-python
+#: code:addons/l10n_br_purchase_edi/models/document_match.py:0
+#, python-format
+msgid "The screen does not write %s."
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#. odoo-python
+#: code:addons/l10n_br_purchase_edi/models/document_match.py:0
+#, python-format
+msgid ""
+"The unit %(unit)s declared for the line %(line)s was not confirmed. Choose "
+"the unit on the line before using it here."
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#. odoo-python
+#: code:addons/l10n_br_purchase_edi/models/document_match.py:0
+#, python-format
+msgid ""
+"The unit of the line %(line)s does not convert to the unit of the order "
+"line."
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase_edi.document_match_tree
+msgid "Type"
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase_edi.document_match_tree
+msgid "Undo"
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#. odoo-python
+#: code:addons/l10n_br_purchase_edi/models/document_match.py:0
+#, python-format
+msgid "Undo the origin of the lines that already have one."
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model:ir.model.fields,field_description:l10n_br_purchase_edi.field_l10n_br_purchase_edi_match__uom_id
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase_edi.document_match_tree
+msgid "Unit"
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model:ir.model.fields,help:l10n_br_purchase_edi.field_l10n_br_purchase_edi_match__hint
+msgid "Why the line of the document has no suggestion yet."
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model:ir.model.fields.selection,name:l10n_br_purchase_edi.selection__l10n_br_fiscal_document_line__import_origin_state__no_order
+#: model:ir.model.fields.selection,name:l10n_br_purchase_edi.selection__l10n_br_purchase_edi_match__line_state__no_order
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase_edi.document_match_tree
+msgid "Without Order"
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#. odoo-python
+#: code:addons/l10n_br_purchase_edi/models/document_match.py:0
+#, python-format
+msgid "You have no access to some of the selected lines."
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#. odoo-python
+#: code:addons/l10n_br_purchase_edi/models/document_match.py:0
+#, python-format
+msgid "You have no access to the documents of the company %s."
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#. odoo-python
+#: code:addons/l10n_br_purchase_edi/models/document_match.py:0
+#, python-format
+msgid "You have no access to the documents of the company."
+msgstr ""
+
+#. module: l10n_br_purchase_edi
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase_edi.document_match_tree
+msgid "xPed"
+msgstr ""

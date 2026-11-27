@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="document_form" model="ir.ui.view">
+        <field name="name">l10n_br_account_edi.document.form</field>
+        <field name="model">l10n_br_fiscal.document</field>
+        <field name="inherit_id" ref="l10n_br_fiscal.document_form" />
+        <field name="arch" type="xml">
+            <!-- the series of a document imported from the company is the one of
+                 the file, in text: no series record is asked for -->
+            <xpath expr="//field[@name='document_serie_id']" position="attributes">
+                <attribute
+                    name="attrs"
+                >{'invisible': ['|', ('issuer', '!=', 'company'), ('imported_document', '=', True)], 'required': [('issuer', '=', 'company'), ('imported_document', '=', False)]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='document_serie']" position="attributes">
+                <attribute
+                    name="attrs"
+                >{'invisible': [('issuer', '=', 'company'), ('imported_document', '=', False)], 'required': [('issuer', '=', 'partner')]}</attribute>
+            </xpath>
+            <xpath expr="//form/header" position="inside">
+                <field name="imported_document" invisible="1" />
+                <field
+                    name="edi_can_generate_invoice"
+                    invisible="1"
+                    groups="account.group_account_readonly,account.group_account_invoice"
+                />
+                <button
+                    name="action_generate_invoice"
+                    type="object"
+                    string="Generate Invoice"
+                    class="btn-primary"
+                    groups="account.group_account_invoice"
+                    attrs="{'invisible': [('edi_can_generate_invoice', '=', False)]}"
+                />
+            </xpath>
+        </field>
+    </record>
+</odoo>

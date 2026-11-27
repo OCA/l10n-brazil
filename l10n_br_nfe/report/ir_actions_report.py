@@ -10,6 +10,8 @@ from odoo.exceptions import UserError
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import SITUACAO_EDOC_CANCELADA
 
+from ..models.document import filter_imported_nfe
+
 
 class IrActionsReport(models.Model):
     _inherit = "ir.actions.report"
@@ -25,12 +27,35 @@ class IrActionsReport(models.Model):
             return super()._render_qweb_pdf(report_ref, res_ids, data=data)
 
         nfe = self.env["l10n_br_fiscal.document"].search([("id", "in", res_ids)])
+        if len(nfe) == 1 and filter_imported_nfe(nfe):
+            return self._render_imported_danfe(nfe)
         return self._render_danfe(nfe)
+
+    def _render_imported_danfe(self, nfe):
+        """The DANFE of a document imported from a file is made once, from the
+        original XML, and kept on the document: the button that views the PDF and
+        the print action give the same file."""
+        if nfe.file_report_id:
+            return nfe.file_report_id.with_context(bin_size=False).raw, "pdf"
+        pdf = self._render_danfe(nfe)
+        nfe.file_report_id = self.env["ir.attachment"].create(
+            {
+                "name": f"{nfe.document_key}.pdf",
+                "res_model": nfe._name,
+                "res_id": nfe.id,
+                "mimetype": "application/pdf",
+                "type": "binary",
+                "raw": pdf[0],
+            }
+        )
+        return pdf
 
     def _render_danfe(self, nfe):
         if nfe.document_type != "55":
             raise UserError(_("You can only print a DANFE of a NFe(55)."))
 
+        # The binary fields answer their size, not their content, with bin_size
+        nfe = nfe.with_context(bin_size=False)
         nfe_xml = False
         if nfe.authorization_file_id:
             nfe_xml = base64.b64decode(nfe.authorization_file_id.datas)

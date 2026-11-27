@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="document_form" model="ir.ui.view">
+        <field name="name">l10n_br_purchase_stock_edi.document.form</field>
+        <field name="model">l10n_br_fiscal.document</field>
+        <field name="inherit_id" ref="l10n_br_purchase_edi.document_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('oe_button_box')]" position="inside">
+                <button
+                    class="oe_stat_button"
+                    name="action_view_import_pickings"
+                    type="object"
+                    help="Show the receipts of the lines"
+                    groups="purchase.group_purchase_user,stock.group_stock_user"
+                    attrs="{'invisible': [('import_picking_count', '=', 0)]}"
+                    icon="fa-truck"
+                >
+                    <field
+                        name="import_picking_count"
+                        widget="statinfo"
+                        string="Receipts"
+                    />
+                </button>
+            </xpath>
+            <xpath expr="//form/sheet" position="before">
+                <field name="import_divergent" invisible="1" />
+                <field name="import_awaiting_receipt" invisible="1" />
+                <div
+                    class="alert alert-warning"
+                    role="alert"
+                    attrs="{'invisible': [('import_divergent', '=', False)]}"
+                >
+                    <span class="badge text-bg-warning">Divergent</span>
+                    Some line differs from the order or the receipt by more than
+                    the tolerance of the company.
+                </div>
+                <div
+                    class="alert alert-info"
+                    role="status"
+                    attrs="{'invisible': ['|', ('import_divergent', '=', True), ('import_awaiting_receipt', '=', False)]}"
+                >
+                    <span class="badge text-bg-info">Awaiting receipt</span>
+                    Some line waits for the receipt of its order. Nothing is
+                    blocked.
+                </div>
+            </xpath>
+            <xpath expr="//field[@name='fiscal_line_ids']/tree" position="attributes">
+                <attribute name="decoration-warning">import_divergent</attribute>
+                <attribute
+                    name="decoration-info"
+                >import_awaiting_receipt and not import_divergent</attribute>
+            </xpath>
+            <xpath
+                expr="//field[@name='fiscal_line_ids']/tree/field[@name='import_origin_state']"
+                position="after"
+            >
+                <field
+                    name="import_stock_move_id"
+                    options="{'no_create': True}"
+                    groups="purchase.group_purchase_user"
+                    optional="hide"
+                    attrs="{'column_invisible': [('parent.imported_document', '=', False)]}"
+                />
+                <field name="import_ordered_qty" optional="hide" />
+                <field name="import_received_qty" optional="hide" />
+                <field name="import_qty_difference" optional="hide" />
+                <field name="import_order_price_unit" optional="hide" />
+                <field name="import_price_difference" optional="hide" />
+                <field
+                    name="import_awaiting_receipt"
+                    string="Awaiting"
+                    optional="show"
+                    attrs="{'column_invisible': [('parent.imported_document', '=', False)]}"
+                />
+                <field
+                    name="import_divergent"
+                    string="Divergent"
+                    optional="show"
+                    attrs="{'column_invisible': [('parent.imported_document', '=', False)]}"
+                />
+            </xpath>
+        </field>
+    </record>
+
+    <record id="document_line_form" model="ir.ui.view">
+        <field name="name">l10n_br_purchase_stock_edi.document.line.form</field>
+        <field name="model">l10n_br_fiscal.document.line</field>
+        <field name="inherit_id" ref="l10n_br_purchase_edi.document_line_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='import_origin_state']" position="after">
+                <field
+                    name="import_stock_move_id"
+                    options="{'no_create': True}"
+                    groups="purchase.group_purchase_user"
+                    attrs="{'invisible': [('fiscal_operation_type', '=', 'out')]}"
+                />
+                <field
+                    name="import_no_stock_entry"
+                    attrs="{'invisible': [('import_origin_state', '!=', 'no_order')]}"
+                />
+                <field
+                    name="import_ordered_qty"
+                    groups="purchase.group_purchase_user"
+                    attrs="{'invisible': [('import_purchase_line_id', '=', False)]}"
+                />
+                <field
+                    name="import_received_qty"
+                    groups="purchase.group_purchase_user"
+                    attrs="{'invisible': [('import_purchase_line_id', '=', False)]}"
+                />
+                <field
+                    name="import_qty_difference"
+                    groups="purchase.group_purchase_user"
+                    attrs="{'invisible': [('import_purchase_line_id', '=', False)]}"
+                />
+                <field
+                    name="import_order_price_unit"
+                    groups="purchase.group_purchase_user"
+                    attrs="{'invisible': [('import_purchase_line_id', '=', False)]}"
+                />
+                <field
+                    name="import_price_difference"
+                    groups="purchase.group_purchase_user"
+                    attrs="{'invisible': [('import_purchase_line_id', '=', False)]}"
+                />
+                <field name="import_divergent" invisible="1" />
+                <field
+                    name="import_awaiting_receipt"
+                    groups="purchase.group_purchase_user"
+                    attrs="{'invisible': [('import_purchase_line_id', '=', False)]}"
+                />
+            </xpath>
+        </field>
+    </record>
+
+    <record id="document_search" model="ir.ui.view">
+        <field name="name">l10n_br_purchase_stock_edi.document.search</field>
+        <field name="model">l10n_br_fiscal.document</field>
+        <field name="inherit_id" ref="l10n_br_fiscal.document_search" />
+        <field name="arch" type="xml">
+            <xpath expr="//search" position="inside">
+                <separator />
+                <filter
+                    name="import_divergent"
+                    string="Divergent from the Order"
+                    domain="[('import_divergent', '=', True)]"
+                />
+                <filter
+                    name="import_awaiting_receipt"
+                    string="Awaiting Receipt"
+                    domain="[('import_awaiting_receipt', '=', True)]"
+                />
+            </xpath>
+        </field>
+    </record>
+</odoo>
