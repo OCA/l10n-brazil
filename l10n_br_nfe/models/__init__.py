@@ -14,7 +14,10 @@ from . import document_type
 from . import document_related
 from . import nfe_autxml
 from . import document
+from . import document_import
 from . import document_line
+from . import document_line_import
+from . import document_payment
 from . import document_supplement
 from . import nfe_di
 from . import res_city
@@ -22,6 +25,7 @@ from . import res_config_settings
 from . import cfop
 from . import invalidate_number
 from . import nfe_md_event
+from . import document_line_lot
 
 spec_schema = "nfe"
 spec_version = "40"

@@ -43,3 +43,6 @@ ISSQN_TO_TRIBUTACAO_ISS = {
     "6": "1",  # Suspensa (Judicial) → Operação tributável
     "7": "1",  # Suspensa (Administrativo) → Operação tributável
 }
+
+
+NFSE_ACCESS_KEY_SIZE = 50

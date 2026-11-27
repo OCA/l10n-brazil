@@ -17,8 +17,7 @@
     "development_status": "Beta",
     "depends": [
         "l10n_br_nfe",
-        "l10n_br_account",
-        "l10n_br_account_due_list",
+        "l10n_br_account_edi",
         "account_payment_partner",
     ],
     "data": [

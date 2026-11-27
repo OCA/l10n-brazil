@@ -14,13 +14,37 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_br_nfe_dfe
+#. odoo-python
+#: code:addons/l10n_br_nfe_dfe/models/dfe_document.py:0
+#, python-format
+msgid ""
+"%s asked to import this NF-e. The acknowledgement was already registered: "
+"the fiscal document is created when the complete XML arrives."
+msgstr ""
+
+#. module: l10n_br_nfe_dfe
 #: model:ir.model.fields.selection,name:l10n_br_nfe_dfe.selection__res_company__nfe_dfe_version__1_01
 msgid "1.01"
 msgstr ""
 
 #. module: l10n_br_nfe_dfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe_dfe.view_l10n_br_fiscal_dfe_document_form_nfe
-msgid "<span class=\"o_stat_text\">Invoice</span>"
+msgid "<span class=\"o_stat_text\">Fiscal Document</span>"
+msgstr ""
+
+#. module: l10n_br_nfe_dfe
+#: model:ir.model.fields.selection,name:l10n_br_nfe_dfe.selection__res_company__nfe_manifest_on_document_confirm__ciencia
+msgid "Acknowledgement of the operation (210210)"
+msgstr ""
+
+#. module: l10n_br_nfe_dfe
+#. odoo-python
+#: code:addons/l10n_br_nfe_dfe/models/dfe_document.py:0
+#, python-format
+msgid ""
+"Acknowledgement of the operation registered by %s. The final manifestation "
+"of the recipient is now mandatory, and the fiscal document is created when "
+"the complete XML arrives."
 msgstr ""
 
 #. module: l10n_br_nfe_dfe
@@ -64,6 +88,11 @@ msgstr ""
 #. module: l10n_br_nfe_dfe
 #: model:ir.model.fields.selection,name:l10n_br_nfe_dfe.selection__l10n_br_fiscal_dfe_document__manifestation_status__confirmado
 msgid "Confirmada operação"
+msgstr ""
+
+#. module: l10n_br_nfe_dfe
+#: model:ir.model.fields.selection,name:l10n_br_nfe_dfe.selection__res_company__nfe_manifest_on_document_confirm__confirmacao
+msgid "Confirmation of the operation (210200)"
 msgstr ""
 
 #. module: l10n_br_nfe_dfe
@@ -112,7 +141,7 @@ msgstr ""
 
 #. module: l10n_br_nfe_dfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe_dfe.nfe_dfe_document_tree
-msgid "Invoice"
+msgid "Fiscal Document"
 msgstr ""
 
 #. module: l10n_br_nfe_dfe
@@ -127,6 +156,11 @@ msgid "Manifest"
 msgstr ""
 
 #. module: l10n_br_nfe_dfe
+#: model:ir.model.fields,field_description:l10n_br_nfe_dfe.field_res_company__nfe_manifest_on_document_confirm
+msgid "Manifest When Confirming an Imported NF-e"
+msgstr ""
+
+#. module: l10n_br_nfe_dfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe_dfe.nfe_dfe_document_tree
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe_dfe.view_l10n_br_fiscal_dfe_document_form_nfe
 msgid "Manifestation"
@@ -135,6 +169,13 @@ msgstr ""
 #. module: l10n_br_nfe_dfe
 #: model:ir.model.fields,field_description:l10n_br_nfe_dfe.field_l10n_br_fiscal_dfe_document__manifestation_status
 msgid "Manifestation Status"
+msgstr ""
+
+#. module: l10n_br_nfe_dfe
+#. odoo-python
+#: code:addons/l10n_br_nfe_dfe/models/document.py:0
+#, python-format
+msgid "Manifestation of %s on confirmation"
 msgstr ""
 
 #. module: l10n_br_nfe_dfe
@@ -218,6 +259,11 @@ msgid "No complete DF-e found."
 msgstr ""
 
 #. module: l10n_br_nfe_dfe
+#: model:ir.model.fields.selection,name:l10n_br_nfe_dfe.selection__res_company__nfe_manifest_on_document_confirm__none
+msgid "None"
+msgstr ""
+
+#. module: l10n_br_nfe_dfe
 #: model:ir.model.fields.selection,name:l10n_br_nfe_dfe.selection__l10n_br_fiscal_dfe_document__manifestation_status__nao_realizado
 msgid "Não realizado"
 msgstr ""
@@ -272,6 +318,42 @@ msgid "Success"
 msgstr ""
 
 #. module: l10n_br_nfe_dfe
+#. odoo-python
+#: code:addons/l10n_br_nfe_dfe/models/dfe_document.py:0
+#, python-format
+msgid ""
+"The acknowledgement is only possible until %s days after the authorization. "
+"Upload the XML file instead."
+msgstr ""
+
+#. module: l10n_br_nfe_dfe
+#. odoo-python
+#: code:addons/l10n_br_nfe_dfe/models/document.py:0
+#, python-format
+msgid ""
+"The acknowledgement of the operation was not registered: it is only accepted"
+" until %s days after the authorization."
+msgstr ""
+
+#. module: l10n_br_nfe_dfe
+#. odoo-python
+#: code:addons/l10n_br_nfe_dfe/models/dfe_document.py:0
+#, python-format
+msgid ""
+"The complete XML is only released after the acknowledgement of the operation"
+" (ciencia), an event registered at the tax authority that obliges the "
+"company to register the final manifestation afterwards. Register it?"
+msgstr ""
+
+#. module: l10n_br_nfe_dfe
+#: model:ir.model.fields,help:l10n_br_nfe_dfe.field_res_company__nfe_manifest_on_document_confirm
+msgid ""
+"The manifestation registered at the tax authority when an NF-e received from a supplier is confirmed.\n"
+"- Acknowledgement: it is not a conclusive manifestation, and it obliges the company to register a conclusive one afterwards (confirmation, unawareness or operation not performed). It is only accepted until 10 days after the authorization: later than that it is skipped, with a notice on the document.\n"
+"- Confirmation: it is the conclusive manifestation that matches confirming the document."
+msgstr ""
+
+#. module: l10n_br_nfe_dfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe_dfe.nfe_dfe_document_tree
 msgid "Type"
 msgstr ""
@@ -292,3 +374,24 @@ msgstr ""
 #, python-format
 msgid "You can only import the NF-e when the DF-e is completed."
 msgstr ""
+
+#. module: l10n_br_nfe_dfe
+#. odoo-python
+#: code:addons/l10n_br_nfe_dfe/models/dfe_document.py:0
+#, python-format
+msgid ""
+"The acknowledgement of the operation is registered at the tax authority "
+"with the certificate of the company. You need the permission of NF-e "
+"user for it: ask an administrator, or upload the XML file instead."
+msgstr ""
+
+#. module: l10n_br_nfe_dfe
+#. odoo-python
+#: code:addons/l10n_br_nfe_dfe/models/document.py:0
+#, python-format
+msgid ""
+"The manifestation of the recipient was not registered: it is sent to the"
+" tax authority with the certificate of the company and %s has no "
+"permission of NF-e user. Ask who has it to register it."
+msgstr ""
+

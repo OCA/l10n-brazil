@@ -4,7 +4,7 @@
 from odoo import _, fields, models
 from odoo.exceptions import UserError
 
-from ..constants.nfse_dfe import NFSE_ACCESS_KEY_SIZE
+from odoo.addons.l10n_br_nfse.constants.nfse import NFSE_ACCESS_KEY_SIZE
 
 
 class DfeSpecificSearchWizard(models.TransientModel):
