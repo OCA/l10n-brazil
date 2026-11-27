@@ -8,7 +8,7 @@
     "depends": [],
     "installable": True,
     "application": False,
-    "development_status": "Alpha",
+    "development_status": "Beta",
     "maintainers": ["rvalyi"],
     "website": "https://github.com/OCA/l10n-brazil",
 }
