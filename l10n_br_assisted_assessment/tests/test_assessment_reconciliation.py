@@ -742,6 +742,18 @@ class TestAssessmentReconciliation(TransactionCase):
             divergence.action_open_ignore()
         self.assertEqual(divergence.notes, "Accepted as a rounding.")
         self.assertEqual(divergence.state, "ignored")
+        with self.assertRaises(UserError):
+            self.period.previous_balance = 5.0
+        with self.assertRaises(UserError):
+            self.env["l10n_br_assisted_assessment.divergence"].create(
+                {
+                    "period_id": self.period.id,
+                    "divergence_type": "value",
+                    "line_type": "debit",
+                    "document_key": self._key(8),
+                }
+            )
+        self.assertEqual(self.period.previous_balance, 0.0)
 
     def test_local_totals_include_both_directions_before_download(self):
         booked = {

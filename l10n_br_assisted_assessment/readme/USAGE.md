@@ -26,8 +26,8 @@ A rotina mensal tem três passos:
    ou de débito de ajuste, ou registrar o motivo em Reason; ignorar abre uma
    janela pedindo esse motivo. O mesmo botão, como *Edit Reason*, altera o
    texto enquanto a revisão local ainda não foi encerrada, sem trocar quem
-   ignorou nem a data. Depois de encerrada, a divergência e o motivo ficam
-   congelados.
+   ignorou nem a data. Depois de encerrada, a divergência, o motivo e o
+   saldo a recuperar ficam congelados, e não se inclui divergência à mão.
 
 Uma ação agendada diária avisa os responsáveis quando o prazo se aproxima e
 marca o período como expirado depois que ele passa. A expiração local não

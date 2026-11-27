@@ -847,6 +847,21 @@ class AssistedAssessment(models.Model):
             )
         return False
 
+    def write(self, vals):
+        if "previous_balance" in vals:
+            closed = self.filtered(
+                lambda record: record.state in ("confirmed", "expired")
+            )
+            if closed:
+                raise UserError(
+                    _(
+                        "The local review of %s is closed. The balance to "
+                        "recover can no longer be changed.",
+                        ", ".join(closed.mapped("display_name")),
+                    )
+                )
+        return super().write(vals)
+
     def action_confirm(self):
         for record in self:
             record._confirm()

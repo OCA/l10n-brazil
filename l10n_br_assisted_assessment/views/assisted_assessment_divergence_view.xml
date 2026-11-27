@@ -6,7 +6,7 @@
         <field name="name">l10n_br_assisted_assessment.divergence.list</field>
         <field name="model">l10n_br_assisted_assessment.divergence</field>
         <field name="arch" type="xml">
-            <list decoration-warning="state == 'open'">
+            <list decoration-warning="state == 'open'" create="false" delete="false">
                 <field name="divergence_type" />
                 <field name="line_type" />
                 <field name="document_key" />

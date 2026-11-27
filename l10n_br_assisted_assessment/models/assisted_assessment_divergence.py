@@ -194,6 +194,27 @@ class AssistedAssessmentDivergence(models.Model):
                 return True
         return False
 
+    @api.model_create_multi
+    def create(self, vals_list):
+        if not self.env.context.get("assisted_assessment_reconcile"):
+            period_ids = [
+                vals.get("period_id") for vals in vals_list if vals.get("period_id")
+            ]
+            closed = (
+                self.env["l10n_br_assisted_assessment.period"]
+                .browse(period_ids)
+                .filtered(lambda period: period.state in ("confirmed", "expired"))
+            )
+            if closed:
+                raise UserError(
+                    _(
+                        "The local review of %s is closed. A divergence can no "
+                        "longer be added.",
+                        ", ".join(closed.mapped("display_name")),
+                    )
+                )
+        return super().create(vals_list)
+
     def _check_review_open(self):
         """A closed local review keeps the divergence and its reason."""
         closed = self.filtered(

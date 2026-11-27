@@ -165,7 +165,10 @@
                             />
                             <field name="fisco_debit" />
                             <field name="fisco_credit" />
-                            <field name="previous_balance" />
+                            <field
+                                name="previous_balance"
+                                readonly="state in ('confirmed', 'expired')"
+                            />
                             <field name="fisco_balance" />
                         </group>
                         <group name="local" string="Bookkeeping">
@@ -186,8 +189,7 @@
                             <field
                                 name="divergence_ids"
                                 nolabel="1"
-                                create="0"
-                                delete="0"
+                                readonly="state in ('confirmed', 'expired')"
                             />
                         </page>
                         <page name="bookkeeping" string="Bookkeeping">
