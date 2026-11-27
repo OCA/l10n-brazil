@@ -60,15 +60,23 @@ class TestAnonymousConsumerData(TransactionCase):
 
 
 class TestResPartnerExport(TransactionCase):
-    def test_child_address_exports_parent_cnpj(self):
-        parent = self.env.ref("l10n_br_base.res_partner_cliente2_sp")
-        child = self.env["res.partner"].create(
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.parent = cls.env.ref("l10n_br_base.res_partner_cliente2_sp")
+        cls.child = cls.env["res.partner"].create(
             {
                 "name": "Local de entrega",
                 "type": "delivery",
-                "parent_id": parent.id,
-                "country_id": self.env.ref("base.br").id,
+                "parent_id": cls.parent.id,
+                "country_id": cls.env.ref("base.br").id,
             }
         )
-        cnpj = child._export_field("nfe40_CNPJ", self.env["nfe.40.tlocal"], None)
-        self.assertEqual(cnpj, parent.cnpj_cpf_stripped)
+
+    def test_child_address_exports_parent_cnpj(self):
+        cnpj = self.child._export_field("nfe40_CNPJ", self.env["nfe.40.tlocal"], None)
+        self.assertEqual(cnpj, self.parent.cnpj_cpf_stripped)
+
+    def test_child_dest_does_not_export_parent_cnpj(self):
+        cnpj = self.child._export_field("nfe40_CNPJ", self.env["nfe.40.dest"], None)
+        self.assertFalse(cnpj)
