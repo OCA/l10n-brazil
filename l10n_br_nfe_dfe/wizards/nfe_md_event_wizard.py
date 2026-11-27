@@ -1,7 +1,7 @@
 # Copyright 2026 - TODAY, Cristiano Mafra Junior - Escodoo
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from odoo import _, fields, models
+from odoo import fields, models
 
 
 class NfeRecipientManifestationEventWizard(models.TransientModel):
@@ -28,8 +28,8 @@ class NfeRecipientManifestationEventWizard(models.TransientModel):
             "type": "ir.actions.client",
             "tag": "display_notification",
             "params": {
-                "title": _("Success"),
-                "message": _("Recipient Manifestation created successfully"),
+                "title": self.env._("Success"),
+                "message": self.env._("Recipient Manifestation created successfully"),
                 "type": "success",
                 "next": {"type": "ir.actions.act_window_close"},
             },
