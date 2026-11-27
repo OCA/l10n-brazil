@@ -6,7 +6,7 @@
 
 import logging
 
-from odoo import _, models
+from odoo import models
 from odoo.exceptions import ValidationError
 
 from ..constants.br_cobranca import modulo11
@@ -67,7 +67,7 @@ class AccountPaymentLine(models.Model):
                         result = numero_limpo
                         if len(numero_limpo) > 25:
                             raise ValidationError(
-                                _(
+                                self.env._(
                                     "The lenght of the field 'documento' can't be more "
                                     "than 25 caracters:\n %(doc)s",
                                     doc=numero_limpo,
@@ -85,7 +85,7 @@ class AccountPaymentLine(models.Model):
                         result = numero_limpo
                         if len(numero_limpo) > 10:
                             raise ValidationError(
-                                _(
+                                self.env._(
                                     "The lenght of the field 'numero' can't be more "
                                     "than 10 caracters:\n %(num)s",
                                     num=numero_limpo,
