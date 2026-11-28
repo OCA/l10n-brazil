@@ -5,7 +5,7 @@
 import os
 
 from odoo import fields
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, ValidationError
 from odoo.tests import tagged
 
 from odoo.addons.l10n_br_account_payment_brcobranca.constants.br_cobranca import (
@@ -41,6 +41,134 @@ class TestPaymentOrder(TestBRCobrancaCommon):
     def test_banco_sicred_cnab_240(self):
         """Teste Boleto e Remessa Banco SICREDI - CNAB 240"""
         self._run_invoice_and_order_brcobranca(self.invoice_sicredi_240)
+
+    def test_banco_sicred_cnab_240_prepare_payment_line(self):
+        """Teste da preparação das linhas de pagamento SICREDI - CNAB 240.
+
+        Não depende da API externa do BRCobranca.
+        """
+        self.invoice_sicredi_240.action_post()
+        self.assertEqual(self.invoice_sicredi_240.state, "posted")
+        payment_order = self._get_draft_payment_order(self.invoice_sicredi_240)
+        self.assertTrue(payment_order.payment_line_ids)
+
+        bank_account_id = payment_order.journal_id.bank_account_id
+        bank_brcobranca = get_brcobranca_bank(bank_account_id, "240")
+
+        for line in payment_order.payment_line_ids:
+            # O campo date é preenchido no fluxo draft2open, necessário
+            # para o _prepare_boleto_line_vals da base.
+            if not line.date:
+                line.date = fields.Date.context_today(line)
+            prepared = line.prepare_bank_payment_line(bank_brcobranca)
+            # Nosso Número no formato AA/BXXXXX-D (Manual Sicredi itens 4.4
+            # e 4.5): 9 dígitos, sem os separadores de apresentação. O valor
+            # exato, obtido do exemplo do manual, é verificado em
+            # test_banco_sicred_cnab_240_nosso_numero_manual_example.
+            self.assertRegex(prepared["nosso_numero"], r"^\d{9}$")
+            # Multa nunca deve ser preenchida como 0 no Sicredi
+            self.assertNotEqual(prepared.get("codigo_multa"), "0")
+            # A configuração padrão define boleto_discount_perc, portanto a
+            # linha possui desconto e o código enviado é o esperado (1 = Valor Fixo).
+            self.assertEqual(prepared.get("cod_desconto"), "1")
+            # Segmento Q: posições 114-128 são CNAB (Manual Sicredi item 8.5),
+            # o bairro do pagador deve ser enviado em branco
+            self.assertEqual(prepared.get("bairro_sacado"), "")
+
+    def test_banco_sicred_cnab_240_nosso_numero_manual_example(self):
+        """Nosso Número com valor fixo tirado do exemplo do Manual 4.5.
+
+        Cooperativa/Agência 0165, Posto 02, Beneficiário 00623, Ano 07,
+        Byte de geração 2 e sequencial 00003 resultam no DV 1, ou seja
+        07/200003-1 -> "072000031" (sem os separadores de apresentação).
+        """
+        nosso_numero = self.env["account.payment.line"]._get_sicredi_nosso_numero(
+            "0165", "02", "00623", "07", "2", "00003"
+        )
+        self.assertEqual(nosso_numero, "072000031")
+
+    def test_banco_sicred_cnab_240_without_discount(self):
+        """Sem desconto o Sicredi CNAB 240 deve receber cod_desconto "0".
+
+        Manual Sicredi CNAB 240 item 30.3P: código "0" = Sem desconto, com
+        valor e data do desconto zerados.
+        """
+        self.invoice_sicredi_240.action_post()
+        payment_order = self._get_draft_payment_order(self.invoice_sicredi_240)
+        bank_account_id = payment_order.journal_id.bank_account_id
+        bank_brcobranca = get_brcobranca_bank(bank_account_id, "240")
+        line = payment_order.payment_line_ids[0]
+        if not line.date:
+            line.date = fields.Date.context_today(line)
+
+        line.discount_value = 0.0
+        prepared = line.prepare_bank_payment_line(bank_brcobranca)
+        self.assertEqual(prepared.get("cod_desconto"), "0")
+        self.assertNotIn("data_desconto", prepared)
+        self.assertNotIn("valor_desconto", prepared)
+
+    def test_banco_sicred_cnab_240_invalid_wallet(self):
+        """Sicredi CNAB 240 só aceita carteira "1" (Cobrança Simples).
+
+        Manual Sicredi CNAB 240 itens 14.3P e 10.3: a carteira no Segmento P
+        e no campo livre do código de barras é sempre "1" - carteira simples.
+        """
+        cnab_config = self.cnab_config_sicredi
+        self.assertEqual(cnab_config.boleto_wallet, "1")
+        with self.assertRaises(ValidationError):
+            cnab_config.write({"boleto_wallet": "3"})
+
+    def test_banco_sicred_cnab_240_prepare_payment_line_fee_perc(self):
+        """Teste da multa em percentual na linha de pagamento SICREDI - CNAB 240.
+
+        Na ausência do Código da Multa, o Percentual de Multa configurado deve
+        gerar codigo_multa = 2 (percentual), nunca 0 (isento), pois o Sicredi
+        rejeita o Segmento R com código de multa inválido.
+        """
+        self.invoice_sicredi_240.action_post()
+        payment_order = self._get_draft_payment_order(self.invoice_sicredi_240)
+        cnab_config = payment_order.payment_mode_id.cnab_config_id
+        bank_account_id = payment_order.journal_id.bank_account_id
+        bank_brcobranca = get_brcobranca_bank(bank_account_id, "240")
+        line = payment_order.payment_line_ids[0]
+        if not line.date:
+            line.date = fields.Date.context_today(line)
+
+        # Sem Código da Multa e com Percentual: codigo_multa deve ser "2"
+        cnab_config.write({"boleto_fee_code_id": False, "boleto_fee_perc": 2.0})
+        prepared = line.prepare_bank_payment_line(bank_brcobranca)
+        self.assertEqual(prepared.get("codigo_multa"), "2")
+        self.assertEqual(prepared.get("percentual_multa"), 2.0)
+
+        # Sem Código e sem Percentual: a multa não deve ser enviada
+        cnab_config.write({"boleto_fee_perc": 0.0})
+        prepared = line.prepare_bank_payment_line(bank_brcobranca)
+        self.assertNotIn("codigo_multa", prepared)
+        self.assertNotIn("percentual_multa", prepared)
+
+    def test_generate_remessa_missing_cedente_cnpj_cpf(self):
+        """A remessa deve exigir o CNPJ/CPF do Cedente.
+
+        O Cedente é a Empresa da Ordem de Pagamento e, como fallback, o
+        Parceiro titular da Conta Bancária. Sem CNPJ/CPF em ambos a geração
+        do arquivo deve ser interrompida com ValidationError.
+        """
+        self.invoice_sicredi_240.action_post()
+        payment_order = self._get_draft_payment_order(self.invoice_sicredi_240)
+        for line in payment_order.payment_line_ids:
+            # O campo date é preenchido no fluxo draft2open, necessário
+            # para o _prepare_boleto_line_vals da base.
+            if not line.date:
+                line.date = fields.Date.context_today(line)
+
+        partner_id = payment_order.company_id.partner_id
+        cnpj_cpf = partner_id.cnpj_cpf
+        partner_id.cnpj_cpf = False
+        try:
+            with self.assertRaises(ValidationError):
+                payment_order._build_remessa_values(1)
+        finally:
+            partner_id.cnpj_cpf = cnpj_cpf
 
     def test_banco_santander_cnab_400(self):
         """Teste Boleto e Remessa Banco Santander - CNAB 400"""
