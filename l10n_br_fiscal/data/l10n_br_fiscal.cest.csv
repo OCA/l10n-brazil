@@ -459,32 +459,32 @@ cest_1701200,"12.0","17.012.00","16","Leite em pó, blocos ou grânulos, exceto 
 cest_1701300,"13.0","17.013.00","16","Farinha láctea",19011020
 cest_1701400,"14.0","17.014.00","16","Leite modificado para alimentação de crianças",19011010
 cest_1701500,"15.0","17.015.00","16","Preparações para alimentação infantil à base de farinhas, grumos, sêmolas ou amidos e outros","19011090,1901103"
-cest_1701600,"16.0","17.016.00","16","Leite “longa vida” (UHT - “Ultra High Temperature”), em recipiente de conteúdo inferior ou igual a 2 litros","4011010,0401201"
-cest_1701601,"16.1","17.016.01","16","Leite “longa vida” (UHT - “Ultra High Temperature”), em recipiente de conteúdo superior a 2 litros e inferior ou igual a 5 litros","4011010,0401201"
-cest_1701700,"17.0","17.017.00","16","Leite em recipiente de conteúdo inferior ou igual a 1 litro","4014010,0401501"
-cest_1701701,"17.1","17.017.01","16","Leite em recipiente de conteúdo superior a 1 litro e inferior ou igual a 5 litros","4014010,0401501"
-cest_1701800,"18.0","17.018.00","16","Leite do tipo pasteurizado em recipiente de conteúdo inferior ou igual a 1 litro","4011090,0401209"
-cest_1701801,"18.1","17.018.01","16","Leite do tipo pasteurizado em recipiente de conteúdo superior a 1 litro e inferior ou igual a 5 litros","4011090,0401209"
+cest_1701600,"16.0","17.016.00","16","Leite “longa vida” (UHT - “Ultra High Temperature”), em recipiente de conteúdo inferior ou igual a 2 litros","04011010,0401201"
+cest_1701601,"16.1","17.016.01","16","Leite “longa vida” (UHT - “Ultra High Temperature”), em recipiente de conteúdo superior a 2 litros e inferior ou igual a 5 litros","04011010,0401201"
+cest_1701700,"17.0","17.017.00","16","Leite em recipiente de conteúdo inferior ou igual a 1 litro","04014010,0401501"
+cest_1701701,"17.1","17.017.01","16","Leite em recipiente de conteúdo superior a 1 litro e inferior ou igual a 5 litros","04014010,0401501"
+cest_1701800,"18.0","17.018.00","16","Leite do tipo pasteurizado em recipiente de conteúdo inferior ou igual a 1 litro","04011090,0401209"
+cest_1701801,"18.1","17.018.01","16","Leite do tipo pasteurizado em recipiente de conteúdo superior a 1 litro e inferior ou igual a 5 litros","04011090,0401209"
 cest_1701900,"19.0","17.019.00","16","Creme de leite, em recipiente de conteúdo inferior ou igual a 1 kg","0401402,04022130,04022930,04029"
 cest_1701901,"19.1","17.019.01","16","Creme de leite, em recipiente de conteúdo superior a 1 kg","0401402,04022130,04022930,04029"
 cest_1701902,"19.2","17.019.02","16","Outros cremes de leite, em recipiente de conteúdo inferior ou igual a 1kg","040110,040120,040150,040210,04022920"
 cest_1701903,"19.3","17.019.03","16","Outros cremes de leite, em recipiente de conteúdo superior a 1kg","040110,040120,040150,040210,04022920"
-cest_1702000,"20.0","17.020.00","16","Leite condensado, em recipiente de conteúdo inferior ou igual a 1 kg",4029
-cest_1702001,"20.1","17.020.01","16","Leite condensado, em recipiente de conteúdo superior a 1 kg",4029
-cest_1702100,"21.0","17.021.00","16","Iogurte e leite fermentado em recipiente de conteúdo inferior ou igual a 2 litros, exceto o item classificado no CEST 17.022.00",403
-cest_1702101,"21.1","17.021.01","16","Iogurte e leite fermentado em recipiente de conteúdo superior a 2 litros, exceto o item classificado no CEST 17.022.00",403
-cest_1702200,"22.0","17.022.00","16","Coalhada",4039000
-cest_1702300,"23.0","17.023.00","16","Requeijão e similares, em recipiente de conteúdo inferior ou igual a 1 kg, exceto as embalagens individuais de conteúdo inferior ou igual a 10 g",406
-cest_1702301,"23.1","17.023.01","16","Requeijão e similares, em recipiente de conteúdo superior a 1 kg",406
-cest_1702400,"24.0","17.024.00","16","Queijos, exceto os dos CEST 17.024.01, 17.024.02, 17.024.03, 17.024.04 e 17.024.05",406
-cest_1702401,"24.1","17.024.01","16","Queijo muçarela",4061010
-cest_1702402,"24.2","17.024.02","16","Queijo minas frescal",4061090
-cest_1702403,"24.3","17.024.03","16","Queijo ricota",4061090
-cest_1702404,"24.4","17.024.04","16","Queijo petitsuisse",4061090
-cest_1702405,"24.5","17.024.05","16","Queijo cremoso (“cream cheese”)",4061090
-cest_1702500,"25.0","17.025.00","16","Manteiga, em embalagem de conteúdo inferior ou igual a 1 kg, exceto as embalagens individuais de conteúdo inferior ou igual a 10 g",4051000
-cest_1702501,"25.1","17.025.01","16","Manteiga, em embalagem de conteúdo superior a 1 kg",4051000
-cest_1702502,"25.2","17.025.02","16","Manteiga de garrafa",4059090
+cest_1702000,"20.0","17.020.00","16","Leite condensado, em recipiente de conteúdo inferior ou igual a 1 kg",04029
+cest_1702001,"20.1","17.020.01","16","Leite condensado, em recipiente de conteúdo superior a 1 kg",04029
+cest_1702100,"21.0","17.021.00","16","Iogurte e leite fermentado em recipiente de conteúdo inferior ou igual a 2 litros, exceto o item classificado no CEST 17.022.00",0403
+cest_1702101,"21.1","17.021.01","16","Iogurte e leite fermentado em recipiente de conteúdo superior a 2 litros, exceto o item classificado no CEST 17.022.00",0403
+cest_1702200,"22.0","17.022.00","16","Coalhada",04039000
+cest_1702300,"23.0","17.023.00","16","Requeijão e similares, em recipiente de conteúdo inferior ou igual a 1 kg, exceto as embalagens individuais de conteúdo inferior ou igual a 10 g",0406
+cest_1702301,"23.1","17.023.01","16","Requeijão e similares, em recipiente de conteúdo superior a 1 kg",0406
+cest_1702400,"24.0","17.024.00","16","Queijos, exceto os dos CEST 17.024.01, 17.024.02, 17.024.03, 17.024.04 e 17.024.05",0406
+cest_1702401,"24.1","17.024.01","16","Queijo muçarela",04061010
+cest_1702402,"24.2","17.024.02","16","Queijo minas frescal",04061090
+cest_1702403,"24.3","17.024.03","16","Queijo ricota",04061090
+cest_1702404,"24.4","17.024.04","16","Queijo petitsuisse",04061090
+cest_1702405,"24.5","17.024.05","16","Queijo cremoso (“cream cheese”)",04061090
+cest_1702500,"25.0","17.025.00","16","Manteiga, em embalagem de conteúdo inferior ou igual a 1 kg, exceto as embalagens individuais de conteúdo inferior ou igual a 10 g",04051000
+cest_1702501,"25.1","17.025.01","16","Manteiga, em embalagem de conteúdo superior a 1 kg",04051000
+cest_1702502,"25.2","17.025.02","16","Manteiga de garrafa",04059090
 cest_1702600,"26.0","17.026.00","16","Margarina e creme vegetal em recipiente de conteúdo inferior ou igual a 500 g, exceto as embalagens individuais de conteúdo inferior ou igual a 10 g",15171000
 cest_1702700,"27.0","17.027.00","16","Margarina e creme vegetal, em recipiente de conteúdo superior a 500 g e inferior ou igual a 1 kg, exceto as embalagens individuais de conteúdo inferior ou igual a 10 g",15171000
 cest_1702701,"27.1","17.027.01","16","Margarina e creme vegetal, em recipiente de conteúdo superior a 1 kg",15171000
@@ -621,14 +621,14 @@ cest_1708000,"80.0","17.080.00","16","Preparações e conservas de peixes; cavia
 cest_1708001,"80.1","17.080.01","16","Outras preparações e conservas de atuns",16042010
 cest_1708100,"81.0","17.081.00","16","Sardinha em conserva",1604
 cest_1708200,"82.0","17.082.00","16","Crustáceos, moluscos e outros invertebrados aquáticos, preparados ou em conservas",1605
-cest_1708300,"83.0","17.083.00","16","Carne de gado bovino, ovino e bufalino e produtos comestíveis resultantes da matança desse gado submetidos à salga, secagem ou desidratação, exceto os descritos no CEST 17.083.01","02102000,02109900,1502"
-cest_1708301,"83.1","17.083.01","16","Charque e jerkedbeef",2102000
+cest_1708300,"83.0","17.083.00","16","Carne de gado bovino, ovino e bufalino e produtos comestíveis resultantes da matança desse gado submetidos à salga, secagem ou desidratação, exceto os descritos no CEST 17.083.01","02102000,021099,1502"
+cest_1708301,"83.1","17.083.01","16","Charque e jerkedbeef",02102000
 cest_1708400,"84.0","17.084.00","16","Carne de gado bovino, ovino e bufalino e demais produtos comestíveis resultantes da matança desse gado frescos, refrigerados ou congelados","0201,0202,0204,0206"
-cest_1708500,"85.0","17.085.00","16","Carnes de animais das espécies caprina, frescas, refrigeradas ou congeladas",204
-cest_1708600,"86.0","17.086.00","16","Carnes e demais produtos comestíveis frescos, resfriados, congelados, salgados ou salmourados resultantes do abate de caprinos","02109900,15021019,15029000"
-cest_1708700,"87.0","17.087.00","16","Carnes e demais produtos comestíveis frescos, resfriados, congelados, salgados, em salmoura, simplesmente temperados, secos ou defumados, resultantes do abate de aves, exceto os descritos no CEST 17.087.02","0207,0209,02109900,1501"
-cest_1708701,"87.1","17.087.01","16","Carnes e demais produtos comestíveis frescos, resfriados, congelados, salgados, em salmoura, simplesmente temperados, secos ou defumados, resultantes do abate de suínos","0203,0206,0209,02101,02109900,1501"
-cest_1708702,"87.2","17.087.02","16","Carnes de aves inteiras e com peso unitário superior a 3 kg","2071,02072"
+cest_1708500,"85.0","17.085.00","16","Carnes de animais das espécies caprina, frescas, refrigeradas ou congeladas",0204
+cest_1708600,"86.0","17.086.00","16","Carnes e demais produtos comestíveis frescos, resfriados, congelados, salgados ou salmourados resultantes do abate de caprinos","021099,15021019,15029000"
+cest_1708700,"87.0","17.087.00","16","Carnes e demais produtos comestíveis frescos, resfriados, congelados, salgados, em salmoura, simplesmente temperados, secos ou defumados, resultantes do abate de aves, exceto os descritos no CEST 17.087.02","0207,0209,021099,1501"
+cest_1708701,"87.1","17.087.01","16","Carnes e demais produtos comestíveis frescos, resfriados, congelados, salgados, em salmoura, simplesmente temperados, secos ou defumados, resultantes do abate de suínos","0203,0206,0209,02101,021099,1501"
+cest_1708702,"87.2","17.087.02","16","Carnes de aves inteiras e com peso unitário superior a 3 kg","02071,02072"
 cest_1708800,"88.0","17.088.00","16","Produtos hortícolas, cozidos em água ou vapor, congelados, em embalagens de conteúdo inferior ou igual a 1 kg",710
 cest_1708801,"88.1","17.088.01","16","Produtos hortícolas, cozidos em água ou vapor, congelados, em embalagens de conteúdo superior a 1 kg",710
 cest_1708900,"89.0","17.089.00","16","Frutas, não cozidas ou cozidas em água ou vapor, congeladas, mesmo adicionadas de açúcar ou de outros edulcorantes, em embalagens de conteúdo inferior ou igual a 1 kg",811
@@ -652,7 +652,7 @@ cest_1709603,"96.3","17.096.03","16","Café torrado em grão, em embalagens de c
 cest_1709604,"96.4","17.096.04","16","Café torrado e moído, em cápsulas, exceto os descritos no CEST 17.096.05",901
 cest_1709605,"96.5","17.096.05","16","Café descafeinado torrado e moído, em cápsulas",901
 cest_1709700,"97.0","17.097.00","16","Chá, mesmo aromatizado","0902,12119090,21069090"
-cest_1709800,"98.0","17.098.00","16","Mate",90300
+cest_1709800,"98.0","17.098.00","16","Mate",090300
 cest_1709900,"99.0","17.099.00","16","Açúcar refinado, em embalagens de conteúdo inferior ou igual a 2 kg, exceto as embalagens contendo envelopes individualizados (sachês) de conteúdo inferior ou igual a 10 g","17011,170199"
 cest_1709901,"99.1","17.099.01","16","Açúcar refinado, em embalagens de conteúdo superior a 2 kg e inferior ou igual a 5 kg","17011,170199"
 cest_1709902,"99.2","17.099.02","16","Açúcar refinado, em embalagens de conteúdo superior a 5 kg","17011,170199"
@@ -686,7 +686,7 @@ cest_1711200,"112.0","17.112.00","16","Néctares de frutas e outras bebidas não
 cest_1711300,"113.0","17.113.00","16","Bebidas prontas à base de mate ou chá","210120,220299"
 cest_1711400,"114.0","17.114.00","16","Bebidas prontas à base de café",22029900
 cest_1711500,"115.0","17.115.00","16","Bebidas alimentares prontas à base de soja, leite ou cacau, inclusive os produtos denominados bebidas lácteas",22029900
-cest_1711600,"116.0","17.116.00","16","Sementes de anis (erva-doce), badiana (anis-estrelado), funcho, coentro, cominho ou alcaravia; bagas de zimbro; fruta seca, misturas de fruta seca ou de fruta de casa rija; quando acondicionadas em saquinhos, especialmente, para a preparação de infusões ou de tisanas (“chás”)","813,00909"
+cest_1711600,"116.0","17.116.00","16","Sementes de anis (erva-doce), badiana (anis-estrelado), funcho, coentro, cominho ou alcaravia; bagas de zimbro; fruta seca, misturas de fruta seca ou de fruta de casa rija; quando acondicionadas em saquinhos, especialmente, para a preparação de infusões ou de tisanas (“chás”)","0813,0909"
 cest_1711700,"117.0","17.117.00","16","Outras preparações em blocos ou em barras, com peso superior a 2kg, ou no estado líquido, em pasta, em pó, grânulos ou formas semelhantes, em recipientes ou embalagens imediatas de conteúdo superior a 2kg",18062000
 cest_1900100,"1.0","19.001.00","17","Tinta guache",32131000
 cest_1900200,"2.0","19.002.00","17","Espiral - perfil para encadernação, de plástico e outros materiais classificados nas posições 3901 a 3914",39162000
@@ -699,7 +699,7 @@ cest_1900700,"7.0","19.007.00","17","Bobina para fax","48022090,4811909"
 cest_1900800,"8.0","19.008.00","17","Papel seda",4802549
 cest_1900900,"9.0","19.009.00","17","Bobina para máquina de calcular, PDV ou equipamentos similares","48025499,48025799,48162000"
 cest_1901000,"10.0","19.010.00","17","Cartolina escolar e papel cartão, brancos e coloridos, cortados em folhas em que um lado seja inferior ou igual a 500 mm e o outro inferior ou igual a 700 mm, quando não dobradas, e peso igual ou superior a 120g/m²; recados autoadesivos (LP note); papéis de presente; todos cortados em tamanho pronto para uso escolar e doméstico","4802569,4802579,4802589"
-cest_1901100,"11.0","19.011.00","17","Papel fotográfico, exceto: (i) os papéis fotográficos emulsionados com haleto de prata tipo brilhante, matte ou lustre, em rolo e, com largura igual ou superior a 102 mm e comprimento inferior ou igual a 350 m, (ii) os papéis fotográficos emulsionados com haleto de prata tipo brilhante ou fosco, em folha e com largura igual ou superior a 152 mm e comprimento inferior ou igual a 307 mm, (iii) papel de qualidade fotográfica com tecnologia “Thermo-autochrome”, que submetido a um processo de aquecimento seja capaz de formar imagens por reação química e combinação das camadas cyan, magenta e amarela","37031010,37031029,37032000,37039010,37040000,48022000"
+cest_1901100,"11.0","19.011.00","17","Papel fotográfico, exceto: (i) os papéis fotográficos emulsionados com haleto de prata tipo brilhante, matte ou lustre, em rolo e, com largura igual ou superior a 102 mm e comprimento inferior ou igual a 350 m, (ii) os papéis fotográficos emulsionados com haleto de prata tipo brilhante ou fosco, em folha e com largura igual ou superior a 152 mm e comprimento inferior ou igual a 307 mm, (iii) papel de qualidade fotográfica com tecnologia “Thermo-autochrome”, que submetido a um processo de aquecimento seja capaz de formar imagens por reação química e combinação das camadas cyan, magenta e amarela","37031010,37031029,37032000,37039010,37040000,480220"
 cest_1901200,"12.0","19.012.00","17","Papel almaço",48101390
 cest_1901300,"13.0","19.013.00","17","Papel hectográfico",48169010
 cest_1901400,"14.0","19.014.00","17","Papel celofane e tipo celofane",39202019
