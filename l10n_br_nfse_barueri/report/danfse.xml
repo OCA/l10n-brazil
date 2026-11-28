@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template
+        id="danfse_report_image_data_uri"
+        inherit_id="l10n_br_nfse.danfse_report_template"
+    >
+        <xpath
+            expr="//img[contains(@t-att-src, 'company_id.nfse_city_logo')]"
+            position="attributes"
+        >
+            <attribute
+                name="t-att-src"
+            >image_data_uri(doc.company_id.nfse_city_logo)</attribute>
+            <attribute name="t-if">doc.company_id.nfse_city_logo</attribute>
+        </xpath>
+        <xpath
+            expr="//img[contains(@t-att-src, 'company_id.logo')]"
+            position="attributes"
+        >
+            <attribute name="t-att-src">image_data_uri(doc.company_id.logo)</attribute>
+            <attribute name="t-if">doc.company_id.logo</attribute>
+        </xpath>
+        <xpath expr="//span[@t-field='doc.amount_untaxed']" position="attributes">
+            <attribute name="t-field">doc.fiscal_amount_untaxed</attribute>
+        </xpath>
+    </template>
+</odoo>
