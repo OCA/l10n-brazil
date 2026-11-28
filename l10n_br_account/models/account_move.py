@@ -690,6 +690,7 @@ class AccountMove(models.Model):
         fiscal_document,
         move_id=None,
         move_type="in_invoice",
+        reset_header=False,
     ):
         """
         Import the data from an existing fiscal document into a new
@@ -700,6 +701,12 @@ class AccountMove(models.Model):
         triggered as if the invoice was filled manually.
         Then it creates each account.move.line and fill them using
         their fiscal_document_id onchange.
+
+        ``reset_header`` forces that header transfer even on a bill that
+        already carries a fiscal document: re-using a bill prepared from
+        something else (a purchase order converted into a draft bill) means
+        the imported document becomes the document of record for the whole
+        bill, not just for the lines being added.
         """
         if move_id:
             move = self.env["account.move"].browse(move_id)
@@ -716,7 +723,7 @@ class AccountMove(models.Model):
             )
         )
 
-        if not move_id or not move.fiscal_document_id:
+        if reset_header or not move_id or not move.fiscal_document_id:
             move_form.partner_id = fiscal_document.partner_id
             move_form.invoice_date = fiscal_document.document_date
             move_form.document_type_id = fiscal_document.document_type_id
@@ -820,4 +827,78 @@ class AccountMove(models.Model):
         if dummy_lines_to_unlink:
             dummy_lines_to_unlink.unlink()
 
+        # The analytic plan of the order the document comes from is not part
+        # of the supplier XML: it is carried over from the matched source
+        # before the bill is handed over to the matching.
+        move._propagate_match_source_analytic_distribution()
+
+        # Loose coupling with stock_picking_bill_matching (OCA
+        # stock-logistics-workflow), which is NOT a dependency: the imported
+        # bill is offered to its import-time automation, which matches it
+        # against the receipts carrying the same line reference (in Brazil the
+        # reference derived from the purchase order line) when the company asks
+        # for it. The entry point does not exist when the module is absent.
+        if hasattr(move, "_auto_match_on_bill_import"):
+            move._auto_match_on_bill_import()
+
         return move_form
+
+    def _propagate_match_source_analytic_distribution(self):
+        """Carry the analytic distribution of the matched source onto the
+        imported bill lines.
+
+        A purchase order line may be planned analytically (a cost centre, a
+        project); the supplier XML of course knows nothing about it. When the
+        import matched the document line against such a source, the canonical
+        (partner order, item position) reference — the one this module already
+        uses for the bill matching — is enough to find it again and copy its
+        analytic distribution, so posting the bill keeps the analytic plan the
+        buyer set on the order.
+
+        Loose coupling on purpose, in three layers:
+        - the reference is read from the bill line itself (stored related
+          fields on l10n_br_fiscal.document.line, available on every document
+          type);
+        - the source is read from the match candidate view of
+          l10n_br_fiscal_edi, which this module asks the environment for: no
+          dependency, and no-op when that module is not installed;
+        - that view is itself the only place knowing about purchase order
+          lines, and it degrades to nothing when purchase is absent.
+        So this module depends on neither purchase nor analytic: it copies
+        data, it does not model the relation.
+
+        Only the lines still without a distribution are touched: an operator
+        who already planned a line keeps his choice.
+        """
+        candidate_model = self.env.get("l10n_br_fiscal.document.import.match.candidate")
+        if candidate_model is None:
+            return
+        lines = self.invoice_line_ids.filtered(
+            lambda line: line.display_type == "product"
+            and not line.analytic_distribution
+            and line.partner_order
+            and line.partner_order_line
+        )
+        if not lines:
+            return
+        # the candidates are a SQL view: it cannot see what this transaction
+        # only has in the ORM cache yet
+        self.env.flush_all()
+        for line in lines:
+            try:
+                position = int(line.partner_order_line)
+            except (TypeError, ValueError):
+                # the reference the supplier declared is not an item number
+                continue
+            candidates = candidate_model.sudo().search(
+                [
+                    ("partner_id", "=", self.partner_id.id),
+                    ("company_id", "=", self.company_id.id),
+                    ("po_ref", "=", line.partner_order.strip()),
+                    ("po_line_no", "=", position),
+                ]
+            )
+            for candidate in candidates:
+                if candidate.analytic_distribution:
+                    line.analytic_distribution = candidate.analytic_distribution
+                    break

@@ -692,6 +692,13 @@ class SpedMixin(models.AbstractModel):
             # in this case we will generate a register without any
             # specific Odoo record. Example: ECD I010
             register_vals = self._map_from_odoo(None, parent_record, declaration)
+            if not register_vals:
+                # nothing to pull for this register: the mapping found no data
+                # in Odoo. Creating the row anyway would write empty required
+                # fields (an invalid SPED line, e.g. 0007 without COD_ENT_REF)
+                # and abort the whole pull with a NotNullViolation.
+                self._log_chatter_sped_item(log_msg, level)
+                return
             if parent_register:
                 register_vals[parent_field] = parent_register.id
             register = self.create(register_vals)

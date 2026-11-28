@@ -5,7 +5,7 @@
 # Copyright (C) 2026  Raphaël Valyi - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from collections import Counter
+from collections import Counter, defaultdict, deque
 
 from erpbrasil.base.fiscal.cnpj_cpf import formata
 
@@ -45,6 +45,11 @@ class DocumentImportWizard(models.TransientModel):
                 self.fiscal_operation_type,
             )
             self._create_imported_products_by_xml(binding)
+            if not self.fiscal_operation_id:
+                # the CFOP declared by the supplier (an outbound one) usually
+                # matches none of our inbound operation lines: suggest the
+                # operation of the imported lines, through the inverse CFOP
+                self.fiscal_operation_id = self._suggest_fiscal_operation()
         return res
 
     @api.model
@@ -109,13 +114,27 @@ class DocumentImportWizard(models.TransientModel):
         supplier_id = self._search_product_supplier_by_product_code(product.prod.cProd)
         product_id = self._match_product(product.prod)
         uom_id = self._match_uom_by_code(product.prod.uCom, product.prod.uTrib)
+        match_source = self._match_import_candidate(product.prod, product_id)
+        if match_source:
+            # the source reference is more authoritative than the generic
+            # product/UoM match: it pins the exact PO/picking line.
+            product_id = match_source.product_id
+            uom_id = match_source.uom_id
 
         return {
             "product_name": product.prod.xProd,
             "product_code": product.prod.cProd,
             "ncm_xml": product.prod.NCM,
             "cfop_xml": product.prod.CFOP,
+            # the reference the document itself prints for this item: kept on
+            # the line so the wizard can compare it with the match source and
+            # the import can never replace it with a different order
+            "document_partner_order": (getattr(product.prod, "xPed", "") or "").strip(),
+            "document_partner_order_line": (
+                getattr(product.prod, "nItemPed", "") or ""
+            ).strip(),
             "product_id": product_id and product_id.id or False,
+            "match_source_id": match_source.id or False,
             "icms_percent": taxes["pICMS"],
             "icms_value": taxes["vICMS"],
             "ipi_percent": taxes["pIPI"],
@@ -179,70 +198,11 @@ class DocumentImportWizard(models.TransientModel):
     def _match_product_by_purchase(self, xml_product):
         """Priority match from the referenced purchase order.
 
-        When ``l10n_br_purchase`` is installed and the XML line references the
-        buyer's purchase order (xPed / nItemPed), take the product from the
-        matching purchase order line first: it is the most authoritative match
-        since the buyer already stated which product was ordered.
-
-        Soft dependency: no-op unless l10n_br_purchase is installed (it adds
-        the partner_order / partner_order_line fields to purchase.order.line;
-        core ``purchase`` alone does not provide them).
+        Thin wrapper over the generic ``_match_po_line`` (l10n_br_fiscal_edi)
+        returning only the product, kept for backward compatibility.
         """
-        pol_model = self.env.get("purchase.order.line")
-        if pol_model is None or "partner_order" not in pol_model._fields:
-            return False
-        xped = (getattr(xml_product, "xPed", "") or "").strip()
-        if not xped:
-            return False
-
-        partner = self.partner_id.id
-        pol = pol_model.sudo()
-        nitemped = (getattr(xml_product, "nItemPed", "") or "").strip()
-
-        # 1) exact agreed reference: xPed + nItemPed on the purchase order line
-        if nitemped:
-            line = pol.search(
-                [
-                    ("order_id.partner_id", "=", partner),
-                    ("partner_order", "=", xped),
-                    ("partner_order_line", "=", nitemped),
-                ],
-                limit=1,
-            )
-            if line:
-                return line.product_id
-
-        # 2) heuristic: narrow to the referenced order (partner_order on the
-        # line, else the buyer PO name / vendor reference), then disambiguate
-        # the line by the XML product code / barcode.
-        lines = pol.search(
-            [("order_id.partner_id", "=", partner), ("partner_order", "=", xped)]
-        )
-        if not lines:
-            order = (
-                self.env["purchase.order"]
-                .sudo()
-                .search(
-                    [
-                        ("partner_id", "=", partner),
-                        "|",
-                        ("partner_ref", "=", xped),
-                        ("name", "=", xped),
-                    ],
-                    limit=1,
-                )
-            )
-            lines = order.order_line
-        if len(lines) == 1:
-            return lines.product_id
-        cprod = getattr(xml_product, "cProd", None)
-        ean = getattr(xml_product, "cEANTrib", None)
-        for line in lines:
-            if cprod and line.product_id.default_code == cprod:
-                return line.product_id
-            if ean and ean != "SEM GTIN" and line.product_id.barcode == ean:
-                return line.product_id
-        return False
+        po_line = self._match_po_line(xml_product)
+        return po_line.product_id if po_line else False
 
     def _get_taxes_from_xml_product(self, product):
         vICMS = 0
@@ -280,9 +240,14 @@ class DocumentImportWizard(models.TransientModel):
             )
             edoc.document_type_id = self.env.ref("l10n_br_fiscal.document_55").id
             edoc.fiscal_operation_id = self.fiscal_operation_id
-            wizard_lines_by_code = {
-                w.product_code: w for w in self.imported_products_ids
-            }
+            # Same product on several XML lines? Then several wizard lines
+            # share the code: consume them in order instead of keeping only
+            # the last one (see the ordered consumption in the generic
+            # document_import_wizard for the rationale).
+            wizard_lines_by_code = defaultdict(deque)
+            for wizard_line in self.imported_products_ids:
+                if wizard_line.product_code:
+                    wizard_lines_by_code[wizard_line.product_code].append(wizard_line)
             for line in edoc.fiscal_line_ids:
                 # Preserve the XML price_unit because setting
                 # fiscal_operation_id triggers _compute_price_unit_fiscal
@@ -298,11 +263,13 @@ class DocumentImportWizard(models.TransientModel):
                     # line compute ran before the product's units were set), so
                     # fall back to the unit the wizard matched from uCom/uTrib
                     # and align the created product's units with it.
-                    wl = (
-                        wizard_lines_by_code.get(line.product_id.default_code)
-                        if line.product_id
-                        else None
-                    )
+                    wl = None
+                    if line.product_id:
+                        code_queue = wizard_lines_by_code.get(
+                            line.product_id.default_code
+                        )
+                        if code_queue:
+                            wl = code_queue.popleft()
                     if wl and wl.uom_internal:
                         line.uom_id = wl.uom_internal
                         if not wl.product_id:
