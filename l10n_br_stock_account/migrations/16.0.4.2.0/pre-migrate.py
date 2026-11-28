@@ -21,6 +21,4 @@ def migrate(cr, version):
     )
     row = cr.fetchone()
     if row and row[0] and row[0] < 32:
-        cr.execute(
-            "ALTER TABLE stock_move ALTER COLUMN partner_order TYPE varchar(32)"
-        )
+        cr.execute("ALTER TABLE stock_move ALTER COLUMN partner_order TYPE varchar(32)")
