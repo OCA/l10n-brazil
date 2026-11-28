@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <record id="l10n_br_fiscal.res_partner_anonimo" model="res.partner">
+        <field name="state_id" ref="base.state_br_sp" />
+    </record>
+
+    <record id="pos_sale_journal_presumido" model="account.journal">
+        <field name="name">POS Sale Journal</field>
+        <field name="code">POSB</field>
+        <field name="type">sale</field>
+        <!-- avoid being selected as default journal -->
+        <field name="sequence">20</field>
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+    </record>
+
+    <record id="pos_invoice_journal_presumido" model="account.journal">
+        <field name="name">POS Invoice Journal</field>
+        <field name="code">POSI</field>
+        <field name="type">sale</field>
+        <!-- avoid being selected as default journal -->
+        <field name="sequence">20</field>
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+    </record>
+
+    <record id="picking_type_posout_presumido" model="stock.picking.type">
+        <field name="name">PoS Orders Presumido</field>
+        <field name="sequence_code">POS-OUT-PRE</field>
+        <field name="code">outgoing</field>
+        <field name="warehouse_id" ref="l10n_br_stock.wh_empresa_lucro_presumido" />
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+        <field
+            name="default_location_src_id"
+            ref="l10n_br_stock.wh_empresa_lucro_presumido_loc_stock_id"
+        />
+        <field name="default_location_dest_id" ref="stock.stock_location_customers" />
+    </record>
+
+    <record id="pos_config_presumido" model="pos.config">
+        <field name="name">Shop Presumido</field>
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+        <field name="picking_type_id" ref="picking_type_posout_presumido" />
+        <field name="journal_id" ref="pos_sale_journal_presumido" />
+        <field name="invoice_journal_id" ref="pos_sale_journal_presumido" />
+        <field name="out_pos_fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field
+            name="refund_pos_fiscal_operation_id"
+            ref="l10n_br_fiscal.fo_devolucao_venda"
+        />
+        <field name="detailed_document_type_id" ref="l10n_br_fiscal.document_55" />
+        <field name="partner_id" ref="l10n_br_fiscal.res_partner_anonimo" />
+        <field
+            name="payment_method_ids"
+            eval="[(4, ref('l10n_br_pos.presumido_dinheiro')), (4, ref('l10n_br_pos.presumido_credito_visa')), (4, ref('l10n_br_pos.presumido_credito_master')), (4, ref('l10n_br_pos.presumido_debito_visa')), (4, ref('l10n_br_pos.presumido_pix'))]"
+        />
+    </record>
+
+    <function model="pos.config" name="update_pos_fiscal_map">
+        <value eval="[ref('l10n_br_pos.pos_config_presumido')]" />
+    </function>
+</odoo>
