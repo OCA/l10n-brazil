@@ -11,6 +11,15 @@ Relatórios SIG** e escolha um deles:
 - **DRE - trimestral**: o trimestre em que se apura o IRPJ e a CSLL no lucro
   presumido e no lucro real trimestral (Lei 9.430/96, art. 1º), com o trimestre
   anterior e o mesmo trimestre do exercício passado.
+- **DFC - exercício atual e anterior**: a última linha, **Variação conferida
+  pelas contas de caixa**, existe para ser comparada com o total. A
+  demonstração é uma conciliação, e as duas têm que dar o mesmo número:
+  divergência quer dizer que alguma conta patrimonial ficou sem classificação
+  de atividade.
+- **DMPL - exercício atual**: numa coluna de período só, porque as colunas da
+  matriz já são os componentes do patrimônio líquido. Para comparar com o
+  exercício anterior, gere de novo com outra data base.
+- **DLPA - exercício atual e anterior**.
 
 Para ver outro período, mude a **data base** do relatório: todas as colunas se
 reposicionam juntas, porque são declaradas relativas a ela, não por data fixa.
@@ -41,3 +50,15 @@ Uma ressalva do Balanço: a coluna precisa cobrir o exercício (o exercício
 inteiro ou um acumulado desde 1º de janeiro), porque o resultado do período é
 lido do movimento das contas de resultado. Numa coluna de mês isolado, o
 patrimônio líquido exibiria só o resultado daquele mês.
+
+## Não confundir com o `mis_builder_cash_flow`
+
+O módulo `mis_builder_cash_flow` (OCA/account-financial-reporting) tem nome
+parecido e propósito oposto: ele faz **previsão** de caixa, lendo os lançamentos
+pela data de vencimento e somando linhas de projeção cadastradas à mão. É
+ferramenta de tesouraria, para responder quanto de caixa haverá nos próximos
+meses.
+
+A DFC deste módulo é a demonstração contábil **histórica** do período encerrado,
+que o art. 176, inciso IV da Lei 6.404/76 exige publicar junto com o Balanço e a
+DRE. Os dois convivem sem conflito.
