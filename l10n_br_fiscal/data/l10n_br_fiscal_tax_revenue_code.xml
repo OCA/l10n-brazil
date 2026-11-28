@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- Revenue code of the DARF of the federal taxes withheld at source. The
+         one of the IRPJ RET 1,5% (1708) is in l10n_br_fiscal_tax_withholding_data.xml,
+         with its withholding waiver -->
+    <record id="tax_csll_wh_1" model="l10n_br_fiscal.tax">
+        <field name="revenue_code">5952</field>
+    </record>
+
+    <!-- CSRF withheld by a private company: the PIS and the COFINS go in the
+         same DARF of the CSLL -->
+    <record id="tax_pis_wh_0_65" model="l10n_br_fiscal.tax">
+        <field name="revenue_code">5952</field>
+    </record>
+    <record id="tax_cofins_wh_3" model="l10n_br_fiscal.tax">
+        <field name="revenue_code">5952</field>
+    </record>
+
+    <!-- Withheld by a federal body: IR, CSLL, PIS and COFINS in a single DARF
+         per code (IN RFB 1.234/2012, art. 3 and Annex I; Lei 9.430/1996,
+         art. 64; Lei 10.833/2003, art. 34). The IR is 15% of the presumed
+         profit of the art. 15 of the Lei 9.249/1995: 4,8% (of 32%), 1,2%
+         (of 8%) and 2,4% (of 16%) -->
+    <record id="tax_cofins_wh_3_6147" model="l10n_br_fiscal.tax">
+        <field name="revenue_code">6147</field>
+    </record>
+    <record id="tax_cofins_wh_3_6175" model="l10n_br_fiscal.tax">
+        <field name="revenue_code">6175</field>
+    </record>
+    <record id="tax_cofins_wh_3_6188" model="l10n_br_fiscal.tax">
+        <field name="revenue_code">6188</field>
+    </record>
+    <record id="tax_cofins_wh_3_6190" model="l10n_br_fiscal.tax">
+        <field name="revenue_code">6190</field>
+    </record>
+    <record id="tax_csll_wh_1_6147" model="l10n_br_fiscal.tax">
+        <field name="revenue_code">6147</field>
+    </record>
+    <record id="tax_csll_wh_1_6175" model="l10n_br_fiscal.tax">
+        <field name="revenue_code">6175</field>
+    </record>
+    <record id="tax_csll_wh_1_6188" model="l10n_br_fiscal.tax">
+        <field name="revenue_code">6188</field>
+    </record>
+    <record id="tax_csll_wh_1_6190" model="l10n_br_fiscal.tax">
+        <field name="revenue_code">6190</field>
+    </record>
+    <record id="tax_irpj_wh_1_2_6147" model="l10n_br_fiscal.tax">
+        <field name="revenue_code">6147</field>
+    </record>
+    <record id="tax_irpj_wh_2_4_6175" model="l10n_br_fiscal.tax">
+        <field name="revenue_code">6175</field>
+    </record>
+    <record id="tax_irpj_wh_2_4_6188" model="l10n_br_fiscal.tax">
+        <field name="revenue_code">6188</field>
+    </record>
+    <record id="tax_irpj_wh_4_6" model="l10n_br_fiscal.tax">
+        <field name="revenue_code">6190</field>
+    </record>
+    <record id="tax_pis_wh_0_65_6147" model="l10n_br_fiscal.tax">
+        <field name="revenue_code">6147</field>
+    </record>
+    <record id="tax_pis_wh_0_65_6175" model="l10n_br_fiscal.tax">
+        <field name="revenue_code">6175</field>
+    </record>
+    <record id="tax_pis_wh_0_65_6188" model="l10n_br_fiscal.tax">
+        <field name="revenue_code">6188</field>
+    </record>
+    <record id="tax_pis_wh_0_65_6190" model="l10n_br_fiscal.tax">
+        <field name="revenue_code">6190</field>
+    </record>
+</odoo>
