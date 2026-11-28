@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo noupdate="1">
+    <!-- BTG connection to the brbank simulator (python -m brbank.simulador, port 8899). -->
+    <record
+        id="connection_demo_btg_simulator"
+        model="l10n_br_bank_connection.connection"
+    >
+        <field name="name">BTG Pactual (simulator)</field>
+        <field name="adapter">btg</field>
+        <field name="environment">test</field>
+        <field name="cnpj">91300766000147</field>
+        <field name="api_base_url_override">http://localhost:8899</field>
+        <field name="token_url_override">http://localhost:8899/oauth2/token</field>
+        <field name="client_id">demo-client</field>
+        <field name="client_secret">demo-secret</field>
+        <field
+            name="extra_config"
+        >{"agencia": "0001", "conta_corrente": "1234567", "dias_expiracao": 30}</field>
+    </record>
+</odoo>
