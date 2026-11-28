@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="gnre_obligation_tree" model="ir.ui.view">
+        <field name="model">l10n_br_gnre.obligation</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="date_due" />
+                <field name="fiscal_state_id" />
+                <field name="revenue_code" />
+                <field name="document_id" />
+                <field name="amount_total" sum="Total" />
+                <field name="guide_id" />
+                <field name="state" widget="badge" />
+                <field name="currency_id" invisible="1" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="gnre_obligation_form" model="ir.ui.view">
+        <field name="model">l10n_br_gnre.obligation</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button
+                        name="action_cancel"
+                        string="Cancelar"
+                        type="object"
+                        attrs="{'invisible': [('state', 'not in', ['pending', 'grouped'])]}"
+                    />
+                    <field name="state" widget="statusbar" />
+                </header>
+                <sheet>
+                    <group>
+                        <group string="Origem">
+                            <field name="document_id" />
+                            <field name="config_id" />
+                            <field
+                                name="company_id"
+                                groups="base.group_multi_company"
+                            />
+                        </group>
+                        <group string="Recolhimento">
+                            <field name="fiscal_state_id" />
+                            <field name="revenue_code" />
+                            <field name="detail_revenue_code" />
+                            <field name="obligation_code" />
+                            <field name="authority_partner_id" />
+                        </group>
+                        <group string="Valores">
+                            <field name="amount_principal" />
+                            <field name="amount_fcp" />
+                            <field name="amount_fine" />
+                            <field name="amount_interest" />
+                            <field name="amount_total" />
+                            <field name="currency_id" invisible="1" />
+                        </group>
+                        <group string="Período">
+                            <field name="period_ref" />
+                            <field name="date_start" />
+                            <field name="date_end" />
+                            <field name="date_due" />
+                        </group>
+                    </group>
+                    <group string="Guia">
+                        <field name="guide_id" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="gnre_obligation_search" model="ir.ui.view">
+        <field name="model">l10n_br_gnre.obligation</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="fiscal_state_id" />
+                <field name="revenue_code" />
+                <field name="document_id" />
+                <filter
+                    name="pending"
+                    string="Pendentes"
+                    domain="[('state', '=', 'pending')]"
+                />
+                <separator />
+                <filter
+                    name="icmsst"
+                    string="ICMS ST"
+                    domain="[('amount_source', '=', 'icmsst')]"
+                />
+                <filter
+                    name="difal"
+                    string="DIFAL"
+                    domain="[('amount_source', '=', 'difal')]"
+                />
+                <separator />
+                <filter name="filter_date_due" date="date_due" />
+                <group expand="0" string="Agrupar por">
+                    <filter
+                        name="group_state"
+                        string="UF Favorecida"
+                        context="{'group_by': 'fiscal_state_id'}"
+                    />
+                    <filter
+                        name="group_source"
+                        string="Origem do Valor"
+                        context="{'group_by': 'amount_source'}"
+                    />
+                    <filter
+                        name="group_revenue"
+                        string="Receita"
+                        context="{'group_by': 'revenue_code'}"
+                    />
+                    <filter
+                        name="group_due"
+                        string="Vencimento"
+                        context="{'group_by': 'date_due'}"
+                    />
+                    <filter
+                        name="group_obligation_state"
+                        string="Situação"
+                        context="{'group_by': 'state'}"
+                    />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="gnre_obligation_pivot" model="ir.ui.view">
+        <field name="model">l10n_br_gnre.obligation</field>
+        <field name="arch" type="xml">
+            <pivot string="Análise de GNRE" sample="1">
+                <field name="fiscal_state_id" type="row" />
+                <field name="amount_source" type="row" />
+                <field name="date_due" interval="month" type="col" />
+                <field name="amount_principal" type="measure" />
+                <field name="amount_fcp" type="measure" />
+                <field name="amount_total" type="measure" />
+            </pivot>
+        </field>
+    </record>
+
+    <record id="gnre_obligation_graph" model="ir.ui.view">
+        <field name="model">l10n_br_gnre.obligation</field>
+        <field name="arch" type="xml">
+            <graph string="Análise de GNRE" type="bar" stacked="1" sample="1">
+                <field name="date_due" interval="month" />
+                <field name="amount_source" />
+                <field name="amount_total" type="measure" />
+            </graph>
+        </field>
+    </record>
+
+    <record id="gnre_obligation_action" model="ir.actions.act_window">
+        <field name="name">Obrigações de GNRE</field>
+        <field name="res_model">l10n_br_gnre.obligation</field>
+        <field name="view_mode">tree,form,pivot,graph</field>
+        <field name="context">{'search_default_pending': 1}</field>
+    </record>
+
+    <record id="gnre_obligation_analysis_action" model="ir.actions.act_window">
+        <field name="name">Análise de GNRE</field>
+        <field name="res_model">l10n_br_gnre.obligation</field>
+        <field name="view_mode">pivot,graph,tree,form</field>
+        <field name="domain">[('state', '!=', 'cancelled')]</field>
+    </record>
+</odoo>

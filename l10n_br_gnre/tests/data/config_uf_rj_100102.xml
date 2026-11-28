@@ -1,0 +1,160 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<ns1:TConfigUf
+    xmlns="http://www.gnre.pe.gov.br"
+    xmlns:ns1="http://www.gnre.pe.gov.br"
+    xmlns:soapenv="http://www.w3.org/2003/05/soap-envelope"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+>
+    <ns1:ambiente>2</ns1:ambiente>
+    <ns1:uf>RJ</ns1:uf>
+    <ns1:situacaoConsulta>
+        <ns1:codigo>450</ns1:codigo>
+        <ns1:descricao>Consulta da Configuração efetuada com sucesso!</ns1:descricao>
+    </ns1:situacaoConsulta>
+    <ns1:exigeUfFavorecida campo="ufFavorecida">S</ns1:exigeUfFavorecida>
+    <ns1:exigeReceita campo="receita">S</ns1:exigeReceita>
+    <ns1:receitas>
+        <ns1:receita
+            codigo="100102"
+            descricao="ICMS Consumidor Final Não Contribuinte Outra UF por Operação"
+        >
+            <ns1:exigeContribuinteEmitente>S</ns1:exigeContribuinteEmitente>
+            <ns1:exigeDetalhamentoReceita
+                campo="detalhamentoReceita"
+            >N</ns1:exigeDetalhamentoReceita>
+            <ns1:exigeProduto campo="produto">N</ns1:exigeProduto>
+            <ns1:produtos>
+                <ns1:produto>
+                    <ns1:codigo>86</ns1:codigo>
+                    <ns1:descricao>Bebidas</ns1:descricao>
+                </ns1:produto>
+                <ns1:produto>
+                    <ns1:codigo>6</ns1:codigo>
+                    <ns1:descricao>Cigarros e produtos derivados do fumo</ns1:descricao>
+                </ns1:produto>
+                <ns1:produto>
+                    <ns1:codigo>7</ns1:codigo>
+                    <ns1:descricao>Cimento</ns1:descricao>
+                </ns1:produto>
+                <ns1:produto>
+                    <ns1:codigo>87</ns1:codigo>
+                    <ns1:descricao
+                    >Energia Elétrica - Recolhimento Consumidores Livres</ns1:descricao>
+                </ns1:produto>
+                <ns1:produto>
+                    <ns1:codigo>16</ns1:codigo>
+                    <ns1:descricao>Marketing Porta-a-Porta</ns1:descricao>
+                </ns1:produto>
+                <ns1:produto>
+                    <ns1:codigo>18</ns1:codigo>
+                    <ns1:descricao
+                    >Materiais de Construção, Acabamentos, Bricolagens ou Adornos</ns1:descricao>
+                </ns1:produto>
+                <ns1:produto>
+                    <ns1:codigo>19</ns1:codigo>
+                    <ns1:descricao>Materiais de Limpeza</ns1:descricao>
+                </ns1:produto>
+                <ns1:produto>
+                    <ns1:codigo>89</ns1:codigo>
+                    <ns1:descricao>Outros</ns1:descricao>
+                </ns1:produto>
+                <ns1:produto>
+                    <ns1:codigo>90</ns1:codigo>
+                    <ns1:descricao
+                    >Peças, Partes e Acessórios para Veículos Automotores</ns1:descricao>
+                </ns1:produto>
+                <ns1:produto>
+                    <ns1:codigo>20</ns1:codigo>
+                    <ns1:descricao
+                    >Peças, Partes, Componentes, Acessórios e demais produtos para Autopropulsados</ns1:descricao>
+                </ns1:produto>
+                <ns1:produto>
+                    <ns1:codigo>68</ns1:codigo>
+                    <ns1:descricao>Produtos alimentícios</ns1:descricao>
+                </ns1:produto>
+                <ns1:produto>
+                    <ns1:codigo>23</ns1:codigo>
+                    <ns1:descricao>Produtos Farmacêuticos</ns1:descricao>
+                </ns1:produto>
+                <ns1:produto>
+                    <ns1:codigo>27</ns1:codigo>
+                    <ns1:descricao
+                    >Tintas, Vernizes e outras mercadorias da indústria química</ns1:descricao>
+                </ns1:produto>
+            </ns1:produtos>
+            <ns1:exigePeriodoReferencia
+                campo="referencia"
+            >N</ns1:exigePeriodoReferencia>
+            <ns1:exigeParcela campo="parcela">N</ns1:exigeParcela>
+            <ns1:valorExigido campo="valor">PO</ns1:valorExigido>
+            <ns1:exigeDocumentoOrigem
+                campo="documentoOrigem"
+            >S</ns1:exigeDocumentoOrigem>
+            <ns1:tiposDocumentosOrigem campo="documentoOrigem">
+                <ns1:tipoDocumentoOrigem>
+                    <ns1:codigo>24</ns1:codigo>
+                    <ns1:descricao>CHAVE DO DFe</ns1:descricao>
+                </ns1:tipoDocumentoOrigem>
+            </ns1:tiposDocumentosOrigem>
+            <ns1:versoesXmlDocOrigem>
+                <ns1:versao>2.00</ns1:versao>
+            </ns1:versoesXmlDocOrigem>
+            <ns1:exigeContribuinteDestinatario>S</ns1:exigeContribuinteDestinatario>
+            <ns1:exigeDataVencimento campo="dataVencimento">S</ns1:exigeDataVencimento>
+            <ns1:exigeDataPagamento campo="dataPagamento">S</ns1:exigeDataPagamento>
+            <ns1:exigeConvenio campo="convenio">N</ns1:exigeConvenio>
+            <ns1:exigeValorFecp campo="valor">S</ns1:exigeValorFecp>
+            <ns1:exigeCamposAdicionais
+                campo="camposExtras"
+            >S</ns1:exigeCamposAdicionais>
+            <ns1:camposAdicionais>
+                <ns1:campoAdicional campo="campoExtra">
+                    <ns1:obrigatorio>N</ns1:obrigatorio>
+                    <ns1:codigo campo="codigo">127</ns1:codigo>
+                    <ns1:tipo campo="tipo">T</ns1:tipo>
+                    <ns1:tamanho>100</ns1:tamanho>
+                    <ns1:titulo>Informações complementares</ns1:titulo>
+                    <ns1:versoesXmlCampoAdicional>
+                        <ns1:versao>1.00</ns1:versao>
+                        <ns1:versao>2.00</ns1:versao>
+                    </ns1:versoesXmlCampoAdicional>
+                </ns1:campoAdicional>
+                <ns1:campoAdicional campo="campoExtra">
+                    <ns1:obrigatorio>S</ns1:obrigatorio>
+                    <ns1:codigo campo="codigo">132</ns1:codigo>
+                    <ns1:tipo campo="tipo">D</ns1:tipo>
+                    <ns1:titulo>Data de Emissão</ns1:titulo>
+                    <ns1:versoesXmlCampoAdicional>
+                        <ns1:versao>1.00</ns1:versao>
+                        <ns1:versao>2.00</ns1:versao>
+                    </ns1:versoesXmlCampoAdicional>
+                </ns1:campoAdicional>
+            </ns1:camposAdicionais>
+            <ns1:tiposGnre>
+                <ns1:tipoGnre>0</ns1:tipoGnre>
+                <ns1:tipoGnre>1</ns1:tipoGnre>
+                <ns1:tipoGnre>2</ns1:tipoGnre>
+            </ns1:tiposGnre>
+            <ns1:aceitaPgPix>N</ns1:aceitaPgPix>
+        </ns1:receita>
+    </ns1:receitas>
+    <ns1:versoesXml>
+        <ns1:versao>2.00</ns1:versao>
+    </ns1:versoesXml>
+    <ns1:qtdMaximas>
+        <ns1:guiasPorLote>50</ns1:guiasPorLote>
+        <ns1:itensPorGuia>100</ns1:itensPorGuia>
+        <ns1:itensPorLote>300</ns1:itensPorLote>
+        <ns1:qtdConsultas>30</ns1:qtdConsultas>
+    </ns1:qtdMaximas>
+    <ns1:tiposGnreDaUF>
+        <ns1:tipoGnre>0</ns1:tipoGnre>
+        <ns1:tipoGnre>1</ns1:tipoGnre>
+        <ns1:tipoGnre>2</ns1:tipoGnre>
+    </ns1:tiposGnreDaUF>
+    <ns1:enderecoObr>
+        <ns1:emitCpf>S</ns1:emitCpf>
+        <ns1:emitCnpj>S</ns1:emitCnpj>
+    </ns1:enderecoObr>
+</ns1:TConfigUf>
