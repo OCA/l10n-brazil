@@ -5,30 +5,45 @@
 def post_init_hook(env):
     """Allow to use demo main_company for Brazilian fiscal operations"""
 
-    br_demo_companies = []
+    # "br_oca_generic" is only registered in _get_chart_template_mapping() when
+    # l10n_br_coa_generic is installed. l10n_br_account doesn't depend on it, so
+    # fall back to "generic_coa" when it's not there to avoid leaving demo
+    # companies with an unresolvable chart_template (breaks mrp_account's
+    # post_init_hook and other chart-template lookups).
+    coa_generic_module = env.ref(
+        "base.module_l10n_br_coa_generic", raise_if_not_found=False
+    )
+    coa_generic_installed = bool(
+        coa_generic_module and coa_generic_module.state == "installed"
+    )
+
+    ChartTemplate = env["account.chart.template"]
+
+    def _load_generic_coa_fallback(company):
+        # fallback to generic_coa to make tests pass
+        # FIXME tests should not depend on demo companies anymore!
+        # Don't pre-set company.chart_template here: try_loading() only
+        # actually (re)loads the chart's accounts when template_code differs
+        # from the company's *current* chart_template value. try_loading()
+        # itself sets the field once loading is done.
+        ChartTemplate.try_loading("generic_coa", company, install_demo=True)
+        ChartTemplate.load_fiscal_taxes([company])
+        company.currency_id = env.ref("base.BRL")
+
     demo_simple = env.ref(
         "l10n_br_base.empresa_simples_nacional", raise_if_not_found=False
     )
     if demo_simple:
-        demo_simple.chart_template = "generic_coa"  # "br_oca_simple"
-        br_demo_companies.append(demo_simple)
+        # "br_oca_simple" is not implemented yet, generic_coa is the only
+        # option for this demo company.
+        _load_generic_coa_fallback(demo_simple)
+
     demo_lp = env.ref("l10n_br_base.empresa_lucro_presumido", raise_if_not_found=False)
     if demo_lp:
-        demo_lp.chart_template = "br_oca_generic"
-        br_demo_companies.append(demo_lp)
-
-    for company in env["res.company"].with_context(active_test=False).search([]):
-        if "br_oca" in env["account.chart.template"]._get_parent_template(
-            company.chart_template
-        ):
-            if company in br_demo_companies:
-                # fallback to generic_coa to make tests pass
-                # FIXME tests should not depend on demo companies anymore!
-                env["account.chart.template"].try_loading(
-                    "generic_coa", company, install_demo=True
-                )
-                env["account.chart.template"].load_fiscal_taxes([company])
-                company.currency_id = env.ref("base.BRL")
+        if coa_generic_installed:
+            demo_lp.chart_template = "br_oca_generic"
+        else:
+            _load_generic_coa_fallback(demo_lp)
 
     if env.ref("base.module_l10n_br_account").demo:
         main_company = env.ref("base.main_company", raise_if_not_found=False)
