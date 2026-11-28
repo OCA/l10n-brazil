@@ -25,6 +25,15 @@
                     name="attrs"
                 >{'invisible': ['|', ('button_create_invoice_invisible', '=', True), ('invoice_status', 'not in', ('no', 'invoiced'))]}</attribute>
             </xpath>
+            <xpath expr="//field[@name='order_line']/tree" position="inside">
+                <field name="creditability_origin" optional="hide" readonly="1" />
+                <field
+                    name="cost_unit"
+                    optional="show"
+                    readonly="1"
+                    string="Net Cost"
+                />
+            </xpath>
         </field>
     </record>
 </odoo>
