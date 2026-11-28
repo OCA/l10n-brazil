@@ -207,8 +207,8 @@ class PartyMixin(models.AbstractModel):
 
     @api.model
     def _normalize_vat(self, vals):
-        """Strip punctuation from Brazilian VAT values so they are stored
-        unformatted.
+        """Keep only the alphanumeric characters of Brazilian VAT values so
+        they are stored unformatted.
         """
         if not isinstance(vals, dict):
             return
@@ -224,7 +224,11 @@ class PartyMixin(models.AbstractModel):
         else:
             country = self.env.company.country_id
         if country and country.code == "BR":
-            vals["vat"] = misc.punctuation_rm(str(vat))
+            # Same rule as ``cnpj_cpf_stripped``: ``punctuation_rm`` only drops
+            # dots, dashes and slashes, so spaces, en dashes or zero-width
+            # spaces pasted from a web form or a PDF would be stored and break
+            # consumers that expect digits only (the NF-e schema rejects it).
+            vals["vat"] = "".join(char for char in str(vat) if char.isalnum())
 
     @api.model_create_multi
     def create(self, vals_list):
