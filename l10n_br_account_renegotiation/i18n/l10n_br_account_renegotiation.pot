@@ -56,6 +56,14 @@ msgid "Amount"
 msgstr ""
 
 #. module: l10n_br_account_renegotiation
+#: model:ir.model.fields,help:l10n_br_account_renegotiation.field_account_move_line__installment_original_amount
+msgid ""
+"Amount of this installment before a renegotiation replaced it. The "
+"installment is zeroed instead of deleted, so its boleto, CNAB remittance and"
+" payment history keep pointing to it."
+msgstr ""
+
+#. module: l10n_br_account_renegotiation
 #: model_terms:ir.ui.view,arch_db:l10n_br_account_renegotiation.view_installment_renegotiation_wizard_form
 msgid "Apply"
 msgstr ""
@@ -130,6 +138,11 @@ msgid "ID"
 msgstr ""
 
 #. module: l10n_br_account_renegotiation
+#: model:ir.model.fields,field_description:l10n_br_account_renegotiation.field_account_move_line__installment_original_amount
+msgid "Installment Original Amount"
+msgstr ""
+
+#. module: l10n_br_account_renegotiation
 #: model:ir.model,name:l10n_br_account_renegotiation.model_account_installment_renegotiation_wizard
 msgid "Installment Renegotiation Wizard"
 msgstr ""
@@ -162,6 +175,11 @@ msgid "Journal Entry"
 msgstr ""
 
 #. module: l10n_br_account_renegotiation
+#: model:ir.model,name:l10n_br_account_renegotiation.model_account_move_line
+msgid "Journal Item"
+msgstr ""
+
+#. module: l10n_br_account_renegotiation
 #: model:ir.model.fields,field_description:l10n_br_account_renegotiation.field_account_installment_renegotiation_wizard__write_uid
 #: model:ir.model.fields,field_description:l10n_br_account_renegotiation.field_account_installment_renegotiation_wizard_line__write_uid
 msgid "Last Updated by"
@@ -181,6 +199,12 @@ msgstr ""
 #. module: l10n_br_account_renegotiation
 #: model:ir.model.fields,field_description:l10n_br_account_renegotiation.field_account_installment_renegotiation_wizard__new_total
 msgid "New Total"
+msgstr ""
+
+#. module: l10n_br_account_renegotiation
+#. odoo-python
+#: code:addons/l10n_br_account_renegotiation/wizards/installment_renegotiation_wizard.py:0
+msgid "Nothing to renegotiate: no installment was changed."
 msgstr ""
 
 #. module: l10n_br_account_renegotiation

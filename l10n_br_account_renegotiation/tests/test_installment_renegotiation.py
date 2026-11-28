@@ -121,6 +121,12 @@ class TestInstallmentRenegotiation(TransactionCase):
         # Get user with account manager rights
         cls.account_manager = cls.env.ref("base.user_admin")
 
+    def _open_terms(self, invoice):
+        """Installments still charged: the replaced ones stay zeroed."""
+        return invoice.line_ids.filtered(
+            lambda line: line.display_type == "payment_term" and not line.reconciled
+        )
+
     def _create_posted_invoice(self, amount=1000.0):
         """Create and post an invoice with the 3-installment payment term."""
         invoice = self.env["account.move"].create(
@@ -178,9 +184,7 @@ class TestInstallmentRenegotiation(TransactionCase):
         wizard.action_apply()
 
         # Check results on the invoice
-        new_term_lines = invoice.line_ids.filtered(
-            lambda line: line.display_type == "payment_term"
-        ).sorted("date_maturity")
+        new_term_lines = self._open_terms(invoice).sorted("date_maturity")
 
         self.assertEqual(len(new_term_lines), 3)
         self.assertEqual(new_term_lines[0].payment_mode_id, self.payment_mode_1)
@@ -348,9 +352,7 @@ class TestInstallmentRenegotiation(TransactionCase):
         wizard.action_apply()
 
         # Check dates were updated
-        payment_term_lines = invoice.line_ids.filtered(
-            lambda line: line.display_type == "payment_term"
-        )
+        payment_term_lines = self._open_terms(invoice)
         for line in payment_term_lines:
             self.assertEqual(line.date_maturity, new_date)
 
@@ -382,9 +384,84 @@ class TestInstallmentRenegotiation(TransactionCase):
         wizard.action_apply()
 
         # Check amounts were updated
-        payment_term_lines = invoice.line_ids.filtered(
-            lambda line: line.display_type == "payment_term"
-        ).sorted("date_maturity")
+        payment_term_lines = self._open_terms(invoice).sorted("date_maturity")
 
         new_total = sum(abs(line.amount_currency) for line in payment_term_lines)
         self.assertAlmostEqual(new_total, total, places=2)
+
+    def test_replaced_installments_are_zeroed_not_deleted(self):
+        """Two installments become one: both stay on the invoice, zeroed, with
+        their original amount; the untouched third one keeps its record."""
+        invoice = self._create_posted_invoice(1000.0)
+        terms = self._open_terms(invoice).sorted("date_maturity")
+        first, second, third = terms
+        amounts = [abs(line.amount_currency) for line in terms]
+        wizard = (
+            self.env["account.installment.renegotiation.wizard"]
+            .with_user(self.account_manager)
+            .create({"move_id": invoice.id})
+        )
+        lines = wizard.line_ids.sorted("date_maturity")
+        lines[0].write(
+            {
+                "amount": amounts[0] + amounts[1],
+                "date_maturity": date.today() + timedelta(days=45),
+            }
+        )
+        lines[1].unlink()
+        wizard.action_apply()
+
+        self.assertTrue(first.exists() and second.exists())
+        for line, amount in ((first, amounts[0]), (second, amounts[1])):
+            self.assertEqual(line.amount_currency, 0.0)
+            self.assertTrue(line.reconciled)
+            self.assertAlmostEqual(line.installment_original_amount, amount, places=2)
+        self.assertFalse(third.installment_original_amount)
+        open_terms = self._open_terms(invoice).sorted("date_maturity")
+        self.assertEqual(len(open_terms), 2)
+        self.assertEqual(open_terms[1], third)
+        self.assertAlmostEqual(
+            abs(open_terms[0].amount_currency), amounts[0] + amounts[1], places=2
+        )
+        self.assertAlmostEqual(invoice.amount_residual, invoice.amount_total, places=2)
+
+    def test_hooks_receive_only_the_changed_installments(self):
+        invoice = self._create_posted_invoice(1000.0)
+        third = self._open_terms(invoice).sorted("date_maturity")[2]
+        calls = {}
+        AccountMove = type(self.env["account.move"])
+
+        def before(move, old_lines):
+            calls["before"] = old_lines
+
+        def after(move, old_lines, new_lines):
+            calls["after"] = (old_lines, new_lines)
+
+        with (
+            patch.object(AccountMove, "_installment_renegotiation_before", before),
+            patch.object(AccountMove, "_installment_renegotiation_after", after),
+        ):
+            wizard = (
+                self.env["account.installment.renegotiation.wizard"]
+                .with_user(self.account_manager)
+                .create({"move_id": invoice.id})
+            )
+            wizard.line_ids.sorted("date_maturity")[2].date_maturity = (
+                date.today() + timedelta(days=120)
+            )
+            wizard.action_apply()
+        self.assertEqual(calls["before"], third)
+        old_lines, new_lines = calls["after"]
+        self.assertEqual(old_lines, third)
+        self.assertEqual(len(new_lines), 1)
+        self.assertEqual(new_lines.date_maturity, date.today() + timedelta(days=120))
+
+    def test_nothing_changed_is_refused(self):
+        invoice = self._create_posted_invoice(1000.0)
+        wizard = (
+            self.env["account.installment.renegotiation.wizard"]
+            .with_user(self.account_manager)
+            .create({"move_id": invoice.id})
+        )
+        with self.assertRaisesRegex(UserError, "Nothing to renegotiate"):
+            wizard.action_apply()

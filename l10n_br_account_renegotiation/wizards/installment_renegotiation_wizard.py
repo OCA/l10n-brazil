@@ -214,38 +214,66 @@ class InstallmentRenegotiationWizard(models.TransientModel):
         if any(not line.date_maturity for line in self.line_ids):
             raise UserError(_("All installments must have a due date."))
 
+    def _renegotiation_kept_lines(self, original_lines):
+        """Wizard lines left as they were: their installment stays untouched, and
+        so do its boleto and CNAB remittance."""
+        self.ensure_one()
+        precision = self.currency_id.rounding
+        kept = self.env["account.installment.renegotiation.wizard.line"]
+        for wiz_line in self.line_ids:
+            original = wiz_line.original_line_id
+            if (
+                original in original_lines
+                and wiz_line.date_maturity == original.date_maturity
+                and float_compare(
+                    wiz_line.amount,
+                    abs(original.amount_currency),
+                    precision_rounding=precision,
+                )
+                == 0
+                and (
+                    "payment_mode_id" not in original._fields
+                    or wiz_line.payment_mode_id == original.payment_mode_id
+                )
+            ):
+                kept |= wiz_line
+        return kept
+
+    def _line_data(self, line):
+        data = {
+            "date_maturity": line.date_maturity,
+            "amount_currency": line.amount_currency,
+        }
+        if "payment_mode_id" in line._fields and line.payment_mode_id:
+            data["payment_mode"] = line.payment_mode_id.name
+        return data
+
     def action_apply(self):
-        """Apply the renegotiation to the invoice."""
+        """Apply the renegotiation to the invoice.
+
+        The installments replaced are not deleted: they are zeroed and keep their
+        original amount, so whatever points to them (a boleto transaction, a CNAB
+        remittance line) keeps its history. Installments left unchanged in the
+        wizard stay as they are.
+        """
         self.ensure_one()
         self._validate_renegotiation()
 
         move = self.move_id
-
-        # Capture original state for audit trail
         original_lines = move.line_ids.filtered(
             lambda line: line.display_type == "payment_term" and not line.reconciled
         )
+        kept = self._renegotiation_kept_lines(original_lines)
+        replaced = original_lines - kept.mapped("original_line_id")
+        if not replaced:
+            raise UserError(_("Nothing to renegotiate: no installment was changed."))
 
-        old_lines_data = []
-        for line in original_lines.sorted("date_maturity"):
-            data = {
-                "date_maturity": line.date_maturity,
-                "amount_currency": line.amount_currency,
-            }
-            if "payment_mode_id" in line._fields and line.payment_mode_id:
-                data["payment_mode"] = line.payment_mode_id.name
-            old_lines_data.append(data)
-
-        # DUCK TYPING: Handle account_payment_order and CNAB lifecycles safely
-        for line in original_lines:
-            if hasattr(line, "payment_line_ids"):
-                if hasattr(line, "_cnab_already_start") and line._cnab_already_start():
-                    line.update_cnab_for_cancel_invoice()
-                else:
-                    line.payment_line_ids.unlink()
+        old_lines_data = [
+            self._line_data(line) for line in replaced.sorted("date_maturity")
+        ]
+        move._installment_renegotiation_before(replaced)
 
         sign = 1 if move.is_inbound() else -1
-
         # Prepare context for bypassing readonly restrictions
         ctx = dict(
             self.env.context,
@@ -254,16 +282,27 @@ class InstallmentRenegotiationWizard(models.TransientModel):
             check_move_validity=False,
             skip_readonly_check=True,
         )
+        account_id = replaced[0].account_id.id
 
-        # Get the receivable/payable account from existing lines
-        account_id = original_lines[0].account_id.id
+        if (
+            self.payment_term_id
+            and move.invoice_payment_term_id != self.payment_term_id
+        ):
+            move.with_context(**ctx).sudo().write(
+                {"invoice_payment_term_id": self.payment_term_id.id}
+            )
 
-        # Build list of operations: update, create, delete
-        wizard_lines = self.line_ids.sorted("date_maturity")
+        for line in replaced:
+            line.with_context(**ctx).sudo().write(
+                {
+                    "installment_original_amount": abs(line.amount_currency),
+                    "amount_currency": 0.0,
+                    "balance": 0.0,
+                }
+            )
 
-        # Prepare new line values
-        new_line_vals = []
-        for wiz_line in wizard_lines:
+        new_lines = self.env["account.move.line"]
+        for wiz_line in (self.line_ids - kept).sorted("date_maturity"):
             amount_currency = sign * wiz_line.amount
             # For multi-currency, compute balance
             if move.currency_id != move.company_currency_id:
@@ -275,71 +314,31 @@ class InstallmentRenegotiationWizard(models.TransientModel):
                 )
             else:
                 balance = amount_currency
-
-            vals = {
-                "date_maturity": wiz_line.date_maturity,
-                "amount_currency": amount_currency,
-                "debit": balance if balance > 0 else 0,
-                "credit": -balance if balance < 0 else 0,
-                "account_id": account_id,
-                "original_line_id": wiz_line.original_line_id.id,
-            }
-            if wiz_line.payment_mode_id:
-                vals["payment_mode_id"] = wiz_line.payment_mode_id.id
-
-            new_line_vals.append(vals)
-
-        move.with_context(**ctx).sudo()
-
-        if (
-            hasattr(self, "payment_term_id")
-            and self.payment_term_id
-            and move.invoice_payment_term_id != self.payment_term_id
-        ):
-            move.with_context(**ctx).sudo().write(
-                {"invoice_payment_term_id": self.payment_term_id.id}
-            )
-
-        original_lines.with_context(
-            **ctx, dynamic_unlink=True, force_delete=True
-        ).sudo().unlink()
-
-        for vals in new_line_vals:
             create_vals = {
                 "move_id": move.id,
                 "display_type": "payment_term",
                 "name": "",
-                "account_id": vals["account_id"],
-                "date_maturity": vals["date_maturity"],
-                "amount_currency": vals["amount_currency"],
-                "debit": vals["debit"],
-                "credit": vals["credit"],
+                "account_id": account_id,
+                "date_maturity": wiz_line.date_maturity,
+                "amount_currency": amount_currency,
+                "balance": balance,
                 "currency_id": move.currency_id.id,
                 "partner_id": move.partner_id.id,
             }
-            if "payment_mode_id" in vals:
-                create_vals["payment_mode_id"] = vals["payment_mode_id"]
+            if wiz_line.payment_mode_id:
+                create_vals["payment_mode_id"] = wiz_line.payment_mode_id.id
+            new_lines |= (
+                self.env["account.move.line"]
+                .with_context(**ctx)
+                .sudo()
+                .create(create_vals)
+            )
 
-            self.env["account.move.line"].with_context(**ctx).sudo().create(create_vals)
+        move._installment_renegotiation_after(replaced, new_lines)
 
-        # DUCK TYPING: Generate New Boletos / CNAB records (Inclusão)
-        if hasattr(move, "load_cnab_info"):
-            move.load_cnab_info()
-
-        new_lines = move.line_ids.filtered(
-            lambda line: line.display_type == "payment_term" and not line.reconciled
-        )
-        new_lines_data = []
-        for line in new_lines.sorted("date_maturity"):
-            data = {
-                "date_maturity": line.date_maturity,
-                "amount_currency": line.amount_currency,
-            }
-            if hasattr(line, "payment_mode_id") and line.payment_mode_id:
-                data["payment_mode"] = line.payment_mode_id.name
-            new_lines_data.append(data)
-
-        # Post message to chatter
+        new_lines_data = [
+            self._line_data(line) for line in new_lines.sorted("date_maturity")
+        ]
         message = move._get_installment_renegotiation_message(
             old_lines_data, new_lines_data
         )

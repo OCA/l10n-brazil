@@ -92,6 +92,27 @@ class AccountMove(models.Model):
             "context": self.env.context,
         }
 
+    def _installment_renegotiation_before(self, old_lines):
+        """Hook: `old_lines` are about to be replaced (zeroed).
+
+        Modules that charge an installment (CNAB remittance, boleto by API)
+        cancel the charge here. Duck typing keeps the CNAB lifecycle without
+        depending on l10n_br_account_payment_order.
+        """
+        self.ensure_one()
+        for line in old_lines:
+            if hasattr(line, "payment_line_ids"):
+                if hasattr(line, "_cnab_already_start") and line._cnab_already_start():
+                    line.update_cnab_for_cancel_invoice()
+                else:
+                    line.payment_line_ids.unlink()
+
+    def _installment_renegotiation_after(self, old_lines, new_lines):
+        """Hook: `old_lines` are zeroed and `new_lines` created; charge them."""
+        self.ensure_one()
+        if hasattr(self, "load_cnab_info"):
+            self.load_cnab_info()
+
     def _get_installment_renegotiation_message(self, old_lines_data, new_lines_data):
         self.ensure_one()
         currency = self.currency_id
