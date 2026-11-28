@@ -10,12 +10,14 @@ from erpbrasil.transmissao import TransmissaoSOAP
 from requests import Session
 
 from odoo import fields, models
+from odoo.exceptions import UserError
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     EVENT_ENV_HML,
     EVENT_ENV_PROD,
     MODELO_FISCAL_NFSE,
     PROCESSADOR_OCA,
+    SITUACAO_EDOC_AUTORIZADA,
     TAX_FRAMEWORK_SIMPLES_ALL,
 )
 
@@ -77,6 +79,115 @@ class Document(models.Model):
     civil_construction_art = fields.Char(
         string="Civil Construction ART",
     )
+    nfse_replace_supported = fields.Boolean(
+        compute="_compute_nfse_replace_supported",
+        help="Technical field: the provider can replace an authorized NFS-e.",
+    )
+    nfse_replaced_document_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.document",
+        string="Replaces NFS-e",
+        copy=False,
+        domain="[('company_id', '=', company_id), "
+        "('document_type_id', '=', document_type_id), "
+        "('state_edoc', '=', 'autorizada')]",
+        help="Authorized NFS-e this one replaces: it is sent as a substitution, "
+        "and the old NFS-e is cancelled when the substitution is accepted.",
+    )
+
+    def _compute_nfse_replace_supported(self):
+        """Overridden by the providers that can replace an NFS-e."""
+        self.nfse_replace_supported = False
+
+    def action_nfse_replace(self):
+        """Draft copy of the invoice (or of the document) that replaces this
+        NFS-e, to be corrected and sent."""
+        self.ensure_one()
+        if (
+            not self.nfse_replace_supported
+            or self.state_edoc != SITUACAO_EDOC_AUTORIZADA
+        ):
+            raise UserError(self.env._("Only an authorized NFS-e can be replaced."))
+        moves = self.move_ids if "move_ids" in self._fields else []
+        if len(moves) > 1:
+            raise UserError(
+                self.env._(
+                    "The NFS-e %(document)s is linked to more than one invoice: "
+                    "replace it from the invoice to be corrected.",
+                    document=self.display_name,
+                )
+            )
+        if moves:
+            new = moves.copy()
+            new.fiscal_document_id.nfse_replaced_document_id = self
+        else:
+            # l10n_br_account keeps company, partner, product and quantity in
+            # proxy columns, empty in documents created before it was installed
+            new = self.copy(
+                {
+                    "nfse_replaced_document_id": self.id,
+                    "company_id": self.company_id.id,
+                    "partner_id": self.partner_id.id,
+                    "partner_shipping_id": self.partner_shipping_id.id,
+                    "document_serie_id": self.document_serie_id.id,
+                }
+            )
+            # the lines are not copied with the document
+            for line in self.fiscal_line_ids:
+                line.copy(
+                    {
+                        "document_id": new.id,
+                        "product_id": line.product_id.id,
+                        "quantity": line.quantity,
+                    }
+                )
+        return {
+            "type": "ir.actions.act_window",
+            "res_model": new._name,
+            "res_id": new.id,
+            "view_mode": "form",
+            "target": "current",
+        }
+
+    def _nfse_mark_replaced(self, sent_xml, answer_xml):
+        """Cancel the replaced NFS-e (and its invoice) after the provider
+        accepted the substitution, without calling the provider again."""
+        self.ensure_one()
+        old = self.nfse_replaced_document_id
+        if not old or old.state_edoc != SITUACAO_EDOC_AUTORIZADA:
+            return
+        old.with_context(nfse_replaced_xml=(sent_xml, answer_xml))._document_cancel(
+            self.env._("Replaced by the NFS-e %(number)s", number=self.document_number)
+        )
+
+    def _nfse_replaced_event(self):
+        self.ensure_one()
+        sent, answer = self.env.context["nfse_replaced_xml"]
+        self.cancel_event_id = self.event_ids.create_event_save_xml(
+            company_id=self.company_id,
+            environment=(
+                EVENT_ENV_PROD if self.nfse_environment == "1" else EVENT_ENV_HML
+            ),
+            event_type="2",
+            xml_file=sent or answer,
+            document_id=self,
+        )
+        self.cancel_event_id.set_done(
+            status_code=4,
+            response=self.cancel_reason,
+            protocol_date=fields.Datetime.now(),
+            protocol_number=self.verify_code,
+            file_response_xml=answer,
+        )
+
+    def _before_document_cancel(self):
+        result = super()._before_document_cancel()
+        if self.env.context.get("nfse_replaced_xml"):
+            # already cancelled by the provider in the substitution: providers
+            # skip their own cancellation when this context key is set
+            for record in self.filtered(filter_processador_edoc_nfse):
+                if record.state_edoc == SITUACAO_EDOC_AUTORIZADA:
+                    record._nfse_replaced_event()
+        return result
 
     def make_pdf(self):
         if not self.filtered(filter_processador_edoc_nfse):
