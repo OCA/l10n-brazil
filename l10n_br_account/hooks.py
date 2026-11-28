@@ -13,7 +13,8 @@ def post_init_hook(env):
         demo_simple.chart_template = "generic_coa"  # "br_oca_simple"
         br_demo_companies.append(demo_simple)
     demo_lp = env.ref("l10n_br_base.empresa_lucro_presumido", raise_if_not_found=False)
-    if demo_lp:
+    chart_templates = env["account.chart.template"]._get_chart_template_mapping()
+    if demo_lp and "br_oca_generic" in chart_templates:
         demo_lp.chart_template = "br_oca_generic"
         br_demo_companies.append(demo_lp)
 
