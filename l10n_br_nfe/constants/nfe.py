@@ -85,3 +85,6 @@ FISCAL_PAYMENT_MODE = [
     ("90", "90 - Sem Pagamento"),
     ("99", "99 - Outros"),
 ]
+
+# cStat 128: event batch processed (the per event answers follow)
+LOTE_EVENTO_PROCESSADO = "128"

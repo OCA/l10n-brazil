@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<soap:Envelope
+    xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+>
+    <soap:Body>
+        <nfeResultMsg
+            xmlns="http://www.portalfiscal.inf.br/nfe/wsdl/NFeRecepcaoEvento4"
+        >
+            <retEnvEvento xmlns="http://www.portalfiscal.inf.br/nfe" versao="1.00">
+                <idLote>20211101182251</idLote>
+                <tpAmb>2</tpAmb>
+                <verAplic>sefaz_mocked</verAplic>
+                <cOrgao>42</cOrgao>
+                <cStat>225</cStat>
+                <xMotivo>Rejeicao: Falha no Schema XML do lote de NFe</xMotivo>
+            </retEnvEvento>
+        </nfeResultMsg>
+    </soap:Body>
+</soap:Envelope>

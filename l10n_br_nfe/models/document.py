@@ -7,6 +7,7 @@ import logging
 import re
 import string
 import threading
+from copy import deepcopy
 from datetime import datetime
 
 from erpbrasil.base.fiscal import cnpj_cpf
@@ -61,6 +62,7 @@ from odoo.addons.spec_driven_model.models import spec_models
 
 from ..constants.nfe import (
     FISCAL_PAYMENT_MODE,
+    LOTE_EVENTO_PROCESSADO,
     NFCE_DANFE_LAYOUTS,
     NFE_DANFE_LAYOUTS,
     NFE_ENVIRONMENTS,
@@ -77,10 +79,6 @@ SITUACAO_EDOC_A_ENVIAR = DOCUMENT_STATE_OPEN
 
 PRODUCT_CODE_FISCAL_DOCUMENT_TYPES = ["55", "01"]
 NFE_XML_NAMESPACE = {"nfe": "http://www.portalfiscal.inf.br/nfe"}
-
-# CC-e event justification boundaries, as validated by the SEFAZ web services.
-NFE_CORRECTION_LENGTH_MIN = 15
-NFE_CORRECTION_LENGTH_MAX = 1000
 
 _logger = logging.getLogger(__name__)
 
@@ -1978,37 +1976,72 @@ class NFe(spec_models.StackedModel):
         result = super()._document_correction(justificative)
         online_event = self.filtered(filter_processador_edoc_nfe)
         if online_event:
-            online_event._nfe_correction(justificative)
+            return online_event._nfe_correction(justificative) or result
         return result
 
-    def _nfe_correction(self, justificative):
+    def action_document_correction(self):
         self.ensure_one()
-        justificative = (justificative or "").strip()
-        length = len(justificative)
-        if not NFE_CORRECTION_LENGTH_MIN <= length <= NFE_CORRECTION_LENGTH_MAX:
+        if self.document_type_id.code == MODELO_FISCAL_NFCE:
             raise UserError(
-                _(
-                    "The correction letter (CC-e) justification must have between "
-                    "%(min)s and %(max)s characters, but it has %(length)s."
-                )
-                % {
-                    "min": NFE_CORRECTION_LENGTH_MIN,
-                    "max": NFE_CORRECTION_LENGTH_MAX,
-                    "length": length,
-                }
+                _("The correction letter is not allowed for NFC-e documents.")
             )
+        return super().action_document_correction()
+
+    @api.model
+    def _build_proc_evento_nfe(self, processo, retevento):
+        """Assemble the procEventoNFe (signed event + retEvento) of an event.
+
+        The tax authority only answers with the retEvento; the procEventoNFe
+        is the file that proves the registration (the one that is sent to the
+        recipient and that feeds the DACCE). Returns False when the signed
+        event or its answer are not in the transmission result.
+        """
+        info = retevento.infEvento
+        try:
+            sent = etree.fromstring(processo.envio_xml)
+            answer = etree.fromstring(processo.retorno.content)
+        except (etree.XMLSyntaxError, ValueError, TypeError):
+            return False
+        ns = NFE_XML_NAMESPACE
+        evento = sent.xpath(
+            "//nfe:evento[nfe:infEvento/nfe:chNFe=$key"
+            " and nfe:infEvento/nfe:tpEvento=$type]",
+            namespaces=ns,
+            key=info.chNFe,
+            type=info.tpEvento,
+        )
+        ret_node = answer.xpath(
+            "//nfe:retEvento[nfe:infEvento/nfe:chNFe=$key"
+            " and nfe:infEvento/nfe:nProt=$protocol]",
+            namespaces=ns,
+            key=info.chNFe,
+            protocol=info.nProt,
+        )
+        if not evento or not ret_node:
+            return False
+        namespace = ns["nfe"]
+        proc = etree.Element(
+            f"{{{namespace}}}procEventoNFe",
+            nsmap={None: namespace},
+            versao="1.00",
+        )
+        # Not pretty printed: the signature is calculated over the canonical
+        # form of the infEvento.
+        proc.append(deepcopy(evento[0]))
+        proc.append(deepcopy(ret_node[0]))
+        return etree.tostring(proc, encoding="unicode")
+
+    def _nfe_correction(self, justificative):
+        # A refusal is recorded, not raised: a rollback would lose the sent XML.
+        self.ensure_one()
+        justificative = self._normalize_correction_text(justificative)
+        sequence = self._next_correction_sequence()
         processador = self._edoc_processor()
-
-        numeros = self.event_ids.filtered(
-            lambda e: e.type == "14" and e.state == "done"
-        ).mapped("sequence")
-
-        sequence = str(int(max(numeros)) + 1) if numeros else "1"
 
         evento = processador.carta_correcao(
             chave=self.document_key,
             sequencia=sequence,
-            justificativa=justificative.replace("\n", "\\n"),
+            justificativa=justificative,
         )
         processo = processador.enviar_lote_evento(lista_eventos=[evento])
         # Gravamos o arquivo no disco e no filestore ASAP.
@@ -2023,25 +2056,66 @@ class NFe(spec_models.StackedModel):
             sequence=sequence,
             justification=justificative,
         )
-        for retevento in processo.resposta.retEvento:
-            if not retevento.infEvento.chNFe == self.document_key:
-                continue
+        file_response_xml = processo.retorno.content.decode("utf-8")
+        resposta = processo.resposta
 
-            if retevento.infEvento.cStat not in EVENTO_RECEBIDO:
-                mensagem = "Erro na carta de correção"
-                mensagem += "\nCódigo: " + retevento.infEvento.cStat
-                mensagem += "\nMotivo: " + retevento.infEvento.xMotivo
-                raise UserError(mensagem)
-
-            event_id.set_done(
-                status_code=retevento.infEvento.cStat,
-                response=retevento.infEvento.xMotivo,
-                protocol_date=tax_authority_date_to_utc(
-                    retevento.infEvento.dhRegEvento
+        retevento = None
+        if resposta.cStat == LOTE_EVENTO_PROCESSADO:
+            retevento = next(
+                (
+                    ret
+                    for ret in resposta.retEvento or []
+                    if ret.infEvento.chNFe == self.document_key
                 ),
-                protocol_number=retevento.infEvento.nProt,
-                file_response_xml=processo.retorno.content.decode("utf-8"),
+                None,
             )
+
+        if retevento is None:
+            # batch refused or no answer for this document: use the batch cStat
+            status_code, response = resposta.cStat, resposta.xMotivo
+            protocol_date = protocol_number = False
+        else:
+            info = retevento.infEvento
+            status_code, response = info.cStat, info.xMotivo
+            protocol_number = info.nProt or False
+            protocol_date = tax_authority_date_to_utc(info.dhRegEvento)
+            if status_code in EVENTO_RECEBIDO:
+                # The registered event is stored as the procEventoNFe, the
+                # file that the DACCE and the recipient need, not as the SOAP
+                # envelope of the answer.
+                file_response_xml = (
+                    self._build_proc_evento_nfe(processo, retevento)
+                    or file_response_xml
+                )
+
+        event_id.set_done(
+            status_code=status_code,
+            response=response,
+            protocol_date=protocol_date,
+            protocol_number=protocol_number,
+            file_response_xml=file_response_xml,
+        )
+
+        if retevento is not None and status_code in EVENTO_RECEBIDO:
+            return self._correction_notification(
+                True,
+                _(
+                    "Sequence %(sequence)s, protocol %(protocol)s: %(response)s",
+                    sequence=sequence,
+                    protocol=protocol_number,
+                    response=response,
+                ),
+            )
+
+        message = _(
+            "Correction letter %(sequence)s refused. Code: %(code)s. "
+            "Reason: %(response)s",
+            sequence=sequence,
+            code=status_code,
+            response=response,
+        )
+        self.message_post(body=message)
+        return self._correction_notification(False, message)
 
     def _update_nfce_for_offline_contingency(self):
         self.write(
