@@ -1,0 +1,7 @@
+O módulo estende o [l10n_br_stock_account](https://github.com/OCA/l10n-brazil/tree/16.0/l10n_br_stock_account) para ser usado em **Compras** incluindo a possibilidade de criar a Fatura de um Pedido de Compra a partir da Ordem de Recebimento/Stock Picking, ao definir a **Política de Faturamento de Compras** como:
+
+* **Pedido de Compra / Purchase Order**, mantém o comportamento padrão e a criação da Fatura será feita a partir do **Pedido de Compra/purchase.order**
+
+* **Ordem de Recebimento / Stock Picking**, desabilita a criação de Faturas a partir do **Pedido de Compra** para os casos onde o 'Tipo do Produto' é 'Produto', mas no caso de ser 'Serviço' ainda será possível criar a partir do **Pedido de Compra**
+
+A implementação foi feita para que a Fatura criada a partir do 'stock.picking' seja a mais similar possível com a que é criada a partir do 'purchase.order', e ao usar os métodos do módulo **purchase** para obter os Dados usados na criação de uma nova Fatura isso também acaba evitando a necessidade de 'glue modules' (pequenos módulos criados apenas para evitar dependencias indiretas), então quando qualquer módulo incluir um novo campo na Fatura criada a partir do Pedido de Compra esse novo campo também deverá ser incluido na Fatura criada a partir do 'stock.picking', por exemplo o módulo [account_payment_purchase](https://github.com/OCA/bank-payment/tree/16.0/account_payment_purchase).
