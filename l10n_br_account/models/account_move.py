@@ -553,6 +553,16 @@ class AccountMove(models.Model):
             yield
         self.update_payment_term_number()
 
+    def _prepare_product_base_line_for_taxes_computation(self, product_line):
+        """The tax the company may not credit books no tax line: its value
+        stays in the product line (see account.move.line._get_ledger_taxes)."""
+        base_line = super()._prepare_product_base_line_for_taxes_computation(
+            product_line
+        )
+        if product_line.fiscal_document_line_id:
+            base_line["tax_ids"] = product_line._get_ledger_taxes()
+        return base_line
+
     @contextmanager
     def _sync_tax_lines(self, container):
         with super()._sync_tax_lines(container):

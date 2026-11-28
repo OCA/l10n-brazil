@@ -282,6 +282,7 @@ class AccountMoveLine(models.Model):
                 self.amount_tax_included
                 + self.amount_tax_not_included
                 - self.amount_tax_withholding
+                - self._fiscal_taxes_in_cost()
             )
         amount_total = self.fiscal_amount_total + self.amount_tax_withholding
         if operation.deductible_taxes:
@@ -289,7 +290,10 @@ class AccountMoveLine(models.Model):
         if not self.tax_ids:
             return self.currency_id.round(amount_total)
         return self.currency_id.round(
-            amount_total - self.amount_tax_included - self.amount_tax_not_included
+            amount_total
+            - self.amount_tax_included
+            - self.amount_tax_not_included
+            + self._fiscal_taxes_in_cost()
         )
 
     @contextmanager
@@ -738,6 +742,51 @@ class AccountMoveLine(models.Model):
             user_type=user_type,
             fiscal_operation=self.fiscal_operation_id,
             company=self.company_id,
+        )
+
+    def _get_cost_tax_domains(self):
+        """Tax domains of a vendor bill line the company may not credit, by the
+        creditability map of its fiscal line (buyer regime, CFOP, supplier,
+        CST). They book no tax line and their value stays in the product line.
+
+        Only for a company that books its entries by the creditability map
+        (``res.company._books_entry_by_creditability``): any other keeps its
+        ledger.
+        """
+        self.ensure_one()
+        fiscal_line = self.fiscal_document_line_id
+        if (
+            self.display_type != "product"
+            or not fiscal_line
+            or not self.move_id.fiscal_operation_id
+            or not self.move_id.is_purchase_document(include_receipts=True)
+            or not self.company_id._books_entry_by_creditability()
+        ):
+            return set()
+        return {
+            domain
+            for domain, verdict in fiscal_line._get_tax_creditability_map().items()
+            if verdict == "cost"
+        }
+
+    def _get_ledger_taxes(self):
+        """The account taxes that book tax lines: those of the line but the
+        ones of a tax the company may not credit."""
+        self.ensure_one()
+        cost_domains = self._get_cost_tax_domains()
+        if not cost_domains:
+            return self.tax_ids
+        return self.tax_ids.filtered(
+            lambda tax: tax.tax_group_id.fiscal_tax_group_id.tax_domain
+            not in cost_domains
+        )
+
+    def _fiscal_taxes_in_cost(self):
+        """Value of the taxes that stay in the cost of the product line."""
+        self.ensure_one()
+        fiscal_line = self.fiscal_document_line_id
+        return sum(
+            fiscal_line[f"{domain}_value"] for domain in self._get_cost_tax_domains()
         )
 
     @api.constrains("product_uom_id")
