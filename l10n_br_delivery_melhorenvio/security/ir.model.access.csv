@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_melhorenvio_account_stock_manager,melhorenvio.account stock manager,model_melhorenvio_account,stock.group_stock_manager,1,0,0,0
+access_melhorenvio_account_system,melhorenvio.account system,model_melhorenvio_account,base.group_system,1,1,1,1

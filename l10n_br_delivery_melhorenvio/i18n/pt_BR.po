@@ -1,0 +1,458 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_br_delivery_melhorenvio
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+
+#. module: l10n_br_delivery_melhorenvio
+#. odoo-python
+#: code:addons/l10n_br_delivery_melhorenvio/models/delivery_carrier.py:0
+msgid "%(partner)s: fill %(fields)s before buying the label."
+msgstr "%(partner)s: preencha %(fields)s antes de comprar a etiqueta."
+
+#. module: l10n_br_delivery_melhorenvio
+#: model:ir.model.fields,field_description:l10n_br_delivery_melhorenvio.field_melhorenvio_account__token
+msgid "Access Token"
+msgstr "Token de Acesso"
+
+#. module: l10n_br_delivery_melhorenvio
+#: model:ir.model.fields,field_description:l10n_br_delivery_melhorenvio.field_melhorenvio_account__active
+msgid "Active"
+msgstr "Ativo"
+
+#. module: l10n_br_delivery_melhorenvio
+#: model:ir.model.fields,help:l10n_br_delivery_melhorenvio.field_delivery_carrier__melhorenvio_agency_id
+msgid ""
+"Agency where the parcels are dropped, for the carriers that ask for one "
+"(e.g. Jadlog)."
+msgstr "Agência onde os volumes são entregues, para as transportadoras que pedem uma (ex.: Jadlog)."
+
+#. module: l10n_br_delivery_melhorenvio
+#: model_terms:ir.ui.view,arch_db:l10n_br_delivery_melhorenvio.melhorenvio_account_view_form
+msgid "Archived"
+msgstr "Arquivado"
+
+#. module: l10n_br_delivery_melhorenvio
+#: model_terms:ir.ui.view,arch_db:l10n_br_delivery_melhorenvio.melhorenvio_account_view_form
+msgid "Authorize Again"
+msgstr "Autorizar de Novo"
+
+#. module: l10n_br_delivery_melhorenvio
+#: model_terms:ir.ui.view,arch_db:l10n_br_delivery_melhorenvio.melhorenvio_account_view_form
+msgid "Authorize at Melhor Envio"
+msgstr "Autorizar no Melhor Envio"
+
+#. module: l10n_br_delivery_melhorenvio
+#. odoo-python
+#: code:addons/l10n_br_delivery_melhorenvio/models/melhorenvio_account.py:0
+msgid "Authorize the Melhor Envio account %(account)s first."
+msgstr "Autorize antes a conta do Melhor Envio %(account)s."
+
+#. module: l10n_br_delivery_melhorenvio
+#: model:ir.model.fields,field_description:l10n_br_delivery_melhorenvio.field_delivery_carrier__melhorenvio_package_height
+msgid "Box Height (cm)"
+msgstr "Altura da Caixa (cm)"
+
+#. module: l10n_br_delivery_melhorenvio
+#: model:ir.model.fields,field_description:l10n_br_delivery_melhorenvio.field_delivery_carrier__melhorenvio_package_length
+msgid "Box Length (cm)"
+msgstr "Comprimento da Caixa (cm)"
+
+#. module: l10n_br_delivery_melhorenvio
+#: model:ir.model.fields,field_description:l10n_br_delivery_melhorenvio.field_delivery_carrier__melhorenvio_package_width
+msgid "Box Width (cm)"
+msgstr "Largura da Caixa (cm)"
+
+#. module: l10n_br_delivery_melhorenvio
+#: model_terms:ir.ui.view,arch_db:l10n_br_delivery_melhorenvio.view_picking_form
+msgid "Buy Melhor Envio Label"
+msgstr "Comprar Etiqueta do Melhor Envio"
+
+#. module: l10n_br_delivery_melhorenvio
+#. odoo-python
+#: code:addons/l10n_br_delivery_melhorenvio/models/stock_picking.py:0
+msgid "Buy the Melhor Envio label first."
+msgstr "Compre antes a etiqueta do Melhor Envio."
+
+#. module: l10n_br_delivery_melhorenvio
+#. odoo-python
+#: code:addons/l10n_br_delivery_melhorenvio/models/delivery_carrier.py:0
+msgid "CPF or CNPJ"
+msgstr "CPF ou CNPJ"
+
+#. module: l10n_br_delivery_melhorenvio
+#: model:ir.model.fields,help:l10n_br_delivery_melhorenvio.field_delivery_carrier__melhorenvio_company_name
+msgid "Carrier that runs this service (e.g. Correios, Jadlog)."
+msgstr "Transportadora que executa este serviço (ex.: Correios, Jadlog)."
+
+#. module: l10n_br_delivery_melhorenvio
+#: model:ir.model.fields,field_description:l10n_br_delivery_melhorenvio.field_melhorenvio_account__client_id
+msgid "Client ID"
+msgstr "Client ID"
+
+#. module: l10n_br_delivery_melhorenvio
+#: model:ir.model.fields,help:l10n_br_delivery_melhorenvio.field_melhorenvio_account__client_id
+msgid ""
+"Client ID of the application registered at the Melhor Envio panel "
+"(Integrações > Área Dev.)."
+msgstr "Client ID do aplicativo cadastrado no painel do Melhor Envio (Integrações > Área Dev.)."
+
+#. module: l10n_br_delivery_melhorenvio
+#: model:ir.model.fields,field_description:l10n_br_delivery_melhorenvio.field_melhorenvio_account__client_secret
+msgid "Client Secret"
+msgstr "Secret"
+
+#. module: l10n_br_delivery_melhorenvio
+#: model:ir.model.fields,field_description:l10n_br_delivery_melhorenvio.field_melhorenvio_account__company_id
+msgid "Company"
+msgstr "Empresa"
+
+#. module: l10n_br_delivery_melhorenvio
+#: model:ir.model.fields,field_description:l10n_br_delivery_melhorenvio.field_melhorenvio_account__create_uid
+msgid "Created by"
+msgstr "Criado por"
+
+#. module: l10n_br_delivery_melhorenvio
+#: model:ir.model.fields,field_description:l10n_br_delivery_melhorenvio.field_melhorenvio_account__create_date
+msgid "Created on"
+msgstr "Criado em"
+
+#. module: l10n_br_delivery_melhorenvio
+#: model:ir.model.fields,field_description:l10n_br_delivery_melhorenvio.field_melhorenvio_account__display_name
+msgid "Display Name"
+msgstr "Nome Exibido"
+
+#. module: l10n_br_delivery_melhorenvio
+#: model:ir.model.fields,field_description:l10n_br_delivery_melhorenvio.field_melhorenvio_account__environment
+msgid "Environment"
+msgstr "Ambiente"
+
+#. module: l10n_br_delivery_melhorenvio
+#. odoo-python
+#: code:addons/l10n_br_delivery_melhorenvio/models/delivery_carrier.py:0
+msgid "Estimated delivery: %(days)s working day(s)."
+msgstr "Entrega estimada: %(days)s dia(s) útil(eis)."
+
+#. module: l10n_br_delivery_melhorenvio
+#: model:ir.model.fields,help:l10n_br_delivery_melhorenvio.field_melhorenvio_account__redirect_uri
+msgid ""
+"Exactly the redirect URL registered in the Melhor Envio application. Leave "
+"empty to use the address of this Odoo."
+msgstr "Exatamente a URL de retorno cadastrada no aplicativo do Melhor Envio. Deixe vazio para usar o endereço deste Odoo."
+
+#. module: l10n_br_delivery_melhorenvio
+#: model:ir.model.fields,help:l10n_br_delivery_melhorenvio.field_melhorenvio_account__token
+msgid ""
+"Filled by the authorization. A token generated at the Melhor Envio panel can"
+" be pasted here instead."
+msgstr "Preenchido pela autorização. Um token gerado no painel do Melhor Envio pode ser colado aqui no lugar."
+
+#. module: l10n_br_delivery_melhorenvio
+#: model:ir.model.fields,help:l10n_br_delivery_melhorenvio.field_delivery_carrier__melhorenvio_service_id
+msgid "Filled by the service synchronization."
+msgstr "Preenchido pela sincronização dos serviços."
+
+#. module: l10n_br_delivery_melhorenvio
+#: model:ir.model.fields,field_description:l10n_br_delivery_melhorenvio.field_melhorenvio_account__id
+msgid "ID"
+msgstr "ID"
+
+#. module: l10n_br_delivery_melhorenvio
+#: model:ir.model.fields,field_description:l10n_br_delivery_melhorenvio.field_melhorenvio_account__write_uid
+msgid "Last Updated by"
+msgstr "Última Atualização por"
+
+#. module: l10n_br_delivery_melhorenvio
+#: model:ir.model.fields,field_description:l10n_br_delivery_melhorenvio.field_melhorenvio_account__write_date
+msgid "Last Updated on"
+msgstr "Última Atualização em"
+
+#. module: l10n_br_delivery_melhorenvio
+#: model:ir.model.fields.selection,name:l10n_br_delivery_melhorenvio.selection__delivery_carrier__delivery_type__melhorenvio
+#: model_terms:ir.ui.view,arch_db:l10n_br_delivery_melhorenvio.view_delivery_carrier_form
+msgid "Melhor Envio"
+msgstr "Melhor Envio"
+
+#. module: l10n_br_delivery_melhorenvio
+#: model:ir.model,name:l10n_br_delivery_melhorenvio.model_melhorenvio_account
+#: model:ir.model.fields,field_description:l10n_br_delivery_melhorenvio.field_delivery_carrier__melhorenvio_account_id
+msgid "Melhor Envio Account"
+msgstr "Conta do Melhor Envio"
+
+#. module: l10n_br_delivery_melhorenvio
+#: model:ir.actions.act_window,name:l10n_br_delivery_melhorenvio.melhorenvio_account_action
+#: model:ir.ui.menu,name:l10n_br_delivery_melhorenvio.melhorenvio_account_menu
+msgid "Melhor Envio Accounts"
+msgstr "Contas do Melhor Envio"
+
+#. module: l10n_br_delivery_melhorenvio
+#: model:ir.model.fields,field_description:l10n_br_delivery_melhorenvio.field_delivery_carrier__melhorenvio_agency_id
+msgid "Melhor Envio Agency ID"
+msgstr "ID da Agência no Melhor Envio"
+
+#. module: l10n_br_delivery_melhorenvio
+#: model:ir.model.fields,field_description:l10n_br_delivery_melhorenvio.field_delivery_carrier__melhorenvio_company_name
+msgid "Melhor Envio Carrier"
+msgstr "Transportadora no Melhor Envio"
+
+#. module: l10n_br_delivery_melhorenvio
+#: model:ir.model.fields,field_description:l10n_br_delivery_melhorenvio.field_stock_picking__melhorenvio_label_url
+msgid "Melhor Envio Label"
+msgstr "Etiqueta do Melhor Envio"
+
+#. module: l10n_br_delivery_melhorenvio
+#: model:ir.model.fields,field_description:l10n_br_delivery_melhorenvio.field_stock_picking__melhorenvio_protocol
+msgid "Melhor Envio Protocol"
+msgstr "Protocolo do Melhor Envio"
+
+#. module: l10n_br_delivery_melhorenvio
+#: model:ir.model.fields,field_description:l10n_br_delivery_melhorenvio.field_delivery_carrier__melhorenvio_service_name
+msgid "Melhor Envio Service"
+msgstr "Serviço do Melhor Envio"
+
+#. module: l10n_br_delivery_melhorenvio
+#: model:ir.model.fields,field_description:l10n_br_delivery_melhorenvio.field_delivery_carrier__melhorenvio_service_id
+msgid "Melhor Envio Service ID"
+msgstr "ID do Serviço no Melhor Envio"
+
+#. module: l10n_br_delivery_melhorenvio
+#. odoo-python
+#: code:addons/l10n_br_delivery_melhorenvio/models/melhorenvio_account.py:0
+msgid "Melhor Envio Services"
+msgstr "Serviços do Melhor Envio"
+
+#. module: l10n_br_delivery_melhorenvio
+#: model:ir.model.fields,field_description:l10n_br_delivery_melhorenvio.field_stock_picking__melhorenvio_order_id
+msgid "Melhor Envio Shipment ID"
+msgstr "ID do Envio no Melhor Envio"
+
+#. module: l10n_br_delivery_melhorenvio
+#: model:product.template,name:l10n_br_delivery_melhorenvio.product_product_delivery_melhorenvio_product_template
+msgid "Melhor Envio Shipping"
+msgstr "Frete Melhor Envio"
+
+#. module: l10n_br_delivery_melhorenvio
+#: model:ir.model.fields,field_description:l10n_br_delivery_melhorenvio.field_stock_picking__melhorenvio_status
+msgid "Melhor Envio Status"
+msgstr "Status no Melhor Envio"
+
+#. module: l10n_br_delivery_melhorenvio
+#. odoo-python
+#: code:addons/l10n_br_delivery_melhorenvio/models/melhorenvio_account.py:0
+msgid "Melhor Envio could not be reached, try again later."
+msgstr "Não foi possível acessar o Melhor Envio, tente de novo mais tarde."
+
+#. module: l10n_br_delivery_melhorenvio
+#. odoo-python
+#: code:addons/l10n_br_delivery_melhorenvio/controllers/main.py:0
+msgid "Melhor Envio did not authorize the application: %(error)s"
+msgstr "O Melhor Envio não autorizou o aplicativo: %(error)s"
+
+#. module: l10n_br_delivery_melhorenvio
+#. odoo-python
+#: code:addons/l10n_br_delivery_melhorenvio/models/melhorenvio_account.py:0
+msgid "Melhor Envio error (HTTP %(code)s): %(message)s"
+msgstr "Erro do Melhor Envio (HTTP %(code)s): %(message)s"
+
+#. module: l10n_br_delivery_melhorenvio
+#. odoo-python
+#: code:addons/l10n_br_delivery_melhorenvio/models/delivery_carrier.py:0
+msgid "Melhor Envio label bought: %(protocol)s, %(service)s, R$ %(price).2f."
+msgstr "Etiqueta do Melhor Envio comprada: %(protocol)s, %(service)s, R$ %(price).2f."
+
+#. module: l10n_br_delivery_melhorenvio
+#. odoo-python
+#: code:addons/l10n_br_delivery_melhorenvio/models/melhorenvio_account.py:0
+msgid "Melhor Envio refused the authorization: %(message)s"
+msgstr "O Melhor Envio recusou a autorização: %(message)s"
+
+#. module: l10n_br_delivery_melhorenvio
+#. odoo-python
+#: code:addons/l10n_br_delivery_melhorenvio/models/melhorenvio_account.py:0
+msgid "Melhor Envio refused the token (HTTP 401)."
+msgstr "O Melhor Envio recusou o token (HTTP 401)."
+
+#. module: l10n_br_delivery_melhorenvio
+#: model:ir.model.fields,help:l10n_br_delivery_melhorenvio.field_melhorenvio_account__contact_email
+msgid ""
+"Melhor Envio requires the application name and a contact e-mail in the User-"
+"Agent header of every request."
+msgstr "O Melhor Envio exige o nome do aplicativo e um e-mail de contato no cabeçalho User-Agent de toda requisição."
+
+#. module: l10n_br_delivery_melhorenvio
+#. odoo-python
+#: code:addons/l10n_br_delivery_melhorenvio/models/melhorenvio_account.py:0
+msgid "Melhor Envio returned an unreadable answer (HTTP %(code)s)."
+msgstr "O Melhor Envio devolveu uma resposta ilegível (HTTP %(code)s)."
+
+#. module: l10n_br_delivery_melhorenvio
+#. odoo-python
+#: code:addons/l10n_br_delivery_melhorenvio/models/melhorenvio_account.py:0
+msgid "Melhor Envio returned no shipping service."
+msgstr "O Melhor Envio não devolveu nenhum serviço de envio."
+
+#. module: l10n_br_delivery_melhorenvio
+#: model:ir.model.fields,field_description:l10n_br_delivery_melhorenvio.field_melhorenvio_account__name
+msgid "Name"
+msgstr "Nome"
+
+#. module: l10n_br_delivery_melhorenvio
+#: model:ir.model.fields,field_description:l10n_br_delivery_melhorenvio.field_melhorenvio_account__oauth_state
+msgid "Oauth State"
+msgstr "Estado do OAuth"
+
+#. module: l10n_br_delivery_melhorenvio
+#. odoo-python
+#: code:addons/l10n_br_delivery_melhorenvio/controllers/main.py:0
+msgid "Only administrators can authorize Melhor Envio."
+msgstr "Só administradores podem autorizar o Melhor Envio."
+
+#. module: l10n_br_delivery_melhorenvio
+#: model_terms:ir.ui.view,arch_db:l10n_br_delivery_melhorenvio.view_picking_form
+msgid "Print Melhor Envio Label"
+msgstr "Imprimir Etiqueta do Melhor Envio"
+
+#. module: l10n_br_delivery_melhorenvio
+#: model:ir.model.fields.selection,name:l10n_br_delivery_melhorenvio.selection__melhorenvio_account__environment__production
+msgid "Production"
+msgstr "Produção"
+
+#. module: l10n_br_delivery_melhorenvio
+#: model:ir.model.fields,field_description:l10n_br_delivery_melhorenvio.field_delivery_carrier__delivery_type
+msgid "Provider"
+msgstr "Provedor"
+
+#. module: l10n_br_delivery_melhorenvio
+#: model:ir.model.fields,field_description:l10n_br_delivery_melhorenvio.field_melhorenvio_account__redirect_uri
+msgid "Redirect URL"
+msgstr "URL de Retorno"
+
+#. module: l10n_br_delivery_melhorenvio
+#: model:ir.model.fields,field_description:l10n_br_delivery_melhorenvio.field_melhorenvio_account__refresh_token
+msgid "Refresh Token"
+msgstr "Token de Renovação"
+
+#. module: l10n_br_delivery_melhorenvio
+#: model:ir.model.fields.selection,name:l10n_br_delivery_melhorenvio.selection__melhorenvio_account__environment__sandbox
+msgid "Sandbox"
+msgstr "Sandbox"
+
+#. module: l10n_br_delivery_melhorenvio
+#. odoo-python
+#: code:addons/l10n_br_delivery_melhorenvio/models/delivery_carrier.py:0
+msgid "Service unavailable for this address."
+msgstr "Serviço indisponível para este endereço."
+
+#. module: l10n_br_delivery_melhorenvio
+#: model:ir.model.fields,field_description:l10n_br_delivery_melhorenvio.field_melhorenvio_account__carrier_ids
+msgid "Services"
+msgstr "Serviços"
+
+#. module: l10n_br_delivery_melhorenvio
+#. odoo-python
+#: code:addons/l10n_br_delivery_melhorenvio/models/melhorenvio_account.py:0
+msgid "Set the Client ID and the Secret of the Melhor Envio application."
+msgstr "Informe o Client ID e o Secret do aplicativo do Melhor Envio."
+
+#. module: l10n_br_delivery_melhorenvio
+#. odoo-python
+#: code:addons/l10n_br_delivery_melhorenvio/models/delivery_carrier.py:0
+msgid "Set the Melhor Envio account of the delivery method %(name)s."
+msgstr "Informe a conta do Melhor Envio do método de entrega %(name)s."
+
+#. module: l10n_br_delivery_melhorenvio
+#. odoo-python
+#: code:addons/l10n_br_delivery_melhorenvio/models/delivery_carrier.py:0
+msgid "Set the ZIP code of the delivery address."
+msgstr "Informe o CEP do endereço de entrega."
+
+#. module: l10n_br_delivery_melhorenvio
+#. odoo-python
+#: code:addons/l10n_br_delivery_melhorenvio/models/delivery_carrier.py:0
+msgid "Set the ZIP code of the warehouse address."
+msgstr "Informe o CEP do endereço do armazém."
+
+#. module: l10n_br_delivery_melhorenvio
+#: model:ir.model,name:l10n_br_delivery_melhorenvio.model_delivery_carrier
+msgid "Shipping Methods"
+msgstr "Métodos de Entrega"
+
+#. module: l10n_br_delivery_melhorenvio
+#: model_terms:ir.ui.view,arch_db:l10n_br_delivery_melhorenvio.melhorenvio_account_view_form
+msgid "Synchronize Services"
+msgstr "Sincronizar Serviços"
+
+#. module: l10n_br_delivery_melhorenvio
+#. odoo-python
+#: code:addons/l10n_br_delivery_melhorenvio/models/delivery_carrier.py:0
+msgid "Synchronize the services of the Melhor Envio account first."
+msgstr "Sincronize antes os serviços da conta do Melhor Envio."
+
+#. module: l10n_br_delivery_melhorenvio
+#: model:ir.model.fields,field_description:l10n_br_delivery_melhorenvio.field_melhorenvio_account__contact_email
+msgid "Technical Contact E-mail"
+msgstr "E-mail de Contato Técnico"
+
+#. module: l10n_br_delivery_melhorenvio
+#. odoo-python
+#: code:addons/l10n_br_delivery_melhorenvio/models/delivery_carrier.py:0
+msgid ""
+"The Melhor Envio label is not finished: %(error)s Buy it again to resume; a "
+"paid label is not paid twice."
+msgstr "A etiqueta do Melhor Envio não foi concluída: %(error)s Compre de novo para retomar; uma etiqueta paga não é paga duas vezes."
+
+#. module: l10n_br_delivery_melhorenvio
+#. odoo-python
+#: code:addons/l10n_br_delivery_melhorenvio/models/delivery_carrier.py:0
+msgid "The delivery %(name)s has no product."
+msgstr "A entrega %(name)s não tem produto."
+
+#. module: l10n_br_delivery_melhorenvio
+#. odoo-python
+#: code:addons/l10n_br_delivery_melhorenvio/models/stock_picking.py:0
+msgid "The delivery %(name)s is not shipped through Melhor Envio."
+msgstr "A entrega %(name)s não é enviada pelo Melhor Envio."
+
+#. module: l10n_br_delivery_melhorenvio
+#: model:ir.model.fields,field_description:l10n_br_delivery_melhorenvio.field_melhorenvio_account__token_expiry
+msgid "Token Valid Until"
+msgstr "Token Válido Até"
+
+#. module: l10n_br_delivery_melhorenvio
+#: model:ir.model,name:l10n_br_delivery_melhorenvio.model_stock_picking
+msgid "Transfer"
+msgstr "Transferência"
+
+#. module: l10n_br_delivery_melhorenvio
+#. odoo-python
+#: code:addons/l10n_br_delivery_melhorenvio/controllers/main.py:0
+msgid "Unknown Melhor Envio authorization request."
+msgstr "Pedido de autorização do Melhor Envio desconhecido."
+
+#. module: l10n_br_delivery_melhorenvio
+#. odoo-python
+#: code:addons/l10n_br_delivery_melhorenvio/models/delivery_carrier.py:0
+msgid "ZIP code"
+msgstr "CEP"
+
+#. module: l10n_br_delivery_melhorenvio
+#. odoo-python
+#: code:addons/l10n_br_delivery_melhorenvio/models/delivery_carrier.py:0
+msgid "city"
+msgstr "cidade"
+
+#. module: l10n_br_delivery_melhorenvio
+#. odoo-python
+#: code:addons/l10n_br_delivery_melhorenvio/models/delivery_carrier.py:0
+msgid "street"
+msgstr "rua"
