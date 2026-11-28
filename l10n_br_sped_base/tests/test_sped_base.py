@@ -3,7 +3,7 @@
 
 import base64
 from collections import defaultdict
-from datetime import date
+from datetime import date, datetime
 from io import StringIO
 from os import path
 from unittest import mock
@@ -16,13 +16,16 @@ from odoo_test_helper import FakeModelLoader
 from odoo import fields
 from odoo.exceptions import UserError
 from odoo.tests import TransactionCase
+from odoo.tools import mute_logger
 from odoo.tools.translate import code_translations
 
 from odoo.addons import l10n_br_sped_base
 from odoo.addons.l10n_br_sped_base.models.sped_mixin import SPED_ENCODING
 
+from .test_sped_document import SpedDocumentCommon
 
-class TestSpedBase(TransactionCase, FakeModelLoader):
+
+class TestSpedBase(SpedDocumentCommon, TransactionCase, FakeModelLoader):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -212,6 +215,35 @@ class TestSpedBase(TransactionCase, FakeModelLoader):
                 f"with no movement",
             )
 
+    def test_skip_empty_blocks(self):
+        """With the hook on, a block with no records is left out of the file."""
+        source = self.declaration
+        other = self.env["l10n_br_sped.fake.0000"].create(
+            {
+                "company_id": source.company_id.id,
+                "DT_INI": "2022-01-01",
+                "DT_FIN": "2022-12-31",
+                "LECD": source.LECD,
+                "NOME": source.NOME,
+                "CNPJ": source.CNPJ,
+                "UF": source.UF,
+                "IND_SIT_INI_PER": source.IND_SIT_INI_PER,
+                "IND_NIRE": source.IND_NIRE,
+                "IND_FIN_ESC": source.IND_FIN_ESC,
+                "IND_GRANDE_PORTE": source.IND_GRANDE_PORTE,
+                "TIP_ECD": source.TIP_ECD,
+                "IDENT_MF": source.IDENT_MF,
+                "IND_ESC_CONS": source.IND_ESC_CONS,
+                "IND_CENTRALIZADA": source.IND_CENTRALIZADA,
+                "IND_MUDANC_PC": source.IND_MUDANC_PC,
+            }
+        )
+        with patch.object(type(other), "_skip_empty_blocks", return_value=True):
+            lines = other._generate_sped_text().splitlines()
+        self.assertFalse([ln for ln in lines if ln.startswith(("|I", "|J"))])
+        self.assertNotIn("|9900|I001|1|", lines)
+        self.assertEqual(lines[-1], f"|9999|{len(lines)}|")
+
     def test_generate_sped(self):
         sped = self.declaration._generate_sped_text()
         with open(self.file_path, encoding=SPED_ENCODING) as f:
@@ -253,6 +285,7 @@ class TestSpedBase(TransactionCase, FakeModelLoader):
             '<field name="reg_I050_ids"',
             arch,
         )
+        self.assertNotIn("attrs=", arch)
 
     def test_format_field_value(self):
         """An amount always carries two decimals; a quantity is not rounded."""
@@ -514,7 +547,7 @@ class TestSpedBase(TransactionCase, FakeModelLoader):
                 "|I015|DATA_BLOCO_I_LINE_3|...|",
                 "|I990|CLOSE_BLOCO_I|...|",
             ]
-            self.assertEqual(content_i, "\n".join(expected_content_i_lines))
+            self.assertEqual(content_i, "\r\n".join(expected_content_i_lines))
 
             # Check Bloco J
             att_j = attachments.filtered(
@@ -528,7 +561,7 @@ class TestSpedBase(TransactionCase, FakeModelLoader):
                 "|J930|DATA_BLOCO_J_LINE_2|...|",
                 "|J990|CLOSE_BLOCO_J|...|",
             ]
-            self.assertEqual(content_j, "\n".join(expected_content_j_lines))
+            self.assertEqual(content_j, "\r\n".join(expected_content_j_lines))
 
             # Check Bloco C
             att_c = attachments.filtered(
@@ -543,7 +576,7 @@ class TestSpedBase(TransactionCase, FakeModelLoader):
                 "|C100|DATA_BLOCO_C_LINE_3|...|",
                 "|C990|CLOSE_BLOCO_C|...|",
             ]
-            self.assertEqual(content_c, "\n".join(expected_content_c_lines))
+            self.assertEqual(content_c, "\r\n".join(expected_content_c_lines))
 
             # Test _create_sped_attachment directly
             single_attachment_val = declaration._create_sped_attachment(
@@ -905,17 +938,108 @@ class TestSpedBase(TransactionCase, FakeModelLoader):
         text = "|P200|1|DISCRIMINA\u00c7\u00c3O DA RECEITA BRUTA||\n"
         vals = self.declaration._create_sped_attachment(text)
         stored = base64.b64decode(vals["datas"])
-        self.assertEqual(stored, text.encode("iso-8859-1"))
+        self.assertEqual(stored, text.replace("\n", "\r\n").encode("iso-8859-1"))
         # one byte per accented character, no utf-8 marker in the Latin range
-        self.assertEqual(len(stored), len(text))
+        self.assertEqual(len(stored), len(text) + 1)
         self.assertNotIn(b"\xc3\x87", stored)
+
+    def test_attachment_lines_end_in_crlf(self):
+        """Every line, the last included, ends in CR LF: the layout says so and
+        the PVA refuses a file with bare line feeds."""
+        vals = self.declaration._create_sped_attachment("|0000|A|\n|0001|0|\n|9999|3|")
+        stored = base64.b64decode(vals["datas"])
+        self.assertEqual(stored, b"|0000|A|\r\n|0001|0|\r\n|9999|3|\r\n")
+        self.assertNotIn(b"\n", stored.replace(b"\r\n", b""))
+
+    def _generated_registers(self, declaration):
+        """Count of the registers a pull created, by model."""
+        counts = {}
+        for name, model in self.env.registry.items():
+            if (
+                name.startswith("l10n_br_sped.fake.")
+                and not model._abstract
+                and "declaration_id" in model._fields
+            ):
+                counts[name] = self.env[name].search_count(
+                    [
+                        ("declaration_id", "=", declaration.id),
+                        ("is_generated_from_odoo", "=", True),
+                    ]
+                )
+        return counts
+
+    def test_pulling_twice_does_not_duplicate(self):
+        """A second pull replaces what the first one created and keeps what
+        was typed by hand."""
+        declaration = self.declaration
+        typed = self.env["l10n_br_sped.fake.i010"].search(
+            [("declaration_id", "=", declaration.id)], limit=1
+        )
+        self.assertTrue(typed, "the imported file has no I010")
+        self.assertFalse(typed.is_generated_from_odoo)
+        declaration.button_populate_sped_from_odoo()
+        first = self._generated_registers(declaration)
+        self.assertTrue(sum(first.values()), "the pull created no register")
+        declaration.button_populate_sped_from_odoo()
+        self.assertEqual(self._generated_registers(declaration), first)
+        self.assertTrue(typed.exists())
+
+    def _user_of(self, companies):
+        # the fake register models have no access rule of their own
+        self.env["ir.model.access"].create(
+            {
+                "name": "fake declaration: internal user",
+                "model_id": self.env["ir.model"]._get_id("l10n_br_sped.fake.0000"),
+                "group_id": self.env.ref("base.group_user").id,
+                "perm_read": True,
+            }
+        )
+        return self.env["res.users"].create(
+            {
+                "name": "SPED user of another company",
+                "login": "sped_base_other_company",
+                "email": "sped.other@example.com",
+                "company_id": companies[0].id,
+                "company_ids": [(6, 0, companies.ids)],
+                "groups_id": [
+                    (
+                        6,
+                        0,
+                        [
+                            self.env.ref("base.group_user").id,
+                            self.env.ref("l10n_br_fiscal.group_manager").id,
+                        ],
+                    )
+                ],
+            }
+        )
+
+    def test_declaration_runs_as_its_own_company(self):
+        """The registers are pulled as the company of the declaration, even
+        when another company is the active one of the session."""
+        other = self.env["res.company"].create({"name": "Another company"})
+        company = self.declaration.company_id
+        user = self._user_of(other | company)
+        declaration = self.declaration.with_user(user).with_context(
+            allowed_company_ids=other.ids
+        )
+        in_company = declaration._in_company_context()
+        self.assertEqual(in_company.env.company, company)
+        self.assertEqual(in_company.env.companies, company)
+
+    def test_user_without_the_company_gets_a_clear_error(self):
+        other = self.env["res.company"].create({"name": "Another company"})
+        user = self._user_of(other)
+        declaration = self.declaration.with_user(user)
+        with self.assertRaisesRegex(UserError, "no access to the company"):
+            declaration._in_company_context()
 
     def test_character_outside_latin1_does_not_abort(self):
         """A symbol pasted in some label cannot block the whole file."""
         text = "|I250|Taxa \u20ac de servico|\n"
         vals = self.declaration._create_sped_attachment(text)
         stored = base64.b64decode(vals["datas"])
-        self.assertEqual(len(stored), len(text))
+        self.assertEqual(len(stored), len(text) + 1)
         self.assertIn(b"?", stored)
 
     def test_import_reads_latin1(self):
@@ -970,3 +1094,236 @@ class TestSpedBase(TransactionCase, FakeModelLoader):
         # what the user typed by hand is never overwritten
         self.assertEqual(declaration.NOME, "typed by the user")
         self.assertEqual(declaration.CNPJ, "00000000000000")
+
+    def _fake_declaration(self, dt_ini, dt_fin):
+        source = self.declaration
+        return self.env["l10n_br_sped.fake.0000"].create(
+            {
+                "company_id": self.env.ref("l10n_br_base.empresa_lucro_presumido").id,
+                "DT_INI": dt_ini,
+                "DT_FIN": dt_fin,
+                "LECD": source.LECD,
+                "NOME": source.NOME,
+                "CNPJ": source.CNPJ,
+                "UF": source.UF,
+                "IND_SIT_INI_PER": source.IND_SIT_INI_PER,
+                "IND_NIRE": source.IND_NIRE,
+                "IND_FIN_ESC": source.IND_FIN_ESC,
+                "IND_GRANDE_PORTE": source.IND_GRANDE_PORTE,
+                "TIP_ECD": source.TIP_ECD,
+                "IDENT_MF": source.IDENT_MF,
+                "IND_ESC_CONS": source.IND_ESC_CONS,
+                "IND_CENTRALIZADA": source.IND_CENTRALIZADA,
+                "IND_MUDANC_PC": source.IND_MUDANC_PC,
+            }
+        )
+
+    def test_an_entry_is_in_the_period_it_came_in(self):
+        """Emitted in June and received in July, an entry is in the July
+        declaration; an outgoing document stays in the month of its emission,
+        and an entry without entry date too."""
+        june_emission = datetime(2026, 6, 28, 12, 0)
+        july_entry = datetime(2026, 7, 3, 12, 0)
+        entry = self._sped_document(
+            901, document_date=june_emission, date_in_out=july_entry
+        )
+        out = self._sped_document(
+            902,
+            operation="fo_venda",
+            document_date=june_emission,
+            date_in_out=july_entry,
+        )
+        no_entry_date = self._sped_document(
+            903, document_date=june_emission, date_in_out=False
+        )
+        june = self._fake_declaration("2026-06-01", "2026-06-30")
+        july = self._fake_declaration("2026-07-01", "2026-07-31")
+        self.assertIn(entry, july.fiscal_document_ids)
+        self.assertNotIn(entry, june.fiscal_document_ids)
+        self.assertIn(out, june.fiscal_document_ids)
+        self.assertNotIn(out, july.fiscal_document_ids)
+        self.assertIn(no_entry_date, june.fiscal_document_ids)
+
+    def test_an_nfe_without_access_key_is_left_out_and_listed(self):
+        """The C100 of an NF-e without a key goes out with an empty CHV_NFE and
+        the PVA refuses the file: the document stays out of the declaration and
+        the pull lists it in the history."""
+        keyed = self._sped_document(911)
+        keyless = self._sped_document(912, document_key=False)
+        declaration = self._fake_declaration("2026-07-01", "2026-07-31")
+        self.assertIn(keyed, declaration.fiscal_document_ids)
+        self.assertNotIn(keyless, declaration.fiscal_document_ids)
+        self.assertEqual(declaration._get_documents_without_access_key(), keyless)
+        declaration.button_populate_sped_from_odoo()
+        self.assertIn("1/912", " ".join(declaration.message_ids.mapped("body")))
+
+    def test_the_pull_history_is_html_with_the_error_escaped(self):
+        declaration = self._fake_declaration("2026-07-01", "2026-07-31")
+        i010 = self.env["l10n_br_sped.fake.i010"]
+        with (
+            patch.object(
+                type(self.env["l10n_br_sped.mixin"]),
+                "_get_top_registers",
+                return_value=[i010],
+            ),
+            patch.object(
+                type(i010),
+                "_pull_records_from_odoo",
+                side_effect=ValueError("<b>broken</b>"),
+            ),
+            mute_logger("odoo.addons.l10n_br_sped_base.models.sped_declaration"),
+        ):
+            declaration.button_populate_sped_from_odoo()
+        body = declaration.message_ids[0].body
+        self.assertIn("<h3>", body)
+        self.assertIn("<p", body)
+        self.assertIn("&lt;b&gt;broken&lt;/b&gt;", body)
+
+    def test_the_history_link_needs_no_access_to_the_actions(self):
+        """A fiscal user cannot read the window actions: the link of the pull
+        history to the registers must not need it."""
+        action = self.env["ir.actions.act_window"].create(
+            {"name": "Fake I010", "res_model": "l10n_br_sped.fake.i010"}
+        )
+        user = self._user_of(self.declaration.company_id)
+        log_msg = StringIO()
+        self.env["l10n_br_sped.fake.i010"].with_user(user)._log_chatter_sped_item(
+            log_msg, 1
+        )
+        self.assertIn(f"/web#action={action.id}", log_msg.getvalue())
+
+    def _attachments(self, declaration):
+        return self.env["ir.attachment"].search(
+            [("res_model", "=", declaration._name), ("res_id", "=", declaration.id)]
+        )
+
+    def test_the_file_is_made_of_the_registers_of_the_generation(self):
+        """The registers are pulled again when the file is generated: a
+        declaration never pulled still goes out with what Odoo has."""
+        declaration = self._fake_declaration("2026-07-01", "2026-07-31")
+        self.assertFalse(declaration.IE)
+        declaration.button_create_sped_files()
+        company = declaration.company_id
+        self.assertEqual(declaration.IE, misc.punctuation_rm(company.l10n_br_ie_code))
+        self.assertEqual(len(self._attachments(declaration)), 1)
+
+    def test_a_register_that_cannot_be_pulled_stops_the_generation(self):
+        declaration = self._fake_declaration("2026-07-01", "2026-07-31")
+        i010 = self.env["l10n_br_sped.fake.i010"]
+        with (
+            patch.object(
+                type(self.env["l10n_br_sped.mixin"]),
+                "_get_top_registers",
+                return_value=[i010],
+            ),
+            patch.object(
+                type(i010),
+                "_pull_records_from_odoo",
+                side_effect=ValueError("broken mapping"),
+            ),
+            mute_logger("odoo.addons.l10n_br_sped_base.models.sped_declaration"),
+        ):
+            with self.assertRaisesRegex(UserError, "I010: broken mapping"):
+                declaration.button_create_sped_files()
+        self.assertFalse(self._attachments(declaration))
+
+    def test_the_generation_says_what_the_accountant_lacks(self):
+        declaration = self._fake_declaration("2026-07-01", "2026-07-31")
+        company = declaration.company_id
+        company.accountant_id = False
+        with patch.object(
+            type(declaration),
+            "_get_accountant_required",
+            return_value=[("crc_code", "CRC")],
+        ):
+            with self.assertRaisesRegex(UserError, "accountant of the company"):
+                declaration.button_create_sped_files()
+            company.accountant_id = self.env["res.partner"].create(
+                {"name": "Accountant"}
+            )
+            with self.assertRaisesRegex(UserError, "lacks CRC"):
+                declaration.button_create_sped_files()
+            company.accountant_id.crc_code = "1SP123456/O-0"
+            declaration.button_create_sped_files()
+        self.assertEqual(len(self._attachments(declaration)), 1)
+
+    def test_pull_skips_a_register_with_nothing_to_map(self):
+        """A register without an Odoo record and without children is not
+        created when its mapping comes back empty (a bare 0007 breaks the
+        required fields of the layout): the pulled mark is not mapped data. With
+        values it is created, and marked as pulled."""
+        declaration = self.declaration
+        reg_0007 = self.env["l10n_br_sped.fake.0007"].with_context(
+            declaration=declaration
+        )
+        domain = [("declaration_id", "=", declaration.id)]
+        before = reg_0007.search(domain)
+        with (
+            patch.object(type(reg_0007), "_map_from_odoo", return_value={}),
+            patch.object(
+                type(reg_0007), "create", wraps=reg_0007.create
+            ) as create_0007,
+        ):
+            reg_0007._pull_records_from_odoo(kind="fake", level=2, log_msg=StringIO())
+        create_0007.assert_not_called()
+
+        values = {"COD_ENT_REF": "01", "declaration_id": declaration.id}
+        with patch.object(type(reg_0007), "_map_from_odoo", return_value=values):
+            reg_0007._pull_records_from_odoo(kind="fake", level=2, log_msg=StringIO())
+        pulled = reg_0007.search(domain) - before
+        self.assertEqual(len(pulled), 1)
+        self.assertEqual(pulled.COD_ENT_REF, "01")
+        self.assertTrue(pulled.is_generated_from_odoo)
+
+    def test_a_register_the_layout_makes_in_the_pull_is_a_pulled_one(self):
+        """A layout may create registers in its own code during the pull (the
+        J050 of the ECF): they are pulled ones, so the next pull drops them
+        instead of carrying them twice."""
+        declaration = self.declaration
+        i010 = self.env["l10n_br_sped.fake.i010"]
+        domain = [("declaration_id", "=", declaration.id)]
+        typed = i010.search(domain)
+
+        def make_one(self_, kind, level, **kwargs):
+            self_.create({"COD_VER_LC": "9.00", "declaration_id": declaration.id})
+
+        with patch.object(
+            type(i010), "_pull_records_from_odoo", autospec=True, side_effect=make_one
+        ):
+            declaration.button_populate_sped_from_odoo()
+            declaration.button_populate_sped_from_odoo()
+        pulled = i010.search(domain) - typed
+        self.assertEqual(len(pulled), 1)
+        self.assertTrue(pulled.is_generated_from_odoo)
+        self.assertTrue(typed.exists())
+
+    def test_a_register_pulls_records_built_in_python(self):
+        """A register may build its records in Python (_odoo_records): each
+        dict is mapped as a record and is the parent record of the registers
+        below."""
+        declaration = self.declaration
+        reg_0007 = self.env["l10n_br_sped.fake.0007"].with_context(
+            declaration=declaration
+        )
+        domain = [("declaration_id", "=", declaration.id)]
+        before = reg_0007.search(domain)
+
+        def map_record(self_, record, parent_record, declaration, index=0):
+            return {"COD_ENT_REF": record["code"], "declaration_id": declaration.id}
+
+        with (
+            patch.object(
+                type(reg_0007),
+                "_odoo_records",
+                create=True,
+                return_value=[{"code": "01"}, {"code": "02"}],
+            ) as odoo_records,
+            patch.object(
+                type(reg_0007), "_map_from_odoo", autospec=True, side_effect=map_record
+            ),
+        ):
+            reg_0007._pull_records_from_odoo(kind="fake", level=2, log_msg=StringIO())
+        odoo_records.assert_called_once_with(None, declaration)
+        pulled = reg_0007.search(domain) - before
+        self.assertEqual(sorted(pulled.mapped("COD_ENT_REF")), ["01", "02"])
+        self.assertTrue(all(pulled.mapped("is_generated_from_odoo")))

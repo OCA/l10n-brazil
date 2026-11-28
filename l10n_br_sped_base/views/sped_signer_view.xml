@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="sped_signer_tree" model="ir.ui.view">
+        <field name="name">l10n_br_sped.signer.tree</field>
+        <field name="model">l10n_br_sped.signer</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="sequence" widget="handle" />
+                <field name="company_id" groups="base.group_multi_company" />
+                <field name="name" />
+                <field name="cpf_cnpj" />
+                <field name="qualification" />
+                <field name="crc" />
+                <field name="legal_responsible" />
+            </list>
+        </field>
+    </record>
+
+    <record id="sped_signer_form" model="ir.ui.view">
+        <field name="name">l10n_br_sped.signer.form</field>
+        <field name="model">l10n_br_sped.signer</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field
+                                name="company_id"
+                                groups="base.group_multi_company"
+                            />
+                            <field name="partner_id" />
+                            <field name="name" />
+                            <field name="cpf_cnpj" />
+                            <field name="qualification" />
+                            <field name="legal_responsible" />
+                        </group>
+                        <group>
+                            <field name="crc" />
+                            <field
+                                name="crc_state_id"
+                                domain="[('country_id', '=', %(base.br)d)]"
+                            />
+                            <field name="crp_number" />
+                            <field name="crp_validity" />
+                            <field name="email" widget="email" />
+                            <field name="phone" widget="phone" />
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="sped_signer_search" model="ir.ui.view">
+        <field name="name">l10n_br_sped.signer.search</field>
+        <field name="model">l10n_br_sped.signer</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" />
+                <field name="cpf_cnpj" />
+                <field name="company_id" groups="base.group_multi_company" />
+                <filter
+                    name="legal_responsible"
+                    string="Responsavel legal"
+                    domain="[('legal_responsible', '=', True)]"
+                />
+            </search>
+        </field>
+    </record>
+
+    <record id="sped_signer_action" model="ir.actions.act_window">
+        <field name="name">Signatarios</field>
+        <field name="res_model">l10n_br_sped.signer</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem
+        id="menu_config"
+        name="Configuracao"
+        parent="menu_root"
+        sequence="100"
+        groups="l10n_br_fiscal.group_manager"
+    />
+
+    <menuitem
+        id="menu_sped_signer"
+        name="Signatarios"
+        parent="menu_config"
+        action="sped_signer_action"
+        sequence="10"
+    />
+</odoo>
