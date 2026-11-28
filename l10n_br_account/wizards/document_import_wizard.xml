@@ -7,6 +7,42 @@
         <field name="model">l10n_br_fiscal.document.import.wizard</field>
         <field name="inherit_id" ref="l10n_br_fiscal.document_import_wizard_form" />
         <field name="arch" type="xml">
+            <xpath expr="//footer" position="before">
+                <group
+                    string="Existing Vendor Bill"
+                    invisible="not file and not document_key"
+                >
+                    <field name="candidate_move_ids" invisible="1" />
+                    <field name="create_new_move" />
+                    <field
+                        name="target_move_id"
+                        invisible="create_new_move"
+                        options="{'no_create': True}"
+                    />
+                    <field
+                        name="divergence_warning"
+                        invisible="not divergence_warning"
+                    />
+                    <field
+                        name="confirm_divergence"
+                        invisible="not target_move_id or create_new_move"
+                    />
+                    <field
+                        name="match_line_ids"
+                        invisible="not target_move_id or create_new_move"
+                    >
+                        <list editable="bottom" create="false" delete="false">
+                            <field name="sequence" column_invisible="1" />
+                            <field name="name" />
+                            <field name="product_id" />
+                            <field name="quantity" />
+                            <field name="price_unit" />
+                            <field name="ambiguous" />
+                            <field name="invoice_line_id" />
+                        </list>
+                    </field>
+                </group>
+            </xpath>
             <button name="action_import_and_open_document" position="after">
                 <button
                     name="action_import_and_open_move"
