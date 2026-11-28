@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="document_form" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal.document.form (in l10n_br_gnre)</field>
+        <field name="model">l10n_br_fiscal.document</field>
+        <field name="inherit_id" ref="l10n_br_fiscal.document_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button
+                    name="action_gnre_transmit"
+                    type="object"
+                    string="Transmitir GNRE"
+                    class="btn-primary"
+                    groups="l10n_br_fiscal.group_user"
+                    attrs="{'invisible': ['|', ('gnre_fiscal_state_id', '=', False), ('gnre_transmission_state', 'not in', ['draft', 'rejected'])]}"
+                />
+                <button
+                    name="action_gnre_check_result"
+                    type="object"
+                    string="Consultar Resultado"
+                    groups="l10n_br_fiscal.group_user"
+                    attrs="{'invisible': [('gnre_transmission_state', 'not in', ['sent', 'pending'])]}"
+                />
+                <button
+                    name="action_gnre_download_pdf"
+                    type="object"
+                    string="Baixar Guia"
+                    groups="l10n_br_fiscal.group_user"
+                    attrs="{'invisible': [('gnre_pdf_id', '=', False)]}"
+                />
+            </xpath>
+            <xpath expr="//notebook" position="inside">
+                <page
+                    name="gnre"
+                    string="GNRE"
+                    attrs="{'invisible': [('gnre_fiscal_state_id', '=', False)]}"
+                >
+                    <group>
+                        <group string="Guia">
+                            <field name="gnre_fiscal_state_id" />
+                            <field name="gnre_type" />
+                            <field name="gnre_obligation_count" />
+                            <field name="gnre_environment" />
+                        </group>
+                        <group string="Portal">
+                            <field name="gnre_transmission_state" />
+                            <field name="gnre_receipt_number" />
+                            <field name="gnre_receipt_date" />
+                            <field name="gnre_status_code" />
+                            <field name="gnre_status_message" />
+                        </group>
+                        <group string="Pagamento">
+                            <field name="gnre_digitable_line" />
+                            <field name="gnre_bar_code" />
+                            <field name="gnre_pix_payload" />
+                            <field name="gnre_payment_due" />
+                            <field name="gnre_pdf_id" />
+                        </group>
+                    </group>
+                    <field
+                        name="gnre_rejection"
+                        attrs="{'invisible': [('gnre_rejection', '=', False)]}"
+                        nolabel="1"
+                    />
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>
