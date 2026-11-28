@@ -4,9 +4,12 @@
 
 
 import base64
+import importlib.util
 import logging
+import os
 from unittest import mock
 
+from odoo.exceptions import UserError
 from odoo.fields import Datetime
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
@@ -14,6 +17,8 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     SITUACAO_EDOC_AUTORIZADA,
     SITUACAO_EDOC_CANCELADA,
     SITUACAO_EDOC_ENVIADA,
+    SITUACAO_FISCAL_CANCELADO,
+    SITUACAO_FISCAL_CANCELADO_EXTEMPORANEO,
 )
 from odoo.addons.l10n_br_nfe.models.document import NFe
 
@@ -87,6 +92,43 @@ class TestNFeWebServices(TestNFeExport):
                 Datetime.to_string(nfe.cancel_event_id.protocol_date),
                 "2023-07-05 19:52:52",
             )
+            # The homologated cancellation marks the document as cancelled
+            # for SPED purposes, and the SPED guard then refuses to take it
+            # back to draft: its number and key were consumed at SEFAZ, so
+            # re-sending them would be rejected as a duplicate (cStat 204).
+            self.assertEqual(nfe.state_fiscal, SITUACAO_FISCAL_CANCELADO)
+            with self.assertRaisesRegex(UserError, "SPED"):
+                nfe._trigger_fsm("action_draft_fsm")
+            self.assertEqual(nfe.state_edoc, SITUACAO_EDOC_CANCELADA)
+
+    @nfe_mock(
+        {
+            "nfeAutorizacaoLote": "retEnviNFe/lote_recebido.xml",
+            "nfeRetAutorizacaoLote": "retConsReciNFe/autorizada.xml",
+            "nfeRecepcaoEvento": "retEnvEvento/nfe_cancelamento_fora_prazo.xml",
+        }
+    )
+    def test_enviar_e_cancelar_fora_prazo(self):
+        """A cancellation homologated out of time (cStat 155) marks the
+        document as extemporaneously cancelled, and the SPED guard refuses
+        to take it back to draft all the same."""
+        nfe = self.nfe_list[0]["nfe"]
+        nfe.action_document_send()
+        self.assertEqual(nfe.state_edoc, SITUACAO_EDOC_AUTORIZADA)
+
+        cancel_wizard = (
+            self.env["l10n_br_fiscal.document.cancel.wizard"]
+            .with_context(active_model="l10n_br_fiscal.document", active_id=nfe.id)
+            .create({"document_id": nfe.id, "justification": "Era apenas um teste."})
+        )
+        cancel_wizard.doit()
+
+        self.assertEqual(nfe.state_edoc, SITUACAO_EDOC_CANCELADA)
+        self.assertEqual(nfe.cancel_event_id.status_code, "155")
+        self.assertEqual(nfe.state_fiscal, SITUACAO_FISCAL_CANCELADO_EXTEMPORANEO)
+        with self.assertRaisesRegex(UserError, "SPED"):
+            nfe._trigger_fsm("action_draft_fsm")
+        self.assertEqual(nfe.state_edoc, SITUACAO_EDOC_CANCELADA)
 
     @nfe_mock(
         {
@@ -217,3 +259,95 @@ class TestNFeWebServices(TestNFeExport):
             self.assertEqual(nfe.state_edoc, SITUACAO_EDOC_A_ENVIAR)
             nfe._document_status()
             self.assertEqual(nfe.state_edoc, SITUACAO_EDOC_AUTORIZADA)
+
+    def _assert_consult_cancelled(self, status_code, state_fiscal):
+        """An NF-e found cancelled by the status query has no cancel event
+        (e.g. the cancel response was lost and the retry got cStat 573), so
+        only its fiscal state keeps the SPED guard from taking it back to
+        draft and resending its consumed number and key."""
+        nfe = self.nfe_list[0]["nfe"]
+        nfe.action_document_send()
+        self.assertEqual(nfe.state_edoc, SITUACAO_EDOC_AUTORIZADA)
+        nfe._document_status()
+        self.assertEqual(nfe.status_code, status_code)
+        self.assertEqual(nfe.state_edoc, SITUACAO_EDOC_CANCELADA)
+        self.assertFalse(nfe.cancel_event_id)
+        self.assertEqual(nfe.state_fiscal, state_fiscal)
+        with self.assertRaisesRegex(UserError, "SPED"):
+            nfe.action_document_back2draft()
+        self.assertEqual(nfe.state_edoc, SITUACAO_EDOC_CANCELADA)
+
+    @nfe_mock(
+        {
+            "nfeAutorizacaoLote": "retEnviNFe/lote_recebido.xml",
+            "nfeRetAutorizacaoLote": "retConsReciNFe/autorizada.xml",
+            "nfeConsultaNF": "retConsSitNFe/cancelado.xml",
+        }
+    )
+    def test_nfe_consult_cancelled(self):
+        self._assert_consult_cancelled("101", SITUACAO_FISCAL_CANCELADO)
+
+    @nfe_mock(
+        {
+            "nfeAutorizacaoLote": "retEnviNFe/lote_recebido.xml",
+            "nfeRetAutorizacaoLote": "retConsReciNFe/autorizada.xml",
+            "nfeConsultaNF": "retConsSitNFe/cancelado_fora_prazo.xml",
+        }
+    )
+    def test_nfe_consult_cancelled_out_of_time(self):
+        self._assert_consult_cancelled("151", SITUACAO_FISCAL_CANCELADO_EXTEMPORANEO)
+
+    def test_migration_cancel_state_fiscal(self):
+        """The migration fills the fiscal state of the cancelled NF-e from
+        the cStat of the homologated cancel event or, when there is none,
+        from the cStat of the status query saved on the document."""
+        path = os.path.join(
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+            "migrations",
+            "18.0.7.12.5",
+            "post-migration.py",
+        )
+        spec = importlib.util.spec_from_file_location("nfe_cancel_migration", path)
+        migration = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(migration)
+
+        nfe = self.nfe_list[0]["nfe"]
+        scenarios = [
+            ("135", "done", "135", SITUACAO_FISCAL_CANCELADO),
+            ("155", "done", "135", SITUACAO_FISCAL_CANCELADO_EXTEMPORANEO),
+            (False, False, "101", SITUACAO_FISCAL_CANCELADO),
+            (False, False, "151", SITUACAO_FISCAL_CANCELADO_EXTEMPORANEO),
+            ("573", "wait", "151", SITUACAO_FISCAL_CANCELADO_EXTEMPORANEO),
+            (False, False, "100", False),
+        ]
+        for event_code, event_state, status_code, state_fiscal in scenarios:
+            with self.subTest(event_code=event_code, status_code=status_code):
+                event = self.env["l10n_br_fiscal.event"]
+                if event_code:
+                    event = event.create(
+                        {
+                            "type": "2",
+                            "document_id": nfe.id,
+                            "document_type_id": nfe.document_type_id.id,
+                            "document_serie_id": nfe.document_serie_id.id,
+                            "document_number": nfe.document_number or "1",
+                            "company_id": nfe.company_id.id,
+                            "status_code": event_code,
+                        }
+                    )
+                    event.state = event_state
+                nfe.write(
+                    {
+                        "state_edoc": SITUACAO_EDOC_CANCELADA,
+                        "state_fiscal": False,
+                        "status_code": status_code,
+                        "cancel_event_id": event.id,
+                    }
+                )
+                migration.fill_cancel_state_fiscal(self.env)
+                self.assertEqual(nfe.state_fiscal, state_fiscal)
+        # The migration entry point only delegates to it. Called undecorated:
+        # outside the module loader, the openupgrade decorator logs an error.
+        nfe.write({"state_fiscal": False, "status_code": "101"})
+        migration.migrate.__wrapped__(self.env, "18.0.7.12.4")
+        self.assertEqual(nfe.state_fiscal, SITUACAO_FISCAL_CANCELADO)

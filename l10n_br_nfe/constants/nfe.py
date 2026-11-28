@@ -1,6 +1,13 @@
 # Copyright (C) 2019  Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
+from odoo.addons.l10n_br_fiscal.constants.fiscal import (
+    CANCELADO_DENTRO_PRAZO,
+    CANCELADO_FORA_PRAZO,
+    SITUACAO_FISCAL_CANCELADO,
+    SITUACAO_FISCAL_CANCELADO_EXTEMPORANEO,
+)
+
 NFE_VERSIONS = [("1.10", "1.10"), ("2.00", "2.00"), ("3.10", "3.10"), ("4.00", "4.00")]
 
 
@@ -90,3 +97,13 @@ FISCAL_PAYMENT_MODE = [
     ("90", "90 - Sem Pagamento"),
     ("99", "99 - Outros"),
 ]
+
+# Fiscal state of an NF-e cancelled at SEFAZ, by the cStat of the cancel event
+# (135/155) or of the status query of a cancelled NF-e (nfeConsultaNF:
+# 101 "Cancelamento de NF-e homologado", 151 "... homologado fora de prazo").
+NFE_CANCEL_STATE_FISCAL = {
+    **dict.fromkeys(CANCELADO_DENTRO_PRAZO + ["101"], SITUACAO_FISCAL_CANCELADO),
+    **dict.fromkeys(
+        CANCELADO_FORA_PRAZO + ["151"], SITUACAO_FISCAL_CANCELADO_EXTEMPORANEO
+    ),
+}
