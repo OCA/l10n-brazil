@@ -280,7 +280,7 @@ class TestGnreXml(TransactionCase):
         customer = self.env["res.partner"].create(
             {
                 "name": "Consumidor Final de Testes",
-                "vat": "529.982.247-25",
+                "vat": "481.736.290-13",
                 "state_id": self.state_rj.id,
                 "city_id": self.env.ref("l10n_br_base.city_3304557").id,
             }
@@ -294,7 +294,7 @@ class TestGnreXml(TransactionCase):
 
         self.schema.assertValid(lote)
         recipient = lote.find(f".//{{{NS}}}item/{{{NS}}}contribuinteDestinatario")
-        self.assertEqual(recipient.find(f".//{{{NS}}}CPF").text, "52998224725")
+        self.assertEqual(recipient.find(f".//{{{NS}}}CPF").text, "48173629013")
         self.assertEqual(
             recipient.find(f"{{{NS}}}razaoSocial").text, "Consumidor Final de Testes"
         )
