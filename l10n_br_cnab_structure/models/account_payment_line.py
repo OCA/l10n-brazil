@@ -40,6 +40,7 @@ class AccountPaymentLine(models.Model):
     cnab_payment_way_id = fields.Many2one(
         comodel_name="cnab.payment.way",
         compute="_compute_cnab_payment_way_id",
+        compute_sudo=True,
     )
 
     batch_template_id = fields.Many2one(
