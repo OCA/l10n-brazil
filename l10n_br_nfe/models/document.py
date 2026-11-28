@@ -2051,8 +2051,11 @@ class NFe(spec_models.StackedModel):
                     DEFAULT_SERVER_DATETIME_FORMAT
                 ),
                 "nfe40_xJust": "Sem comunicação com o servidor da Sefaz.",
+                "document_key": False,
             }
         )
+        # The access key carries tpEmis, so it must be rebuilt
+        self._document_number()
 
     def get_nfce_qrcode(self):
         if self.document_type != MODELO_FISCAL_NFCE:
