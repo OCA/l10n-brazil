@@ -243,9 +243,7 @@ class SaleOrderLine(models.Model):
                     line.fiscal_qty_delivered = line.qty_delivered
 
             if line.uom_id != line.uot_id:
-                line.fiscal_qty_delivered = (
-                    line.qty_delivered * line.product_id.uot_factor
-                )
+                line.fiscal_qty_delivered = line.qty_delivered * line._get_uot_factor()
         return result
 
     def need_change_discount_value(self):

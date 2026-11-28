@@ -971,29 +971,64 @@ class FiscalDocumentLineMixin(models.AbstractModel):
             "cofinsst_value": tax_dict.get("tax_value", 0.00),
         }
 
-    @api.depends("product_id", "uom_id")
-    def _compute_uot_id(self):
-        for line in self:
-            p = line.product_id
-            line.uot_id = (p.uot_id if p else False) or line.uom_id
+    def _get_ncm_uot_factor(self):
+        """Taxable quantity per commercial unit when the unit comes from the NCM.
 
-    @api.depends("price_unit")
+        The conversion is only known when the register has it: the two units
+        share a UoM category (so Odoo converts them), or the product carries
+        the factor (a bag of 50 kg). Returns 0.0 when it does not, because the
+        quantity and the price cannot follow a unit that nothing relates to
+        the commercial one.
+        """
+        self.ensure_one()
+        ncm_uot = self.ncm_id.uot_id
+        if not ncm_uot or not self.product_id:
+            return 0.0
+        if self.uom_id and self.uom_id.category_id == ncm_uot.category_id:
+            return self.uom_id._compute_quantity(1.0, ncm_uot, round=False)
+        return self.product_id.uot_factor or 0.0
+
+    def _get_uot_factor(self):
+        """Taxable quantity per commercial unit, used by quantity and price."""
+        self.ensure_one()
+        if not self.product_id.uot_id and self.uot_id == self.ncm_id.uot_id:
+            factor = self._get_ncm_uot_factor()
+            if factor:
+                return factor
+        return self.product_id.uot_factor or 1.0
+
+    @api.depends("product_id", "uom_id", "ncm_id")
+    def _compute_uot_id(self):
+        """Taxable unit of the line: product, then NCM, then commercial unit.
+
+        In foreign trade the uTrib has to follow the unit the SEFAZ table fixes
+        for the NCM, which is not the commercial unit of the product: a NCM
+        measured in kilogram on a product sold by the piece is refused with
+        rejection 817, and only after transmitting. Falling back to the NCM
+        makes that rule reach every product of the class at once, and the unit
+        on the product keeps winning for the exceptions. The NCM unit is only
+        taken when the quantity and the price can be converted to it.
+        """
+        for line in self:
+            product = line.product_id
+            uot = product.uot_id if product else False
+            if not uot and line._get_ncm_uot_factor():
+                uot = line.ncm_id.uot_id
+            line.uot_id = uot or line.uom_id
+
+    @api.depends("price_unit", "uot_id")
     def _compute_fiscal_price(self):
         for line in self:
             if line.product_id and line.price_unit:
-                line.fiscal_price = line.price_unit / (
-                    line.product_id.uot_factor or 1.0
-                )
+                line.fiscal_price = line.price_unit / line._get_uot_factor()
             else:
                 line.fiscal_price = line.price_unit
 
-    @api.depends("quantity")
+    @api.depends("quantity", "uot_id")
     def _compute_fiscal_quantity(self):
         for line in self:
             if line.product_id and line.quantity:
-                line.fiscal_quantity = line.quantity * (
-                    line.product_id.uot_factor or 1.0
-                )
+                line.fiscal_quantity = line.quantity * line._get_uot_factor()
             else:
                 line.fiscal_quantity = line.quantity
 
