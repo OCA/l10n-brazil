@@ -6,6 +6,7 @@ from ast import literal_eval
 
 from odoo import api, fields, models
 from odoo.exceptions import UserError, ValidationError
+from odoo.tools.sql import create_index
 
 from ..constants.fiscal import (
     COMMENT_TYPE_COMMERCIAL,
@@ -134,6 +135,16 @@ class Document(models.Model):
         string="Partner",
         inverse="_inverse_partner_id",
     )
+
+    def init(self):
+        res = super().init()
+        create_index(  # used by the operation dashboard
+            self.env.cr,
+            indexname="l10n_br_fiscal_document_dashboard_idx",
+            tablename=self._table,
+            expressions=["state_edoc", "document_date", "fiscal_operation_id"],
+        )
+        return res
 
     @api.onchange("partner_id")
     def _inverse_partner_id(self):

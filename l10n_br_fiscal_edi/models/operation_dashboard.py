@@ -18,13 +18,14 @@ class Operation(models.Model):
 
     def _dashboard_2confirm_states(self):
         """With EDI installed, 'open' means confirmed but not transmitted
-        yet, so it belongs to the 'to confirm' bucket together with the
-        transmission retry states."""
-        return super()._dashboard_2confirm_states() + [
-            DOCUMENT_STATE_OPEN,
-            DOCUMENT_STATE_SENDING,
-            DOCUMENT_STATE_REJECTED,
-        ]
+        yet, so it belongs to the 'to confirm' bucket."""
+        return super()._dashboard_2confirm_states() + [DOCUMENT_STATE_OPEN]
+
+    def _dashboard_processing_states(self):
+        return super()._dashboard_processing_states() + [DOCUMENT_STATE_SENDING]
+
+    def _dashboard_error_states(self):
+        return super()._dashboard_error_states() + [DOCUMENT_STATE_REJECTED]
 
     def _dashboard_authorized_states(self):
         """Only documents actually authorized by the tax authority."""

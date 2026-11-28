@@ -1,6 +1,9 @@
 # Copyright 2024 KMEE
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+from datetime import timedelta
+
+from odoo import fields
 from odoo.exceptions import ValidationError
 from odoo.tests.common import TransactionCase
 
@@ -284,6 +287,33 @@ class TestOperation(TransactionCase):
         )
         self.assertEqual(
             operation.line_definition(company, abroad, product), operation_line
+        )
+
+    def test_dashboard(self):
+        """Pending documents count whatever their date, volumes only in the
+        period, and each link of the card opens its own documents."""
+        operation = self.env.ref("l10n_br_fiscal.fo_venda").copy()
+        operation.state = "approved"
+        buckets = operation._dashboard_buckets()
+        old, to_send, authorized, cancelled = self.env[
+            "l10n_br_fiscal.document"
+        ].search([], limit=4)
+        now = fields.Datetime.now()
+        before = now - timedelta(days=40)
+        old.write({"state_edoc": buckets["authorized"][0], "document_date": before})
+        to_send.write({"state_edoc": buckets["2confirm"][0], "document_date": before})
+        authorized.write({"state_edoc": buckets["authorized"][0], "document_date": now})
+        cancelled.write({"state_edoc": buckets["cancelled"][0], "document_date": now})
+        (old | to_send | authorized | cancelled).fiscal_operation_id = operation
+
+        data = operation.get_operation_dashboard_data()
+        self.assertEqual(data["number_2confirm"], 1)
+        self.assertEqual(data["number_authorized"], 1)
+        self.assertEqual(data["number_cancelled"], 1)
+        self.assertIn(operation, operation.search([("dashboard_active", "=", True)]))
+        action = operation.with_context(dashboard_bucket="cancelled").open_action()
+        self.assertEqual(
+            self.env["l10n_br_fiscal.document"].search(action["domain"]), cancelled
         )
 
 
