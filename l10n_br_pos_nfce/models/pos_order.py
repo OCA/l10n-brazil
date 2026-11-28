@@ -109,6 +109,22 @@ class PosOrder(models.Model):
 
     @api.model
     def _process_order(self, pos_order_vals, draft, existing_order):
+        data = pos_order_vals.get("data", {})
+        session = self.env["pos.session"].browse(data.get("pos_session_id"))
+        pos_config = session.config_id
+
+        if pos_config.simplified_document_type == MODELO_FISCAL_NFCE:
+            # No Odoo 16 o core chama push_single_order() sem opções, então o
+            # frontend pode enviar to_invoice=False. A NFC-e precisa sempre ser
+            # faturada; garantimos isso também no servidor.
+            if not draft:
+                data["to_invoice"] = True
+
+                # Alguns fluxos (offline/contingência) podem não enviar o
+                # parceiro. Usa o consumidor anônimo do PDV como fallback.
+                if not data.get("partner_id") and pos_config.partner_id:
+                    data["partner_id"] = pos_config.partner_id.id
+
         res = super()._process_order(pos_order_vals, draft, existing_order)
 
         created_order = self.browse(res)

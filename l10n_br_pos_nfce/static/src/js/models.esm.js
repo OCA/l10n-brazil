@@ -214,29 +214,6 @@ Registries.Model.extend(Order, L10nBrNfceOrder);
 const L10nBrNfcePosGlobalState = (PosGlobalState) =>
     class L10nBrNfcePosGlobalState extends PosGlobalState {
         /**
-         * Mantém o fluxo antigo de envio de NFC-e,
-         * mas usando a API do Odoo 16.
-         */
-        async push_and_invoice_order(order) {
-            if (this.config.simplified_document_type !== "65") {
-                return super.push_and_invoice_order(...arguments);
-            }
-
-            if (!order.get_partner()) {
-                throw {
-                    code: 400,
-                    message: "Missing Customer",
-                    data: {},
-                };
-            }
-
-            return this.push_single_order(order, {
-                timeout: 30000,
-                to_invoice: true,
-            });
-        }
-
-        /**
          * Envio dos pedidos para o backend.
          *
          * O Odoo 16 já possui _save_to_server().
@@ -250,6 +227,8 @@ const L10nBrNfcePosGlobalState = (PosGlobalState) =>
             if (!orders || !orders.length) {
                 return [];
             }
+
+            const toInvoice = !options.draft;
 
             const timeout =
                 typeof options.timeout === "number"
@@ -276,7 +255,7 @@ const L10nBrNfcePosGlobalState = (PosGlobalState) =>
 
             const args = [
                 ordersToSync.map((order) => {
-                    order.to_invoice = options.to_invoice || false;
+                    order.to_invoice = toInvoice;
                     return order;
                 }),
                 options.draft || false,
@@ -294,7 +273,7 @@ const L10nBrNfcePosGlobalState = (PosGlobalState) =>
                     },
                     {
                         timeout: timeout,
-                        shadow: !options.to_invoice,
+                        shadow: !toInvoice,
                     }
                 );
 
@@ -320,7 +299,7 @@ const L10nBrNfcePosGlobalState = (PosGlobalState) =>
                 }
 
                 if (error.code === 200) {
-                    if ((!this.failed || options.show_error) && !options.to_invoice) {
+                    if ((!this.failed || options.show_error) && !toInvoice) {
                         this.failed = error;
                         this.set_synch("error");
                     } else {

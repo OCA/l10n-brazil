@@ -41,6 +41,17 @@ const L10nBrPosNfcePaymentScreen = (OriginalPaymentScreen) =>
             return super.shouldDownloadInvoice();
         }
 
+        async _finalizeValidation() {
+            if (this.env.pos.config.simplified_document_type === "65") {
+                // O Odoo 16 chama push_single_order() sem opções; sem marcar o
+                // pedido como faturado, o backend não cria a fatura/NFC-e e o
+                // ReceiptScreen não usa o layout DANFE NFC-e.
+                this.currentOrder.to_invoice = true;
+            }
+
+            return super._finalizeValidation(...arguments);
+        }
+
         showScreen(screenName, props) {
             return super.showScreen(screenName, props);
         }
