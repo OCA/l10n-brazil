@@ -24,4 +24,5 @@ from . import (
     test_icmssn,
     test_simplified_tax,
     test_document_import_wizard,
+    test_catalog_venda_compras,
 )
