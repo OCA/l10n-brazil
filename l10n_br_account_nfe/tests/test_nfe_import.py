@@ -182,6 +182,12 @@ class NFeImportTest(TransactionCase):
         # reported on the lines' *_value fields instead.
         self.assertAlmostEqual(move.amount_tax, 132.14, places=2)
         self.assertAlmostEqual(move.amount_total, 12108.10, places=2)
+        # one term per <dup>, with the declared date and amount
+        terms = move.line_ids.filtered(lambda ln: ln.display_type == "payment_term")
+        self.assertEqual(
+            sorted((str(t.date_maturity), round(-t.balance, 2)) for t in terms),
+            [("2026-12-09", 4035.63), ("2026-12-24", 4035.63), ("2027-01-08", 4036.84)],
+        )
 
         self.assertEqual(len(move.invoice_line_ids), 4)
 
