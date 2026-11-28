@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright (C) 2026 Luis Felipe Mileo - KMEE
+     License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html -->
+<odoo>
+    <record id="result_closing_wizard_form" model="ir.ui.view">
+        <field name="model">l10n_br_account.result.closing.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Close the result of the period">
+                <field name="company_id" invisible="1" />
+                <group>
+                    <group>
+                        <field name="company_id" groups="base.group_multi_company" />
+                        <field name="date_from" />
+                        <field name="date_to" />
+                    </group>
+                    <group>
+                        <field name="journal_id" />
+                        <field name="equity_account_id" />
+                    </group>
+                </group>
+                <footer>
+                    <button
+                        name="action_close"
+                        string="Close the result"
+                        type="object"
+                        class="btn-primary"
+                    />
+                    <button string="Cancel" class="btn-secondary" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="result_closing_wizard_action" model="ir.actions.act_window">
+        <field name="name">Close the result of the period</field>
+        <field name="res_model">l10n_br_account.result.closing.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem
+        id="result_closing_wizard_menu"
+        action="result_closing_wizard_action"
+        parent="account.menu_finance_entries"
+        groups="account.group_account_manager"
+        sequence="50"
+    />
+</odoo>
