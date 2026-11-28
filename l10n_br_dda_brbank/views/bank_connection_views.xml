@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="bank_connection_form_dda" model="ir.ui.view">
+        <field name="name">l10n_br_bank_connection.connection.form.dda</field>
+        <field name="model">l10n_br_bank_connection.connection</field>
+        <field name="inherit_id" ref="l10n_br_bank_connection.bank_connection_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='sync']" position="after">
+                <page string="DDA" name="dda" invisible="not dda_available">
+                    <div
+                        class="alert alert-warning"
+                        role="alert"
+                        invisible="not dda_pending_events"
+                    >
+                        <field name="dda_pending_events" /> DDA event(s) waiting to be
+                        processed or retried. See the events below.
+                    </div>
+                    <div class="mb-3">
+                        <button
+                            name="action_enable_dda"
+                            type="object"
+                            string="Enable DDA"
+                            class="btn-primary"
+                            invisible="dda_enabled or state == 'draft'"
+                        />
+                        <button
+                            name="action_dda_sync_now"
+                            type="object"
+                            string="Synchronize now"
+                            class="btn-secondary"
+                            invisible="not dda_enabled"
+                        />
+                        <button
+                            name="action_disable_dda"
+                            type="object"
+                            string="Disable DDA"
+                            class="btn-secondary"
+                            confirm="The bank stops sending new boletos. The ones already captured stay in the inbox. Continue?"
+                            invisible="not dda_enabled"
+                        />
+                    </div>
+                    <group>
+                        <group name="dda_state">
+                            <field name="dda_enabled" />
+                            <field name="dda_last_incremental" />
+                            <field name="dda_last_full" />
+                            <field name="dda_last_cursor" groups="base.group_no_one" />
+                        </group>
+                    </group>
+                    <separator string="Last synchronization" />
+                    <field name="dda_sync_status_ids">
+                        <list
+                            decoration-danger="state == 'error'"
+                            decoration-warning="state == 'warning'"
+                        >
+                            <field name="last_date" />
+                            <field name="state" />
+                            <field name="message" />
+                        </list>
+                    </field>
+                    <separator string="Events" />
+                    <field name="dda_event_ids">
+                        <list
+                            create="false"
+                            decoration-danger="state == 'quarantine'"
+                            decoration-warning="state == 'error'"
+                            decoration-muted="state == 'done'"
+                        >
+                            <field name="create_date" />
+                            <field name="event_type" />
+                            <field name="state" />
+                            <field name="attempts" />
+                            <field name="next_attempt_at" />
+                            <field name="last_error" />
+                        </list>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <!-- Header of one installment: number, due date, amount and situation. -->
+    <template id="portal_boleto_title_header">
+        <div class="small">
+            <div t-if="len(boleto_transactions) &gt; 1" class="text-muted">
+                Installment
+                <t t-out="boleto_tx_index + 1" />
+                of
+                <t t-out="len(boleto_transactions)" />
+            </div>
+            <span class="text-muted">Due</span>
+            <span t-field="boleto_tx.due_date" />
+        </div>
+        <div class="text-end">
+            <strong
+                class="text-nowrap"
+                t-field="boleto_tx.amount"
+                t-options='{"widget": "monetary", "display_currency": boleto_tx.currency_id}'
+            />
+            <div t-if="boleto_tx.state == 'done'">
+                <span class="badge text-bg-success">Paid</span>
+            </div>
+            <div t-elif="boleto_tx._boleto_is_overdue()">
+                <span class="badge text-bg-danger">Overdue</span>
+            </div>
+        </div>
+    </template>
+
+    <!-- The loop variable is not `title`: the portal sidebar already uses it for
+         the invoice amount, and reusing it printed the record instead. -->
+    <template id="portal_invoice_page_boleto" inherit_id="account.portal_invoice_page">
+        <xpath expr="//div[hasclass('o_download_pdf')]/.." position="after">
+            <t
+                t-set="boleto_transactions"
+                t-value="invoice._boleto_portal_transactions()"
+            />
+            <t
+                t-set="boleto_next"
+                t-value="boleto_transactions.filtered(lambda t: t.state != 'done')[:1]"
+            />
+            <div
+                t-if="boleto_transactions"
+                id="boleto_titles"
+                class="d-flex flex-column gap-2"
+            >
+                <h6 class="mb-0">
+                    <small class="text-muted">How to pay</small>
+                </h6>
+                <t t-foreach="boleto_transactions" t-as="boleto_tx">
+                    <!-- Paid: one line, nothing to pay. -->
+                    <div t-if="boleto_tx.state == 'done'" class="card o_boleto_title">
+                        <div
+                            class="card-body px-3 py-2 d-flex justify-content-between align-items-center gap-2"
+                        >
+                            <t t-call="l10n_br_payment.portal_boleto_title_header" />
+                        </div>
+                    </div>
+                    <!-- Open: the next one comes expanded, the others one click away. -->
+                    <details
+                        t-else=""
+                        class="card o_boleto_title"
+                        t-att-open="boleto_tx == boleto_next or None"
+                    >
+                        <summary
+                            class="card-body px-3 py-2 d-flex justify-content-between align-items-center gap-2"
+                            style="cursor: pointer;"
+                        >
+                            <t t-call="l10n_br_payment.portal_boleto_title_header" />
+                        </summary>
+                        <div class="card-body pt-0 px-3 pb-3 d-flex flex-column gap-3">
+                            <div
+                                t-if="boleto_tx.pix_copia_cola"
+                                class="d-flex flex-column align-items-center gap-2 o_boleto_pix"
+                            >
+                                <img
+                                    class="img-fluid border rounded p-1"
+                                    style="width: 200px;"
+                                    alt="Pix QR code"
+                                    loading="lazy"
+                                    t-att-src="boleto_tx._boleto_pix_qr_url()"
+                                />
+                                <small class="text-muted text-center">
+                                    Scan with your bank app, or copy the Pix code
+                                </small>
+                                <button
+                                    type="button"
+                                    class="btn btn-primary w-100 o_boleto_copy"
+                                    t-att-data-copy="boleto_tx.pix_copia_cola"
+                                >
+                                    <i class="fa fa-copy" />
+                                    <span
+                                        class="o_boleto_copy_label"
+                                    >Copy Pix code</span>
+                                </button>
+                            </div>
+                            <div
+                                t-if="boleto_tx.digitable_line"
+                                class="d-flex flex-column gap-2 o_boleto_line"
+                            >
+                                <small class="text-muted">Boleto digitable line</small>
+                                <div
+                                    class="font-monospace small text-break"
+                                    t-out="boleto_tx._boleto_digitable_line_display()"
+                                />
+                                <button
+                                    type="button"
+                                    t-attf-class="btn {{ 'btn-light' if boleto_tx.pix_copia_cola else 'btn-primary' }} w-100 o_boleto_copy"
+                                    t-att-data-copy="''.join(c for c in boleto_tx.digitable_line if c.isdigit())"
+                                >
+                                    <i class="fa fa-copy" />
+                                    <span
+                                        class="o_boleto_copy_label"
+                                    >Copy digitable line</span>
+                                </button>
+                            </div>
+                            <!-- Bank modules add their actions here (boleto PDF). -->
+                            <div class="d-flex flex-column gap-2 o_boleto_actions" />
+                        </div>
+                    </details>
+                </t>
+            </div>
+        </xpath>
+    </template>
+</odoo>

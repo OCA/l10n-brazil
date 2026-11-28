@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <!-- Tables, not flexbox: wkhtmltopdf does not lay out flex reliably. -->
+    <template
+        id="report_invoice_document_boleto"
+        inherit_id="account.report_invoice_document"
+    >
+        <xpath expr="//p[@name='payment_communication']/.." position="after">
+            <t
+                t-set="boleto_transactions"
+                t-value="o.move_type == 'out_invoice' and o._boleto_report_transactions()"
+            />
+            <!-- Numbered by the position in the whole invoice, paid ones included. -->
+            <t
+                t-set="boleto_all"
+                t-value="boleto_transactions and o._boleto_portal_transactions()"
+            />
+            <div t-if="boleto_transactions" id="boleto_titles" class="mt-4">
+                <strong>How to pay</strong>
+                <table
+                    t-foreach="boleto_transactions"
+                    t-as="boleto_tx"
+                    class="table table-borderless mt-2 mb-0"
+                    style="border: 1px solid #dee2e6; page-break-inside: avoid;"
+                >
+                    <tr>
+                        <td
+                            t-if="boleto_tx.pix_copia_cola"
+                            style="width: 40mm; vertical-align: top;"
+                        >
+                            <img
+                                alt="Pix QR code"
+                                style="width: 35mm; height: 35mm;"
+                                t-att-src="'/report/barcode/?barcode_type=QR&amp;value=%s&amp;width=1000&amp;height=1000' % quote_plus(boleto_tx.pix_copia_cola)"
+                            />
+                        </td>
+                        <td style="vertical-align: top;">
+                            <div>
+                                <t t-if="len(boleto_all) &gt; 1">
+                                    <strong>
+                                        Installment
+                                        <t
+                                t-out="boleto_all.ids.index(boleto_tx.id) + 1"
+                            />
+                                        of
+                                        <t t-out="len(boleto_all)" />
+                                    </strong>
+                                    -
+                                </t>
+                                Due
+                                <strong t-field="boleto_tx.due_date" />
+                                -
+                                <strong
+                                t-field="boleto_tx.amount"
+                                t-options='{"widget": "monetary", "display_currency": boleto_tx.currency_id}'
+                            />
+                            </div>
+                            <div t-if="boleto_tx.digitable_line" class="mt-2">
+                                <small class="text-muted">Boleto digitable line</small>
+                                <div
+                                    class="font-monospace"
+                                    t-out="boleto_tx._boleto_digitable_line_display()"
+                                />
+                            </div>
+                            <div t-if="boleto_tx.pix_copia_cola" class="mt-2">
+                                <small class="text-muted">Pix copy and paste</small>
+                                <div
+                                    class="font-monospace"
+                                    style="font-size: 0.7em; word-break: break-all;"
+                                    t-field="boleto_tx.pix_copia_cola"
+                                />
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </xpath>
+    </template>
+</odoo>
