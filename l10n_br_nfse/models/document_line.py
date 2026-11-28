@@ -112,7 +112,24 @@ class DocumentLine(models.Model):
             "municipal_percent": self.issqn_percent or 0.0,
         }
 
+    def _nfse_ibscbs_complete(self):
+        """Whether the line carries the data of the IBSCBS group of the NFS-e:
+        the cClassTrib classification, the CST and the cIndOp operation
+        indicator, all mandatory in the group."""
+        self.ensure_one()
+        return bool(
+            self.tax_classification_id
+            and self.operation_indicator_id
+            and (self.ibs_cst_id or self.cbs_cst_id)
+        )
+
+    def _nfse_ibscbs_cst_code(self):
+        """CST of the IBSCBS group: the IBS one, else the CBS one."""
+        self.ensure_one()
+        return (self.ibs_cst_id or self.cbs_cst_id).code
+
     def _prepare_line_service(self):
+        ibscbs = self._nfse_ibscbs_complete()
         return {
             "valor_servicos": round(self.price_gross, 2),
             "valor_deducoes": round(self.fiscal_deductions_value, 2),
@@ -143,10 +160,16 @@ class DocumentLine(models.Model):
             "codigo_cnae": misc.punctuation_rm(self.cnae_id.code) or None,
             "codigo_nbs": self.nbs_id.code or "",
             "codigo_nbs_unmasked": self.nbs_id.code_unmasked or "",
-            "codigo_indicador_operacao": self.operation_indicator_id.code or "",
-            "ibs_cbs_classificacao_tributaria": self.tax_classification_id.code
-            or "000000",
-            "ibs_cbs_situacao_tributaria": self.ibs_cst_code or "000",
+            # no default code: an incomplete IBSCBS group is invalid
+            "codigo_indicador_operacao": (
+                self.operation_indicator_id.code if ibscbs else None
+            ),
+            "ibs_cbs_classificacao_tributaria": (
+                self.tax_classification_id.code if ibscbs else None
+            ),
+            "ibs_cbs_situacao_tributaria": (
+                self._nfse_ibscbs_cst_code() if ibscbs else None
+            ),
             "ibs_cbs_base_calculo": round(self.issqn_base, 2),
             "valor_desconto_incondicionado": round(self.discount_value, 2),
             "ibs_uf_aliquota": round(self.ibs_percent, 2) if self.ibs_percent else None,

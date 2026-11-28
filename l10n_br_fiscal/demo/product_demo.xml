@@ -263,5 +263,10 @@
         <field name="fiscal_genre_id" ref="l10n_br_fiscal.product_genre_00" />
         <field name="icms_origin" eval="" />
         <field name="service_type_id" ref="l10n_br_fiscal.service_type_105" />
+        <!-- software development: other onerous services, buyer in Brazil -->
+        <field
+            name="operation_indicator_id"
+            ref="l10n_br_fiscal.operation_indicator_100301"
+        />
     </record>
 </odoo>
