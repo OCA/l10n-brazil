@@ -51,13 +51,16 @@ class Document(models.Model):
 
     _inherit = "l10n_br_fiscal.document"
 
-    def _processador_erpbrasil_nfse(self):
-        if self.filtered(filter_focusnfe):
-            return None
-        return super()._processador_erpbrasil_nfse()
-
     def _prepare_dados_servico(self):
-        """Add withholding bases and rates needed by the NFSe Nacional payload."""
+        """Add the deduction discrimination (DiscrDed) to the service data.
+
+        Per Focus NFe support, the "DiscrDed" tag is filled from the
+        "discriminacao_deducoes" key sent in the service block, sourced here
+        from the existing manually-entered fiscal additional data field.
+
+        Also adds withholding bases and rates needed by the NFSe Nacional
+        payload.
+        """
         service_data = super()._prepare_dados_servico()
         service_data["discriminacao_deducoes"] = (
             self.manual_fiscal_additional_data or ""
@@ -84,6 +87,11 @@ class Document(models.Model):
             )
 
         return service_data
+
+    def _processador_erpbrasil_nfse(self):
+        if self.filtered(filter_focusnfe):
+            return None
+        return super()._processador_erpbrasil_nfse()
 
     def make_focus_nfse_pdf(self, content):
         """Generate a PDF for a NFSe document using Focus NFSe service.

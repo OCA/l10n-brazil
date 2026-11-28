@@ -108,6 +108,8 @@ class DocumentLine(models.Model):
             "ibs_uf_valor": round(self.ibs_value, 2) if self.ibs_value else None,
             "ibs_mun_valor": 0.0,
             "cbs_valor": round(self.cbs_value, 2) if self.cbs_value else None,
+            "ibs_uf_percentual_diferimento": round(self.ibs_reduction, 2),
+            "cbs_percentual_diferimento": round(self.cbs_reduction, 2),
             "situacao_tributaria_pis": self.pis_cst_code or "",
             "situacao_tributaria_cofins": self.cofins_cst_code or "",
             "base_calculo_pis": round(self.pis_base, 2) or round(self.pis_wh_base, 2),
