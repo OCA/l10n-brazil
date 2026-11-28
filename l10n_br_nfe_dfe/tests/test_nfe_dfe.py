@@ -9,6 +9,7 @@ from datetime import timedelta
 from io import BytesIO
 from unittest import mock
 
+from lxml import objectify
 from requests.exceptions import RequestException
 from xsdata.formats.dataclass.transports import DefaultTransport
 
@@ -1468,6 +1469,66 @@ class TestDFe(TransactionCase):
         self.assertTrue(doc)
         self.assertEqual(doc.access_key, "SHORT_KEY")
         self.assertFalse(doc.vat, "Short key should not extract CNPJ metadata")
+
+    # ── Issuer identified by CPF ─────────────────────────────────────────
+
+    @mock.patch.object(DefaultTransport, "post")
+    def test_issuer_with_cpf(self, mock_post):
+        """NF-e issued by a natural person brings CPF instead of CNPJ."""
+        resnfe_xml = (
+            '<resNFe xmlns="http://www.portalfiscal.inf.br/nfe">'
+            "<chNFe>43261100052998224725559200000001231123456786</chNFe>"
+            "<CPF>52998224725</CPF>"
+            "<xNome>Produtor Rural</xNome>"
+            "<dhEmi>2026-11-20T10:00:00-03:00</dhEmi>"
+            "<tpNF>1</tpNF>"
+            "<vNF>350.00</vNF>"
+            "<cSitNFe>1</cSitNFe>"
+            "</resNFe>"
+        )
+        procnfe_xml = (
+            '<nfeProc xmlns="http://www.portalfiscal.inf.br/nfe" versao="4.00">'
+            '<NFe><infNFe versao="4.00">'
+            "<ide><serie>920</serie><nNF>124</nNF>"
+            "<dhEmi>2026-11-20T11:00:00-03:00</dhEmi><tpNF>1</tpNF></ide>"
+            "<emit><CPF>52998224725</CPF><xNome>Produtor Rural</xNome></emit>"
+            "<total><ICMSTot><vNF>420.00</vNF></ICMSTot></total>"
+            "</infNFe></NFe>"
+            "<protNFe><infProt>"
+            "<chNFe>43261100052998224725559200000001241123456783</chNFe>"
+            "</infProt></protNFe>"
+            "</nfeProc>"
+        )
+        response = _build_dfe_response(
+            [
+                ("000000000000500", "resNFe_v1.01.xsd", resnfe_xml),
+                ("000000000000501", "procNFe_v4.00.xsd", procnfe_xml),
+            ],
+            ult_nsu="000000000000501",
+            max_nsu="000000000000501",
+        )
+        mock_post.return_value = response.encode("utf-8")
+        self.company.nfe_dfe_search_documents()
+
+        self.assertEqual(self.company.nfe_last_nsu, "000000000000501")
+        documents = self.env["l10n_br_fiscal_dfe.document"].search(
+            [
+                ("company_id", "=", self.company.id),
+                ("access_key", "like", "43261100052998224725%"),
+            ]
+        )
+        self.assertEqual(len(documents), 2)
+        self.assertEqual(set(documents.mapped("vat")), {"52998224725"})
+        complete = documents.filtered(lambda d: d.document_number == "124")
+        self.assertEqual(complete.serie, "920")
+        self.assertEqual(complete.document_amount, 420.0)
+
+    def test_issuer_without_cnpj_or_cpf(self):
+        """A node with neither CNPJ nor CPF gives no VAT instead of an error."""
+        emit = objectify.fromstring(
+            '<emit xmlns="http://www.portalfiscal.inf.br/nfe"><xNome>X</xNome></emit>'
+        )
+        self.assertFalse(self.company._nfe_dfe_issuer_vat(emit))
 
     # ── Timezone: dhEmi and dhRegEvento must be converted to UTC ─────────
 
