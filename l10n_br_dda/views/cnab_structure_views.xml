@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="cnab_structure_form_view_dda" model="ir.ui.view">
+        <field name="name">l10n_br_cnab.structure.form.dda</field>
+        <field name="model">l10n_br_cnab.structure</field>
+        <field
+            name="inherit_id"
+            ref="l10n_br_cnab_structure.cnab_structure_form_view"
+        />
+        <field name="arch" type="xml">
+            <field name="unique_seq_per_segment" position="after">
+                <field name="is_dda_return" readonly="state != 'draft'" />
+            </field>
+        </field>
+    </record>
+</odoo>
