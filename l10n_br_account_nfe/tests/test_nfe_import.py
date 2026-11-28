@@ -78,6 +78,11 @@ class NFeImportTest(TransactionCase):
             del line["match_source_id"]
             del line["match_source_available"]
             del line["match_source_product_matched"]
+            # the order reference echoed by the document and the conflict flag
+            # belong to that same matching feature
+            del line["document_partner_order"]
+            del line["document_partner_order_line"]
+            del line["match_source_conflict"]
             del line["company_id"]
             del line["issuer_partner_id"]
         self.assertEqual(len(lines), 4)
