@@ -132,6 +132,15 @@ class SaleOrderLine(models.Model):
         self.ensure_one()
         return self.order_id
 
+    def _get_fiscal_document_type(self):
+        self.ensure_one()
+        operation_line = self.fiscal_operation_line_id
+        return (
+            operation_line.document_type_id
+            or self.order_id.document_type_id
+            or operation_line.get_document_type(self.company_id)
+        )
+
     # Depends on price_unit because we need a field to force compute in new records
     # not created yet. This field is necessary to compute readonly condition for
     # discount/discount value.
