@@ -629,6 +629,11 @@ class NFeImportWizardTest(TransactionCase):
                 "display_type": "line_section",
                 "name": "Section A",
                 "sequence": 1,
+                # a display_type line must carry no quantity, and product_qty
+                # is NOT NULL on the table (see the CHECK constraint in
+                # purchase: price_unit = 0, product_uom_qty = 0, no product)
+                "product_qty": 0.0,
+                "product_uom_qty": 0.0,
             }
         )
 
