@@ -743,6 +743,38 @@ class TestMoveEdition(TransactionCase):
         for line in tax_lines:
             self.assertEqual(line.amount_currency, tax_amounts[line.id])
 
+    def test_payment_term_on_saved_draft_without_operation_line(self):
+        """Choosing a payment term on a saved invoice whose line has no
+        operation line keeps the receivable at the invoice total."""
+        self._setup_fiscal_user()
+        move_form = self._create_fiscal_invoice_form(
+            self.env.ref("l10n_br_base.res_partner_cliente1_sp")
+        )
+        with move_form.invoice_line_ids.new() as line_form:
+            line_form.product_id = self.product_id
+            line_form.fiscal_operation_line_id = self.env.ref(
+                "l10n_br_fiscal.fo_venda_venda"
+            )
+            line_form.price_unit = 50.0
+            line_form.quantity = 2.0
+        move = move_form.save()
+
+        move.invoice_line_ids.fiscal_operation_line_id = False
+        self.assertEqual(move.invoice_line_ids.financial_total, 100.0)
+        move.invoice_payment_term_id = self.env.ref(
+            "account.account_payment_term_30days"
+        )
+
+        receivable = move.line_ids.filtered(
+            lambda line: line.account_id.account_type == "asset_receivable"
+        )
+        self.assertEqual(len(receivable), 1)
+        self.assertAlmostEqual(receivable.debit, move.amount_total)
+        self.assertEqual(
+            receivable.date_maturity,
+            fields.Date.add(move.invoice_date or move.date, days=30),
+        )
+
     def test_ind_final_propagation_on_manual_change(self):
         """Changing ind_final directly on a saved invoice must propagate
         to the fiscal document lines."""
