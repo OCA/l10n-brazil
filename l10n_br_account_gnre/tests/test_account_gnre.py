@@ -323,7 +323,7 @@ class TestAccountGnre(AccountMoveBRCommon):
         consumer = self.env["res.partner"].create(
             {
                 "name": "Consumidor Final RJ",
-                "vat": "529.982.247-25",
+                "vat": "481.736.290-13",
                 "state_id": self.state_rj.id,
                 "city_id": self.env.ref("l10n_br_base.city_3304557").id,
                 "country_id": self.env.ref("base.br").id,
@@ -369,5 +369,5 @@ class TestAccountGnre(AccountMoveBRCommon):
         ns = "{http://www.gnre.pe.gov.br}"
         self.assertEqual(lote.find(f".//{ns}receita").text, "100102")
         self.assertEqual(
-            lote.find(f".//{ns}contribuinteDestinatario//{ns}CPF").text, "52998224725"
+            lote.find(f".//{ns}contribuinteDestinatario//{ns}CPF").text, "48173629013"
         )
