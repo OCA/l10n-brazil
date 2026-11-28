@@ -51,7 +51,7 @@ class CarrierVehicle(models.Model):
         domain="[('state_id', '=', state_id)]",
     )
 
-    active = fields.Boolean()
+    active = fields.Boolean(default=True)
 
     manufacture_year = fields.Char(
         string="Ano de Fabricação",
