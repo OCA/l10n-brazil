@@ -2,9 +2,10 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 {
-    "name": "Relatórios contábeis brasileiros: Balanço Patrimonial e DRE",
+    "name": "Relatórios contábeis brasileiros: BP, DRE, DFC, DMPL e DLPA",
     "summary": """
-        Templates de relatórios contábeis brasileiros: Balanço Patrimonial e DRE""",
+        Balanço Patrimonial, DRE, Fluxos de Caixa, Mutações do Patrimônio Líquido
+        e Lucros ou Prejuízos Acumulados""",
     "version": "18.0.2.0.0",
     "license": "AGPL-3",
     "author": "KMEE,Odoo Community Association (OCA)",
@@ -22,6 +23,9 @@
         "data/mis_report_styles.xml",
         "data/mis_report_bp.xml",
         "data/mis_report_dre.xml",
+        "data/mis_report_dfc.xml",
+        "data/mis_report_dmpl.xml",
+        "data/mis_report_dlpa.xml",
         # Mantidos para nao apagar, na atualizacao, os relatorios que usuarios
         # montaram sobre eles. Foram substituidos pelos dois acima; quem nao
         # os usa pode remover a mao.

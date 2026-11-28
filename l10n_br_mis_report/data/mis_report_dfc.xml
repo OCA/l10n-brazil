@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo noupdate="1">
+    <!--
+      DFC pelo método indireto, estrutura do CPC 03 (R2). O resultado vem da
+      DRE (subrelatório `dre`). Variações de ativo e passivo usam sinal
+      invertido: ativo que sobe consome caixa, passivo que sobe gera caixa.
+      Só a depreciação é somada de volta; a contrapartida dela fica fora das somas.
+    -->
+    <record id="dfc" model="mis.report">
+        <field name="name">DFC - Demonstração dos Fluxos de Caixa (indireto)</field>
+        <field name="description">Demonstração dos Fluxos de Caixa</field>
+        <field name="move_lines_source" ref="account.model_account_move_line" />
+    </record>
+
+    <!--
+      A DRE entra como subrelatório sob o nome `dre`, e é assim que a primeira
+      linha alcança o resultado do exercício sem recalculá-lo.
+    -->
+    <record id="dfc_subreport_dre" model="mis.report.subreport">
+        <field name="name">dre</field>
+        <field name="report_id" ref="dfc" />
+        <field name="subreport_id" ref="dre" />
+    </record>
+
+    <record id="dfc_header_operacional" model="mis.report.kpi">
+        <field name="sequence">10</field>
+        <field name="report_id" ref="dfc" />
+        <field name="description">ATIVIDADES OPERACIONAIS</field>
+        <field name="name">header_operacional</field>
+        <field name="type">str</field>
+        <field name="style_id" ref="mis_report_style_l10n_br_negrito" />
+    </record>
+
+    <record id="dfc_resultado" model="mis.report.kpi">
+        <field name="sequence">20</field>
+        <field name="report_id" ref="dfc" />
+        <field name="description">Resultado do exercício</field>
+        <field name="name">resultado</field>
+        <field name="expression">dre.resultado_liquido</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+    </record>
+
+    <record id="dfc_depreciacao" model="mis.report.kpi">
+        <field name="sequence">30</field>
+        <field name="report_id" ref="dfc" />
+        <field name="description">(+) Depreciação, amortização e exaustão</field>
+        <field name="name">depreciacao</field>
+        <field
+            name="expression"
+        >+bal[('tag_ids', '=', ref('l10n_br_coa.account_tag_depreciation_expense').id)]</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+        <field name="auto_expand_accounts" eval="True" />
+    </record>
+
+    <record id="dfc_resultado_ajustado" model="mis.report.kpi">
+        <field name="sequence">70</field>
+        <field name="report_id" ref="dfc" />
+        <field name="description">= Resultado ajustado</field>
+        <field name="name">resultado_ajustado</field>
+        <field name="expression">resultado+depreciacao</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+        <field name="style_id" ref="mis_report_style_l10n_br_negrito" />
+    </record>
+
+    <record id="dfc_variacao_operacional" model="mis.report.kpi">
+        <field name="sequence">80</field>
+        <field name="report_id" ref="dfc" />
+        <field
+            name="description"
+        >(+/-) Variação nas contas do ativo e do passivo operacionais</field>
+        <field name="name">variacao_operacional</field>
+        <field
+            name="expression"
+        >-bal[('tag_ids', '=', ref('l10n_br_coa.account_tag_cash_flow_operating').id)]</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+        <field name="auto_expand_accounts" eval="True" />
+    </record>
+
+    <record id="dfc_caixa_operacional" model="mis.report.kpi">
+        <field name="sequence">90</field>
+        <field name="report_id" ref="dfc" />
+        <field name="description">= CAIXA LÍQUIDO DAS ATIVIDADES OPERACIONAIS</field>
+        <field name="name">caixa_operacional</field>
+        <field name="expression">resultado_ajustado+variacao_operacional</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+        <field name="style_id" ref="mis_report_style_l10n_br_negrito" />
+    </record>
+
+    <record id="dfc_header_investimento" model="mis.report.kpi">
+        <field name="sequence">100</field>
+        <field name="report_id" ref="dfc" />
+        <field name="description">ATIVIDADES DE INVESTIMENTO</field>
+        <field name="name">header_investimento</field>
+        <field name="type">str</field>
+        <field name="style_id" ref="mis_report_style_l10n_br_negrito" />
+    </record>
+
+    <record id="dfc_caixa_investimento" model="mis.report.kpi">
+        <field name="sequence">110</field>
+        <field name="report_id" ref="dfc" />
+        <field name="description">= CAIXA LÍQUIDO DAS ATIVIDADES DE INVESTIMENTO</field>
+        <field name="name">caixa_investimento</field>
+        <field
+            name="expression"
+        >-bal[('tag_ids', '=', ref('l10n_br_coa.account_tag_cash_flow_investing').id)]</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+        <field name="auto_expand_accounts" eval="True" />
+        <field name="style_id" ref="mis_report_style_l10n_br_negrito" />
+    </record>
+
+    <record id="dfc_header_financiamento" model="mis.report.kpi">
+        <field name="sequence">120</field>
+        <field name="report_id" ref="dfc" />
+        <field name="description">ATIVIDADES DE FINANCIAMENTO</field>
+        <field name="name">header_financiamento</field>
+        <field name="type">str</field>
+        <field name="style_id" ref="mis_report_style_l10n_br_negrito" />
+    </record>
+
+    <record id="dfc_caixa_financiamento" model="mis.report.kpi">
+        <field name="sequence">130</field>
+        <field name="report_id" ref="dfc" />
+        <field
+            name="description"
+        >= CAIXA LÍQUIDO DAS ATIVIDADES DE FINANCIAMENTO</field>
+        <field name="name">caixa_financiamento</field>
+        <field
+            name="expression"
+        >-bal[('tag_ids', '=', ref('l10n_br_coa.account_tag_cash_flow_financing').id)]</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+        <field name="auto_expand_accounts" eval="True" />
+        <field name="style_id" ref="mis_report_style_l10n_br_negrito" />
+    </record>
+
+    <record id="dfc_transacoes_sem_caixa" model="mis.report.kpi">
+        <field name="sequence">140</field>
+        <field name="report_id" ref="dfc" />
+        <field name="description">(-) Transações que não afetam o caixa</field>
+        <field name="name">transacoes_sem_caixa</field>
+        <field
+            name="expression"
+        >-bal[('tag_ids', '=', ref('l10n_br_coa.account_tag_cash_flow_non_cash').id)]</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+        <field name="auto_expand_accounts" eval="True" />
+    </record>
+
+    <record id="dfc_variacao_caixa" model="mis.report.kpi">
+        <field name="sequence">150</field>
+        <field name="report_id" ref="dfc" />
+        <field name="description">= AUMENTO (REDUÇÃO) DE CAIXA E EQUIVALENTES</field>
+        <field name="name">variacao_caixa</field>
+        <field
+            name="expression"
+        >caixa_operacional+caixa_investimento+caixa_financiamento+transacoes_sem_caixa</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+        <field name="style_id" ref="mis_report_style_l10n_br_negrito" />
+    </record>
+
+    <record id="dfc_caixa_inicial" model="mis.report.kpi">
+        <field name="sequence">160</field>
+        <field name="report_id" ref="dfc" />
+        <field name="description">Caixa e equivalentes no início do período</field>
+        <field name="name">caixa_inicial</field>
+        <field
+            name="expression"
+        >+bali[('tag_ids', '=', ref('l10n_br_coa.account_tag_cash_and_equivalents').id)]</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+        <field name="auto_expand_accounts" eval="True" />
+    </record>
+
+    <record id="dfc_caixa_final" model="mis.report.kpi">
+        <field name="sequence">170</field>
+        <field name="report_id" ref="dfc" />
+        <field name="description">Caixa e equivalentes no fim do período</field>
+        <field name="name">caixa_final</field>
+        <field
+            name="expression"
+        >+bale[('tag_ids', '=', ref('l10n_br_coa.account_tag_cash_and_equivalents').id)]</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+        <field name="auto_expand_accounts" eval="True" />
+    </record>
+
+    <record id="dfc_conferencia" model="mis.report.kpi">
+        <field name="sequence">180</field>
+        <field name="report_id" ref="dfc" />
+        <field name="description">= Variação conferida pelas contas de caixa</field>
+        <field name="name">conferencia</field>
+        <field name="expression">caixa_final-caixa_inicial</field>
+        <field name="type">num</field>
+        <field name="compare_method">pct</field>
+        <field name="style_id" ref="mis_report_style_l10n_br_negrito" />
+    </record>
+</odoo>

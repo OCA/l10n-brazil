@@ -363,3 +363,45 @@ class AccountChartTemplate(models.AbstractModel):
             )
         )
         return created_accounts_refs
+
+    def _update_company_accounts(self, template_code, dropped_tags=None):
+        """Bring the accounts of the companies on this chart up to its template.
+
+        Creates the accounts the company lacks and adds the missing tags.
+        ``dropped_tags`` maps an account xmlid of the template to the tags it
+        lost.
+        """
+        dropped_tags = dropped_tags or {}
+        tag_model = self.env["account.account.tag"]
+        accounts_data = self._get_chart_template_data(template_code)["account.account"]
+        companies = self.env["res.company"].search(
+            [("chart_template", "=", template_code)]
+        )
+        for company in companies:
+            chart = self.with_company(company)
+            account_model = self.env["account.account"].with_company(company)
+            codes = set(
+                account_model.search(
+                    account_model._check_company_domain(company)
+                ).mapped("code")
+            )
+            to_create = {}
+            for xmlid, values in accounts_data.items():
+                account = chart.ref(xmlid, raise_if_not_found=False)
+                tags = tag_model.browse(
+                    [
+                        self.env.ref(name).id
+                        for name in (values.get("tag_ids") or "").split(",")
+                        if name
+                    ]
+                )
+                if account:
+                    new_tags = (account.tag_ids | tags) - dropped_tags.get(
+                        xmlid, tag_model
+                    )
+                    if new_tags != account.tag_ids:
+                        account.tag_ids = new_tags
+                elif values["code"] not in codes:
+                    to_create[xmlid] = dict(values)
+            if to_create:
+                chart._load_data({"account.account": to_create})
