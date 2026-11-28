@@ -23,4 +23,22 @@
             </button>
         </field>
     </record>
+    <record id="document_form_replace" model="ir.ui.view">
+        <field name="name">l10n_br_nfse_nacional.document.form.replace</field>
+        <field name="model">l10n_br_fiscal.document</field>
+        <field name="inherit_id" ref="l10n_br_nfse.nfse_document_form_inherit" />
+        <field name="arch" type="xml">
+            <field name="nfse_replaced_document_id" position="after">
+                <field name="nfse_provedor" invisible="1" />
+                <field
+                    name="nfse_replace_motive"
+                    attrs="{'invisible': ['|', ('nfse_replaced_document_id', '=', False), ('nfse_provedor', '!=', 'nacional')], 'readonly': [('state_edoc', 'not in', ('em_digitacao', 'a_enviar', 'rejeitada'))]}"
+                />
+                <field
+                    name="nfse_replace_reason"
+                    attrs="{'invisible': ['|', ('nfse_replaced_document_id', '=', False), ('nfse_provedor', '!=', 'nacional')], 'readonly': [('state_edoc', 'not in', ('em_digitacao', 'a_enviar', 'rejeitada'))]}"
+                />
+            </field>
+        </field>
+    </record>
 </odoo>

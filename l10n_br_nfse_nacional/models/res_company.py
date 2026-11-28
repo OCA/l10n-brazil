@@ -35,6 +35,13 @@ class ResCompany(spec_models.SpecModel):
 
     nfse10_end = fields.Many2one("res.partner", related="partner_id")
 
+    nfse_suspension_process = fields.Char(
+        string="ISSQN Suspension Process",
+        size=30,
+        help="Number of the judicial or administrative process that suspends "
+        "the ISSQN, declared on the lines whose ISSQN eligibility is suspended.",
+    )
+
     # Overriding the inherited fields to make them computed
     nfse10_opSimpNac = fields.Selection(compute="_compute_nfse10_reg_trib")
     nfse10_regApTribSN = fields.Selection(compute="_compute_nfse10_reg_trib")

@@ -10,6 +10,8 @@
 - DANFSe gerado do XML autorizado.
 - Grupo `IBSCBS` da DPS (leiaute 1.04.01, reforma tributária) montado a partir do
   `cClassTrib`, do `CST` e do indicador de operação (`cIndOp`) da linha.
+- Grupos `exigSusp` (exigibilidade suspensa) e `BM` (benefício municipal) de
+  `tribMun`.
 
 **Limitações conhecidas**
 
@@ -27,6 +29,9 @@
   `indDest` sai como `"0"`: o leiaute 1.04.01 (NT 009) tirou o `finNFSe` do
   grupo (ele agora vai em `infDPS`, obrigatório e sempre `"0"`) e o
   `indDest = "1"` depende do grupo `dest`, ainda não exportado.
+- O benefício municipal vem do código de tributação municipal, que é comum a
+  todas as empresas da base: um benefício restrito a um prestador vale para
+  todas as empresas que usam o mesmo código.
 - CNAB e cobrança bancária não se aplicam a este módulo.
 - Não existe inutilização de numeração para a NFS-e Nacional (a numeração da DPS
   é livre).

@@ -23,5 +23,13 @@ município, tipo de emissor, CNPJ/CPF, série e número.
 nacional. Para testar, use o ambiente de homologação (produção restrita) com o
 certificado da empresa.
 
+**Benefício municipal e exigibilidade suspensa.** O benefício municipal (grupo
+`BM` da DPS) é cadastrado no código de tributação municipal: o identificador
+`nBM` gerado pelo município no Sistema Nacional e o tipo do benefício. Nos tipos
+de redução da base de cálculo, a redução informada é o percentual de redução do
+ISSQN da linha. O número do processo judicial ou administrativo que suspende o
+ISSQN fica na empresa e é declarado no grupo `exigSusp` das linhas com
+exigibilidade suspensa.
+
 **Dependências Python**: `nfelib`, `brazilfiscalreport`, `erpbrasil.assinatura`,
 `requests` e `cryptography`.

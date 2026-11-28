@@ -2,10 +2,13 @@
 # Copyright 2026 KMEE INFORMATICA LTDA
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import api, fields
+from odoo import _, api, fields
+from odoo.exceptions import UserError
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import TAX_FRAMEWORK_SIMPLES_ALL
 from odoo.addons.spec_driven_model.models import spec_models
+
+from ..constants.nfse_nacional import NFSE_NACIONAL_SUSPENSION_TYPES
 
 
 class L10nBrFiscalDocumentLine(spec_models.SpecModel):
@@ -275,6 +278,41 @@ class L10nBrFiscalDocumentLine(spec_models.SpecModel):
                 rec.nfse10_pTotTribFed = f"{federal:.2f}"
                 rec.nfse10_pTotTribEst = "0.00"
                 rec.nfse10_pTotTribMun = f"{rec.issqn_percent or 0.0:.2f}"
+
+    def _export_tag_nfse_10_exigsusp(self, xsd_fields, class_obj, export_dict):
+        suspension = NFSE_NACIONAL_SUSPENSION_TYPES.get(self.issqn_eligibility)
+        # E0585: the suspension is only declared for a taxable service
+        if not suspension or self.nfse10_tribISSQN != "1":
+            return
+        process = self.company_id.nfse_suspension_process
+        if not process:
+            raise UserError(
+                _(
+                    "The ISSQN of %(line)s is suspended: inform the suspension "
+                    "process in the company %(company)s.",
+                    line=self.name,
+                    company=self.company_id.name,
+                )
+            )
+        export_dict.update(tpSusp=suspension, nProcesso=process)
+
+    def _export_tag_nfse_10_bm(self, xsd_fields, class_obj, export_dict):
+        code = self.city_taxation_code_id
+        company = self.company_id
+        # E0533, E0534 and E0535: taxable service, provider not MEI, no special regime
+        if (
+            not code.nfse_benefit_code
+            or self.nfse10_tribISSQN != "1"
+            or company.nfse10_opSimpNac == "2"
+            or (company.nfse10_regEspTrib or "0") != "0"
+        ):
+            return
+        export_dict["nBM"] = code.nfse_benefit_code
+        if code.nfse_benefit_type == "2" and self.issqn_reduction:
+            export_dict["pRedBCBM"] = f"{self.issqn_reduction:.2f}"
+        elif code.nfse_benefit_type == "3" and self.issqn_reduction:
+            reduction = (self.price_gross - self.discount_value) * self.issqn_reduction
+            export_dict["vRedBCBM"] = f"{reduction / 100:.2f}"
 
     def _export_many2one(self, field_name, xsd_required, class_obj=None):
         internal_stack_mappings = [
