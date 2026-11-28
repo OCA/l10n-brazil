@@ -81,6 +81,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     """
 
     _name = "l10n_br_fiscal.document.line.mixin"
+    _inherit = "l10n_br_fiscal.tax.creditability.mixin"
     _description = "Document Fiscal Mixin"
 
     @api.model
@@ -353,31 +354,36 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     def _compute_fiscal_tax_ids(self):
         for line in self:
             if line.fiscal_operation_line_id:
-                mapping_result = line.fiscal_operation_line_id.map_fiscal_taxes(
-                    company=line.company_id,
-                    partner=line._get_fiscal_partner(),
-                    product=line.product_id,
-                    ncm=line.ncm_id,
-                    nbm=line.nbm_id,
-                    nbs=line.nbs_id,
-                    cest=line.cest_id,
-                    city_taxation_code=line.city_taxation_code_id,
-                    national_taxation_code=line.national_taxation_code_id,
-                    service_type=line.service_type_id,
-                    ind_final=line.ind_final,
-                    tax_classification=line.tax_classification_id,
-                )
+                mapping_result = line._map_fiscal_taxes_of_line()
                 line.cfop_id = mapping_result["cfop"]
                 line.ipi_guideline_id = mapping_result["ipi_guideline"]
                 line.icms_tax_benefit_id = mapping_result["icms_tax_benefit_id"]
 
                 if line._is_imported():
+                    line._apply_entry_cfop_safeguard()
                     continue
 
                 taxes = line.env["l10n_br_fiscal.tax"]
                 for tax in mapping_result["taxes"].values():
                     taxes |= tax
                 line.fiscal_tax_ids = taxes
+
+    def _map_fiscal_taxes_of_line(self):
+        self.ensure_one()
+        return self.fiscal_operation_line_id.map_fiscal_taxes(
+            company=self.company_id,
+            partner=self._get_fiscal_partner(),
+            product=self.product_id,
+            ncm=self.ncm_id,
+            nbm=self.nbm_id,
+            nbs=self.nbs_id,
+            cest=self.cest_id,
+            city_taxation_code=self.city_taxation_code_id,
+            national_taxation_code=self.national_taxation_code_id,
+            service_type=self.service_type_id,
+            ind_final=self.ind_final,
+            tax_classification=self.tax_classification_id,
+        )
 
     @api.depends("fiscal_operation_line_id")
     def _compute_comment_ids(self):
@@ -1048,6 +1054,18 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         # and we consider the document is not imported
         return hasattr(self, "document_id") and self.document_id.imported_document
 
+    def _apply_entry_cfop_safeguard(self):
+        """An imported entry line never keeps an empty or outgoing CFOP: it
+        takes the inverse of the CFOP declared by the supplier."""
+        self.ensure_one()
+        if self.fiscal_operation_type != FISCAL_IN:
+            return
+        if self.cfop_id and self.cfop_id.code[:1] not in ("5", "6", "7"):
+            return
+        inverse = self.partner_cfop_id.cfop_inverse_id
+        if inverse:
+            self.cfop_id = inverse
+
     currency_id = fields.Many2one(
         comodel_name="res.currency",
         string="Currency",
@@ -1212,6 +1230,14 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         help="CFOP as declared by the counterparty in the imported document. "
         "It is preserved as-is for fiscal bookkeeping / SPED (e.g. C197), "
         "while cfop_id reflects the company's own operation after the de-para.",
+    )
+
+    partner_icms_tax_benefit_code = fields.Char(
+        string="Supplier Fiscal Benefit Code (cBenef)",
+        help="Fiscal benefit code (<cBenef>) declared by the counterparty in "
+        "the imported document. Preserved verbatim for SPED C197 (COD_AJ), "
+        "while icms_tax_benefit_id/code reflects the company's own de-para "
+        "mapping.",
     )
 
     fiscal_price = fields.Float(
