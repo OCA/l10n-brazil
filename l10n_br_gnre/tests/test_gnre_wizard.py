@@ -46,7 +46,7 @@ class TestGnreWizard(TransactionCase):
                 "company_id": self.company.id,
                 "document_type_id": self.document_type.id,
                 "document_serie": "1",
-                "document_number": number,
+                "document_number": f"8800{number}",
                 "document_date": "2026-07-15",
             }
         )
