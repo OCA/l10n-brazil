@@ -108,29 +108,30 @@ class CNABLine(models.Model):
             return True
         return payment_way in self.cnab_payment_way_ids
 
+    @api.depends("type")
     def _compute_content_source_model_id(self):
-        if self.type in ["header", "trailer"]:
-            self.content_source_model_id = self.env["ir.model"].search(
-                [("model", "=", "account.payment.order")]
-            )
-        else:
-            self.content_source_model_id = self.env["ir.model"].search(
-                [("model", "=", "account.payment.line")]
-            )
+        ir_model = self.env["ir.model"]
+        order_model = ir_model.search([("model", "=", "account.payment.order")])
+        line_model = ir_model.search([("model", "=", "account.payment.line")])
+        for line in self:
+            if line.type in ["header", "trailer"]:
+                line.content_source_model_id = order_model
+            else:
+                line.content_source_model_id = line_model
 
+    @api.depends("type", "batch_id")
     def _compute_dest_source_model_id(self):
-        if self.type in ["header", "trailer"] and not self.batch_id:
-            self.content_dest_model_id = self.env["ir.model"].search(
-                [("model", "=", "l10n_br_cnab.return.log")]
-            )
-        elif self.type in ["header", "trailer"] and self.batch_id:
-            self.content_dest_model_id = self.env["ir.model"].search(
-                [("model", "=", "l10n_br_cnab.return.lot")]
-            )
-        else:
-            self.content_dest_model_id = self.env["ir.model"].search(
-                [("model", "=", "l10n_br_cnab.return.event")]
-            )
+        ir_model = self.env["ir.model"]
+        log_model = ir_model.search([("model", "=", "l10n_br_cnab.return.log")])
+        lot_model = ir_model.search([("model", "=", "l10n_br_cnab.return.lot")])
+        event_model = ir_model.search([("model", "=", "l10n_br_cnab.return.event")])
+        for line in self:
+            if line.type in ["header", "trailer"] and not line.batch_id:
+                line.content_dest_model_id = log_model
+            elif line.type in ["header", "trailer"] and line.batch_id:
+                line.content_dest_model_id = lot_model
+            else:
+                line.content_dest_model_id = event_model
 
     def output(self, resource_ref, record_type, **kwargs):
         "Compute CNAB output with all fields for this Line"
