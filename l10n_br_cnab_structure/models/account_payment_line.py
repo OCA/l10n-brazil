@@ -54,6 +54,20 @@ class AccountPaymentLine(models.Model):
         readonly=False,
     )
 
+    @api.model_create_multi
+    def create(self, vals_list):
+        no_service_type = ["service_type" not in vals for vals in vals_list]
+        lines = super().create(vals_list)
+        # The default service type (30) fills the field on create and the
+        # compute never runs, so the payment rule is applied here.
+        for line, apply_rule in zip(lines, no_service_type, strict=True):
+            if not apply_rule or not line.order_id.cnab_structure_id:
+                continue
+            service_type = line._get_cnab_payment_way_and_service_type()[1]
+            if service_type:
+                line.service_type = service_type
+        return lines
+
     @api.depends("partner_pix_id")
     def _compute_cnab_pix_type_id(self):
         for bline in self:
