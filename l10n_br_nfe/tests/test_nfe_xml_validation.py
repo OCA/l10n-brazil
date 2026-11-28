@@ -169,6 +169,7 @@ class TestXMLValidation(TransactionCase):
                 "icms_tax_id": self.env.ref("l10n_br_fiscal.tax_icms_12_st").id,
                 "icmsst_tax_id": self.env.ref("l10n_br_fiscal.tax_icmsst_p30_50").id,
                 "icmsfcpst_tax_id": self.env.ref("l10n_br_fiscal.tax_icmsfcp_st_2").id,
+                "icmsfcp_tax_id": self.env.ref("l10n_br_fiscal.tax_icmsfcp_2").id,
                 "ipi_tax_id": self.env.ref("l10n_br_fiscal.tax_ipi_30").id,
                 "pis_tax_id": self.env.ref("l10n_br_fiscal.tax_pis_1_65").id,
                 "cofins_tax_id": self.env.ref("l10n_br_fiscal.tax_cofins_7_6").id,
@@ -192,6 +193,8 @@ class TestXMLValidation(TransactionCase):
                 "fiscal_price": 116.41,
                 "quantity": 22,
                 "fiscal_quantity": 22,
+                # internal CFOP: only this line carries vFCP
+                "cfop_id": self.env.ref("l10n_br_fiscal.cfop_5102").id,
             }
         )
         # update separado para não ser sobreescrito pelo compute.
@@ -200,6 +203,7 @@ class TestXMLValidation(TransactionCase):
                 "icms_tax_id": self.env.ref("l10n_br_fiscal.tax_icms_12_st").id,
                 "icmsst_tax_id": self.env.ref("l10n_br_fiscal.tax_icmsst_p30_50").id,
                 "icmsfcpst_tax_id": self.env.ref("l10n_br_fiscal.tax_icmsfcp_st_2").id,
+                "icmsfcp_tax_id": self.env.ref("l10n_br_fiscal.tax_icmsfcp_2").id,
                 "ipi_tax_id": self.env.ref("l10n_br_fiscal.tax_ipi_30").id,
                 "pis_tax_id": self.env.ref("l10n_br_fiscal.tax_pis_1_65").id,
                 "cofins_tax_id": self.env.ref("l10n_br_fiscal.tax_cofins_7_6").id,
@@ -226,6 +230,9 @@ class TestXMLValidation(TransactionCase):
         self.assertEqual(document.nfe40_vICMS, 614.64)
         self.assertEqual(document.nfe40_vST, 2381.76)
         self.assertEqual(document.nfe40_vFCPST, 199.76)
+        self.assertTrue(line.icmsfcp_value)
+        self.assertTrue(line2.icmsfcp_value)
+        self.assertEqual(document.nfe40_vFCP, line2.icmsfcp_value)
         self.assertEqual(
             float_compare(document.nfe40_vIPI, 1536.62, precision_digits=2), 0
         )
