@@ -3,6 +3,7 @@
 from . import (
     test_cfop,
     test_cnae,
+    test_cst_creditable,
     test_fiscal_document_serie,
     test_fiscal_document_generic,
     test_fiscal_document_nfse,
@@ -23,5 +24,9 @@ from . import (
     test_tax_pis_cofins,
     test_icmssn,
     test_simplified_tax,
+    test_stock_price_mixin,
+    test_document_entry_cst,
+    test_entry_cst_screen,
+    test_tax_creditability,
     test_document_import_wizard,
 )
