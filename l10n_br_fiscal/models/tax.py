@@ -187,6 +187,13 @@ class Tax(models.Model):
         required=True,
     )
 
+    revenue_code = fields.Char(
+        string="Revenue Code (DARF)",
+        size=4,
+        help="Revenue code of the DARF that pays the tax. The ECF reports the "
+        "taxes withheld by the customers by this code (record Y570).",
+    )
+
     tax_domain = fields.Selection(
         related="tax_group_id.tax_domain",
         string="Tax Domain",

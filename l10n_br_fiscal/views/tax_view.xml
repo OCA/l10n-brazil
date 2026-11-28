@@ -53,6 +53,7 @@
                             options="{'no_create': True, 'no_create_edit': True}"
                         />
                         <field name="name" />
+                        <field name="revenue_code" />
                         <field
                             name="tax_base_type"
                             attrs="{'invisible': [('tax_domain', 'in', ('icms', 'icmsst'))]}"
