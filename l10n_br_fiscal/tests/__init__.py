@@ -27,4 +27,5 @@ from . import (
     test_simplified_tax,
     test_tax_pis_cofins,
     test_document_line_report,
+    test_trigger_tree,
 )
