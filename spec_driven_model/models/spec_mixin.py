@@ -14,6 +14,10 @@ from .spec_models import SPEC_MIXIN_MAPPINGS, SpecModel, StackedModel
 
 _logger = logging.getLogger(__name__)
 
+# values of the per schema load key of _register_remaining_schema_models_hook
+_NOT_LOADED = object()  # the hook never completed for this schema and registry
+_LOADING = object()  # the first run of the hook is in progress
+
 
 class SpecMixin(models.AbstractModel):
     """
@@ -91,6 +95,24 @@ class SpecMixin(models.AbstractModel):
     def _register_hook(self):
         res = super()._register_hook()
         self._register_remaining_schema_models_hook()
+        if self._context.get("spec_schema") and self._context.get("spec_version"):
+            return res
+        # _spec_prefix only resolves the first schema of the MRO: hook the others
+        schemas = []
+        for ancestor in type(self).mro():
+            if not ancestor.__module__.startswith("odoo.addons."):
+                continue
+            mod = import_module(".".join(ancestor.__module__.split(".")[:-1]))
+            if hasattr(mod, "spec_schema"):
+                schema = (mod.spec_schema, mod.spec_version)
+                if schema not in schemas:
+                    schemas.append(schema)
+        for spec_schema, spec_version in schemas[1:]:
+            mixin = self.env.get(f"spec.mixin.{spec_schema}")
+            if hasattr(mixin, "_register_remaining_schema_models_hook"):
+                mixin.with_context(
+                    spec_schema=spec_schema, spec_version=spec_version
+                )._register_remaining_schema_models_hook()
         return res
 
     def _register_remaining_schema_models_hook(self):
@@ -116,9 +138,30 @@ class SpecMixin(models.AbstractModel):
             return
 
         load_key = f"_{spec_schema}_register_hook_loaded"
-        if hasattr(self.env.registry, load_key):  # hook already called for registry
+        loaded = getattr(self.env.registry, load_key, _NOT_LOADED)
+        if loaded is _LOADING:  # called again while the first run builds
             return
-        setattr(self.env.registry, load_key, True)
+        if loaded is not _NOT_LOADED:  # hook already called for registry
+            # The key holds what the first run built and reflected. The models
+            # stay built for the life of the registry, but their tables can be
+            # gone: a reflection done inside a transaction rolled back afterwards
+            # (an at_install test importing a document, before Odoo calls
+            # _register_hook once all the modules are loaded) leaves the key set
+            # and no table. In that case only the reflection is done again.
+            # Trade-off: _register_hook runs on the data path too (every
+            # build_from_binding, and _build_binding with an explicit schema),
+            # so each document imported or exported pays this one query on
+            # information_schema. It is far cheaper than the full reflection
+            # done on every call before the hook became read-only, and it is
+            # what makes the rolled back reflection heal: do not drop it.
+            if not set(loaded["tables"]).issubset(
+                existing_tables(self.env.cr, list(loaded["tables"]))
+            ):
+                self._reflect_remaining_schema_models(
+                    loaded["built"], loaded["remaining"], loaded["module"]
+                )
+            return
+        setattr(self.env.registry, load_key, _LOADING)
 
         field_prefix = f"{spec_schema}{spec_version}"
         relation_prefix = f"{spec_schema}.{spec_version}.%"
@@ -142,7 +185,7 @@ class SpecMixin(models.AbstractModel):
         # from module_to_models at the end of this method
         concrete_models = []
         try:
-            self._build_remaining_schema_models(
+            built = self._build_remaining_schema_models(
                 remaining_models,
                 spec_module,
                 odoo_module,
@@ -151,6 +194,21 @@ class SpecMixin(models.AbstractModel):
                 field_prefix,
                 concrete_models,
             )
+            setattr(
+                self.env.registry,
+                load_key,
+                {
+                    "tables": tuple(built[0]),
+                    "built": tuple(built[1]),
+                    "remaining": tuple(remaining_models),
+                    "module": odoo_module,
+                },
+            )
+        except Exception:
+            # the first run did not complete: release the key so that a later
+            # call builds and reflects again instead of returning early
+            delattr(self.env.registry, load_key)
+            raise
         finally:
             # The concrete classes we built above are rebuilt from scratch every
             # time this hook runs, but Odoo's MetaModel registered them in
@@ -195,8 +253,6 @@ class SpecMixin(models.AbstractModel):
         field_prefix,
         concrete_models,
     ):
-        access_data = []
-        access_fields = []
         # names of every remaining model we build, and the SQL tables of the
         # concrete (non-abstract) ones, used to decide whether the DB
         # reflection is already in place (see _spec_reflection_needed)
@@ -255,7 +311,7 @@ class SpecMixin(models.AbstractModel):
 
             # now we init these models properly
             # a bit like odoo.modules.loading#load_module_graph would do
-            model = model_type._build_model(self.env.registry, self.env.cr)
+            model_type._build_model(self.env.registry, self.env.cr)
 
             self.env[name]._prepare_setup()
             self.env[name]._setup_base()
@@ -274,41 +330,9 @@ class SpecMixin(models.AbstractModel):
         # would create, so we can tell an ordinary (read-only) load from one that
         # must reflect. On the read-only path we skip everything that writes.
         if self._spec_reflection_needed(concrete_tables):
-            access_fields = [
-                "id",
-                "name",
-                "model_id/id",
-                "group_id/id",
-                "perm_read",
-                "perm_write",
-                "perm_create",
-                "perm_unlink",
-            ]
-            for name in built_model_names:
-                self.env[name]._auto_fill_access_data(
-                    self.env, odoo_module, access_data
-                )
-            self.env["ir.model.access"].load(access_fields, access_data)
-            self.env.registry.init_models(
-                self.env.cr, remaining_models, {"module": odoo_module}
+            self._reflect_remaining_schema_models(
+                built_model_names, remaining_models, odoo_module
             )
-
-            # init_models just created ir.model.data records for the "MAGIC FIELDS"
-            # of the remaining_models. If we let these fields, next Odoo update
-            # will decide that these MAGIC FIELDS do not match the fields of the
-            # abstract schema mixins and would take a long time to delete these records
-            # and the fields. This is not what we want, so we just remove these records:
-            imd_magic_field_names = []
-            for model in remaining_models:
-                for field in models.MAGIC_COLUMNS + ["display_name", "__last_update"]:
-                    imd_magic_field_names.append(
-                        f"field_{model.replace('.', '_')}__{field}"
-                    )
-            imd_recs = self.env["ir.model.data"].search(
-                [("name", "in", imd_magic_field_names)]
-            )
-            with mute_logger("odoo.models"):
-                imd_recs.unlink()
 
         # The concrete classes we built above are rebuilt from scratch every
         # time this hook runs, but Odoo's MetaModel registered them in
@@ -323,6 +347,48 @@ class SpecMixin(models.AbstractModel):
         models.MetaModel.module_to_models[odoo_module] = [
             cls for cls in registered if cls not in concrete_models
         ]
+        return concrete_tables, built_model_names
+
+    def _reflect_remaining_schema_models(
+        self, built_model_names, remaining_models, odoo_module
+    ):
+        """Write the remaining spec models into the database: their access
+        rules, their tables (init_models) and the cleanup of the ir.model.data
+        of their magic fields."""
+        access_data = []
+        access_fields = [
+            "id",
+            "name",
+            "model_id/id",
+            "group_id/id",
+            "perm_read",
+            "perm_write",
+            "perm_create",
+            "perm_unlink",
+        ]
+        for name in built_model_names:
+            self.env[name]._auto_fill_access_data(self.env, odoo_module, access_data)
+        self.env["ir.model.access"].load(access_fields, access_data)
+        self.env.registry.init_models(
+            self.env.cr, remaining_models, {"module": odoo_module}
+        )
+
+        # init_models just created ir.model.data records for the "MAGIC FIELDS"
+        # of the remaining_models. If we let these fields, next Odoo update
+        # will decide that these MAGIC FIELDS do not match the fields of the
+        # abstract schema mixins and would take a long time to delete these records
+        # and the fields. This is not what we want, so we just remove these records:
+        imd_magic_field_names = []
+        for model in remaining_models:
+            for field in models.MAGIC_COLUMNS + ["display_name", "__last_update"]:
+                imd_magic_field_names.append(
+                    f"field_{model.replace('.', '_')}__{field}"
+                )
+        imd_recs = self.env["ir.model.data"].search(
+            [("name", "in", imd_magic_field_names)]
+        )
+        with mute_logger("odoo.models"):
+            imd_recs.unlink()
 
     def _spec_reflection_needed(self, concrete_tables):
         """Whether this hook run must reflect the remaining spec models into the

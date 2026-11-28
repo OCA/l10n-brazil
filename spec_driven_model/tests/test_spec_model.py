@@ -7,6 +7,7 @@ import logging
 from unittest.mock import patch
 
 from odoo.tools import mute_logger
+from odoo.tools.sql import table_exists
 
 from odoo_test_helper import FakeModelLoader
 
@@ -367,6 +368,11 @@ class TestSpecModel(TransactionCase, FakeModelLoader):
                 "the hook leaked a concrete class after raising; the next "
                 "registry build would crash with an inconsistent MRO (#4668)",
             )
+            self.assertFalse(
+                hasattr(registry, "_poxsd_register_hook_loaded"),
+                "the hook kept its load key after raising; a later call would "
+                "return early instead of building and reflecting again",
+            )
         finally:
             module_to_models["spec_driven_model"] = saved_module_classes
             registry.ready = ready
@@ -480,6 +486,35 @@ class TestSpecModel(TransactionCase, FakeModelLoader):
         # a fresh Registry.new() has no per-schema guard, so the hook runs;
         # here we clear it to run the hook again inside a single test process
         self.env.registry.__dict__.pop("_poxsd_register_hook_loaded", None)
+
+    def test_hook_reflects_again_when_the_tables_are_gone(self):
+        """A reflection done inside a transaction rolled back afterwards (an
+        at_install test importing a document, before Odoo calls _register_hook
+        once all the modules are loaded) leaves the hook guard on the registry
+        and no table. The next call must create the tables again, without
+        building the classes a second time (#4668)."""
+        registry = self.env.registry
+        cr = self.env.cr
+        mixin = self.env["spec.mixin.poxsd"]
+        registry.__dict__.pop("_poxsd_register_hook_loaded", None)
+        try:
+            with self.assertRaises(RuntimeError):
+                with cr.savepoint(flush=False):
+                    mixin._register_hook()  # reflects inside the savepoint
+                    self.assertTrue(table_exists(cr, "poxsd_10_comment"))
+                    model_class = registry["poxsd.10.comment"]
+                    raise RuntimeError("roll the reflection back")
+            self.assertFalse(table_exists(cr, "poxsd_10_comment"))
+
+            mixin._register_hook()  # what Odoo does once the modules are loaded
+            self.assertTrue(table_exists(cr, "poxsd_10_comment"))
+            self.assertIs(
+                registry["poxsd.10.comment"],
+                model_class,
+                "the hook built the remaining model class a second time (#4668)",
+            )
+        finally:
+            registry.__dict__.pop("_poxsd_register_hook_loaded", None)
 
     def test_hook_read_only_on_ordinary_registry_load(self):
         """hook v2: an ordinary registry load performs zero reflection writes.
@@ -644,3 +679,27 @@ class TestSpecModel(TransactionCase, FakeModelLoader):
         access_data = []
         mixin._auto_fill_access_data(self.env, "spec_driven_model", access_data)
         self.assertEqual([row[0] for row in access_data], ["access_spec_mixin_manager"])
+
+    def test_register_hook_runs_for_every_stacked_schema(self):
+        """The hook also runs for the schemas the MRO does not resolve to."""
+        from odoo.addons.spec_driven_model.models.spec_mixin import SpecMixin
+
+        from .fake_other_schema.fake_purchase_order import PurchaseOrder
+
+        self.loader.update_registry((PurchaseOrder,))
+        order = self.env["fake.purchase.order"]
+        self.assertEqual(order._spec_prefix(), "otherxsd10")
+
+        prefixes = []
+        with patch.object(
+            SpecMixin,
+            "_register_remaining_schema_models_hook",
+            autospec=True,
+            side_effect=lambda rec: prefixes.append(rec._spec_prefix()),
+        ):
+            order._register_hook()
+            self.assertEqual(prefixes, ["otherxsd10", "poxsd10"])
+
+            prefixes.clear()
+            order.with_context(spec_schema="poxsd", spec_version="10")._register_hook()
+            self.assertEqual(prefixes, ["poxsd10"])
