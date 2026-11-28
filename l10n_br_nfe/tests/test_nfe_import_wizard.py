@@ -607,6 +607,46 @@ class NFeImportWizardTest(TransactionCase):
         self.assertTrue(any("#1" in label for label in labels))
         self.assertTrue(any("#2" in label for label in labels))
 
+    def test_nitemped_ignores_the_sections_of_the_order(self):
+        """A section or a note is not an item of the document.
+
+        The supplier numbers its items (nItemPed) counting only the products,
+        while our position counted every purchase.order.line: in a "section +
+        2 products" order nItemPed 1 designated the section and nItemPed 2 the
+        first product. As the bill and the receipt derive the same position,
+        both sides agreed on the wrong line instead of failing loudly.
+        """
+        if self.env.get("purchase.order") is None:
+            self.skipTest("purchase module not installed")
+        supplier = self._create_xml_issuer_supplier()
+        first_product = self._get_xml_product()
+        second_product = self.env["product.product"].create({"name": "PO Product 2"})
+        order = self._create_confirmed_po(supplier, [first_product, second_product])
+        # the buyer's section sits first, before the two products
+        self.env["purchase.order.line"].create(
+            {
+                "order_id": order.id,
+                "display_type": "line_section",
+                "name": "Section A",
+                "sequence": 1,
+            }
+        )
+
+        self._prepare_wizard(self.xml_1)
+        mock = MagicMock()
+        mock.xPed = order.name
+        mock.nItemPed = "1"
+        self.assertEqual(self.wizard._match_product_by_purchase(mock), first_product)
+        mock.nItemPed = "2"
+        self.assertEqual(self.wizard._match_product_by_purchase(mock), second_product)
+
+        # and the SQL position the bill and the receipt keys are built from
+        self.env.flush_all()
+        candidates = self.env["l10n_br_fiscal.document.import.match.candidate"].search(
+            [("source_type", "=", "po_line"), ("po_ref", "=", order.name)]
+        )
+        self.assertEqual(sorted(candidates.mapped("po_line_no")), [1, 2])
+
     def test_match_source_xped_preselection(self):
         """xPed/nItemPed pin the exact PO line even when the product appears
         on several lines/orders."""
