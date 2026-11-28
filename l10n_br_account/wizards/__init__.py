@@ -2,3 +2,4 @@
 
 from . import account_move_reversal
 from . import document_import_wizard
+from . import import_declaration_wizard
