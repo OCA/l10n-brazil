@@ -131,8 +131,14 @@ class AccountPaymentOrder(models.Model):
                     requested_date = order.date_scheduled or today
                 else:
                     requested_date = today
+                if payline._is_cnab_instruction_on_registered_title():
+                    # Instrução sobre boleto já registrado (protesto, baixa,
+                    # alteração de vencimento etc.): a data enviada ao banco é
+                    # o vencimento do título (ou o novo vencimento, na
+                    # alteração) e não pode ser trocada pela data de hoje.
+                    requested_date = payline.ml_maturity_date or requested_date
                 # No payment date in the past
-                if requested_date < today:
+                elif requested_date < today:
                     requested_date = today
                 # inbound: check option no_debit_before_maturity
                 if (

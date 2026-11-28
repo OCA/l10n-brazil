@@ -208,6 +208,22 @@ class AccountPaymentLine(models.Model):
 
         return res
 
+    def _is_cnab_instruction_on_registered_title(self):
+        """Linha de remessa de cobrança que não é o registro do boleto novo.
+
+        O registro usa o código de envio (``sending_code_id``) da configuração
+        CNAB; qualquer outro código de instrução (protesto, baixa, alteração
+        de vencimento etc.) refere-se a um título já registrado no banco.
+        """
+        self.ensure_one()
+        cnab_config = self.order_id.payment_mode_id.cnab_config_id
+        return bool(
+            self.order_id.payment_type == "inbound"
+            and self.instruction_move_code_id
+            and cnab_config.sending_code_id
+            and self.instruction_move_code_id != cnab_config.sending_code_id
+        )
+
     def draft2open_payment_line_check(self):
         """
         Override to add brazilian validations
