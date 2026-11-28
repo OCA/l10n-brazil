@@ -125,6 +125,7 @@
     "demo": [
         "demo/city_taxation_code_demo.xml",
         "demo/company_demo.xml",
+        "demo/accountant_demo.xml",
         "demo/product_demo.xml",
         "demo/partner_demo.xml",
         "demo/fiscal_document_nfse_demo.xml",
