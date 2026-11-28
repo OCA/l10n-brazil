@@ -1,0 +1,13 @@
+# Copyright 2026 KMEE
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
+from odoo import SUPERUSER_ID, api
+
+
+def migrate(cr, version):
+    env = api.Environment(cr, SUPERUSER_ID, {})
+    taxes = env.ref("l10n_br_coa.account_tag_dva_taxes")
+    inputs = env.ref("l10n_br_coa.account_tag_dva_inputs")
+    dropped = {f"coa_simple_31202{n:02}": taxes for n in range(1, 4)}
+    for name in ("3320204", "3320205"):
+        dropped[f"coa_simple_{name}"] = inputs
+    env["account.chart.template"]._update_company_accounts("br_oca_simple", dropped)
