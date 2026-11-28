@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2020 KMEE -->
+<!-- License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <record id="payment_provider_form" model="ir.ui.view">
+        <field name="name">PagSeguro Provider Form</field>
+        <field name="model">payment.provider</field>
+        <field name="inherit_id" ref="payment.payment_provider_form" />
+        <field name="arch" type="xml">
+            <group name="provider_credentials" position="inside">
+                <group attrs="{'invisible': [('code', '!=', 'pagseguro')]}">
+                    <field
+                        name="pagseguro_token"
+                        password="True"
+                        attrs="{'required': [('code', '=', 'pagseguro'), ('state', '!=', 'disabled')]}"
+                    />
+                    <field name="pagseguro_soft_descriptor" />
+                </group>
+            </group>
+        </field>
+    </record>
+
+    <record id="payment_token_form" model="ir.ui.view">
+        <field name="name">PagSeguro Token Form</field>
+        <field name="model">payment.token</field>
+        <field name="inherit_id" ref="payment.payment_token_form" />
+        <field name="arch" type="xml">
+            <field name="provider_ref" position="after">
+                <field name="provider_code" invisible="1" />
+                <field
+                    name="pagseguro_card_brand"
+                    attrs="{'invisible': [('provider_code', '!=', 'pagseguro')]}"
+                />
+            </field>
+        </field>
+    </record>
+
+</odoo>
