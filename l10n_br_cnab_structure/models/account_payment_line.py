@@ -138,28 +138,9 @@ class AccountPaymentLine(models.Model):
     def _get_matching_rule(self):
         """Finds the best matching CNAB rule based on bank and partner attributes."""
         self.ensure_one()
-        cnab_structure = self.order_id.cnab_structure_id
-        if self.partner_bank_id.bank_id == self.order_id.journal_id.bank_id:
-            bank_type = "same"
-        else:
-            bank_type = "other"
-        is_employee = getattr(self.partner_id, "employee", False)
-        if is_employee:
-            partner_type = "employee"
-        else:
-            partner_type = "supplier"
-        rules = self.env["l10n_br_cnab.payment.rule"].search(
-            [
-                ("cnab_structure_id", "=", cnab_structure.id),
-            ]
+        return self.env["l10n_br_cnab.payment.rule"]._find_matching_rule(
+            self.order_id.cnab_structure_id,
+            self.partner_id,
+            self.partner_bank_id,
+            self.order_id.journal_id,
         )
-        for rule in rules:
-            if rule.match_bank_type != "any" and rule.match_bank_type != bank_type:
-                continue
-            if (
-                rule.match_partner_type != "any"
-                and rule.match_partner_type != partner_type
-            ):
-                continue
-            return rule
-        return False

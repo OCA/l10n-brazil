@@ -1,7 +1,7 @@
 # Copyright (C) 2025 Escodoo (https://www.escodoo.com.br)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import fields, models
+from odoo import api, fields, models
 
 from odoo.addons.l10n_br_account_payment_order.constants import TIPO_SERVICO
 
@@ -42,3 +42,23 @@ class CNABPaymentRule(models.Model):
         selection=TIPO_SERVICO,
         required=True,
     )
+
+    @api.model
+    def _find_matching_rule(self, cnab_structure, partner, partner_bank, journal):
+        """Finds the first rule of the structure that matches bank and partner."""
+        if partner_bank.bank_id == journal.bank_id:
+            bank_type = "same"
+        else:
+            bank_type = "other"
+        if getattr(partner, "employee", False):
+            partner_type = "employee"
+        else:
+            partner_type = "supplier"
+        rules = self.search([("cnab_structure_id", "=", cnab_structure.id)])
+        for rule in rules:
+            if rule.match_bank_type not in ("any", bank_type):
+                continue
+            if rule.match_partner_type not in ("any", partner_type):
+                continue
+            return rule
+        return self.browse()
