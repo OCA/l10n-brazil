@@ -1,6 +1,8 @@
 Este módulo contém algumas abstrações utilizadas pelos módulos de SPED
 
-Ele não faz nada sozinho, mas serve dentro dos 4 módulos:
+Ele não faz nada sozinho, mas serve de base para os módulos das
+escriturações do SPED, mantidos no repositório
+[kmee/l10n-brazil-sped](https://github.com/kmee/l10n-brazil-sped):
 
 - l10n_br_sped_ecd
 - l10n_br_sped_efd_icms_ipi

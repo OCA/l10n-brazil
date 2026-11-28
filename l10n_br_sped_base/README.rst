@@ -1,7 +1,3 @@
-.. image:: https://odoo-community.org/readme-banner-image
-   :target: https://odoo-community.org/get-involved?utm_source=readme
-   :alt: Odoo Community Association
-
 =========
 SPED Base
 =========
@@ -17,7 +13,7 @@ SPED Base
 .. |badge1| image:: https://img.shields.io/badge/maturity-Alpha-red.png
     :target: https://odoo-community.org/page/development-status
     :alt: Alpha
-.. |badge2| image:: https://img.shields.io/badge/license-AGPL--3-blue.png
+.. |badge2| image:: https://img.shields.io/badge/licence-AGPL--3-blue.png
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fl10n--brazil-lightgray.png?logo=github
@@ -34,7 +30,9 @@ SPED Base
 
 Este módulo contém algumas abstrações utilizadas pelos módulos de SPED
 
-Ele não faz nada sozinho, mas serve dentro dos 4 módulos:
+Ele não faz nada sozinho, mas serve de base para os módulos das
+escriturações do SPED, mantidos no repositório
+`kmee/l10n-brazil-sped <https://github.com/kmee/l10n-brazil-sped>`__:
 
 - l10n_br_sped_ecd
 - l10n_br_sped_efd_icms_ipi
