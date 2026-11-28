@@ -92,6 +92,16 @@ class SpedMixin(models.AbstractModel):
                 )
             res.reference = f"{model.model},{res.res_id}"
 
+    @api.model_create_multi
+    def create(self, vals_list):
+        # a register created while pulling from Odoo is a pulled one, also when
+        # the layout creates it in its own code: the next pull drops it, or it
+        # goes out twice in the file
+        if self.env.context.get("sped_pull_from_odoo"):
+            for vals in vals_list:
+                vals.setdefault("is_generated_from_odoo", True)
+        return super().create(vals_list)
+
     def _compute_currency_id(self):
         for item in self:
             item.brl_currency_id = self.env.ref("base.BRL").id
@@ -375,6 +385,143 @@ class SpedMixin(models.AbstractModel):
         for register_class in register_classes:
             registers = register_class.search(domain)
             registers.unlink()
+
+    @api.model
+    def _flush_generated_registers(self, kind, declaration_id):
+        """Delete what a previous pull from Odoo created in the declaration.
+
+        Only the registers flagged ``is_generated_from_odoo`` go: the ones typed
+        by hand or imported from a file are kept. Registers pulled before the
+        flag was written are not flagged: they stay until a ``Flush Registers``.
+        """
+        prefix = f"l10n_br_sped.{kind}."
+        for name, model in self.env.registry.items():
+            if (
+                not name.startswith(prefix)
+                or model._abstract
+                or "declaration_id" not in model._fields
+                or "is_generated_from_odoo" not in model._fields
+            ):
+                continue
+            self.env[name].search(
+                [
+                    ("declaration_id", "=", declaration_id),
+                    ("is_generated_from_odoo", "=", True),
+                ]
+            ).unlink()
+
+    @api.model
+    def _sped_parent_field(self):
+        """The many2one to the parent register, or None for a top register."""
+        return next(
+            (
+                name
+                for name, field in self._fields.items()
+                if field.type == "many2one"
+                and name.startswith("reg_")
+                and name.endswith("_id")
+            ),
+            None,
+        )
+
+    @api.model
+    def _pulled_register_keys(self, kind, declaration_id):
+        """``{register: key}`` of the pulled registers of the declaration.
+
+        The key finds the same register in the next pull: the Odoo record it
+        came from, or, for a register made of no record (the I010 of the ECD),
+        its position among the pulled registers of its model."""
+        keys = {}
+        prefix = f"l10n_br_sped.{kind}."
+        for name, model in self.env.registry.items():
+            if (
+                not name.startswith(prefix)
+                or model._abstract
+                or "declaration_id" not in model._fields
+                or "is_generated_from_odoo" not in model._fields
+            ):
+                continue
+            registers = self.env[name].search(
+                [
+                    ("declaration_id", "=", declaration_id),
+                    ("is_generated_from_odoo", "=", True),
+                ],
+                order="id",
+            )
+            for position, register in enumerate(registers):
+                if register.res_model and register.res_id:
+                    keys[register] = (name, register.res_model, register.res_id)
+                else:
+                    keys[register] = (name, position)
+        return keys
+
+    def _sped_snapshot(self):
+        """Values of the register and of its children, to create it again."""
+        self.ensure_one()
+        vals = self.copy_data()[0]
+        vals["is_generated_from_odoo"] = False
+        children = []
+        for name, field in self._fields.items():
+            if field.type == "one2many" and name.startswith("reg_"):
+                for child in self[name]:
+                    vals.pop(name, None)
+                    children.append(
+                        (child._sped_parent_field(), child._sped_snapshot())
+                    )
+        return self._name, vals, children
+
+    @api.model
+    def _sped_restore(self, snapshot, parent_field=None, parent_id=None):
+        name, vals, children = snapshot
+        if parent_field:
+            vals[parent_field] = parent_id
+        register = self.env[name].with_context(sped_pull_from_odoo=False).create(vals)
+        for child_parent_field, child in children:
+            self._sped_restore(child, child_parent_field, register.id)
+        return register
+
+    @api.model
+    def _save_typed_under_pulled(self, kind, declaration_id):
+        """The registers typed by hand under a pulled one.
+
+        The parent is required and deleted in cascade, so dropping the pulled
+        registers for a new pull would drop them too. They are saved with the
+        key of their parent, to go back under the same register pulled again.
+        """
+        keys = self._pulled_register_keys(kind, declaration_id)
+        saved = []
+        for parent, key in keys.items():
+            for name, field in parent._fields.items():
+                if field.type != "one2many" or not name.startswith("reg_"):
+                    continue
+                for child in parent[name].filtered(
+                    lambda r: not r.is_generated_from_odoo
+                ):
+                    saved.append(
+                        (key, child._sped_parent_field(), child._sped_snapshot())
+                    )
+        return saved
+
+    @api.model
+    def _restore_typed_under_pulled(self, kind, declaration_id, saved):
+        """Put the saved registers back under their parent pulled again.
+        Returns the keys whose parent the new pull did not create."""
+        if not saved:
+            return []
+        parents = {
+            key: register
+            for register, key in self._pulled_register_keys(
+                kind, declaration_id
+            ).items()
+        }
+        lost = []
+        for key, parent_field, snapshot in saved:
+            parent = parents.get(key)
+            if not parent:
+                lost.append(key)
+                continue
+            self._sped_restore(snapshot, parent_field, parent.id)
+        return lost
 
     @api.model
     def _import_file(self, filename, kind, version=None, declaration=None):
@@ -688,10 +835,18 @@ class SpedMixin(models.AbstractModel):
             self._cr.execute(*self._odoo_query(parent_record, declaration))
             records = self._cr.dictfetchall()
 
+        elif hasattr(self, "_odoo_records"):
+            # the records are built in Python (an aggregation that the SQL of
+            # `_odoo_query` cannot express, such as the credit of the PIS/COFINS
+            # that follows the C170 line by line): any list of dict, and each one
+            # is the `parent_record` of the registers below
+            records = self._odoo_records(parent_record, declaration)
+
         elif hasattr(self, "_map_from_odoo"):
             # in this case we will generate a register without any
             # specific Odoo record. Example: ECD I010
             register_vals = self._map_from_odoo(None, parent_record, declaration)
+            register_vals["is_generated_from_odoo"] = True
             if parent_register:
                 register_vals[parent_field] = parent_register.id
             register = self.create(register_vals)
@@ -724,6 +879,7 @@ class SpedMixin(models.AbstractModel):
             register_vals = self._map_from_odoo(
                 record, parent_record, declaration, index=index
             )
+            register_vals["is_generated_from_odoo"] = True
             if self._odoo_model:
                 register_vals["res_model"] = self._odoo_model
                 register_vals["res_id"] = record.id
@@ -747,8 +903,11 @@ class SpedMixin(models.AbstractModel):
 
     @api.model
     def _log_chatter_sped_item(self, log_msg, level, records=None):
-        action = self.env["ir.actions.act_window"].search(
-            [("res_model", "=", self._name)], limit=1
+        # only the link of the history: a fiscal user cannot read the actions
+        action = (
+            self.env["ir.actions.act_window"]
+            .sudo()
+            .search([("res_model", "=", self._name)], limit=1)
         )
         if action:
             record_count = f" ({len(records)} records)" if records else ""

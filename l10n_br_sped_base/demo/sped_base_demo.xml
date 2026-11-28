@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html). -->
+<odoo>
+    <!--
+      What every SPED book of the demo company needs, in the install month:
+      one supplier invoice as the NF-e import leaves it. Each book module
+      closes its own assessments and generates its file on top of this.
+    -->
+
+    <!--
+      A resale purchase, imported and authorized: it carries the ICMS credit of
+      C170 and C190.
+    -->
+    <record id="demo_entry_document" model="l10n_br_fiscal.document">
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
+        <field name="fiscal_operation_type">in</field>
+        <field name="document_type_id" ref="l10n_br_fiscal.document_55" />
+        <field name="document_number">1001</field>
+        <field name="document_serie">1</field>
+        <!-- the year and month of the key are those of the document (the NF-e
+             checks them), and its last digit is the check digit -->
+        <field
+            name="document_key"
+            eval="(lambda b: b + str(0 if sum(int(d) * w for d, w in zip(b[::-1], [2, 3, 4, 5, 6, 7, 8, 9] * 6)) % 11 &lt; 2 else 11 - sum(int(d) * w for d, w in zip(b[::-1], [2, 3, 4, 5, 6, 7, 8, 9] * 6)) % 11))('35' + DateTime.today().strftime('%y%m') + '8614480200019055001000001001100001001')"
+        />
+        <field name="issuer">partner</field>
+        <field name="partner_id" ref="l10n_br_base.res_partner_intel" />
+        <field
+            name="document_date"
+            eval="(DateTime.today() + relativedelta(day=1, hour=12)).strftime('%Y-%m-%d %H:%M:%S')"
+        />
+        <field
+            name="date_in_out"
+            eval="(DateTime.today() + relativedelta(day=1, hour=12)).strftime('%Y-%m-%d %H:%M:%S')"
+        />
+        <field name="state_edoc">autorizada</field>
+        <field name="imported_document" eval="True" />
+    </record>
+    <record id="demo_entry_document_line" model="l10n_br_fiscal.document.line">
+        <field name="document_id" ref="demo_entry_document" />
+        <field name="name">Mercadoria para revenda</field>
+        <field name="product_id" ref="product.product_product_6" />
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
+        <field
+            name="fiscal_operation_line_id"
+            ref="l10n_br_fiscal.fo_compras_compras_comercializacao"
+        />
+        <field name="fiscal_operation_type">in</field>
+        <field name="quantity">10</field>
+        <field name="price_unit">100.0</field>
+        <field name="partner_cfop_id" ref="l10n_br_fiscal.cfop_5102" />
+        <field name="icms_origin">0</field>
+        <field name="icms_tax_id" ref="l10n_br_fiscal.tax_icms_18" />
+        <field name="icms_cst_id" ref="l10n_br_fiscal.cst_icms_00" />
+        <field name="icms_base">1000.0</field>
+        <field name="icms_percent">18.0</field>
+        <field name="icms_value">180.0</field>
+        <field name="pis_tax_id" ref="l10n_br_fiscal.tax_pis_1_65" />
+        <field name="pis_cst_id" ref="l10n_br_fiscal.cst_pis_01" />
+        <field name="pis_base">1000.0</field>
+        <field name="pis_percent">1.65</field>
+        <field name="pis_value">16.5</field>
+        <field name="cofins_tax_id" ref="l10n_br_fiscal.tax_cofins_7_6" />
+        <field name="cofins_cst_id" ref="l10n_br_fiscal.cst_cofins_01" />
+        <field name="cofins_base">1000.0</field>
+        <field name="cofins_percent">7.6</field>
+        <field name="cofins_value">76.0</field>
+    </record>
+</odoo>

@@ -2,28 +2,38 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/lgpl-3.0.en.html).
 
 
+from erpbrasil.base import misc
+
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
 
-# Tabela de qualificacao do assinante. Sao os codigos de uso corrente; a
-# tabela completa esta no Guia Pratico de cada escrituracao.
+# Tabela de qualificacao do assinante do Sped, a mesma que os programas da ECD
+# (SPEDCONTABIL_QUALIF_ASSINANTE) e da ECF (SPEDECF_QUALIF_ASSINANTE) conferem.
 QUALIFICACAO_SIGNATARIO = [
-    ("203", "203 - Administrador"),
-    ("204", "204 - Advogado"),
-    ("205", "205 - Diretor"),
-    ("206", "206 - Empresario"),
-    ("207", "207 - Inventariante"),
-    ("208", "208 - Liquidante"),
-    ("209", "209 - Presidente"),
-    ("222", "222 - Procurador"),
-    ("223", "223 - Gestor judicial"),
-    ("226", "226 - Socio"),
-    ("309", "309 - Contador"),
-    ("312", "312 - Tecnico contabil"),
+    ("203", "203 - Diretor"),
+    ("204", "204 - Conselheiro de Administracao"),
+    ("205", "205 - Administrador"),
+    ("206", "206 - Administrador do Grupo"),
+    ("207", "207 - Administrador de Sociedade Filiada"),
+    ("220", "220 - Administrador Judicial - Pessoa Fisica"),
+    (
+        "222",
+        "222 - Administrador Judicial - Pessoa Juridica - Profissional Responsavel",
+    ),
+    ("223", "223 - Administrador Judicial/Gestor"),
+    ("226", "226 - Gestor Judicial"),
+    ("309", "309 - Procurador"),
+    ("312", "312 - Inventariante"),
+    ("313", "313 - Liquidante"),
+    ("315", "315 - Interventor"),
+    ("401", "401 - Titular Pessoa Fisica - EIRELI"),
+    ("801", "801 - Empresario"),
+    ("900", "900 - Contador/Contabilista"),
+    ("999", "999 - Outros"),
 ]
 
 # Qualificacoes que exigem o numero de inscricao no CRC.
-QUALIFICACAO_COM_CRC = ("309", "312")
+QUALIFICACAO_COM_CRC = ("900",)
 
 
 class SpedSigner(models.Model):
@@ -31,10 +41,9 @@ class SpedSigner(models.Model):
 
     A escrituracao e assinada por, no minimo, o responsavel legal da pessoa
     juridica e o contabilista; por isso o registro e obrigatorio e tem mais de
-    uma ocorrencia. O cadastro cobre o registro 0930 da ECF. O J930 da ECD
-    pede campos alem destes (COD_ASSIN, UF_CRC, NUM_SEQ_CRC, DT_CRC e
-    IND_RESP_LEGAL) e usa outra tabela de qualificacao: quando a geracao do
-    J930 for implementada, esses campos entram aqui.
+    uma ocorrencia. O cadastro cobre o registro 0930 da ECF e o J930 da ECD,
+    que pede tambem a UF do CRC, a certidao de regularidade profissional do
+    contador e qual signatario e o responsavel legal.
     """
 
     _name = "l10n_br_sped.signer"
@@ -46,6 +55,7 @@ class SpedSigner(models.Model):
         comodel_name="res.company",
         string="Company",
         required=True,
+        default=lambda self: self.env.company,
         ondelete="cascade",
         index=True,
     )
@@ -64,7 +74,24 @@ class SpedSigner(models.Model):
     crc = fields.Char(
         string="CRC",
         help="Numero de inscricao no Conselho Regional de Contabilidade, "
-        "obrigatorio para contador e tecnico contabil.",
+        "obrigatorio para o contador.",
+    )
+    crc_state_id = fields.Many2one(
+        comodel_name="res.country.state",
+        string="UF do CRC",
+    )
+    crp_number = fields.Char(
+        string="Numero da CRP",
+        help="Numero da Certidao de Regularidade Profissional do contador "
+        "(registro J930 da ECD).",
+    )
+    crp_validity = fields.Date(
+        string="Validade da CRP",
+    )
+    legal_responsible = fields.Boolean(
+        string="Responsavel legal",
+        help="Signatario que responde legalmente pela escrituracao "
+        "(IND_RESP_LEGAL do registro J930 da ECD).",
     )
     email = fields.Char()
     phone = fields.Char(string="Telefone")
@@ -77,6 +104,8 @@ class SpedSigner(models.Model):
             signer.cpf_cnpj = partner.vat or partner.cnpj_cpf
             signer.email = partner.email
             signer.phone = partner.phone or partner.mobile
+            signer.crc = partner.crc_code or signer.crc
+            signer.crc_state_id = partner.crc_state_id or signer.crc_state_id
 
     @api.constrains("qualification", "crc")
     def _check_crc(self):
@@ -123,3 +152,47 @@ class ResCompany(models.Model):
         "pessoa juridica e pelo contabilista: registro 0930 da ECF e J930 da "
         "ECD.",
     )
+    # registro na junta comercial, que o termo de abertura da ECD (I030) e o
+    # indicador de NIRE do 0000 informam
+    l10n_br_nire = fields.Char(
+        string="NIRE",
+        size=11,
+        help="Numero de Identificacao do Registro de Empresas, dado pela junta "
+        "comercial. Vazio para a sociedade registrada em cartorio.",
+    )
+    l10n_br_articles_filing_date = fields.Date(
+        string="Data de arquivamento dos atos constitutivos",
+    )
+    l10n_br_conversion_filing_date = fields.Date(
+        string="Data de arquivamento do ato de conversao",
+        help="Data de arquivamento do ato de conversao de sociedade simples em "
+        "sociedade empresaria, quando houve.",
+    )
+
+    @api.constrains("l10n_br_nire")
+    def _check_l10n_br_nire(self):
+        # regras REGRA_VALIDA_NIRE e REGRA_NIRE_UF do PVA da ECD
+        for company in self.filtered("l10n_br_nire"):
+            nire = misc.punctuation_rm(company.l10n_br_nire)
+            if not _nire_check_digit_ok(nire):
+                raise ValidationError(
+                    _("Invalid NIRE %s: 11 digits with a valid check digit.") % nire
+                )
+            uf_code = company.state_id.ibge_code
+            if uf_code == "50":
+                uf_code = "54"
+            if uf_code and not nire.startswith(uf_code):
+                raise ValidationError(
+                    _("The NIRE %(nire)s does not belong to the state %(state)s.")
+                    % {"nire": nire, "state": company.state_id.code}
+                )
+
+
+def _nire_check_digit_ok(nire):
+    if len(nire) != 11 or not nire.isdigit():
+        return False
+    weights = [2, 10, 9, 8, 7, 6, 5, 4, 3, 2]
+    total = sum(int(d) * w for d, w in zip(nire[:10], weights, strict=True))
+    digit = 11 - total % 11
+    digit = {10: 0, 11: 1}.get(digit, digit)
+    return digit == int(nire[10])
