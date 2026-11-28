@@ -229,8 +229,8 @@ class NFe(spec_models.StackedModel):
                 and record.document_type_id.prefix
                 and record.document_key
             ):
-                record.nfe40_Id = "{}{}".format(
-                    record.document_type_id.prefix, record.document_key
+                record.nfe40_Id = (
+                    f"{record.document_type_id.prefix}{record.document_key}"
                 )
             else:
                 record.nfe40_Id = None
@@ -1859,12 +1859,64 @@ class NFe(spec_models.StackedModel):
 
         self.file_report_id = self.env["ir.attachment"].create(attachment_data)
 
+    # Reference/master data that is never auto-created during NFe imports:
+    # it should already exist when the import runs.
+    # Mirrors the match_or_create_m2o overrides that were actually present in
+    # models/__init__.py (res_country.py was dead code and is therefore NOT
+    # listed here: res.country creation was never forbidden).
+    # NOTE: product.product is NOT part of this list on purpose: products are
+    # still created by default (historical behaviour). _nfe_import_context()
+    # adds it to the policy with the 'raise' action when the
+    # allow_product_creation context key is False.
+    NFE_IMPORT_FORBIDDEN_MODELS = [
+        "res.country.state",
+        "res.city",
+        "uom.uom",
+        "l10n_br_fiscal.cest",
+        "l10n_br_fiscal.tax.ipi.guideline",
+    ]
+
+    def _nfe_import_context(self, edoc_type):
+        """Build the context with the appropriate spec import create policy.
+
+        For supplier NFe imports (edoc_type='in'), we also forbid creating
+        products to avoid accidental partial records. For the company's own
+        NFe imports (edoc_type='out') or go-live scenarios, callers may pass a
+        custom ``spec_create_allowed_models`` or
+        ``spec_create_forbidden_models`` context key to override this default.
+
+        Master data (country, state, city, UoM, CEST, IPI guideline) is always
+        forbidden with the 'skip' action, whatever the direction: when no match
+        is found the many2one is simply left unset, as before. This replaces
+        the per model ``match_or_create_m2o`` overrides, which also applied to
+        every direction.
+
+        Product creation is controlled by the ``allow_product_creation``
+        context key (default: False). When False, importing an unmapped product
+        raises a UserError with diagnostic information. When True, products are
+        auto-created as before.
+        """
+        ctx = {
+            "tracking_disable": True,
+            "edoc_type": edoc_type,
+        }
+        forbidden = {name: "skip" for name in self.NFE_IMPORT_FORBIDDEN_MODELS}
+        if edoc_type == "in" and not self.env.context.get(
+            "allow_product_creation", False
+        ):
+            # By default, forbid product creation and raise a clear error
+            # so the user maps products in the wizard instead of getting
+            # partial auto-created records.
+            forbidden["product.product"] = "raise"
+        ctx["spec_create_forbidden_models"] = forbidden
+        return ctx
+
     def import_binding_nfe(self, binding, edoc_type="in", dry_run=False):
         if hasattr(binding, "NFe"):
             binding = binding.NFe
         document = (
             self.env["nfe.40.infnfe"]
-            .with_context(tracking_disable=True, edoc_type=edoc_type)
+            .with_context(**self._nfe_import_context(edoc_type))
             .build_from_binding("nfe", "40", binding.infNFe, dry_run=dry_run)
         )
 

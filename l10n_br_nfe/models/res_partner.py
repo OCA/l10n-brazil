@@ -313,6 +313,8 @@ class ResPartner(spec_models.SpecModel):
         vals = self._prepare_import_dict(
             rec_dict, model=model, parent_dict=parent_dict, defaults_model=model
         )
+        if not self.env["spec.mixin"]._spec_import_can_create(self):
+            return self.env["spec.mixin"]._spec_import_forbidden(self, rec_dict)
         if self._context.get("dry_run", False):
             rec_id = self.new(vals).id
         else:

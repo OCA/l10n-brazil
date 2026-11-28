@@ -13,6 +13,17 @@ class CteSpecMixin(models.AbstractModel):
     )
     _cte40_binding_module = "nfelib.cte.bindings.v4_0.cte_tipos_basico_v4_00"
 
+    #: Additional m2o search keys (and extra domain) per comodel used when
+    #: matching existing records during CT-e imports, so per-comodel override
+    #: files (res_city.py, res_country.py, res_country_state.py) are not
+    #: needed.
+    _cte_m2o_search_keys = {
+        "res.city": ["ibge_code"],
+        "res.country": ["bc_code"],
+        "res.country.state": ["ibge_code", "code"],
+    }
+    _cte_m2o_extra_domain = {"res.country.state": [("ibge_code", "!=", False)]}
+
     brl_currency_id = fields.Many2one(
         comodel_name="res.currency",
         string="Moeda",
