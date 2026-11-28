@@ -10,3 +10,5 @@ from . import test_nfse_serialize_sn
 from . import test_nfse_lifecycle
 from . import test_danfse_report
 from . import test_nfse_exported_service
+from . import test_nfse_city_code
+from . import test_nfse_document_hooks
