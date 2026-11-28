@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="view_assessment_period_form_cbs_suppliers" model="ir.ui.view">
+        <field name="name">l10n_br_assisted_assessment.period.form.cbs.suppliers</field>
+        <field name="model">l10n_br_assisted_assessment.period</field>
+        <field
+            name="inherit_id"
+            ref="l10n_br_assisted_assessment.view_assessment_period_form"
+        />
+        <field name="arch" type="xml">
+            <div class="oe_title" position="before">
+                <div class="oe_button_box" name="button_box">
+                    <button
+                        name="action_open_cbs_suppliers"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-truck"
+                        invisible="tribute != 'cbs'"
+                    >
+                        <field
+                            name="cbs_supplier_count"
+                            widget="statinfo"
+                            string="Suppliers"
+                        />
+                    </button>
+                </div>
+            </div>
+        </field>
+    </record>
+</odoo>
