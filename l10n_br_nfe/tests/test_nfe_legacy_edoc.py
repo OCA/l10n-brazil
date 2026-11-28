@@ -33,6 +33,7 @@ from odoo.addons.l10n_br_nfe.models.document import NFe
 
 from .mock_utils import NFeEdocLegacyMixin, nfe_mock
 from .test_nfce import TestNFCe
+from .test_nfe_duplicate import TestNFeDuplicate
 from .test_nfe_serialize import TestNFeExport
 from .test_nfe_webservices import TestNFeWebServices
 from .test_nfe_workflow import (
@@ -165,3 +166,9 @@ class TestNFeRejectRoundTripLegacyEdoc(NFeEdocLegacyMixin, TestNFeExport):
 
         self.assertEqual(self.nfe.status_code, "225")
         self.assertEqual(self.nfe.status_name, "Rejeicao: Falha no Schema XML da NFe")
+
+
+class TestNFeDuplicateLegacyEdoc(NFeEdocLegacyMixin, TestNFeDuplicate):
+    """Duplicate rejections 204 and 539 over the legacy stack."""
+
+    allow_inherited_tests_method = True
