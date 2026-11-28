@@ -415,6 +415,24 @@ precisar separar por estado pode usar a conta a pagar da regra por UF.</p>
 <p>Na 18.0 o <tt class="docutils literal">l10n_br_account_withholding</tt> ainda não foi migrado, por
 isso deixou de ser dependência. Quando for, a busca da SEFAZ pela UF
 volta a funcionar sem mudança aqui (o gancho já é chamado se existir).</p>
+<p>Integração com a ordem de pagamento, para mandar a guia ao lote sem
+digitação:</p>
+<ul class="simple">
+<li>a conta a pagar já leva a referência de pagamento (o nome da guia),
+que a ordem de pagamento exige para confirmar a linha;</li>
+<li>falta um módulo de ligação com o <tt class="docutils literal">l10n_br_account_payment_order</tt>:
+modo de pagamento na regra por UF (CNAB 240 com a forma de pagamento
+91, GNRE e tributos com código de barras, segmento O, do
+<tt class="docutils literal">l10n_br_cnab_structure</tt>), o código de barras da guia levado à linha
+de pagamento pelo <tt class="docutils literal">_prepare_payment_line_vals</tt> quando o portal
+processa a guia e, opcionalmente, a conta a pagar incluída na ordem
+rascunho do modo;</li>
+<li>com a programação de pagamentos (<tt class="docutils literal">l10n_br_payment_schedule</tt>), o
+mesmo ponto grava o <tt class="docutils literal">payment_barcode</tt> da linha a pagar, e o título
+sai de “falta instrumento” quando a guia volta processada;</li>
+<li>a data limite de pagamento da guia hoje é texto e precisa virar data
+para corrigir o vencimento do título.</li>
+</ul>
 </div>
 <div class="section" id="bug-tracker">
 <h2><a class="toc-backref" href="#toc-entry-2">Bug Tracker</a></h2>
