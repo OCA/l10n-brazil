@@ -3,6 +3,8 @@
 
 from odoo.tests.common import TransactionCase
 
+from ..constants.fiscal import TAX_DOMAIN_PIS
+
 
 class TestOperation(TransactionCase):
     def test_copy(self):
@@ -146,3 +148,42 @@ class TestOperation(TransactionCase):
         product.cest_id = self.env.ref("l10n_br_fiscal.cest_2112300")
 
         self.assertEqual(operation.line_definition(company, partner, product), line)
+
+    def test_most_specific_tax_definition_prevails(self):
+        """A tax definition restricted to the NCM prevails over a generic one
+        of the same tax group, even when the generic one is created later."""
+        line = self.env["l10n_br_fiscal.operation.line"].create(
+            {
+                "fiscal_operation_id": self.env.ref("l10n_br_fiscal.fo_venda").id,
+                "name": "Test Tax Definition Specificity",
+                "cfop_internal_id": self.env.ref("l10n_br_fiscal.cfop_5102").id,
+            }
+        )
+        ncm = self.env.ref("l10n_br_fiscal.ncm_48191000")
+        pis_065 = self.env.ref("l10n_br_fiscal.tax_pis_0_65")
+        pis_165 = self.env.ref("l10n_br_fiscal.tax_pis_1_65")
+        for tax, ncms in ((pis_065, ncm), (pis_165, ncm.browse())):
+            self.env["l10n_br_fiscal.tax.definition"].create(
+                {
+                    "fiscal_operation_line_id": line.id,
+                    "tax_group_id": self.env.ref("l10n_br_fiscal.tax_group_pis").id,
+                    "tax_id": tax.id,
+                    "ncm_ids": [(6, 0, ncms.ids)],
+                }
+            )
+
+        company = self.env.ref("base.main_company")
+        partner = self.env.ref("l10n_br_base.res_partner_akretion")
+        product = self.env.ref("product.product_product_1")
+        no_service = {
+            "city_taxation_code": self.env["l10n_br_fiscal.city.taxation.code"],
+            "national_taxation_code": self.env["l10n_br_fiscal.national.taxation.code"],
+            "service_type": self.env["l10n_br_fiscal.service.type"],
+        }
+        product.ncm_id = ncm
+        taxes = line.map_fiscal_taxes(company, partner, product, **no_service)
+        self.assertEqual(taxes["taxes"][TAX_DOMAIN_PIS], pis_065)
+
+        product.ncm_id = self.env.ref("l10n_br_fiscal.ncm_94013090")
+        taxes = line.map_fiscal_taxes(company, partner, product, **no_service)
+        self.assertEqual(taxes["taxes"][TAX_DOMAIN_PIS], pis_165)

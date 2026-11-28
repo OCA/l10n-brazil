@@ -533,7 +533,28 @@ class TaxDefinition(models.Model):
             ("product_ids", "=", product.id),
         ]
 
-        return self.search(domain)
+        return self.search(domain).sorted(lambda d: d._specificity())
+
+    def _specificity(self):
+        """The matching definitions are applied in ascending order and the
+        last one of each tax group prevails, so the most specific must come
+        last: product, CEST, NCM or NBM, service codes, no filter."""
+        self.ensure_one()
+        if self.product_ids:
+            weight = 4
+        elif self.cest_ids:
+            weight = 3
+        elif self.ncm_ids or self.nbm_ids:
+            weight = 2
+        elif (
+            self.city_taxation_code_ids
+            or self.national_taxation_code_ids
+            or self.service_type_ids
+        ):
+            weight = 1
+        else:
+            weight = 0
+        return weight, self.id
 
     @api.onchange("is_taxed")
     def _onchange_tribute(self):
