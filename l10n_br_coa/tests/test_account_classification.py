@@ -26,6 +26,12 @@ DVA_TAGS = (
     "account_tag_dva_transfer",
 )
 
+DVA_TAX_SPHERE_TAGS = (
+    "account_tag_dva_taxes_federal",
+    "account_tag_dva_taxes_state",
+    "account_tag_dva_taxes_municipal",
+)
+
 
 @tagged("post_install", "-at_install")
 class TestAccountClassification(TransactionCase):
@@ -123,8 +129,14 @@ class TestAccountClassification(TransactionCase):
             )
         ]
         dva_ids = [self._tag(name).id for name in DVA_TAGS]
+        # Depreciation has its own line (item 4); returns and discounts on
+        # sales reduce the sales line (item 1.1). Neither is distributed.
+        depreciation = self._tag("account_tag_depreciation_expense")
+        deduction = self._tag("account_tag_revenue_deduction")
         expenses = self.templates.filtered(
             lambda t: result in t.tag_ids
+            and depreciation not in t.tag_ids
+            and deduction not in t.tag_ids
             and not (set(t.tag_ids.ids) & set(revenue_ids))
         )
         for account in expenses:
@@ -167,4 +179,25 @@ class TestAccountClassification(TransactionCase):
             "receitas classificadas na distribuição do valor adicionado: {}".format(
                 ", ".join(f"{t.code} {t.name}" for t in wrong[:10])
             ),
+        )
+
+    def test_every_tax_declares_exactly_one_sphere(self):
+        """The taxes distributed split by sphere, and the split ties.
+
+        The CPC 09 model breaks the taxes line (8.2) into federal, state and
+        municipal (8.2.1 to 8.2.3). A tax account with no sphere drops out of
+        the split, one with two counts twice, and the three lines no longer add
+        up to the total. A sphere on an account that is not a tax would add to
+        the split what the total does not have.
+        """
+        taxes = self._tag("account_tag_dva_taxes")
+        sphere_ids = {self._tag(name).id for name in DVA_TAX_SPHERE_TAGS}
+        wrong = self.templates.filtered(
+            lambda t: len(set(t.tag_ids.ids) & sphere_ids)
+            != (1 if taxes in t.tag_ids else 0)
+        )
+        self.assertFalse(
+            wrong,
+            "impostos sem exatamente uma esfera (federal, estadual ou "
+            "municipal): {}".format(", ".join(f"{t.code} {t.name}" for t in wrong)),
         )
