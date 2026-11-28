@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 - TODAY, Cristiano Mafra Junior <cristiano.mafra@escodoo.com.br>
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="operation_line_form_tax_manual" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal.operation.line.form.tax.manual</field>
+        <field name="model">l10n_br_fiscal.operation.line</field>
+        <field name="inherit_id" ref="l10n_br_fiscal.operation_line_form" />
+        <field name="arch" type="xml">
+            <field name="add_to_amount" position="after">
+                <field name="allow_tax_manual" />
+            </field>
+        </field>
+    </record>
+</odoo>
