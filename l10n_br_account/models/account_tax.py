@@ -343,6 +343,9 @@ class AccountTax(models.Model):
             record = base_line.get("record")
             if record is not None and hasattr(record, "fiscal_operation_line_id"):
                 amount_total = record._get_total_for_tax_totals()
+                if amount_total is None:
+                    # nothing to adjust: the standard total stands
+                    break
                 rate = base_line.get("rate") or 1.0
 
                 delta_currency = amount_total - res["total_amount_currency"]
