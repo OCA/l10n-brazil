@@ -609,3 +609,50 @@ class TestSaleStock(TestBrPickingInvoicingCommon):
             "200%% quando a conta do pedido já está presente na distribuição "
             "da linha de venda.",
         )
+
+    def test_invoice_picking_not_done_delivery_policy(self):
+        """Invoice a picking before validating it, with products invoiced
+        on delivery: the fiscal values of the invoice lines must be computed
+        on the quantity of the stock moves, not on the sale line quantity
+        to invoice (still zero)."""
+        product = self.env.ref("product.product_delivery_01")
+        product.invoice_policy = "delivery"
+        sale_form = Form(self.env["sale.order"])
+        sale_form.partner_id = self.env.ref("l10n_br_base.res_partner_address_ak2")
+        sale_form.pricelist_id = self.env.ref("product.list0")
+        sale_form.fiscal_operation_id = self.env.ref("l10n_br_fiscal.fo_venda")
+        with sale_form.order_line.new() as line:
+            line.product_id = product
+            line.fiscal_operation_id = self.env.ref("l10n_br_fiscal.fo_venda")
+            line.product_uom_qty = 3
+        sale_order = sale_form.save()
+        sale_order.action_confirm()
+        sale_line = sale_order.order_line
+        self.assertEqual(sale_line.qty_to_invoice, 0.0)
+
+        picking = sale_order.picking_ids
+        picking.set_to_be_invoiced()
+        self.assertNotEqual(picking.state, "done")
+        invoice = self.create_invoice_wizard(picking)
+
+        inv_line = invoice.invoice_line_ids.filtered("product_id")
+        self.assertEqual(inv_line.quantity, 3)
+        self.assertEqual(inv_line.fiscal_quantity, 3)
+        for fname in (
+            "amount_fiscal",
+            "icms_base",
+            "icms_value",
+            "ipi_base",
+            "ipi_value",
+            "fiscal_amount_total",
+        ):
+            self.assertAlmostEqual(
+                inv_line[fname],
+                sale_line[fname],
+                2,
+                "Field %s computed on a quantity other than the picking one" % fname,
+            )
+        self.assertAlmostEqual(invoice.amount_total, sale_order.amount_total, 2)
+        invoice.action_post()
+        invoice.button_draft()
+        self.assertEqual(invoice.state, "draft")
