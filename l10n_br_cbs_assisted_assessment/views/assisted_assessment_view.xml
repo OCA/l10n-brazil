@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="view_assessment_period_form_cbs_payments" model="ir.ui.view">
+        <field name="name">l10n_br_assisted_assessment.period.form.cbs.payments</field>
+        <field name="model">l10n_br_assisted_assessment.period</field>
+        <field
+            name="inherit_id"
+            ref="l10n_br_assisted_assessment.view_assessment_period_form"
+        />
+        <field name="arch" type="xml">
+            <button name="action_request_credits" position="after">
+                <button
+                    name="action_request_payments"
+                    type="object"
+                    string="Request Payments"
+                    confirm="Opening a request consumes the daily quota of the tax administration. Continue?"
+                    invisible="tribute != 'cbs' or state in ('confirmed', 'expired')"
+                    groups="l10n_br_assisted_assessment.group_manager"
+                />
+                <button
+                    name="action_request_withholdings"
+                    type="object"
+                    string="Request Withholdings"
+                    confirm="Opening a request consumes the daily quota of the tax administration. Continue?"
+                    invisible="tribute != 'cbs' or state in ('confirmed', 'expired')"
+                    groups="l10n_br_assisted_assessment.group_manager"
+                />
+            </button>
+            <field name="credit_delivery" position="after">
+                <field
+                    name="payment_delivery"
+                    widget="badge"
+                    invisible="tribute != 'cbs'"
+                    decoration-success="payment_delivery == 'received'"
+                    decoration-warning="payment_delivery == 'requested'"
+                    decoration-info="payment_delivery == 'none'"
+                />
+                <field
+                    name="withholding_delivery"
+                    widget="badge"
+                    invisible="tribute != 'cbs'"
+                    decoration-success="withholding_delivery == 'received'"
+                    decoration-warning="withholding_delivery == 'requested'"
+                    decoration-info="withholding_delivery == 'none'"
+                />
+            </field>
+            <page name="lines" position="after">
+                <page name="payments" string="Payments" invisible="tribute != 'cbs'">
+                    <field name="payment_line_ids" nolabel="1" readonly="1">
+                        <list>
+                            <field name="payment_id" />
+                            <field name="sequence" />
+                            <field name="date_due" />
+                            <field name="counterparty_vat" />
+                            <field name="document_key" />
+                            <field name="document_id" />
+                            <field name="amount_principal" />
+                            <field name="amount_fine" />
+                            <field name="amount_interest" />
+                            <field name="amount_total" />
+                            <field name="currency_id" column_invisible="1" />
+                        </list>
+                    </field>
+                </page>
+            </page>
+        </field>
+    </record>
+</odoo>

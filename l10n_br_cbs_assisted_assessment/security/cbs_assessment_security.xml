@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="payment_company_rule" model="ir.rule">
+        <field name="name">CBS assessment payment multi-company</field>
+        <field name="model_id" ref="model_l10n_br_cbs_assisted_assessment_payment" />
+        <field name="global" eval="True" />
+        <field name="domain_force">[('company_id', 'in', company_ids + [False])]</field>
+    </record>
+    <record id="payment_line_company_rule" model="ir.rule">
+        <field name="name">CBS assessment payment line multi-company</field>
+        <field
+            name="model_id"
+            ref="model_l10n_br_cbs_assisted_assessment_payment_line"
+        />
+        <field name="global" eval="True" />
+        <field name="domain_force">[('company_id', 'in', company_ids + [False])]</field>
+    </record>
+</odoo>

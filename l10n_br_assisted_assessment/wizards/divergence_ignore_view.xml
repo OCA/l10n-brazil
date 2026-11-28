@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="view_assessment_divergence_ignore_form" model="ir.ui.view">
+        <field name="name">l10n_br_assisted_assessment.divergence.ignore.form</field>
+        <field name="model">l10n_br_assisted_assessment.divergence.ignore</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="divergence_id" invisible="1" />
+                    <field name="editing" invisible="1" />
+                    <field
+                        name="notes"
+                        placeholder="Why this divergence is accepted without a fix."
+                    />
+                </group>
+                <footer>
+                    <button
+                        name="action_confirm"
+                        type="object"
+                        string="Ignore"
+                        class="btn-primary"
+                        invisible="editing"
+                    />
+                    <button
+                        name="action_confirm"
+                        type="object"
+                        string="Save"
+                        class="btn-primary"
+                        invisible="not editing"
+                    />
+                    <button special="cancel" string="Cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>
