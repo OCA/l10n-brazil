@@ -1,0 +1,1 @@
+- Ported the Brazilian checkout from Odoo 14.0 to 16.0.

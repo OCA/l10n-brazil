@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template
+        id="portal_address"
+        name="Brazilian checkout address"
+        inherit_id="website_sale.address"
+    >
+        <xpath
+            expr="//t[@t-if='website._display_partner_b2b_fields()']"
+            position="attributes"
+        >
+            <attribute
+                name="t-if"
+            >br_company or website._display_partner_b2b_fields()</attribute>
+        </xpath>
+        <xpath expr="//form[hasclass('checkout_autoformat')]" position="attributes">
+            <attribute name="t-att-data-br-company">int(br_company or False)</attribute>
+            <attribute
+                name="t-att-data-br-b2b"
+            >int(website._display_partner_b2b_fields())</attribute>
+        </xpath>
+        <xpath expr="//label[@for='o_vat']" position="attributes">
+            <attribute name="class" add="o_regular_vat_label" separator=" " />
+            <attribute name="t-att-style">br_address and 'display: none'</attribute>
+        </xpath>
+        <xpath expr="//label[@for='o_vat']" position="after">
+            <label
+                for="o_vat"
+                class="col-form-label fw-normal o_br_vat_label"
+                t-att-style="not br_address and 'display: none'"
+            >CPF/CNPJ</label>
+        </xpath>
+        <xpath expr="//div[@id='div_vat']" position="after">
+            <t
+                t-if="br_company"
+                t-foreach="('l10n_br_ie_code', 'l10n_br_im_code')"
+                t-as="field"
+            >
+                <div class="col-lg-6 mb-2 o_br_tax_registration" style="display: none">
+                    <label t-att-for="field" class="col-form-label label-optional">
+                        <t t-if="field == 'l10n_br_ie_code'">State Tax Number</t>
+                        <t t-else="">Municipal Tax Number</t>
+                    </label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        t-att-id="field"
+                        t-att-name="field"
+                        t-att-value="partner_sudo[field]"
+                        t-att-readonly="'1' if partner_sudo[field] and not can_edit_vat else None"
+                    />
+                </div>
+            </t>
+        </xpath>
+        <xpath expr="//div[@id='div_phone']" position="after">
+            <div
+                t-if="br_company"
+                class="col-lg-6 mb-2 o_br_address_field"
+                t-att-style="not br_address and 'display: none'"
+            >
+                <label
+                    class="col-form-label label-optional"
+                    for="o_mobile"
+                >Mobile</label>
+                <input
+                    name="mobile"
+                    id="o_mobile"
+                    type="tel"
+                    class="form-control"
+                    t-att-value="partner_sudo.mobile"
+                />
+            </div>
+        </xpath>
+        <xpath expr="//div[@id='div_street']" position="before">
+            <t
+                t-if="br_company"
+                t-foreach="('street_name', 'street_number', 'district')"
+                t-as="field"
+            >
+                <div
+                    class="col-lg-4 mb-2 o_br_address_field"
+                    t-att-style="not br_address and 'display: none'"
+                >
+                    <label t-att-for="field" class="col-form-label">
+                        <t t-if="field == 'street_name'">Street</t>
+                        <t t-elif="field == 'street_number'">Nº</t>
+                        <t t-else="">District</t>
+                    </label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        t-att-id="field"
+                        t-att-name="field"
+                        t-att-value="partner_sudo[field]"
+                    />
+                </div>
+            </t>
+        </xpath>
+        <xpath expr="//div[@id='div_state']" position="after">
+            <div
+                t-if="br_company"
+                class="col-lg-6 mb-2 o_br_address_field"
+                t-att-style="not br_address and 'display: none'"
+            >
+                <label for="o_city_id" class="col-form-label">City</label>
+                <select name="city_id" id="o_city_id" class="form-select">
+                    <option value="">City...</option>
+                    <t t-foreach="br_cities" t-as="city">
+                        <option
+                            t-att-value="city.id"
+                            t-att-selected="city == partner_sudo.city_id"
+                            t-out="city.name"
+                        />
+                    </t>
+                </select>
+            </div>
+        </xpath>
+        <xpath expr="//div[@id='div_street' or @id='div_city']" position="attributes">
+            <attribute name="t-att-style">br_address and 'display: none'</attribute>
+        </xpath>
+    </template>
+</odoo>
