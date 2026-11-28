@@ -41,6 +41,8 @@ DPS_FIXTURES = {
             "national_taxation_code_id": ("l10n_br_nfse_nacional.nat_tax_code_010101"),
             "nbs_id": "l10n_br_nfse_nacional.nbs_111111111",
             "issqn_fg_city_id": "l10n_br_base.city_4202404",
+            # cLocPrestacao: where the service is performed
+            "issqn_service_city_id": "l10n_br_base.city_4202404",
             "price_unit": 20.0,
             "quantity": 1,
             "discount_value": 0.0,
@@ -61,6 +63,8 @@ DPS_FIXTURES = {
         "line": {
             "national_taxation_code_id": ("l10n_br_nfse_nacional.nat_tax_code_010101"),
             "issqn_fg_city_id": "l10n_br_base.city_1400159",
+            # cLocPrestacao: where the service is performed
+            "issqn_service_city_id": "l10n_br_base.city_1400159",
             "price_unit": 999999999.99,
             "quantity": 1,
             "discount_value": 9999999.99,
@@ -115,6 +119,7 @@ class TestNfseSerialize(TransactionCase):
             "national_taxation_code_id",
             "nbs_id",
             "issqn_fg_city_id",
+            "issqn_service_city_id",
         ):
             xml_id = line_values.get(field_name)
             if not xml_id:

@@ -123,8 +123,9 @@ class L10nBrFiscalDocument(spec_models.StackedModel):
     _nfse10_binding_type = "TcinfDps"
     _nfse10_stacking_mixin = "nfse.10.tcinfdps"
     # Groups the schema declares as optional (so they are not stacked by
-    # default) but the DPS always declares: leaving them out of the stack
-    # would send their values to a side table, outside the fiscal document.
+    # default) but whose values the DPS declares: leaving them out of the
+    # stack would send those values to a side table, outside the fiscal
+    # document. Whether vDescCondIncond is exported is decided at the export.
     _nfse10_stacking_force_paths = (
         "tcinfdps.valores.vDescCondIncond",
         "tcinfdps.valores.trib.tribFed",
@@ -255,6 +256,27 @@ class L10nBrFiscalDocument(spec_models.StackedModel):
             amounts[field_name] = self._nfse10_weighted_percent(field_name)
         return amounts
 
+    def _nfse10_line_description(self, line):
+        """Text a fiscal line declares about its service.
+
+        The NFS-e has no per item additional information tag: what the note
+        carries about the service is xDescServ and nothing else. Customers do
+        ask for the measurement report, the contract, the order, the period,
+        the cost center, the due date and the bank details in there.
+
+        The line's `additional_data` is already the rendered text of the
+        fiscal line comments (l10n_br_fiscal.comment whose object is the
+        line), Jinja templates with `doc` and `item` in the context,
+        configured on the operation line itself. `manual_additional_data`
+        joins the same rendering for the part that changes per note.
+
+        Composed text REPLACES the name instead of being appended to it: the
+        real note does not prefix the product name, and a template that wants
+        it writes ${item.name}. With no comment at all it falls back to the
+        line name.
+        """
+        return (line.additional_data or "").strip() or (line.name or "").strip()
+
     def _nfse10_service_description(self):
         """Describe the single service of the DPS.
 
@@ -265,14 +287,16 @@ class L10nBrFiscalDocument(spec_models.StackedModel):
         """
         self.ensure_one()
         line = self._nfse10_service_line()
-        if not self.nfse_nacional_concat_lines:
-            return line.name
-        names = [
-            doc_line.name
-            for doc_line in self.fiscal_line_ids
-            if doc_line.product_id and doc_line.name
-        ]
-        return "\n".join(names)[:2000].rstrip() or line.name
+        if self.nfse_nacional_concat_lines:
+            texts = [
+                self._nfse10_line_description(doc_line)
+                for doc_line in self.fiscal_line_ids
+                if doc_line.product_id
+            ]
+            text = "\n".join(text for text in texts if text)[:2000].rstrip()
+            if text:
+                return text
+        return self._nfse10_line_description(line)[:2000] or False
 
     def _nfse10_trib_issqn_code(self, line):
         """tribISSQN of the single service: taxable, immune, exempt..."""
@@ -303,7 +327,11 @@ class L10nBrFiscalDocument(spec_models.StackedModel):
             "cTribNac": line.national_taxation_code_id.code_unmasked or None,
             "cTribMun": line.city_taxation_code_id.code_unmasked or None,
             "cNBS": line.nbs_id.code_unmasked or None,
-            "cLocPrestacao": line.issqn_fg_city_id.ibge_code or None,
+            # Where the service is PERFORMED, not where the ISSQN taxable
+            # event is: see issqn_service_city_id in l10n_br_fiscal. The
+            # taxable event falls back to the company city when there is no
+            # municipal code, which sent every note with the issuer's city.
+            "cLocPrestacao": line.issqn_service_city_id.ibge_code or None,
             "tribISSQN": self._nfse10_trib_issqn_code(line),
             "PIS/COFINS CST": self._nfse10_pis_cst(line),
             "RTC cClassTrib": line.tax_classification_id.code or None,
@@ -496,17 +524,23 @@ class L10nBrFiscalDocument(spec_models.StackedModel):
         l10n_br_fiscal.document model, so their _export_many2one overrides
         sit in the same MRO: l10n_br_nfe drops every non required stacked
         group whose denormalized fields are all empty. The DPS always
-        declares vDescCondIncond and tribFed (piscofins included) even when
-        they hold no value, so the nfse fields are exported here with the
-        generic implementation instead of being pruned by a sibling module.
+        declares tribFed (piscofins included) even when it holds no value, so
+        the nfse fields are exported here with the generic implementation
+        instead of being pruned by a sibling module.
 
-        The totTrib xs:choice is the only conditional member: the pTotTrib
-        percentages (a company outside the Simples Nacional) must not appear
-        next to pTotTribSN and vice versa.
+        Two members are conditional. The pTotTrib percentages of the totTrib
+        xs:choice (a company outside the Simples Nacional) must not appear
+        next to pTotTribSN and vice versa. vDescCondIncond only goes out with
+        a discount: without one the group would be an empty tag, which the
+        note of the national web emitter does not carry.
         """
         if not field_name.startswith(f"{self._spec_prefix()}_"):
             return super()._export_many2one(field_name, xsd_required, class_obj)
         if field_name == "nfse10_pTotTrib" and not self.nfse10_pTotTribFed:
+            return False
+        if field_name == "nfse10_vDescCondIncond" and not (
+            self.nfse10_vDescIncond or self.nfse10_vDescCond
+        ):
             return False
         return SpecMixinExport._export_many2one(
             self, field_name, xsd_required, class_obj
