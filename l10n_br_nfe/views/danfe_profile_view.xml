@@ -78,6 +78,34 @@
                             />
                             <field name="footer_stamp_text" string="Text" />
                         </group>
+                        <group name="etiqueta" string="Simplified DANFE - Label">
+                            <field
+                                name="etiqueta_paper_width"
+                                string="Paper Width (mm)"
+                            />
+                            <field
+                                name="etiqueta_paper_height"
+                                string="Paper Height (mm)"
+                            />
+                            <field
+                                name="etiqueta_display_total"
+                                string="Display the Total"
+                            />
+                            <field
+                                name="etiqueta_display_delivery_address"
+                                string="Display the Delivery Address"
+                            />
+                            <field
+                                name="etiqueta_display_items"
+                                string="Display the Items"
+                            />
+                        </group>
+                        <group name="etiqueta_margins" string="Label Margins (mm)">
+                            <field name="etiqueta_margin_top" string="Top" />
+                            <field name="etiqueta_margin_right" string="Right" />
+                            <field name="etiqueta_margin_bottom" string="Bottom" />
+                            <field name="etiqueta_margin_left" string="Left" />
+                        </group>
                     </group>
                 </sheet>
             </form>

@@ -40,6 +40,7 @@
         "report/reports.xml",
         "report/danfe_nfce.xml",
         "report/danfe_report.xml",
+        "report/danfe_etiqueta_report.xml",
         # Wizards
         "wizards/document_import_wizard.xml",
         "wizards/nfe_md_event_wizard.xml",
@@ -64,7 +65,7 @@
             "erpbrasil.transmissao",
             "erpbrasil.edoc",
             "erpbrasil-base>=2.4.2",
-            "brazilfiscalreport>=1.3.0",
+            "brazilfiscalreport>=1.3.1",
         ],
     },
 }

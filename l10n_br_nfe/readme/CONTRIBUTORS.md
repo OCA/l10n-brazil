@@ -10,3 +10,5 @@
   - Marcel Savegnago \<<marcel.savegnago@escodoo.com.br>\>
 - [ENGENERE](https://engenere.one):
   - Antônio S. Pereira Neto \<<neto@engenere.one>\>
+- [PopSolutions](https://popsolutions.co):
+  - Marcos Méndez \<<popsolutions.co@gmail.com>\>
