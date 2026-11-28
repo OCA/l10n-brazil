@@ -3,7 +3,7 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from odoo import api, fields, models
-from odoo.tools import float_compare
+from odoo.tools import SQL, float_compare
 
 
 class FiscalDocumentLine(models.Model):
@@ -74,6 +74,31 @@ class FiscalDocumentLine(models.Model):
         string="Unit Price (proxy)",
         help="Technical mirror.",
     )
+
+    _proxy_shadowed_columns = {
+        "proxy_product_id": "product_id",
+        "proxy_quantity": "quantity",
+    }
+
+    def _fill_proxy_column(self, column_name):
+        shadowed = self._proxy_shadowed_columns[column_name]
+        self.env.cr.execute(
+            SQL(
+                "UPDATE %s SET %s = %s WHERE %s IS DISTINCT FROM %s",
+                SQL.identifier(self._table),
+                SQL.identifier(column_name),
+                SQL.identifier(shadowed),
+                SQL.identifier(column_name),
+                SQL.identifier(shadowed),
+            )
+        )
+        return self.env.cr.rowcount
+
+    def _init_column(self, column_name):
+        # new proxy column on existing rows: take the shadowed column value
+        if column_name in self._proxy_shadowed_columns:
+            self._fill_proxy_column(column_name)
+        return super()._init_column(column_name)
 
     # -------------------------------------------------------------------------
     # SHADOWED FIELDS SYNC

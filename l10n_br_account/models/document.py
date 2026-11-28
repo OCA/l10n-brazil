@@ -8,6 +8,7 @@ from pytz import UTC, timezone
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
+from odoo.tools import SQL
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     DOCUMENT_ISSUER_COMPANY,
@@ -84,6 +85,33 @@ class FiscalDocument(models.Model):
         precompute=True,
         readonly=False,
     )
+
+    _proxy_shadowed_columns = {
+        "proxy_company_id": "company_id",
+        "proxy_partner_id": "partner_id",
+        "proxy_partner_shipping_id": "partner_shipping_id",
+        "proxy_user_id": "user_id",
+    }
+
+    def _fill_proxy_column(self, column_name):
+        shadowed = self._proxy_shadowed_columns[column_name]
+        self.env.cr.execute(
+            SQL(
+                "UPDATE %s SET %s = %s WHERE %s IS DISTINCT FROM %s",
+                SQL.identifier(self._table),
+                SQL.identifier(column_name),
+                SQL.identifier(shadowed),
+                SQL.identifier(column_name),
+                SQL.identifier(shadowed),
+            )
+        )
+        return self.env.cr.rowcount
+
+    def _init_column(self, column_name):
+        # new proxy column on existing rows: take the shadowed column value
+        if column_name in self._proxy_shadowed_columns:
+            self._fill_proxy_column(column_name)
+        return super()._init_column(column_name)
 
     @api.onchange("company_id")
     def _inverse_company_id(self):
