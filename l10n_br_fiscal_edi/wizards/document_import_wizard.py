@@ -126,8 +126,16 @@ class DocumentImportWizard(models.TransientModel):
 
     @staticmethod
     def _normalize_order_ref(reference):
-        """Digits of a buyer order reference, punctuation and prefix dropped."""
-        return re.sub(r"\D", "", reference or "")
+        """Digits of a buyer order reference, punctuation and prefix dropped.
+
+        Anything that is not a text value counts as "no reference": the field
+        is optional, and a caller (or a test double) may hand over something
+        that is not a string at all. Raising there would turn a missing
+        reference into a crash of the whole import.
+        """
+        if not isinstance(reference, str):
+            return ""
+        return re.sub(r"\D", "", reference)
 
     def _search_orders_by_reference(self, xped):
         """Purchase orders of the issuer the reference ``xped`` designates.
@@ -146,6 +154,9 @@ class DocumentImportWizard(models.TransientModel):
         ambiguous result leaves the match source empty for the operator.
         """
         order_model = self.env["purchase.order"].sudo()
+        if not isinstance(xped, str) or not xped.strip():
+            # nothing to compare: an empty xPed, or a value that is not text
+            return order_model.browse()
         company = self.company_id or self.env.company
         base_domain = [
             ("partner_id", "=", self.issuer_partner_id.id),
