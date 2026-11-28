@@ -9,12 +9,18 @@
         <field name="arch" type="xml">
             <form string="Vehicle">
                 <sheet>
+                    <widget
+                        name="web_ribbon"
+                        title="Archived"
+                        bg_color="text-bg-danger"
+                        invisible="active"
+                    />
+                    <field name="active" invisible="1" />
                     <group name="shipping_company" string="Shipping Company">
                         <field name="carrier_id" />
                     </group>
                     <group string="Vehicle Data">
                         <field name="name" />
-                        <field name="active" />
                         <field name="description" />
                         <field name="plate" />
                         <field name="driver" />
@@ -41,6 +47,25 @@
                 <field name="plate" />
                 <field name="manufacture_year" />
             </list>
+        </field>
+    </record>
+
+    <record id="l10n_br_delivery_carrier_vehicle_search" model="ir.ui.view">
+        <field name="name">l10n_br_delivery.carrier.vehicle.search</field>
+        <field name="model">l10n_br_delivery.carrier.vehicle</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" />
+                <field name="plate" />
+                <field name="driver" />
+                <field name="carrier_id" />
+                <separator />
+                <filter
+                    string="Archived"
+                    name="inactive"
+                    domain="[('active', '=', False)]"
+                />
+            </search>
         </field>
     </record>
 
