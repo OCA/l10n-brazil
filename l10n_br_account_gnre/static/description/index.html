@@ -411,6 +411,21 @@ FCP de destino do <tt class="docutils literal">icmsfcp_value</tt>, os mesmos cam
 <p>A conciliação da baixa depende do parceiro, porque o plano de contas tem
 uma única conta de ICMS ST a recolher, sem segregação por UF. Quem
 precisar separar por estado pode usar a conta a pagar da regra por UF.</p>
+<p>Integração com a ordem de pagamento, para mandar a guia ao lote sem
+digitação:</p>
+<ul class="simple">
+<li>a conta a pagar já leva a referência de pagamento (o nome da guia),
+que a ordem de pagamento exige para confirmar a linha;</li>
+<li>falta um módulo de ligação com o <tt class="docutils literal">l10n_br_account_payment_order</tt>:
+modo de pagamento na regra por UF (CNAB 240 com a forma de pagamento
+91, GNRE e tributos com código de barras, segmento O, do
+<tt class="docutils literal">l10n_br_cnab_structure</tt>), o código de barras da guia levado à linha
+de pagamento pelo <tt class="docutils literal">_prepare_payment_line_vals</tt> quando o portal
+processa a guia e, opcionalmente, a conta a pagar incluída na ordem
+rascunho do modo;</li>
+<li>a data limite de pagamento da guia hoje é texto e precisa virar data
+para corrigir o vencimento do título.</li>
+</ul>
 </div>
 <div class="section" id="bug-tracker">
 <h2><a class="toc-backref" href="#toc-entry-2">Bug Tracker</a></h2>

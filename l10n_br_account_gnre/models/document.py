@@ -40,6 +40,8 @@ class Document(models.Model):
             "invoice_date": fields.Date.context_today(self),
             "invoice_date_due": first.date_due,
             "invoice_origin": self.display_name,
+            # The payment order refuses a line without communication.
+            "payment_reference": self.display_name,
             "invoice_line_ids": [
                 Command.create(
                     {

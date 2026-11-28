@@ -153,6 +153,7 @@ class TestAccountGnre(AccountMoveBRCommon):
         self.assertEqual(payable.amount_total, 115.0)
         self.assertEqual(payable.invoice_date_due, obligation.date_due)
         self.assertEqual(payable.invoice_origin, guide.display_name)
+        self.assertEqual(payable.payment_reference, guide.display_name)
 
     def test_consolidated_guide_pays_once(self):
         """Guia consolidada gera um título só, com a soma das notas."""
