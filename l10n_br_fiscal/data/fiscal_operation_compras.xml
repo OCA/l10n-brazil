@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<!--
+  Compra para prestação de serviço sujeita ao ICMS (linha que falta em fo_compras no
+  core; a entrada de serviço com ISSQN já é a linha fo_compras_servico do core) e
+  compra de combustível ou lubrificante para consumo.
+  A matriz de crédito por destinação fica fora, para não sobrescrever o imposto que
+  vem do produto e do regime da empresa.
+-->
+<odoo noupdate="1">
+    <!-- Compra para prestação de serviço (linha nova em fo_compras) -->
+    <record id="fo_compras_servico_icms" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
+        <field name="name">Compra para prestação de serviço (ICMS)</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_1126" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_2126" />
+        <field name="product_type">09</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <!-- Combustível ou lubrificante para consumo próprio: sem crédito de PIS/COFINS
+         (CST 70); o ICMS vem da nota do fornecedor -->
+    <record id="fo_compra_combustivel" model="l10n_br_fiscal.operation">
+        <field name="code">CP-COMB</field>
+        <field name="name">Compra de combustível ou lubrificante para consumo</field>
+        <field name="fiscal_operation_type">in</field>
+        <field name="fiscal_type">purchase</field>
+        <field name="default_price_unit">cost_price</field>
+        <field
+            name="return_fiscal_operation_id"
+            ref="l10n_br_fiscal.fo_devolucao_compras"
+        />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_compra_combustivel_line" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="fo_compra_combustivel" />
+        <field name="name">Combustível ou lubrificante para consumo</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_1653" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_2653" />
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_compra_combustivel_pis" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_compra_combustivel_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_pis" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_pis_outros" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_pis_70" />
+        <field name="state">approved</field>
+    </record>
+    <record id="fo_compra_combustivel_cofins" model="l10n_br_fiscal.tax.definition">
+        <field name="fiscal_operation_line_id" ref="fo_compra_combustivel_line" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_cofins" />
+        <field name="is_taxed" eval="False" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_cofins_outros" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_cofins_70" />
+        <field name="state">approved</field>
+    </record>
+</odoo>
