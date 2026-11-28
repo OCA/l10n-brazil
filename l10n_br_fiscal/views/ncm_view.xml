@@ -136,6 +136,7 @@
                         <field name="tax_ii_id" readonly="1" />
                         <field name="uoe_id" readonly="1" />
                         <field name="uot_id" readonly="1" />
+                        <field name="tax_classification_id" />
                     </group>
                     <notebook>
                         <page string="Related Produts" name="tax_product_tmpl">
